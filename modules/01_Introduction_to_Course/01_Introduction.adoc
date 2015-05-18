@@ -1,0 +1,17 @@
+
+:scrollbar:
+:data-uri:
+== Introduction
+
+image::images/title.png[width=852,height=672]
+
+
+ifdef::showScript[]
+
+=== Transcript
+
+Welcome to OpenShift Fastrax course. By Red Hat's Global Enablement Team
+
+endif::showScript[]
+
+

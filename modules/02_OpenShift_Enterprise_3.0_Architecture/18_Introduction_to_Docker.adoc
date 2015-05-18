@@ -1,0 +1,25 @@
+
+:scrollbar:
+:data-uri:
+== Introduction to Docker
+
+=== Docker - How are containers different to a virtual machine?
+
+* Virtual Machines - Each virtualized application includes not only the application - which may be only 10s of MB - and the necessary binaries and libraries, but also an entire guest operating system - which may weigh 10s of GB.
+* Container (Docker) - The Docker Engine container comprises just the application and its dependencies. It runs as an isolated process in userspace on the host operating system, sharing the kernel with other containers. Thus, it enjoys the resource isolation and allocation benefits of VMs but is much more portable and efficient.
+
+image::images/VMvsContainer.png[width=426*1.5,height=336*1.5]
+
+
+ifdef::showScript[]
+
+=== Transcript
+
+Note the differences between Virtual Machines and Containers, Many people like to bundle them together but there are very important differences. 
+
+endif::showScript[]
+
+
+
+
+

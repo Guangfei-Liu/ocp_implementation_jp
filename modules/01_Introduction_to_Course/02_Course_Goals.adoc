@@ -1,0 +1,21 @@
+
+:scrollbar:
+:data-uri:
+== Course Goals
+
+* Learner will have an in-depth understanding of the benefits of OSE3.0
+* Learner will be able to spot and qualify use cases fitting the use of OSE3.0
+* Learner will be able to explain OSE3.0 positioning in the competitive landscape
+* Learner will be familiar with the technical architecture of OSE3.0
+* Learner will be able to perform a 10 minute demonstration of the use of OSE3.0
+
+ifdef::showScript[]
+
+=== Transcript
+
+The goal of this course is to provide the learner with capabilities to spot, qualify and position Red Hat's OpenShift v3 
+ and be able to perform a 10 minute demonstration of OpenShift's capabilities
+
+
+endif::showScript[]
+

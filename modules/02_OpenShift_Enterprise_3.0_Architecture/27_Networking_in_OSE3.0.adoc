@@ -1,0 +1,22 @@
+
+:scrollbar:
+:data-uri:
+== Networking in OSE3.0
+=== OpenShift Networking
+
+* Integrated Open vSwitch based container networking
+* Ability to plugin 3rd party SDN solutions
+* Platform wide routing tier to route traffic to your applications
+* Integrated with DNS & your existing routing & load balancing infrastructure
+
+ifdef::showScript[]
+
+=== Transcript
+
+* OpenShift provides many networking capabilities based on the Integrated Open vSwitch technologies in Red Hat Enterprise Linux
+** OpenShift has the ability to integrate with 3rd party SDN solutions and your existing DNS, routing and load balancing methods.
+
+endif::showScript[]
+
+
+

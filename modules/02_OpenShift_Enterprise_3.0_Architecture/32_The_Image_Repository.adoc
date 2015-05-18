@@ -1,0 +1,25 @@
+
+:scrollbar:
+:data-uri:
+== The Image Repository
+
+=== Third Party Registries
+
+
+* OpenShift can make use of third-party registries to obtain: builder images, complete application images, and more. Supportability of these images and registries would fall on their respective creators.
+* OpenShift can poll the other registries for changes to image repositories.
+** When new images are detected, the same build and deployment reactions described above occur.
+
+* Note : Polling is not implemented yet.
+
+ifdef::showScript[]
+
+=== Transcript
+
+* OpenShift can make use of third-party registries to obtain: builder images, complete application images, and more.
+** note that supportability of these images and registries would fall on their respective creators.
+
+
+endif::showScript[]
+
+

@@ -1,0 +1,36 @@
+
+:scrollbar:
+:data-uri:
+== Introduction to Kubernetes Infrastructure
+
+=== Introduction
+
+* Source : link:https://github.com/googlecloudplatform/kubernetes[https://github.com/googlecloudplatform/kubernetes]
+* Kubernetes is an open source system for managing containerized applications across multiple hosts, providing basic mechanisms for deployment, maintenance, and scaling of applications.
+* Kubernetes is:
+** lean: lightweight, simple, accessible
+** portable: public, private, hybrid, multi cloud
+** extensible: modular, pluggable, hookable, composable
+** self-healing: auto-placement, auto-restart, auto-replication
+* Kubernetes builds upon a decade and a half of experience at Google running production workloads at scale, combined with best-of-breed ideas and practices from the community.
+
+
+
+
+ifdef::showScript[]
+
+=== Transcript
+
+* Source : link:https://github.com/googlecloudplatform/kubernetes[https://github.com/googlecloudplatform/kubernetes]
+* Kubernetes is an open source system for managing containerized applications across multiple hosts, providing basic mechanisms for deployment, maintenance, and scaling of applications.
+* Kubernetes is:
+** lean: lightweight, simple, accessible
+** portable: public, private, hybrid, multi cloud
+** extensible: modular, pluggable, hookable, composable
+** self-healing: auto-placement, auto-restart, auto-replication
+* Kubernetes builds upon a decade and a half of experience at Google running production workloads at scale, combined with best-of-breed ideas and practices from the community.
+
+endif::showScript[]
+
+
+

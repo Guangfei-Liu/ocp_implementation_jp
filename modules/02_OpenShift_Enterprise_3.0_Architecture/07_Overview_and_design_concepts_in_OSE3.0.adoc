@@ -1,0 +1,42 @@
+
+:scrollbar:
+:data-uri:
+== Overview and design concepts in OSE3.0
+
+=== Establishing Standards Around...
+
+* Red Hat works with the open source community to drive standards for containerization.
+** Isolation with Linux Containers
+*** Isolating applications on host operating system
+*** Security
+*** Portability across host systems
+** Container Format with Docker
+*** Interface for communications, configuration, data persistence, provisioning
+*** Content agnostic
+*** Infrastructure
+*** agnostic
+** Orchestration with Kubernetes
+*** Orchestrate containers at scale
+*** Define application topologies
+*** Handle container networking
+*** Manage container state
+*** Schedule across hosts
+** Registry and Container Discovery
+*** Easily find and consume trusted container images
+*** Federate consumption libraries
+*** Promote consistency and reuse
+
+ifdef::showScript[]
+
+=== Transcript
+
+* Red Hat works with the open source community to drive standards for containerization.
+** Isolation with Linux Containers
+** Container Format with Docker
+** Orchestration with Kubernetes
+** Registry and Container Discovery
+
+endif::showScript[]
+
+
+

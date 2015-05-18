@@ -1,0 +1,39 @@
+
+:scrollbar:
+:data-uri:
+== Creating a STI build
+
+=== The Build File : ImageStream
+
+// ISSUE: Creating a STI build Slides: The Build File : .* - Need to add some words in these slide
+
+[source,json]
+----
+
+  {
+            "kind": "ImageStream",
+            "apiVersion": "v1beta1",
+            "metadata": {
+                "name": "simple-openshift-sinatra-sti",
+                "creationTimestamp": null
+            },
+            "spec": {},
+            "status": {
+                "dockerImageRepository": ""
+            }
+        },
+
+----
+
+
+
+ifdef::showScript[]
+
+=== Transcript
+
+* the "ImageStream" section describes the ImageStream resource to be created to support out built application, Using ImageStreams allows our build to "listen" or "poll" for changes in the image, like security patches, and rebuild when a change like this happens.
+
+endif::showScript[]
+
+
+

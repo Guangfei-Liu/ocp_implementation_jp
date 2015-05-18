@@ -1,0 +1,23 @@
+
+:scrollbar:
+:data-uri:
+== Deploying a STI build Image
+
+=== Using the Web Console to create a STI Build
+
+* Enter the Git repository for your build.
+
+image::images/GuiSTLDemo02.png[width=852,height=672]
+
+
+ifdef::showScript[]
+
+=== Transcript
+
+* Enter the Git repository for your build.
+
+endif::showScript[]
+
+
+
+

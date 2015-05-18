@@ -1,0 +1,34 @@
+
+:scrollbar:
+:data-uri:
+== Overview and design concepts in OSE3.0
+
+=== OpenShift v3 Stack
+
+* Standard containers API
+* Container-optimized OS
+* Web-scale orchestration
+* Expanded choice of services
+* Enhanced user experience
+* Community driven innovation
+* Industry standard PaaS stack
+
+image::images/OpenShiftStack.png[width=426*1.5,height=336*1.5]
+
+
+ifdef::showScript[]
+
+=== Transcript
+
+* Standard containers API
+* Container-optimized OS
+* Web-scale orchestration
+* Expanded choice of services
+* Enhanced user experience
+* Community driven innovation
+* Industry standard PaaS stack
+
+
+endif::showScript[]
+
+

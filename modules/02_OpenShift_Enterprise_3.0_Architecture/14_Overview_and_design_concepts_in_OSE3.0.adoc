@@ -1,0 +1,22 @@
+
+:scrollbar:
+:data-uri:
+== Overview and design concepts in OSE3.0
+
+=== How it Works - Replication
+
+* The Replication Layer and Replication Controller's (RC) role is to make sure that the number of instances/pods defined in the "Store layer" actually exist.
+** The Replication controller will instantiate/tear down pods according to the desired state defined.
+
+image::images/04Replication.png[width=426*1.5,height=336*1.5]
+
+ifdef::showScript[]
+
+
+* The Replication Layer and Replication Controller's (RC) role is to make sure that the number of instances/pods defined in the "Store layer" actually exist.
+** The Replication controller will instantiate/tear down pods according to the desired state defined.
+
+endif::showScript[]
+
+
+

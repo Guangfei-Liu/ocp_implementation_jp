@@ -1,0 +1,30 @@
+
+:scrollbar:
+:data-uri:
+== Overview and design concepts in OSE3.0
+
+
+=== How It Works
+
+* Containers run languages/framework middleware, database and other runtimes.
+* Pods run one or more containers as a single unit.  Each pod has an IP and mapped storage volumes.
+* Nodes are Linux container hosts that run Pods assigned by the Master.
+* Master provides API, service orchestration, scheduling/placement, maintains state and manages Pods & Services.
+
+image::images/OpenShiftV3Arch.png[width=426*1.5,height=336*1.5]
+
+
+ifdef::showScript[]
+
+=== Transcript
+
+* Containers run lang/framework middleware, database & other runtimes.
+* Pods run one or more containers as a single unit.  Each pod has an IP and mapped storage volumes.
+* Nodes are Linux container hosts that run Pods assigned by the Master.
+* Master provides API, service orchestration, scheduling/placement, maintains state and manages Pods & Services.
+	
+
+endif::showScript[]
+
+
+

@@ -1,0 +1,31 @@
+
+:scrollbar:
+:data-uri:
+== Creating a STI build
+
+=== creating the build file
+
+* To create the instructions/config for our image we use the *psc new-app*  command:
+
+----
+
+$ osc new-app https://github.com/openshift/simple-openshift-sinatra-sti.git -o json | tee ~/simple-sinatra.json
+
+----
+
+* *psc new-app* is a tool that will examine a directory tree, a remote repo, or other sources and attempt to generate an appropriate JSON configuration so that, when created, OpenShift can build the resulting image to run.
+** this will also create a service and a route to our pods, but not it *will not* start the build yet.
+
+
+
+ifdef::showScript[]
+
+=== Transcript
+
+* the *osc new-app* command is used to create a JSON file that defines our build, this file can be edited before we create our build.
+
+endif::showScript[]
+
+
+
+

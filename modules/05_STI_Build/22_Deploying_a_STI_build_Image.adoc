@@ -1,0 +1,44 @@
+
+:scrollbar:
+:data-uri:
+== Deploying a STI build Image
+
+=== Starting the build
+
+* To start the build process  we use the osc start-build command with our build name
+
+----
+$ osc start-build simple-openshift-sinatra-sti
+simple-openshift-sinatra-sti-1
+
+----
+
+* Using the osc get builds command we can see the builds and their status:
+----
+$ osc get builds
+NAME                             TYPE      STATUS    POD
+simple-openshift-sinatra-sti-1   STI       Running   simple-openshift-sinatra-sti-1
+
+----
+
+
+* We can follow the build process with the osc build-logs command
+
+----
+osc build-logs sin-simple-openshift-sinatra-sti-1
+----
+
+
+
+ifdef::showScript[]
+
+=== Transcript
+
+The *osc start-build* command starts the build, you can follow the log created for our build with the *osc build-logs* command.
+
+endif::showScript[]
+
+
+
+
+

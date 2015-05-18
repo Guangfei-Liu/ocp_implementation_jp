@@ -1,0 +1,76 @@
+Goals:
+
+Learner will be familiar with the technical architecture of OSE3.0
+Learner will be able to perform a 10 minute demonstration of the use of OSE3.0
+Learner will be able to set up STI build process 
+Learner will understand and be able to implement Zones and Regions 
+Learner could deploy a POC like environment of OpenShift 3.0
+Learner could demonstrate and deploy a HA application    
+
+Chapter 01 : Introduction to Course and Learning Environment
+Chapter 02 : OpenShift 3.0 Architecture  
+Chapter 03 : OpenShift 3.0 Installation
+Chapter 04 : Resource Management
+Chapter 05 : The STI Build Method
+Chapter 06 : Quickstarts
+Chapter 07 : Demonstrating OpenShift 3.0 Capabilities
+
+
+Chapter 01	: Introduction to Course and Learning Environment
+	Topic 	: Welcome to Red Hat GPE Training 
+	Topic 	: Course Goals   
+	Topic 	: Course Overview
+	Topic 	: Class Environment
+	Lab	: Set Up Your Lab Environment
+
+Chapter 02 : OpenShift Enterprise 3.0 Architecture
+	Topic 	: Overview and design concepts in OSE3.0  
+	Topic 	: Introduction to Docker (Do we just skip these chapters?)
+	Topic 	: Introduction to Kubernetes Infrastructure (Do we just skip these chapters?)
+	Topic 	: Networking in OSE3.0 
+	Topic 	: Resources overview    
+
+
+Chapter 03 : OpenShift Installation 
+	Topic		: Installation Overview
+	Topic		: Prepare your Hosts
+	Topic		: Installation Methods 
+	Topic		: Authentication 
+	Topic		: Web UI
+	Topic 	: Scheduler - Regions and Zones
+	Topic 	: High Availability Deployments.  
+
+Chapter 04 : Resource Management 
+	Topic		: OpenShift Resources
+	Topic		: Projects and Quotas
+	Topic 	: Replication Controllers (I don't know that this is the place for this yet.)
+	Topic		: Router and DNS configuration
+	Topic		: Services and Routes
+
+Chapter 05 : The STI Build Method
+	Topic		: STI Overview
+	Topic		: Registry Service
+	Topic		: ImageStream 
+	Topic		: BuildConfig
+	
+	
+Chapter 06 : Templates
+	Topic		: Templates Overview 
+	Topic		: Using Templates
+	Topic		: Wiring Disparate Components
+	Topic		: Using Templates from the Web Management Console
+	
+Chapter 06 : Code Lifecycle 
+	Topic		: Pre and Post deployment Hooks
+	Topic		: Rollback and Activate
+	
+Chapter 07 : Demonstrating OpenShift 3.0 Capabilities
+	Topic 	: Demonstrate: Deploy Wordpress using Docker Image. (Builder) 
+	Topic 	: Demonstrate: Deploy Tiered Application (STI)
+	Topic 	: Demonstrate: Deploy EAP Application
+	Topic 	: Demonstrate: Deploy FeedHenry Application (Maybe)  
+	
+
+
+		
+

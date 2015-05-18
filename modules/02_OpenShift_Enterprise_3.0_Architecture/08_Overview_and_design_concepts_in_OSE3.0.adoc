@@ -1,0 +1,32 @@
+
+:scrollbar:
+:data-uri:
+== Overview and design concepts in OSE3.0
+
+=== Important Projects Used in OpenShift
+
+* Kubernetes - link:http://kubernetes.io/[http://kubernetes.io/]
+** Orchestrate containers at massive scale
+** Kubernetes manages and orchestrates Docker containers across clusters of nodes.
+* Docker - link:http://docker.com or https://github.com/docker/docker[http://docker.com or https://github.com/docker/docker]
+** Docker is an open-source project that automates the deployment of applications inside software containers, by providing an additional layer of abstraction and automation of operating-system-level virtualization on Linux
+** Docker provides the abstraction for packaging and creating lightweight containers.
+* Etcd -  link:https://github.com/coreos/etcd[https://github.com/coreos/etcd]
+** A highly-available key value store for shared configuration and service discovery
+** Etcd is the persistent data store for information about the OpenShift environment
+
+
+* OpenShift adds source code management, builds, and deployments for developers, and managing and promoting images at scale as they flow through your system, application management at scale, and team and user tracking for organizing a large developer organization.
+image::images/ImportantProjects.png[width=426*1.5,height=336*1.5]
+
+
+ifdef::showScript[]
+
+=== Transcript
+
+* Red Hat OpenShift v3 comprises several key Open Source projects, most notable are: 
+* Kubernetes, for orchestration, Docker for packaging containers and EtcD (Pronounced: "atsy-di) as a persistent data store for state and configuration information on OpenShift.
+
+endif::showScript[]
+
+

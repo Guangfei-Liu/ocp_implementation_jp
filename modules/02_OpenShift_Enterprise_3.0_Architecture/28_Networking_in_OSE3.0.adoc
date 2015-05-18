@@ -1,0 +1,25 @@
+
+:scrollbar:
+:data-uri:
+== Networking in OSE3.0
+=== OpenShift Networking - Workflow
+
+
+// ISSUE : Networking in OSE3.0, Slide: OpenShift Networking - Workflow - Would be great to have an animation for this
+// ISSUE : Networking in OSE3.0, Slide: OpenShift Networking - Workflow - Image is wrong "MyDomain.org" != "foodomain.com"
+* Scenario: Client points their home browser to "myApp.MyDomain.org:80"
+** DNS Resolves to a host running a router container
+** Router container resolves and proxies the request to internal pod ip:port (I.e 10.1.2.3:8080 ) using the *openshift-sdn* Overlay Network.
+
+image::images/NetworkScenario01.png[width=426*1.5,height=336*1.5]
+
+ifdef::showScript[]
+
+=== Transcript
+
+* When a user requests a page, pointing their browser to: http://Myapp.MyDomain on port 80
+** DNS will resolve that request to the IP of one of the nodes who hosts the "Routing layer"
+** The Routing layer will figure out which Pod should  
+
+endif::showScript[]
+

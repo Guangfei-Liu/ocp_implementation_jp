@@ -1,0 +1,36 @@
+
+:scrollbar:
+:data-uri:
+== Overview and design concepts in OSE3.0
+
+=== Example OpenShift 3.0 Workflow
+
+* Example OpenShift 3.0 Workflow
+
+* A simplified way of looking at the OpenShift workflow would be: 
+* Users/Automation make calls to the REST API (using the Web Console, Command line, any other method) to change the state of the system.
+* Periodically OpenShift reads the user’s desired state and then try to bring the other parts of the system into sync.
+
+* Scenario : OpenShift v3 client can predict a spike in traffic before a specific event (Holiday/Fight/Race/Sports day of any kind) and want to spin up more pods of a specific service/application.
+
+*** For example, lets assume the application is configured to have 3 running pods and the user wants to change that to 6 running pods.
+*** User decides to pre-emptively "scale up" to 6 app instances.
+**** User makes a call using the Web Console, Command line any other method to state that "this app should have 6 instances"
+*** The data store gets updated with the new information (desired scale = 6)
+**** On the next sync loop, the Replication Controllers (Will be explained later) actual/current scale (3) doesn't match desired scale (6) 
+*** OpenShift causes 3 more instances (pods) to be scheduled and placed for deployment.
+
+* The OpenShift controllers are performing the "business logic" of the system - taking user actions and transforming them into reality.
+* How builds are run and launched can be customized independent of how images are managed, or how deployments happen.
+
+
+ifdef::showScript[]
+
+=== Transcript
+
+* Follow this workflow to get a better understanding of a typical workflow in OpenShift, This example is a simple one and is used only to illustrate the general process in OpenShift and doesn't cover each and every process in the system.
+
+endif::showScript[]
+
+
+

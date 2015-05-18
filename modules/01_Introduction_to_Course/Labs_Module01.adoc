@@ -1,0 +1,73 @@
+== Lab -  Set Up Your Lab Environment
+
+=== Provision Your Lab Environment
+
+To do the labs in this training, you must provision the lab environment, which provides access to an environment with all the components required to perform the labs in this training. 
+
+. Go to https://labs.opentlc.com and use your credentials to log in to the OPENTLC labs provisioning system, which is built on top of Red Hat CloudForms to provide a self-service portal.
++
+[TIP]
+If you forgot your username or password, go to https://www.opentlc.com/pwm to reset your password or obtain a username reminder. 
+
+. After you log in, navigate to *Services -> Catalogs -> All Services -> OPENTLC Cloud Infrastructure*.
+
+. On the left side of the screen, locate *OpenShift Enterprise 3.0 Fastrax Lab* and click the *Order* button that appears on the right.
+
+. On the next screen, click *Submit* (on the lower right side) to order your environment. 
++
+In a few minutes you will get an email with all the details on how to connect to the environment.
+
+. Wait about 20 minutes to allow the environment to build. Your environment includes the following entities:
+- 1 x Host for the Broker. 
+- 2 x Hosts for Nodes.
+- 1 x Administration Host for connection into the environment and miscellaneous tasks.
+- IPA
+
+[WARNING] 
+Do not attempt to use App Control -> Start after ordering the lab.  The lab is already starting up.  Doing this may corrupt your lab environment or cause other complications. Feel free to select "Status" and receive an email with your environments status.
+
+[NOTE]
+The lab environment is all cloud based, so you can access it over the WAN from anywhere. Do not, however, expect performance to match a bare-metal environment.
+
+
+=== Set Up SSH
+
+To access any of your lab systems via SSH, you must use your personal OPENTLC SSO username and public SSH key. Unless otherwise noted, you cannot use SSH to connect directly as root.
+
+
+If you have not already done so, you must provide a public SSH key.
+
+. Go to https://www.opentlc.com/update and log in.  
+
+. Paste your public key in that location.
+
+. Connect to your administration host and make sure you can gain access to each one of your provisioned hosts.
+
+----
+
+ssh -i ~/.ssh/yourprivatekey.key opentlc-username.com@oselab-GUID.oslab.opentlc.com
+
+----
+[NOTE]
+The text *GUID* is a 4 character generated unique identifier assigned to your lab environment.  You will find your *GUID* at the top of the lab provisioning email.
+
+For example:
+----
+
+Laptop# ssh -i ~/.ssh/mykey.key shacharb-redhat.com@oselab-g00d.oslab.opentlc.com
+oselab$ ssh root@192.168.0.100
+oselab# ssh root@192.168.0.101
+oselab# ssh root@192.168.0.200
+oselab# ssh root@192.168.0.202
+
+----
+
+
+ 
+For more information on generating an SSH key, see:
+
+.Windows: 
+http://kb.site5.com/shell-access-ssh/how-to-generate-ssh-keys-and-connect-to-your-account-with-putty
+
+.Linux/OSX:
+https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys--2

@@ -1,0 +1,24 @@
+
+:scrollbar:
+:data-uri:
+== Overview and design concepts in OSE3.0
+
+=== How it Works - Service and Routing
+
+* The Service and Routing layer takes care of internal and external requests from the applications running on OpenShift.
+** A service will provide a list of IPs for the pods it represents.
+** The routering layer would direct traffic from the outside world to the correct Pod's IP and port. 
+
+image::images/01ServiceRouting.png[width=426*1.5,height=336*1.5]
+
+
+ifdef::showScript[]
+
+=== Transcript
+
+* The Service and Routing layer takes care of internal and external requests from the applications running on OpenShift.
+** A service will provide a list of IPs for the pods it represents.
+** The routering layer would direct traffic from the outside world to the correct Pod's IP and port. 
+
+endif::showScript[]
+

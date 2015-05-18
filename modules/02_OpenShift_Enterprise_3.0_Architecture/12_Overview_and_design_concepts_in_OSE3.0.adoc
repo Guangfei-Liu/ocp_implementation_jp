@@ -1,0 +1,26 @@
+
+:scrollbar:
+:data-uri:
+== Overview and design concepts in OSE3.0
+
+=== How it Works - Authentication
+
+* OpenShift v3 supports a number of mechanisms for authentication. 
+** The simplest use case for our testing purposes is htpasswd-based authentication.
+* The Authentication layer provides framework for collaboration and quota management.
+image::images/02Authentication.png[width=426*1.5,height=336*1.5]
+
+
+ifdef::showScript[]
+
+=== Transcript
+
+* OpenShift v3 supports a number of mechanisms for authentication. 
+** The simplest use case for our testing purposes is htpasswd-based authentication.
+* The Authentication layer provides framework for collaboration and quota management. 
+
+endif::showScript[]
+
+
+
+

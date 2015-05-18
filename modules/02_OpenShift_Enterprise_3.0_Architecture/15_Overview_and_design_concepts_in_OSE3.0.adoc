@@ -1,0 +1,22 @@
+
+:scrollbar:
+:data-uri:
+== Overview and design concepts in OSE3.0
+
+=== How it Works - Scheduler
+
+* The "scheduler" is essentially the OpenShift master. 
+** Any time a pod needs to be created (instantiated) somewhere, the master needs to figure out where to do this. 
+** This is called "scheduling". 
+
+image::images/05Scheduler.png[width=426*1.5,height=336*1.5]
+
+ifdef::showScript[]
+
+=== Transcript
+
+The "scheduler" is essentially the OpenShift master. Any time a pod needs to be created (instantiated) somewhere, the master needs to figure out where to do this. This is called "scheduling". 
+
+endif::showScript[]
+
+

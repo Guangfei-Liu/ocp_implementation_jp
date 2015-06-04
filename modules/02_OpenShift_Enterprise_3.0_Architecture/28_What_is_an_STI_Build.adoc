@@ -1,0 +1,24 @@
+
+:scrollbar:
+:data-uri:
+== What is an STI Build
+
+* Integrated Docker registry and automated image builds
+* Source code deployments leverage *source-to-image (STI)* build automation
+* Binary deployments integrate with existing build and CI infrastructure
+* Configurable deployment patterns (rolling, etc.)
++
+image::images/DockerVsSTIBuilds.png[]
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+In the final portion of this module, we look at builds and OpenShift STI images. 
+
+The STI build process is a process in which a developer points to a code repository in any of the supported frameworks and selects a builder image that would contain the operating system and framework to support the code. OpenShift Enterprise then creates an image based on the builder image that contains the selected code.
+
+endif::showscript[]
+
+

@@ -1,0 +1,44 @@
+
+:scrollbar:
+:data-uri:
+== Containerization Standards
+
+.Isolation with Linux containers
+* Isolate applications on host operating system
+* Security
+* Portability across host systems
+
+.Container format with Docker
+* Interface for communications, configuration, data persistence, provisioning
+* Content agnostic
+* Infrastructure agnostic
+
+.Orchestration with Kubernetes
+* Orchestrate containers at scale
+* Define application topologies
+* Handle container networking
+* Manage container state
+* Schedule across hosts
+
+.Registry and container discovery
+* Find and consume trusted container images
+* Federate consumption libraries
+* Promote consistency and reuse
+
+ifdef::showscript[]
+
+=== Transcript
+Red Hat works with the open source community to drive standards for containerization. The main areas are:
+ 
+* Isolation with Linux containers - Isolating applications on the host operating system, security, and portability across host systems.
+
+* Container format with Docker - Docker is the interface for communications, configuration, data persistence, and provisioning. It is content and infrastructure agnostic.
+
+* Orchestration with Kubernetes - Kubernetes orchestrates containers at scale; it defines application topologies, handles part of the container networking, manages container state, and it also schedules across hosts.
+ 
+* Registry and container discovery - Red Hat promotes standards to easily find and consume trusted container images, to federate consumption libraries, and to promote consistency and reuse.
+
+endif::showscript[]
+
+
+

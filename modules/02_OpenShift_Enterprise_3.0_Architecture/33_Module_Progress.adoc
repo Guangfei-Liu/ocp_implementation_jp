@@ -1,8 +1,0 @@
-
-:scrollbar:
-:data-uri:
-== Module Progress
-
-image::images/Chapter03_Section06.png[width=852,height=672]
-
-

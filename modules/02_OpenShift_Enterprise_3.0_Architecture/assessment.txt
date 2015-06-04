@@ -1,0 +1,41 @@
+QUESTIONBANKCODE|QUESTIONCODE|QUESTIONTYPE|QUESTIONTEXT|QUESTIONTEXTFORMAT|QUESTIONFEEDBACK|OPTION|RIGHTOPTION|OPTIONFEEDBACK|ISCORRECT|OPTIONWEIGHT|ISCASESENSITIVE|RANDOMIZEOPTIONS|STATUS
+OSEIMPLEMENTATION|OSEIMPLEMENTATION301|1|In OpenShift v3, Which well known project is used for orchestration of containers across a cluster of nodes?|||Kubernetes|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION301|1|In OpenShift v3, Which well known project is used for orchestration of containers across a cluster of nodes?|||Project Atomic |||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION301|1|In OpenShift v3, Which well known project is used for orchestration of containers across a cluster of nodes?|||Docker|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION301|1|In OpenShift v3, Which well known project is used for orchestration of containers across a cluster of nodes?|||EtcD|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION302|1|In OpenShift v3, Which well known project is used for container formatting and creation?|||Kubernetes|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION302|1|In OpenShift v3, Which well known project is used for container formatting and creation?|||Project Atomic |||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION302|1|In OpenShift v3, Which well known project is used for container formatting and creation?|||Docker|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION302|1|In OpenShift v3, Which well known project is used for container formatting and creation?|||EtcD|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION303|1|What is the role of the Scheduler?|||Takes care of internal and external requests from the applications running on OpenShift|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION303|1|What is the role of the Scheduler?|||Determines where to create new pods|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION303|1|What is the role of the Scheduler?|||Holds current state, desired state, and configuration information in environment|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION303|1|What is the role of the Scheduler?|||Ensures number of instances/pods defined in store layer actually exist|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION304|1|What is the role of the Service and Routing layer?|||Provides framework for collaboration and quota management|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION304|1|What is the role of the Service and Routing layer?|||Takes care of internal and external requests from the applications running on OpenShift|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION304|1|What is the role of the Service and Routing layer?|||Determines where to create new pods|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION304|1|What is the role of the Service and Routing layer?|||Holds current state, desired state, and configuration information in environment|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION305|1|What is the role of the Replicator? |||Provides framework for collaboration and quota management|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION305|1|What is the role of the Replicator? |||Ensures number of instances/pods defined in store layer actually exist|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION305|1|What is the role of the Replicator? |||Determines where to create new pods|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION305|1|What is the role of the Replicator? |||Holds current state, desired state, and configuration information in environment|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION306|1|What is the role of the Store layer?|||Provides framework for collaboration and quota management|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION306|1|What is the role of the Store layer?|||Ensures number of instances/pods defined in store layer actually exist|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION306|1|What is the role of the Store layer?|||Determines where to create new pods|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION306|1|What is the role of the Store layer?|||Holds current state, desired state, and configuration information in environment|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION307|5|Unlike a virtual machine, a container stores just the application and its dependencies.|||TRUE|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION307|5|Unlike a virtual machine, a container stores just the application and its dependencies.|||FALSE|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION308|5|For an STI, source-to-image build, you only need a Git repository with the source code for your application.|||TRUE|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION308|5|For an STI, source-to-image build, you only need a Git repository with the source code for your application.|||FALSE|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION309|1|OpenShift can pull images from any server implementing Docker registry API, including:|||Canonical Docker Hub|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION309|1|OpenShift can pull images from any server implementing Docker registry API, including:|||Private registries run by third parties|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION309|1|OpenShift can pull images from any server implementing Docker registry API, including:|||Integrated OpenShift Enterprise registry|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION309|1|OpenShift can pull images from any server implementing Docker registry API, including:|||All of the above|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION310|1|One of the benefits of STI is that having a strong separation between the source code and the runtime environment in the container image helps to migrate code between:|||Runtime environments|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION310|1|One of the benefits of STI is that having a strong separation between the source code and the runtime environment in the container image helps to migrate code between:|||Across major versions of a runtime|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION310|1|One of the benefits of STI is that having a strong separation between the source code and the runtime environment in the container image helps to migrate code between:|||Across operating system versions|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION310|1|One of the benefits of STI is that having a strong separation between the source code and the runtime environment in the container image helps to migrate code between:|||All of the above|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION311|1|In OpenShift, which components are used for connecting between all the containers internally and for external connectivity?|||etcd and the store layer |||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION311|1|In OpenShift, which components are used for connecting between all the containers internally and for external connectivity?|||The Openshift-sdn overlay network and the Router container (HAProxy)|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION311|1|In OpenShift, which components are used for connecting between all the containers internally and for external connectivity?|||Kubernetes and Docker |||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION311|1|In OpenShift, which components are used for connecting between all the containers internally and for external connectivity?|||Pods and Services|||0|0|||

@@ -1,0 +1,27 @@
+:scrollbar:
+:data-uri:
+
+== What is OpenShift
+
+* OpenShift is a Platform-as-a-Service (PaaS)
+* Provides development environments on demand (self service)
+* Provides languages, frameworks, runtimes, and databases (polyglot)
+* Automates application lifecycle management (build, deploy, retire)
+* Enables collaboration between developers on projects and components
+* Uses industry standards
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+We begin this module with an overview of OpenShift Enterprise design concepts. 
+
+OpenShift is a Platform-as-a-Service, or PaaS, which is based on industry standards. OpenShift provides development environments on-demand, it offers a range of languages, frameworks, runtimes and databases, and automates application lifecycle management.
+
+OpenShift enables collaboration between developers on projects and components.
+
+
+endif::showscript[]
+
+

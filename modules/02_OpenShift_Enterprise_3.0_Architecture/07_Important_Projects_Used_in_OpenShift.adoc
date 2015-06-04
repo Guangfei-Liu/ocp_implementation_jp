@@ -1,0 +1,32 @@
+
+:scrollbar:
+:data-uri:
+== Important Projects in OpenShift
+
+* *Kubernetes* - link:http://kubernetes.io/[http://kubernetes.io/]
+
+* *Docker* - http://docker.com or https://github.com/docker/docker
+ 
+* *Etcd* - link:https://github.com/coreos/etcd[https://github.com/coreos/etcd]
+
++
+image::images/ImportantProjects.png[]
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+OpenShift Enterprise v3 comprises several key open source projects, most notable are Kubernetes, Docker, and EtcD.   
+Kubernetes orchestrates containers at massive scale and manages and orchestrates Docker containers across clusters of nodes.
+
+Docker is an open source project that automates the deployment of applications inside software containers 
+by providing an additional layer of abstraction and automation of operating-system-level virtualization. Docker provides the abstraction for packaging and creating lightweight containers.
+
+EtcD is a highly available key-value store for shared configuration and service discovery. EtcD is the persistent data store for information about the OpenShift environment.  
+
+OpenShift helps manage large developer organizations. OpenShift adds source code management, builds and deployments for developers; manages and promotes images at scale as they flow through the system, manages applications at scale, and tracks teams and users. 
+
+endif::showscript[]
+
+

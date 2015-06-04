@@ -1,0 +1,28 @@
+
+:scrollbar:
+:data-uri:
+== How Does a Docker Image Work
+
+
+* Read-only templates from which containers are launched
+* Each image consists of a series of layers 
+* Uses union file system
+** Combines layers into single image
+** Allows branches to form single file system
+* When you change a Docker image, a new layer gets built
+
+ifdef::showscript[]
+
+=== Transcript
+
+Docker images are read-only templates from which Docker containers are launched. Each image consists of a series of layers. 
+Docker makes use of union file systems to combine these layers into a single image.
+
+Union file systems also allow files and directories of separate file systems, known as branches, to be transparently overlaid to form a single coherent file system. 
+
+When you change a Docker image—for example, when you update an application to a new version—a new layer gets built. You do not need to distribute a whole new image, just the update.
+
+
+endif::showscript[]
+
+

@@ -1,0 +1,60 @@
+
+:scrollbar:
+:data-uri:
+== Summary
+
+* Overview and design concepts in OpenShift Enterprise v3 
+* Introduction to Docker
+* Introduction to Kubernetes infrastructure 
+* Networking in OpenShift Enterprise v3
+* Image registry 
+* Builds and OpenShift STI images
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+This module presented the following topics:
+
+* Overview and design concepts in OpenShift Enterprise v3, including the OpenShift stack, how OpenShift works, standards, important projects, workflows, and how the various components work.
+    
+* It introduced Docker, including the difference between containers and VMs, and Docker components and capabilities.
+
+* Next it covered Kubernetes features and concepts with an emphasis on pods. 
+ 
+* It covered an Overview of Networking in OpenShift Enterprise v3, 
+
+* The Image registry section described the integrated OpenShift registry and third-party registries.
+ 
+* And Builds and OpenShift STI images were explained briefly covering what an STI build is and why to use it.
+
+endif::showscript[]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

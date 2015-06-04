@@ -1,0 +1,26 @@
+
+:scrollbar:
+:data-uri:
+== Third-Party Registries
+
+
+* Provide builder images, complete application images, and more
+* Supportability falls on their respective creators
+* Can be polled for changes to image repositories
++
+[NOTE]
+Polling is not currently implemented.
+
+ifdef::showscript[]
+
+=== Transcript
+
+OpenShift Enterprise can use third-party registries to obtain builder images, complete application images, and more. 
+Supportability of these images and registries falls to their respective creators.
+
+OpenShift Enterprise can poll the other registries for changes to image repositories.
+
+
+endif::showscript[]
+
+

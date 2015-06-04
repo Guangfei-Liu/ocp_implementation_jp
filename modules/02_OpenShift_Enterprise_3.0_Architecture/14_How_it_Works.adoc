@@ -1,0 +1,21 @@
+
+:scrollbar:
+:data-uri:
+== How it Works
+
+.Scheduler
+* Essentially the OpenShift Enterprise master 
+* Determines where to create new pods
+
++
+image::images/05Scheduler.png[]
+
+ifdef::showscript[]
+
+=== Transcript
+
+The scheduler is essentially the OpenShift Enterprise master. Any time a pod needs to be created somewhere, the master determines where to do this. This is called "scheduling". 
+
+endif::showscript[]
+
+

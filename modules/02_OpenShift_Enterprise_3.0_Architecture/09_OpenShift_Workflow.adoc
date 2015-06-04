@@ -1,0 +1,50 @@
+
+:scrollbar:
+:data-uri:
+== OpenShift Workflow
+
+
+.Simplified Workflow 
+. User/automation calls REST API to change system state
+. OpenShift Enterprise periodically reads the user’s desired state
+. OpenShift Enterprise tries to sync other parts of system
+
+.Example Scenario
+* User predicts a traffic spike before a holiday 
+* User wants more pods of specific service/application
+* User decides to preemptively scale up to 6 app instances from 3 app instances.
+
+.Process
+. User calls to state: "this app should have 6 instances"
+. Data store gets new information (desired scale = 6)
+. In sync loop, replication controllers see mismatch between current scale (3) and desired scale (6). 
+. OpenShift Enterprise schedules and deploys 3 instances (pods).
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+A simplified way of looking at the OpenShift Enterprise workflow would be: 
+
+. Users or Automation make calls to the REST API (using the Web Console, Command line, any other method) to change the state of the system.
+. OpenShift Enterprise periodically reads the user's desired state
+. OpenShift Enterprise then tries to bring the other parts of the system into sync with the desired state.
+
+For example, consider this scenario: An OpenShift Enterprise v3 user is predicting a spike in traffic before a holiday or major sports event. 
+The user wants to spin up more pods of a specific service/application to accommodate the additional traffic.
+
+Lets assume the application is currently configured with 3 running pods and the user wants to change that to 6 running pods as a pre-emptive measure.
+The user then makes a call using the web console, CLI, or any other method to state that "this app should have 6 instances." 
+
+At this point the data store gets updated with the new information indicating that the desired scale is 6 running pods.
+On the next sync loop, the Replication Controllers, which will be explained later, determine that the current scale of 3 running pods does not match the desired scale of 6 running pods. 
+This causes OpenShift Enterprise to schedule 3 more instances and place them for deployment.
+
+As you can see, the OpenShift Enterprise controllers are performing the "business logic" of the system by taking user actions and transforming them into reality. 
+You can customize how builds are run and launched independently of how images are managed, or how deployments happen.
+
+endif::showscript[]
+
+
+

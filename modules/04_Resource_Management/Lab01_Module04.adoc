@@ -154,7 +154,7 @@ osc project atom
 ----
 osc project atom
 
-curl http://www.opentlc.com/downloads/ose_implementation/files/
+curl http://www.opentlc.com/downloads/ose_implementation/files/hello-quota.json > hello-quota.json
 
 osc create -f hello-quota.json
 
@@ -184,7 +184,7 @@ osc delete pod `osc get pods |grep hello-openshift | awk '{print $1}'`
 [source,json]
 ----
 
-curl http://www.opentlc.com/downloads/ose_implementation/files/quota.json
+curl http://www.opentlc.com/downloads/ose_implementation/files/quota.json > quota.json
 
 cat quota.json 
 {
@@ -204,6 +204,7 @@ cat quota.json
     }
   }
 }
+----
 
 . As Root, Apply the Quota to the "atom" project.
 +
@@ -232,6 +233,7 @@ services                0       2
 ----
 
 . As Andrew, Try again to create *hello-quota.json* in the "atom" project
++
 ----
 osc create -f hello-quota.json
 pods/1-hello-openshift
@@ -241,6 +243,7 @@ Error: pods "4-hello-openshift" is forbidden: Limited to 2 pods
 ----
 
 . Try to create *hello-quota.json* in another project, Should the quota apply there? (no)
++
 ----
 osc project plasma 
 

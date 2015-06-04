@@ -1,0 +1,28 @@
+:numbered!:
+:scrollbar:
+:data-uri:
+
+== Module Topics
+
+* Installation Overview
+* Prepare your Hosts
+* Installation Methods 
+* Authentication 
+* Web UI
+* Scheduler - Regions and Zones
+* High Availability Deployments.  
+* Lab : Install OpenShift Using Ansible
+* Lab : Add Nodes
+* Lab : Regions and Zones
+
+
+ifdef::showscript[]
+
+=== Transcript
+Welcome to Module 3 of the OpenShift Enterprise Implementation course.
+
+
+
+endif::showscript[]
+
+

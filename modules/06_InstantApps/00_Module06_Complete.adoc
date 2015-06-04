@@ -1,0 +1,304 @@
+
+== Module Topics 
+
+
+* Templates Overview 
+* Creating a Configuration From a Template
+* Wiring Disparate Components
+* Using Templates from the Web Management Console
+* Lab	: Installing a Template 
+* Lab	: Wiring Templates together
+
+
+ifdef::showScript[]
+
+.Transcript
+
+* In this Module we will discuss the following topics: 
+** Templates Overview 
+** Templates Structure
+** Wiring Disparate Components
+** Using Templates from the Web Management Console
+
+
+endif::showScript[]
+
+
+
+
+== Module Progress
+
+// This is the Module06 Topic01 Image.
+// ISSUE: M06, M06_T01.png Needs to be created 
+image::images/M06_T01.png[width=852,height=672]
+
+
+== Template Overview
+
+.What is a Template 
+
+* From: link:http://docs.openshift.org/latest/dev_guide/templates.html[docs.openshift.org]
+** A template describes a set of resources that can be customized and processed to produce a configuration. Each template is a parameterized list that is used by OpenShift to create a list of resources, including services, pods, routes, buildconfigs, etc. A template also defines a set of labels to apply to every resource created by the template.
+
+//sed -i  s/integrated.cloudapps.example.com/integrated.`hostname -f`/g integrated-template.json
+
+
+ifdef::showScript[]
+
+.Transcript
+
+* A template describes a set of resources that can be customized and processed to produce a configuration. Each template is a parameterized list that is used by OpenShift to create a list of resources, including services, pods, routes, buildconfigs, etc. A template also defines a set of labels to apply to every resource created by the template.
+
+endif::showScript[]
+
+
+
+
+== Template Overview
+
+.What are Templates for?  
+
+* Place content here 
+
+ifdef::showScript[]
+
+.Transcript
+
+* Place narrator script here
+
+endif::showScript[]
+
+
+== Template Overview
+
+.Components 
+
+* Review the following sample template file: 
+
+[source,json]
+----
+{
+  "apiVersion": "v1beta1",
+  "kind": "Template",
+  "metadata": {
+    "name": "Template_Name", 
+    "annotations": {
+      "description": "Description" 
+    }
+  },
+  "parameters": [ 
+    {
+      "name": "username"
+      "value": "admin"
+      "description": "administrative user"
+    }
+  ],
+  "labels": { 
+    "custom_label": "Label_Name"
+  },
+  "items": [ 
+    {
+      ...
+    }
+  ]
+}
+
+----
+
+* Notice the following elements:
+** *"name":* - The name of the template
+** *"description":* - Optional description for the template
+** *"parameters":* - A list of parameters for the template (Parameters like Username, Passwords and others)
+** *"labels":* - A list of labels to apply to resources
+** *"items":* - list of resources to create (Resources like *Pods*, *Services* and *Routes*)
+
+
+ifdef::showScript[]
+
+.Transcript
+
+* Place narrator script here
+
+endif::showScript[]
+
+
+
+
+
+
+
+== Template Overview
+
+.Components
+
+.Template components continued:
+* Labels  
+** Labels are used to manage and organize generated resources, such as pods. The labels specified in the template are applied to every resource that is generated from the template.
+** Labels are used to organize, group, or select objects and resources.  resources and pods are "tagged" with labels, and then services and replication controllers use labels to indicate the pods they relate to. This makes it possible for services and replication controllers to reference groups of pods, or treat pods with potentially different Docker containers as similar entities.
+
+* Parameters 
+** Parameters are used to "share" configuration values between the different items in the template.  
+** An easy example would be the database user name, password or port needed by the frontend pods to communicate to our database backend pods.
+
+* Items - Items can be any resources that needs to be created for the template, in our example we will create Pods, Services, Replication controllers and a route for our template.
+** Other items can be BuildConfigs, ImageStreams and more.
+
+
+ifdef::showScript[]
+
+.Transcript
+
+* Place narrator script here
+
+endif::showScript[]
+
+
+== Template Overview
+
+.What are Templates for?  
+
+* Place content here 
+
+ifdef::showScript[]
+
+.Transcript
+
+* Place narrator script here
+
+endif::showScript[]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+== Module Progress
+
+// This is the Module06 Topic02 Image.
+// ISSUE: M06, M06_T02.png Needs to be created 
+image::images/M06_T02.png[width=852,height=672]
+
+
+== Creating a Configuration From a Template
+
+.Uploading a Template
+
+* You can create a configuration from a template using the CLI or, if a template has been uploaded to your project or global template library, using the Management Console.
+* You can create a template JSON file, like the above example, then upload it with the CLI using the following process:
+** You can upload a template to your current project’s template library by passing a JSON file with the following command:
+----
+
+$ osc create -f <filename>
+
+----
+
+** You can upload a template to a different project using the -n option with the name of the project:
+
+----
+
+$ osc create -f <filename> -n <project>
+
+----
+
+** The template would now available to be selected for a configuration using the Management Console or the CLI.
+
+ifdef::showScript[]
+
+.Transcript
+
+* Place narrator script here
+
+endif::showScript[]
+
+
+
+== Creating a Configuration From a Template
+
+.Generating a Configuration
+
+
+* Generate a configuration with the following command:
+** osc process will examine a template, generate any desired parameters, and output a JSON configuration that can be created with osc.
+
+----
+
+$ osc process -f <filename>
+
+----
+
+** Alternatively, you can create from a template without uploading it to the template library by processing the template and creating from the same template by piping both commands:
+
+----
+
+$ osc process -f <filename.json> | osc create -f -
+
+----
+
+** You can override any parameters defined in the JSON file by adding the -v option and any desired parameters. For example, you can override the ADMIN_USERNAME and MYSQL_DATABASE parameters to create a configuration with customized environment variables:
+
+----
+
+$ osc process -f examples/sample-app/application-template-dockerbuild.json -v ADMIN_USERNAME=root,MYSQL_DATABASE=admin
+
+----
+
+
+ifdef::showScript[]
+
+.Transcript
+
+* Place narrator script here
+
+endif::showScript[]
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+== Module Progress
+
+// This is the Module06 Topic02 Image.
+// ISSUE: M06, M06_T02.png Needs to be created 
+image::images/M06_T02.png[width=852,height=672]
+
+
+== Using Templates
+
+.NAME
+
+ifdef::showScript[]
+
+.Transcript
+
+* Place narrator script here
+
+endif::showScript[]

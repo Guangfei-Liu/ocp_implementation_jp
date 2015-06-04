@@ -1,0 +1,89 @@
+:scrollbar:
+:data-uri:
+:icons: images/icons
+:toc2:		
+
+		
+== Launch Your First Application Lab
+
+In this lab, you deploy a simple application called `Hello-Openshift`. As part of the process, you create the pod running the application, a service for the application, and a route that allows external traffic to access the application.
+
+:numbered:
+
+== Prepare Your Environment
+
+Complete these steps before starting the rest of the labs.
+
+. Connect to your master as the `root` user.
+. Run the post-deployment script:
++
+----
+[sborenst@desktop01 ~]$ ssh -i ~/.ssh/sborenstkey.pub shacharb-redhat.com@oselab-*GUID*.oslab.opentlc.com
+
+[bash-4.2$ ~] ssh root@192.168.0.100
+root@192.168.0.100's password: ******** (r3dh4t1!) 
+
+[root@master00-GUID ~]# sh Post_Deployment_Script.sh
+
+----
++
+[NOTE] 
+This process might take a while. Use this time to read the lab and get a good understanding of the scenario.
+
+
+== Authenticate to OpenShift Enterprise and Choose Your Project 
+
+. Connect to the OpenShift Enterprise master by following the same steps you used previously.
+. Authenticate user `joe` to Openshift Enterprise and create a token in the `.config/openshift/.config` file:	
++
+----
+
+[root@master00~]# su - joe
+[joe@master00~]$ export GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
+[joe@master00~]$ osc login -u joe \
+--certificate-authority=/var/lib/openshift/openshift.local.certificates/ca/cert.crt \
+--server=https://master00-${GUID}.oslab.opentlc.com:8443 --namespace=demo
+Password: (Enter r3dh4t1!)
+Login successful.
+
+Using project "demo"
+Welcome to OpenShift! See 'osc help' to get started.
+
+----
+
+== Create the Pod Definition
+
+Run the following command to create the `hello-pod.json` file:
+
+----
+
+[joe@master00~]$ cat <<EOF > hello-pod.json 
+{
+  "id": "hello-openshift",
+  "kind": "Pod",
+  "apiVersion":"v1beta2",
+  "labels": {
+    "name": "hello-openshift"
+  },
+  "desiredState": {
+    "manifest": {
+      "version": "v1beta1",
+      "id": "hello-openshift",
+      "containers": [{
+        "name": "hello-openshift",
+        "image": "openshift/hello-openshift",
+        "ports": [{
+          "hostPort": 6061,
+          "containerPort": 8080
+        }]
+      }]
+    }
+  }
+}
+EOF
+
+----
+
+
+:numbered!:
+

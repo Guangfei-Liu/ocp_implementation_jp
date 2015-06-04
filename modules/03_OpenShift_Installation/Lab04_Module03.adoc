@@ -1,0 +1,151 @@
+:scrollbar:
+:data-uri:
+:icons: images/icons
+:toc2:		
+
+	
+== Deploy The "Router" and "Registry" Containers
+:numbered:	
+
+* In this lab we will Deploy the *Router* and *Registry* containers. 
+* We will configure the *Router* to be deployed only in the "Infra" region.
+* We will configure the *Registry* to be deployed only in the "Primary" region.
+
+.Deploy the Registry 
+. Connect to your master as the `root` user.
++
+----
+[sborenst@desktop01 ~]$ ssh -i ~/.ssh/sborenstkey.pub shacharb-redhat.com@oselab-*GUID*.oslab.opentlc.com
+
+[bash-4.2$ ~] ssh root@192.168.0.100
+root@192.168.0.100's password: ******** (r3dh4t1!) 
+
+----
+
+. Run the *osadm router* command to create the *Router* container
++
+----
+
+osadm registry --create \
+--credentials=/var/lib/openshift/openshift.local.certificates/openshift-registry/.kubeconfig \
+--images='registry.access.redhat.com/openshift3_beta/ose-${component}:${version}'
+services/docker-registry
+deploymentConfigs/docker-registry
+
+----
+
+. Notice that a *Service* and a *DeploymentConfig* have been created for your *Registry* container. Get your *Registry* service's port using the *osc get services* command  
++
+----
+
+osc get services
+
+
+----
+
+. Check that your *docker-registry* pod status is "Running"  
++
+----
+
+osc get pods
+
+----
+
+. Verify that your docker-registry contaienr is online, expect "docker-registry server (dev) (v0.9.0)" as a reply.
+ 
++
+----
+
+curl [yourserviceIP]:[yourservicePORT]
+#or
+curl `osc get services | grep registry | awk '{print $4":"$5}' | sed -e 's/\/.*//'`
+"docker-registry server (dev) (v0.9.0)"
+
+----
+NOTE: The Registry could take up to a couple of minutes to go on-line
+
+.Deploy the Router
+
+
+. Run the *osadm router* command to create the *Router* container
++
+----
+
+osadm router --create \
+--credentials=/var/lib/openshift/openshift.local.certificates/openshift-router/.kubeconfig \
+--images='registry.access.redhat.com/openshift3_beta/ose-${component}:${version}'
+services/router
+deploymentConfigs/router
+
+----
+
+. Notice that a *Service* and a *DeploymentConfig* have been created for your *Router* container, view the new resources created for the *Router*
++
+----
+
+osc get service
+
+osc describe service router
+
+
+osc get dc # This is the same as osc get deploymentConfigs
+
+osc describe dc router
+
+----
+
+. Check where your *Router* pod has been deployed using the *osc get pods* command, Your *Router* could have been deployed to any of the nodes in your environment. 
++
+----
+
+osc get pods
+
+----
++
+NOTE: We require our *router* to always run on the master00 host *in this lab environment*, this is due to our dns wildcard record pointing to the master. In real-life deployments you could deploy multiple *router* containers and have your DNS wildcard loadblanced between them.  
+
+. Edit the *deploymentConfig* of the *router* to allow deployment only in the "infra" region.   
++
+----
+osc edit deploymentConfigs/router
+
+----
+
+
+. After editing the *DeploymentConfig* should look like this
++
+----
+[...]
+template:
+  controllerTemplate:
+    podTemplate:
+      nodeSelector:
+        region: infra
+      desiredState:
+        manifest:
+[...]
+
+----
++
+NOTE: In future releases, you will be able to supply NodeSelector and other labels at creation time rather than editing the object after the fact.
+
+. Verify that your *Router* is not deployed in the correct host (Your master00 host), kill the *Router* pod a few times and check that it gets deployed in the right host every time.
++
+----
+osc get pods
+
+
+osc delete pods router
+
+osc get pods
+
+
+osc delete pods router
+
+osc get pods
+
+
+osc delete pods router
+
+---- 
+

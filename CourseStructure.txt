@@ -1,37 +1,39 @@
 Goals:
 
-Learner will be familiar with the technical architecture of OSE3.0
-Learner will be able to perform a 10 minute demonstration of the use of OSE3.0
-Learner will be able to set up STI build process 
-Learner will understand and be able to implement Zones and Regions 
-Learner could deploy a POC like environment of OpenShift 3.0
-Learner could demonstrate and deploy a HA application    
+* Explain  with the technical architecture of OSE3.0
+* Perform a 20 minute demonstration of the use of OSE3.0
+* Explain how to set up STI build process 
+* Explain how to implement Zones and Regions in multi node environments  
+* Explain how to deploy a POC like environment of OpenShift 3.0
+* Explain how HA application deployments work in OpenShift 3.0 
+* Explain how to Manage the life cycle of applications in OpenShift 3.0   
 
-Chapter 01 : Introduction to Course and Learning Environment
-Chapter 02 : OpenShift 3.0 Architecture  
-Chapter 03 : OpenShift 3.0 Installation
-Chapter 04 : Resource Management
-Chapter 05 : The STI Build Method
-Chapter 06 : Quickstarts
-Chapter 07 : Demonstrating OpenShift 3.0 Capabilities
+Module 01 : Introduction to Course and Learning Environment
+Module 02 : OpenShift 3.0 Architecture  
+Module 03 : OpenShift 3.0 Installation
+Module 04 : Resource Management
+Module 05 : The STI Build Method
+Module 06 : InstantApps and Tempaltes
+Module 07 : Code Lifecycle
+Module 08 : Demonstrating OpenShift 3.0 Capabilities
 
 
-Chapter 01	: Introduction to Course and Learning Environment
+Module 01	: Introduction to Course and Learning Environment
 	Topic 	: Welcome to Red Hat GPE Training 
 	Topic 	: Course Goals   
 	Topic 	: Course Overview
 	Topic 	: Class Environment
 	Lab	: Set Up Your Lab Environment
 
-Chapter 02 : OpenShift Enterprise 3.0 Architecture
+Module 02 : OpenShift Enterprise 3.0 Architecture
 	Topic 	: Overview and design concepts in OSE3.0  
-	Topic 	: Introduction to Docker (Do we just skip these chapters?)
-	Topic 	: Introduction to Kubernetes Infrastructure (Do we just skip these chapters?)
+	Topic 	: Introduction to Docker (Do we just skip these Modules?)
+	Topic 	: Introduction to Kubernetes Infrastructure (Do we just skip these Modules?)
 	Topic 	: Networking in OSE3.0 
 	Topic 	: Resources overview    
 
 
-Chapter 03 : OpenShift Installation 
+Module 03 : OpenShift Installation 
 	Topic		: Installation Overview
 	Topic		: Prepare your Hosts
 	Topic		: Installation Methods 
@@ -39,32 +41,45 @@ Chapter 03 : OpenShift Installation
 	Topic		: Web UI
 	Topic 	: Scheduler - Regions and Zones
 	Topic 	: High Availability Deployments.  
+	Lab : Install OpenShift Using Ansible
+	Lab : Add Nodes
+	Lab : Regions and Zones
+	Lab : Deploy The "Router" and "Registry" Containers
+	
 
-Chapter 04 : Resource Management 
+Module 04 : Resource Management 
 	Topic		: OpenShift Resources
 	Topic		: Projects and Quotas
-	Topic 	: Replication Controllers (I don't know that this is the place for this yet.)
-	Topic		: Router and DNS configuration
+	Topic 	: Scaling with Replication Controllers
 	Topic		: Services and Routes
+	Lab 		: Users, Projects and Quotas
+	Lab 		: Services and Routes	
+	Lab 		: Deployment Configuration and Replication Controllers
+	
 
-Chapter 05 : The STI Build Method
+Module 05 : The STI Build Method
 	Topic		: STI Overview
 	Topic		: Registry Service
 	Topic		: ImageStream 
 	Topic		: BuildConfig
+	Lab		: Deploy an STI Build 
 	
 	
-Chapter 06 : Templates
+Module 06 : InstantApps and Tempaltes
 	Topic		: Templates Overview 
 	Topic		: Using Templates
 	Topic		: Wiring Disparate Components
 	Topic		: Using Templates from the Web Management Console
+	Lab		: Installing a Template 
+	Lab		: Wiring Templates together
 	
-Chapter 06 : Code Lifecycle 
+Module 07 : Code Lifecycle 
 	Topic		: Pre and Post deployment Hooks
 	Topic		: Rollback and Activate
-	
-Chapter 07 : Demonstrating OpenShift 3.0 Capabilities
+	Lab		: Deployment Hooks
+	Lab 		: Rollback
+
+Module 08 : Demonstrating OpenShift 3.0 Capabilities
 	Topic 	: Demonstrate: Deploy Wordpress using Docker Image. (Builder) 
 	Topic 	: Demonstrate: Deploy Tiered Application (STI)
 	Topic 	: Demonstrate: Deploy EAP Application

@@ -2,50 +2,32 @@
 :scrollbar:
 :data-uri:
 == Connection Details
-
-=== Broker Hosts:
-[options="header,footer",width="50"]
+.Master Hosts
+[options="header",width="65"]
 |=======================
-||Broker00|Broker01
-|Internal IP|192.168.0.100|192.168.0.101
-|External IP|Provided*|Provided*
-|DNS Name|broker00-*GUID*.oslab.rhpds.opentlc.com|broker01-*GUID*.oslab.rhpds.opentlc.com
-|Credentials|root / r3dh4t1!|root / r3dh4t1!
-|=======================
-
-=== Node Hosts:
-[options="header,footer",width="50"]
-|=======================
-||Node00|Node01
-|Internal IP|192.168.0.200|192.168.0.201
-|External IP|Provided*|Provided*
-|DNS Name|node00-*GUID*.oslab.rhpds.opentlc.com|node01-*GUID*.oslab.rhpds.opentlc.com
-|Credentials|root / r3dh4t1!|root / r3dh4t1!
-|=======================
-
-=== Administration and Support Hosts:
-[options="header,footer",width="20"]
-|=======================
-||oselab
-|Internal IP|192.168.0.200
-|External IP|Provided*
-|DNS Name|oselab-*GUID*.oslab.rhpds.opentlc.com
-|Credentials|OpenTLC Credentials
+||Master00|Master01
+|*Internal IP*|192.168.0.100|192.168.0.101
+|*External IP*|Provided|Provided
+|*DNS Name*|master00-*GUID*.oslab.rhpds.opentlc.com
+|*Credentials*|root / r3dh4t1!|root / r3dh4t1!
 |=======================
 
 
-* External IPs are provided by the lab provisioning *email that will be sent to you after you provision the lab from labs.opentlc.com*.
-* The text *GUID* is a 4 character generated unique identifier assigned to your lab environment.  You will *find your GUID at the top of the lab provisioning email.*
-* You can only *SSH* into your Administration VM directly *using your OPENTLC SSO credentials and SSH key (do not use root)*.  
-** From there you can use this system as a jump box to SSH to the other internal lab hosts.  See the above lab instructions as to which username and password is required per internal host.
 
 
-ifdef::showscript[] 
+
+ifdef::showscript[]
 
 === Transcript
+Tables 1, 2, and 3 show the connection details to use when setting up and connecting to the lab environment. This information is repeated in the labs as required.
 
-These tables show the connection details you will use when setting up and using the lab environment.
-This information is repeated in the labs where required.
+External IPs are provided by the lab provisioning email that is sent to you after you provision the lab from 'labs.opentlc.com'. 
+
+The text *GUID* shown here is a 4-character generated unique identifier assigned to your lab environment. Your GUID is provided in the provisioning email as well.
+
+When connecting to your evironment use only your OPENTLC credentials and SSH key to connect directly into your administration VM. Do not use root or try to connect directly to the Master or nodes. 
+Your administration VM can be used as a "jump box" to connect via SSH to the other internal lab hosts. 
+
 
 
 endif::showscript[]

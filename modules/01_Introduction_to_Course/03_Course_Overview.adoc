@@ -3,40 +3,20 @@
 :data-uri:
 == Course Overview
 
-Welcome to Red Hat OpenShift Enterprise 3.0 Training.
-In this course we will cover the following topics:
-
-* Module 01 - Introduction to Course and Learning Environment
-* Module 02 - OpenShift Enterprise 3.0 Overview  
-* Module 03 - OpenShift Enterprise 3.0 Architecture
-* Module 04 - OpenShift Enterprise 3.0 Basic Application Deployment
-* Module 05 - OpenShift Enterprise 3.0 Basic Application Management
-* Module 06 - How to Demonstrate OpenShift Enterprise 3.0 Capabilities
-* Module 07 - Useful Resources 
+Module 01 : Introduction to Course and Learning Environment
+Module 02 : OpenShift 3.0 Architecture  
+Module 03 : OpenShift 3.0 Installation
+Module 04 : Resource Management
+Module 05 : The STI Build Method
+Module 06 : Quickstarts
+Module 07 : Demonstrating OpenShift 3.0 Capabilities
 
 
-ifdef::showScript[]
+ifdef::showscript[]
 
 === Transcript
 
-Welcome to Red Hat OpenShift Enterprise 3.0 Training.
-In this course we will cover the following topics:
 
-* Introduction to Course and Learning Environment
-** We will learn how to connect to our deployed environment 
-* OpenShift Enterprise 3.0 Overview  
-** We will start with an overview of the OpenShift product family, the PaaS landscape and the use cases for OpenShift Enterprise 3.0
-* OpenShift Enterprise 3.0 Architecture
-** We will review the different components in OpenShift 3.0 and their connections.  
-* OpenShift Enterprise 3.0 Basic Application Deployment
-** We will review the process for deploying a new application on OpenShift
-* OpenShift Enterprise 3.0 Basic Application Management
-** We will learn how application management is performed in the OpenShift environment.
-* How to Demonstrate OpenShift Enterprise 3.0 Capabilities
-** We will provide and review 2 scripted demonstrations of OpenShift 3.0 that you could deliver after finishing this course.
-* Useful Resources 
-** We will list and describe useful resources for the OpenShift beginner
-
-endif::showScript[]
+endif::showscript[]
 
 

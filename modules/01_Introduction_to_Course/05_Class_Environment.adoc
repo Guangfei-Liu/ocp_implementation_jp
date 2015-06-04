@@ -4,13 +4,13 @@
 == Class Environment
 
 
-* Class related content found at : https://www.opentlc.com/classes/ose_fastrax
-* In order to perform the labs and demosntrations in this class you will provisioned the following virtual machines:
-** *Broker host* – You will be provisioned a VMs that serve as the broker for the OpenShift Enterprise environment.
-** *Node hosts* – You will be provisioned two VMs that serve as the nodes of the OpenShift Enterprise environment.
-** *oselab host* – For repositories, files, SSH "Jumpbox" and other services
+* Class related content found at https://www.opentlc.com/classes/ose_implementation.
+* Class labs and demonstrations require provisioning the following virtual machines:
+** *Master host* – VM that serves as the Master for the OpenShift Enterprise environment.
+** *Node hosts* – VMs that serve as the nodes of the OpenShift Enterprise environment.
+** *oselab host* – VM for repositories, files, SSH "Jumpbox," and other services.
 * Red Hat Enterprise Linux 7.1 is preinstalled and configured for deployment.
-* You will receive connection details via email after provisioning the environment.
+* Connection details arrive via email after you provision the environment.
 
 
 
@@ -18,10 +18,11 @@ ifdef::showscript[]
 
 === Transcript
 
-* The class uses a central cloud-based environment.
-* You will be provisioned three virtual machines for the OpenShift Enterprise environment: a broker host, a node host, and an admin host for repositories, files, and other services.
-* Red Hat Enterprise Linux is preinstalled and configured for deployment.
-* You should have received connection details via email after provisioning the environment.
+This class uses a cloud-based environment. You will provision the following hosts for your OpenShift Enterprise environment: A single Master host, two Node hosts, and an admin host for repositories, files, and other services.
+
+Red Hat Enterprise Linux is preinstalled and configured for deployment.
+
+After you provision the environment, you should receive connection details via email.
 
 
 endif::showscript[]

@@ -1,0 +1,19 @@
+:noaudio:
+:scrollbar:
+:data-uri:
+== Connection Details
+.Administration and Support Host
+[options="header",cols ="1,4",width="65"]
+|=======================
+||oselab
+|*Internal IP*|192.168.0.200
+|*External IP*|Provided
+|*DNS Name*|oselab-*GUID*.oslab.rhpds.opentlc.com
+|*Credentials*|OpenTLC Credentials
+|=======================
+
+ifdef::showscript[]
+
+endif::showscript[]
+
+

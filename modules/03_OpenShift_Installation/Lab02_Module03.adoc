@@ -1,0 +1,100 @@
+:scrollbar:
+:data-uri:
+:icons: images/icons
+:toc2:		
+
+	
+== Add Nodes to your deployment
+:numbered:	
+
+In the previous lab we have installed OpenShift Enterprise 3.0 On a single host. 
+In this lab we will learn how to add nodes to the OpenShift 3.0 environment. 
+
+ 
+
+.Configure SSH connectivity with the nodes 
+
+. Connect to your master as the `root` user.
++
+----
+[sborenst@desktop01 ~]$ ssh -i ~/.ssh/sborenstkey.pub shacharb-redhat.com@oselab-*GUID*.oslab.opentlc.com
+
+[bash-4.2$ ~] ssh root@192.168.0.100
+root@192.168.0.100's password: ******** (r3dh4t1!) 
+
+----
+
+. From the Master, ssh-copy-id to each of the nodes.
++
+----
+
+ssh-copy-id node00-$GUID.oslab.opentlc.com
+ssh-copy-id node01-$GUID.oslab.opentlc.com
+
+----
+
+
+. Disable "StrictHostKeyChecking" in /etc/ssh/ssh_config
+
++
+----
+
+echo StrictHostKeyChecking no >> /etc/ssh/ssh_config
+
+----
+
+. Test the connection settings, from the Mater run the following commands:
++
+----
+
+ssh node00-$GUID.oslab.opentlc.com "hostname -f ; date"
+ssh node01-$GUID.oslab.opentlc.com "hostname -f ; date"
+
+----
+
+:numbered!:
+
+.Configure and Run Ansible playbook
+
+. Review the Ansible host configuration file
++
+----
+cat /etc/ansible/hosts
+OUTPUT
+OUTPUT
+OUTPUT
+OUTPUT
+
+---- 
+
+. Edit the Ansible host configuration file to include the nodes in the environment 
++
+----
+
+vi /etc/ansible/hosts
+#or 
+sed -i 's/^#node0/node0/g' /etc/ansible/hosts
+
+----
+
+. Run the Ansible installer using the *ansible-playbook* command.  
++
+----
+
+ansible-playbook ~/openshift-ansible/playbooks/byo/config.yml
+
+----
+
+. After the installer is complete, check the status of your nodes using the *osc get nodes* command
++
+----
+
+osc get nodes
+NAME                      LABELS        STATUS
+ose3-master.example.com   Schedulable   <none>    Ready
+ose3-node1.example.com    Schedulable   <none>    Ready
+ose3-node2.example.com    Schedulable   <none>    Ready
+
+---- 
+
+. You have succesfully added nodes to your environment

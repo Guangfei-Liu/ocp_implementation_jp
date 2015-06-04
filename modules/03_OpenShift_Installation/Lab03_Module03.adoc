@@ -1,0 +1,194 @@
+:scrollbar:
+:data-uri:
+:icons: images/icons
+:toc2:		
+
+	
+== Regions and Zones
+:numbered:	
+
+* In the previous lab we have added 2 more nodes to our OpenShift environment. 
+* In this lab we will label these nodes into regions and zones and configure the OpenShift Scheduler.
+** Our scheduler would be configured to filter OUT nodes that are NOT in the pod's Region label.
+** Our scheduler would be configured to prioritize nodes that are NOT in our pod's Zone Label
+
+ 
+
+.Configure The Scheduler
+
+. Connect to your master as the `root` user.
++
+----
+[sborenst@desktop01 ~]$ ssh -i ~/.ssh/sborenstkey.pub shacharb-redhat.com@oselab-*GUID*.oslab.opentlc.com
+
+[bash-4.2$ ~] ssh root@192.168.0.100
+root@192.168.0.100's password: ******** (r3dh4t1!) 
+
+----
+
+. Create the Scheduler configuration file 
++
+[source,json]
+----
+
+cat << EOF >> 
+{
+  "predicates" : [
+    {"name" : "PodFitsResources"},
+    {"name" : "PodFitsPorts"},
+    {"name" : "NoDiskConflict"},
+    {"name" : "Region", "argument" : {"serviceAffinity" : { "labels" : ["region"]}}}
+  ],"priorities" : [
+    {"name" : "LeastRequestedPriority", "weight" : 1},
+    {"name" : "ServiceSpreadingPriority", "weight" : 1},
+    {"name" : "Zone", "weight" : 2, "argument" : {"serviceAntiAffinity" : { "label" : "zone" }}}
+  ]
+}
+
+EOF
+
+----
+
+
+. Configure OpenShift-Master to use our scheduler configuration file
+.. Change the "schedulerConfigFile:" line to point to our configuration file */etc/openshift/scheduler.json*
++
+----
+
+vi /etc/openshift/master.yaml
+#or
+sed -i "s/schedulerConfigFile:.*/schedulerConfigFile: \"\/etc\/openshift\/scheduler.json\"/g" /etc/openshift/master.yaml 
+
+
+----
+
+.Label the Nodes
+
+
+* We want to label our nodes in the following manner
+** master00 -- "region":"infra", "zone":"NA"
+** node00 -- "region":"primary", "zone":"east"
+** node01 -- "region":"primary", "zone":"west"
+
+:numbered:
+
+. Use the *osc get node* command to generate a .json file for us to edit
++
+----
+
+osc get node -o json > ~/nodes.json
+
+----
+
+. To be able to use *nodes.json* to update our configuration we need to remove the *"resourceVersion"* line 
++
+----
+
+sed -ie '/"resourceVersion"/d' > ~/nodes.json 
+
+----
+
+. Edit *nodes.json* to include the master and node's labels.
++
+----
+
+vi ~/nodes.json 
+
+----
+
+. Add the following to the beginning of the "metadata": {} block for your "master" node inside the files "items" list:
++
+[source,json]
+----
+
+"labels" : {
+  "region" : "infra",
+  "zone" : "NA"
+},
+
+----
+
+.. The result should look something like this: 
++
+[source,json]
+----
+{
+    "kind": "List",
+    "apiVersion": "v1beta3",
+    "items": [
+        {
+            "kind": "Node",
+            "apiVersion": "v1beta3",
+            "metadata": {
+                "labels" : {
+                  "region" : "infra",
+                  "zone" : "NA"
+                },
+                "name": "master00-GUID.oslab.opentlc.com",
+
+
+----
+
+. Add the following to node00:
++
+[source,json]
+----
+
+"labels" : {
+  "region" : "primary",
+  "zone" : "east"
+},
+
+----
+
+. Add the following to node01:
++
+[source,json]
+----
+
+"labels" : {
+  "region" : "primary",
+  "zone" : "west"
+},
+
+----
+
+:numbered!:
+
+.Apply the update to OpenShift
+:numbered:
+. Update the nodes configuration with the *osc update* command. 
++
+----
+
+osc update node -f ~/nodes.json
+
+----
+
+
+. In this version of the software (Beta3) we need to restart the openshift-node and openshift-master services for changes to take effect. 
++
+----
+
+systemctl restart openshift-master
+systemctl restart openshift-node
+ssh node00-$GUID.oslab.opentlc.com "systemctl restart openshift-node"
+ssh node01-$GUID.oslab.opentlc.com "systemctl restart openshift-node"
+
+----
+
+. Use *osc get nodes* command to review the changes that were made
++
+----
+
+osc get nodes
+
+NAME                   		 LABELS                     STATUS
+master00-r2d2.oslab.opentlc.com  region=infra,zone=NA       Ready
+node00-r2d2.oslab.opentlc.com    region=primary,zone=east   Ready
+node01-r2d2.oslab.opentlc.com    region=primary,zone=west   Ready
+
+----
+
+
+:numbered!:

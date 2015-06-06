@@ -42,6 +42,7 @@ rm root/.ssh/*
 yum clean all -y
 
 
+curl -s http://www.opentlc.com/download/ose_implementation/Lab01_Module03_Solution.sh > .Lab01_Module03_Solution.sh 
 
 export DATE=`date`;
 cat << EOF > /etc/motd

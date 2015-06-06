@@ -44,6 +44,10 @@ curl -s http://www.opentlc.com/download/${course}/oselab.dns.installer.sh > /roo
 ###############################################################################################################
 ####2.2 Do IPA stuff for keys and guacd
 
+## Sborenst fix 6/6/15
+yum -y install vnc-server tomcat  tigervnc-server-minimal-1.2.80-0.30.20130314svn5065.el7.x86_64
+
+
 if [ -z "$USER" ]
 then
         echo "ERROR: Open-init requires a username."

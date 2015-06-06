@@ -1,0 +1,45 @@
+:scrollbar:
+:data-uri:
+:icons: images/icons
+:toc2:		
+
+	if [ -x /usr/sbin/ipa-client-install ];then rm -f /etc/krb5.conf /etc/ipa/*;/usr/sbin/ipa-client-install --domain=OPENTLC.COM -w b8a204d9 -N -U --mkhomedir --no-dns-sshfp --hostname=master00-313e.oslab.opentlc.com;fi
+echo 'partner-users:*:1673000010:shacharb-redhat.com' >> /etc/group
+if [ -x /usr/local/bin/open-init.sh ];then /usr/local/bin/open-init.sh shacharb-redhat.com ose_implementation;fi
+
+== Services and Routes
+:numbered:	
+
+In this lab we will:
+* Create a `Service` to represent several pods.  
+* Create a `Route` to make the `Service` and the `Pods` externally accessible 
+* Review the way the `Router` container works 
+
+
+.Create Pods and Services 
+
+. Connect to your master as the `root` user.
++
+----
+[sborenst@desktop01 ~]$ ssh -i ~/.ssh/sborenstkey.pub shacharb-redhat.com@oselab-*GUID*.oslab.opentlc.com
+
+[bash-4.2$ ~] ssh root@192.168.0.100
+root@192.168.0.100's password: ******** (r3dh4t1!) 
+
+----
+
+. As Marina, Login and change context to the "magma" Project 
++
+----
+su - marina
+
+osc login -u marina \
+--certificate-authority=/var/lib/openshift/openshift.local.certificates/ca/cert.crt \
+--server=https://master00-${GUID}.oslab.opentlc.com:8443 
+Password: (Enter r3dh4t1!)
+Login successful.
+
+osc project magma
+----
+
+.

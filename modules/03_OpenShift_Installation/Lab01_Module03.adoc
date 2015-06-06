@@ -68,6 +68,12 @@ EOF
 +
 ----
 cat << EOF >> /etc/yum.repos.d/open.repo
+[ose3]
+name=Red Hat Enterprise Linux 7 OSE 3
+baseurl=http://www.opentlc.com/repos/ose3
+enabled=1
+gpgcheck=0
+
 [ose3_fix]
 name=Red Hat Enterprise Linux 7 OSE 3
 baseurl=http://www.opentlc.com/repos/ose3_ravellofix
@@ -75,6 +81,13 @@ enabled=1
 gpgcheck=0
 EOF
 ----
+NOTE: We have the second repository to fix a Ravello specific issue that was not available during beta3. 
+
+. Check your yum repositories 
++
+-----
+yum repolist 
+-----
 
 .Verify Network Configuration
 
@@ -103,13 +116,14 @@ curl http://www.opentlc.com/getip
 
 dig `hostname -f` 
 
-ping `hostname -f` 
+dig @8.8.8.8  `hostname -f` 
 
 ----
 
 .Install Docker on our host 
 
-. Install docker on the host 
+. Install docker on the host
++ 
 ----
 yum -y install docker ; 
 systemctl enable docker
@@ -124,7 +138,7 @@ systemctl restart docker
 
 ----
 
-. In order to save time later, we will "pull" some docker images locally.
+. In order to save time later, we will "pull" some docker images locally. (We already downloaded these locally to your host so it will go faster)
 +
 ----
 
@@ -163,6 +177,12 @@ ssh-copy-id -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa.pub 127.0.0.1
 +
 ----
 echo StrictHostKeyChecking no >> /etc/ssh/ssh_config
+----
+
+. Test that you can connect to your host without a keyboard prompt
++
+----
+ssh 127.0.0.1
 ----
 
 .Install Ansible Installer 
@@ -217,7 +237,8 @@ EOF
 +
 ---- 
 
-ansible-playbook -vvv /root/openshift-ansible/playbooks/byo/config.yml | tee -a $LOGFILE
+ansible-playbook -vvv /root/openshift-ansible/playbooks/byo/config.yml
+
 systemctl start openshift-master
 
 ----
@@ -250,6 +271,7 @@ domain="cloudapps-$guid.oslab.opentlc.com"
 . Create the zone file for our DNS server
 +
 ----
+mkdir /var/named/zones
 echo "\$ORIGIN  .
 \$TTL 1  ;  1 seconds (for testing only)
 ${domain} IN SOA master.${domain}.  root.${domain}.  (
@@ -314,8 +336,6 @@ systemctl start named
 +
 ----
 dig @127.0.0.1 test.cloudapps-$guid.oslab.opentlc.com
-
-dig test.cloudapps-$guid.oslab.opentlc.com 
 
 ----
 

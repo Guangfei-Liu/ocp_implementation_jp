@@ -35,7 +35,7 @@ root@192.168.0.100's password: ******** (r3dh4t1!)
 .. Red Hat Enterprise Linux 7 Optional
 +
 ----
-cat /etc/yum.repos.d/open.repo
+cat << EOF > /etc/yum.repos.d/open.repo
 [rhel-x86_64-server-7]
 name=Red Hat Enterprise Linux 7
 baseurl=http://www.opentlc.com/repos/rhel-x86_64-server-7
@@ -59,6 +59,7 @@ name=Red Hat Enterprise Linux 7 Optional
 baseurl=http://www.opentlc.com/repos/rhel-x86_64-server-optional-7
 enabled=1
 gpgcheck=0
+
 EOF
 
 ----

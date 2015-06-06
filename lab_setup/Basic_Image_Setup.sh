@@ -84,7 +84,7 @@ yum clean all
 
 #6. Add the open-init.sh file
 export course="ose_fastrax";
-curl http://www.opentlc.com/download/${course}/${course}.open-init.sh > /usr/local/bin/open-init.sh
+curl http://www.opentlc.com/download/${course}/open-init.sh > /usr/local/bin/open-init.sh
 chmod +x  /usr/local/bin/open-init.sh
 
 #7. configure ssh-keygen and ssh-copy-id

@@ -12,84 +12,123 @@ In this lab we will learn how to add nodes to the OpenShift 3.0 environment.
 
  
 
-.Configure SSH connectivity with the nodes 
+=== Configure SSH connectivity with the nodes 
 
-. Connect to your master as the `root` user.
+. If not already connected, connect to your administration host *oselab* (your private key location may vary):
 +
 ----
-[sborenst@desktop01 ~]$ ssh -i ~/.ssh/sborenstkey.pub shacharb-redhat.com@oselab-*GUID*.oslab.opentlc.com
 
-[bash-4.2$ ~] ssh root@192.168.0.100
+yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-*GUID*.oslab.opentlc.com
+
+----
+
+. Become the `root` user:
++
+----
+
+-bash-4.2$ sudo -i
+
+----
+
+. SSH to the master host:
++
+----
+
+[root@oselab-5485 ~]# ssh 192.168.0.100
+
+----
++
+[NOTE]
+If prompted for a password use *r3dh4t1!*
++
+----
+
 root@192.168.0.100's password: ******** (r3dh4t1!) 
 
 ----
 
-. From the Master, ssh-copy-id to each of the nodes.
+. From the master host use ssh-copy-id to copy the public SSH key to each of the nodes:
 +
 ----
 
-ssh-copy-id node00-$GUID.oslab.opentlc.com
-ssh-copy-id node01-$GUID.oslab.opentlc.com
+[root@master00-GUID ~]# GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
+[root@master00-GUID ~]# ssh-copy-id node00-$GUID.oslab.opentlc.com
+[root@master00-GUID ~]# ssh-copy-id node01-$GUID.oslab.opentlc.com
 
 ----
-
-
-. Disable "StrictHostKeyChecking" in /etc/ssh/ssh_config
-
++
+[NOTE]
+If prompted for a password use *r3dh4t1!*
 +
 ----
 
-echo StrictHostKeyChecking no >> /etc/ssh/ssh_config
+root@192.168.0.100's password: ******** (r3dh4t1!) 
 
 ----
 
-. Test the connection settings, from the Mater run the following commands:
+. From the master host test passwordless SSH connections to the nodes:
 +
 ----
 
-ssh node00-$GUID.oslab.opentlc.com "hostname -f ; date"
-ssh node01-$GUID.oslab.opentlc.com "hostname -f ; date"
+[root@master00-GUID ~]# ssh node00-$GUID.oslab.opentlc.com "hostname -f ; date"
+[root@master00-GUID ~]# ssh node01-$GUID.oslab.opentlc.com "hostname -f ; date"
 
 ----
 
 :numbered!:
 
-.Configure and Run Ansible playbook
+=== Reconfigure and Re-run the Ansible Playbook to Add Nodes
 
-. Review the Ansible host configuration file
+. Review the Ansible host configuration file on the master host and note there is only one host under [nodes]:
 +
 ----
-cat /etc/ansible/hosts
-OUTPUT
-OUTPUT
-OUTPUT
-OUTPUT
+
+[root@master00-GUID ~]# cat /etc/ansible/hosts
+...
 
 ---- 
 
-. Edit the Ansible host configuration file to include the nodes in the environment 
+. Edit the Ansible host configuration file on the master host so that it includes the two nodes under the [nodes] section: 
 +
 ----
 
-vi /etc/ansible/hosts
-#or 
-sed -i 's/^#node0/node0/g' /etc/ansible/hosts
+[root@master00-GUID ~]# echo "node00-$GUID.oslab.opentlc.com" >> /etc/ansible/hosts
+[root@master00-GUID ~]# echo "node01-$GUID.oslab.opentlc.com" >> /etc/ansible/hosts
 
 ----
 
-. Run the Ansible installer using the *ansible-playbook* command.  
+. Look at the Ansible host configuration file [nodes] section on the master host again:
 +
 ----
 
-ansible-playbook ~/openshift-ansible/playbooks/byo/config.yml
+[root@master00-GUID ~]# cat /etc/ansible/hosts
+
+...
+[nodes]
+master00-5485.oslab.opentlc.com
+
+node00-5485.oslab.opentlc.com
+node01-5485.oslab.opentlc.com
+...
 
 ----
 
-. After the installer is complete, check the status of your nodes using the *osc get nodes* command
+. Run the Ansible installer on the master host again using the `ansible-playbook` command:
 +
 ----
 
-osc get nodes
+[root@master00-GUID ~]# ansible-playbook ~/openshift-ansible/playbooks/byo/config.yml
+
+----
++
+[NOTE]
+This will take a while to complete.  This is a good time for a break.
+
+. After the installer is complete, check the status of your nodes using the *osc get nodes* command on the master host:
++
+----
+
+[root@master00-GUID ~]# osc get nodes
 NAME                      LABELS        STATUS
 ose3-master.example.com   Schedulable   <none>    Ready
 ose3-node1.example.com    Schedulable   <none>    Ready
@@ -97,4 +136,4 @@ ose3-node2.example.com    Schedulable   <none>    Ready
 
 ---- 
 
-. You have succesfully added nodes to your environment
+*You have succesfully added nodes to your environment.*

@@ -109,7 +109,7 @@ EOF
 
 ----
 
-. Enter your favorite editort to edit *nodes.json* for the next few steps:
+. Use your favorite editor to edit *nodes.json* for the next few steps:
 +
 ----
 

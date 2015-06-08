@@ -8,30 +8,54 @@
 :numbered:	
 
 * In the previous lab we have added 2 more nodes to our OpenShift environment. 
+
 * In this lab we will label these nodes into regions and zones and configure the OpenShift Scheduler.
+
 ** Our scheduler would be configured to filter OUT nodes that are NOT in the pod's Region label.
+
 ** Our scheduler would be configured to prioritize nodes that are NOT in our pod's Zone Label
 
- 
+=== Configure The Scheduler
 
-.Configure The Scheduler
-
-. Connect to your master as the `root` user.
+. If not already connected, connect to your administration host *oselab* (your private key location may vary):
 +
 ----
-[sborenst@desktop01 ~]$ ssh -i ~/.ssh/sborenstkey.pub shacharb-redhat.com@oselab-*GUID*.oslab.opentlc.com
 
-[bash-4.2$ ~] ssh root@192.168.0.100
+yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-*GUID*.oslab.opentlc.com
+
+----
+
+. Become the `root` user:
++
+----
+
+-bash-4.2$ sudo -i
+
+----
+
+. SSH to the master host:
++
+----
+
+[root@oselab-GUID ~]# ssh 192.168.0.100
+
+----
++
+[NOTE]
+If prompted for a password use *r3dh4t1!*
++
+----
+
 root@192.168.0.100's password: ******** (r3dh4t1!) 
 
 ----
 
-. Create the Scheduler configuration file 
+. Create a Scheduler configuration file on the master host
 +
 [source,json]
 ----
 
-cat << EOF >> 
+[root@master00-GUID ~]# cat << EOF > /etc/openshift/scheduler.json
 {
   "predicates" : [
     {"name" : "PodFitsResources"},
@@ -48,7 +72,6 @@ cat << EOF >>
 EOF
 
 ----
-
 
 . Configure OpenShift-Master to use our scheduler configuration file
 .. Change the "schedulerConfigFile:" line to point to our configuration file */etc/openshift/scheduler.json*

@@ -52,7 +52,6 @@ root@192.168.0.100's password: ******** (r3dh4t1!)
 
 . Create a Scheduler configuration file on the master host:
 +
-[source,json]
 ----
 
 [root@master00-GUID ~]# cat << EOF > /etc/openshift/scheduler.json
@@ -120,7 +119,6 @@ vi ~/nodes.json
 
 . To set the master's labels, search for the metadata section with "name": "master00-GUID.oslab.opentlc.com" and add the following before that "name" setting (ignore the blank metadata section on the 4th line):
 +
-[source,json]
 ----
 
                 "labels" : {
@@ -135,7 +133,6 @@ Formatting means everything in JSON.  You must make sure the format is 100% corr
 
 .. The result should look something like this: 
 +
-[source,json]
 ----
 {
     "kind": "List",
@@ -156,7 +153,6 @@ Formatting means everything in JSON.  You must make sure the format is 100% corr
 
 . Add the following to the node00 section:
 +
-[source,json]
 ----
 
                 "labels" : {
@@ -168,7 +164,6 @@ Formatting means everything in JSON.  You must make sure the format is 100% corr
 
 . Add the following to node01 section:
 +
-[source,json]
 ----
 
                 "labels" : {

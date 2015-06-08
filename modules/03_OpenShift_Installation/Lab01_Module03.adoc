@@ -444,18 +444,17 @@ zone \"${domain}\" IN {
 +
 ----
 
-chgrp named -R /var/named
-chown named -R /var/named/zones
-restorecon -R /var/named
-
-chown root:named /etc/named.conf
-restorecon /etc/named.conf
-
-systemctl start named
+[root@oselab-GUID ~]# chgrp named -R /var/named
+[root@oselab-GUID ~]# chown named -R /var/named/zones
+[root@oselab-GUID ~]# restorecon -R /var/named
+[root@oselab-GUID ~]# chown root:named /etc/named.conf
+[root@oselab-GUID ~]# restorecon /etc/named.conf
+[root@oselab-GUID ~]# systemctl start named
 
 ----
 
-. Verify DNS configuration:
+=== Verify DNS configuration:
+
 .. First try locally on the administration host
 .. Then you could try from your laptop/desktop, this might take a few minutes to be updated. 
 +

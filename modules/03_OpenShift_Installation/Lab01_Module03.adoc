@@ -475,21 +475,3 @@ zone \"${domain}\" IN {
 yourhost$ nslookup test.cloudapps-GUID.oslab.opentlc.com
 
 ----
-
-=== Test deployment
-
-. Create the test environment from the administration host command line:
-+
-----
-
-[root@oselab-GUID ~]# osc create -f test.environment.json 
-
-----
-
-. Delete the test environment from the administration host command line:
-+
-----
-
-[root@oselab-GUID ~]# osc delete -f test.environment.json
-
-----

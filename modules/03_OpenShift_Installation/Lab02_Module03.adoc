@@ -4,13 +4,11 @@
 :toc2:		
 
 	
-== Add Nodes to your deployment
+== Add Nodes to the Environment
 :numbered:	
 
 In the previous lab we have installed OpenShift Enterprise 3.0 On a single host. 
 In this lab we will learn how to add nodes to the OpenShift 3.0 environment. 
-
- 
 
 === Configure SSH connectivity with the nodes 
 

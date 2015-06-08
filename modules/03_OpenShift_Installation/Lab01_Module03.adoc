@@ -29,15 +29,18 @@ In this lab we will Deploy OpenShift Enterprise on a single host (in later labs 
 Take note that all of the steps in the lab may change when OpenShift 3.0 goes GA.  This course was built on a beta build.
 
 === Configure the Repositories
-. If not already connected, connect to your administration host (your private key location may vary):
+. If not already connected, connect to your administration host *oselab* (your private key location may vary):
 +
 ----
+
 yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-*GUID*.oslab.opentlc.com
+
 ----
 
 . Become the `root` user:
 +
 ----
+
 -bash-4.2$ sudo -i
 
 ----
@@ -45,6 +48,7 @@ yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-*GUID*.oslab.opentlc
 . SSH to the master host:
 +
 ----
+
 [root@oselab-5485 ~]# ssh 192.168.0.100
 
 ----
@@ -53,6 +57,7 @@ yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-*GUID*.oslab.opentlc
 If prompted for a password use *r3dh4t1!*
 +
 ----
+
 root@192.168.0.100's password: ******** (r3dh4t1!) 
 
 ----
@@ -96,6 +101,7 @@ EOF
 . Add the OpenShift Beta3 repository to the master host:
 +
 ----
+
 [root@master00-GUID ~]# cat << EOF >> /etc/yum.repos.d/open.repo
 [ose3]
 name=Red Hat Enterprise Linux 7 OSE 3
@@ -109,17 +115,21 @@ baseurl=http://www.opentlc.com/repos/ose3_ravellofix
 enabled=1
 gpgcheck=0
 EOF
+
 ----
 NOTE: We have the second repository to fix a Ravello specific issue that was not available during beta3. 
 
 . List the available repositories on the master host:
 +
 -----
+
 [root@master00-GUID ~]# yum repolist 
+
 -----
 +
 .You should see the following:
 ----
+
 repo id                           repo name                               status
 ose3                              Red Hat Enterprise Linux 7 OSE 3           16
 ose3_fix                          Red Hat Enterprise Linux 7 OSE 3            4
@@ -158,6 +168,7 @@ master00-GUID.oslab.opentlc.com
 . Take note of the internal IP address:
 +
 ----
+
 [root@master00-GUID ~]# ip address show dev eth0|grep "inet "|awk '{print $2}'|cut -f1 -d/
 
 ----
@@ -191,6 +202,7 @@ master00-GUID.oslab.opentlc.com
 . Install *Docker* on the master host and then enable the *Docker* service:
 + 
 ----
+
 [root@master00-GUID ~]# yum -y install docker
 [root@master00-GUID ~]# systemctl enable docker
 
@@ -199,6 +211,7 @@ master00-GUID.oslab.opentlc.com
 . Configure the *Docker* registry on the master host then restart the *Docker* service:
 +
 ----
+
 [root@master00-GUID ~]# sed -i "s/OPTIONS.*/OPTIONS='--selinux-enabled --insecure-registry 0.0.0.0\/0'/" \
     /etc/sysconfig/docker
 [root@master00-GUID ~]# systemctl restart docker
@@ -253,7 +266,9 @@ docker pull openshift/hello-openshift
 . Configure */etc/ssh/ssh_conf* to disable *StrictHostKeyChecking* on the master host (only for development, testing, or demos!):
 +
 ----
+
 [root@master00-GUID ~]# echo StrictHostKeyChecking no >> /etc/ssh/ssh_config
+
 ----
 
 . From the master host test the new SSH key by connecting to itself over the loopback interface without a keyboard prompt:
@@ -336,36 +351,50 @@ EOF
 [NOTE]
 Running the Ansible installer will take a few minutes to run.  This is a good time for a break.
 
-.Configure a DNS on our *oselab* server to serve our OpenShift environment.
+=== Configure Wildcard DNS to Service the OpenShift Environment.
 
-. Connect to your *oselab* as the `root` user:
+. If not already connected, connect to your administration host *oselab* (your private key location may vary):
 +
 ----
-[sborenst@desktop01 ~]$ ssh -i ~/.ssh/sborenstkey.pub shacharb-redhat.com@oselab-*GUID*.oslab.opentlc.com
-su -
+
+yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-*GUID*.oslab.opentlc.com
+
 ----
 
-. Install *bind* on the *oselab* host:
+. Become the `root` user:
 +
-----
-yum -y install bind bind-utils
-systemctl enable named
-systemctl stop named
 ----
 
-. Collect and define our environment's information:
-+
-----
-guid=`hostname|cut -f2 -d-|cut -f1 -d.`
-masterIP=`host master00-$guid.oslab.opentlc.com ipa.opentlc.com  | grep $guid | awk '{ print $4 }'`
-domain="cloudapps-$guid.oslab.opentlc.com"
+-bash-4.2$ sudo -i
+
 ----
 
-. Create the zone file for our DNS server:
+. Install *BIND* on the administration host (*oselab*) then enable but stop the service:
 +
 ----
-mkdir /var/named/zones
-echo "\$ORIGIN  .
+
+[root@oselab-GUID ~]# yum -y install bind bind-utils
+[root@oselab-GUID ~]# systemctl enable named
+[root@oselab-GUID ~]# systemctl stop named
+
+----
+
+. On the admistration host collect and define the environment's information:
++
+----
+
+[root@oselab-GUID ~]# guid=`hostname|cut -f2 -d-|cut -f1 -d.`
+[root@oselab-GUID ~]# masterIP=`host master00-$guid.oslab.opentlc.com ipa.opentlc.com | grep $guid | awk '{ print $4 }'`
+[root@oselab-GUID ~]# domain="cloudapps-$guid.oslab.opentlc.com"
+
+----
+
+. On the administration host create the zone file with the wildcard DNS:
++
+----
+
+[root@oselab-GUID ~]# mkdir /var/named/zones
+[root@oselab-GUID ~]# echo "\$ORIGIN  .
 \$TTL 1  ;  1 seconds (for testing only)
 ${domain} IN SOA master.${domain}.  root.${domain}.  (
   2011112904  ;  serial
@@ -378,14 +407,14 @@ ${domain} IN SOA master.${domain}.  root.${domain}.  (
 \$ORIGIN ${domain}.
 test A ${masterIP}
 * A ${masterIP}"  >  /var/named/zones/${domain}.db
+
 ----
 
-
-
-. Configure named.conf:
+. Configure named.conf on the administration host:
 +
 ----
-echo "// named.conf
+
+[root@oselab-GUID ~]# echo "// named.conf
 options {
   listen-on port 53 { any; };
   directory \"/var/named\";
@@ -408,11 +437,13 @@ zone \"${domain}\" IN {
   file \"zones/${domain}.db\";
   allow-update { key ${domain} ; } ;
 };" > /etc/named.conf
+
 ----
 
-. Correct file permissions and start our DNS server, *named*:
+. On the administration host correct file permissions and start the DNS server:
 +
 ----
+
 chgrp named -R /var/named
 chown named -R /var/named/zones
 restorecon -R /var/named
@@ -421,30 +452,36 @@ chown root:named /etc/named.conf
 restorecon /etc/named.conf
 
 systemctl start named
+
 ----
 
 . Verify DNS configuration:
-.. First try locally
+.. First try locally on the administration host
 .. Then you could try from your laptop/desktop, this might take a few minutes to be updated. 
 +
 ----
-dig @127.0.0.1 test.cloudapps-$guid.oslab.opentlc.com
+
+[root@oselab-GUID ~]# dig @127.0.0.1 test.cloudapps-$guid.oslab.opentlc.com
+[root@oselab-GUID ~]# dig @8.8.8.8 test.cloudapps-$guid.oslab.opentlc.com
+
+yourhost$ nslookup test.cloudapps-$guid.oslab.opentlc.com
 
 ----
 
-.Test deployment
+=== Test deployment
 
-. Create the test environment:
+. Create the test environment from the administration host command line:
 +
 ----
-curl http://
 
-osc create -f test.environment.json 
+[root@oselab-GUID ~]# osc create -f test.environment.json 
 
 ----
 
-. Delete the test environment:
+. Delete the test environment from the administration host command line:
 +
 ----
-osc delete -f test.environment.json
+
+[root@oselab-GUID ~]# osc delete -f test.environment.json
+
 ----

@@ -465,14 +465,14 @@ zone \"${domain}\" IN {
 === Verify DNS configuration:
 
 .. First try locally on the administration host
-.. Then you could try from your laptop/desktop, this might take a few minutes to be updated. 
+.. Then you could try from your laptop/desktop, this might take a few minutes to be updated.  Be sure to replace GUID with the correct GUID.
 +
 ----
 
 [root@oselab-GUID ~]# dig @127.0.0.1 test.cloudapps-$guid.oslab.opentlc.com
 [root@oselab-GUID ~]# dig @8.8.8.8 test.cloudapps-$guid.oslab.opentlc.com
 
-yourhost$ nslookup test.cloudapps-*GUID*.oslab.opentlc.com
+yourhost$ nslookup test.cloudapps-GUID.oslab.opentlc.com
 
 ----
 

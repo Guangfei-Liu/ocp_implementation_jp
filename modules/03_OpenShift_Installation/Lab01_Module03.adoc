@@ -453,6 +453,15 @@ zone \"${domain}\" IN {
 
 ----
 
+. Configure FirewallD on the administation host to allow inbound DNS queries:
++
+----
+
+[root@oselab-GUID bin]# firewall-cmd --zone=public --add-service=dns --permanent
+[root@oselab-GUID bin]# firewall-cmd --reload
+
+----
+
 === Verify DNS configuration:
 
 .. First try locally on the administration host

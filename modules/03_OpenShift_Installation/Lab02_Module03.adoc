@@ -83,6 +83,8 @@ root@192.168.0.100's password: ******** (r3dh4t1!)
 
 [root@master00-GUID ~]# cat /etc/ansible/hosts
 ...
+[nodes]
+master00-GUID.oslab.opentlc.com
 
 ---- 
 
@@ -103,10 +105,10 @@ root@192.168.0.100's password: ******** (r3dh4t1!)
 
 ...
 [nodes]
-master00-5485.oslab.opentlc.com
+master00-GUID.oslab.opentlc.com
 
-node00-5485.oslab.opentlc.com
-node01-5485.oslab.opentlc.com
+node00-GUID.oslab.opentlc.com
+node01-GUID.oslab.opentlc.com
 ...
 
 ----

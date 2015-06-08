@@ -129,10 +129,10 @@ This will take a while to complete.  This is a good time for a break.
 ----
 
 [root@master00-GUID ~]# osc get nodes
-NAME                      LABELS        STATUS
-ose3-master.example.com   Schedulable   <none>    Ready
-ose3-node1.example.com    Schedulable   <none>    Ready
-ose3-node2.example.com    Schedulable   <none>    Ready
+NAME                              LABELS        STATUS
+master00-GUID.oslab.opentlc.com   Schedulable   <none>    Ready
+node00-GUID.oslab.opentlc.com     Schedulable   <none>    NotReady
+node01-GUID.oslab.opentlc.com     Schedulable   <none>    NotReady
 
 ---- 
 

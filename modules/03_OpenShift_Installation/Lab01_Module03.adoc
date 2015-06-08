@@ -49,7 +49,7 @@ yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-*GUID*.oslab.opentlc
 +
 ----
 
-[root@oselab-5485 ~]# ssh 192.168.0.100
+[root@oselab-GUID ~]# ssh 192.168.0.100
 
 ----
 +

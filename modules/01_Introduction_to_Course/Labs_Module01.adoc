@@ -14,7 +14,7 @@ To do the labs in this training, you must provision the lab environment, which p
 [TIP]
 If you forgot your username or password, go to https://www.opentlc.com/pwm to reset your password or obtain a user name reminder. 
 
-. Navigate to *Services* -> *Catalogs* -> *All Services* -> *OPENTLC Cloud Infrastructure*.
+. Navigate to *Services* -> *Catalogs* -> *All Services* -> *OPENTLC Cloud Infrastructure Labs*.
 
 . On the left side of the screen, locate *OpenShift Enterprise 3.0 Implementation Lab* and click  *Order*  (appears on the right).
 

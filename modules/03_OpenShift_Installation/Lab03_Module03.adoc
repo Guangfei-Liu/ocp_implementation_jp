@@ -50,7 +50,7 @@ root@192.168.0.100's password: ******** (r3dh4t1!)
 
 ----
 
-. Create a Scheduler configuration file on the master host
+. Create a Scheduler configuration file on the master host:
 +
 [source,json]
 ----
@@ -74,7 +74,7 @@ EOF
 ----
 
 . Configure OpenShift-Master to use our scheduler configuration file
-.. On the master host change the /etc/openshift.master.yaml file "schedulerConfigFile:" line to point to our configuration file */etc/openshift/scheduler.json*
+.. On the master host change the /etc/openshift.master.yaml file "schedulerConfigFile:" line to point to our configuration file */etc/openshift/scheduler.json*:
 +
 ----
 
@@ -94,7 +94,7 @@ EOF
 
 :numbered:
 
-. On the master host use the *osc get node* command to generate a .json file for us to edit
+. On the master host use the *osc get node* command to generate a .json file for us to edit:
 +
 ----
 
@@ -102,7 +102,7 @@ EOF
 
 ----
 
-. To be able to use *nodes.json* to update our configuration we need to remove the *"resourceVersion"* line 
+. To be able to use *nodes.json* to update our configuration we need to remove the *"resourceVersion"* line :
 +
 ----
 
@@ -184,7 +184,7 @@ Formatting means everything in JSON.  You must make sure the format is 100% corr
 
 === Apply the update to OpenShift
 :numbered:
-. From the master host, update the nodes configuration with the *osc update* command. 
+. From the master host, update the nodes configuration with the *osc update* command:
 +
 ----
 
@@ -193,7 +193,7 @@ Formatting means everything in JSON.  You must make sure the format is 100% corr
 ----
 
 
-. In this version of the software (Beta3) we need to restart the openshift-node and openshift-master services for changes to take effect.  Run all the commands from the master host.
+. In this version of the software (Beta3) we need to restart the `openshift-node` and `openshift-master` services for changes to take effect.  Run all the commands from the master host:
 +
 ----
 
@@ -205,7 +205,7 @@ Formatting means everything in JSON.  You must make sure the format is 100% corr
 
 ----
 
-. On the master host use *osc get nodes* command to review the changes that were made
+. On the master host use *osc get nodes* command to review the changes that were made:
 +
 ----
 

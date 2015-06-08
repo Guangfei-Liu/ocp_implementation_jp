@@ -472,7 +472,7 @@ zone \"${domain}\" IN {
 [root@oselab-GUID ~]# dig @127.0.0.1 test.cloudapps-$guid.oslab.opentlc.com
 [root@oselab-GUID ~]# dig @8.8.8.8 test.cloudapps-$guid.oslab.opentlc.com
 
-yourhost$ nslookup test.cloudapps-$guid.oslab.opentlc.com
+yourhost$ nslookup test.cloudapps-*GUID*.oslab.opentlc.com
 
 ----
 

@@ -20,4 +20,10 @@ gpgcheck=0
 EOF
 
 echo "Hostname is `hostname`" >> $LOGFILE
+ 
+systemctl restart firewalld
+# add eth0 to public zone
+firewall-cmd --zone public --add-interface=eth0
+
+
 echo "----Completed Host Specific Script `date`" | tee -a $LOGFILE

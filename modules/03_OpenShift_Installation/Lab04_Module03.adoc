@@ -124,6 +124,8 @@ The following should be returned:
 [NOTE]
 The Registry could take up to a couple of minutes to go on-line
 
+*You have successfully deployed the registry*
+
 === Deploy the Router
 
 . On the master host run the *osadm router* command to create the *Router* container

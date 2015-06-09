@@ -126,6 +126,61 @@ The Registry could take up to a couple of minutes to go on-line
 
 *You have successfully deployed the registry*
 
+=== Redeploy Docker Registry to Primary Region
+
+. On the master host edit the *deploymentConfig* of the *docker-registry* to allow deployment only in the "primary" region.  Search for *podTemplate* then on the next line add the *nodeSelector* section at the same level as *desiredState*.  Under that add *region: primary*:  
++
+----
+
+[root@master00-GUID ~]# osc edit deploymentConfigs/docker-registry
+
+----
++
+Add the following under podTemplate:
++
+----
+
+      nodeSelector:
+        region: primary
+        
+----
+
+. After editing the *DeploymentConfig* should look like this:
++
+----
+
+template:
+  controllerTemplate:
+    podTemplate:
+      nodeSelector:
+        region: primary
+      desiredState:
+        manifest:
+
+----
+
+. Write the file and exit the editor.
+
+. On the master host run the `osc get pods` command until the  *docker-registry* is moved to the correct host (Your node01 host):
++
+----
+
+[root@master00-GUID ~]# osc get pods
+
+----
++
+The following should be returned, take note of the host running the *docker-registry*:
++
+----
+
+...OUTPUT OMITTED...
+docker-registry-2-4w2pn   10.1.2.6   registry       registry.access.redhat.com/openshift3_beta/ose-docker-registry:v0.4.3.2   node01-GUID.oslab.opentlc.com/192.168.0.201     deployment=docker-registry-2,deploymentconfig=docker-registry,docker-registry=default   Running   17 seconds
+...OUTPUT OMITTED...
+
+----
+
+*You have successfully moved the docker registry to the primary region.*
+
 === Deploy the Router
 
 . On the master host run the *osadm router* command to create the *Router* container
@@ -247,16 +302,19 @@ The following should be returned:
 +
 ----
 
-POD                       IP         CONTAINER(S)   IMAGE(S)                                                                  HOST                                          LABELS                                                                                  STATUS    CREATED
-docker-registry-1-lfx8b   10.1.1.2   registry       registry.access.redhat.com/openshift3_beta/ose-docker-registry:v0.4.3.2   node00-GUID.oslab.opentlc.com/192.168.0.200   deployment=docker-registry-1,deploymentconfig=docker-registry,docker-registry=default   Running   2 hours
+...OUTPUT OMITTED...
 router-1-ioqfa            10.1.2.4   router         registry.access.redhat.com/openshift3_beta/ose-haproxy-router:v0.4.3.2    node01-GUID.oslab.opentlc.com/192.168.0.201   deployment=router-1,deploymentconfig=router,router=router                               Running   9 minutes
+...OUTPUT OMITTED...
 
 ----
-+
+
+*You have successfully deployed the router.*
+
+=== Redeploy Router in Infra Region
 
 . In this lab environment*, we must require that our *router* always runs on the *master00* host.  This is due to the fact that our dns wildcard record pointing to the master. In *real-life deployments* you could deploy multiple *router* containers and have your DNS wildcard loadblanced between them.  
 
-. On the master host edit the *deploymentConfig* of the *router* to allow deployment only in the "infra" region.  Search for podTemplate then on the next line add the nodeSelector section at the same level as desiredState.  Under that add region: infra:  
+. On the master host edit the *deploymentConfig* of the *router* to allow deployment only in the "infra" region.  Search for *podTemplate* then on the next line add the *nodeSelector* section at the same level as *desiredState*.  Under that add *region: infra*:  
 +
 ----
 
@@ -304,10 +362,9 @@ The following should be returned, take note of the host running the router:
 +
 ----
 
-POD                       IP         CONTAINER(S)   IMAGE(S)                                                                  HOST                                            LABELS                                                                                  STATUS    CREATED
-docker-registry-1-lfx8b   10.1.1.2   registry       registry.access.redhat.com/openshift3_beta/ose-docker-registry:v0.4.3.2   node00-GUID.oslab.opentlc.com/192.168.0.200     deployment=docker-registry-1,deploymentconfig=docker-registry,docker-registry=default   Running   3 hours
+...OUTPUT OMITTED...
 router-2-inbv8            10.1.0.2   router         registry.access.redhat.com/openshift3_beta/ose-haproxy-router:v0.4.3.2    master00-GUID.oslab.opentlc.com/192.168.0.100   deployment=router-2,deploymentconfig=router,router=router                               Running   23 seconds
 
 ----
 
-*You have successfully deployed the router*
+*You have successfully redeployed the router into the infra region.*

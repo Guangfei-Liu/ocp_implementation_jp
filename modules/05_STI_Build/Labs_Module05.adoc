@@ -359,27 +359,3 @@ Hello, Sinatra!
 ----
 
 . Try accessing the http://mysinatra.cloudapps-GUID.oslab.opentlc.com URL from your desktop system (replacing GUID with the correct GUID.
-
-===
-* Using what you learned in this chapter:
-
-** Create an application using the git repository:
-
-*** https://github.com/openshift/simple-openshift-sinatra-sti
-
-** Use the RHEL7 Based base image.
-
-** Start your build from the command line and create a route for your application.
-
-
-
-
-
-
-
-
-
-
-
-
- 

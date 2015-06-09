@@ -1,7 +1,7 @@
-== Chapter Progress         
-
-image::images/Chapter05_Section04.png[width=852,height=672]
-
+:scrollbar:
+:data-uri:
+:icons: images/icons
+:toc2:		
 
 == Create your first STI Build
 

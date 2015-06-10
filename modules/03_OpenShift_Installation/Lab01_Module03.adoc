@@ -553,7 +553,7 @@ test A ${masterIP}
 
 ----
 
-. Configure named.conf on the administration host:
+. Configure `named.conf` on the administration host:
 +
 ----
 
@@ -615,13 +615,33 @@ zone \"${domain}\" IN {
 
 === Verify DNS configuration:
 
-.. First try locally on the administration host
-.. Then you could try from your laptop/desktop, this might take a few minutes to be updated.  Be sure to replace GUID with the correct GUID.
+. First try the dns server running on the administration host:
 +
 ----
 
-[root@oselab-GUID ~]# dig @127.0.0.1 test.cloudapps-$guid.oslab.opentlc.com
-[root@oselab-GUID ~]# dig @8.8.8.8 test.cloudapps-$guid.oslab.opentlc.com
+[root@oselab-GUID ~]# host test.cloudapps-$guid.oslab.opentlc.com 127.0.0.1
+
+----
+
+. Second try using an external name server:
++
+----
+
+[root@oselab-GUID ~]# host test.cloudapps-$guid.oslab.opentlc.com 8.8.8.8
+
+----
++
+[NOTE]
+The first time you query 8.8.8.8 you may see a lag an an error:
+`;; connection timed out; trying next origin
+Host test.cloudapps-GIOD.oslab.opentlc.com not found: 3(NXDOMAIN)`
+This is normal.  if you do the test again, it will go faster and not error out.
+
+. Lastly from your laptop/desktop, this might take a few minutes to be updated.  Be sure to replace GUID with the correct GUID.
++
+----
+
+[root@oselab-GUID ~]# host test.cloudapps-$guid.oslab.opentlc.com 8.8.8.8
 
 yourhost$ nslookup test.cloudapps-GUID.oslab.opentlc.com
 

@@ -641,8 +641,6 @@ This is normal.  if you do the test again, it will go faster and not error out.
 +
 ----
 
-[root@oselab-GUID ~]# host test.cloudapps-$guid.oslab.opentlc.com 8.8.8.8
-
 yourhost$ nslookup test.cloudapps-GUID.oslab.opentlc.com
 
 ----

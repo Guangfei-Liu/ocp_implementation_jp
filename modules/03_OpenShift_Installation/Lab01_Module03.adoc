@@ -192,11 +192,32 @@ master00-GUID.oslab.opentlc.com
 
 === Install Docker 
 
-. Install *Docker* on the master host and then enable the *Docker* service:
+. Install *Docker* on the master host
 + 
 ----
 
 [root@master00-GUID ~]# yum -y install docker
+
+----
+
+. Run `docker-storage-setup` to create logical volumes for *Docker*:
+----
+
+[root@master00-GUID ~]# docker-storage-setup
+  Rounding up size to full physical extent 32.00 MiB
+  Logical volume "docker-poolmeta" created.
+  Logical volume "docker-pool" created.
+  WARNING: Converting logical volume rhel_host2cc260760b15/docker-pool and rhel_host2cc260760b15/docker-poolmeta to pool's data and metadata volumes.
+  THIS WILL DESTROY CONTENT OF LOGICAL VOLUME (filesystem etc.)
+  Converted rhel_host2cc260760b15/docker-pool to thin pool.
+  Logical volume "docker-pool" changed.
+  
+----
+
+. Enable the *Docker* service:
++
+----
+
 [root@master00-GUID ~]# systemctl enable docker
 
 ----

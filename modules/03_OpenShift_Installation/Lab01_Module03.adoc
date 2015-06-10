@@ -514,13 +514,11 @@ yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-*GUID*.oslab.opentlc
 
 ----
 
-. Install *BIND* on the administration host (*oselab*) then enable but stop the service:
+. Install *BIND* on the administration host (*oselab*):
 +
 ----
 
 [root@oselab-GUID ~]# yum -y install bind bind-utils
-[root@oselab-GUID ~]# systemctl enable named
-[root@oselab-GUID ~]# systemctl stop named
 
 ----
 
@@ -594,6 +592,14 @@ zone \"${domain}\" IN {
 [root@oselab-GUID ~]# restorecon -R /var/named
 [root@oselab-GUID ~]# chown root:named /etc/named.conf
 [root@oselab-GUID ~]# restorecon /etc/named.conf
+
+----
+
+. Enable and start *BIND* on the administration host:
++
+----
+
+[root@oselab-GUID ~]# systemctl enable named
 [root@oselab-GUID ~]# systemctl start named
 
 ----

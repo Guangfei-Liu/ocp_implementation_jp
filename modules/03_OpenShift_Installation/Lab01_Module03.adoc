@@ -105,19 +105,13 @@ EOF
 [root@master00-GUID ~]# cat << EOF >> /etc/yum.repos.d/open.repo
 [ose3]
 name=Red Hat Enterprise Linux 7 OSE 3
-baseurl=http://www.opentlc.com/repos/ose3
+baseurl=http://www.opentlc.com/repos/ose3_beta4
 enabled=1
 gpgcheck=0
 
-[ose3_fix]
-name=Red Hat Enterprise Linux 7 OSE 3
-baseurl=http://www.opentlc.com/repos/ose3_ravellofix
-enabled=1
-gpgcheck=0
 EOF
 
 ----
-NOTE: We have the second repository to fix a Ravello specific issue that was not available during beta3. 
 
 . List the available repositories on the master host:
 +
@@ -132,7 +126,6 @@ NOTE: We have the second repository to fix a Ravello specific issue that was not
 
 repo id                           repo name                               status
 ose3                              Red Hat Enterprise Linux 7 OSE 3           16
-ose3_fix                          Red Hat Enterprise Linux 7 OSE 3            4
 rhel-x86_64-server-7              Red Hat Enterprise Linux 7              4,387
 rhel-x86_64-server-extras-7       Red Hat Enterprise Linux 7 Extras          19
 rhel-x86_64-server-optional-7     Red Hat Enterprise Linux 7 Optional     4,087

@@ -202,6 +202,7 @@ master00-GUID.oslab.opentlc.com
 ----
 
 . Run `docker-storage-setup` on the master host to create logical volumes for *Docker*:
++
 ----
 
 [root@master00-GUID ~]# docker-storage-setup
@@ -226,6 +227,7 @@ You should see the following:
 Be careful with `docker-storage-setup` as it will, by default, find any unused extents in the volume group that contains your root filesystem to create the pool.  You can also specify a specific volume group or block device.  This can be a destructive process to the specified VG or block device!  Consult the OpenShift documentation for more information.
 
 . On the master host examine the newly created logical volume `docker-pool`:
++
 ----
 
 [root@master00-GUID ~]# lvs /dev/rhel_host2cc260760b15/docker-pool
@@ -263,8 +265,6 @@ DOCKER_STORAGE_OPTIONS=-s devicemapper --storage-opt dm.fs=xfs --storage-opt dm.
 
 [root@master00-GUID ~]# sed -i "s/OPTIONS.*/OPTIONS='--selinux-enabled --insecure-registry 0.0.0.0\/0'/" \
     /etc/sysconfig/docker
-
-----
 
 ----
 

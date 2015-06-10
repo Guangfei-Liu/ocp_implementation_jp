@@ -485,12 +485,11 @@ EOF
 
 ----
 
-. Run the Ansible installer on the master host and then restart the *openshift-master* service:
+. Run the Ansible installer on the master host:
 +
 ---- 
 
 [root@master00-GUID ~]# ansible-playbook -vvv /root/openshift-ansible/playbooks/byo/config.yml
-[root@master00-GUID ~]# systemctl start openshift-master
 
 ----
 +
@@ -499,7 +498,7 @@ Running the Ansible installer will take a few minutes to run.  This is a good ti
 
 === Configure Wildcard DNS to Service the OpenShift Environment.
 
-. If not already connected, connect to your administration host *oselab* (your private key location may vary):
+. Connect to your administration host *oselab* (your private key location may vary):
 +
 ----
 

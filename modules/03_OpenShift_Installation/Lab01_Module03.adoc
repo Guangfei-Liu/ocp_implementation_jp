@@ -445,7 +445,7 @@ The steps in this section will drastically change when the product goes GA.
 +
 ---- 
 
-[root@master00-GUID ~]# cd;git clone https://github.com/detiber/openshift-ansible.git -b v3-beta3 
+[root@master00-GUID ~]# cd;git clone https://github.com/detiber/openshift-ansible.git -b v3-beta4 
 
 ----
 
@@ -455,26 +455,36 @@ The steps in this section will drastically change when the product goes GA.
 
 [root@master00-GUID ~]# export GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
 [root@master00-GUID ~]# cat << EOF >> /etc/ansible/hosts
+# Create an OSEv3 group that contains the masters and nodes groups
 [OSEv3:children]
 masters
 nodes
+
+# Set variables common for all OSEv3 hosts
 [OSEv3:vars]
-deployment_type=enterprise
+# SSH user, this user should allow ssh based auth without requiring a password
 ansible_ssh_user=root
+
+# To deploy origin, change deployment_type to origin
+deployment_type=enterprise
+
+# enable htpasswd authentication
+openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/openshift/openshift-passwd'}]
 
 # host group for masters
 [masters]
 master00-$GUID.oslab.opentlc.com
 
-# host group for nodes
+# host group for nodes, includes region info
 [nodes]
-master00-$GUID.oslab.opentlc.com
+master00-$GUID.oslab.opentlc.com openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
+#node00-$GUID.oslab.opentlc.com openshift_node_labels="{'region': 'primary', 'zone': 'east'}"
+#node01-$GUID.oslab.opentlc.com openshift_node_labels="{'region': 'primary', 'zone': 'west'}"
 
 EOF
 
 ----
 
-  
 . Run the Ansible installer on the master host and then restart the *openshift-master* service:
 +
 ---- 

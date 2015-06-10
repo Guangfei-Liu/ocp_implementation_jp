@@ -121,7 +121,8 @@ EOF
 
 -----
 +
-.You should see the following:
+You should see the following:
++
 ----
 
 repo id                           repo name                               status
@@ -207,7 +208,10 @@ master00-GUID.oslab.opentlc.com
 
 ----
 +
+You should see the following:
++
 ----
+
   Rounding up size to full physical extent 32.00 MiB
   Logical volume "docker-poolmeta" created.
   Logical volume "docker-pool" created.
@@ -228,6 +232,8 @@ Be careful with `docker-storage-setup` as it will, by default, find any unused e
 
 ----
 +
+You should see the following:
++
 ----
 
   LV          VG                    Attr       LSize Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
@@ -242,6 +248,8 @@ Be careful with `docker-storage-setup` as it will, by default, find any unused e
 [root@master00-GUIDc ~]#  cat /etc/sysconfig/docker-storage
 
 ----
++
+You should see the following:
 +
 ----
 
@@ -269,6 +277,8 @@ DOCKER_STORAGE_OPTIONS=-s devicemapper --storage-opt dm.fs=xfs --storage-opt dm.
 [root@master00-GUID ~]# systemctl status docker
 
 ----
++
+You should see the following:
 +
 ----
 

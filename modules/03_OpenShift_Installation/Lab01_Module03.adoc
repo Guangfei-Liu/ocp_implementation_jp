@@ -200,10 +200,14 @@ master00-GUID.oslab.opentlc.com
 
 ----
 
-. Run `docker-storage-setup` to create logical volumes for *Docker*:
+. Run `docker-storage-setup` on the master host to create logical volumes for *Docker*:
 ----
 
 [root@master00-GUID ~]# docker-storage-setup
+
+----
++
+----
   Rounding up size to full physical extent 32.00 MiB
   Logical volume "docker-poolmeta" created.
   Logical volume "docker-pool" created.
@@ -213,24 +217,70 @@ master00-GUID.oslab.opentlc.com
   Logical volume "docker-pool" changed.
   
 ----
++
+[NOTE]
+Be careful with `docker-storage-setup` as it will, by default, find any unused extents in the volume group that contains your root filesystem to create the pool.  You can also specify a specific volume group or block device.  This can be a destructive process to the specified VG or block device!  Consult the OpenShift documentation for more information.
 
-. Enable the *Docker* service:
+. On the master host examine the newly created logical volume `docker-pool`:
+----
+
+[root@master00-GUID ~]# lvs /dev/rhel_host2cc260760b15/docker-pool
+
+----
 +
 ----
 
-[root@master00-GUID ~]# systemctl enable docker
+  LV          VG                    Attr       LSize Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  docker-pool rhel_host2cc260760b15 twi-a-t--- 5.98g             0.00   0.11
 
 ----
 
-. Configure the *Docker* registry on the master host then restart the *Docker* service:
+. On the master host, examine the docker storage configuration:
++
+----
+
+[root@master00-GUIDc ~]#  cat /etc/sysconfig/docker-storage
+
+----
++
+----
+
+DOCKER_STORAGE_OPTIONS=-s devicemapper --storage-opt dm.fs=xfs --storage-opt dm.thinpooldev=/dev/mapper/rhel_host2cc260760b15-docker--pool
+
+----
+
+. Configure the *Docker* registry on the master host:
 +
 ----
 
 [root@master00-GUID ~]# sed -i "s/OPTIONS.*/OPTIONS='--selinux-enabled --insecure-registry 0.0.0.0\/0'/" \
     /etc/sysconfig/docker
-[root@master00-GUID ~]# systemctl restart docker
 
 ----
+
+----
+
+. Enable, start, and get status for the *Docker* service on the master host:
++
+----
+
+[root@master00-GUID ~]# systemctl enable docker
+[root@master00-GUID ~]# systemctl start docker
+[root@master00-GUID ~]# systemctl status docker
+
+----
++
+----
+
+docker.service - Docker Application Container Engine
+   Loaded: loaded (/usr/lib/systemd/system/docker.service; enabled)
+   Active: active (running) since Wed 2015-06-10 15:31:11 EDT; 1s ago
+...OUTPUT OMMITTED...
+
+----
++
+[NOTE]
+Make sure the status shows *enabled* and *active (running)*.
 
 . In order to save time later, we will "pull" some docker images to the master host. (We already downloaded these locally to your host so it will go faster) [master host shell prompt not shown below]:
 +

@@ -195,6 +195,19 @@ node01-$GUID.oslab.opentlc.com openshift_node_labels="{'region': 'primary', 'zon
 [NOTE]
 This will take a while to complete.  This is a good time for a break.
 
+. The output of the `ansible-playbook` command shoold show failed=0 for all hosts:
+
+----
+
+...OUTPUT OMMITTED...
+PLAY RECAP ********************************************************************
+localhost                  : ok=5    changed=0    unreachable=0    failed=0
+master00-GUID.oslab.opentlc.com : ok=83   changed=5    unreachable=0    failed=0
+node00-GUID.oslab.opentlc.com : ok=40   changed=18   unreachable=0    failed=0
+node01-GUID.oslab.opentlc.com : ok=40   changed=18   unreachable=0    failed=0
+
+----
+
 . After the installer is complete, check the status of your nodes using the `osc get nodes` command on the master host:
 +
 ----

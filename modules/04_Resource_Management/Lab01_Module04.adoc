@@ -3,259 +3,310 @@
 :icons: images/icons
 :toc2:		
 
-	
-== Users, Projects and Quotas
-:numbered:	
+=== Connect to the Environment
 
-In this lab we will:
-* Configure htpasswd Authentication. 
-* Create Users and Projects. 
-* Define and test quota restrictions. 
-
-
-.Configuring Authentication and Users
-
-. Connect to your master as the `root` user.
+. If not already connected, connect to your administration host `oselab-GUID.oslab.opentlc.com` using your OPENTLC login and private SSH key:
 +
 ----
-[sborenst@desktop01 ~]$ ssh -i ~/.ssh/sborenstkey.pub shacharb-redhat.com@oselab-*GUID*.oslab.opentlc.com
 
-[bash-4.2$ ~] ssh root@192.168.0.100
-root@192.168.0.100's password: ******** (r3dh4t1!) 
+yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-GUID.oslab.opentlc.com
 
 ----
 
-. Install *httpd-tools* package 
+. SSH to the master host as the `root` user:
 +
 ----
-yum -y install httpd-tools
-----
 
-. To configure OpenShift to use *htpasswd Authentication*, edit the */etc/openshift/master.yaml* file and change oauthConfig's identityProviders stanza so that it looks like the following:
+[yourlogin@oselab-GUID ~]$ ssh root@master00-GUID.oslab.opentlc.com
+
+----
 +
-[source,yaml]
-----
-
-identityProviders:
-- challenge: true
-  login: true
-  name: apache_auth
-  provider:
-    apiVersion: v1
-    file: /etc/openshift-passwd
-    kind: HTPasswdPasswordIdentityProvider
-----
-
-. You can use this *sed* command to make the change from the last instruction.  
+[NOTE]
+If prompted for a password use *r3dh4t1!*
 +
 ----
-sed -i -e 's/name: anypassword/name: apache_auth/' \
--e 's/kind: AllowAllPasswordIdentityProvider/kind: HTPasswdPasswordIdentityProvider/' \
--e '/kind: HTPasswdPasswordIdentityProvider/i \      file: \/etc\/openshift-passwd' \
-/etc/openshift/master.yaml
+
+root@master00-GUID.oslab.opentlc.com's password: ******** (r3dh4t1!) 
 
 ----
 
+=== Add Development Users
 
-. Restart the OpenShift Master
+In the "real world" your developers would likely be using the OpenShift tools on
+their own machines (`osc` and the web console). For this course, we
+will create user accounts for two non-privileged users of OpenShift, *joe* and
+*alice*, on the master. This is done for convenience and because we'll be using
+`htpasswd` for authentication.
+
+. On the master host add two Linux accounts:
 +
 ----
-systemctl restart openshift-master
+
+[root@master00-GUID ~]# useradd joe
+[root@master00-GUID ~]# useradd alice
+
 ----
 
-.Create users and Authenticate
- 
-. Create users to use with htpasswd-based authentication method
+=== Configuring htpasswd Authentication
+
+OpenShift v3 supports a number of mechanisms for authentication. The simplest
+use case for our testing purposes is `htpasswd`-based authentication.
+
+To start, we will need the `htpasswd` binary available in the `httpd-tools` package.
+
+. Install `httpd-tools` on the master host:
 +
 ----
-touch /etc/openshift-passwd
-htpasswd -b /etc/openshift-passwd andrew r3dh4t1!
-htpasswd -b /etc/openshift-passwd marina r3dh4t1! 
+
+[root@master00-GUID ~]# yum -y install httpd-tools
 
 ----
 
-. Log in to web console using the user "Andrew" : link:https://master00-GUID.oslabs.opentlc.com:8443[https://master00-GUID.oslabs.opentlc.com:8443]
-NOTE: Notice that we didn't create "users" in the operating system, just OpenShift users. We will also create local/O.S users for andrew and marina but that is only for the benefit of the training environment. 
-
-. Create "system" users for Andrew and Marina
+. Create a password for our users, Joe and Alice on the master host:
 +
 ----
-useradd andrew
-useradd marina
-----  
 
-. Authenticate using the command line as user "Andrew" 
+[root@master00-GUID ~]# touch /etc/openshift/openshift-passwd
+[root@master00-GUID ~]# htpasswd -b /etc/openshift/openshift-passwd joe r3dh4t1!
+[root@master00-GUID ~]# htpasswd -b /etc/openshift/openshift-passwd alice r3dh4t1!
+
+----
+
+The OpenShift configuration is kept in a YAML file which currently lives at
+`/etc/openshift/master/master-config.yaml`. By default Ansible is configured to edit
+the `oauthConfig`'s `identityProviders` stanza so that it looks like the following:
+
+    identityProviders:
+    - challenge: true
+      login: true
+      name: apache_auth
+      provider:
+        apiVersion: v1
+        file: /etc/openshift/openshift-passwd
+        kind: HTPasswdPasswordIdentityProvider
+
+[NOTE]
+More information on these configuration settings (and other identity providers) can be found at http://docs.openshift.org/latest/admin_guide/configuring_authentication.html#HTPasswdPasswordIdentityProvider
+
+=== A Project for Everything
+
+OpenShift 3 has a concept of "projects" to contain a number of different resources:
+services and their pods, builds and so on. They are somewhat similar to
+"namespaces" in OpenShift v2. We'll explore what this means in more details
+throughout the rest of the labs. Let's create a project for our first
+application.
+
+We also need to understand a little bit about users and administration. The
+default configuration for CLI operations currently is to be the `master-admin`
+user, which is allowed to create projects. We can use the "admin"
+
+. On the master host use the `osadm` command to create a project, and assign an administrative user to it:
 +
 ----
-su - andrew
 
-osc login -u andrew \
---certificate-authority=/var/lib/openshift/openshift.local.certificates/ca/cert.crt \
---server=https://master00-${GUID}.oslab.opentlc.com:8443 
-Password: (Enter r3dh4t1!)
-Login successful.
+[root@master00-GUID ~]# osadm new-project demo --display-name="OpenShift 3 Demo" \
+    --description="This is the first demo project with OpenShift v3" \
+    --admin=joe
 
 ----
 
-. Review your OpenShift authentication token and explore your new powers
-+
-[source,yaml]
-----
-cat ~/.config/openshift/.config
+This command creates a project:
 
-osc get pods
+* with the id `demo`
 
-osc get projects 
+* with a display name
 
-osc get nodes 
+* with a description
 
-----
+* with an administrative user `joe` who can login with the password defined by
+    htpasswd
 
-.Creating Projects
- 
-. As root, use the *osadm new-project* command to create projects for our users:
-+
-----
-# A project for Andrew
-osadm new-project atom --display-name="ProjectA" \
---description="This is Project Atom for Andrew" \
---admin=andrew
+Future use of command line statements will have to reference this project in
+order for things to land in the right place.
 
-# A project for Marina 
-osadm new-project magma --display-name="ProjectM" \
---description="This is Project Magma for Marina" \
---admin=marina
+Now that you have a project created, it's time to look at the web console, which
+has been completely redesigned for V3.
 
-# A project for both 
-osadm new-project plasma --display-name="ProjectMA" \
---description="This is Project plasma for Marina and Andrew" \
---admin=marina,andrew
+=== Web Console
 
-----
-
-. Log in to the Web Console and verify you can see the projects 
-
-. Use the command line as "andrew" and your available projects
+. Open your desktop/laptop web browser and visit the following URL:
 +
 ----
-osc get projects 
----- 
 
-. Set your current project to be : "atom"
+https://master00-GUID.oslab.opentlc.com:8443
+
+----
 +
-----
-osc project atom
-----
+[NOTE]
+Be aware that it may take up to 90 seconds for the web console to be available
+any time you restart the master.
 
-.Quotas
+. On your first visit your browser will need to accept the self-signed SSL
+certificate.
 
-. As Andrew, Test your limits before the the quota is applied, create *hello-quota.json* file and use it to create a series of pods. 
-+
-----
-osc project atom
+. You will be asked for a username and a password. Remembering
+that we created a user previously, `joe`, go ahead and enter that and use
+the password (`r3dh4t1!`) you set earlier.
 
-curl http://www.opentlc.com/downloads/ose_implementation/files/hello-quota.json > hello-quota.json
+. Once you are in, click the *OpenShift 3 Demo* project. There really isn't
+anything of interest at the moment, because we haven't put anything into our
+project.
 
-osc create -f hello-quota.json
+=== Your First Application
 
-----
-NOTE: Have a look at *hello-quota.json* to understand better what is going on. Later on we will learn more exciting ways to scale up an application.
+At this point you essentially have a sufficiently-functional OpenShift 3
+environment. It is now time to create the classic "Hello World" application
+using some sample code.  But, first, some housekeeping.
 
-. Check how many pods are created using the *osc get pods* command
-+
-----
-osc get pods 
+=== Resources
 
-----
+There are a number of different resource types in OpenShift 3, and, essentially,
+going through the motions of creating/destroying apps, scaling, building and
+etc. all ends up manipulating OpenShift and Kubernetes resources under the
+covers. Resources can have quotas enforced against them, so let's take a moment
+to look at some example JSON for project resource quota might look like:
 
-. Clean up and delete all the pods created in this lab.
-+
-----
-osc delete -f hello-quota.json
-#or 
-osc delete pod `osc get pods |grep hello-openshift | awk '{print $1}'`
-
-----
-
-
-. As Root, Create and review the quota config file
-+
-
-[source,json]
-----
-
-curl http://www.opentlc.com/downloads/ose_implementation/files/quota.json > quota.json
-
-cat quota.json 
-{
-  "apiVersion": "v1beta3",
-  "kind": "ResourceQuota",
-  "metadata": {
-    "name": "atom-quota"
-  },
-  "spec": {
-    "hard": {
-      "memory": "512Mi",
-      "cpu": "200m",
-      "pods": "2",
-      "services": "2",
-      "replicationcontrollers": "2",
-      "resourcequotas": "1"
+    {
+      "apiVersion": "v1beta3",
+      "kind": "ResourceQuota",
+      "metadata": {
+        "name": "test-quota"
+      },
+      "spec": {
+        "hard": {
+          "memory": "512Mi",
+          "cpu": "200m",
+          "pods": "3",
+          "services": "3",
+          "replicationcontrollers": "3",
+          "resourcequotas": "1"
+        }
+      }
     }
-  }
-}
-----
 
-. As Root, Apply the Quota to the "atom" project.
+The above quota (simply called *test-quota*) defines limits for several
+resources. In other words, within a project, users cannot "do stuff" that will
+cause these resource limits to be exceeded. Since quota is enforced at the
+project level, it is up to the users to allocate resources (more specifically,
+memory and CPU) to their pods/containers. OpenShift will soon provide sensible
+defaults.
+
+* Memory
+
+    The memory figure is in bytes, but various other suffixes are supported (eg:
+    Mi (mebibytes), Gi (gibibytes), etc.
+
+* CPU
+
+    CPU is a little tricky to understand. The unit of measure is actually a
+    "Kubernetes Compute Unit" (KCU, or "kookoo"). The KCU is a "normalized" unit
+    that should be roughly equivalent to a single hyperthreaded CPU core.
+    Fractional assignment is allowed. For fractional assignment, the
+    **m**illicore may be used (eg: 200m = 0.2 KCU)
+
+More details on CPU will come in later betas and documentation.
+
+We will get into a description of what pods, services and replication
+controllers are over the next few labs. Lastly, we can ignore "resourcequotas",
+as it is a bit of a trick so that Kubernetes doesn't accidentally try to apply
+two quotas to the same namespace.
+
+=== Applying Quota to Projects
+
+At this point we have created our "demo" project, so let's apply the quota above
+to it. 
+
+. On the master host apply a file called `quota.json` from the training repo cloned earlier using the `osc create` command:
 +
 ----
-osc create -f quota.json --namespace=atom
+
+[root@master00-GUID ~]# cd /root/training/beta4
+[root@master00-GUID beta4]# osc create -f quota.json --namespace=demo
 
 ----
 
-. Check what was created 
+. On the master host make sure it was created:
 +
 ----
-osc get -n atom quota
+
+[root@master00-GUID beta4]# osc get -n demo quota
+
+----
++
+----
+
 NAME
-atom-quota
+test-quota
 
-osc describe quota atom-quota -n atom
-Name:                   atom-quota
+----
+
+. On the master host verify limits and examine usage:
++
+----
+
+[root@master00-GUID beta4]# osc describe quota test-quota -n demo
+
+----
++
+----
+
+Name:                   test-quota
 Resource                Used    Hard
 --------                ----    ----
 cpu                     0m      200m
 memory                  0       512Mi
-pods                    0       2
-replicationcontrollers  0       2
+pods                    0       3
+replicationcontrollers  0       3
 resourcequotas          1       1
-services                0       2
+services                0       3
+
 ----
 
-. As Andrew, Try again to create *hello-quota.json* in the "atom" project
+. Go back into the web console and click into the "OpenShift 3 Demo"
+project.
+
+. Click on the *Settings* tab and you'll see that the quota information
+is displayed.
+
+[NOTE]
+Once creating the quota, it can take a few moments for it to be fully
+processed. If you get blank output from the `get` or `describe` commands, wait a
+few moments and try again.
+
+=== Applying Limit Ranges to Projects
+
+In order for quotas to be effective you need to also create Limit Ranges
+which set the maximum, minimum, and default allocations of memory and cpu at
+both a pod and container level. Without default values for containers projects
+with quotas will fail because the deloyer and other infrastructure pods are
+unbounded and therefore forbidden.
+
+. On the master host run `osc create` against the `limits.json` file in the training folder:
 +
 ----
-osc create -f hello-quota.json
-pods/1-hello-openshift
-pods/2-hello-openshift
-Error: pods "3-hello-openshift" is forbidden: Limited to 2 pods
-Error: pods "4-hello-openshift" is forbidden: Limited to 2 pods
+
+[root@master00-GUID beta4]# osc create -f limits.json --namespace=demo
+
 ----
 
-. Try to create *hello-quota.json* in another project, Should the quota apply there? (no)
+. Review your limit ranges on the master host:
 +
 ----
-osc project plasma 
 
-osc create -f hello-quota.json
-pods/1-hello-openshift
-pods/2-hello-openshift
-pods/3-hello-openshift
-pods/4-hello-openshift
+[root@master00-GUID beta4]# osc describe limitranges limits -n demo
 
 ----
++
+----
 
+Name:           limits
+Type            Resource        Min     Max     Default
+----            --------        ---     ---     ---
+Pod             memory          5Mi     750Mi   -
+Pod             cpu             10m     500m    -
+Container       cpu             10m     500m    100m
+Container       memory          5Mi     750Mi   100Mi
 
-
+----
 
 

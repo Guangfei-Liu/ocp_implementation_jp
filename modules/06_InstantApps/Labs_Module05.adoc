@@ -501,7 +501,7 @@ the `mysql` user, and assumes that it is, which causes problems later.
 Arguably, the container should operate differently. In the long run, we
 probably need to come up with best practices for use of NFS from containers.
 
-=== NFS Firewall
+=== NFS Firewall (Info only, do not do the steps here!)
 
 **In our lab environment, the firewall is disabled on the master host, so these steps are not necessary.**
 

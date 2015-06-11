@@ -3,6 +3,8 @@
 :icons: images/icons
 :toc2:		
 
+:numbered:
+
 == Resource Management
 
 === Connect to the Environment

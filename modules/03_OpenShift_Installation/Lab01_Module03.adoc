@@ -3,7 +3,6 @@
 :icons: images/icons
 :toc2:		
 
-	
 == Deploy OpenShift Enterprise
 :numbered:	
 
@@ -26,9 +25,59 @@ In this lab we will Deploy OpenShift Enterprise on a single host (in later labs 
 * Test deployment.
 
 === Beta Course Warning
+
 Take note that all of the steps in the lab may change when OpenShift 3.0 goes GA.  This course was built on a beta build.
 
+=== Lab Environment Architecture and Important Information
+
+The lab environment consists of 4 VMs:
+
+* oslab-GUID.oslab.opentlc.com (administration host)
+
+* master00-GUID.oslab.opentlc.com (master host, includes node role as well)
+
+* node00-GUID.oslab.opentlc.com (node host)
+
+* node01-GUID.oslab.opentlc.com (node host)
+
+[NOTE]
+As a reminder you will only be allowed to SSH to the administration host from the outside of the lab environment, all other hosts have external SSH blocked.  Once on the administration host, you can SSH to the other hosts internally.  As described earlier, you will have to use your private SSH key and OPENTLC login to access the system (not root!).
+
+Each student lab is assigned a global unique identifier (GUID) that consists of 4 characters.  This GUID is provided to you in the provisioning email that will be sent to you when you provision your lab environment.  *Anywhere you see GUID from this point on, you will replace it with your lab's GUID.*
+
+*In each lab step take special care to make sure that you are running the step on the required host.  Each step should contain the name of the host to run the step on and the example code should contain the host name in the shell prompt.*
+
+* Administration host example:
++
+----
+
+[root@oselab-GUID ~]# command
+
+----
+
+* Master host example:
++
+----
+
+[root@master00-GUID ~]# command
+
+----
+
+
 === Configure the Repositories
+
+OpenShift requires several software repositories:
+
+* rhel-7-server-rpms
+
+* rhel-7-server-extras-rpms
+
+* rhel-7-server-optional-rpms
+
+* rhel-server-7-ose-beta-rpms
+
+Normally you would get these repositories via `subscription-manager` but we have provided a mirror that we will configure in the following lab steps.
+
 . If not already connected, connect to your administration host *oselab* (your private key location may vary):
 +
 ----
@@ -62,11 +111,7 @@ root@192.168.0.100's password: ******** (r3dh4t1!)
 
 ----
 
-. On the master host set up */etc/yum.repos.d/open.repo* with the following repositories (We are using local repositories in our lab environment, normally you would use `subscription-manager`):
-.. Red Hat Enterprise Linux 7
-.. Red Hat Enterprise Linux 7 Common
-.. Red Hat Enterprise Linux 7 Extras
-.. Red Hat Enterprise Linux 7 Optional
+. On the master host set up the yum repository configuration file `/etc/yum.repos.d/open.repo` with the following repositories:
 +
 ----
 [root@master00-GUID ~]# cat << EOF > /etc/yum.repos.d/open.repo
@@ -97,8 +142,11 @@ gpgcheck=0
 EOF
 
 ----
++
+[NOTE]
+We are using a local mirror of the repositories in our lab environment, as stated earlier you would normally use `subscription-manager`.
 
-. Add the OpenShift Beta3 repository to the master host:
+. Add the OpenShift Beta3 repository mirror to the master host:
 +
 ----
 

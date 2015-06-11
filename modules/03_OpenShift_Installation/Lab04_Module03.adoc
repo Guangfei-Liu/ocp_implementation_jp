@@ -3,7 +3,6 @@
 :icons: images/icons
 :toc2:		
 
-	
 == Deploy The "Router" and "Registry" Containers
 :numbered:	
 

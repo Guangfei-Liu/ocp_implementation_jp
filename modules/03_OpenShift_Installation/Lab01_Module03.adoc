@@ -549,7 +549,7 @@ Note that the nodes are commented out, they will be enabled later.  Also note th
 [NOTE]
 Running the Ansible installer will take a few minutes to run.  This is a good time for a break.
 
-. The output of the `ansible-playbook` command shoold show failed=0 for all hosts:
+. The output of the `ansible-playbook` command shoold show *failed=0* for all hosts:
 +
 ----
 
@@ -566,7 +566,7 @@ master00-GUID.oslab.opentlc.com : ok=X   changed=Y    unreachable=0    failed=0
 
 [root@master00-GUID ~]#  osc get nodes
 NAME                              LABELS                                                                             STATUS
-master00-0a0c.oslab.opentlc.com   kubernetes.io/hostname=master00-GUID.oslab.opentlc.com,region=infra,zone=default   Ready
+master00-GUID.oslab.opentlc.com   kubernetes.io/hostname=master00-GUID.oslab.opentlc.com,region=infra,zone=default   Ready
 
 ----
 
@@ -586,7 +586,7 @@ OpenShift requires a wildcard DNS A record.  The wildcard A record should point 
 +
 ----
 
-yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-*GUID*.oslab.opentlc.com
+yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-GUID.oslab.opentlc.com
 
 ----
 

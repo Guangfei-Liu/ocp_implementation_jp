@@ -553,14 +553,16 @@ all nodes where the pod could land (i.e. all of them) with:
 +
 ----
 
-[root@master00-GUID ~]#setsebool -P virt_use_nfs=true
+[root@master00-GUID ~]# setsebool -P virt_use_nfs=true
 
 ----
 
+[NOTE]
 Once the ansible-based installer does this automatically, we can remove this
 section from the document.
 
-### Create a PersistentVolume
+=== Create a PersistentVolume
+
 It is the PaaS administrator's responsibility to define the storage that is
 available to users. Storage is represented by a PersistentVolume that
 encapsulates the details of a particular volume which can be backed by any
@@ -590,23 +592,46 @@ NFS mount:
       }
     }
 
-Create this object as the `root` (administrative) user:
+. Create this object as the `root` (administrative) user on the master host:
++
+----
 
-    # osc create -f persistent-volume.json
-    persistentvolumes/pv0001
+[root@master00-GUID ~]# GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
+[root@master00-GUID ~]# cd /root/training/beta4
+[root@master00-GUID ~]# sed -i "s/ose3-master.example.com/master00-$GUID.oslab.opentlc.com/" persistent-volume.json
+[root@master00-GUID ~]# osc create -f persistent-volume.json
+    
+----
++
+----
 
+persistentvolumes/pv0001
+
+----
++
 This defines a volume for OpenShift projects to use in deployments. The
 storage should correspond to how much is actually available (make each
-volume a separate filesystem if you want to enforce this limit). Take a
-look at it now:
+volume a separate filesystem if you want to enforce this limit).
 
-    # osc describe persistentvolumes/pv0001
-    Name:   pv0001
-    Labels: <none>
-    Status: Available
-    Claim:
+. Take a look at it the voume:
++
+----
 
-### Claim the PersistentVolume
+[root@master00-GUID ~]# osc describe persistentvolumes/pv0001
+
+----
++
+----
+
+Name:   pv0001
+Labels: <none>
+Status: Available
+Claim:
+
+----
+
+=== Claim the PersistentVolume
+
 Now that the administrator has provided a PersistentVolume, any project can
 make a claim on that storage. We do this by creating a PersistentVolumeClaim
 that specifies what kind and how much storage is desired:
@@ -627,29 +652,55 @@ that specifies what kind and how much storage is desired:
       }
     }
 
-We can have `alice` do this in the `wiring` project:
+. Have `alice` do this in the `wiring` project:
++
+----
 
-    $ osc create -f persistent-volume-claim.json
-    persistentVolumeClaim/claim1
+[alice@master00-GUID ~]$ cd ~/training/beta4; osc create -f persistent-volume-claim.json
 
-This claim will be bound to a suitable PersistentVolume (one that is big
+----
++
+----
+
+persistentVolumeClaim/claim1
+
+----
+
+. This claim will be bound to a suitable PersistentVolume (one that is big
 enough and allows the requested accessModes). The user does not have any
 real visibility into PersistentVolumes, including whether the backing
 storage is NFS or something else; they simply know when their claim has
 been filled ("bound" to a PersistentVolume).
++
+----
 
-    $ osc get pvc
-    NAME      LABELS    STATUS    VOLUME
-    claim1    map[]     Bound     pv0001
+[alice@master00-GUID ~]$ osc get pvc
 
-If as `root` we now go back and look at our PV, we will also see that it has
-been claimed:
+----
++
+----
 
-    # osc describe pv/pv0001
-    Name:   pv0001
-    Labels: <none>
-    Status: Bound
-    Claim:  wiring/claim1
+NAME      LABELS    STATUS    VOLUME
+claim1    map[]     Bound     pv0001
+
+----
+
+. As `root` we now go back and look at our PV, we will also see that it has been claimed:
++
+----
+
+[root@master00-GUID ~]# osc describe pv/pv0001
+
+----
++
+----
+
+Name:   pv0001
+Labels: <none>
+Status: Bound
+Claim:  wiring/claim1
+
+----
 
 The PersistentVolume is now claimed and can't be claimed by any other project.
 
@@ -659,16 +710,22 @@ process that watches the API for a PersistentVolumeClaim to be created,
 dynamically provisions a corresponding volume, and creates the API object
 to fulfill the claim.
 
-### Use the Claimed Volume
-Finally, we need to modify our `database` DeploymentConfig to specify that
+=== Use the Claimed Volume
+
+. Finally, we need to modify our `database` DeploymentConfig to specify that
 this volume should be mounted where the database will use it. As `alice`:
++
+----
 
-    $ osc edit dc/database
+[alice@master00-GUID ~]$ osc edit dc/database
 
-The part we will need to edit is the pod template. We will need to add two
+----
+
+. The part we will need to edit is the pod template. We will need to add two
 parts: 
-
++
 * a definition of the volume
+
 * where to mount it inside the container
 
 First, directly under the `template` `spec:` line, add this YAML (indented from the `spec:` line):
@@ -713,7 +770,8 @@ Save and exit. This change to configuration will trigger a new deployment
 of the database, and this time, it will be using the NFS volume we exported
 from master.
 
-### Restart the Frontend
+=== Restart the Frontend
+
 Any values or data we had inserted previously just got blown away. The
 `deploymentConfig` update caused a new MySQL pod to be launched. Since this is
 the first time the pod was launched with persistent data, any previous data was
@@ -723,35 +781,58 @@ Additionally, the Frontend pod will perform a database initialization when it
 starts up. Since we haven't restarted the frontend, our database is actually
 bare. If you try to use the app now, you'll get "Internal Server Error".
 
-Go ahead and kill the Frontend pod like we did previously to cause it to
+. Kill the Frontend pod like we did previously to cause it to
 restart:
++
+----
 
-     osc delete pod `osc get pod | grep front | awk {'print $1'}`
+[alice@master00-GUID ~]$ osc delete pod `osc get pod | grep front | awk {'print $1'}`
 
-Once the new pod has started, go ahead and visit the web page. Add a few values
-via the application. Then delete the database pod and wait for it to come back.
+----
+
+. Once the new pod has started, go ahead and visit the web page. 
+
+. Add a few values via the application. 
+
+. Delete the database pod and wait for it to come back.
 You should be able to retrieve the same values you entered.
++
+To quickly delete the Database pod you can do the following:
++
 
-Remember, to quickly delete the Database pod you can do the following:
+----
 
-    osc delete pod/`osc get pod | grep -e "database-[0-9]" | awk {'print $1'}`
+[alice@master00-GUID ~]$ osc delete pod/`osc get pod | grep -e "database-[0-9]" | awk {'print $1'}`
 
-**Note:** This doesn't seem to work right now, but we're not sure why. I think
+----
+
+[NOTE]
+This doesn't seem to work right now, but we're not sure why. I think
 it has to do with Ruby's persistent connection to the MySQL service not going
 away gracefully, or something. Killing the frontend again will definitely work.
 
-For further confirmation that your database pod is in fact using the NFS
+. For further confirmation that your database pod is in fact using the NFS
 volume, simply check what is stored there on `master`:
++
+----
 
-    # ls /var/export/vol1
-    database-3-n1i2t.pid  ibdata1  ib_logfile0  ib_logfile1  mysql  performance_schema  root
+[alice@master00-GUID ~]$ ls /var/export/vol1
+
+----
++
+----
+
+database-3-n1i2t.pid  ibdata1  ib_logfile0  ib_logfile1  mysql  performance_schema  root
+
+----
 
 Further information on use of PersistentVolumes is available in the
 [OpenShift Origin documentation](http://docs.openshift.org/latest/dev_guide/volumes.html).
 This is a very new feature, so it is very manual for now, but look for more tooling
 taking advantage of PersistentVolumes to be created in the future.
 
-## Rollback/Activate and Code Lifecycle
+== Rollback/Activate and Code Lifecycle
+
 Not every coder is perfect, and sometimes you want to rollback to a previous
 incarnation of your application. Sometimes you then want to go forward to a
 newer version, too.
@@ -760,20 +841,31 @@ The next few labs require that you have a Github account. We will take Alice's
 "wiring" application and modify its front-end and then rebuild. We'll roll-back
 to the original version, and then go forward to our re-built version.
 
-### Fork the Repository
+=== Fork the Repository
+
 Our wiring example's frontend service uses the following Github repository:
 
     https://github.com/openshift/ruby-hello-world
 
-Go ahead and fork this into your own account by clicking the *Fork* Button at
+. Fork this into your own account by clicking the *Fork* Button at
 the upper right.
 
-### Update the BuildConfig
-Remember that a `BuildConfig`(uration) tells OpenShift how to do a build.
-Still as the `alice` user, take a look at the current `BuildConfig` for our
-frontend:
+=== Update the BuildConfig
 
-    osc get buildconfig ruby-sample-build -o yaml
+Remember that a `BuildConfig`(uration) tells OpenShift how to do a build.
+Still as the `alice` user.
+
+. Take a look at the current `BuildConfig` for our
+frontend:
++
+----
+
+[alice@master00-GUID ~]$  get buildconfig ruby-sample-build -o yaml
+
+----
++
+----
+
     apiVersion: v1beta1
     kind: BuildConfig
     metadata:
@@ -815,38 +907,53 @@ frontend:
           name: ruby-20-rhel7
         tag: latest
       type: imageChange
-
+----
++
 As you can see, the current configuration points at the
 `openshift/ruby-hello-world` repository. Since you've forked this repo, let's go
-ahead and re-point our configuration. Our friend `osc edit` comes to the rescue
-again:
+ahead and re-point our configuration. 
 
-    osc edit bc ruby-sample-build
+. Use `osc edit` to re-point the configuration:
++
+----
 
-Change the "uri" reference to match the name of your Github
+[alice@master00-GUID ~]$  osc edit bc ruby-sample-build
+
+----
+
+. Change the "uri" reference to match the name of your Github
 repository. Assuming your github user is `alice`, you would point it
 to `git://github.com/alice/ruby-hello-world.git`. Save and exit
 the editor.
 
-If you again run `osc get buildconfig ruby-sample-build -o yaml` you should see
+. If you again run `osc get buildconfig ruby-sample-build -o yaml` you should see
 that the `uri` has been updated.
 
-### Change the Code
-Github's web interface will let you make edits to files. Go to your forked
-repository (eg: https://github.com/alice/ruby-hello-world), select the `beta3`
+=== Change the Code
+
+. Github's web interface will let you make edits to files. Go to your forked
+repository (eg: https://github.com/alice/ruby-hello-world), select the `beta4`
 branch, and find the file `main.erb` in the `views` folder.
 
-Change the following HTML:
+. Change the following HTML:
++
+----
 
     <div class="page-header" align=center>
       <h1> Welcome to an OpenShift v3 Demo App! </h1>
     </div>
-
+    
+----
++
 To read (with the typo):
++
+----
 
     <div class="page-header" align=center>
       <h1> This is my crustom demo! </h1>
     </div>
+
+----
 
 You can edit code on Github by clicking the pencil icon which is next to the
 "History" button. Provide some nifty commit message like "Personalizing the
@@ -854,7 +961,8 @@ application."
 
 If you know how to use Git/Github, you can just do this "normally".
 
-### Start a Build with a Webhook
+=== Start a Build with a Webhook
+
 Webhooks are a way to integrate external systems into your OpenShift
 environment so that they can fire off OpenShift builds. Generally
 speaking, one would make code changes, update the code repository, and
@@ -867,13 +975,16 @@ be able to make a request against your OpenShift master if that master
 is exposed on the Internet, so you will probably need to simulate the
 request manually for now.
 
-To find the webhook URL, you can visit the web console, click into the
+. To find the webhook URL, you can visit the web console, click into the
 project, click on *Browse* and then on *Builds*. You'll see two webhook
-URLs. Copy the *Generic* one. It should look like:
+URLs. 
 
-    https://ose3-master.example.com:8443/osapi/v1beta1/buildConfigHooks/ruby-sample-build//github?namespace=wiring
+. Copy the *Generic* one. It should look like:
 
-**Note**: As of the cut of beta 4, the generic webhook URL was incorrect in the
+    https://master00-GUID.oslab.opentlc.com:8443/osapi/v1beta1/buildConfigHooks/ruby-sample-build//github?namespace=wiring
+
+[NOTE]
+As of the cut of beta 4, the generic webhook URL was incorrect in the
 webUI. Note the correct syntax above. This is fixed already, but did not make it
 in:
 
@@ -888,77 +999,115 @@ the passwords or had the template generate randomized ones.
 This time, in order to run a build for the frontend, we'll use `curl` to hit our
 webhook URL.
 
-First, look at the list of builds:
+. Look at the list of builds:
++
+----
 
-    osc get build
+[alice@master00-GUID ~]$ osc get build
 
-You should see that the first build had completed. Then, `curl`:
+----
 
-    curl -i -H "Accept: application/json" \
+. You should see that the first build had completed. Then, `curl`:
++
+----
+
+[alice@master00-GUID ~]$ curl -i -H "Accept: application/json" \
     -H "X-HTTP-Method-Override: PUT" -X POST -k \
-    https://ose3-master.example.com:8443/osapi/v1beta1/buildConfigHooks/ruby-sample-build//github?namespace=wiring
+    https://master00-GUID.oslab.opentlc.com:8443/osapi/v1beta1/buildConfigHooks/ruby-sample-build//github?namespace=wiring
 
-And now `get build` again:
+----
 
-    osc get build
-    NAME                  TYPE      STATUS     POD
-    ruby-sample-build-1   Source    Complete   ruby-sample-build-1
-    ruby-sample-build-2   Source    Pending    ruby-sample-build-2
+. And now `get build` again:
++
+----
 
+[alice@master00-GUID ~]$ osc get build
+
+----
++
+----
+
+NAME                  TYPE      STATUS     POD
+ruby-sample-build-1   Source    Complete   ruby-sample-build-1
+ruby-sample-build-2   Source    Pending    ruby-sample-build-2
+
+----
++
 You can see that this could have been part of some CI/CD workflow that
 automatically called our webhook once the code was tested.
 
-You can also check the web interface (logged in as `alice`) and see
+. You can also check the web interface (logged in as `alice`) and see
 that the build is running. Once it is complete, point your web browser
 at the application:
++
+----
 
-    http://wiring.cloudapps.example.com/
+http://wiring.cloudapps-GUID.oslab.opentlc.com/
 
+----
++
 You should see your big fat typo.
-
-**Note: Remember that it can take a minute for your service endpoint to get
++
+[NOTE]
+Remember that it can take a minute for your service endpoint to get
 updated. You might get a `503` error if you try to access the application before
-this happens.**
-
+this happens.
++
 Since we failed to properly test our application, and our ugly typo has made it
 into production, a nastygram from corporate marketing has told us that we need
 to revert to the previous version, ASAP.
 
-If you log into the web console as `alice` and find the `Deployments` section of
+. If you log into the web console as `alice` and find the `Deployments` section of
 the `Browse` menu, you'll see that there are two deployments of our frontend: 1
 and 2.
 
-You can also see this information from the cli by doing:
+. You can also see this information from the cli by doing:
++
+----
 
-    osc get replicationcontroller
+[alice@master00-GUID ~]$ osc get replicationcontroller
 
+----
++
 The semantics of this are that a `DeploymentConfig` ensures a
 `ReplicationController` is created to manage the deployment of the built `Image`
 from the `ImageStream`.
 
-Simple, right?
+=== Rollback
 
-### Rollback
-You can rollback a deployment using the CLI. Let's go and checkout what a rollback to
-`frontend-1` would look like:
+You can rollback a deployment using the CLI. 
 
-    osc rollback frontend-1 --dry-run
+. Check out what a rollback to`frontend-1` would look like:
++
+----
 
-Since it looks OK, let's go ahead and do it:
+[alice@master00-GUID ~]$ osc rollback frontend-1 --dry-run
 
-    osc rollback frontend-1
+----
 
+. Since it looks OK, let's go ahead and do it:
++
+----
+
+[alice@master00-GUID ~]$ osc rollback frontend-1
+
+----
++
 If you look at the `Browse` tab of your project, you'll see that in the `Pods`
 section there is a `frontend-3...` pod now. After a few moments, revisit the
 application in your web browser, and you should see the old "Welcome..." text.
 
-### Activate
-Corporate marketing called again. They think the typo makes us look hip and
+=== Activate
+
+. Corporate marketing called again. They think the typo makes us look hip and
 cool. Let's now roll forward (activate) the typo-enabled application:
++
+----
 
-    osc rollback frontend-2
+[alice@master00-GUID ~]$ osc rollback frontend-2
 
-## Customized Build and Run Processes
+== Customized Build and Run Processes
+
 OpenShift v3 supports customization of both the build and run processes.
 Generally speaking, this involves modifying the various S2I scripts from the
 builder image. When OpenShift builds your code, it checks to see if any of the
@@ -970,40 +1119,57 @@ customization can be found here:
 
     http://docs.openshift.org/latest/creating_images/sti.html#sti-scripts
 
-### Add a Script
-You will find a script called `custom-assemble.sh` in the `beta3` folder. Go to
+=== Add a Script
+
+You will find a script called `custom-assemble.sh` in the `training/beta4` folder. Go to
 your Github repository for your application from the previous lab, find the
-`beta3` branch, and find the `.sti/bin` folder.
+`beta4` branch, and find the `.sti/bin` folder.
 
-* Click the "+" button at the top (to the right of `bin` in the
+. Click the "+" button at the top (to the right of `bin` in the
     breadcrumbs).
-* Name your file `assemble`.
-* Paste the contents of `custom-assemble.sh` into the text area.
-* Provide a nifty commit message.
-* Click the "commit" button.
 
-**Note:** If you know how to Git(hub), you can do this via your shell.
+. Name your file `assemble`.
 
-Once the file is added, we can now do another build. The "custom" assemble
+. Paste the contents of `custom-assemble.sh` into the text area.
+
+. Provide a nifty commit message.
+
+. Click the "commit" button.
++
+[NOTE]
+If you know how to Git(hub), you can do this via your shell.
+
+. Once the file is added, we can now do another build. The "custom" assemble
 script will log some extra data.
 
-### Kick Off a Build
-Our old friend `curl` is back:
+=== Kick Off a Build
 
-    curl -i -H "Accept: application/json" \
+. Use `curl` to start the build:
++
+----
+
+[alice@master00-GUID ~]$ GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
+[alice@master00-GUID ~]$ curl -i -H "Accept: application/json" \
     -H "X-HTTP-Method-Override: PUT" -X POST -k \
-    https://ose3-master.example.com:8443/osapi/v1beta1/buildConfigHooks/ruby-sample-build//github?namespace=wiring
+    https://master00-$GUID.oslab.opentlc.com:8443/osapi/v1beta1/buildConfigHooks/ruby-sample-build//github?namespace=wiring
 
-### Watch the Build Logs
-Using the skills you have learned, watch the build logs for this build. If you
+----
+
+=== Watch the Build Logs
+
+. Using the skills you have learned, watch the build logs for this build. If you
 miss them, remember that you can find the Docker container that ran the build
 and look at its Docker logs.
 
-Did You See It?
+. Did You See It?
++
+----
 
-    2015-03-11T14:57:00.022957957Z I0311 10:57:00.022913       1 sti.go:357]
-    ---> CUSTOM S2I ASSEMBLE COMPLETE
+2015-03-11T14:57:00.022957957Z I0311 10:57:00.022913       1 sti.go:357]
+---> CUSTOM S2I ASSEMBLE COMPLETE
 
+----
++
 But where's the output from the custom `run` script? The `assemble` script is
 run inside of your builder pod. That's what you see by using `build-logs` - the
 output of the assemble script. The
@@ -1011,15 +1177,24 @@ output of the assemble script. The
 other words, the `run` script is what starts the Ruby process for an image that
 was built based on the `ruby-20-rhel7` S2I builder. 
 
-To look inside the builder pod, as `alice`:
+. To look inside the builder pod, as `alice`:
++
+----
 
-    osc logs `osc get pod | grep -e "[0-9]-build" | tail -1 | awk {'print $1'}` | grep CUSTOM
+[alice@master00-GUID ~]$ osc logs `osc get pod | grep -e "[0-9]-build" | tail -1 | awk {'print $1'}` | grep CUSTOM
 
+----
++
 You should see something similar to:
++
+----
 
-    2015-04-27T22:23:24.110630393Z ---> CUSTOM S2I ASSEMBLE COMPLETE
+2015-04-27T22:23:24.110630393Z ---> CUSTOM S2I ASSEMBLE COMPLETE
 
-## Lifecycle Pre and Post Deployment Hooks
+----
+
+== Lifecycle Pre and Post Deployment Hooks
+
 Like in OpenShift 2, we have the capability of "hooks" - performing actions both
 before and after the **deployment**. In other words, once an S2I build is
 complete, the resulting Docker image is pushed into the registry. Once the push
@@ -1040,7 +1215,8 @@ find a file called `1_sample_table.rb`. Add this file to the `db/migrate` folder
 of the `ruby-hello-world` repository that you forked. If you don't add this file
 to the right folder, the rest of the steps will fail.
 
-### Examining Deployment Hooks
+=== Examining Deployment Hooks
+
 Take a look at the following JSON:
 
     "strategy": {
@@ -1096,27 +1272,42 @@ information can be found in the documentation:
 
     http://docs.openshift.org/latest/dev_guide/deployments.html
 
-### Modifying the Hooks
-Since we are talking about **deployments**, let's look at our
+=== Modifying the Hooks
+
+. Since we are talking about **deployments**, let's look at our
 `DeploymentConfig`s. As the `alice` user in the `wiring` project:
++
+----
 
-    osc get dc
+[alice@master00-GUID ~]$ osc get dc
 
+----
++
 You should see something like:
++
+----
 
-    NAME       TRIGGERS       LATEST VERSION
-    database   ConfigChange   1
-    frontend   ImageChange    7
+NAME       TRIGGERS       LATEST VERSION
+database   ConfigChange   1
+frontend   ImageChange    7
 
-Since we are trying to associate a Rails database migration hook with our
+----
+
+. Since we are trying to associate a Rails database migration hook with our
 application, we are ultimately talking about a deployment of the frontend. If
 you edit the frontend's `DeploymentConfig` as `alice`:
++
+----
 
-    osc edit dc frontend -ojson
+[alice@master00-GUID ~]$ osc edit dc frontend -ojson
 
-Yes, the default for `osc edit` is to use YAML. For this exercise, JSON will be
+----
+
+. Yes, the default for `osc edit` is to use YAML. For this exercise, JSON will be
 easier as it is indentation-insensitive. Find the section that looks like the
 following before continuing:
++
+----
 
     "spec": {
         "strategy": {
@@ -1124,11 +1315,14 @@ following before continuing:
             "resources": {}
         },
 
+----
+
 A Rails migration is commonly performed when we have added/modified the database
 as part of our code change. In the case of a pre- or post-deployment hook, it
 would make sense to:
 
 * Attempt to migrate the database
+
 * Abort the new deployment if the migration fails
 
 Otherwise we could end up with our new code deployed but our database schema
@@ -1143,13 +1337,15 @@ we want to run looks like:
 This command:
 
 * executes inside an SCL "shell"
+
 * enables the Ruby 2.0.0 and Ruby On Rails 4.0 environments
+
 * changes to the `/opt/openshift/src` directory (where our applications' code is
     located)
+    
 * executes `bundle exec rake db:migrate`
 
-If you're not familiar with Ruby, Rails, or Bundler, that's OK. Just trust us.
-Would we lie to you?
+If you're not familiar with Ruby, Rails, or Bundler, that's OK.
 
 The `command` directive inside the hook's definition tells us which command to
 actually execute. It is required that this is an array of individual strings.
@@ -1195,24 +1391,30 @@ reference above, in the end, you will have something that looks like:
 Remember, indentation isn't critical in JSON, but closing brackets and braces
 are. When you are done editing the deployment config, save and quit your editor.
 
-### Quickly Clean Up
+=== Quickly Clean Up
+
 When we did our previous builds and rollbacks and etc, we ended up with a lot of
 stale pods that are not running (`Succeeded`). Currently we do not auto-delete
 these pods because we have no log store -- once they are deleted, you can't view
 their logs any longer.
 
-For now, we can clean up by doing the following as `alice`:
+. For now, we can clean up by doing the following as `alice`:
++
+----
 
-    osc get pod |\
-    grep -E "[0-9]-build" |\
-    awk {'print $1'} |\
-    xargs -r osc delete pod
+[alice@master00-GUID ~]$ osc get pod |\
+[alice@master00-GUID ~]$ grep -E "[0-9]-build" |\
+[alice@master00-GUID ~]$ awk {'print $1'} |\
+[alice@master00-GUID ~]$ xargs -r osc delete pod
+
+----
 
 This will get rid of all of our old build and lifecycle pods. The lifecycle pods
 are the pre- and post-deployment hook pods, and the sti-build pods are the pods
 in which our previous builds occurred.
 
-### Build Again
+=== Build Again
+
 Now that we have modified the deployment configuration and cleaned up a bit, we
 need to trigger another deployment. While killing the frontend pod would trigger
 another deployment, our current Docker image doesn't have the database migration
@@ -1224,82 +1426,124 @@ image, fetches the source code, executes the (customized) assemble script, and
 then pushes the resulting Docker image into the registry. **Then** the
 deployment happens.
 
-As `alice`:
+. As `alice`:
++
+----
 
-    osc start-build ruby-sample-build
+[alice@master00-GUID ~]$ osc start-build ruby-sample-build
 
+----
++
 Or go into the web console and click the "Start Build" button in the Builds
 area.
 
-### Verify the Migration
-About a minute after the build completes, you should see something like the following output
+=== Verify the Migration
+
+. About a minute after the build completes, you should see something like the following output
 of `osc get pod` as `alice`:
++
+----
 
-    POD                                IP          CONTAINER(S)               IMAGE(S)                                                                                                                HOST                                    LABELS                                                                                                                  STATUS       CREATED         MESSAGE
-    database-2-rj72q                   10.1.0.15                                                                                                                                                      ose3-master.example.com/192.168.133.2   deployment=database-2,deploymentconfig=database,name=database                                                           Running      About an hour   
-                                                   ruby-helloworld-database   registry.access.redhat.com/openshift3_beta/mysql-55-rhel7                                                                                                                                                                                                                               Running      About an hour   
-    deployment-frontend-7-hook-4i8ch                                                                                                                                                                  ose3-node1.example.com/192.168.133.3    <none>                                                                                                                  Succeeded    41 seconds      
-                                                   lifecycle                  172.30.118.110:5000/wiring/origin-ruby-sample@sha256:2984cfcae1dd42c257bd2f79284293df8992726ae24b43470e6ffd08affc3dfd                                                                                                                                                                   Terminated   36 seconds      exit code 0
-    frontend-7-nnnxz                   10.1.1.24                                                                                                                                                      ose3-node1.example.com/192.168.133.3    deployment=frontend-7,deploymentconfig=frontend,name=frontend                                                           Running      29 seconds      
-                                                   ruby-helloworld            172.30.118.110:5000/wiring/origin-ruby-sample@sha256:2984cfcae1dd42c257bd2f79284293df8992726ae24b43470e6ffd08affc3dfd                                                                                                                                                                   Running      26 seconds      
-    ruby-sample-build-7-build                                                                                                                                                                         ose3-master.example.com/192.168.133.2   build=ruby-sample-build-7,buildconfig=ruby-sample-build,name=ruby-sample-build,template=application-template-stibuild   Succeeded    2 minutes       
-                                                   sti-build                  openshift3_beta/ose-sti-builder:v0.5.2.2                                                                                                                                                                                                                                                Terminated   2 minutes       exit code 0
+[alice@master00-GUID ~]$ osc get pod
 
-Yes, it's ugly, thanks for reminding us.
+----
++
+----
 
+POD                                IP          CONTAINER(S)               IMAGE(S)                                                                                                                HOST                                    LABELS                                                                                                                  STATUS       CREATED         MESSAGE
+database-2-rj72q                   10.1.0.15                                                                                                                                                      master00-GUID.oslab.opentlc.com/192.168.133.2   deployment=database-2,deploymentconfig=database,name=database                                                           Running      About an hour   
+                                               ruby-helloworld-database   registry.access.redhat.com/openshift3_beta/mysql-55-rhel7                                                                                                                                                                                                                               Running      About an hour   
+deployment-frontend-7-hook-4i8ch                                                                                                                                                                  node00-GUID.oslab.opentlc.com/192.168.133.3    <none>                                                                                                                  Succeeded    41 seconds      
+                                               lifecycle                  172.30.118.110:5000/wiring/origin-ruby-sample@sha256:2984cfcae1dd42c257bd2f79284293df8992726ae24b43470e6ffd08affc3dfd                                                                                                                                                                   Terminated   36 seconds      exit code 0
+frontend-7-nnnxz                   10.1.1.24                                                                                                                                                      node00-GUID.oslab.opentlc.com/192.168.133.3    deployment=frontend-7,deploymentconfig=frontend,name=frontend                                                           Running      29 seconds      
+                                               ruby-helloworld            172.30.118.110:5000/wiring/origin-ruby-sample@sha256:2984cfcae1dd42c257bd2f79284293df8992726ae24b43470e6ffd08affc3dfd                                                                                                                                                                   Running      26 seconds      
+ruby-sample-build-7-build                                                                                                                                                                         master00-GUID.oslab.opentlc.com/192.168.133.2   build=ruby-sample-build-7,buildconfig=ruby-sample-build,name=ruby-sample-build,template=application-template-stibuild   Succeeded    2 minutes       
+                                               sti-build                  openshift3_beta/ose-sti-builder:v0.5.2.2                                                                                                                                                                                                                                                Terminated   2 minutes       exit code 0
+
+----
++
 You'll see that there is a single `hook`/`lifecycle` pod -- this corresponds
 with the pod that ran our pre-deployment hook.
 
-Inspect this pod's logs:
+. Inspect this pod's logs:
++
+----
 
-    osc logs deployment-frontend-7-hook-4i8ch
+[alice@master00-GUID ~]$ osc logs deployment-frontend-7-hook-4i8ch
 
+----
++
 The output should show something like:
++
+----
 
-    == 1 SampleTable: migrating ===================================================
-    -- create_table(:sample_table)
-       -> 0.1075s
-    == 1 SampleTable: migrated (0.1078s) ==========================================
+== 1 SampleTable: migrating ===================================================
+-- create_table(:sample_table)
+   -> 0.1075s
+== 1 SampleTable: migrated (0.1078s) ==========================================
 
+----
++
 If you have no output, you may have forgotten to actually put the migration file
 in your repo. Without that file, the migration does nothing, which produces no
 output.
-
-For giggles, you can even talk directly to the database on its service IP/port
++
+You can even talk directly to the database on its service IP/port
 using the `mysql` client and the environment variables (you would need the
 `mysql` package installed on your master, for example).
 
-As `alice`, find your database:
+. As `alice`, find your database:
++
+----
 
-    [alice@ose3-master beta4]$ osc get service
-    NAME       LABELS    SELECTOR        IP(S)            PORT(S)
-    database   <none>    name=database   172.30.108.133   5434/TCP
-    frontend   <none>    name=frontend   172.30.229.16    5432/TCP
+[alice@master00-GUID ~]$ osc get service
+NAME       LABELS    SELECTOR        IP(S)            PORT(S)
+database   <none>    name=database   172.30.108.133   5434/TCP
+frontend   <none>    name=frontend   172.30.229.16    5432/TCP
 
-Then, somewhere inside your OpenShift environment, use the `mysql` client to
-connect to this service and dump the table that we created:
+----
 
-    mysql -u userJKL \
+. As root on the master host install the mysql client:
++
+----
+
+[root@master00-GUID ~]# yum -y install mariadb
+
+----
+
+. Then use the `mysql` client to connect to this service and dump the table that we created:
++
+----
+
+[alice@master00-GUID ~]$ mysql -u userJKL \
       -p 5678efgh \
       -h 172.30.108.133 \
       -P 5434 \
       -e 'show tables; describe sample_table;' \
       root
-    +-------------------+
-    | Tables_in_root    |
-    +-------------------+
-    | sample_table      |
-    | key_pairs         |
-    | schema_migrations |
-    +-------------------+
-    +-------+--------------+------+-----+---------+----------------+
-    | Field | Type         | Null | Key | Default | Extra          |
-    +-------+--------------+------+-----+---------+----------------+
-    | id    | int(11)      | NO   | PRI | NULL    | auto_increment |
-    | name  | varchar(255) | NO   |     | NULL    |                |
-    +-------+--------------+------+-----+---------+----------------+
 
-## Arbitrary Docker Image (Builder)
+----
++
+----
+
++-------------------+
+| Tables_in_root    |
++-------------------+
+| sample_table      |
+| key_pairs         |
+| schema_migrations |
++-------------------+
++-------+--------------+------+-----+---------+----------------+
+| Field | Type         | Null | Key | Default | Extra          |
++-------+--------------+------+-----+---------+----------------+
+| id    | int(11)      | NO   | PRI | NULL    | auto_increment |
+| name  | varchar(255) | NO   |     | NULL    |                |
++-------+--------------+------+-----+---------+----------------+
+
+----
+
+== Arbitrary Docker Image (Builder)
+
 One of the first things we did with OpenShift was launch an "arbitrary" Docker
 image from the Docker Hub. However, we can also build Docker images from Docker
 files, too. While this is a "build" process, it's not a "source-to-image"
@@ -1311,90 +1555,141 @@ image:
     https://github.com/CentOS/CentOS-Dockerfiles/tree/master/wordpress/centos7
 
 We've taken the content of this subfolder and placed it in the GitHub
-`openshift/centos7-wordpress` repository. Let's run `osc new-app` and see what
-happens:
+`openshift/centos7-wordpress` repository. 
 
-    osc new-app https://github.com/openshift/centos7-wordpress.git -o yaml
+. Run `osc new-app` and see what happens:
++
+----
 
-This all looks good for now.
+[alice@master00-GUID ~]$ osc new-app https://github.com/openshift/centos7-wordpress.git -o yaml
 
-### Create a Project
-As `alice`, go ahead and create a new project:
+----
 
-    osc new-project wordpress --display-name="Wordpress" \
+=== Create a Project
+
+. As `alice`, go ahead and create a new project:
++
+----
+
+[alice@master00-GUID ~]$ osc new-project wordpress --display-name="Wordpress" \
     --description='Building an arbitrary Wordpress Docker image'
 
-### Build Wordpress
-Let's choose the Wordpress example:
+----
 
-    osc new-app -l name=wordpress https://github.com/openshift/centos7-wordpress.git
+=== Build Wordpress
 
-    imageStreams/centos
-    imageStreams/centos7-wordpress
-    buildConfigs/centos7-wordpress
-    deploymentConfigs/centos7-wordpress
-    services/centos7-wordpress
-    A build was created - you can run `osc start-build centos7-wordpress` to start it.
-    Service "centos7-wordpress" created at 172.30.135.252 with port mappings 22.
+. Let's choose the Wordpress example:
++
+----
 
-Then, start the build:
+[alice@master00-GUID ~]$ osc new-app -l name=wordpress https://github.com/openshift/centos7-wordpress.git
 
-    osc start-build centos7-wordpress
+----
++
+----
 
-**Note: This can take a *really* long time to build.**
+imageStreams/centos
+imageStreams/centos7-wordpress
+buildConfigs/centos7-wordpress
+deploymentConfigs/centos7-wordpress
+services/centos7-wordpress
+A build was created - you can run `osc start-build centos7-wordpress` to start it.
+Service "centos7-wordpress" created at 172.30.135.252 with port mappings 22.
 
-You will need a route for this application, as `curl` won't do a whole lot for
+----
+
+. Start the build:
++
+----
+
+[alice@master00-GUID ~]$ osc start-build centos7-wordpress
+
+----
++
+[NOTE]
+This can take a *really* long time to build.**
+
+. You will need a route for this application, as `curl` won't do a whole lot for
 us here. Additionally, `osc new-app` currently has a bug in the way services are
 detected, so we'll have a service for SSH (thus port 22 above) but not one for
 httpd. So we'll add on a service and route for web access.
++
+----
 
-    osc create -f wordpress-addition.json
+[alice@master00-GUID ~]$ cd ~/training/beta4; osc create -f wordpress-addition.json
 
-### Test Your Application
-You should be able to visit:
+----
 
-    http://wordpress.cloudapps.example.com
+=== Test Your Application
 
-Check it out!
+. You should be able to visit:
+
+    http://wordpress.cloudapps-GUID.oslab.opentlc.com
 
 Remember - not only did we use an arbitrary Docker image, we actually built the
 Docker image using OpenShift. Technically there was no "code repository". So, if
 you allow it, developers can actually simply build Docker containers as their
 "apps" and run them directly on OpenShift.
 
-### Application Resource Labels
+=== Application Resource Labels
 
 You may have wondered about the `-l name=wordpress` in the invocation above. This
 applies a label to all of the resources created by `osc new-app` so that they can
-be easily distinguished from any other resources in a project. For example, we
-can easily delete only the things with this label:
+be easily distinguished from any other resources in a project. 
 
-    osc delete all -l name=wordpress
+. For example, we can easily delete only the things with this label:
++
+----
 
-    buildConfigs/centos7-wordpress
-    builds/centos7-wordpress-1
-    imageStreams/centos
-    imageStreams/centos7-wordpress
-    deploymentConfigs/centos7-wordpress
-    replicationcontrollers/centos7-wordpress-1
-    services/centos7-wordpress
+[alice@master00-GUID ~]$ osc delete all -l name=wordpress
 
-Notice that the things we created from wordpress-addition.json didn't
+----
++
+----
+
+buildConfigs/centos7-wordpress
+builds/centos7-wordpress-1
+imageStreams/centos
+imageStreams/centos7-wordpress
+deploymentConfigs/centos7-wordpress
+replicationcontrollers/centos7-wordpress-1
+services/centos7-wordpress
+
+----
+
+. Notice that the things we created from wordpress-addition.json didn't
 have this label, so they didn't get deleted:
++
+----
 
-    osc get services
+[alice@master00-GUID ~]$ osc get services
 
-    NAME                      LABELS    SELECTOR                             IP             PORT(S)
-    wordpress-httpd-service   <none>    deploymentconfig=centos7-wordpress   172.30.17.83   80/TCP
+----
++
+----
 
-    osc get route
+NAME                      LABELS    SELECTOR                             IP             PORT(S)
+wordpress-httpd-service   <none>    deploymentconfig=centos7-wordpress   172.30.17.83   80/TCP
 
-    NAME              HOST/PORT                         PATH      SERVICE                   LABELS
-    wordpress-route   wordpress.cloudapps.example.com             wordpress-httpd-service
+----
++
+----
+
+[alice@master00-GUID ~]$ osc get route
+
+----
++
+----
+
+NAME              HOST/PORT                         PATH      SERVICE                   LABELS
+wordpress-route   wordpress.cloudapps.example.com             wordpress-httpd-service
+
+----
 
 Labels will be useful for many things, including identification in the web console.
 
-## EAP Example
+== EAP Example
+
 This example requires internet access because the Maven configuration uses
 public repositories.
 
@@ -1402,16 +1697,17 @@ If you have a Java application whose Maven configuration uses local
 repositories, or has no Maven requirements, you could probably substitute that
 code repository for the one below.
 
-### Create a Project
+=== Create a Project
+
 Using the skills you have learned earlier in the training, create a new project
 for the EAP example. Choose a user as the administrator, and make sure to use
 that user in the subsequent commands as necessary.
 
-### Instantiate the Template
+=== Instantiate the Template
 When we imported the imagestreams into the `openshift` namespace earlier, we
 also brought in JBoss EAP and Tomcat S2I builder images.
 
-Take a look at the `eap6-basic-sti.json` in the `beta4` folder.  You'll see that
+Take a look at the `eap6-basic-sti.json` in the `training/beta4` folder.  You'll see that
 there are a number of bash-style variables (`${SOMETHING}`) in use in this
 template. This template is already configured to use the EAP builder image, so
 we can use the web console to simply isntantiate it in the desired way.
@@ -1419,50 +1715,69 @@ we can use the web console to simply isntantiate it in the desired way.
 We want to:
 
 * set the application name to *helloworld*
+
 * set the application hostname to *helloworld.cloudapps.example.com*
-* set the Git URI to
-    *https://github.com/jboss-developer/jboss-eap-quickstarts/*
+
+* set the Git URI to *https://github.com/jboss-developer/jboss-eap-quickstarts/*
+
 * set the Git ref to *6.4.x*
+
 * set the Git context dir to *helloworld*
+
 * set Github and Generic trigger secrets to *secret*
 
 Ok, we're ready:
 
-1. Add the `eap6-basic-sti.json` template to your project using the commandline:
+. Add the `eap6-basic-sti.json` template to your project using the commandline:
++
+----
 
-        osc create -f eap6-basic-sti.json
+[alice@master00-GUID ~]$ cd ~training/beta4; osc create -f eap6-basic-sti.json
 
-1. Create the secret for the EAP template:
+----
 
-        osc create -f eap-app-secret.json
+. Create the secret for the EAP template:
++
+----
 
-1. Go into the web console.
+[alice@master00-GUID beta4]$ osc create -f eap-app-secret.json
 
-1. Find the project you created and click on it.
+----
 
-1. Click the "Create..." button.
+. Go into the web console.
 
-1. Click the "Browse all templates..." button.
+. Find the project you created and click on it.
 
-1. Click the "eap6-basic-sti" example.
+. Click the "Create..." button.
 
-1. Click "Select template".
+. Click the "Browse all templates..." button.
 
-Now that you are on the overview page, you'll have to click "Edit Paremeters"
-and fill in the values with the things we wanted above. Hit "Create" when you
-are done.
+. Click the "eap6-basic-sti" example.
+
+. Click "Select template".
+
+. Now that you are on the overview page, you'll have to click "Edit Paremeters"
+and fill in the values with the things we wanted above. 
+
+. Hit "Create" when you are done.
 
 In the UI you will see a bunch of things get created -- several services, some
 routes, and etc.
 
-### Update the BuildConfig
+=== Update the BuildConfig
+
 The template assumes that the imageStream exists in our current project, but
 that is not the case. The EAP imageStream exists in the `openshift` namespace.
-So we need to edit the resulting `buildConfig` and specify that.
 
-    osc edit bc helloworld
+. Edit the resulting `buildConfig` and specify that.
++
+----
 
-You will need to edit the `strategy` section to look like the following:
+[alice@master00-GUID ~]$ osc edit bc helloworld
+
+----
+
+. You will need to edit the `strategy` section to look like the following:
 
     strategy:
       sourceStrategy:
@@ -1473,17 +1788,19 @@ You will need to edit the `strategy` section to look like the following:
 
 **REMEMBER** indentation is *important* in YAML.
 
-### Watch the Build
+=== Watch the Build
+
 In a few moments a build will start. You can watch the build if you choose, or
 just look at the web console and wait for it to finish. If you do watch the
 build, you might notice some Maven errors.  These are non-critical and will not
 affect the success or failure of the build.
 
-### Visit Your Application
+=== Visit Your Application
+
 We specified a route via defining the application hostname, so you should be able to
 visit your app at:
 
-    http://helloworld.cloudapps.example.com/jboss-helloworld
+    http://helloworld.cloudapps-GUID.oslab.opentlc.com/jboss-helloworld
 
 The reason that it is "/jboss-helloworld" and not just "/" is because the
 helloworld application does not use a "ROOT.war". If you don't understand this,

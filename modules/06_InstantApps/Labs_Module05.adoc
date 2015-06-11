@@ -1107,6 +1107,8 @@ cool. Let's now roll forward (activate) the typo-enabled application:
 
 [alice@master00-GUID ~]$ osc rollback frontend-2
 
+----
+
 == Customized Build and Run Processes
 
 OpenShift v3 supports customization of both the build and run processes.

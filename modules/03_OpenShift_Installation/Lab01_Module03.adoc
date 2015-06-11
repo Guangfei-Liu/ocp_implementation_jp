@@ -32,13 +32,13 @@ Take note that all of the steps in the lab may change when OpenShift 3.0 goes GA
 
 The lab environment consists of 4 VMs:
 
-* oslab-GUID.oslab.opentlc.com (administration host)
+* `oslab-GUID.oslab.opentlc.com` (administration host)
 
-* master00-GUID.oslab.opentlc.com (master host, includes node role as well)
+* `master00-GUID.oslab.opentlc.com` (master host, includes node role as well)
 
-* node00-GUID.oslab.opentlc.com (node host)
+* `node00-GUID.oslab.opentlc.com` (node host)
 
-* node01-GUID.oslab.opentlc.com (node host)
+* `node01-GUID.oslab.opentlc.com` (node host)
 
 [NOTE]
 As a reminder you will only be allowed to SSH to the administration host from the outside of the lab environment, all other hosts have external SSH blocked.  Once on the administration host, you can SSH to the other hosts internally.  As described earlier, you will have to use your private SSH key and OPENTLC login to access the system (not root!).
@@ -68,48 +68,47 @@ Each student lab is assigned a global unique identifier (GUID) that consists of 
 
 OpenShift requires several software repositories:
 
-* rhel-7-server-rpms
+* `rhel-7-server-rpms`
 
-* rhel-7-server-extras-rpms
+* `rhel-7-server-extras-rpms`
 
-* rhel-7-server-optional-rpms
+* `rhel-7-server-optional-rpms`
 
-* rhel-server-7-ose-beta-rpms
+* `rhel-server-7-ose-beta-rpms`
 
 Normally you would get these repositories via `subscription-manager` but we have provided a mirror that we will configure in the following lab steps.
 
-. If not already connected, connect to your administration host *oselab* (your private key location may vary):
+. If not already connected, connect to your administration host `oselab-GUID.oslab.opentlc.com` (your private key location may vary):
 +
 ----
 
-yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-*GUID*.oslab.opentlc.com
+yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-GUID.oslab.opentlc.com
 
 ----
 
-. Become the `root` user:
+. From the administration host SSH to the master host as the root user:
 +
 ----
 
--bash-4.2$ sudo -i
-
-----
-
-. SSH to the master host:
-+
-----
-
-[root@oselab-GUID ~]# ssh 192.168.0.100
+[yourlogin@oselab-GUID ~]# ssh root@192.168.0.100
 
 ----
 +
 [NOTE]
-If prompted for a password use *r3dh4t1!*
+When prompted for a password use *r3dh4t1!*
 +
 ----
 
 root@192.168.0.100's password: ******** (r3dh4t1!) 
 
 ----
+
+. It is highly recommended that you use a terminal multiplexing tool such as `tmux` or `screen` in case you lose connectivity to your environment.  This will keep your session at the place it was at the time of disconnection.  You are allowed to install the `tmux` or `screen` package using `yum` on the master host.  It is not installed by default.
++
+[NOTE]
+For more information on using `tmux` use `man tmux` after installing the package.
+For more information on using `screen` use `man screen` after installing the package.
+
 
 . On the master host set up the yum repository configuration file `/etc/yum.repos.d/open.repo` with the following repositories:
 +
@@ -146,7 +145,7 @@ EOF
 [NOTE]
 We are using a local mirror of the repositories in our lab environment, as stated earlier you would normally use `subscription-manager`.
 
-. Add the OpenShift Beta3 repository mirror to the master host:
+. Add the OpenShift repository mirror to the master host:
 +
 ----
 
@@ -184,14 +183,6 @@ rhel-x86_64-server-rh-common-7    Red Hat Enterprise Linux 7 Common          19
 
 === Verify Network Configuration:
 
-. On the Master host, remove the NetworkManager package (if installed):
-+
-----
-
-[root@master00-GUID ~]# yum -y remove NetworkManager*
-
-----
-
 . Verify the hostname for the master host:
 +
 ----
@@ -207,7 +198,7 @@ master00-GUID.oslab.opentlc.com
 
 ----
 
-. Take note of the internal IP address:
+. Take note of the master host's internal IP address:
 +
 ----
 
@@ -215,7 +206,7 @@ master00-GUID.oslab.opentlc.com
 
 ----
 
-. Make sure the internal DNS entry matches the internal IP address:
+. Make sure the master host's internal DNS entry matches the internal IP address:
 +
 ----
 
@@ -223,7 +214,7 @@ master00-GUID.oslab.opentlc.com
 
 ----
 
-. Take note of the external IP address:
+. Take note of the master host's external IP address:
 +
 ----
 
@@ -231,7 +222,7 @@ master00-GUID.oslab.opentlc.com
 
 ----
 
-. Make sure the external DNS entry matches the external IP address:
+. Make sure the master host's external DNS entry matches the external IP address:
 +
 ----
 
@@ -241,13 +232,16 @@ master00-GUID.oslab.opentlc.com
 
 === Install Docker 
 
-. Install *Docker* on the master host
+. Install the `docker` package on the master host
 + 
 ----
 
 [root@master00-GUID ~]# yum -y install docker
 
 ----
++
+[NOTE]
+The default Docker storage configuration uses loopback devices and is not appropriate for production. Red Hat considers the dm.thinpooldev storage option to be the only appropriate configuration for production use.
 
 . Remove the out of the box loopback docker storage from the master host:
 +
@@ -257,7 +251,7 @@ master00-GUID.oslab.opentlc.com
 
 ----
 
-. Run `docker-storage-setup` on the master host to create logical volumes for *Docker*:
+. In order to use `dm.thinpooldev` you must have space for an LVM thinpool available, the `docker-storage-setup` package will assist you in configuring LVM.  Run `docker-storage-setup` on the master host to create logical volumes for Docker:
 +
 ----
 
@@ -348,19 +342,20 @@ docker.service - Docker Application Container Engine
 [NOTE]
 Make sure the status shows *enabled* and *active (running)*.
 
-. In order to save time later, we will "pull" some docker images to the master host. This will take about 10 minutes to complete. [Master host shell prompt not shown in commands below]:
+. In order to save time later, we will pre-fetch the docker images to the master host. This process will take about 10 minutes to complete:
 +
 ----
 
-docker pull registry.access.redhat.com/openshift3_beta/ose-haproxy-router:v0.4.3.2
-docker pull registry.access.redhat.com/openshift3_beta/ose-deployer:v0.4.3.2
-docker pull registry.access.redhat.com/openshift3_beta/ose-sti-builder:v0.4.3.2
-docker pull registry.access.redhat.com/openshift3_beta/ose-docker-builder:v0.4.3.2
-docker pull registry.access.redhat.com/openshift3_beta/ose-pod:v0.4.3.2
-docker pull registry.access.redhat.com/openshift3_beta/ose-docker-registry:v0.4.3.2
-docker pull registry.access.redhat.com/openshift3_beta/sti-basicauthurl:latest
-docker pull registry.access.redhat.com/openshift3_beta/ruby-20-rhel7
-docker pull registry.access.redhat.com/openshift3_beta/mysql-55-rhel7
+[root@master00-0a0c ~]# \
+docker pull registry.access.redhat.com/openshift3_beta/ose-haproxy-router:v0.4.3.2 ;\
+docker pull registry.access.redhat.com/openshift3_beta/ose-deployer:v0.4.3.2 ;\
+docker pull registry.access.redhat.com/openshift3_beta/ose-sti-builder:v0.4.3.2 ;\
+docker pull registry.access.redhat.com/openshift3_beta/ose-docker-builder:v0.4.3.2 ;\
+docker pull registry.access.redhat.com/openshift3_beta/ose-pod:v0.4.3.2 ;\
+docker pull registry.access.redhat.com/openshift3_beta/ose-docker-registry:v0.4.3.2 ;\
+docker pull registry.access.redhat.com/openshift3_beta/sti-basicauthurl:latest ;\
+docker pull registry.access.redhat.com/openshift3_beta/ruby-20-rhel7 ;\
+docker pull registry.access.redhat.com/openshift3_beta/mysql-55-rhel7 ;\
 docker pull openshift/hello-openshift
 
 ----
@@ -419,17 +414,9 @@ You should see something similar to the following:
   
 ----
 
-. Restart the *Docker* service on master host to make sure everything is fresh:
-+
-----
-
-[root@master00-GUID ~]# systemctl restart docker
-
-----
-
 === Configure SSH Keys:
 
-. On the master host, create keys for the root user.
+. On the master host, create an SSH key pair for the `root` user.
 +
 ----
 
@@ -437,23 +424,24 @@ You should see something similar to the following:
 
 ----
 
-. Add ssh key to *authorized_keys* of all the hosts in the environment (currently only our master host):
+. Add the public ssh key to `/root/.ssh/authorized_keys` locally to the master host:
 +
 ----
 
-[root@master00-GUID ~]# cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys 
-#or
-[root@master00-GUID ~]# ssh-copy-id -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa.pub 127.0.0.1
+[root@master00-GUID ~]# cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys 
 
 ----
 
-. Configure */etc/ssh/ssh_conf* to disable *StrictHostKeyChecking* on the master host (only for development, testing, or demos!):
+. Configure `/etc/ssh/ssh_conf` to disable `StrictHostKeyChecking` on the master host:
 +
 ----
 
 [root@master00-GUID ~]# echo StrictHostKeyChecking no >> /etc/ssh/ssh_config
 
 ----
++
+[NOTE]
+Only do this for hosts that are used for development, testing, or demos!
 
 . From the master host test the new SSH key by connecting to itself over the loopback interface without a keyboard prompt:
 +
@@ -468,9 +456,9 @@ You should see something similar to the following:
 === Install Ansible Installer 
 
 [NOTE]
-The steps in this section will drastically change when the product goes GA.
+*The steps in this section will drastically change when the product goes GA.*
 
-. Add the *EPEL* repository to the master host and disable it:
+. Add the `Extra Packages for Enterprise Linux` or `EPEL` repository to the master host and disable it:
 +
 ----
 
@@ -478,18 +466,24 @@ The steps in this section will drastically change when the product goes GA.
 [root@master00-GUID ~]# sed -i -e "s/^enabled=1/enabled=0/" /etc/yum.repos.d/epel.repo
 
 ----
++
+[NOTE]
+At this time, the `ansible` package is only available from `EPEL`.
 
-. Install Ansible on master host:
+. Install the `ansible` package on the master host:
 +
 ----
 
 [root@master00-GUID ~]# yum -y --enablerepo=epel install ansible
 
 ----
++
+[NOTE]
+Eventually there will be an interactive text-based CLI installer that leverages Ansible under the covers. For now, we have to invoke Ansible manually.  We will do this in the next lab.
 
 === Configure and Install OpenShift Enterprise 3.0
 
-. Download the Ansible "playbook" to the master host in root's home directory:
+. Download the OpenShift 3 Ansible "playbook" to the master host in root's home directory:
 +
 ---- 
 
@@ -497,7 +491,7 @@ The steps in this section will drastically change when the product goes GA.
 
 ----
 
-. Configure */etc/ansible/hosts* on the master host:
+. The OpenShift playbook uses `/etc/ansible/hosts` to determine which hosts to configure and what roles to apply.  Configure `/etc/ansible/hosts` on the master host:
 +
 ----
 
@@ -532,8 +526,11 @@ master00-$GUID.oslab.opentlc.com openshift_node_labels="{'region': 'infra', 'zon
 EOF
 
 ----
++
+[NOTE]
+Note that the nodes are commented out, they will be enabled later.  Also note the region and zone settings.  These are explained a little more in the next section.
 
-. Run the Ansible installer on the master host:
+. Run the Ansible installer `ansible-playbook` on the master host:
 +
 ---- 
 
@@ -544,9 +541,17 @@ EOF
 [NOTE]
 Running the Ansible installer will take a few minutes to run.  This is a good time for a break.
 
+=== About Regions and Zones
+
+In OpenShift 2, we introduced the specific concepts of "regions" and "zones" to enable organizations to provide some topologies for application resiliency. Apps would be spread throughout the zones in a region and, depending on the way you configured OpenShift, you could make different regions accessible to users.
+
+For OpenShift 3, Kubernetes doesn't actually care about your topology. In other words, OpenShift is "topology agnostic". In fact, OpenShift 3 provides advanced controls for implementing whatever topologies you can dream up, leveraging filtering and affinity rules to ensure that parts of applications (pods) are either grouped together or spread apart.
+
+For the purposes of a simple example, we'll be sticking with the "regions" and "zones" theme. But, as you go through these examples, think about what other complex topologies you could implement. Perhaps "secure" and "insecure" hosts, or other topologies.
+
 === Configure Wildcard DNS to Service the OpenShift Environment.
 
-. Connect to your administration host *oselab* (your private key location may vary):
+. Connect to your administration host `oselab-GUID.oslab.opentlc.com` (your private key location may vary):
 +
 ----
 
@@ -554,7 +559,7 @@ yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-*GUID*.oslab.opentlc
 
 ----
 
-. Become the `root` user:
+. Become the `root` user on the administration host:
 +
 ----
 
@@ -562,7 +567,7 @@ yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-*GUID*.oslab.opentlc
 
 ----
 
-. Install *BIND* on the administration host (*oselab*):
+. Install the `bind` and `bind-utils` package on the administration host:
 +
 ----
 
@@ -643,7 +648,7 @@ zone \"${domain}\" IN {
 
 ----
 
-. Enable and start *BIND* on the administration host:
+. Enable and start `named` on the administration host:
 +
 ----
 
@@ -663,7 +668,7 @@ zone \"${domain}\" IN {
 
 === Verify DNS configuration:
 
-. First try the dns server running on the administration host:
+. First try testing the DNS server running on the administration host:
 +
 ----
 
@@ -671,7 +676,7 @@ zone \"${domain}\" IN {
 
 ----
 
-. Second try using an external name server:
+. Second try testing with an external name server:
 +
 ----
 
@@ -685,7 +690,7 @@ The first time you query 8.8.8.8 you may see a lag an an error:
 Host test.cloudapps-GIOD.oslab.opentlc.com not found: 3(NXDOMAIN)`
 This is normal.  if you do the test again, it will go faster and not error out.
 
-. Lastly from your laptop/desktop, this might take a few minutes to be updated.  Be sure to replace GUID with the correct GUID.
+. Lastly test DNS from your laptop/desktop, this might take a few minutes to be updated.  Be sure to replace GUID with the correct GUID.
 +
 ----
 

@@ -996,91 +996,106 @@ at his project, with his project administrator rights
 +
 ----
 
-    [joe]$ osadm policy add-role-to-user view alice
+[joe@master00-GUID ~]$ osadm policy add-role-to-user view alice
 
-**Note:** `osadm` will act, by default, on whatever project the user has
+----
++
+[NOTE]
+`osadm` will act, by default, on whatever project the user has
 selected. If you recall earlier, when we logged in as `joe` we ended up in the
 `demo` project. We'll see how to switch projects later.
 
-Open a new terminal window as the `alice` user:
+. Open a new terminal window to the master host as the `alice` user:
++
+----
 
-    su - alice
+[root@master00-GUID ~]# su - alice
 
-and login to OpenShift:
+----
 
-    osc login -u alice \
+. As user `alice` on the master host login to OpenShift with password 'r3dh4t1!':
++
+----
+
+[alice@master00-GUID ~]$ export GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
+[alice@master00-GUID ~]$ osc login -u alice \
     --certificate-authority=/etc/openshift/master/ca.crt \
-    --server=https://ose3-master.example.com:8443
+    --server=https://master00-$GUID.oslab.opentlc.com:8443
 
-You'll interact with the tool as follows:
-
-    Authentication required for https://ose3-master.example.com:8443 (openshift)
-    Password:  <redhat>
-    Login successful.
-
-    Using project "demo"
-
+----
++
 `alice` has no projects of her own yet (she is not an administrator on
 anything), so she is automatically configured to look at the `demo` project
-since she has access to it. She has "view" access, so `osc status` and `osc get
-pods` and so forth should show her the same thing as `joe`:
+since she has access to it. She only has "view" access.
 
-    [alice]$ osc get pods
-    POD               IP         CONTAINER(S)      IMAGE(S)                           HOST                                   LABELS                 STATUS    CREATED      MESSAGE
-    hello-openshift   10.1.1.2                                                        ose3-node1.example.com/192.168.133.3   name=hello-openshift   Running   14 minutes   
-                                 hello-openshift   openshift/hello-openshift:v0.4.3                                                                 Running   14 minutes   
-However, she cannot make changes:
+. As user `alice` on the master host use `osc status` and `osc get pods` to see if she sees that same thing as `joe`:
++
+----
 
-    [alice]$ osc delete pod hello-openshift
-    Error from server: User "alice" cannot delete pods in project "demo"
+[alice@master00-GUID ~]$ osc get pods
 
-Also login as `alice` in the web console and confirm that she can view
+----
+
+. As user `alice` on the master host attempt to make a change:
++
+----
+
+[alice@master00-GUID ~]$ osc delete pod hello-openshift
+
+----
++
+No text will be returned, nothing happened, you can verify with `osc get pods`.
+
+.  Login as `alice` in the web console and confirm that she can view
 the `demo` project.
 
-`joe` could also give `alice` the role of `edit`, which gives her access
+. As user `joe` on the master host give `alice` the role of `edit`, which gives her access
 to do nearly anything in the project except adjust access.
++
+----
 
-    [joe]$ osadm policy add-role-to-user edit alice
+[joe@master00-GUID ~]$ osadm policy add-role-to-user edit alice
 
-Now she can delete that pod if she wants, but she can not add access for
+----
+
+. Now `alice` can delete that pod if she wants, but she can not add access for
 another user or upgrade her own access. To allow that, `joe` could give
 `alice` the role of `admin`, which gives her the same access as himself.
++
+----
 
-    [joe]$ osadm policy add-role-to-user admin alice
+[joe@master00-GUID ~]$ osadm policy add-role-to-user admin alice
 
-There is no "owner" of a project, and projects can certainly be created
+----
+
+. There is no "owner" of a project, and projects can certainly be created
 without any administrator. `alice` or `joe` can remove the `admin`
 role (or all roles) from each other or themselves at any time without
 affecting the existing project.
 
-    [joe]$ osadm policy remove-user joe
-
-Check `osadm policy help` for a list of available commands to modify
+. Check `osadm policy help` for a list of available commands to modify
 project permissions. OpenShift RBAC is extremely flexible. The roles
 mentioned here are simply defaults - they can be adjusted (per-project
 and per-resource if needed), more can be added, groups can be given
 access, etc. Check the documentation for more details:
 
 * http://docs.openshift.org/latest/dev_guide/authorization.html
+
 * https://github.com/openshift/origin/blob/master/docs/proposals/policy.md
 
-Of course, there be dragons. The basic roles should suffice for most uses.
+=== Deleting a Project
 
-**Note:** There is a bug that actually prevents the remove-user from removing
-the user:
-
-https://github.com/openshift/origin/issues/2785
-
-It appears to be fixed but may not have made beta4.
-
-### Deleting a Project
 Since we are done with this "demo" project, and since the `alice` user is a
 project administrator, let's go ahead and delete the project. This should also
 end up deleting all the pods, and other resources, too.
 
-As the `alice` user:
+. On the master host as the `alice` user:
++
+----
 
-    osc delete project demo
+[alice@master00-GUID ~]$ osc delete project demo
+
+----
 
 If you quickly go to the web console and return to the top page, you'll see a
 warning icon that will pop-up a hover tip saying the project is marked for
@@ -1093,15 +1108,6 @@ cleanup routine to finish.
 
 Once the project disappears from `osc get project`, doing `osc get pod -n demo`
 should return no results.
-
-
-
-
-
-
-
-
-
 
 == Create your first STI Build
 

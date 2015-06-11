@@ -1,6 +1,0 @@
-:scrollbar:
-:data-uri:
-:icons: images/icons
-:toc2:		
-
-		

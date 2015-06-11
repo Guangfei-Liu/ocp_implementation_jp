@@ -472,6 +472,8 @@ that instead of the master.
 [root@master00-GUID ~]# chown nfsnobody:nfsnobody /var/export/vol1
 [root@master00-GUID ~]# chmod 700 /var/export/vol1
 
+----
+
 . Add the following line to `/etc/exports`:
 +
 ----
@@ -479,7 +481,6 @@ that instead of the master.
 [root@master00-GUID ~]# echo "/var/export/vol1 *(rw,sync,all_squash)" >> /etc/exports
 
 ----
-
 
 . Enable and start NFS services:
 +

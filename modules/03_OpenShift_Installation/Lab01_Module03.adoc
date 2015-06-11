@@ -183,6 +183,8 @@ rhel-x86_64-server-rh-common-7    Red Hat Enterprise Linux 7 Common          19
 
 === Verify Network Configuration:
 
+In this lab we will verify that the master host is configured correctly for internal and external DNS name resolution.
+
 . Verify the hostname for the master host:
 +
 ----
@@ -230,7 +232,9 @@ master00-GUID.oslab.opentlc.com
 
 ----
 
-=== Install Docker 
+=== Install Docker
+
+OpenShift uses Docker to store and manage container images.  In this lab we install Docker and provide it's required storage pool.
 
 . Install the `docker` package on the master host
 + 
@@ -416,6 +420,8 @@ You should see something similar to the following:
 
 === Configure SSH Keys:
 
+The OpenShift installer uses SSH to configure hosts.  In this lab we create and install an SSH key pair on the master host and add the public key to the `authorized_hosts` file.
+
 . On the master host, create an SSH key pair for the `root` user.
 +
 ----
@@ -481,6 +487,8 @@ Eventually there will be an interactive text-based CLI installer that leverages 
 
 === Configure and Install OpenShift Enterprise 3.0
 
+In this lab we will use Andible to install OpenShift on the master host.  This will configure the master host with the master and node roles.
+
 . Download the OpenShift 3 Ansible "playbook" to the master host in root's home directory:
 +
 ---- 
@@ -539,6 +547,21 @@ Note that the nodes are commented out, they will be enabled later.  Also note th
 [NOTE]
 Running the Ansible installer will take a few minutes to run.  This is a good time for a break.
 
+. The output of the `ansible-playbook` command shoold show failed=0 for all hosts:
++
+----
+
+...OUTPUT OMMITTED...
+PLAY RECAP ********************************************************************
+localhost                  : ok=5    changed=0    unreachable=0    failed=0
+master00-GUID.oslab.opentlc.com : ok=X   changed=Y    unreachable=0    failed=0
+
+----
+
+. After the installer is complete, check the status of your nodes using the `osc get nodes` command on the master host:
++
+----
+
 === About Regions and Zones
 
 In OpenShift 2, we introduced the specific concepts of "regions" and "zones" to enable organizations to provide some topologies for application resiliency. Apps would be spread throughout the zones in a region and, depending on the way you configured OpenShift, you could make different regions accessible to users.
@@ -548,6 +571,8 @@ For OpenShift 3, Kubernetes doesn't actually care about your topology. In other 
 For the purposes of a simple example, we'll be sticking with the "regions" and "zones" theme. But, as you go through these examples, think about what other complex topologies you could implement. Perhaps "secure" and "insecure" hosts, or other topologies.
 
 === Configure Wildcard DNS to Service the OpenShift Environment.
+
+OpenShift requires a wildcard DNS A record.  The wildcard A record should point to the publicly available (external) IP address of the OpenShift router.  For this training, we will ensure that the router will end up on the OpenShift server that is running the master.  It is advisable to use a low TTL for this record in order for DNS client caches to expire quicker so that changes become available quicker.  The DNS server runs on the administration host.
 
 . Connect to your administration host `oselab-GUID.oslab.opentlc.com` (your private key location may vary):
 +
@@ -666,10 +691,13 @@ zone \"${domain}\" IN {
 
 === Verify DNS configuration:
 
+A test DNS entry was created called `test.cloud-appsGUID.oslab.opentlc.com`.  This lab will test internal and external resolution of that DNS entry.
+
 . First try testing the DNS server running on the administration host:
 +
 ----
 
+[root@oselab-GUID ~]# guid=`hostname|cut -f2 -d-|cut -f1 -d.`
 [root@oselab-GUID ~]# host test.cloudapps-$guid.oslab.opentlc.com 127.0.0.1
 
 ----

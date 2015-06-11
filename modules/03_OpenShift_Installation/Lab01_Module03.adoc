@@ -150,7 +150,7 @@ We are using a local mirror of the repositories in our lab environment, as state
 ----
 
 [root@master00-GUID ~]# cat << EOF >> /etc/yum.repos.d/open.repo
-[ose3]
+[rhel-server-7-ose-beta-rpms]
 name=Red Hat Enterprise Linux 7 OSE 3
 baseurl=http://www.opentlc.com/repos/ose3_beta4
 enabled=1
@@ -173,7 +173,7 @@ You should see the following:
 ----
 
 repo id                           repo name                               status
-ose3                              Red Hat Enterprise Linux 7 OSE 3           16
+rhel-server-7-ose-beta-rpms       Red Hat Enterprise Linux 7 OSE 3           16
 rhel-x86_64-server-7              Red Hat Enterprise Linux 7              4,387
 rhel-x86_64-server-extras-7       Red Hat Enterprise Linux 7 Extras          19
 rhel-x86_64-server-optional-7     Red Hat Enterprise Linux 7 Optional     4,087

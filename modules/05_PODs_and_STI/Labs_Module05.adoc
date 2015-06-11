@@ -100,19 +100,27 @@ our server lives, our project, etc.
 You will have to fetch a new token once this one expires.  The installer sets
 the default token lifetime to 4 hours.
 
-=== Grab the Training Repo Again
-Since Joe and Alice can't access the training folder in root's home directory,
-go ahead and grab it inside Joe's home folder:
+=== Get the Training Repo for user Joe
 
-    cd
-    git clone https://github.com/openshift/training.git
-    cd ~/training/beta4
+. On the master host as user `joe` download the training repo to joe's home directory:
++
+----
 
-### The Hello World Definition JSON
-In the beta4 training folder, you can see the contents of our pod definition by
+[joe@master00-GUID ~]$ cd;git clone https://github.com/openshift/training.git
+
+----
+
+=== The Hello World Definition JSON
+
+. On the master host as user `joe` in the beta4 training folder, examine the contents of our pod definition by
 using `cat`:
++
+---
 
-    cat hello-pod.json
+[joe@master00-GUID ~]$ cd ~/training/beta4; cat hello-pod.json
+    
+----
++
     {
       "kind": "Pod",
       "apiVersion": "v1beta3",
@@ -165,72 +173,106 @@ you are familiar with OpenShift V2 terminology, it is similar to a *gear*.
 Reality is more complex, and we will learn more about the terms as we explore
 OpenShift further.
 
-### Run the Pod
-As `joe`, to create the pod from our JSON file, execute the following:
+=== Run the Pod
 
-    osc create -f hello-pod.json
+. On the master host as `joe`, create a pod from our JSON file:
++
+----
 
+[joe@master00-GUID beta4]$ osc create -f hello-pod.json
+
+----
++
 Remember, we've "logged in" to OpenShift and our project, so this will create
 the pod inside of it. The command should display the ID of the pod:
++
+----
 
-    pods/hello-openshift
+pods/hello-openshift
 
-Issue a `get pods` to see the details of how it was defined:
+----
 
-    osc get pods
-    POD               IP         CONTAINER(S)      IMAGE(S)                           HOST                                   LABELS                 STATUS    CREATED      MESSAGE
-    hello-openshift   10.1.1.2                                                        ose3-node1.example.com/192.168.133.3   name=hello-openshift   Running   16 seconds   
-                                 hello-openshift   openshift/hello-openshift:v0.4.3                                                                 Running   2 seconds   
+. On the master host issue `get pods` to see the details of how it was defined:
++
+----
 
+[joe@master00-GUID beta4]$ osc get pods
++
+----
+
+POD               IP         CONTAINER(S)      IMAGE(S)                           HOST                                            LABELS                 STATUS    CREATED      MESSAGE
+hello-openshift   10.1.0.4                                                        master00-0a0c.oslab.opentlc.com/192.168.0.100   name=hello-openshift   Running   51 seconds
+                             hello-openshift   openshift/hello-openshift:v0.4.3                                                                          Running   37 seconds
+ 
+----
++
 The output of this command shows all of the Docker containers in a pod, which
 explains some of the spacing.
-
++
 On the node where the pod is running (`HOST`), look at the list of Docker
 containers with `docker ps` (in a `root` terminal) to see the bound ports.  We
 should see an `openshift3_beta/ose-pod` container bound to 36061 on the host and
 bound to 8080 on the container, along with several other `ose-pod` containers.
-
++
 The `openshift3_beta/ose-pod` container exists because of the way network
 namespacing works in Kubernetes. For the sake of simplicity, think of the
 container as nothing more than a way for the host OS to get an interface created
 for the corresponding pod to be able to receive traffic. Deeper understanding of
 networking in OpenShift is outside the scope of this material.
 
-To verify that the app is working, you can issue a curl to the app's port *on
+. On the master server verify that the app is working, you can issue a curl to the app's port *on
 the node where the pod is running*
++
+----
 
-    [root@ose3-node1 ~]# curl localhost:36061
-    Hello OpenShift!
+[root@HOST ~]# curl localhost:36061
 
-Hooray!
+----
++
+----
 
-### Looking at the Pod in the Web Console
-Go to the web console and go to the *Overview* tab for the *OpenShift 3 Demo*
-project. You'll see some interesting things:
+Hello OpenShift!
 
-* You'll see the pod is running (eventually)
-* You'll see the SDN IP address that the pod is associated with (10....)
-* You'll see the internal port that the pod's container's "application"/process
-    is using
-* You'll see the host port that the pod is bound to
-* You'll see that there's no service yet - we'll get to services soon.
+----
 
-### Quota Usage
-If you click on the *Settings* tab, you'll see our pod usage has increased to 1.
+=== Looking at the Pod in the Web Console
 
-You can also use `osc` to determine the current quota usage of your project. As
-`joe`:
+. Go to the web console and go to the *Overview* tab for the *OpenShift 3 Demo*
+project.
 
-    osc describe quota test-quota -n demo
+You'll see some interesting things:
 
-### Extra Credit
-If you try to curl the pod IP and port, you get "connection refused". See if you
-can figure out why.
+* The pod is running
 
-### Delete the Pod
-As `joe`, go ahead and delete this pod so that you don't get confused in later examples:
+* The SDN IP address that the pod is associated with (10....)
 
-    osc delete pod hello-openshift
+* The internal port that the pod's container's "application"/process is using
+
+* The host port that the pod is bound to
+
+* There's no service yet - we'll get to services soon.
+
+=== Quota Usage
+
+. In the web console click on the *Settings* tab and verify that pod usage has increased to 1.
+
+. On the master host use `osc` to determine the current quota usage of your project as the user `joe`:
++
+----
+
+[joe@master00-GUID beta4]$ osc describe quota test-quota -n demo
+
+----
+
+=== Delete the Pod
+
+. On the master host as `joe` delete this pod so that you don't get confused in later examples:
++
+----
+
+[joe@master00-GUID beta4]$ osc delete pod hello-openshift
+
+----
 
 Take a moment to think about what this pod exercise really did -- it referenced
 an arbitrary Docker image, made sure to fetch it (if it wasn't present), and
@@ -239,28 +281,45 @@ available in a registry or something already written and built in-house.
 
 This is really powerful. We will explore using "arbitrary" docker images later.
 
-### Quota Enforcement
+=== Quota Enforcement
+
 Since we know we can run a pod directly, we'll go through a simple quota
 enforcement exercise. The `hello-quota` JSON will attempt to create four
 instances of the "hello-openshift" pod. It will fail when it tries to create the
 fourth, because the quota on this project limits us to three total pods.
 
-As `joe`, go ahead and use `osc create` and you will see the following:
+. On the master host as `joe` use `osc create` with `hello-quota.json`:
++
+----
 
-    osc create -f hello-quota.json 
-    pods/hello-openshift-1
-    pods/hello-openshift-2
-    pods/hello-openshift-3
-    Error from server: Pod "hello-openshift-4" is forbidden: Limited to 3 pods
+[joe@master00-GUID beta4]$ osc create -f hello-quota.json 
 
-Let's delete these pods quickly. As `joe` again:
+----
++
+You will see the following:
++
+----
 
-    osc delete pod --all
+pods/hello-openshift-1
+pods/hello-openshift-2
+pods/hello-openshift-3
+Error from server: Pod "hello-openshift-4" is forbidden: Limited to 3 pods
 
-**Note:** You can delete most resources using "--all" but there is *no sanity
-check*. Be careful.
+----
 
-## Services
+. On the master host delete these pods as `joe` again:
++
+----
+
+[joe@master00-GUID beta4]$ osc delete pod --all
+
+----
++
+[NOTE]
+You can delete most resources using "--all" but there is *no sanity check*. Be careful.
+
+=== Services
+
 From the [Kubernetes
 documentation](https://github.com/GoogleCloudPlatform/kubernetes/blob/master/docs/services.md):
 
@@ -316,7 +375,8 @@ see more about this later.
 But, to really be useful, we want to make our application accessible via a FQDN,
 and that is where the routing tier comes in.
 
-## Routing
+=== Routing
+
 The OpenShift routing tier is how FQDN-destined traffic enters the OpenShift
 environment so that it can ultimately reach pods. In a simplification of the
 process, the `openshift3_beta/ose-haproxy-router` container we will create below
@@ -369,29 +429,41 @@ is provided in the router documentation:
 
 We'll see this edge termination in action shortly.
 
-### Creating a Wildcard Certificate
+=== Creating a Wildcard Certificate
+
 In order to serve a valid certificate for secure access to applications in our
 cloud domain, we will need to create a key and wildcard certificate that the
 router will use by default for any routes that do not specify a key/cert of their
 own. OpenShift supplies a command for creating a key/cert signed by the OpenShift
 CA which we will use.
 
-On the master, as `root`:
+. Open a new session to the master host, as `root`:
++
+----
 
-    CA=/etc/openshift/master
-    osadm create-server-cert --signer-cert=$CA/ca.crt \
-          --signer-key=$CA/ca.key --signer-serial=$CA/ca.serial.txt \
-          --hostnames='*.cloudapps.example.com' \
-          --cert=cloudapps.crt --key=cloudapps.key
+[root@master00-GUID ~]# CA=/etc/openshift/master
+[root@master00-GUID ~]# export GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
+[root@master00-GUID ~]# osadm create-server-cert --signer-cert=$CA/ca.crt \
+      --signer-key=$CA/ca.key --signer-serial=$CA/ca.serial.txt \
+      --hostnames='*.cloudapps-$GUID.oslab.opentlc.com' \
+      --cert=cloudapps.crt --key=cloudapps.key
 
-Now we need to combine `cloudapps.crt` and `cloudapps.key` with the CA into
-a single PEM format file that the router needs in the next step.
+----
 
-    cat cloudapps.crt cloudapps.key $CA/ca.crt > cloudapps.router.pem
+. On the master host combine `cloudapps.crt` and `cloudapps.key` with the CA into
+a single PEM format file that the router needs in the next step:
++
+----
 
+[root@master00-GUID ~]# cat cloudapps.crt cloudapps.key $CA/ca.crt > cloudapps.router.pem
+
+----
++
+[NOTE]
 Make sure you remember where you put this PEM file.
 
-### Creating the Router
+=== Creating the Router
+
 The router is the ingress point for all traffic destined for OpenShift
 v3 services. It currently supports only HTTP(S) traffic (and "any"
 TLS-enabled traffic via SNI). While it is called a "router", it is essentially a
@@ -403,62 +475,71 @@ proxies external requests for route names to the IPs of actual pods identified
 by the service associated with the route.
 
 OpenShift's admin command set enables you to deploy router pods automatically.
-As the `root` user, try running it with no options and you will see that
+
+. On the master host as the `root` user, try `osadm router --create` and you will see that
 some options are needed to create the router:
++
+----
 
-    osadm router
-    F0223 11:50:57.985423    2610 router.go:143] Router "router" does not exist
-    (no service). Pass --create to install.
+[root@master00-GUID ~]# osadm router --create
+F0223 11:51:19.350154    2617 router.go:148] You must specify a .kubeconfig
+file path containing credentials for connecting the router to the master
+with --credentials
 
-So, go ahead and do what it says:
-
-    osadm router --create
-    F0223 11:51:19.350154    2617 router.go:148] You must specify a .kubeconfig
-    file path containing credentials for connecting the router to the master
-    with --credentials
-
+----
++
+[NOTE]
 Just about every form of communication with OpenShift components is secured by
 SSL and uses various certificates and authentication methods. Even though we set
 up our `.kubeconfig` for the root user, `osadm router` is asking us what
-credentials the *router* should use to communicate. We also need to specify the
-router image, since the tooling defaults to upstream/origin:
+credentials the *router* should use to communicate. 
 
-    osadm router --dry-run \
-    --credentials=/etc/openshift/master/openshift-router.kubeconfig
+. On the master host run `osadm` again this time specify the credentials, router image, since the tooling defaults to upstream/origin and supply the wildcard cert/key that we created for the cloud domain.
++
+----
 
-Adding that would be enough to allow the command to proceed, but if we want
-this router to work for our environment, we also need to specify the beta
-router image (the tooling defaults to upstream/origin otherwise) and we need
-to supply the wildcard cert/key that we created for the cloud domain.
-
-    osadm router --default-cert=cloudapps.router.pem \
+[root@master00-GUID ~]# osadm router --default-cert=cloudapps.router.pem \
     --credentials=/etc/openshift/master/openshift-router.kubeconfig \
     --selector='region=infra' \
     --images='registry.access.redhat.com/openshift3_beta/ose-${component}:${version}'
 
-If this works, you'll see some output:
+----
++
+You should see:
++
+----
 
-    services/router
-    deploymentConfigs/router
+services/router
+deploymentConfigs/router
 
-**Note:** You will have to reference the absolute path of the PEM file if you
+----
++
+[NOTE]
+You will have to reference the absolute path of the PEM file if you
 did not run this command in the folder where you created it.
 
-Let's check the pods:
+. On the master host check the pods:
++
+----
 
-    osc get pods 
+[root@master00-GUID ~]# osc get pods 
 
+----
++
 In the output, you should see the router pod status change to "running" after a
 few moments (it may take up to a few minutes):
++
+----
 
-    POD              IP         CONTAINER(S)   IMAGE(S)                                                                 HOST                                    LABELS                                                      STATUS    CREATED      MESSAGE
-    router-1-cutck   10.1.0.4                                                                                           ose3-master.example.com/192.168.133.2   deployment=router-1,deploymentconfig=router,router=router   Running   18 minutes   
-                                router         registry.access.redhat.com/openshift3_beta/ose-haproxy-router:v0.5.2.2                                                                                                       Running   18 minutes
+POD                       IP         CONTAINER(S)   IMAGE(S)                                                                  HOST                                            LABELS                                                                                  STATUS       CREATED         MESSAGE
+docker-registry-1-tmrvx   10.1.0.3                                                                                            master00-GUID.oslab.opentlc.com/192.168.0.100   deployment=docker-registry-1,deploymentconfig=docker-registry,docker-registry=default   Running      About an hour
+                                     registry       registry.access.redhat.com/openshift3_beta/ose-docker-registry:v0.5.2.2                                                                                                                                           Running      About an hour
+router-1-deploy                                                                                                               node00-GUID.oslab.opentlc.com/192.168.0.200     <none>                                                                                  Succeeded    57 seconds
+                                     deployment     openshift3_beta/ose-deployer:v0.5.2.2                                                                                                                                                                             Terminated   16 seconds      exit code 0
+router-1-tcfz8                                                                                                                master00-GUID.oslab.opentlc.com/                deployment=router-1,deploymentconfig=router,router=router                               Pending      15 seconds
+                                     router         registry.access.redhat.com/openshift3_beta/ose-haproxy-router:v0.5.2.2
 
-Note: This output is huge, wide, and ugly. We're working on making it nicer. You
-can chime in here:
-
-    https://github.com/GoogleCloudPlatform/kubernetes/issues/7843
+----
 
 In the above router creation command (`osadm router...`) we also specified
 `--selector`. This flag causes a `nodeSelector` to be placed on all of the pods
@@ -468,8 +549,9 @@ called "infra". This `--selector` argument asks OpenShift:
 
 *Please place all of these router pods in the infra region*.
 
-### Router Placement By Region
-In the very beginning of the documentation, we indicated that a wildcard DNS
+=== Router Placement By Region
+
+In the very beginning of the labs, we indicated that a wildcard DNS
 entry is required and should point at the master. When the router receives a
 request for an FQDN that it knows about, it will proxy the request to a pod for
 a service. But, for that FQDN request to actually reach the router, the FQDN has
@@ -482,7 +564,8 @@ with the label `region=infra`.
 For a true HA implementation, one would want multiple "infra" nodes and
 multiple, clustered router instances. We will describe this later.
 
-### Viewing Router Stats
+=== Viewing Router Stats
+
 Haproxy provides a stats page that's visible on port 1936 of your router host.
 Currently the stats page is password protected with a static password, this
 password will be generated using a template parameter in the future, for now the
@@ -503,19 +586,19 @@ you only want it accessible via port fowarding, etc.
 such it's really intended to be viewed by cluster admins rather than project
 admins.
 
-Ensure that port 1936 is accessible and visit:
+Using SSH tunnels, you can forward port 1936 from the master host to your local host and visit:
 
-    http://admin:cEVu2hUb@ose3-master.example.com:1936 
+    http://admin:cEVu2hUb@ose3-master.example.com:YOUR_SSH_TUNNEL_PORT
 
 to view your router stats.
 
-## The Complete Pod-Service-Route
+=== The Complete Pod-Service-Route
+
 With a router now available, let's take a look at an entire
 Pod-Service-Route definition template and put all the pieces together.
 
-Don't forget -- the materials are in `~/training/beta4`.
+=== Creating the Definition
 
-### Creating the Definition
 The following is a complete definition for a pod with a corresponding service
 and a corresponding route. It also includes a deployment configuration.
 
@@ -631,100 +714,192 @@ and a corresponding route. It also includes a deployment configuration.
 In the JSON above:
 
 * There is a pod whose containers have the label `name=hello-openshift-label` and the nodeSelector `region=primary`
+
 * There is a service:
+
   * with the id `hello-openshift-service`
+
   * with the selector `name=hello-openshift`
+
 * There is a route:
+
   * with the FQDN `hello-openshift.cloudapps.example.com`
+
   * with the `spec` `to` `name=hello-openshift-service`
 
 If we work from the route down to the pod:
 
 * The route for `hello-openshift.cloudapps.example.com` has an HAProxy pool
+
 * The pool is for any pods in the service whose ID is `hello-openshift-service`,
     via the `serviceName` directive of the route.
+
 * The service `hello-openshift-service` includes every pod who has a label
     `name=hello-openshift-label`
+
 * There is a single pod with a single container that has the label
     `name=hello-openshift-label`
 
-If you are not using the `example.com` domain you will need to edit the route
-portion of `test-complete.json` to match your DNS environment.
+. Become user `joe` on the master host.
++
+----
 
-**Logged in as `joe`,** go ahead and use `osc` to create everything:
+[root@master00-GUID ~]# su - joe
 
-    osc create -f test-complete.json
+----
 
+. On the master host as user `joe` change to the directory `/home/joe/training/beta4`.
++
+----
+
+[joe@master00-GUID ~]$  cd /home/joe/training/beta4
+
+----
+
+. On the master host as user `joe` change the `test-complete.json` file to use our lab's domain:
++
+----
+
+[joe@master00-GUID beta4]$ export GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
+[joe@master00-GUID beta4]$ sed -i "s/cloudapps.example.com/cloudapps-$GUID.oslab.opentlc.com/" test-complete.json
+
+----
+
+. On the master host as user `joe` use `osc` to create everything:
++
+----
+
+[joe@master00-GUID beta4]$ osc create -f test-complete.json
+
+----
++
 You should see something like the following:
++
+----
 
-    services/hello-openshift-service
-    routes/hello-openshift-route
-    pods/hello-openshift
+services/hello-openshift-service
+routes/hello-openshift-route
+pods/hello-openshift
 
-You can verify this with other `osc` commands:
+----
 
-    osc get pods
+. On the master host you can verify this with other `osc` commands:
++
+----
 
-    osc get services
+[joe@master00-GUID beta4]$ osc get pods
+[joe@master00-GUID beta4]$ osc get services
+[joe@master00-GUID beta4]$ osc get routes
 
-    osc get routes
+----
 
-**Note:** May need to force resize:
+=== Project Status
 
-    https://github.com/openshift/origin/issues/2939
-
-### Project Status
 OpenShift provides a handy tool, `osc status`, to give you a summary of
 common resources existing in the current project:
 
-    osc status
-    In project OpenShift 3 Demo (demo)
-    
-    service hello-openshift-service (172.30.197.132:27017 -> 8080)
-    
-    To see more information about a Service or DeploymentConfig, use 'osc describe service <name>' or 'osc describe dc <name>'.
+. Use `osc status` on the master host:
++
+----
 
+[joe@master00-GUID beta4]$ osc status
+
+----
++
+You should see something like:
++
+----
+
+In project OpenShift 3 Demo (demo)
+
+service hello-openshift-service (172.30.237.48:27017 -> 8080)
+  hello-openshift deploys docker.io/openshift/hello-openshift:v0.4.3
+    #1 deployed 3 minutes ago - 1 pod
+
+To see more information about a Service or DeploymentConfig, use 'osc describe service <name>' or 'osc describe dc <name>'.
 You can use 'osc get all' to see lists of each of the types described above.
-`osc status` does not yet show bare pods or routes. The output will be
-more interesting when we get to builds and deployments.
 
-### Verifying the Service
+----
+
+=== Verifying the Service
+
 Services are not externally accessible without a route being defined, because
 they always listen on "local" IP addresses (eg: 172.x.x.x). However, if you have
 access to the OpenShift environment, you can still test a service.
 
-    osc get services
-    NAME                      LABELS    SELECTOR                     IP              PORT(S)
-    hello-openshift-service   <none>    name=hello-openshift-label   172.30.17.229   27017/TCP
+. On the master host get the service information:
++
+----
 
+[joe@master00-GUID beta4]$ osc get services
+
+----
++
+You should get (IP will differ):
++
+----
+
+NAME                      LABELS    SELECTOR                     IP              PORT(S)
+hello-openshift-service   <none>    name=hello-openshift-label   172.30.17.229   27017/TCP
+
+----
++
 We can see that the service has been defined based on the JSON we used earlier.
-If the output of `osc get pods` shows that our pod is running, we can try to
-access the service:
+If the output of `osc get pods` shows that our pod is running.
 
-    curl `osc get services | grep hello-openshift | awk '{print $4":"$5}' | sed -e 's/\/.*//'`
-    Hello OpenShift!
+. Try to access the service:
++
+----
 
+[joe@master00-GUID beta4]$ curl `osc get services | grep hello-openshift | awk '{print $4":"$5}' | sed -e 's/\/.*//'`
+
+----
++
+You should see:
++
+----
+
+Hello OpenShift!
+
+----
++
 This is a good sign! It means that, if the router is working, we should be able
 to access the service via the route.
 
-### Verifying the Routing
+=== Verifying the Routing
+
 Verifying the routing is a little complicated, but not terribly so. Since we
 specified that the router should land in the "infra" region, we know that its
 Docker container is on the master.
 
-We can use `osc exec` to get a bash interactive shell inside the running
-router container. The following command will do that for us:
+. As the `root` user on the master host use `osc exec` to get a bash interactive shell inside the running
+router container:
++
+----
 
-    osc exec -it -p $(osc get pods | grep router | awk '{print $1}' | head -n 1) /bin/bash
+[root@master00-GUID ~]# osc exec -it -p $(osc get pods | grep router | awk '{print $1}' | head -n 1) /bin/bash
 
+----
++
 You are now in a bash session *inside* the container running the router.
++
+----
 
-Since we are using HAProxy as the router, we can cat the `routes.json` file:
+[root@router-1-tcfz8 /]#
 
-    cat /var/lib/containers/router/routes.json
+----
 
+. Since we are using HAProxy as the router, we can cat the `routes.json` file:
++
+----
+
+[root@router-1-tcfz8 /]# cat /var/lib/containers/router/routes.json
+
+----
++
 If you see some content that looks like:
-
++
+----
     "demo/hello-openshift-service": {
       "Name": "demo/hello-openshift-service",
       "EndpointTable": {
@@ -749,31 +924,56 @@ If you see some content that looks like:
           "Status": "saved"
         }
       }
-
+----
++
 You know that "it" worked -- the router watcher detected the creation of the
 route in OpenShift and added the corresponding configuration to HAProxy.
 
-Go ahead and `exit` from the container.
+. `exit` from the container.
++
+----
 
-    [root@router-1-2yefi /]# exit
-    exit
+[root@router-1-tcfz8 /]# exit
 
-You can reach the route securely and check that it is using the right certificate:
+----
 
-    curl --cacert /etc/openshift/master/ca.crt \
-             https://hello-openshift.cloudapps.example.com
-    Hello OpenShift!
+. From the master host test if you can reach the route securely and check that it is using the right certificate:
++
+----
 
-And:
+[root@master00-GUID ~]# export GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
+[root@master00-GUID ~]# curl --cacert /etc/openshift/master/ca.crt \
+             https://hello-openshift.cloudapps-$GUID.oslab.opentlc.com
 
-    openssl s_client -connect hello.cloudapps.example.com:443 \
+----
++
+You should see:
++
+----
+
+Hello OpenShift!
+
+----
+
+. From the master host check the SSL certificate:
++
+----
+[root@master00-GUID ~]# openssl s_client -connect hello.cloudapps-$GUID.oslab.opentlc.com:443 \
                        -CAfile /etc/openshift/master/ca.crt
-    CONNECTED(00000003)
-    depth=1 CN = openshift-signer@1430768237
-    verify return:1
-    depth=0 CN = *.cloudapps.example.com
-    verify return:1
-    [...]
+----
++
+You should see:
++
+----
+
+CONNECTED(00000003)
+depth=1 CN = openshift-signer@1430768237
+verify return:1
+depth=0 CN = *.cloudapps-GUID.oslab.opentlc.com
+verify return:1
+[...]
+
+----
 
 Since we used OpenShift's CA to create the wildcard SSL certificate, and since
 that CA is not "installed" in our system, we need to point our tools at that CA
@@ -781,15 +981,20 @@ certificate in order to validate the SSL certificate presented to us by the
 router. With a CA or all certificates signed by a trusted authority, it would
 not be necessary to specify the CA everywhere.
 
-### The Web Console
+=== The Web Console
+
 Take a moment to look in the web console to see if you can find everything that
 was just created.
 
-## Project Administration
+=== Project Administration
+
 When we created the `demo` project, `joe` was made a project administrator. As
 an example of an administrative function, if `joe` now wants to let `alice` look
-at his project, with his project administrator rights he can add her using the
-`osadm policy` command:
+at his project, with his project administrator rights 
+
+. On the master host as user `joe` add her using the `osadm policy` command:
++
+----
 
     [joe]$ osadm policy add-role-to-user view alice
 

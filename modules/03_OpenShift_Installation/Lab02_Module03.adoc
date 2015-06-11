@@ -8,31 +8,23 @@
 :numbered:	
 
 In the previous lab we have installed OpenShift Enterprise 3.0 On a single host. 
-In this lab we will learn how to add nodes to the OpenShift 3.0 environment. 
+In this lab we will demonstrate how easy it is to add nodes to the OpenShift 3.0 environment. 
 
 === Configure SSH connectivity with the nodes 
 
-. If not already connected, connect to your administration host *oselab* (your private key location may vary):
+. If not already connected, connect to your administration host `oselab-GUID.oslab.opentlc.com` with your OPENTLC login and private SSH key:
 +
 ----
 
-yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-*GUID*.oslab.opentlc.com
+yourdesktop$ ssh -i ~/.ssh/yourkey your-opentlc-login@oselab-*GUID*.oslab.opentlc.com
 
 ----
 
-. Become the `root` user:
+. SSH to the master host as `root`:
 +
 ----
 
--bash-4.2$ sudo -i
-
-----
-
-. SSH to the master host:
-+
-----
-
-[root@oselab-GUID ~]# ssh 192.168.0.100
+[root@oselab-GUID ~]# ssh root@192.168.0.100
 
 ----
 +
@@ -45,7 +37,7 @@ root@192.168.0.100's password: ******** (r3dh4t1!)
 
 ----
 
-. From the master host use ssh-copy-id to copy the public SSH key to each of the nodes:
+. From the master host use `ssh-copy-id` to copy the public SSH key to each of the nodes:
 +
 ----
 
@@ -57,61 +49,140 @@ root@192.168.0.100's password: ******** (r3dh4t1!)
 +
 [NOTE]
 If prompted for a password use *r3dh4t1!*
+
+. From the master host test password-less SSH connections to both of the nodes:
 +
 ----
 
-root@192.168.0.100's password: ******** (r3dh4t1!) 
+[root@master00-GUID ~]# ssh node00-$GUID.oslab.opentlc.com "hostname -f"
 
 ----
-
-. From the master host test passwordless SSH connections to the nodes:
 +
 ----
 
-[root@master00-GUID ~]# ssh node00-$GUID.oslab.opentlc.com "hostname -f ; date"
-[root@master00-GUID ~]# ssh node01-$GUID.oslab.opentlc.com "hostname -f ; date"
+node00-$GUID.oslab.opentlc.com
 
 ----
-
-:numbered!:
-
-=== Reconfigure and Re-run the Ansible Playbook to Add Nodes
-
-. Review the Ansible host configuration file on the master host and note there is only one host under [nodes]:
 +
 ----
 
-[root@master00-GUID ~]# cat /etc/ansible/hosts
+[root@master00-GUID ~]# ssh node01-$GUID.oslab.opentlc.com "hostname -f"
+
+----
++
+----
+
+node01-$GUID.oslab.opentlc.com
+
+----
+
+=== Configure the Repositories on the Node Hosts
+
+OpenShift nodes require the same repositories as the master:
+
+* `rhel-7-server-rpms`
+
+* `rhel-7-server-extras-rpms`
+
+* `rhel-7-server-optional-rpms`
+
+* `rhel-server-7-ose-beta-rpms`
+
+Normally you would get these repositories via `subscription-manager` but we have provided a mirror that we will configure in the following lab steps.
+
+. On *each node* set up the yum repository configuration file `/etc/yum.repos.d/open.repo` with the following command.  In each instance of this step where it says node0X replace it with *node00* and *node01*:
++
+----
+[root@master00-GUID ~]# ssh node0X-$GUID.oslab.opentlc.com
+[root@node0X-GUID ~]# cat << EOF > /etc/yum.repos.d/open.repo
+[rhel-x86_64-server-7]
+name=Red Hat Enterprise Linux 7
+baseurl=http://www.opentlc.com/repos/rhel-x86_64-server-7
+enabled=1
+gpgcheck=0
+
+[rhel-x86_64-server-rh-common-7]
+name=Red Hat Enterprise Linux 7 Common
+baseurl=http://www.opentlc.com/repos/rhel-x86_64-server-rh-common-7
+enabled=1
+gpgcheck=0
+
+[rhel-x86_64-server-extras-7]
+name=Red Hat Enterprise Linux 7 Extras
+baseurl=http://www.opentlc.com/repos/rhel-x86_64-server-extras-7
+enabled=1
+gpgcheck=0
+
+[rhel-x86_64-server-optional-7]
+name=Red Hat Enterprise Linux 7 Optional
+baseurl=http://www.opentlc.com/repos/rhel-x86_64-server-optional-7
+enabled=1
+gpgcheck=0
+
+[rhel-server-7-ose-beta-rpms]
+name=Red Hat Enterprise Linux 7 OSE 3
+baseurl=http://www.opentlc.com/repos/ose3_beta4
+enabled=1
+gpgcheck=0
+
+EOF
+
+----
+
+. List the available repositories on the node host:
++
+-----
+
+[root@node0X-GUID ~]# yum repolist 
+
+-----
++
+You should see the following:
++
+----
+
+repo id                           repo name                               status
+rhel-server-7-ose-beta-rpms       Red Hat Enterprise Linux 7 OSE 3           16
+rhel-x86_64-server-7              Red Hat Enterprise Linux 7              4,387
+rhel-x86_64-server-extras-7       Red Hat Enterprise Linux 7 Extras          19
+rhel-x86_64-server-optional-7     Red Hat Enterprise Linux 7 Optional     4,087
+rhel-x86_64-server-rh-common-7    Red Hat Enterprise Linux 7 Common          19
+
+----
+
+. Exit the first node and repeat these steps for the second node.  When you get here on the second node, just exit:
++
+----
+
+[root@node0X-GUID ~]# exit 
+
+----
+
+=== Reconfigure and Re-Run the Ansible Playbook to Add Nodes
+
+. Edit the Ansible host configuration file `/etc/ansible/hosts` on the master host and note only the master host is uncommented under `[nodes]`:
++
+----
+
+[root@master00-GUID ~]# vi /etc/ansible/hosts
 ...
 [nodes]
-master00-GUID.oslab.opentlc.com
+master00-$GUID.oslab.opentlc.com openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
+#node00-$GUID.oslab.opentlc.com openshift_node_labels="{'region': 'primary', 'zone': 'east'}"
+#node01-$GUID.oslab.opentlc.com openshift_node_labels="{'region': 'primary', 'zone': 'west'}"
 
 ---- 
 
-. Edit the Ansible host configuration file on the master host so that it includes the two nodes under the [nodes] section: 
+. Uncommment the two nodes in the Ansible host configuration file on the master host, do not change or remove anything else from the file.  Write the file when done editing: 
 +
 ----
 
-[root@master00-GUID ~]# echo "node00-$GUID.oslab.opentlc.com" >> /etc/ansible/hosts
-[root@master00-GUID ~]# echo "node01-$GUID.oslab.opentlc.com" >> /etc/ansible/hosts
-
-----
-
-. Look at the Ansible host configuration file [nodes] section on the master host again:
-+
-----
-
-[root@master00-GUID ~]# cat /etc/ansible/hosts
-
-...
 [nodes]
-master00-GUID.oslab.opentlc.com
+master00-$GUID.oslab.opentlc.com openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
+node00-$GUID.oslab.opentlc.com openshift_node_labels="{'region': 'primary', 'zone': 'east'}"
+node01-$GUID.oslab.opentlc.com openshift_node_labels="{'region': 'primary', 'zone': 'west'}"
 
-node00-GUID.oslab.opentlc.com
-node01-GUID.oslab.opentlc.com
-...
-
-----
+---- 
 
 . Run the Ansible installer on the master host again using the `ansible-playbook` command:
 +
@@ -124,7 +195,7 @@ node01-GUID.oslab.opentlc.com
 [NOTE]
 This will take a while to complete.  This is a good time for a break.
 
-. After the installer is complete, check the status of your nodes using the *osc get nodes* command on the master host:
+. After the installer is complete, check the status of your nodes using the `osc get nodes` command on the master host:
 +
 ----
 

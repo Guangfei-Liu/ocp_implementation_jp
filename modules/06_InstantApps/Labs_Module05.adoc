@@ -557,7 +557,7 @@ all nodes where the pod could land (i.e. all of them) with:
 [root@master00-GUID ~]# setsebool -P virt_use_nfs=true
 
 ----
-
++
 [NOTE]
 Once the ansible-based installer does this automatically, we can remove this
 section from the document.

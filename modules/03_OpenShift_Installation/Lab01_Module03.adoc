@@ -455,9 +455,6 @@ Only do this for hosts that are used for development, testing, or demos!
 
 === Install Ansible Installer 
 
-[NOTE]
-*The steps in this section will drastically change when the product goes GA.*
-
 . Add the `Extra Packages for Enterprise Linux` or `EPEL` repository to the master host and disable it:
 +
 ----
@@ -479,6 +476,7 @@ At this time, the `ansible` package is only available from `EPEL`.
 ----
 +
 [NOTE]
+*The steps in this section will drastically change when the product goes GA.*
 Eventually there will be an interactive text-based CLI installer that leverages Ansible under the covers. For now, we have to invoke Ansible manually.  We will do this in the next lab.
 
 === Configure and Install OpenShift Enterprise 3.0

@@ -31,6 +31,7 @@ root@master00-GUID.oslab.opentlc.com's password: ******** (r3dh4t1!)
 ----
 
 === Login
+
 Since we have taken the time to create the *joe* user as well as a project for
 him, we can log into a terminal as *joe* and then set up the command line
 tooling.
@@ -115,7 +116,7 @@ the default token lifetime to 4 hours.
 . On the master host as user `joe` in the beta4 training folder, examine the contents of our pod definition by
 using `cat`:
 +
----
+----
 
 [joe@master00-GUID ~]$ cd ~/training/beta4; cat hello-pod.json
     
@@ -197,6 +198,8 @@ pods/hello-openshift
 ----
 
 [joe@master00-GUID beta4]$ osc get pods
+
+----
 +
 ----
 
@@ -739,6 +742,7 @@ If we work from the route down to the pod:
 
 * There is a single pod with a single container that has the label
     `name=hello-openshift-label`
+\\
 
 . Become user `joe` on the master host.
 +

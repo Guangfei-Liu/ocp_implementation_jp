@@ -1,0 +1,21 @@
+:numbered!:
+:scrollbar:
+:data-uri:
+
+== Module Topics
+
+* LDAP Authentication
+
+
+ifdef::showscript[]
+
+=== Transcript
+Welcome to Module 9 of the OpenShift Enterprise Implementation course.
+
+This module presents the following topics:
+
+* LDAP Authentication
+
+endif::showscript[]
+
+

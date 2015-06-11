@@ -1,0 +1,836 @@
+:scrollbar:
+:data-uri:
+:icons: images/icons
+:toc2:		
+
+:numbered:
+
+== Instant Apps
+
+=== Connect to Lab
+
+. If not already connected, connect to your administration host:
++
+----
+
+yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-GUID.oslab.opentlc.com
+
+----
+
+. SSH to the master host:
++
+----
+
+[root@oselab-GUID ~]# ssh root@master00-GUID.oslab.opentlc.com
+
+----
++
+[NOTE]
+If prompted for a password use *r3dh4t1!*
++
+----
+
+root@master00-GUID.oslab.opentlc.com's password: ******** (r3dh4t1!) 
+
+----
+
+== Templates, Instant Apps, and "Quickstarts"
+
+This example will involve a build of another application, but also a service
+that has two pods -- a "front-end" web tier and a "back-end" database tier. This
+application also makes use of auto-generated parameters and other neat features
+of OpenShift. One thing of note is that this project already has the
+wiring/plumbing between the front- and back-end components pre-defined as part
+of its JSON and embedded in the source code. Adding resources "after the fact"
+will come in a later lab.
+
+This example is effectively a "quickstart" -- a pre-defined application that
+comes in a template that you can just fire up and start using or hacking on.
+
+=== A Project for the Quickstart
+
+. On the master host as `joe`, create a new project:
++
+----
+
+[joe@master00-GUID ~]$ osc new-project quickstart --display-name="Quickstart" \
+    --description='A demonstration of a "quickstart/template"'
+
+----
++
+This also changes you to use that project:
++
+----
+
+Now using project "quickstart" on server "https://master00-GUID.oslab.opentlc.com:8443".
+
+----
+
+=== A Quick Aside on Templates
+
+From the [OpenShift
+documentation](http://docs.openshift.org/latest/dev_guide/templates.html):
+
+    A template describes a set of resources intended to be used together that
+    can be customized and processed to produce a configuration. Each template
+    can define a list of parameters that can be modified for consumption by
+    containers.
+
+As we mentioned previously, this template has some auto-generated parameters.
+For example, take a look at the following JSON:
+
+    "parameters": [
+      {
+        "name": "ADMIN_USERNAME",
+        "description": "administrator username",
+        "generate": "expression",
+        "from": "admin[A-Z0-9]{3}"
+      },
+
+This portion of the template's JSON tells OpenShift to generate an expression
+using a regex-like string that will be presented as ADMIN_USERNAME.
+
+=== Adding the Template
+
+. On the master host as `root` in the `/root/training/beta4` folder:
++
+----
+
+[root@master00-GUID ~]# cd /root/training/beta4;osc create -f integrated-template.json -n openshift
+
+----
++
+What did you just do? The `integrated-template.json` file defined a template. By
+"creating" it, you have added it to the `openshift` project.
+
+=== Create an Instance of the Template
+
+. In the web console, log in as `joe`.
+
+. Find the "Quickstart" project, and then click the "Create +" button.
++
+We've seen this page before, but now it contains something new -- an "instant app(lication)". An instant app is a "special" kind of template (relaly, it just has the "instant-app" tag). The idea behind an
+"instant app" is that, when creating an instance of the template, you will have
+a fully functional application. in this example, our "instant" app is just a
+simple key-value storage and retrieval webpage.
+
+. Click "quickstart-keyvalue-application", and you'll see a modal pop-up that
+provides more information about the template.
+
+. Click "Select template..."
++
+The next page that you will see is the template "configuration" page. This is
+where you can specify certain options for how the application components will be
+insantiated.
++
+It will:
++
+* Show you what Docker images are used
+
+* Let you add label:value pairs that can be used for other things
+
+* Let you set specific values for any parameters, if you so choose
+
+. Leave all of the defaults and simply click "Create".
++
+Once you hit the "Create" button, the services and pods and
+replicationcontrollers etc. will be instantiated.
++
+The cool thing about the template is that it has a built-in route. The not so
+cool thing is that route is not configurable at the moment. But, it's there!
+
+. Click "Browse" and then "Services" you will see that there is a route for
+the *frontend* service:
++
+----
+
+`integrated.cloudapps.example.com`
+
+----
++
+The build was started for us immediately after creating an instance of the
+template, so you can wait for it to finish. Feel free to check the build logs.
+
+. Once the build is complete, you can go on to the next step.
+
+=== Using Your App
+
+Once the app is built, you should be able to visit the routed URL and
+actually use the application!
+
+    http://integrated.cloudapps-GUID.oslab.opentlc.com
+
+[NOTE]
+HTTPS will *not* work for this example because the form submission was
+written with HTTP links. Be sure to use HTTP.
+
+== Creating and Wiring Disparate Components
+
+Quickstarts are great, but sometimes a developer wants to build up the various
+components manually. Let's take our quickstart example and treat it like two
+separate "applications" that we want to wire together.
+
+=== Create a New Project
+
+. On the master host become the user `alice`:
++
+----
+
+[root@master00-GUID ~]# su - alice
+
+----
+
+. On the master host as the user `alice` reate a project for this example:
++
+----
+
+[alice@master00-GUID ~]$ osc new-project wiring --display-name="Exploring Parameters" \
+    --description='An exploration of wiring using parameters'
+
+----
+
+. Log into the web console as `alice`. Can you see `joe`'s projects and content?
+
+. Before continuing, `alice` will also need the training repository run the following on the master host as `alice`:
++
+----
+
+[alice@master00-GUID ~]$ cd;git clone https://github.com/openshift/training.git
+[alice@master00-GUID ~]$ cd ~/training/beta4
+
+----
+
+=== Stand Up the Frontend
+
+The first step will be to stand up the frontend of our application. For
+argument's sake, this could have just as easily been brand new vanilla code.
+However, to make things faster, we'll start with an application that already is
+looking for a DB, but won't fail spectacularly if one isn't found.
+
+. On the master host process the frontend template and then examine it:
++
+----
+
+[alice@master00-GUID ~]$ osc process -f frontend-template.json > frontend-config.json
+
+----
++
+[NOTE]
+If you are using a different domain, you will need to edit the route
+before running `create`.
++
+In the config, you will see that a DB password and other parameters have been
+generated (remember the template and parameter info from earlier?).
+
+. On the master host create the configuration:
++
+----
+
+[alice@master00-GUID ~]$ osc create -f frontend-config.json
+
+----
+
+As soon as you create this, all of the resources will be created *and* a build
+will be started for you. Let's go ahead and wait until this build completes
+before continuing.
+
+=== Visit Your Application
+
+Once the new build is finished and the frontend service's endpoint has been
+updated, visit your application. The frontend configuration contained a route
+for `wiring.cloudapps.example.com`. You should see a note that the database is
+missing. So, let's create it!
+
+=== Create the Database Config
+
+Remember, `osc process` will examine a template, generate any desired
+parameters, and spit out a JSON `config`uration that can be `created` with
+`osc`.
+
+Processing the template for the db will generate some values for the DB root
+user and password, but they don't actually match what was previously generated
+when we set up the front-end. In the "quickstart" example, we generated these
+values and used them for both the frontend and the backend at the exact same
+time. Since we are processing them separately now, some manual intervention is
+required.
+
+This template uses the Red Hat MySQL Docker container, which knows to take some
+env-vars when it fires up (eg: the MySQL user / password). More information on
+the upstream of this container can be found here:
+
+    https://github.com/openshift/mysql
+
+. Take a look at the frontend configuration (`frontend-config.json`) and find the
+value for `MYSQL_USER`. For example, `userMXG`. Then insert these values into
+the template using the `process` command and create the result:
++
+----
+
+[alice@master00-GUID ~]$ grep -A 1 MYSQL_* frontend-config.json
+
+----
++
+----
+                                                "name": "MYSQL_USER",
+                                                "key": "MYSQL_USER",
+                                                "value": "userMXG"
+    --
+                                                "name": "MYSQL_PASSWORD",
+                                                "key": "MYSQL_PASSWORD",
+                                                "value": "slDrggRv"
+    --
+                                                "name": "MYSQL_DATABASE",
+                                                "key": "MYSQL_DATABASE",
+                                                "value": "root"
+----
++
+----
+
+[alice@master00-GUID ~]$ osc process -f db-template.json \
+        -v MYSQL_USER=userMXG,MYSQL_PASSWORD=slDrggRv,MYSQL_DATABASE=root \
+        | osc create -f -
+
+----
++
+`osc process` can be passed values for parameters, which will override
+auto-generation.
++
+It may take a little while for the MySQL container to download (if you didn't
+pre-fetch it). It's a good idea to verify that the database is running before
+continuing.  
+
+. If you don't happen to have a MySQL client installed you can still
+verify MySQL is running with curl:
++
+----
+
+[alice@master00-GUID ~]$ curl `osc get services | grep database | awk '{print $4}'`:5434
+
+----
++
+MySQL doesn't speak HTTP so you will see garbled output like this (however,
+you'll know your database is running!):
++
+----
+
+GARBLED TEXT...packets out of order
+
+----
+
+=== Visit Your Application Again
+
+Visit your application again with your web browser. Why does it still say that
+there is no database?
+
+When the frontend was first built and created, there was no service called
+"database", so the environment variable `DATABASE_SERVICE_HOST` did not get
+populated with any values. Our database does exist now, and there is a service
+for it, but OpenShift could not "inject" those values into the frontend
+container.
+
+=== Replication Controllers
+
+The easiest way to get this going? Just nuke the existing pod. 
+
+. Get the replication controller running for both the frontend and backend:
++
+----
+
+[alice@master00-GUID ~]$ osc get replicationcontroller
+
+----
+
+. The replication controller is configured to ensure that we always have the
+desired number of replicas (instances) running. We can look at how many that
+should be:
++
+----
+
+[alice@master00-GUID ~]$ osc describe rc frontend-1
+
+----
++
+So, if we kill the pod, the RC will detect that, and fire it back up. When it
+gets fired up this time, it will then have the `DATABASE_SERVICE_HOST` value,
+which means it will be able to connect to the DB, which means that we should no
+longer see the database error!
+
+. As `alice`, go ahead and find your frontend pod, and then kill it:
++
+----
+
+[alice@master00-GUID ~]$ osc delete pod `osc get pod | grep front | awk '{print $1}'`
+
+----
++
+You'll see something like:
++
+----
+
+pods/frontend-1-b6bgy
+
+----
++
+That was the generated name of the pod when the replication controller stood it
+up the first time. You also see some deployment hook pods. We will talk about
+deployment hooks a bit later.
+
+. After a few moments, we can look at the list of pods again:
++
+----
+
+[alice@master00-GUID ~]$ osc get pod | grep front
+
+----
++
+We should see a different name for the pod this time:
++
+----
+
+    frontend-1-0fs20
+
+----
++
+This shows that, underneath the covers, the RC restarted our pod. Since it was
+restarted, it should have a value for the `DATABASE_SERVICE_HOST` environment
+variable. 
+
+. Go to the node where the pod is running, and find the Docker container
+id as `root`:
++
+----
+
+[alice@master00-GUID ~]$ docker inspect `docker ps | grep wiring | grep front | grep run | awk \
+    '{print $1}'` | grep DATABASE
+
+----
++
+The output will look something like:
++
+----
+
+"MYSQL_DATABASE=root",
+"DATABASE_PORT_5434_TCP_ADDR=172.30.17.106",
+"DATABASE_PORT=tcp://172.30.17.106:5434",
+"DATABASE_PORT_5434_TCP=tcp://172.30.17.106:5434",
+"DATABASE_PORT_5434_TCP_PROTO=tcp",
+"DATABASE_SERVICE_HOST=172.30.17.106",
+"DATABASE_SERVICE_PORT=5434",
+"DATABASE_PORT_5434_TCP_PORT=5434",
+
+----
+
+=== Revisit the Webpage
+
+Go ahead and revisit `http://wiring.cloudapps-GUID.oslab.opentlc.com` in your browser, and you should see that the application is now fully
+functional!
+
+[NOTE]
+There is a process to deploy instances of templates that we already
+used in the "quickstart" case. For some reason, the MySQL database template
+doesn't deploy successfully with the current example. Otherwise we would have
+done 100% of this through the webUI.
+
+Here's the bug for reference:
+
+    https://github.com/openshift/origin/issues/2947
+
+== Using Persistent Storage (Optional)
+
+Having a database for development is nice, but what if you actually want the
+data you store to stick around after the DB pod is redeployed? Pods are
+ephemeral, and so is their storage by default. For shared or persistent
+storage, we need a way to specify that pods should use external volumes.
+
+We can do this a number of ways. [Kubernetes provides methods for directly
+specifying the mounting of several different volume
+types.](https://github.com/GoogleCloudPlatform/kubernetes/blob/master/docs/volumes.md)
+This is perfect if you want to use known external resources. But that's
+not very PaaS-y. If I'm using a PaaS, I might really just rather request a
+chunk of storage and not need a side channel to provision that. OpenShift 3
+provides a mechanism for doing just this.
+
+=== Export an NFS Volume
+
+For the purposes of this training, we will just demonstrate the master
+exporting an NFS volume for use as storage by the database. **You would
+almost certainly not want to do this in production.** If you happen
+to have another host with an NFS export handy, feel free to substitute
+that instead of the master.
+
+. As `root` on the master host ensure that nfs-utils is installed (**on all systems**):
++
+----
+
+[root@master00-GUID ~]# yum -y install nfs-utils
+
+----
+
+. Create the directory we will export:
++
+----
+
+[root@master00-GUID ~]# mkdir -p /var/export/vol1
+[root@master00-GUID ~]# chown nfsnobody:nfsnobody /var/export/vol1
+[root@master00-GUID ~]# chmod 700 /var/export/vol1
+
+----
+
+. Add the following line to `/etc/exports`:
++
+----
+
+[root@master00-GUID ~]# echo "/var/export/vol1 *(rw,sync,all_squash)" >> /etc/exports
+
+----
+
+. Enable and start NFS services:
++
+----
+
+[root@master00-GUID ~]# systemctl enable rpcbind nfs-server
+[root@master00-GUID ~]# systemctl start rpcbind nfs-server nfs-lock nfs-idmap
+
+----
++
+Note that the volume is owned by `nfsnobody` and access by all remote users
+is "squashed" to be access by this user. This essentially disables user
+permissions for clients mounting the volume. While another configuration
+might be preferable, one problem you may run into is that the container
+cannot modify the permissions of the actual volume directory when mounted.
+In the case of MySQL below, MySQL would like to have the volume belong to
+the `mysql` user, and assumes that it is, which causes problems later.
+Arguably, the container should operate differently. In the long run, we
+probably need to come up with best practices for use of NFS from containers.
+
+=== NFS Firewall (Info only, do not do the steps here!)
+
+**In our lab environment, the firewall is disabled on the master host, so these steps are not necessary.**
+
+We will need to open ports on the firewall on the master to enable NFS to
+communicate from the nodes. First, let's add rules for NFS to the running state
+of the firewall:
+
+    iptables -I OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 111 -j ACCEPT
+    iptables -I OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 2049 -j ACCEPT
+    iptables -I OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 20048 -j ACCEPT
+    iptables -I OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 50825 -j ACCEPT
+    iptables -I OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 53248 -j ACCEPT
+
+Next, let's add the rules to `/etc/sysconfig/iptables`. Put them at the top of
+the `OS_FIREWALL_ALLOW` set:
+
+    -A OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 53248 -j ACCEPT
+    -A OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 50825 -j ACCEPT
+    -A OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 20048 -j ACCEPT
+    -A OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 2049 -j ACCEPT
+    -A OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 111 -j ACCEPT
+
+Now, we have to edit NFS' configuration to use these ports. First, let's edit
+`/etc/sysconfig/nfs`. Change the RPC option to the following:
+
+    RPCMOUNTDOPTS="-p 20048"
+
+Change the STATD option to the following:
+
+    STATDARG="-p 50825"
+
+Then, edit `/etc/sysctl.conf`:
+
+    fs.nfs.nlm_tcpport=53248
+    fs.nfs.nlm_udpport=53248
+
+Then, persist the `sysctl` changes:
+
+    sysctl -p
+
+Lastly, restart NFS:
+
+    systemctl restart nfs
+
+=== Allow NFS Access in SELinux Policy
+
+. By default policy, containers are not allowed to write to NFS mounted
+directories.  We want to do just that with our database, so enable that on
+all nodes where the pod could land (i.e. all of them) with:
++
+----
+
+[root@master00-GUID ~]# setsebool -P virt_use_nfs=true
+
+----
++
+[NOTE]
+Once the ansible-based installer does this automatically, we can remove this
+section from the document.
+
+=== Create a PersistentVolume
+
+It is the PaaS administrator's responsibility to define the storage that is
+available to users. Storage is represented by a PersistentVolume that
+encapsulates the details of a particular volume which can be backed by any
+of the [volume types available via
+Kubernetes](https://github.com/GoogleCloudPlatform/kubernetes/blob/master/docs/volumes.md).
+In this case it will be our NFS volume.
+
+Currently PersistentVolume objects must be created "by hand". Modify the
+`beta4/persistent-volume.json` file as needed if you are using a different
+NFS mount:
+
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolume",
+      "metadata": {
+        "name": "pv0001"
+      },
+      "spec": {
+        "capacity": {
+            "storage": "5Gi"
+            },
+        "accessModes": [ "ReadWriteMany" ],
+        "nfs": {
+            "path": "/var/export/vol1",
+            "server": "ose3-master.example.com"
+        }
+      }
+    }
+
+. Create this object as the `root` (administrative) user on the master host:
++
+----
+
+[root@master00-GUID ~]# GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
+[root@master00-GUID ~]# cd /root/training/beta4
+[root@master00-GUID ~]# sed -i "s/ose3-master.example.com/master00-$GUID.oslab.opentlc.com/" persistent-volume.json
+[root@master00-GUID ~]# osc create -f persistent-volume.json
+    
+----
++
+----
+
+persistentvolumes/pv0001
+
+----
++
+This defines a volume for OpenShift projects to use in deployments. The
+storage should correspond to how much is actually available (make each
+volume a separate filesystem if you want to enforce this limit).
+
+. Take a look at it the voume:
++
+----
+
+[root@master00-GUID ~]# osc describe persistentvolumes/pv0001
+
+----
++
+----
+
+Name:   pv0001
+Labels: <none>
+Status: Available
+Claim:
+
+----
+
+=== Claim the PersistentVolume
+
+Now that the administrator has provided a PersistentVolume, any project can
+make a claim on that storage. We do this by creating a PersistentVolumeClaim
+that specifies what kind and how much storage is desired:
+
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolumeClaim",
+      "metadata": {
+        "name": "claim1"
+      },
+      "spec": {
+        "accessModes": [ "ReadWriteMany" ],
+        "resources": {
+          "requests": {
+            "storage": "5Gi"
+          }
+        }
+      }
+    }
+
+. Have `alice` do this in the `wiring` project:
++
+----
+
+[alice@master00-GUID ~]$ cd ~/training/beta4; osc create -f persistent-volume-claim.json
+
+----
++
+----
+
+persistentVolumeClaim/claim1
+
+----
+
+. This claim will be bound to a suitable PersistentVolume (one that is big
+enough and allows the requested accessModes). The user does not have any
+real visibility into PersistentVolumes, including whether the backing
+storage is NFS or something else; they simply know when their claim has
+been filled ("bound" to a PersistentVolume).
++
+----
+
+[alice@master00-GUID ~]$ osc get pvc
+
+----
++
+----
+
+NAME      LABELS    STATUS    VOLUME
+claim1    map[]     Bound     pv0001
+
+----
+
+. As `root` we now go back and look at our PV, we will also see that it has been claimed:
++
+----
+
+[root@master00-GUID ~]# osc describe pv/pv0001
+
+----
++
+----
+
+Name:   pv0001
+Labels: <none>
+Status: Bound
+Claim:  wiring/claim1
+
+----
+
+The PersistentVolume is now claimed and can't be claimed by any other project.
+
+Although this flow assumes the administrator pre-creates volumes in
+anticipation of their use later, it would be possible to create an external
+process that watches the API for a PersistentVolumeClaim to be created,
+dynamically provisions a corresponding volume, and creates the API object
+to fulfill the claim.
+
+=== Use the Claimed Volume
+
+. Finally, we need to modify our `database` DeploymentConfig to specify that
+this volume should be mounted where the database will use it. As `alice`:
++
+----
+
+[alice@master00-GUID ~]$ osc edit dc/database
+
+----
+
+. The part we will need to edit is the pod template. We will need to add two
+parts: 
++
+* a definition of the volume
+
+* where to mount it inside the container
+
+First, directly under the `template` `spec:` line, add this YAML (indented from the `spec:` line):
+
+          volumes:
+          - name: pvol
+            persistentVolumeClaim:
+              claimName: claim1
+
+Then to have the container mount this, add this YAML after the
+`terminationMessagePath:` line:
+
+            volumeMounts:
+            - mountPath: /var/lib/mysql/data
+              name: pvol
+
+Remember that YAML is sensitive to indentation. The final template should
+look like this:
+
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          deploymentconfig: database
+      spec:
+        volumes:
+        - name: pvol
+          persistentVolumeClaim:
+            claimName: claim1
+        containers:
+        - capabilities: {}
+    [...]
+          terminationMessagePath: /dev/termination-log
+          volumeMounts:
+          - mountPath: /var/lib/mysql/data
+            name: pvol
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        serviceAccount: ""
+
+Save and exit. This change to configuration will trigger a new deployment
+of the database, and this time, it will be using the NFS volume we exported
+from master.
+
+=== Restart the Frontend
+
+Any values or data we had inserted previously just got blown away. The
+`deploymentConfig` update caused a new MySQL pod to be launched. Since this is
+the first time the pod was launched with persistent data, any previous data was
+lost.
+
+Additionally, the Frontend pod will perform a database initialization when it
+starts up. Since we haven't restarted the frontend, our database is actually
+bare. If you try to use the app now, you'll get "Internal Server Error".
+
+. Kill the Frontend pod like we did previously to cause it to
+restart:
++
+----
+
+[alice@master00-GUID ~]$ osc delete pod `osc get pod | grep front | awk {'print $1'}`
+
+----
+
+. Once the new pod has started, go ahead and visit the web page. 
+
+. Add a few values via the application. 
+
+. Delete the database pod and wait for it to come back.
+You should be able to retrieve the same values you entered.
++
+To quickly delete the Database pod you can do the following:
++
+
+----
+
+[alice@master00-GUID ~]$ osc delete pod/`osc get pod | grep -e "database-[0-9]" | awk {'print $1'}`
+
+----
+
+[NOTE]
+This doesn't seem to work right now, but we're not sure why. I think
+it has to do with Ruby's persistent connection to the MySQL service not going
+away gracefully, or something. Killing the frontend again will definitely work.
+
+. For further confirmation that your database pod is in fact using the NFS
+volume, simply check what is stored there on `master`:
++
+----
+
+[alice@master00-GUID ~]$ ls /var/export/vol1
+
+----
++
+----
+
+database-3-n1i2t.pid  ibdata1  ib_logfile0  ib_logfile1  mysql  performance_schema  root
+
+----
+
+Further information on use of PersistentVolumes is available in the
+[OpenShift Origin documentation](http://docs.openshift.org/latest/dev_guide/volumes.html).
+This is a very new feature, so it is very manual for now, but look for more tooling
+taking advantage of PersistentVolumes to be created in the future.
+

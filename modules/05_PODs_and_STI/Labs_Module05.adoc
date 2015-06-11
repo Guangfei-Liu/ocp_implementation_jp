@@ -4,6 +4,8 @@
 :toc2:		
 :numbered:
 
+== PODs and S2Is
+
 === Connect to Lab
 
 . If not already connected, connect to your administration host:
@@ -30,6 +32,8 @@ If prompted for a password use *r3dh4t1!*
 root@master00-GUID.oslab.opentlc.com's password: ******** (r3dh4t1!) 
 
 ----
+
+== Deploying a POD
 
 === Login
 
@@ -256,7 +260,7 @@ You'll see some interesting things:
 
 * There's no service yet - we'll get to services soon.
 
-=== Quota Usage
+=== POD Quota Usage
 
 . In the web console click on the *Settings* tab and verify that pod usage has increased to 1.
 
@@ -285,7 +289,7 @@ available in a registry or something already written and built in-house.
 
 This is really powerful. We will explore using "arbitrary" docker images later.
 
-=== Quota Enforcement
+=== POD Quota Enforcement
 
 Since we know we can run a pod directly, we'll go through a simple quota
 enforcement exercise. The `hello-quota` JSON will attempt to create four
@@ -322,7 +326,7 @@ Error from server: Pod "hello-openshift-4" is forbidden: Limited to 3 pods
 [NOTE]
 You can delete most resources using "--all" but there is *no sanity check*. Be careful.
 
-=== Services
+== Services
 
 From the [Kubernetes
 documentation](https://github.com/GoogleCloudPlatform/kubernetes/blob/master/docs/services.md):
@@ -379,7 +383,7 @@ see more about this later.
 But, to really be useful, we want to make our application accessible via a FQDN,
 and that is where the routing tier comes in.
 
-=== Routing
+== Routing
 
 The OpenShift routing tier is how FQDN-destined traffic enters the OpenShift
 environment so that it can ultimately reach pods. In a simplification of the
@@ -987,12 +991,12 @@ certificate in order to validate the SSL certificate presented to us by the
 router. With a CA or all certificates signed by a trusted authority, it would
 not be necessary to specify the CA everywhere.
 
-=== The Web Console
+== The Web Console
 
 Take a moment to look in the web console to see if you can find everything that
 was just created.
 
-=== Project Administration
+== Project Administration
 
 When we created the `demo` project, `joe` was made a project administrator. As
 an example of an administrative function, if `joe` now wants to let `alice` look
@@ -1114,6 +1118,8 @@ cleanup routine to finish.
 
 Once the project disappears from `osc get project`, doing `osc get pod -n demo`
 should return no results.
+
+== S2I
 
 === Preparing for S2I: the Registry
 
@@ -1353,7 +1359,7 @@ a Docker image.
 * OpenShift will then deploy the built Docker image as a Pod with an associated
 Service.
 
-=== CLI versus Console
+== CLI versus Console
 
 There are currently two ways to get from source code to components on OpenShift.
 The CLI has a tool (`new-app`) that can take a source code repository as an
@@ -1368,7 +1374,7 @@ requires a little bit more input from a user to get things running. Let's go
 through an example of pointing to code via the web console. Later examples will
 use the CLI tools.
 
-=== Adding the Builder ImageStreams
+== Adding the Builder ImageStreams
 
 While `new-app` has some built-in logic to help automatically determine the
 correct builder ImageStream, the web console currently does not have that
@@ -1447,7 +1453,7 @@ sample apps as time progresses.
 When finished, let's go move over to the web console to create our
 "application".
 
-=== Adding Code Via the Web Console
+== Adding Code Via the Web Console
 
 . Go to the web console and then select the "Sinatra Example" project.
 

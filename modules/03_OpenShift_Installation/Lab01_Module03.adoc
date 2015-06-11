@@ -459,9 +459,11 @@ Only do this for hosts that are used for development, testing, or demos!
 
 ----
 
-=== Install Ansible Installer 
+=== Install Ansible Installer
 
-. Add the `Extra Packages for Enterprise Linux` or `EPEL` repository to the master host and disable it:
+Currently the Ansible installer is only available via the `Extra Packages for Enterprise Linux` or `EPEL` repository.  This lab will configure the `EPEL` repositroy and install the `ansible` package.
+
+. Add the `EPEL` repository to the master host and disable it:
 +
 ----
 
@@ -471,7 +473,7 @@ Only do this for hosts that are used for development, testing, or demos!
 ----
 +
 [NOTE]
-At this time, the `ansible` package is only available from `EPEL`.
+At this time, the `ansible` package is only available from `EPEL`.  We disable the `EPEL` repository so that other packages from the repository are not accidentally installed.
 
 . Install the `ansible` package on the master host:
 +
@@ -487,7 +489,7 @@ Eventually there will be an interactive text-based CLI installer that leverages 
 
 === Configure and Install OpenShift Enterprise 3.0
 
-In this lab we will use Andible to install OpenShift on the master host.  This will configure the master host with the master and node roles.
+In this lab we will use Ansible to install OpenShift on the master host.  This will configure the master host with the master and node roles.
 
 . Download the OpenShift 3 Ansible "playbook" to the master host in root's home directory:
 +

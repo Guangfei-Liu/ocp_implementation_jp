@@ -2,6 +2,7 @@
 :data-uri:
 :icons: images/icons
 :toc2:		
+:numbered:
 
 === Connect to Lab
 
@@ -720,15 +721,15 @@ In the JSON above:
 
 * There is a service:
 
-  * with the id `hello-openshift-service`
+** with the id `hello-openshift-service`
 
-  * with the selector `name=hello-openshift`
+** with the selector `name=hello-openshift`
 
 * There is a route:
 
-  * with the FQDN `hello-openshift.cloudapps.example.com`
+** with the FQDN `hello-openshift.cloudapps.example.com`
 
-  * with the `spec` `to` `name=hello-openshift-service`
+** with the `spec` `to` `name=hello-openshift-service`
 
 If we work from the route down to the pod:
 
@@ -742,7 +743,8 @@ If we work from the route down to the pod:
 
 * There is a single pod with a single container that has the label
     `name=hello-openshift-label`
-\\
+
+:numbered:
 
 . Become user `joe` on the master host.
 +

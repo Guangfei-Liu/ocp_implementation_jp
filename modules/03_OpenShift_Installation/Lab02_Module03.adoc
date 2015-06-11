@@ -219,5 +219,3 @@ node00-GUID.oslab.opentlc.com     Schedulable   <none>    NotReady
 node01-GUID.oslab.opentlc.com     Schedulable   <none>    NotReady
 
 ---- 
-
-*You have succesfully added nodes to your environment.*

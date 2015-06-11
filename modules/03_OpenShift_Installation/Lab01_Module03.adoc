@@ -560,8 +560,14 @@ master00-GUID.oslab.opentlc.com : ok=X   changed=Y    unreachable=0    failed=0
 
 ----
 
-. After the installer is complete, check the status of your nodes using the `osc get nodes` command on the master host:
+. After the installer is complete, check the status of your host using the `osc get nodes` command on the master host:
 +
+----
+
+[root@master00-GUID ~]#  osc get nodes
+NAME                              LABELS                                                                             STATUS
+master00-0a0c.oslab.opentlc.com   kubernetes.io/hostname=master00-GUID.oslab.opentlc.com,region=infra,zone=default   Ready
+
 ----
 
 === About Regions and Zones

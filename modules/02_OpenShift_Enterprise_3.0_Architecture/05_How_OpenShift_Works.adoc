@@ -1,4 +1,5 @@
 
+:noaudio:
 :scrollbar:
 :data-uri:
 == How OpenShift Works

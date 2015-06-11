@@ -160,7 +160,6 @@ endif::showscript[]
 
 
 
-:noaudio:
 :scrollbar:
 :data-uri:
 == Connection Details
@@ -181,7 +180,6 @@ endif::showscript[]
 
 
 
-:noaudio:
 :scrollbar:
 :data-uri:
 == Connection Details
@@ -198,5 +196,4 @@ endif::showscript[]
 ifdef::showscript[]
 
 endif::showscript[]
-
 

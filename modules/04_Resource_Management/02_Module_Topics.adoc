@@ -1,3 +1,5 @@
+
+:noaudio:
 :numbered!:
 :scrollbar:
 :data-uri:

@@ -1,4 +1,4 @@
-
+:noaudio:
 :scrollbar:
 :data-uri:
 == Creating a STI build

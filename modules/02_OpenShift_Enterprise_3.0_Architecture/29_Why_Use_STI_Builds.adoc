@@ -1,4 +1,4 @@
-
+:noaudio:
 :scrollbar:
 :data-uri:
 == Why Use STI Builds

@@ -30,6 +30,16 @@ root@master00-GUID.oslab.opentlc.com's password: ******** (r3dh4t1!)
 
 ----
 
+=== Get the Training Repo
+
+. On the master host download the training repo to root's home directory:
++
+----
+
+[root@master00-GUID ~]# cd;git clone https://github.com/openshift/training.git
+
+----
+
 === Add Development Users
 
 In the "real world" your developers would likely be using the OpenShift tools on

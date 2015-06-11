@@ -64,7 +64,7 @@ Each student lab is assigned a global unique identifier (GUID) that consists of 
 ----
 
 
-=== Configure the Repositories
+=== Configure the Repositories on the Master Host
 
 OpenShift requires several software repositories:
 
@@ -78,11 +78,11 @@ OpenShift requires several software repositories:
 
 Normally you would get these repositories via `subscription-manager` but we have provided a mirror that we will configure in the following lab steps.
 
-. If not already connected, connect to your administration host `oselab-GUID.oslab.opentlc.com` (your private key location may vary):
+. If not already connected, connect to your administration host `oselab-GUID.oslab.opentlc.com` using your OPENTLC login and private SSH key:
 +
 ----
 
-yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-GUID.oslab.opentlc.com
+yourdesktop$ ssh -i ~/.ssh/mykey your-opentlc-login@oselab-GUID.oslab.opentlc.com
 
 ----
 
@@ -90,7 +90,7 @@ yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-GUID.oslab.opentlc.c
 +
 ----
 
-[yourlogin@oselab-GUID ~]# ssh root@192.168.0.100
+[yourlogin@oselab-GUID ~]$ ssh root@192.168.0.100
 
 ----
 +

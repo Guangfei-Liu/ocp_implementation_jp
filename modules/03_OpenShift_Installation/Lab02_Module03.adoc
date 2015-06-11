@@ -196,7 +196,7 @@ node01-$GUID.oslab.opentlc.com openshift_node_labels="{'region': 'primary', 'zon
 This will take a while to complete.  This is a good time for a break.
 
 . The output of the `ansible-playbook` command shoold show failed=0 for all hosts:
-
++
 ----
 
 ...OUTPUT OMMITTED...

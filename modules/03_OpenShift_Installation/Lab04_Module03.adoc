@@ -3,28 +3,20 @@
 :icons: images/icons
 :toc2:		
 
-== Deploy The "Router" and "Registry" Containers
+== Deploy The "Router" Container
 :numbered:	
 
-* In this lab we will Deploy the *Router* and *Registry* containers. 
+* In this lab we will Deploy the *Router* container.
+
 * We will configure the *Router* to be deployed only in the "Infra" region.
-* We will configure the *Registry* to be deployed only in the "Primary" region.
 
-=== Deploy the Registry 
+=== Connect to Lab
 
-. If not already connected, connect to your administration host *oselab* (your private key location may vary):
+. If not already connected, connect to your administration host:
 +
 ----
 
-yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-*GUID*.oslab.opentlc.com
-
-----
-
-. Become the `root` user:
-+
-----
-
--bash-4.2$ sudo -i
+yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-GUID.oslab.opentlc.com
 
 ----
 
@@ -32,7 +24,7 @@ yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-*GUID*.oslab.opentlc
 +
 ----
 
-[root@oselab-GUID ~]# ssh 192.168.0.100
+[root@oselab-GUID ~]# ssh root@master00-GUID.oslab.opentlc.com
 
 ----
 +
@@ -41,9 +33,11 @@ If prompted for a password use *r3dh4t1!*
 +
 ----
 
-root@192.168.0.100's password: ******** (r3dh4t1!) 
+root@master00-GUID.oslab.opentlc.com's password: ******** (r3dh4t1!) 
 
 ----
+
+
 
 . Run the *osadm router* command to create the *Router* container:
 +

@@ -150,7 +150,7 @@ rhel-x86_64-server-rh-common-7    Red Hat Enterprise Linux 7 Common          19
 
 ----
 
-. Exit the first node and repeat these steps for the second node.  When you get here on the second node, just exit:
+. Exit the first node and *repeat these steps for the second node*.  When you get here on the second node, just exit:
 +
 ----
 

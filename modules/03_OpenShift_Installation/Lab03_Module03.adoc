@@ -11,6 +11,8 @@
 
 yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-GUID.oslab.opentlc.com
 
+----
+
 . SSH to the master host as the `root` user:
 +
 ----

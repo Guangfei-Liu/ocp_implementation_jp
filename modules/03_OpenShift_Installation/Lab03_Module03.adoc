@@ -129,7 +129,7 @@ You should see:
 ----
 
 . On the master host take a look at `/etc/openshift/master/scheduler.json`:
-
++
 ----
 
 [root@master00-GUID ~]# less /etc/openshift/master/scheduler.json

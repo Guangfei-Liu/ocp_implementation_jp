@@ -30,7 +30,7 @@ endif::showScript[]
 
 // This is the Module06 Topic01 Image.
 // ISSUE: M06, M06_T01.png Needs to be created 
-image::images/M06_T01.png[width=852,height=672]
+//image::images/M06_T01.png[width=852,height=672]
 
 
 == Template Overview
@@ -204,7 +204,7 @@ endif::showScript[]
 
 // This is the Module06 Topic02 Image.
 // ISSUE: M06, M06_T02.png Needs to be created 
-image::images/M06_T02.png[width=852,height=672]
+//image::images/M06_T02.png[width=852,height=672]
 
 
 == Creating a Configuration From a Template

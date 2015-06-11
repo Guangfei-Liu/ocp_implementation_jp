@@ -548,7 +548,7 @@ Lastly, restart NFS:
 
 === Allow NFS Access in SELinux Policy
 
-By default policy, containers are not allowed to write to NFS mounted
+. By default policy, containers are not allowed to write to NFS mounted
 directories.  We want to do just that with our database, so enable that on
 all nodes where the pod could land (i.e. all of them) with:
 +

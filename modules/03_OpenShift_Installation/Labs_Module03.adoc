@@ -32,7 +32,7 @@ Take note that all of the steps in the lab may change when OpenShift 3.0 goes GA
 
 The lab environment consists of 4 VMs:
 
-* `oslab-GUID.oslab.opentlc.com` (administration host)
+* `oselab-GUID.oslab.opentlc.com` (administration host)
 
 * `master00-GUID.oslab.opentlc.com` (master host, includes node role as well)
 

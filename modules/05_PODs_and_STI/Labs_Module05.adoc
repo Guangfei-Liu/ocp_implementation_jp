@@ -33,7 +33,11 @@ root@master00-GUID.oslab.opentlc.com's password: ******** (r3dh4t1!)
 
 ----
 
-== Deploying a POD
+== Your First Application
+
+At this point you essentially have a sufficiently-functional OpenShift 3
+environment. It is now time to create the classic "Hello World" application
+using some sample code.  But, first, some housekeeping.
 
 === Login
 

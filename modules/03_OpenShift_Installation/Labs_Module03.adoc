@@ -719,7 +719,7 @@ A test DNS entry was created called `test.cloud-appsGUID.oslab.opentlc.com`.  Th
 ----
 +
 [NOTE]
-The first time you query 8.8.8.8 you may see a lag an an error:
+The first time you query 8.8.8.8 you may notice lag and an error:
 `;; connection timed out; trying next origin
 Host test.cloudapps-GIOD.oslab.opentlc.com not found: 3(NXDOMAIN)`
 This is normal.  if you do the test again, it will go faster and not error out.

@@ -166,12 +166,6 @@ the password (`r3dh4t1!`) you set earlier.
 anything of interest at the moment, because we haven't put anything into our
 project.
 
-== Your First Application
-
-At this point you essentially have a sufficiently-functional OpenShift 3
-environment. It is now time to create the classic "Hello World" application
-using some sample code.  But, first, some housekeeping.
-
 == Resources
 
 There are a number of different resource types in OpenShift 3, and, essentially,

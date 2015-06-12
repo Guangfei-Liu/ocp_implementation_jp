@@ -488,25 +488,53 @@ by the service associated with the route.
 
 OpenShift's admin command set enables you to deploy router pods automatically.
 
-. On the master host as the `root` user, try `osadm router --create` and you will see that
+. On the master host as the `root` user, try `osadm router` and you will see that
 some options are needed to create the router:
 +
 ----
 
+[root@master00-GUID ~]# osadm router
+
+----
++
+----
+
+F0223 11:50:57.985423    2610 router.go:143] Router "router" does not exist
+(no service). Pass --create to install.
+
+----
+
+. On the master host as the `root` user, try `osadm router --create` as specified in the prevous output:
++
+----
+
 [root@master00-GUID ~]# osadm router --create
+
+----
++
+----
+
 F0223 11:51:19.350154    2617 router.go:148] You must specify a .kubeconfig
 file path containing credentials for connecting the router to the master
 with --credentials
 
 ----
 +
-[NOTE]
 Just about every form of communication with OpenShift components is secured by
 SSL and uses various certificates and authentication methods. Even though we set
 up our `.kubeconfig` for the root user, `osadm router` is asking us what
 credentials the *router* should use to communicate. 
 
-. On the master host run `osadm` again this time specify the credentials, router image, since the tooling defaults to upstream/origin and supply the wildcard cert/key that we created for the cloud domain.
+. On the master host as the `root` user, try `osadm router` and specify the credentials:
++
+----
+
+[root@master00-GUID ~]# osadm router --dry-run \
+  --credentials=/etc/openshift/master/openshift-router.kubeconfig
+
+----
+
+. Adding the above would be enough to allow the command to proceed, but if we want this router to work for our environment, we also need to specify the beta router image (the tooling defaults to upstream/origin otherwise) and we need to supply the wildcard cert/key that we created for the cloud domain.
 +
 ----
 

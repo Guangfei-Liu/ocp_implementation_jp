@@ -1250,7 +1250,7 @@ registry's node selector).
 +
 ----
 
-[root@master00-GUID ~]# curl -v `osc get services | grep registry | awk '{print $4":"$5}' | sed -e 's/\/.*//'`/v2/
+[root@master00-GUID ~]# curl -v `osc get services | grep registry | awk '{print $4":"$5}/v2/' | sed 's,/[^/]\+$,/v2/,'`
 
 ----
 +

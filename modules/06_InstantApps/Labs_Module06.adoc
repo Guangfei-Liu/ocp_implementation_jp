@@ -387,7 +387,7 @@ We should see a different name for the pod this time:
 +
 ----
 
-    frontend-1-0fs20
+frontend-1-0fs20
 
 ----
 +

@@ -351,16 +351,20 @@ Make sure the status shows *enabled* and *active (running)*.
 ----
 
 [root@master00-0a0c ~]# \
-docker pull registry.access.redhat.com/openshift3_beta/ose-haproxy-router:v0.4.3.2 ;\
-docker pull registry.access.redhat.com/openshift3_beta/ose-deployer:v0.4.3.2 ;\
-docker pull registry.access.redhat.com/openshift3_beta/ose-sti-builder:v0.4.3.2 ;\
-docker pull registry.access.redhat.com/openshift3_beta/ose-docker-builder:v0.4.3.2 ;\
-docker pull registry.access.redhat.com/openshift3_beta/ose-pod:v0.4.3.2 ;\
-docker pull registry.access.redhat.com/openshift3_beta/ose-docker-registry:v0.4.3.2 ;\
-docker pull registry.access.redhat.com/openshift3_beta/sti-basicauthurl:latest ;\
-docker pull registry.access.redhat.com/openshift3_beta/ruby-20-rhel7 ;\
-docker pull registry.access.redhat.com/openshift3_beta/mysql-55-rhel7 ;\
-docker pull openshift/hello-openshift
+docker pull registry.access.redhat.com/openshift3_beta/ose-haproxy-router:v0.5.2.2 ; \
+docker pull registry.access.redhat.com/openshift3_beta/ose-deployer:v0.5.2.2 ; \
+docker pull registry.access.redhat.com/openshift3_beta/ose-sti-builder:v0.5.2.2 ; \
+docker pull registry.access.redhat.com/openshift3_beta/ose-sti-image-builder:v0.5.2.2 ; \
+docker pull registry.access.redhat.com/openshift3_beta/ose-docker-builder:v0.5.2.2 ; \
+docker pull registry.access.redhat.com/openshift3_beta/ose-pod:v0.5.2.2 ; \
+docker pull registry.access.redhat.com/openshift3_beta/ose-docker-registry:v0.5.2.2 ; \
+docker pull registry.access.redhat.com/openshift3_beta/sti-basicauthurl:latest ; \
+docker pull registry.access.redhat.com/openshift3_beta/ose-keepalived-ipfailover:v0.5.2.2
+ ; \
+docker pull registry.access.redhat.com/openshift3_beta/ruby-20-rhel7 ; \
+docker pull registry.access.redhat.com/openshift3_beta/mysql-55-rhel7 ; \
+docker pull registry.access.redhat.com/jboss-eap-6/eap-openshift ; \
+docker pull openshift/hello-openshift:v0.4.3
 
 ----
 
@@ -504,7 +508,7 @@ In this lab we will use Ansible to install OpenShift on the master host.  This w
 ----
 
 [root@master00-GUID ~]# export GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
-[root@master00-GUID ~]# cat << EOF >> /etc/ansible/hosts
+[root@master00-GUID ~]# cat << EOF > /etc/ansible/hosts
 # Create an OSEv3 group that contains the masters and nodes groups
 [OSEv3:children]
 masters
@@ -750,6 +754,7 @@ In this lab we will demonstrate how easy it is to add nodes to the OpenShift 3.0
 +
 [NOTE]
 If prompted for a password use *r3dh4t1!*
+The SSH keys may already be in place in this lab environment, but it is good practice to make sure this is done.
 
 . From the master host test password-less SSH connections to both of the nodes:
 +

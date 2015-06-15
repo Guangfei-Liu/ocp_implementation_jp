@@ -350,20 +350,20 @@ Make sure the status shows *enabled* and *active (running)*.
 +
 ----
 
+[root@master00-0a0c ~]# RHN="registry.access.redhat.com";PTH="openshift3_beta"
 [root@master00-0a0c ~]# \
-docker pull registry.access.redhat.com/openshift3_beta/ose-haproxy-router:v0.5.2.2 ; \
-docker pull registry.access.redhat.com/openshift3_beta/ose-deployer:v0.5.2.2 ; \
-docker pull registry.access.redhat.com/openshift3_beta/ose-sti-builder:v0.5.2.2 ; \
-docker pull registry.access.redhat.com/openshift3_beta/ose-sti-image-builder:v0.5.2.2 ; \
-docker pull registry.access.redhat.com/openshift3_beta/ose-docker-builder:v0.5.2.2 ; \
-docker pull registry.access.redhat.com/openshift3_beta/ose-pod:v0.5.2.2 ; \
-docker pull registry.access.redhat.com/openshift3_beta/ose-docker-registry:v0.5.2.2 ; \
-docker pull registry.access.redhat.com/openshift3_beta/sti-basicauthurl:latest ; \
-docker pull registry.access.redhat.com/openshift3_beta/ose-keepalived-ipfailover:v0.5.2.2
- ; \
-docker pull registry.access.redhat.com/openshift3_beta/ruby-20-rhel7 ; \
-docker pull registry.access.redhat.com/openshift3_beta/mysql-55-rhel7 ; \
-docker pull registry.access.redhat.com/jboss-eap-6/eap-openshift ; \
+docker pull $RHN/$PTH/ose-haproxy-router:v0.5.2.2 ; \
+docker pull $RHN/$PTH/ose-deployer:v0.5.2.2 ; \
+docker pull $RHN/$PTH/ose-sti-builder:v0.5.2.2 ; \
+docker pull $RHN/$PTH/ose-sti-image-builder:v0.5.2.2 ; \
+docker pull $RHN/$PTH/ose-docker-builder:v0.5.2.2 ; \
+docker pull $RHN/$PTH/ose-pod:v0.5.2.2 ; \
+docker pull $RHN/$PTH/ose-docker-registry:v0.5.2.2 ; \
+docker pull $RHN/$PTH/sti-basicauthurl:latest ; \
+docker pull $RHN/$PTH/ose-keepalived-ipfailover:v0.5.2.2 ; \
+docker pull $RHN/$PTH/ruby-20-rhel7 ; \
+docker pull $RHN/$PTH/mysql-55-rhel7 ; \
+docker pull $RHN/jboss-eap-6/eap-openshift ; \
 docker pull openshift/hello-openshift:v0.4.3
 
 ----

@@ -49,7 +49,7 @@ tooling.
 +
 ----
 
-[root@oselab-GUID ~]# su - joe
+[root@master00-GUID ~]# su - joe
 
 ----
 

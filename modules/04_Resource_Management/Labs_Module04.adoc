@@ -286,7 +286,7 @@ few moments and try again.
 In order for quotas to be effective you need to also create Limit Ranges
 which set the maximum, minimum, and default allocations of memory and cpu at
 both a pod and container level. Without default values for containers projects
-with quotas will fail because the deloyer and other infrastructure pods are
+with quotas will fail because the deployer and other infrastructure pods are
 unbounded and therefore forbidden.
 
 . On the master host run `osc create` against the `limits.json` file in the training folder:

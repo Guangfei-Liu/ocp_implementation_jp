@@ -11,9 +11,6 @@
 * Enhanced user experience
 * Community-driven innovation
 * Industry-standard PaaS stack
-+
-image::images/OpenShiftStack.png[]
-
 
 ifdef::showscript[]
 

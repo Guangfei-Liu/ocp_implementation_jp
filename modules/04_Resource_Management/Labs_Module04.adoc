@@ -93,7 +93,7 @@ the `oauthConfig`'s `identityProviders` stanza so that it looks like the followi
     identityProviders:
     - challenge: true
       login: true
-      name: apache_auth
+      name: htpasswd_auth
       provider:
         apiVersion: v1
         file: /etc/openshift/openshift-passwd

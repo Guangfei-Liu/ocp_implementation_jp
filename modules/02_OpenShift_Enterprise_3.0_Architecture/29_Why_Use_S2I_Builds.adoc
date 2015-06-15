@@ -1,12 +1,12 @@
 :noaudio:
 :scrollbar:
 :data-uri:
-== Why Use STI Builds
+== Why Use S2I Builds
 
 
 * Provides a developer-centric flow 
 ** Focuses on turning source code into running application
-** STI project aims to combine source code with image containing a build and runtime environment
+** S2I project aims to combine source code with image containing a build and runtime environment
 
 * Strong separation between source code and runtime environment in Docker image helps migrate code between:
 

@@ -31,7 +31,7 @@ endif::[]
 * Introduction to Kubernetes infrastructure 
 * Networking in OpenShift Enterprise v3
 * Image registry 
-* Builds and OpenShift STI images
+* Builds and OpenShift S2I images
 
 
 ifdef::showscript[]
@@ -51,7 +51,7 @@ This module presents the following topics:
 
 * The Image registry is described, including the integrated OpenShift Enterprise registry and third-party registries.
  
-* And the module ends with a discussion of Builds and OpenShift STI images, which explains what an STI build is and why to use it.
+* And the module ends with a discussion of Builds and OpenShift S2I images, which explains what an S2I build is and why to use it.
 
 endif::showscript[]
 
@@ -785,23 +785,23 @@ endif::showscript[]
 
 :scrollbar:
 :data-uri:
-== What is an STI Build
+== What is an S2I Build
 
 * Integrated Docker registry and automated image builds
-* Source code deployments leverage *source-to-image (STI)* build automation
+* Source code deployments leverage *source-to-image (S2I)* build automation
 * Binary deployments integrate with existing build and CI infrastructure
 * Configurable deployment patterns (rolling, etc.)
 +
-image::images/DockerVsSTIBuilds.png[]
+image::images/DockerVsS2IBuilds.png[]
 
 
 ifdef::showscript[]
 
 === Transcript
 
-In the final portion of this module, we look at builds and OpenShift STI images. 
+In the final portion of this module, we look at builds and OpenShift S2I images. 
 
-The STI build process is a process in which a developer points to a code repository in any of the supported frameworks and selects a builder image that would contain the operating system and framework to support the code. OpenShift Enterprise then creates an image based on the builder image that contains the selected code.
+The S2I build process is a process in which a developer points to a code repository in any of the supported frameworks and selects a builder image that would contain the operating system and framework to support the code. OpenShift Enterprise then creates an image based on the builder image that contains the selected code.
 
 endif::showscript[]
 
@@ -809,12 +809,12 @@ endif::showscript[]
 
 :scrollbar:
 :data-uri:
-== Why Use STI Builds
+== Why Use S2I Builds
 
 
 * Provides a developer-centric flow 
 ** Focuses on turning source code into running application
-** STI project aims to combine source code with image containing a build and runtime environment
+** S2I project aims to combine source code with image containing a build and runtime environment
 
 * Strong separation between source code and runtime environment in Docker image helps migrate code between:
 
@@ -850,7 +850,7 @@ endif::showscript[]
 * Introduction to Kubernetes infrastructure 
 * Networking in OpenShift Enterprise v3
 * Image registry 
-* Builds and OpenShift STI images
+* Builds and OpenShift S2I images
 
 
 ifdef::showscript[]
@@ -869,7 +869,7 @@ This module presented the following topics:
 
 * The Image registry section described the integrated OpenShift registry and third-party registries.
  
-* And Builds and OpenShift STI images were explained briefly covering what an STI build is and why to use it.
+* And Builds and OpenShift S2I images were explained briefly covering what an S2I build is and why to use it.
 
 endif::showscript[]
 

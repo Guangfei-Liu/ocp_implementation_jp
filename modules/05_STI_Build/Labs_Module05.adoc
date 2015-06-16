@@ -1,185 +1,188 @@
-== Chapter Progress         
+:scrollbar:
+:data-uri:
+:icons: images/icons
+:toc2:		
 
-image::images/Chapter05_Section04.png[width=852,height=672]
-
-
-== Lab -  Create your first STI Build
+== Create your first STI Build
 
 === Prepare your environment
 
-* *If you haven't done so in previous labs yet:*
-** Before starting this lab please follow these steps:
-*** Connect to your broker with the root user
-*** Run the post deployment script
+. If not already connected, connect to your administration host *oselab* (your private key location may vary):
++
 ----
-[sborenst@desktop01 ~]$ ssh -i ~/.ssh/sborenstkey.pub shacharb-redhat.com@oselab-GUID.oslab.opentlc.com
 
-[bash-4.2$ ~] ssh root@192.168.0.100
+yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-*GUID*.oslab.opentlc.com
+
+----
+
+. Become the `root` user:
++
+----
+
+-bash-4.2$ sudo -i
+
+----
+
+. SSH to the master host:
++
+----
+
+[root@oselab-GUID ~]# ssh 192.168.0.100
+
+----
++
+[NOTE]
+If prompted for a password use *r3dh4t1!*
++
+----
+
 root@192.168.0.100's password: ******** (r3dh4t1!) 
 
-[root@broker00-GUID ~]# sh Post_Deployment_Script.sh
-
 ----
-** This process might take a while
-** Use that time to read the lab and get a good understanding of the scenario.
 
+=== Create a user and project for your environment 
 
-ifdef::showScript[]
+On the master host, as the *root* user, we will create a new project for this lab. 
 
-=== Transcript
+. On the master host run the following command to create the new project:
++
+----
 
-endif::showScript[]
-
-== Lab -  Create your first STI Build
-
-=== Create a project for your environment 
-
-* As the root user, we will create a new project for this lab.
-Run the following command to create the new project:
+[root@master00-GUID ~]# osadm new-project sinatra --display-name="Sinatra Example" \
+   --description="This is your first build on OpenShift 3" \
+   --admin=joe
 
 ----
 
-[root@broker00~]$ osadm new-project sinatra --display-name="Sinatra Example" \
---description="This is your first build on OpenShift 3" \
---admin=joe
-
+. On the master host create a user named *joe*:
++
 ----
 
+[root@master00-GUID ~]# useradd joe
 
-ifdef::showScript[]
-
-=== Transcript
-
-endif::showScript[]
-
-== Lab -  Create your first STI Build
-
-=== Scenario
-
-* Scenario - In this lab you will create a simple STI build.
-** You will create a BuildConfig and build an Image using the STI build process.
-** You will create the *pod*, *service* and *route* for your STI built image. 
-
-
-ifdef::showScript[]
-
-=== Transcript
-
-endif::showScript[]
-
-
-
-
-== Lab -  Create your first STI Build
+----
 
 === Authenticate to OpenShift and choose your project 
 
-* *If you haven't done so in previous labs yet.*
-** Authenticate to OpenShift with user "Joe" 
+In this lab you will create a simple STI build.
+
+* You will create a BuildConfig and build an Image using the STI build process.
+
+* You will create the *pod*, *service* and *route* for your STI built image. 
+
+. On the master host authenticate to OpenShift with user "Joe" 
++
 ----
 
-[root@broker00~]# su - joe
-[joe@broker00~]$ export GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
-[joe@broker00~]$ osc login -u joe \
+[root@master00-GUID ~]# su - joe
+[joe@master00-GUID ~]$ export GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
+[joe@master00-GUID ~]$ osc login -u joe \
 --certificate-authority=/var/lib/openshift/openshift.local.certificates/ca/cert.crt \
---server=https://broker00-${GUID}.oslab.opentlc.com:8443 --namespace=demo
+--server=https://master00-${GUID}.oslab.opentlc.com:8443 --namespace=demo
 
 ----
 
-* Change *context* to the "sinatra" project 
+. You will be asked for a password enter *r3dh4t1!*:
 
+. On the master host as user *joe* change *context* to the "sinatra" project 
++
 ---- 
 
-[root@broker00]# su - joe
-[joe@broker00~]$ osc project sinatra
-Now using project "sinatra" on server "https://broker00-c142.oslab.opentlc.com:8443".
+[joe@master00-GUID ~]$ osc project sinatra
+
+----
++
+You should see the following output:
++
+----
+
+Now using project "sinatra" on server "https://master00-GUID.oslab.opentlc.com:8443".
 
 ----
 
-* To check your current context 
-** View the *~/.config/.openshift/.config*  file to review the information
-** Run the following command for a quick test
-
+. The current context is stored in *~/.config/.openshift/.config*.  The following command will show you the current context:
++
 ----
 
-[joe@broker00~]$ grep current ~/.config/openshift/.config
+[joe@master00-GUID ~]$ grep current ~/.config/openshift/.config
+
+----
++
+You should see the following output:
++
+----
+
 current-context: sinatra
 
-
 ----
-
-ifdef::showScript[]
-
-=== Transcript
-
-endif::showScript[]
-
-
-
-
-== Lab -  Create your first STI Build
 
 === Create your BuildConfig 
 
 * We'll be using a pre-build/configured code repository. This repository is an extremely simple "Hello World" type application For this example.
-* we will be using the following application's source code:
+
+* We will be using the following application's source code:
+
 ** link:https://github.com/openshift/simple-openshift-sinatra-sti[https://github.com/openshift/simple-openshift-sinatra-sti]
 
 * Take a minute to review the repository.
 
-* To create the instructions/config for our image we use the *osc new-app* command:
-** To use the default image suggested by the builder use (Currently Centos) : 
+. On the master host create the instructions/config for our image we use the *osc new-app* command:
++
 ----
 
-[joe@broker00~]$ osc new-app https://github.com/openshift/simple-openshift-sinatra-sti.git -o json | tee ~/simple-sinatraCENT.json
-[joe@broker00~]$ cat ~/simple-sinatraCENT.json
+[joe@master00-GUID ~]$ osc new-app https://github.com/openshift/simple-openshift-sinatra-sti.git -o json | tee ~/simple-sinatraCENT.json
+[joe@master00-GUID ~]$ cat ~/simple-sinatraCENT.json
 
 ----
-** To select a specific image, use can use:
-
-----
-
-[joe@broker00~]$ osc new-app openshift/ruby-20-rhel7~https://github.com/openshift/simple-openshift-sinatra-sti.git -o json  | tee ~/simple-sinatraRHEL.json
-[joe@broker00~]$ cat ~/simple-sinatraRHEL.json
-
-----
-
-** The Syntax for this command is likely to change slightly at some point after the official release.
-
-
-
-ifdef::showScript[]
-
-=== Transcript
-
-endif::showScript[]
-
-
-
-
-
-== Lab -  Create your first STI Build
++
+[NOTE]
+The default image suggested by the builder is currently CentOS. 
++
+[NOTE]
+The Syntax for this command is likely to change slightly at some point after the official release.
 
 === Start your Build - Part 1
 
-* Take a look at the JSON that was generated. 
-* Create the Build components using the *ose create* command on the BuildConfig file:
+. Take a look at the JSON file that was generated in the previous step.
 
+. On the master host create the Build components using the *ose create* command on the BuildConfig file:
++
 ----
 
-[joe@broker00~]$ osc create -f ~/simple-sinatraRHEL.json
+[joe@master00-GUID ~]$ osc create -f ~/simple-sinatraCENT.json
 
 ----
++
+The output should look like this:
++
+----
 
-* Note that the we didn't start the build yet, only the surrounding resources.
-** To see what the last command produced, run the following command:
+services/simple-openshift-sinatra
+imageStreams/simple-openshift-sinatra-sti
+buildConfigs/simple-openshift-sinatra-sti
+deploymentConfigs/simple-openshift-sinatra-sti
+
+----
++
+[NOTE]
+OpenShift didn't start the build yet, only the surrounding resources.
+
+. To see what the last command produced, run the following command on the master host:
++
 ----
  
-[joe@broker00~]$ for i in imagerepository buildconfig deploymentconfig service; do \
+[joe@master00-GUID ~]$ for i in imagerepository buildconfig deploymentconfig service pods; do \
 echo $i; osc get $i; echo -e "\n\n"; done
+
+----
++
+You should see the following:
++
+----
+
 imagerepository
-NAME                           DOCKER REPO                                               TAGS
-simple-openshift-sinatra-sti   172.30.17.116:5000/sinatra/simple-openshift-sinatra-sti   
+NAME                           DOCKER REPO                                              TAGS
+simple-openshift-sinatra-sti   172.30.17.54:5000/sinatra/simple-openshift-sinatra-sti
 
 buildconfig
 NAME                           TYPE      SOURCE
@@ -190,134 +193,108 @@ NAME                           TRIGGERS                    LATEST VERSION
 simple-openshift-sinatra-sti   ConfigChange, ImageChange   0
 
 service
-NAME                       LABELS    SELECTOR                                        IP             PORT(S)
-simple-openshift-sinatra   <none>    deploymentconfig=simple-openshift-sinatra-sti   172.30.17.80   8080/TCP
+NAME                       LABELS    SELECTOR                                        IP              PORT(S)
+simple-openshift-sinatra   <none>    deploymentconfig=simple-openshift-sinatra-sti   172.30.17.100   8080/TCP
 
-[joe@broker00~]$ osc get pods
-<Nothing>
+pods
+POD       IP        CONTAINER(S)   IMAGE(S)   HOST      LABELS    STATUS    CREATED
 
 ----
-
-*** The reason we get nothing in the *osc get pods* command is because we didn't start the build yet, we just created its configuration and environment
-
-ifdef::showScript[]
-
-=== Transcript
-
-endif::showScript[]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-== Lab -  Create your first STI Build
++
+[NOTE]
+The reason we get nothing under pods is because we didn't start the build yet, we just created its configuration and environment
 
 === Start your Build - Part 2
 
-* To start our build, execute the following command :
+. To start our build, execute the following command on the master host:
++
+----
+
+[joe@master00-GUID ~]$ osc start-build simple-openshift-sinatra-sti
+
+----
++
+Take note of the returned text for later commands:
++
+----
+
+simple-openshift-sinatra-sti-1
 
 ----
 
-[joe@broker00~]$ osc start-build simple-openshift-sinatra-sti
-sin-fcae9c05-bd31-11e4-8e35-525400b33d1d
+. On the master host view the current build status using the following command:
++
+----
+
+[joe@master00-GUID ~]$ osc get builds
+
+----
++
+You should see something like this:
++
+----
+
+[joe@master00-GUID ~]$ osc get builds
+NAME                             TYPE      STATUS    POD
+simple-openshift-sinatra-sti-1   STI       Running   simple-openshift-sinatra-sti-1
 
 ----
 
+. On the master host view the current build log using the following command (with the text returned from `osc start-build`):
++
+----
 
-* You can view the current build status and build logs using the following commands:
+[joe@master00-GUID ~]$ osc build-logs simple-openshift-sinatra-sti-1
+
+----
++
+You should see something like this (press CTRL+C to exit):
++
+----
+
+2015-06-09T18:22:27.968522352Z E0609 14:22:27.936791       1 cfg.go:50] /root/.dockercfg: stat /root/.dockercfg: no such file or directory
+2015-06-09T18:22:27.968756049Z I0609 14:22:27.948161       1 sti.go:54] Creating a new STI builder with build request: &api.Request{BaseImage:"openshift/ruby-20-centos7", DockerSocket:"unix:///var/run/docker.sock", PreserveWorkingDir:false, Source:"https://github.com/openshift/simple-openshift-sinatra-sti.git", Ref:"", Tag:"172.30.17.54:5000/sinatra/simple-openshift-sinatra-sti", Incremental:false, RemovePreviousImage:false, Environment:map[string]string{"OPENSHIFT_BUILD_SOURCE":"https://github.com/openshift/simple-openshift-sinatra-sti.git", "OPENSHIFT_BUILD_NAME":"simple-openshift-sinatra-sti-1", "OPENSHIFT_BUILD_NAMESPACE":"sinatra"}, CallbackURL:"", ScriptsURL:"", Location:"", ForcePull:false, WorkingDir:"", LayeredBuild:false, InstallDestination:"", Quiet:false, ContextDir:""}
+...OUTPUT TRUNCATED...
 
 ----
 
-[joe@broker00~]$ osc get builds
-NAME                                       TYPE STATUS  POD
-sin-fcae9c05-bd31-11e4-8e35-525400b33d1d   STI  Pending build-sin-fcae9c05-bd31-11e4-...
+=== Test Your First Image
 
-[joe@broker00~]$ osc build-logs sin-fcae9c05-bd31-11e4-8e35-525400b33d1d
-
-
-----
-
-
-* Make sure to check the progress on the web console.
-** Note: Once the build is finished, build-logs no longer shows you the logs. You'll have to figure out which Docker container was used for the build and then use docker logs. This is a known issue.
-
- 
-
-
-
-
-
-ifdef::showScript[]
-
-=== Transcript
-
-endif::showScript[]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-== Lab -  Create your first STI Build
-
-=== Create your first image (Sinatra)
-
-Once the build is complete we can verify our pod and service using this command: 
+. Once the build is complete we can verify our pod and service using this command on the master host: 
++
 ---- 
 
-[joe@broker00~]$ curl `osc get services | grep sin | awk '{print $4":"$5}' | awk -F'/' '{print $1}'`
+[joe@master00-GUID ~]$ curl `osc get services | grep sin | awk '{print $4":"$5}' | awk -F'/' '{print $1}'`
+
+----
++
+You should see:
++
+----
+
 Hello, Sinatra!
 
 ----
-
-The last step will be to add a route to make it publicly accessible.
-Use the following commands: 
-
++
+[NOTE]
+If you see:
++
 ----
 
-[joe@broker00~]$ export GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
-[joe@broker00~]$ cat <<EOF > sinatra-route.json
+curl: (56) Recv failure: Connection reset by peer
+
+----
++
+Give it a minute or two and try again.  The web service is still starting up.
+
+=== Make the STI Publically Accssible
+
+. On the master host create the JSON file to make the STI publicly accessible: 
++
+----
+
+[joe@master00-GUID ~]$ export GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
+[joe@master00-GUID ~]$ cat <<EOF > sinatra-route.json
 {
   "kind": "Route",
   "apiVersion": "v1beta1",
@@ -330,45 +307,55 @@ Use the following commands:
 }
 EOF
 
-[joe@broker00~]$ osc create -f sinatra-route.json 
+----
+
+. On the master host execute the JSON file to make the STI publicly accessible: 
++
+----
+
+[joe@master00-GUID ~]$ osc create -f sinatra-route.json 
+
+----
++
+You should see:
++
+----
+
 sinatra-openshift-route
-
-
-[joe@broker00~]$ osc get routes 
-
-curl http://mysinatra.cloudapps-$GUID.oslab.opentlc.com
 
 ----
 
+. On the master host verify the route was created correctly: 
++
+----
 
+[joe@master00-GUID ~]$ osc get routes 
 
+----
++
+You should see:
++
+----
 
-ifdef::showScript[]
+NAME                      HOST/PORT                                    PATH      SERVICE                    LABELS
+sinatra-openshift-route   mysinatra.cloudapps-GUID.oslab.opentlc.com             simple-openshift-sinatra
 
-=== Transcript
+----
 
-endif::showScript[]
+. Test the new route from the master host:
++
+----
 
+[joe@master00-GUID ~]$ curl http://mysinatra.cloudapps-$GUID.oslab.opentlc.com ; echo
 
-== Lab - Using the Web Console for STI Builds
+----
++
+You should see:
++
+----
 
-=== Create your application 
+Hello, Sinatra!
 
-* Using what you learned in this chapter:
-** Create an application using the git repository:
-*** https://github.com/openshift/simple-openshift-sinatra-sti
-** Use the RHEL7 Based base image.
-** Start your build from the command line and create a route for your application.
+----
 
-
-
-
-
-
-
-
-
-
-
-
- 
+. Try accessing the http://mysinatra.cloudapps-GUID.oslab.opentlc.com URL from your desktop system (replacing GUID with the correct GUID.

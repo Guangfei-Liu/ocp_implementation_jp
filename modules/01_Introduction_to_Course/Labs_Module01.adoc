@@ -14,7 +14,7 @@ To do the labs in this training, you must provision the lab environment, which p
 [TIP]
 If you forgot your username or password, go to https://www.opentlc.com/pwm to reset your password or obtain a user name reminder. 
 
-. Navigate to *Services* -> *Catalogs* -> *All Services* -> *OPENTLC Cloud Infrastructure*.
+. Navigate to *Services* -> *Catalogs* -> *All Services* -> *OPENTLC Cloud Infrastructure Labs*.
 
 . On the left side of the screen, locate *OpenShift Enterprise 3.0 Implementation Lab* and click  *Order*  (appears on the right).
 
@@ -49,40 +49,36 @@ If you have not already done so, you must provide a public SSH key.
 
 . Paste your public key in that location.
 
-. Connect to your administration host and make sure you can access each of your provisioned hosts:
+. Connect to your administration host via SSH using your OPENTLC username and private SSH key:
 +
+.Example using UNIX/Linux
 [subs="verbatim,macros"]
 ----
 ssh -i ~/.ssh/yourprivatekey.key opentlc-username.com@oselab-pass:quotes[*GUID*].oslab.opentlc.com
-
 ----
 +
 [NOTE]
-The text *GUID* is a 4-character unique identifier generated for your lab environment. Your GUID is at the top of the lab provisioning email.
+The text *GUID* is a 4-character unique identifier generated for your lab environment. Your GUID is at the top of the lab provisioning email.  If using windows, you will use a terminal program such as putty not the above command.
 +
-.Example
+[NOTE]
+For more information on using SSH and keys, see link:https://www.opentlc.com/ssh.html[https://www.opentlc.com/ssh.html]
+
+. Become the root user on the administration host:
++
 [subs="verbatim,macros"]
 ----
-Laptop# ssh -i ~/.ssh/mykey.key pass:quotes[shacharb-redhat.com@oselab-*g00d*].oslab.opentlc.com
-oselab$ ssh root@192.168.0.100
-oselab# ssh root@192.168.0.101
-oselab# ssh root@192.168.0.200
-oselab# ssh root@192.168.0.202
-
+-bash-4.2$ sudo -i
 ----
 
-
- 
-. For more information on generating an SSH key, see the following:
+. From the administraion host, make sure you can SSH to each of your provisioned hosts (192.168.0.100, 192.168.0.200, 192.168.0.201):
 +
-- *Windows:* 
-link:http://kb.site5.com/shell-access-ssh/how-to-generate-ssh-keys-and-connect-to-your-account-with-putty[http://kb.site5.com/shell-access-ssh/how-to-generate-ssh-keys-and-connect-to-your-account-with-putty]
+[subs="verbatim,macros"]
+----
+[root@oselab-GUID ~]# ssh root@192.168.0.X
+----
 +
-- *Linux/OS X:*
-link:https://www.opentlc.com/ssh.html[https://www.opentlc.com/ssh.html]
-
-
-
+[NOTE]
+If prompted for a password, remember the root password is *r3dh4t1!*.
 
 :numbered!:
 

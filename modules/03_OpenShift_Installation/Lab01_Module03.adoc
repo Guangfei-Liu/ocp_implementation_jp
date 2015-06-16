@@ -8,34 +8,68 @@
 :numbered:	
 
 In this lab we will Deploy OpenShift Enterprise on a single host (in later labs we will add more nodes).
+
 * Configure Repositories
+
 * Configure Network Settings
+
 * Install Docker on our host 
+
 * Configure SSH Keys
+
 * Install Ansible Installer 
+
 * Configure and Install OpenShift Enterprise
+
 * Configure a DNS on our *oselab* server to serve our OpenShift environment.
+
 * Test deployment.
 
-.Configure the Repositories
-. Connect to your master as the `root` user.
+=== Beta Course Warning
+Take note that all of the steps in the lab may change when OpenShift 3.0 goes GA.  This course was built on a beta build.
+
+=== Configure the Repositories
+. If not already connected, connect to your administration host *oselab* (your private key location may vary):
 +
 ----
-[sborenst@desktop01 ~]$ ssh -i ~/.ssh/sborenstkey.pub shacharb-redhat.com@oselab-*GUID*.oslab.opentlc.com
 
-[bash-4.2$ ~] ssh root@192.168.0.100
+yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-*GUID*.oslab.opentlc.com
+
+----
+
+. Become the `root` user:
++
+----
+
+-bash-4.2$ sudo -i
+
+----
+
+. SSH to the master host:
++
+----
+
+[root@oselab-GUID ~]# ssh 192.168.0.100
+
+----
++
+[NOTE]
+If prompted for a password use *r3dh4t1!*
++
+----
+
 root@192.168.0.100's password: ******** (r3dh4t1!) 
 
 ----
 
-. Verify that  */etc/yum.repos.d/open.repo* is set up with the following repositories (We are using local repositories in our lab environment)
+. On the master host set up */etc/yum.repos.d/open.repo* with the following repositories (We are using local repositories in our lab environment, normally you would use `subscription-manager`):
 .. Red Hat Enterprise Linux 7
 .. Red Hat Enterprise Linux 7 Common
 .. Red Hat Enterprise Linux 7 Extras
 .. Red Hat Enterprise Linux 7 Optional
 +
 ----
-cat << EOF > /etc/yum.repos.d/open.repo
+[root@master00-GUID ~]# cat << EOF > /etc/yum.repos.d/open.repo
 [rhel-x86_64-server-7]
 name=Red Hat Enterprise Linux 7
 baseurl=http://www.opentlc.com/repos/rhel-x86_64-server-7
@@ -64,10 +98,11 @@ EOF
 
 ----
 
-. Add the OpenShift Beta3 Repository
+. Add the OpenShift Beta3 repository to the master host:
 +
 ----
-cat << EOF >> /etc/yum.repos.d/open.repo
+
+[root@master00-GUID ~]# cat << EOF >> /etc/yum.repos.d/open.repo
 [ose3]
 name=Red Hat Enterprise Linux 7 OSE 3
 baseurl=http://www.opentlc.com/repos/ose3
@@ -80,65 +115,110 @@ baseurl=http://www.opentlc.com/repos/ose3_ravellofix
 enabled=1
 gpgcheck=0
 EOF
+
 ----
 NOTE: We have the second repository to fix a Ravello specific issue that was not available during beta3. 
 
-. Check your the repositories 
+. List the available repositories on the master host:
 +
 -----
-yum repolist 
+
+[root@master00-GUID ~]# yum repolist 
+
 -----
++
+.You should see the following:
+----
 
-.Verify Network Configuration
+repo id                           repo name                               status
+ose3                              Red Hat Enterprise Linux 7 OSE 3           16
+ose3_fix                          Red Hat Enterprise Linux 7 OSE 3            4
+rhel-x86_64-server-7              Red Hat Enterprise Linux 7              4,387
+rhel-x86_64-server-extras-7       Red Hat Enterprise Linux 7 Extras          19
+rhel-x86_64-server-optional-7     Red Hat Enterprise Linux 7 Optional     4,087
+rhel-x86_64-server-rh-common-7    Red Hat Enterprise Linux 7 Common          19
 
-. On the Master host, Remove NetworkManager package.   
+----
+
+=== Verify Network Configuration:
+
+. On the Master host, remove the NetworkManager package (if installed):
 +
 ----
 
-yum -y remove NetworkManager*
+[root@master00-GUID ~]# yum -y remove NetworkManager*
 
 ----
 
-. Verify hostname
+. Verify the hostname for the master host:
 +
 ----
 
-hostname -f 
+[root@master00-GUID ~]# hostname -f 
+
+----
++
+.You should see the following:
+----
+
+master00-GUID.oslab.opentlc.com
 
 ----
 
-. Check internal and external IP
+. Take note of the internal IP address:
 +
 ----
-ifconfig eth0
 
-curl http://www.opentlc.com/getip
-
-dig `hostname -f` 
-
-dig @8.8.8.8  `hostname -f` 
+[root@master00-GUID ~]# ip address show dev eth0|grep "inet "|awk '{print $2}'|cut -f1 -d/
 
 ----
 
-.Install Docker on our host 
+. Make sure the internal DNS entry matches the internal IP address:
++
+----
 
-. Install docker on the host
+[root@master00-GUID ~]# host `hostname -f` 
+
+----
+
+. Take note of the external IP address:
++
+----
+
+[root@master00-GUID ~]# curl http://www.opentlc.com/getip
+
+----
+
+. Make sure the external DNS entry matches the external IP address:
++
+----
+
+[root@master00-GUID ~]# host `hostname -f` 8.8.8.8
+
+----
+
+=== Install Docker 
+
+. Install *Docker* on the master host and then enable the *Docker* service:
 + 
 ----
-yum -y install docker ; 
-systemctl enable docker
+
+[root@master00-GUID ~]# yum -y install docker
+[root@master00-GUID ~]# systemctl enable docker
 
 ----
 
-. Configure Docker Registry
+. Configure the *Docker* registry on the master host then restart the *Docker* service:
 +
 ----
-sed -i "s/OPTIONS.*/OPTIONS='--selinux-enabled --insecure-registry 0.0.0.0\/0'/" /etc/sysconfig/docker
-systemctl restart docker
+
+[root@master00-GUID ~]# sed -i "s/OPTIONS.*/OPTIONS='--selinux-enabled --insecure-registry 0.0.0.0\/0'/" \
+    /etc/sysconfig/docker
+[root@master00-GUID ~]# systemctl restart docker
 
 ----
 
-. In order to save time later, we will "pull" some docker images locally. (We already downloaded these locally to your host so it will go faster)
+. In order to save time later, we will "pull" some docker images to the master host. (We already downloaded these locally to your host so it will go faster) [master host shell prompt not shown below]:
 +
 ----
 
@@ -149,71 +229,96 @@ docker pull registry.access.redhat.com/openshift3_beta/ose-docker-builder:v0.4.3
 docker pull registry.access.redhat.com/openshift3_beta/ose-pod:v0.4.3.2
 docker pull registry.access.redhat.com/openshift3_beta/ose-docker-registry:v0.4.3.2
 docker pull registry.access.redhat.com/openshift3_beta/sti-basicauthurl:latest
-
 docker pull registry.access.redhat.com/openshift3_beta/ruby-20-rhel7
 docker pull registry.access.redhat.com/openshift3_beta/mysql-55-rhel7
 docker pull openshift/hello-openshift
-systemctl restart docker
+
 ----
 
-.Configure SSH Keys
-. On the Master host, Create keys for the root user.
+. Restart the *Docker* service on master host:
 +
 ----
-ssh-keygen -f /root/.ssh/id_rsa -N '' 
+
+[root@master00-GUID ~]# systemctl restart docker
 
 ----
 
-. Add ssh key to *authorised_keys* of all the hosts in the environment (Currently only our Master host).
+=== Configure SSH Keys:
+
+. On the master host, create keys for the root user.
 +
 ----
-cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys 
+
+[root@master00-GUID ~]# ssh-keygen -f /root/.ssh/id_rsa -N '' 
+
+----
+
+. Add ssh key to *authorized_keys* of all the hosts in the environment (currently only our master host):
++
+----
+
+[root@master00-GUID ~]# cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys 
 #or
-ssh-copy-id -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa.pub 127.0.0.1
+[root@master00-GUID ~]# ssh-copy-id -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa.pub 127.0.0.1
 
 ----
 
-. Configure */etc/ssh/ssh_conf* to disable *StrictHostKeyChecking*
+. Configure */etc/ssh/ssh_conf* to disable *StrictHostKeyChecking* on the master host (only for development, testing, or demos!):
 +
 ----
-echo StrictHostKeyChecking no >> /etc/ssh/ssh_config
+
+[root@master00-GUID ~]# echo StrictHostKeyChecking no >> /etc/ssh/ssh_config
+
 ----
 
-. Test that you can connect to your host without a keyboard prompt
+. From the master host test the new SSH key by connecting to itself over the loopback interface without a keyboard prompt:
 +
 ----
-ssh 127.0.0.1
+
+[root@master00-GUID ~]# ssh 127.0.0.1
+...[output ommitted]...
+[root@master00-GUID ~]# exit
+
 ----
 
-.Install Ansible Installer 
+=== Install Ansible Installer 
 
-. Add *epel* Repository, and disable it. 
+[NOTE]
+The steps in this section will drastically change when the product goes GA.
+
+. Add the *EPEL* repository to the master host and disable it:
 +
 ----
-yum -y install http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
-sed -i -e "s/^enabled=1/enabled=0/" /etc/yum.repos.d/epel.repo   
+
+[root@master00-GUID ~]# yum -y install http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
+[root@master00-GUID ~]# sed -i -e "s/^enabled=1/enabled=0/" /etc/yum.repos.d/epel.repo
+
 ----
 
-. Install Ansible
+. Install Ansible on master host:
 +
 ----
-yum -y --enablerepo=epel install ansible
+
+[root@master00-GUID ~]# yum -y --enablerepo=epel install ansible
+
 ----
 
-.Configure and Install OpenShift Enterprise
+=== Configure and Install OpenShift Enterprise 3.0
 
-. Download the Ansible "playbook"  
+. Download the Ansible "playbook" to the master host in root's home directory:
 +
 ---- 
-git clone https://github.com/detiber/openshift-ansible.git -b v3-beta3 
+
+[root@master00-GUID ~]# cd;git clone https://github.com/detiber/openshift-ansible.git -b v3-beta3 
+
 ----
 
-
-. Configure */etc/ansible/hosts* 
+. Configure */etc/ansible/hosts* on the master host:
 +
 ----
-export GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
-cat << EOF >> /etc/ansible/hosts
+
+[root@master00-GUID ~]# export GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
+[root@master00-GUID ~]# cat << EOF >> /etc/ansible/hosts
 [OSEv3:children]
 masters
 nodes
@@ -230,49 +335,66 @@ master00-$GUID.oslab.opentlc.com
 master00-$GUID.oslab.opentlc.com
 
 EOF
+
 ----
 
   
-. Run Ansible Installer
+. Run the Ansible installer on the master host and then restart the *openshift-master* service:
 +
 ---- 
 
-ansible-playbook -vvv /root/openshift-ansible/playbooks/byo/config.yml
-
-systemctl start openshift-master
+[root@master00-GUID ~]# ansible-playbook -vvv /root/openshift-ansible/playbooks/byo/config.yml
+[root@master00-GUID ~]# systemctl start openshift-master
 
 ----
++
+[NOTE]
+Running the Ansible installer will take a few minutes to run.  This is a good time for a break.
 
-.Configure a DNS on our *oselab* server to serve our OpenShift environment.
+=== Configure Wildcard DNS to Service the OpenShift Environment.
 
-. Connect to your *oselab* as the `root` user.
+. If not already connected, connect to your administration host *oselab* (your private key location may vary):
 +
 ----
-[sborenst@desktop01 ~]$ ssh -i ~/.ssh/sborenstkey.pub shacharb-redhat.com@oselab-*GUID*.oslab.opentlc.com
-su -
+
+yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-*GUID*.oslab.opentlc.com
+
 ----
 
-. Install *bind* on the *oselab* host
+. Become the `root` user:
 +
-----
-yum -y install bind bind-utils
-systemctl enable named
-systemctl stop named
 ----
 
-. Collect and define our environment's information.
-+
-----
-guid=`hostname|cut -f2 -d-|cut -f1 -d.`
-masterIP=`host master00-$guid.oslab.opentlc.com ipa.opentlc.com  | grep $guid | awk '{ print $4 }'`
-domain="cloudapps-$guid.oslab.opentlc.com"
+-bash-4.2$ sudo -i
+
 ----
 
-. Create the zone file for our DNS server
+. Install *BIND* on the administration host (*oselab*) then enable but stop the service:
 +
 ----
-mkdir /var/named/zones
-echo "\$ORIGIN  .
+
+[root@oselab-GUID ~]# yum -y install bind bind-utils
+[root@oselab-GUID ~]# systemctl enable named
+[root@oselab-GUID ~]# systemctl stop named
+
+----
+
+. On the admistration host collect and define the environment's information:
++
+----
+
+[root@oselab-GUID ~]# guid=`hostname|cut -f2 -d-|cut -f1 -d.`
+[root@oselab-GUID ~]# masterIP=`host master00-$guid.oslab.opentlc.com ipa.opentlc.com | grep $guid | awk '{ print $4 }'`
+[root@oselab-GUID ~]# domain="cloudapps-$guid.oslab.opentlc.com"
+
+----
+
+. On the administration host create the zone file with the wildcard DNS:
++
+----
+
+[root@oselab-GUID ~]# mkdir /var/named/zones
+[root@oselab-GUID ~]# echo "\$ORIGIN  .
 \$TTL 1  ;  1 seconds (for testing only)
 ${domain} IN SOA master.${domain}.  root.${domain}.  (
   2011112904  ;  serial
@@ -285,14 +407,14 @@ ${domain} IN SOA master.${domain}.  root.${domain}.  (
 \$ORIGIN ${domain}.
 test A ${masterIP}
 * A ${masterIP}"  >  /var/named/zones/${domain}.db
+
 ----
 
-
-
-. Configure named.conf
+. Configure named.conf on the administration host:
 +
 ----
-echo "// named.conf
+
+[root@oselab-GUID ~]# echo "// named.conf
 options {
   listen-on port 53 { any; };
   directory \"/var/named\";
@@ -315,43 +437,41 @@ zone \"${domain}\" IN {
   file \"zones/${domain}.db\";
   allow-update { key ${domain} ; } ;
 };" > /etc/named.conf
+
 ----
 
-. Correct file permissions and start our DNS server, *named*. 
+. On the administration host correct file permissions and start the DNS server:
 +
 ----
-chgrp named -R /var/named
-chown named -R /var/named/zones
-restorecon -R /var/named
 
-chown root:named /etc/named.conf
-restorecon /etc/named.conf
+[root@oselab-GUID ~]# chgrp named -R /var/named
+[root@oselab-GUID ~]# chown named -R /var/named/zones
+[root@oselab-GUID ~]# restorecon -R /var/named
+[root@oselab-GUID ~]# chown root:named /etc/named.conf
+[root@oselab-GUID ~]# restorecon /etc/named.conf
+[root@oselab-GUID ~]# systemctl start named
 
-systemctl start named
 ----
 
-. Verify DNS configuration 
-.. First try locally
-.. Then you could try from your laptop/desktop, this might take a few minutes to be updated. 
+. Configure FirewallD on the administation host to allow inbound DNS queries:
 +
 ----
-dig @127.0.0.1 test.cloudapps-$guid.oslab.opentlc.com
+
+[root@oselab-GUID bin]# firewall-cmd --zone=public --add-service=dns --permanent
+[root@oselab-GUID bin]# firewall-cmd --reload
 
 ----
 
-.Test deployment
+=== Verify DNS configuration:
 
-. Create the test environment
+.. First try locally on the administration host
+.. Then you could try from your laptop/desktop, this might take a few minutes to be updated.  Be sure to replace GUID with the correct GUID.
 +
 ----
-curl http://
 
-osc create -f test.environment.json 
+[root@oselab-GUID ~]# dig @127.0.0.1 test.cloudapps-$guid.oslab.opentlc.com
+[root@oselab-GUID ~]# dig @8.8.8.8 test.cloudapps-$guid.oslab.opentlc.com
 
-----
+yourhost$ nslookup test.cloudapps-GUID.oslab.opentlc.com
 
-. Delete the test environment 
-+
-----
-osc delete -f test.environment.json
 ----

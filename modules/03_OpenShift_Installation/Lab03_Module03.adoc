@@ -8,30 +8,53 @@
 :numbered:	
 
 * In the previous lab we have added 2 more nodes to our OpenShift environment. 
+
 * In this lab we will label these nodes into regions and zones and configure the OpenShift Scheduler.
+
 ** Our scheduler would be configured to filter OUT nodes that are NOT in the pod's Region label.
+
 ** Our scheduler would be configured to prioritize nodes that are NOT in our pod's Zone Label
 
- 
+=== Configure The Scheduler
 
-.Configure The Scheduler
-
-. Connect to your master as the `root` user.
+. If not already connected, connect to your administration host *oselab* (your private key location may vary):
 +
 ----
-[sborenst@desktop01 ~]$ ssh -i ~/.ssh/sborenstkey.pub shacharb-redhat.com@oselab-*GUID*.oslab.opentlc.com
 
-[bash-4.2$ ~] ssh root@192.168.0.100
+yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-*GUID*.oslab.opentlc.com
+
+----
+
+. Become the `root` user:
++
+----
+
+-bash-4.2$ sudo -i
+
+----
+
+. SSH to the master host:
++
+----
+
+[root@oselab-GUID ~]# ssh 192.168.0.100
+
+----
++
+[NOTE]
+If prompted for a password use *r3dh4t1!*
++
+----
+
 root@192.168.0.100's password: ******** (r3dh4t1!) 
 
 ----
 
-. Create the Scheduler configuration file 
+. Create a Scheduler configuration file on the master host:
 +
-[source,json]
 ----
 
-cat << EOF >> 
+[root@master00-GUID ~]# cat << EOF > /etc/openshift/scheduler.json
 {
   "predicates" : [
     {"name" : "PodFitsResources"},
@@ -49,21 +72,19 @@ EOF
 
 ----
 
-
 . Configure OpenShift-Master to use our scheduler configuration file
-.. Change the "schedulerConfigFile:" line to point to our configuration file */etc/openshift/scheduler.json*
+.. On the master host change the /etc/openshift.master.yaml file "schedulerConfigFile:" line to point to our configuration file */etc/openshift/scheduler.json*:
 +
 ----
 
-vi /etc/openshift/master.yaml
+[root@master00-GUID ~]# vi /etc/openshift/master.yaml
 #or
-sed -i "s/schedulerConfigFile:.*/schedulerConfigFile: \"\/etc\/openshift\/scheduler.json\"/g" /etc/openshift/master.yaml 
+[root@master00-GUID ~]# sed -i "s/schedulerConfigFile:.*/schedulerConfigFile: \"\/etc\/openshift\/scheduler.json\"/g" /etc/openshift/master.yaml 
 
 
 ----
 
-.Label the Nodes
-
+=== Label the Nodes
 
 * We want to label our nodes in the following manner
 ** master00 -- "region":"infra", "zone":"NA"
@@ -72,23 +93,23 @@ sed -i "s/schedulerConfigFile:.*/schedulerConfigFile: \"\/etc\/openshift\/schedu
 
 :numbered:
 
-. Use the *osc get node* command to generate a .json file for us to edit
+. On the master host use the *osc get node* command to generate a .json file for us to edit:
 +
 ----
 
-osc get node -o json > ~/nodes.json
+[root@master00-GUID ~]# osc get node -o json > ~/nodes.json
 
 ----
 
-. To be able to use *nodes.json* to update our configuration we need to remove the *"resourceVersion"* line 
+. To be able to use *nodes.json* to update our configuration we need to remove the *"resourceVersion"* line :
 +
 ----
 
-sed -ie '/"resourceVersion"/d' > ~/nodes.json 
+[root@master00-GUID ~]# sed -i '/"resourceVersion"/d' ~/nodes.json 
 
 ----
 
-. Edit *nodes.json* to include the master and node's labels.
+. Use your favorite editor to edit *nodes.json* for the next few steps:
 +
 ----
 
@@ -96,21 +117,22 @@ vi ~/nodes.json
 
 ----
 
-. Add the following to the beginning of the "metadata": {} block for your "master" node inside the files "items" list:
+. To set the master's labels, search for the metadata section with "name": "master00-GUID.oslab.opentlc.com" and add the following before that "name" setting (ignore the blank metadata section on the 4th line):
 +
-[source,json]
 ----
 
-"labels" : {
-  "region" : "infra",
-  "zone" : "NA"
-},
+                "labels" : {
+                  "region" : "infra",
+                  "zone" : "NA"
+                },
 
 ----
++
+[NOTE]
+Formatting means everything in JSON.  You must make sure the format is 100% correct.
 
 .. The result should look something like this: 
 +
-[source,json]
 ----
 {
     "kind": "List",
@@ -125,68 +147,69 @@ vi ~/nodes.json
                   "zone" : "NA"
                 },
                 "name": "master00-GUID.oslab.opentlc.com",
-
+...
 
 ----
 
-. Add the following to node00:
+. Add the following to the node00 section:
 +
-[source,json]
 ----
 
-"labels" : {
-  "region" : "primary",
-  "zone" : "east"
-},
+                "labels" : {
+                  "region" : "primary",
+                  "zone" : "east"
+                },
 
 ----
 
-. Add the following to node01:
+. Add the following to node01 section:
 +
-[source,json]
 ----
 
-"labels" : {
-  "region" : "primary",
-  "zone" : "west"
-},
+                "labels" : {
+                  "region" : "primary",
+                  "zone" : "west"
+                },
 
 ----
+
+. Write out the file and exit the editor.
 
 :numbered!:
 
-.Apply the update to OpenShift
+=== Apply the update to OpenShift
 :numbered:
-. Update the nodes configuration with the *osc update* command. 
+. From the master host, update the nodes configuration with the *osc update* command:
 +
 ----
 
-osc update node -f ~/nodes.json
+[root@master00-GUID ~]# osc update node -f ~/nodes.json
 
 ----
 
 
-. In this version of the software (Beta3) we need to restart the openshift-node and openshift-master services for changes to take effect. 
+. In this version of the software (Beta3) we need to restart the `openshift-node` and `openshift-master` services for changes to take effect.  Run all the commands from the master host:
 +
 ----
 
-systemctl restart openshift-master
-systemctl restart openshift-node
-ssh node00-$GUID.oslab.opentlc.com "systemctl restart openshift-node"
-ssh node01-$GUID.oslab.opentlc.com "systemctl restart openshift-node"
+[root@master00-GUID ~]# GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
+[root@master00-GUID ~]# systemctl restart openshift-master
+[root@master00-GUID ~]# systemctl restart openshift-node
+[root@master00-GUID ~]# ssh node00-$GUID.oslab.opentlc.com "systemctl restart openshift-node"
+[root@master00-GUID ~]# ssh node01-$GUID.oslab.opentlc.com "systemctl restart openshift-node"
 
 ----
 
-. Use *osc get nodes* command to review the changes that were made
+. On the master host use *osc get nodes* command to review the changes that were made:
 +
 ----
 
-osc get nodes
+[root@master00-GUID ~]# osc get nodes
 
-NAME                   		 LABELS                     STATUS
-master00-r2d2.oslab.opentlc.com  region=infra,zone=NA       Ready
-node00-r2d2.oslab.opentlc.com    region=primary,zone=east   Ready
-node01-r2d2.oslab.opentlc.com    region=primary,zone=west   Ready
+NAME                              LABELS        STATUS
+master00-GUID.oslab.opentlc.com   Schedulable   region=infra,zone=NA       Ready
+node00-GUID.oslab.opentlc.com     Schedulable   region=primary,zone=east   Ready
+node01-GUID.oslab.opentlc.com     Schedulable   region=primary,zone=west   Ready
 
 ----
 

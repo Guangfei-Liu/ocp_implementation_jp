@@ -1,0 +1,404 @@
+:scrollbar:
+:data-uri:
+:icons: images/icons
+:toc2:		
+
+		
+== Wiring Templates together
+
+* In this lab, You will take the previously provided *intergrated-template* and split it into two separate *templates*.
+
+** Create a "frontend" template that will include all the resources required to support the "Web" application.
+** Create a "db" template that will include all the resources required to support the "db" mysql database.
+** With user *Alice*, Create an instance of the "db" `InstantApp/template` using the mysql credentials
+** With User *Joe*, Create an instance of the "frontend" `InstantApp/template` from Alice's "db" instance.
+
+ 
+:numbered:
+
+== Create a "db" template
+
+. Connect to your master as the `root` user.
++
+----
+[sborenst@desktop01 ~]$ ssh -i ~/.ssh/sborenstkey.pub shacharb-redhat.com@oselab-*GUID*.oslab.opentlc.com
+
+[bash-4.2$ ~] ssh root@192.168.0.100
+root@192.168.0.100's password: ******** (r3dh4t1!) 
+----
+
+. Create The *db_template.json* file for the "db" template
++
+----
+cat << EOF > db_template.json
+{
+ {
+  "apiVersion": "v1beta1",
+  "items": [
+    {
+      "apiVersion": "v1beta1",
+      "containerPort": 3306,
+      "id": "database",
+      "kind": "Service",
+      "port": 5434,
+      "selector": {
+        "name": "database"
+      }
+    },
+    {
+      "apiVersion": "v1beta1",
+      "kind": "DeploymentConfig",
+      "metadata": {
+        "name": "database"
+      },
+      "template": {
+        "controllerTemplate": {
+          "podTemplate": {
+            "desiredState": {
+              "manifest": {
+              "volumes": [ ],
+                "containers": [
+                  {
+                    "env": [
+                      {
+                        "name": "MYSQL_PASSWORD",
+                        "value": "${MYSQL_PASSWORD}"
+                      },
+                      {
+                        "name": "MYSQL_DATABASE",
+                        "value": "${MYSQL_DATABASE}"
+                      },
+                      {
+                        "name": "MYSQL_USER",
+                        "value": "${MYSQL_USER}"
+                      }
+                    ],
+                    "image": "registry.access.redhat.com/openshift3_beta/mysql-55-rhel7",
+                    "name": "ruby-helloworld-database",
+                    "ports": [
+                      {
+                        "containerPort": 3306
+                      }
+                    ],
+                    "volumeMounts": [ ]
+                  }
+                ],
+                "version": "v1beta1"
+              }
+            },
+            "labels": {
+              "name": "database"
+            }
+          },
+          "replicaSelector": {
+            "name": "database"
+          },
+          "replicas": 1
+        },
+        "strategy": {
+          "type": "Recreate"
+        }
+      },
+      "triggers": [
+        {
+          "type": "ConfigChange"
+        }
+      ]
+    }
+  ],
+  "kind": "Template",
+  "metadata": {
+    "annotations": {
+      "description": "This example shows how to hand-wire a database in OpenShift 3"
+    },
+    "name": "mysql-wiring-example"
+  },
+  "parameters": [
+    {
+      "description": "database password",
+      "from": "[a-zA-Z0-9]{8}",
+      "generate": "expression",
+      "name": "MYSQL_PASSWORD"
+    },
+    {
+      "description": "database name",
+      "name": "MYSQL_DATABASE",
+      "value": "example"
+    },
+    { "description": "database user",
+      "name": "MYSQL_USER",
+      "value": "example"
+    }
+  ],
+  "labels": {
+    "template": "application-template-stibuild"
+  }
+}
+
+EOF
+----
+
+. Process the `Template` and create the *config* file to create an instance of the template
++
+----
+osc process -f db-template.json > frontend-config.json
+----
+
+. Create an instance of the "db" template from the `config` file
++
+----
+osc create -f db-config.json
+
+----
+
+. Before you log out as user *Alice*, record the credentials used to create your "db" instance
+----
+grep -A 1 MYSQL_* frontend-config.json
+                                            "name": "MYSQL_USER",
+                                            "key": "MYSQL_USER",
+                                            "value": "userMXG"
+
+                                            "name": "MYSQL_PASSWORD",
+                                            "key": "MYSQL_PASSWORD",
+                                            "value": "slDrggRv"
+
+                                            "name": "MYSQL_DATABASE",
+                                            "key": "MYSQL_DATABASE",
+                                            "value": "root"
+
+----
+
+. Record this information and we will assume that Alice shared it with Joe somehow. 
+
+== Create a "frontend" template
+
+
+. Create The *frontend-template.json* file for the "frontend" template
++
+----
+cat << EOF > frontend-template.json
+{
+  "apiVersion": "v1beta1",
+  "items": [
+    {
+      "apiVersion": "v1beta1",
+      "containerPort": 8080,
+      "id": "frontend",
+      "kind": "Service",
+      "port": 5432,
+      "selector": {
+        "name": "frontend"
+      }
+    },
+    {
+      "apiVersion": "v1beta1",
+      "host": "wiring.cloudapps.example.com",
+      "id": "sample-app-secure",
+      "kind": "Route",
+      "metadata": {
+        "name": "route-edge"
+      },
+      "serviceName": "frontend"
+    },
+    {
+      "apiVersion": "v1beta1",
+      "kind": "ImageStream",
+      "metadata": {
+        "name": "origin-ruby-sample"
+      }
+    },
+    {
+      "apiVersion": "v1beta1",
+      "kind": "ImageStream",
+      "metadata": {
+        "name": "ruby-20-rhel7"
+      },
+      "spec": {
+        "dockerImageRepository": "registry.access.redhat.com/openshift3_beta/ruby-20-rhel7"
+      }
+    },
+    {
+      "apiVersion": "v1beta1",
+      "kind": "BuildConfig",
+      "metadata": {
+        "name": "ruby-sample-build",
+        "labels": {
+          "name": "ruby-sample-build"
+       }
+      },
+      "parameters": {
+        "output": {
+          "to": {
+            "name": "origin-ruby-sample"
+          }
+        },
+        "source": {
+          "git": {
+            "uri": "git://github.com/openshift/ruby-hello-world.git",
+            "ref": "beta4"
+          },
+          "type": "Git"
+        },
+        "strategy": {
+          "stiStrategy": {
+            "image": "registry.access.redhat.com/openshift3_beta/ruby-20-rhel7"
+          },
+          "type": "STI"
+        }
+      },
+      "triggers": [
+        {
+          "github": {
+            "secret": "secret101"
+          },
+          "type": "github"
+        },
+        {
+          "generic": {
+            "secret": "secret101"
+          },
+          "type": "generic"
+        },
+        {
+          "imageChange": {
+            "from": {
+              "name": "ruby-20-centos7"
+            },
+            "image": "registry.access.redhat.com/openshift3_beta/ruby-20-rhel7",
+            "tag": "latest"
+          },
+          "type": "imageChange"
+        }
+      ]
+    },
+    {
+      "apiVersion": "v1beta1",
+      "kind": "DeploymentConfig",
+      "metadata": {
+        "name": "frontend"
+      },
+      "template": {
+        "controllerTemplate": {
+          "podTemplate": {
+            "desiredState": {
+              "manifest": {
+                "containers": [
+                  {
+                    "env": [
+                      {
+                        "name": "ADMIN_USERNAME",
+                        "value": "${ADMIN_USERNAME}"
+                      },
+                      {
+                        "name": "ADMIN_PASSWORD",
+                        "value": "${ADMIN_PASSWORD}"
+                      },
+                      {
+                        "name": "MYSQL_USER",
+                        "value": "${MYSQL_USER}"
+                      },
+                      {
+                        "name": "MYSQL_PASSWORD",
+                        "value": "${MYSQL_PASSWORD}"
+                      },
+                      {
+                        "name": "MYSQL_DATABASE",
+                        "value": "${MYSQL_DATABASE}"
+                      }
+                    ],
+                    "image": "origin-ruby-sample",
+                    "name": "ruby-helloworld",
+                    "ports": [
+                      {
+                        "containerPort": 8080
+                      }
+                    ]
+                  }
+                ],
+                "version": "v1beta1"
+              }
+            },
+            "labels": {
+              "name": "frontend"
+            }
+          },
+          "replicaSelector": {
+            "name": "frontend"
+          },
+          "replicas": 1
+        },
+        "strategy": {
+          "type": "Recreate"
+        }
+      },
+      "triggers": [
+        {
+          "imageChangeParams": {
+            "automatic": true,
+            "containerNames": [
+              "ruby-helloworld"
+            ],
+            "from": {
+              "name": "origin-ruby-sample"
+            },
+            "tag": "latest"
+          },
+          "type": "ImageChange"
+        }
+      ]
+    }
+  ],
+  "kind": "Template",
+  "metadata": {
+    "annotations": {
+      "description": "This is a hand-wiring example for an application"
+    },
+    "name": "wiring-frontend-example"
+  },
+  "parameters": [
+    {
+      "description": "administrator username",
+      "from": "admin[A-Z0-9]{3}",
+      "generate": "expression",
+      "name": "ADMIN_USERNAME"
+    },
+    {
+      "description": "administrator password",
+      "from": "[a-zA-Z0-9]{8}",
+      "generate": "expression",
+      "name": "ADMIN_PASSWORD"
+    },
+    {
+      "description": "database username",
+      "from": "user[A-Z0-9]{3}",
+      "generate": "expression",
+      "name": "MYSQL_USER"
+    },
+    {
+      "description": "database password",
+      "from": "[a-zA-Z0-9]{8}",
+      "generate": "expression",
+      "name": "MYSQL_PASSWORD"
+    },
+    {
+      "description": "database name",
+      "name": "MYSQL_DATABASE",
+      "value": "root"
+    }
+  ],
+  "labels": {
+    "template": "application-template-stibuild"
+  }
+}
+EOF
+----
+
+. Create an instance of the "frontend" template from the `config` file and overwrite the credentials with the information from Alice.
++
+----
+osc process -f frontend_template.json \
+    -v MYSQL_USER=userMXG,MYSQL_PASSWORD=slDrggRv,MYSQL_DATABASE=root \
+    | osc create -f -
+----
+
+

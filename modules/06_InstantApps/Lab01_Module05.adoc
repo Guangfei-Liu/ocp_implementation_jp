@@ -15,8 +15,6 @@
 
 == Create and Install your template 
 
-Complete these steps before starting the rest of the labs.
-
 . Connect to your master as the `root` user.
 +
 ----

@@ -63,6 +63,7 @@ Module 05 : The STI Build Method
 	Topic		: ImageStream 
 	Topic		: BuildConfig
 	Lab		: Deploy an STI Build 
+	Lab		: Another STI Lab
 	
 	
 Module 06 : InstantApps and Tempaltes

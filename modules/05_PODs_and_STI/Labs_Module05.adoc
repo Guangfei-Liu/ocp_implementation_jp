@@ -1646,7 +1646,7 @@ services from the service output you looked at above.
 +
 ----
 
-[joe@master00-GUID ~]$ osc create -f ~/training/beta4sinatra-route.json
+[joe@master00-GUID ~]$ osc create -f ~/training/beta4/sinatra-route.json
 
 ----
 

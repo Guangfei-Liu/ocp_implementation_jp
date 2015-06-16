@@ -58,8 +58,27 @@ the upper right.
 Remember that a `BuildConfig`(uration) tells OpenShift how to do a build.
 Still as the `alice` user.
 
-. Take a look at the current `BuildConfig` for our
-frontend:
+. As `alice` on the master host create a project called `wiring`.
+
+. As user alice clone the training repo:
++
+----
+
+[alice@master00-GUID ~]$ cd;git clone https://github.com/openshift/training.git
+
+----
+
+. In the training/beta4 directory integrated-template.json 
++
+----
+
+[alice@master00-GUID ~]$ osc create -f ~/training/beta4/integrated-template.json
+
+----
+
+. In the web console create instant an app based on the template.
+
+. Take a look at the current `BuildConfig` for our frontend:
 +
 ----
 

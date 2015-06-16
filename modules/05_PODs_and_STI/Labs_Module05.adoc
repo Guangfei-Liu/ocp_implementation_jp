@@ -69,11 +69,11 @@ OpenShift, by default, is using a self-signed SSL certificate, so we must point
 our tool at the CA file.
 
 . The `login` process in the last step created a file called `config` in the `~/.config/openshift`
-folder. Take a look at it:
+folder. On the master host as user `joe` take a look at it:
 +
 ----
 
-[root@oselab-GUID ~]# cat ~/.config/openshift/config
+[joe@oselab-GUID ~]$ cat ~/.config/openshift/config
 
 ----
 +
@@ -229,8 +229,7 @@ bound to 8080 on the container, along with several other `ose-pod` containers.
 The `openshift3_beta/ose-pod` container exists because of the way network
 namespacing works in Kubernetes. For the sake of simplicity, think of the
 container as nothing more than a way for the host OS to get an interface created
-for the corresponding pod to be able to receive traffic. Deeper understanding of
-networking in OpenShift is outside the scope of this material.
+for the corresponding pod to be able to receive traffic.
 
 . On the master server verify that the app is working, you can issue a curl to the app's port *on
 the node where the pod is running*

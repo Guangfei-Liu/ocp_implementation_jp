@@ -1,0 +1,465 @@
+:scrollbar:
+:data-uri:
+:icons: images/icons
+:toc2:		
+
+		
+== Installing a Template 
+
+* In this lab, you will make available an InstantApp for all the users.
+** You will install the template, make it available
+** You will deploy your InstantApp using the command line and web-console  
+
+
+:numbered:
+
+== Create and Install your template 
+
+Complete these steps before starting the rest of the labs.
+
+. Connect to your master as the `root` user.
++
+----
+[sborenst@desktop01 ~]$ ssh -i ~/.ssh/sborenstkey.pub shacharb-redhat.com@oselab-*GUID*.oslab.opentlc.com
+
+[bash-4.2$ ~] ssh root@192.168.0.100
+root@192.168.0.100's password: ******** (r3dh4t1!) 
+----
++
+
+. Create The *integrated-template.json* file for our template
++
+----
+cat << EOF > integrated-template.json
+{
+  "kind": "Template",
+  "apiVersion": "v1beta3",
+  "metadata": {
+    "name": "quickstart-keyvalue-application",
+    "creationTimestamp": null,
+    "annotations": {
+      "description": "This is an example of a Ruby and MySQL application on OpenShift 3",
+      "iconClass": "icon-ruby",
+      "tags": "instant-app,ruby,mysql"
+    }
+  },
+  "objects": [
+    {
+      "kind": "Service",
+      "apiVersion": "v1beta3",
+      "metadata": {
+        "name": "frontend",
+        "creationTimestamp": null
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "web",
+            "protocol": "TCP",
+            "port": 5432,
+            "targetPort": 8080,
+            "nodePort": 0
+          }
+        ],
+        "selector": {
+          "name": "frontend"
+        },
+        "portalIP": "",
+        "type": "ClusterIP",
+        "sessionAffinity": "None"
+      },
+      "status": {
+        "loadBalancer": {}
+      }
+    },
+    {
+      "kind": "Route",
+      "apiVersion": "v1beta3",
+      "metadata": {
+        "name": "route-edge",
+        "creationTimestamp": null
+      },
+      "spec": {
+        "host": "integrated.cloudapps.example.com",
+        "to": {
+          "kind": "Service",
+          "name": "frontend"
+        }
+      },
+      "status": {}
+    },
+    {
+      "kind": "ImageStream",
+      "apiVersion": "v1beta3",
+      "metadata": {
+        "name": "ruby-sample",
+        "creationTimestamp": null
+      },
+      "spec": {},
+      "status": {
+        "dockerImageRepository": ""
+      }
+    },
+    {
+      "kind": "ImageStream",
+      "apiVersion": "v1beta3",
+      "metadata": {
+        "name": "ruby-20-rhel7",
+        "creationTimestamp": null
+      },
+      "spec": {
+        "dockerImageRepository": "registry.access.redhat.com/openshift3_beta/ruby-20-rhel7"
+      },
+      "status": {
+        "dockerImageRepository": ""
+      }
+    },
+    {
+      "kind": "BuildConfig",
+      "apiVersion": "v1beta3",
+      "metadata": {
+        "name": "ruby-sample-build",
+        "creationTimestamp": null,
+        "labels": {
+          "name": "ruby-sample-build"
+        }
+      },
+      "spec": {
+        "triggers": [
+          {
+            "type": "github",
+            "github": {
+              "secret": "secret101"
+            }
+          },
+          {
+            "type": "generic",
+            "generic": {
+              "secret": "secret101"
+            }
+          },
+          {
+            "type": "imageChange",
+            "imageChange": {}
+          }
+        ],
+        "source": {
+          "type": "Git",
+          "git": {
+            "uri": "git://github.com/openshift/ruby-hello-world.git",
+            "ref": "beta4"
+          }
+        },
+        "strategy": {
+          "type": "Source",
+          "sourceStrategy": {
+            "from": {
+              "kind": "ImageStreamTag",
+              "name": "ruby:latest",
+              "namespace": "openshift"
+            },
+            "incremental": true
+          }
+        },
+        "output": {
+          "to": {
+            "kind": "ImageStreamTag",
+            "name": "ruby-sample:latest"
+          }
+        },
+        "resources": {}
+      },
+      "status": {
+        "lastVersion": 0
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1beta3",
+      "metadata": {
+        "name": "frontend",
+        "creationTimestamp": null
+      },
+      "spec": {
+        "strategy": {
+          "type": "Recreate"
+        },
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "ruby-helloworld"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "ruby-sample:latest"
+              },
+              "lastTriggeredImage": ""
+            }
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 2,
+        "selector": {
+          "name": "frontend"
+        },
+        "template": {
+          "metadata": {
+            "creationTimestamp": null,
+            "labels": {
+              "name": "frontend"
+            }
+          },
+          "nodeSelector": {
+            "region": "primary"
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "ruby-helloworld",
+                "image": "ruby-sample",
+                "ports": [
+                  {
+                    "containerPort": 8080,
+                    "protocol": "TCP"
+                  }
+                ],
+                "env": [
+                  {
+                    "name": "ADMIN_USERNAME",
+                    "value": "${ADMIN_USERNAME}"
+                  },
+                  {
+                    "name": "ADMIN_PASSWORD",
+                    "value": "${ADMIN_PASSWORD}"
+                  },
+                  {
+                    "name": "MYSQL_USER",
+                    "value": "${MYSQL_USER}"
+                  },
+                  {
+                    "name": "MYSQL_PASSWORD",
+                    "value": "${MYSQL_PASSWORD}"
+                  },
+                  {
+                    "name": "MYSQL_DATABASE",
+                    "value": "${MYSQL_DATABASE}"
+                  }
+                ],
+                "resources": {},
+                "terminationMessagePath": "/dev/termination-log",
+                "imagePullPolicy": "IfNotPresent",
+                "capabilities": {},
+                "securityContext": {
+                  "capabilities": {},
+                  "privileged": false
+                }
+              }
+            ],
+            "restartPolicy": "Always",
+            "dnsPolicy": "ClusterFirst",
+            "serviceAccount": ""
+          }
+        }
+      },
+      "status": {}
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1beta3",
+      "metadata": {
+        "name": "database",
+        "creationTimestamp": null
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "db",
+            "protocol": "TCP",
+            "port": 5434,
+            "targetPort": 3306,
+            "nodePort": 0
+          }
+        ],
+        "selector": {
+          "name": "database"
+        },
+        "portalIP": "",
+        "type": "ClusterIP",
+        "sessionAffinity": "None"
+      },
+      "status": {
+        "loadBalancer": {}
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1beta3",
+      "metadata": {
+        "name": "database",
+        "creationTimestamp": null
+      },
+      "spec": {
+        "strategy": {
+          "type": "Recreate"
+        },
+        "triggers": [
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "name": "database"
+        },
+        "template": {
+          "metadata": {
+            "creationTimestamp": null,
+            "labels": {
+              "name": "database"
+            }
+          },
+          "nodeSelector": {
+            "region": "primary"
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "ruby-helloworld-database",
+                "image": "registry.access.redhat.com/openshift3_beta/mysql-55-rhel7:latest",
+                "ports": [
+                  {
+                    "containerPort": 3306,
+                    "protocol": "TCP"
+                  }
+                ],
+                "env": [
+                  {
+                    "name": "MYSQL_USER",
+                    "value": "${MYSQL_USER}"
+                  },
+                  {
+                    "name": "MYSQL_PASSWORD",
+                    "value": "${MYSQL_PASSWORD}"
+                  },
+                  {
+                    "name": "MYSQL_DATABASE",
+                    "value": "${MYSQL_DATABASE}"
+                  }
+                ],
+                "resources": {},
+                "terminationMessagePath": "/dev/termination-log",
+                "imagePullPolicy": "Always",
+                "capabilities": {},
+                "securityContext": {
+                  "capabilities": {},
+                  "privileged": false
+                }
+              }
+            ],
+            "restartPolicy": "Always",
+            "dnsPolicy": "ClusterFirst",
+            "serviceAccount": ""
+          }
+        }
+      },
+      "status": {}
+    }
+  ],
+  "parameters": [
+    {
+      "name": "ADMIN_USERNAME",
+      "description": "administrator username",
+      "generate": "expression",
+      "from": "admin[A-Z0-9]{3}"
+    },
+    {
+      "name": "ADMIN_PASSWORD",
+      "description": "administrator password",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{8}"
+    },
+    {
+      "name": "MYSQL_USER",
+      "description": "database username",
+      "generate": "expression",
+      "from": "user[A-Z0-9]{3}"
+    },
+    {
+      "name": "MYSQL_PASSWORD",
+      "description": "database password",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{8}"
+    },
+    {
+      "name": "MYSQL_DATABASE",
+      "description": "database name",
+      "value": "root"
+    }
+  ],
+  "labels": {
+    "template": "application-template-stibuild"
+  }
+}
+
+EOF
+----
+
+
+. Create the template in the `openshift` namespace to its available to all users 
++
+----
+osc create -f integrated-template.json -n openshift
+----
+
+
+== Create an InstantApp from your template  
+
+. Connect to the OpenShift Enterprise master by following the same steps you used previously.
+. Authenticate user `joe` to Openshift Enterprise and create a token in the `.config/openshift/.config` file:	
++
+----
+[root@master00~]# su - joe
+[joe@master00~]$ export GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
+[joe@master00~]$ osc login -u joe \
+--certificate-authority=/var/lib/openshift/openshift.local.certificates/ca/cert.crt \
+--server=https://master00-${GUID}.oslab.opentlc.com:8443 
+Password: (Enter r3dh4t1!)
+Login successful.
+
+Welcome to OpenShift! See 'osc help' to get started.
+----
+
+. Create a project for the lab
++
+----
+osc new-project quickstart --display-name="Quickstart" \
+--description='A demonstration of a "quickstart/template"'
+
+osc project quickstart
+Now using project "quickstart" on server "https://`hostname`:8443".
+----
+
+. In the web console, logged in as joe, find the "Quickstart" project, 
+. hit the "Create +" button. We've seen this page before, but now it contains something new -- an "instant app(lication)". 
+. Click "quickstart-keyvalue-application", and you'll see a modal pop-up that provides more information about the template.
+
+. Click "Select template..."
+. The next page that you will see is the template "configuration" page. This is where you can specify certain options for how the application components will be insantiated.
+. Leave all of the defaults and simply click "Create".
+
+. If you click "Browse" and then "Services" you will see that there is a route for the frontend service:
+----
+`integrated.cloudapps.example.com`
+----
+
+. The build was started for us immediately after creating an instance of the template, so you can wait for it to finish. Feel free to check the build logs.
+----
+osc build-logs [name of build]
+----
+. Once the build is complete, you can go on to: http://integrated.cloudapps.example.com
+

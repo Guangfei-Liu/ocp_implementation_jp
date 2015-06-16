@@ -862,6 +862,14 @@ Service "centos7-wordpress" created at 172.30.135.252 with port mappings 22.
 [NOTE]
 This can take a *really* long time to build.**
 
+. Fix the json file from the training repo to match the lab hostnames:
++
+----
+
+[alice@master00-GUID ~]$ sed -i "s/cloudapps.example.com/cloudapps-$GUID.oslab.opentlc.com/" ~/training/beta4/wordpress-addition.json
+
+----
+
 . You will need a route for this application, as `curl` won't do a whole lot for
 us here. Additionally, `osc new-app` currently has a bug in the way services are
 detected, so we'll have a service for SSH (thus port 22 above) but not one for

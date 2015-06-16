@@ -456,7 +456,7 @@ CA which we will use.
 [root@master00-GUID ~]# export GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
 [root@master00-GUID ~]# osadm create-server-cert --signer-cert=$CA/ca.crt \
       --signer-key=$CA/ca.key --signer-serial=$CA/ca.serial.txt \
-      --hostnames='*.cloudapps-$GUID.oslab.opentlc.com' \
+      --hostnames="*.cloudapps-$GUID.oslab.opentlc.com" \
       --cert=cloudapps.crt --key=cloudapps.key
 
 ----

@@ -353,16 +353,20 @@ customization can be found here:
 
 === Add a Script
 
-You will find a script called `custom-assemble.sh` in the `training/beta4` folder. Go to
-your Github repository for your application from the previous lab, find the
-`beta4` branch, and find the `.sti/bin` folder.
+. Go to your Github repository for your application from the previous lab.
 
-. Click the "+" button at the top (to the right of `bin` in the
-    breadcrumbs).
+. In the Github web GUI change to the `beta4` branch (top left).
++
+[NOTE]
+If you are unfamiliar with github, changing the branch could be tricky, make sure you do not skip this step.
+
+. Navigate to the `.sti/bin` folder.
+
+. Click the "+" button at the top (to the right of `bin` in the breadcrumbs).
 
 . Name your file `assemble`.
 
-. Paste the contents of `custom-assemble.sh` into the text area.
+. On the master host command line find the script called `custom-assemble.sh` in the `training/beta4` folder and paste the contents of `custom-assemble.sh` into the text area.
 
 . Provide a nifty commit message.
 
@@ -634,10 +638,8 @@ their logs any longer.
 +
 ----
 
-[alice@master00-GUID ~]$ osc get pod |\
-[alice@master00-GUID ~]$ grep -E "[0-9]-build" |\
-[alice@master00-GUID ~]$ awk {'print $1'} |\
-[alice@master00-GUID ~]$ xargs -r osc delete pod
+[alice@master00-GUID ~]$ osc get pod | grep -E "[0-9]-build" |\
+   awk {'print $1'} | xargs -r osc delete pod
 
 ----
 

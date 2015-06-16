@@ -404,7 +404,7 @@ Here is an example route resource JSON definition:
         "name": "hello-openshift-route"
       },
       "spec": {
-        "host": "hello-openshift.cloudapps.example.com",
+        "host": "hello-openshift.cloudapps-GUID.oslab.opentlc.com",
         "to": {
           "name": "hello-openshift-service"
         },
@@ -605,11 +605,13 @@ you only want it accessible via port fowarding, etc.
 such it's really intended to be viewed by cluster admins rather than project
 admins.
 
-Using SSH tunnels, you can forward port 1936 from the master host to your local host and visit:
+Using SSH tunnels, you can forward port 1936 from the administration host to the master host using an SSH tunnel originating from your desktop system:
 
-    http://admin:cEVu2hUb@ose3-master.example.com:YOUR_SSH_TUNNEL_PORT
+    yourhost $ ssh yourlogin@oselab00-$GUID.oslab.opentlc.com -L1936:master00-$GUID.oslab.opentlc.com:1936
 
-to view your router stats.
+Then from your desktop system go to the following URL with a web browser to view your router stats:
+
+    http://admin:cEVu2hUb@localhost:1936
 
 === The Complete Pod-Service-Route
 
@@ -654,7 +656,7 @@ and a corresponding route. It also includes a deployment configuration.
             "name": "hello-openshift-route"
           },
           "spec": {
-            "host": "hello-openshift.cloudapps.example.com",
+            "host": "hello-openshift.cloudapps-GUID.oslab.opentlc.com",
             "to": {
               "name": "hello-openshift-service"
             },
@@ -732,7 +734,7 @@ and a corresponding route. It also includes a deployment configuration.
 
 In the JSON above:
 
-* There is a pod whose containers have the label `name=hello-openshift-label` and the nodeSelector `region=primary`
+* There is a pod whose containers have the label `name=hello-openshift` and the nodeSelector `region=primary`
 
 * There is a service:
 
@@ -742,22 +744,22 @@ In the JSON above:
 
 * There is a route:
 
-** with the FQDN `hello-openshift.cloudapps.example.com`
+** with the FQDN `hello-openshift.cloudapps-GUID.oslab.opentlc.com`
 
 ** with the `spec` `to` `name=hello-openshift-service`
 
 If we work from the route down to the pod:
 
-* The route for `hello-openshift.cloudapps.example.com` has an HAProxy pool
+* The route for `hello-openshift.cloudapps-GUID.oslab.opentlc.com` has an HAProxy pool
 
 * The pool is for any pods in the service whose ID is `hello-openshift-service`,
     via the `serviceName` directive of the route.
 
 * The service `hello-openshift-service` includes every pod who has a label
-    `name=hello-openshift-label`
+    `name=hello-openshift`
 
 * There is a single pod with a single container that has the label
-    `name=hello-openshift-label`
+    `name=hello-openshift`
 
 :numbered:
 
@@ -861,7 +863,7 @@ You should get (IP will differ):
 ----
 
 NAME                      LABELS    SELECTOR                     IP              PORT(S)
-hello-openshift-service   <none>    name=hello-openshift-label   172.30.17.229   27017/TCP
+hello-openshift-service   <none>    name=hello-openshift   172.30.17.229   27017/TCP
 
 ----
 +
@@ -932,11 +934,11 @@ If you see some content that looks like:
       },
       "ServiceAliasConfigs": {
         "demo-hello-openshift-route": {
-          "Host": "hello-openshift.cloudapps.example.com",
+          "Host": "hello-openshift.cloudapps-$GUID.oslab.opentlc.com",
           "Path": "",
           "TLSTermination": "edge",
           "Certificates": {
-            "hello-openshift.cloudapps.example.com": {
+            "hello-openshift.cloudapps-$GUID.oslab.opentlc.com": {
               "ID": "demo-hello-openshift-route",
               "Contents": "",
               "PrivateKey": ""
@@ -1632,11 +1634,19 @@ services from the service output you looked at above.
 +
 **Hint:** It is `ruby-example`.
 
+. Edit sinatra-route.json so that any instance of `cloudapps.example.com` is replaced with `cloudapps-$GUID.oslab.opentlc.com`.
++
+----
+
+[joe@master00-GUID ~]$ sed -i "s/cloudapps.example.com/cloudapps-$GUID.oslab.opentlc.com/" ~/training/beta4/sinatra-route.json
+
+----
+
 . When you are done, create your route as the `joe` user on the master host:
 +
 ----
 
-[joe@master00-GUID ~]$ osc create -f sinatra-route.json
+[joe@master00-GUID ~]$ osc create -f ~/training/beta4sinatra-route.json
 
 ----
 
@@ -1652,7 +1662,7 @@ services from the service output you looked at above.
 
 NAME                 HOST/PORT                                   PATH      SERVICE        LABELS
 ruby-example         ruby-example.sinatra.router.default.local             ruby-example   generatedby=OpenShiftWebConsole,name=ruby-example
-   ruby-example-route   hello-sinatra.cloudapps.example.com                   ruby-example
+   ruby-example-route   hello-sinatra.cloudapps-GUID.oslab.opentlc.com                   ruby-example
 
 ----
 

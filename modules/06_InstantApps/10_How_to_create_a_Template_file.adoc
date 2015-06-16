@@ -1,0 +1,37 @@
+
+:scrollbar:
+:data-uri:
+== How to create a Template file
+
+. Template example - Objects: Route
+
+[source,json]
+----
+    {
+      "kind": "Route",
+      "apiVersion": "v1beta3",
+      "metadata": {
+        "name": "route-edge",
+        "creationTimestamp": null
+      },
+      "spec": {
+        "host": "integrated.cloudapps.example.com",
+        "to": {
+          "kind": "Service",
+          "name": "frontend"
+        }
+      },
+      "status": {}
+    },
+----
+
+ifdef::showScript[]
+
+=== Transcript
+
+* Place narrator script here
+
+endif::showScript[]
+
+
+

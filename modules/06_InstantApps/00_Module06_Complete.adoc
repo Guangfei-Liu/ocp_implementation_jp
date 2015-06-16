@@ -1,8 +1,30 @@
+== &nbsp;
+:noaudio:
+:numbered!:
+:scrollbar:
+:data-uri:
 
-== Module Topics 
+ifdef::revealjs_slideshow[] 
+[#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"] 
 
 
-* Templates Overview 
+[#cover-h1] 
+Red Hat OpenShift Enterprise Implementation
+
+[#cover-h2] 
+Instant Apps and Templates 
+
+[#cover-logo] 
+image::{revealjs_cover_image}[] 
+
+endif::[]
+
+
+== Module Topics
+
+
+* Templates Overview
+* How to create a Template file 
 * Creating a Configuration From a Template
 * Wiring Disparate Components
 * Using Templates from the Web Management Console
@@ -12,7 +34,7 @@
 
 ifdef::showScript[]
 
-.Transcript
+=== Transcript
 
 * In this Module we will discuss the following topics: 
 ** Templates Overview 
@@ -20,34 +42,26 @@ ifdef::showScript[]
 ** Wiring Disparate Components
 ** Using Templates from the Web Management Console
 
-
 endif::showScript[]
-
-
-
-
-== Module Progress
-
-// This is the Module06 Topic01 Image.
-// ISSUE: M06, M06_T01.png Needs to be created 
-image::images/M06_T01.png[width=852,height=672]
 
 
 == Template Overview
 
+
 .What is a Template 
 
 * From: link:http://docs.openshift.org/latest/dev_guide/templates.html[docs.openshift.org]
-** A template describes a set of resources that can be customized and processed to produce a configuration. Each template is a parameterized list that is used by OpenShift to create a list of resources, including services, pods, routes, buildconfigs, etc. A template also defines a set of labels to apply to every resource created by the template.
-
-//sed -i  s/integrated.cloudapps.example.com/integrated.`hostname -f`/g integrated-template.json
-
+** A template describes a set of `resources` that can be customized and processed to produce a configuration. 
+** Each template is a parameterized list that is used by OpenShift to create a list of resources, including services, pods, routes, buildconfigs, etc. 
+** A template also defines a set of labels to apply to every resource created by the template.
 
 ifdef::showScript[]
 
-.Transcript
+=== Transcript
 
-* A template describes a set of resources that can be customized and processed to produce a configuration. Each template is a parameterized list that is used by OpenShift to create a list of resources, including services, pods, routes, buildconfigs, etc. A template also defines a set of labels to apply to every resource created by the template.
+* A template describes a set of `resources` that can be customized and processed to produce a configuration. 
+* Each template is a parameterized list that is used by OpenShift to create a list of resources, including services, pods, routes, buildconfigs, etc. 
+* A template also defines a set of labels to apply to every resource created by the template.
 
 endif::showScript[]
 
@@ -58,11 +72,13 @@ endif::showScript[]
 
 .What are Templates for?  
 
-* Place content here 
+* With Templates we can create instantly deployable apps for our developers or customers.
+* A template can use a pre-set variables or randomize values (i.e passwords) according to definition.
+  
 
 ifdef::showScript[]
 
-.Transcript
+=== Transcript
 
 * Place narrator script here
 
@@ -78,12 +94,16 @@ endif::showScript[]
 [source,json]
 ----
 {
-  "apiVersion": "v1beta1",
   "kind": "Template",
+  "apiVersion": "v1beta3",
   "metadata": {
-    "name": "Template_Name", 
+    "name": "quickstart-keyvalue-application",
+    "creationTimestamp": null,
     "annotations": {
-      "description": "Description" 
+      "description": "This is an example of a Ruby and MySQL application on OpenShift 3",
+      "iconClass": "icon-ruby",
+      "tags": "instant-app,ruby,mysql"
+
     }
   },
   "parameters": [ 
@@ -96,7 +116,7 @@ endif::showScript[]
   "labels": { 
     "custom_label": "Label_Name"
   },
-  "items": [ 
+  "objects": [ 
     {
       ...
     }
@@ -110,28 +130,22 @@ endif::showScript[]
 ** *"description":* - Optional description for the template
 ** *"parameters":* - A list of parameters for the template (Parameters like Username, Passwords and others)
 ** *"labels":* - A list of labels to apply to resources
-** *"items":* - list of resources to create (Resources like *Pods*, *Services* and *Routes*)
+** *"objects":* - list of resources to create (Resources like *Pods*, *Services* and *Routes*)
 
 
 ifdef::showScript[]
 
-.Transcript
+=== Transcript
 
 * Place narrator script here
 
 endif::showScript[]
 
 
-
-
-
-
-
 == Template Overview
 
-.Components
+.Components continued:
 
-.Template components continued:
 * Labels  
 ** Labels are used to manage and organize generated resources, such as pods. The labels specified in the template are applied to every resource that is generated from the template.
 ** Labels are used to organize, group, or select objects and resources.  resources and pods are "tagged" with labels, and then services and replication controllers use labels to indicate the pods they relate to. This makes it possible for services and replication controllers to reference groups of pods, or treat pods with potentially different Docker containers as similar entities.
@@ -146,22 +160,431 @@ endif::showScript[]
 
 ifdef::showScript[]
 
-.Transcript
+=== Transcript
 
 * Place narrator script here
 
 endif::showScript[]
 
 
-== Template Overview
+== How to create a Template file
 
-.What are Templates for?  
+. Template example - Metadata
 
-* Place content here 
+[source,json]
+----
+{
+  "kind": "Template",
+  "apiVersion": "v1beta3",
+  "metadata": {
+    "name": "quickstart-keyvalue-application",
+    "creationTimestamp": null,
+    "annotations": {
+      "description": "This is an example of a Ruby and MySQL application on OpenShift 3",
+      "iconClass": "icon-ruby",
+      "tags": "instant-app,ruby,mysql"
+    }
+  },
+----
 
 ifdef::showScript[]
 
-.Transcript
+=== Transcript
+
+
+
+endif::showScript[]
+
+== How to create a Template file
+
+. Template example - Objects: Service "web" 
+
+[source,json]
+----
+
+"objects": [
+    {
+      "kind": "Service",
+      "apiVersion": "v1beta3",
+      "metadata": {
+        "name": "frontend",
+        "creationTimestamp": null
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "web",
+            "protocol": "TCP",
+            "port": 5432,
+            "targetPort": 8080,
+            "nodePort": 0
+          }
+        ],
+        "selector": {
+          "name": "frontend"
+        },
+        "portalIP": "",
+        "type": "ClusterIP",
+        "sessionAffinity": "None"
+      },
+      "status": {
+        "loadBalancer": {}
+      }
+    },
+    
+----
+
+ifdef::showScript[]
+
+=== Transcript
+
+* Place narrator script here
+
+endif::showScript[]
+
+== How to create a Template file
+
+. Template example - Objects: Service "database"
+
+[source,json]
+----
+  {
+      "kind": "Service",
+      "apiVersion": "v1beta3",
+      "metadata": {
+        "name": "database",
+        "creationTimestamp": null
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "db",
+            "protocol": "TCP",
+            "port": 5434,
+            "targetPort": 3306,
+            "nodePort": 0
+          }
+        ],
+        "selector": {
+          "name": "database"
+        },
+        "portalIP": "",
+        "type": "ClusterIP",
+        "sessionAffinity": "None"
+      },
+      "status": {
+        "loadBalancer": {}
+      }
+    },
+----
+
+ifdef::showScript[]
+
+=== Transcript
+
+* Place narrator script here
+
+endif::showScript[]
+
+
+== How to create a Template file
+
+. Template example - Objects: Route
+
+[source,json]
+----
+    {
+      "kind": "Route",
+      "apiVersion": "v1beta3",
+      "metadata": {
+        "name": "route-edge",
+        "creationTimestamp": null
+      },
+      "spec": {
+        "host": "integrated.cloudapps.example.com",
+        "to": {
+          "kind": "Service",
+          "name": "frontend"
+        }
+      },
+      "status": {}
+    },
+----
+
+ifdef::showScript[]
+
+=== Transcript
+
+* Place narrator script here
+
+endif::showScript[]
+
+
+
+== How to create a Template file
+
+. Template example - Objects: ImageStreams "ruby-sample" and "ruby-20-rhel7"
+
+[source,json]
+----
+ {
+"kind": "ImageStream",
+      "apiVersion": "v1beta3",
+      "metadata": {
+        "name": "ruby-sample",
+        "creationTimestamp": null
+      },
+      "spec": {},
+      "status": {
+        "dockerImageRepository": ""
+      }
+    },
+    {
+      "kind": "ImageStream",
+      "apiVersion": "v1beta3",
+      "metadata": {
+        "name": "ruby-20-rhel7",
+        "creationTimestamp": null
+      },
+      "spec": {
+        "dockerImageRepository": "registry.access.redhat.com/openshift3_beta/ruby-20-rhel7"
+      },
+      "status": {
+        "dockerImageRepository": ""
+      }
+    },
+----
+
+ifdef::showScript[]
+
+=== Transcript
+
+* Place narrator script here
+
+endif::showScript[]
+
+== How to create a Template file
+
+. Template example - Objects: BuildConfig
+
+[source,json]
+
+----
+ {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1beta3",
+      "metadata": {
+        "name": "frontend",
+        "creationTimestamp": null
+      },
+      "spec": {
+        "strategy": {
+          "type": "Recreate"
+        },
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "ruby-helloworld"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "ruby-sample:latest"
+              },
+              "lastTriggeredImage": ""
+            }
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 2,
+        "selector": {
+          "name": "frontend"
+        },
+        "template": {
+          "metadata": {
+            "creationTimestamp": null,
+            "labels": {
+              "name": "frontend"
+            }
+          },
+          "nodeSelector": {
+            "region": "primary"
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "ruby-helloworld",
+                "image": "ruby-sample",
+                "ports": [
+                  {
+                    "containerPort": 8080,
+                    "protocol": "TCP"
+                  }
+                ],
+                "env": [
+                  {
+                    "name": "ADMIN_USERNAME",
+                    "value": "${ADMIN_USERNAME}"
+                  },
+                  {
+                    "name": "ADMIN_PASSWORD",
+                    "value": "${ADMIN_PASSWORD}"
+                  },
+                  {
+                    "name": "MYSQL_USER",
+                    "value": "${MYSQL_USER}"
+                  },
+                  {
+                    "name": "MYSQL_PASSWORD",
+                    "value": "${MYSQL_PASSWORD}"
+                  },
+                  {
+                    "name": "MYSQL_DATABASE",
+                    "value": "${MYSQL_DATABASE}"
+                  }
+                ],
+                "resources": {},
+                "terminationMessagePath": "/dev/termination-log",
+                "imagePullPolicy": "IfNotPresent",
+                "capabilities": {},
+                "securityContext": {
+                  "capabilities": {},
+                  "privileged": false
+                }
+              }
+            ],
+            "restartPolicy": "Always",
+            "dnsPolicy": "ClusterFirst",
+            "serviceAccount": ""
+          }
+        }
+      },
+      "status": {}
+    },
+    {
+----
+ifdef::showScript[]
+
+=== Transcript
+
+* Place narrator script here
+
+endif::showScript[]
+
+
+
+
+
+== How to create a Template file
+
+. Template example - Objects: DeploymentConfig "frontend"
+
+[source,json]
+----
+ {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1beta3",
+      "metadata": {
+        "name": "frontend",
+        "creationTimestamp": null
+      },
+      "spec": {
+        "strategy": {
+          "type": "Recreate"
+        },
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "ruby-helloworld"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "ruby-sample:latest"
+              },
+              "lastTriggeredImage": ""
+            }
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 2,
+        "selector": {
+          "name": "frontend"
+        },
+        "template": {
+          "metadata": {
+            "creationTimestamp": null,
+            "labels": {
+              "name": "frontend"
+            }
+          },
+          "nodeSelector": {
+            "region": "primary"
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "ruby-helloworld",
+                "image": "ruby-sample",
+                "ports": [
+                  {
+                    "containerPort": 8080,
+                    "protocol": "TCP"
+                  }
+                ],
+                "env": [
+                  {
+                    "name": "ADMIN_USERNAME",
+                    "value": "${ADMIN_USERNAME}"
+                  },
+                  {
+                    "name": "ADMIN_PASSWORD",
+                    "value": "${ADMIN_PASSWORD}"
+                  },
+                  {
+                    "name": "MYSQL_USER",
+                    "value": "${MYSQL_USER}"
+                  },
+                  {
+                    "name": "MYSQL_PASSWORD",
+                    "value": "${MYSQL_PASSWORD}"
+                  },
+                  {
+                    "name": "MYSQL_DATABASE",
+                    "value": "${MYSQL_DATABASE}"
+                  }
+                ],
+                "resources": {},
+                "terminationMessagePath": "/dev/termination-log",
+                "imagePullPolicy": "IfNotPresent",
+                "capabilities": {},
+                "securityContext": {
+                  "capabilities": {},
+                  "privileged": false
+                }
+              }
+            ],
+            "restartPolicy": "Always",
+            "dnsPolicy": "ClusterFirst",
+            "serviceAccount": ""
+          }
+        }
+      },
+      "status": {}
+    },
+----
+
+ifdef::showScript[]
+
+=== Transcript
 
 * Place narrator script here
 
@@ -173,38 +596,151 @@ endif::showScript[]
 
 
 
+== How to create a Template file
+
+. Template example - Objects: DeploymentConfig "db"
+
+[source,json]
+----
+  {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1beta3",
+      "metadata": {
+        "name": "database",
+        "creationTimestamp": null
+      },
+      "spec": {
+        "strategy": {
+          "type": "Recreate"
+        },
+        "triggers": [
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "name": "database"
+        },
+        "template": {
+          "metadata": {
+            "creationTimestamp": null,
+            "labels": {
+              "name": "database"
+            }
+          },
+          "nodeSelector": {
+            "region": "primary"
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "ruby-helloworld-database",
+                "image": "registry.access.redhat.com/openshift3_beta/mysql-55-rhel7:latest",
+                "ports": [
+                  {
+                    "containerPort": 3306,
+                    "protocol": "TCP"
+                  }
+                ],
+                "env": [
+                  {
+                    "name": "MYSQL_USER",
+                    "value": "${MYSQL_USER}"
+                  },
+                  {
+                    "name": "MYSQL_PASSWORD",
+                    "value": "${MYSQL_PASSWORD}"
+                  },
+                  {
+                    "name": "MYSQL_DATABASE",
+                    "value": "${MYSQL_DATABASE}"
+                  }
+                ],
+                "resources": {},
+                "terminationMessagePath": "/dev/termination-log",
+                "imagePullPolicy": "Always",
+                "capabilities": {},
+                "securityContext": {
+                  "capabilities": {},
+                  "privileged": false
+                }
+              }
+            ],
+            "restartPolicy": "Always",
+            "dnsPolicy": "ClusterFirst",
+            "serviceAccount": ""
+          }
+        }
+      },
+      "status": {}
+    }
+----
+
+ifdef::showScript[]
+
+=== Transcript
+
+* Place narrator script here
+
+endif::showScript[]
 
 
 
 
 
 
+== How to create a Template file
 
+. Template example - Parameters 
 
+[source,json]
+----
+  ],
+  "parameters": [
+    {
+      "name": "ADMIN_USERNAME",
+      "description": "administrator username",
+      "generate": "expression",
+      "from": "admin[A-Z0-9]{3}"
+    },
+    {
+      "name": "ADMIN_PASSWORD",
+      "description": "administrator password",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{8}"
+    },
+    {
+      "name": "MYSQL_USER",
+      "description": "database username",
+      "generate": "expression",
+      "from": "user[A-Z0-9]{3}"
+    },
+    {
+      "name": "MYSQL_PASSWORD",
+      "description": "database password",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{8}"
+    },
+    {
+      "name": "MYSQL_DATABASE",
+      "description": "database name",
+      "value": "root"
+    }
+  ],
+  "labels": {
+    "template": "application-template-stibuild"
+  }
+----
 
+ifdef::showScript[]
 
+=== Transcript
 
+* Place narrator script here
 
+endif::showScript[]
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-== Module Progress
-
-// This is the Module06 Topic02 Image.
-// ISSUE: M06, M06_T02.png Needs to be created 
-image::images/M06_T02.png[width=852,height=672]
 
 
 == Creating a Configuration From a Template
@@ -232,11 +768,12 @@ $ osc create -f <filename> -n <project>
 
 ifdef::showScript[]
 
-.Transcript
+=== Transcript
 
 * Place narrator script here
 
 endif::showScript[]
+
 
 
 
@@ -273,32 +810,169 @@ $ osc process -f examples/sample-app/application-template-dockerbuild.json -v AD
 
 ifdef::showScript[]
 
-.Transcript
+=== Transcript
 
 * Place narrator script here
 
 endif::showScript[]
 
 
+== Wiring Disparate Components
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-== Module Progress
+.Overview
 
-// This is the Module06 Topic02 Image.
-// ISSUE: M06, M06_T02.png Needs to be created 
-image::images/M06_T02.png[width=852,height=672]
-
-
-== Using Templates
-
-.NAME
+* Sometimes a developer wants to build up the various components manually. 
+* Let's take our example and treat it like two separate "applications" that we want to wire together.
+** Process and create a template for the "frontend"
+** Extract the values of the *mysql* credentials from the config file
+** Process and create a template for the "db" and override the values with the values we extracted from "frontend" config file.
 
 ifdef::showScript[]
 
-.Transcript
+=== Transcript
 
 * Place narrator script here
 
 endif::showScript[]
+
+
+== Wiring Disparate Components
+
+.Process "frontend"
+ 
+* The first step will be to stand up the frontend of our application. 
+** Process the "frontend" template and create the *config* file.  
+
+----
+osc process -f frontend-template.json > frontend-config.json
+-----
+
+
+
+
+** create the configuration:
+----
+osc create -f frontend-config.json
+---
+
+* As soon as you create this, all of the resources will be created and a build will be started for you.
+
+
+
+ifdef::showScript[]
+
+=== Transcript
+
+* Place narrator script here
+
+endif::showScript[]
+
+
+
+
+== Wiring Disparate Components
+
+.Extract the values from config file
+ 
+
+* Before creating the "db" template we will review the config file for "frontend" 
+** In the config, you will see that a DB password and other parameters have been generated
+----
+grep -A 1 MYSQL_* frontend-config.json
+                                            "name": "MYSQL_USER",
+                                            "key": "MYSQL_USER",
+                                            "value": "userMXG"
+
+                                            "name": "MYSQL_PASSWORD",
+                                            "key": "MYSQL_PASSWORD",
+                                            "value": "slDrggRv"
+
+                                            "name": "MYSQL_DATABASE",
+                                            "key": "MYSQL_DATABASE",
+                                            "value": "root"
+
+----
+
+
+ifdef::showScript[]
+
+=== Transcript
+
+* Place narrator script here
+
+endif::showScript[]
+
+
+
+
+
+
+== Wiring Disparate Components
+
+.Process "db"
+
+* Now that we know the values that were used to create "frontend" we can use them when we process the "db" template
+* In this example we are processing and creating the "db" template while overriding the mysql credentials variables.
+** Process the "frontend" template and create the *config* file.  
++
+----
+osc process -f db-template.json  -v MYSQL_USER=userMXG,MYSQL_PASSWORD=slDrggRv,MYSQL_DATABASE=root > db-config.json
+-----
+
+** create the configuration:
++
+----
+osc create -f frontend-config.json
+---
+
+* We can also achieve this in a single step.
+** The following will process and create the application:
+----
+
+osc process -f db-template.json \
+    -v MYSQL_USER=userMXG,MYSQL_PASSWORD=slDrggRv,MYSQL_DATABASE=root \
+    | osc create -f -
+----
+
+
+ifdef::showScript[]
+
+=== Transcript
+
+* Place narrator script here
+
+endif::showScript[]
+
+
+
+
+== Summary
+
+* Templates Overview
+* How to create a Template file 
+* Creating a Configuration From a Template
+* Wiring Disparate Components
+* Using Templates from the Web Management Console
+* Lab	: Installing a Template 
+* Lab	: Wiring Templates together
+
+
+
+
+ifdef::showScript[]
+
+=== Transcript
+
+* Place narrator script here
+
+endif::showScript[]
+
+
+
+
+
+
+
+
+
+

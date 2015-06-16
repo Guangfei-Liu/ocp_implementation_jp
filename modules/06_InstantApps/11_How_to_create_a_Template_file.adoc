@@ -1,0 +1,45 @@
+
+:scrollbar:
+:data-uri:
+== How to create a Template file
+
+. Template example - Objects: ImageStreams "ruby-sample" and "ruby-20-rhel7"
+
+[source,json]
+----
+ {
+"kind": "ImageStream",
+      "apiVersion": "v1beta3",
+      "metadata": {
+        "name": "ruby-sample",
+        "creationTimestamp": null
+      },
+      "spec": {},
+      "status": {
+        "dockerImageRepository": ""
+      }
+    },
+    {
+      "kind": "ImageStream",
+      "apiVersion": "v1beta3",
+      "metadata": {
+        "name": "ruby-20-rhel7",
+        "creationTimestamp": null
+      },
+      "spec": {
+        "dockerImageRepository": "registry.access.redhat.com/openshift3_beta/ruby-20-rhel7"
+      },
+      "status": {
+        "dockerImageRepository": ""
+      }
+    },
+----
+
+ifdef::showScript[]
+
+=== Transcript
+
+* Place narrator script here
+
+endif::showScript[]
+

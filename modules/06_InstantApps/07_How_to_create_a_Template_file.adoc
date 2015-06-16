@@ -1,0 +1,31 @@
+
+:scrollbar:
+:data-uri:
+== How to create a Template file
+
+. Template example - Metadata
+
+[source,json]
+----
+{
+  "kind": "Template",
+  "apiVersion": "v1beta3",
+  "metadata": {
+    "name": "quickstart-keyvalue-application",
+    "creationTimestamp": null,
+    "annotations": {
+      "description": "This is an example of a Ruby and MySQL application on OpenShift 3",
+      "iconClass": "icon-ruby",
+      "tags": "instant-app,ruby,mysql"
+    }
+  },
+----
+
+ifdef::showScript[]
+
+=== Transcript
+
+
+
+endif::showScript[]
+

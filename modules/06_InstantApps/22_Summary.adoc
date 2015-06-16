@@ -1,8 +1,7 @@
 
 :scrollbar:
 :data-uri:
-== Module Topics
-
+== Summary
 
 * Templates Overview
 * How to create a Template file 
@@ -13,16 +12,22 @@
 * Lab	: Wiring Templates together
 
 
+
+
 ifdef::showScript[]
 
 === Transcript
 
-* In this Module we will discuss the following topics: 
-** Templates Overview 
-** Templates Structure
-** Wiring Disparate Components
-** Using Templates from the Web Management Console
+* Place narrator script here
 
 endif::showScript[]
+
+
+
+
+
+
+
+
 
 

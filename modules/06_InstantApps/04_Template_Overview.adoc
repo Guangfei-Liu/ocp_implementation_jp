@@ -1,0 +1,20 @@
+
+:scrollbar:
+:data-uri:
+== Template Overview
+
+.What are Templates for?  
+
+* With Templates we can create instantly deployable apps for our developers or customers.
+* A template can use a pre-set variables or randomize values (i.e passwords) according to definition.
+  
+
+ifdef::showScript[]
+
+=== Transcript
+
+* Place narrator script here
+
+endif::showScript[]
+
+

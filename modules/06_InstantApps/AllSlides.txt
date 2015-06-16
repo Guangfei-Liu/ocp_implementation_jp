@@ -1,62 +1,51 @@
+		
+:scriptsdir: scormdriver/auto-scripts
+:script: AutoBookmark.js
+:script: AutoCompleteSCO.js
+:script: CourseExit.js
 
 
 include::01_Title.adoc[]
 
 include::02_Module_Topics.adoc[]
 
-include::03_What_is_OpenShift.adoc[]
+include::03_Template_Overview.adoc[]
 
-include::04_OpenShift_Enterprise_v3_Stack.adoc[]
+include::04_Template_Overview.adoc[]
 
-include::05_How_OpenShift_Works.adoc[]
+include::05_Template_Overview.adoc[]
 
-include::06_Containerization_Standards.adoc[]
+include::06_Template_Overview.adoc[]
 
-include::07_Important_Projects_Used_in_OpenShift.adoc[]
+include::07_How_to_create_a_Template_file.adoc[]
 
-include::08_OpenShift_Model.adoc[]
+include::08_How_to_create_a_Template_file.adoc[]
 
-include::09_OpenShift_Workflow.adoc[]
+include::09_How_to_create_a_Template_file.adoc[]
 
-include::10_How_it_Works.adoc[]
+include::10_How_to_create_a_Template_file.adoc[]
 
-include::11_How_it_Works.adoc[]
+include::11_How_to_create_a_Template_file.adoc[]
 
-include::12_How_it_Works.adoc[]
+include::12_How_to_create_a_Template_file.adoc[]
 
-include::13_How_it_Works.adoc[]
+include::13_How_to_create_a_Template_file.adoc[]
 
-include::14_How_it_Works.adoc[]
+include::14_How_to_create_a_Template_file.adoc[]
 
-include::15_What_is_Docker.adoc[]
+include::15_How_to_create_a_Template_file.adoc[]
 
-include::16_How_is_a_Container_Different_From_a_VM.adoc[]
+include::16_Creating_a_Configuration_From_a_Template.adoc[]
 
-include::17_Docker_Components.adoc[]
+include::17_Creating_a_Configuration_From_a_Template.adoc[]
 
-include::18_Docker_Capabilities.adoc[]
+include::18_Wiring_Disparate_Components.adoc[]
 
-include::19_How_Does_a_Docker_Image_Work.adoc[]
+include::19_Wiring_Disparate_Components.adoc[]
 
-include::20_What_is_Kubernetes.adoc[]
+include::20_Wiring_Disparate_Components.adoc[]
 
-include::21_Kubernetes_Concepts.adoc[]
+include::21_Wiring_Disparate_Components.adoc[]
 
-include::22_Pods.adoc[]
-
-include::23_OpenShift_Enterprise_Networking.adoc[]
-
-include::24_Networking_Workflow.adoc[]
-
-include::25_Container_Registry.adoc[]
-
-include::26_Integrated_Registry.adoc[]
-
-include::27_Third-Party_Registries.adoc[]
-
-include::28_What_is_an_STI_Build.adoc[]
-
-include::29_Why_Use_STI_Builds.adoc[]
-
-include::30_Summary.adoc[]
+include::22_Summary.adoc[]
 

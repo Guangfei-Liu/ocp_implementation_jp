@@ -1,0 +1,60 @@
+
+:scrollbar:
+:data-uri:
+== Template Overview
+
+.Components 
+
+* Review the following sample template file: 
+
+[source,json]
+----
+{
+  "kind": "Template",
+  "apiVersion": "v1beta3",
+  "metadata": {
+    "name": "quickstart-keyvalue-application",
+    "creationTimestamp": null,
+    "annotations": {
+      "description": "This is an example of a Ruby and MySQL application on OpenShift 3",
+      "iconClass": "icon-ruby",
+      "tags": "instant-app,ruby,mysql"
+
+    }
+  },
+  "parameters": [ 
+    {
+      "name": "username"
+      "value": "admin"
+      "description": "administrative user"
+    }
+  ],
+  "labels": { 
+    "custom_label": "Label_Name"
+  },
+  "objects": [ 
+    {
+      ...
+    }
+  ]
+}
+
+----
+
+* Notice the following elements:
+** *"name":* - The name of the template
+** *"description":* - Optional description for the template
+** *"parameters":* - A list of parameters for the template (Parameters like Username, Passwords and others)
+** *"labels":* - A list of labels to apply to resources
+** *"objects":* - list of resources to create (Resources like *Pods*, *Services* and *Routes*)
+
+
+ifdef::showScript[]
+
+=== Transcript
+
+* Place narrator script here
+
+endif::showScript[]
+
+

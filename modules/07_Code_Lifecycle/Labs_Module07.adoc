@@ -963,8 +963,7 @@ code repository for the one below.
 === Create a Project
 
 Using the skills you have learned earlier in the training, create a new project
-for the EAP example. Choose a user as the administrator, and make sure to use
-that user in the subsequent commands as necessary.
+for the EAP example. Make sure to use the user that created the project in the subsequent commands.
 
 === Instantiate the Template
 When we imported the imagestreams into the `openshift` namespace earlier, we
@@ -979,7 +978,7 @@ We want to:
 
 * set the application name to *helloworld*
 
-* set the application hostname to *helloworld.cloudapps.example.com*
+* set the application hostname to *helloworld.cloudapps-GUID.oslab.opentlc.com*
 
 * set the Git URI to *https://github.com/jboss-developer/jboss-eap-quickstarts/*
 
@@ -988,6 +987,14 @@ We want to:
 * set the Git context dir to *helloworld*
 
 * set Github and Generic trigger secrets to *secret*
+
+. Update the JSON file with the correct domain:
++
+----
+
+[alice@master00-GUID ~]$ sed -i "s/cloudapps.example.com/cloudapps-$GUID.oslab.opentlc.com/" ~/training/beta4/eap6-basic-sti.json
+
+----
 
 Ok, we're ready:
 

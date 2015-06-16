@@ -43,6 +43,10 @@ follows:
 That will create a pod from an OpenLDAP image hosted externally on the Docker
 Hub.  You can find the source for it [here](beta4/images/openldap-example/).
 
+Do osc get pod and make sure the openldap pod is running (The ldapsearch in the next step will fail or timeout otherwise):
+
+    osc get pod
+
 To test the example LDAP service you can run the following:
 
     yum -y install openldap-clients

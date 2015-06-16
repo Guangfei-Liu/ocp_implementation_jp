@@ -485,24 +485,6 @@ interface, unlike most containers that listen only on private IPs. The router
 proxies external requests for route names to the IPs of actual pods identified
 by the service associated with the route.
 
-OpenShift's admin command set enables you to deploy router pods automatically.
-
-. On the master host as the `root` user, try `osadm router` and you will see that
-some options are needed to create the router:
-+
-----
-
-[root@master00-GUID ~]# osadm router
-
-----
-+
-----
-
-F0223 11:50:57.985423    2610 router.go:143] Router "router" does not exist
-(no service). Pass --create to install.
-
-----
-
 . On the master host as the `root` user, try `osadm router --create` as specified in the prevous output:
 +
 ----
@@ -571,8 +553,6 @@ few moments (it may take up to a few minutes):
 ----
 
 POD                       IP         CONTAINER(S)   IMAGE(S)                                                                  HOST                                            LABELS                                                                                  STATUS       CREATED         MESSAGE
-docker-registry-1-tmrvx   10.1.0.3                                                                                            master00-GUID.oslab.opentlc.com/192.168.0.100   deployment=docker-registry-1,deploymentconfig=docker-registry,docker-registry=default   Running      About an hour
-                                     registry       registry.access.redhat.com/openshift3_beta/ose-docker-registry:v0.5.2.2                                                                                                                                           Running      About an hour
 router-1-deploy                                                                                                               node00-GUID.oslab.opentlc.com/192.168.0.200     <none>                                                                                  Succeeded    57 seconds
                                      deployment     openshift3_beta/ose-deployer:v0.5.2.2                                                                                                                                                                             Terminated   16 seconds      exit code 0
 router-1-tcfz8                                                                                                                master00-GUID.oslab.opentlc.com/                deployment=router-1,deploymentconfig=router,router=router                               Pending      15 seconds

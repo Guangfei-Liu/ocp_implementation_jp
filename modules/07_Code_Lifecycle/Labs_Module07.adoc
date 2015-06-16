@@ -90,7 +90,7 @@ Still as the `alice` user.
 +
 ----
 
-[alice@master00-GUID ~]$  get buildconfig ruby-sample-build -o yaml
+[alice@master00-GUID ~]$ osc get buildconfig ruby-sample-build -o yaml
 
 ----
 +
@@ -247,7 +247,7 @@ https://master00-GUID.oslab.opentlc.com:8443/osapi/v1beta3/namespaces/wiring/bui
 
 ----
 
-. And now `get build` again:
+. And now `osc get build` again:
 +
 ----
 

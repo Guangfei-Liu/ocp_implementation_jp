@@ -220,7 +220,7 @@ in:
 
     https://github.com/openshift/origin/issues/2981
 
-If you look at the `frontend-config.json` file in the training material,
+If you look at the `frontend-config.json` file created in an earlier lab,
 you'll notice the same "secret101" entries in triggers. These are
 basically passwords so that just anyone on the web can't trigger the
 build with knowledge of the name only. You could of course have adjusted
@@ -272,7 +272,7 @@ at the application:
 +
 ----
 
-http://wiring.cloudapps-GUID.oslab.opentlc.com/
+http://ruby-hello-world.wiring.cloudapps-GUID.oslab.opentlc.com/
 
 ----
 +
@@ -734,6 +734,27 @@ database   <none>    name=database   172.30.108.133   5434/TCP
 frontend   <none>    name=frontend   172.30.229.16    5432/TCP
 
 ----
++
+Take note of the database IP and PORT.
+
+. Get database connection info:
++
+----
+
+[alice@master00-GUID ~]$ osc get dc database -o yaml | grep -A1 MYSQL
+
+----
++
+----
+
+  - name: MYSQL_USER
+    value: [username]
+  - named: MYSQL_PASSWORD
+    value: [password]
+  - name: MYSQL_DATABASE
+    value: [database]
+
+----
 
 . As root on the master host install the mysql client:
 +
@@ -743,16 +764,16 @@ frontend   <none>    name=frontend   172.30.229.16    5432/TCP
 
 ----
 
-. Then use the `mysql` client to connect to this service and dump the table that we created:
+. Then use the `mysql` client to connect to this service using the connection information discovered in the earlier steps and dump the table that we created:
 +
 ----
 
-[alice@master00-GUID ~]$ mysql -u userJKL \
-      -p 5678efgh \
-      -h 172.30.108.133 \
-      -P 5434 \
-      -e 'show tables; describe sample_table;' \
-      root
+[alice@master00-GUID ~]$ mysql -u[username] \
+      -p[password] \
+      -h[db_IP] \
+      -P[db_PORT] \
+      -e'show tables; describe sample_table;' \
+      [database]
 
 ----
 +

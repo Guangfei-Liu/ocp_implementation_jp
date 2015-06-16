@@ -58,7 +58,7 @@ the upper right.
 Remember that a `BuildConfig`(uration) tells OpenShift how to do a build.
 Still as the `alice` user.
 
-. As `alice` on the master host create a project called `wiring`.
+. As `alice` on the master host create a project called `integrated`.
 
 . As user alice clone the training repo:
 +
@@ -68,7 +68,15 @@ Still as the `alice` user.
 
 ----
 
-. In the training/beta4 directory integrated-template.json 
+. In the training/beta4 directory update integrated-template.json 
++
+----
+
+[alice@master00-GUID ~]$ sed -i "s/cloudapps.example.com/cloudapps-$GUID.oslab.opentlc.com/" ~/training/beta4/integrated-template.json
+
+----
+
+. Load the template:
 +
 ----
 

@@ -1,0 +1,32 @@
+:noaudio:
+:scrollbar:
+:data-uri:
+== Deploying a STI build Image
+
+=== Using the Web Console to create a STI Build
+
+* Edit your options and create the build.
+
+image::images/GuiSTLDemo05a.png[width=852,height=672]
+image::images/GuiSTLDemo05b.png[width=852,height=672]
+
+
+ifdef::showScript[]
+
+=== Transcript
+
+* Edit your options and create the build.
+
+endif::showScript[]
+
+
+
+
+
+
+
+
+
+
+
+

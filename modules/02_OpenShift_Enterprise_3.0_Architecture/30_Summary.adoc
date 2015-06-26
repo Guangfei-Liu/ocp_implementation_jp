@@ -1,4 +1,4 @@
-
+:noaudio:
 :scrollbar:
 :data-uri:
 == Summary
@@ -8,7 +8,7 @@
 * Introduction to Kubernetes infrastructure 
 * Networking in OpenShift Enterprise v3
 * Image registry 
-* Builds and OpenShift STI images
+* Builds and OpenShift S2I images
 
 
 ifdef::showscript[]
@@ -27,7 +27,7 @@ This module presented the following topics:
 
 * The Image registry section described the integrated OpenShift registry and third-party registries.
  
-* And Builds and OpenShift STI images were explained briefly covering what an STI build is and why to use it.
+* And Builds and OpenShift S2I images were explained briefly covering what an S2I build is and why to use it.
 
 endif::showscript[]
 

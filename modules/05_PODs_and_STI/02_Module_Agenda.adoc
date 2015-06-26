@@ -1,0 +1,24 @@
+
+:noaudio:
+:scrollbar:
+:data-uri:
+== Module Agenda
+
+* Concepts
+* Creating a STI build
+* Deploying a STI build Image
+* Lab: Create your first image (Sinatra)	
+
+ifdef::showScript[]
+
+=== Transcript
+
+* In this Module we will cover the following topics
+** Concepts
+** Creating a STI build
+** Deploying a STI build Image
+** Lab: Create your first image (Sinatra)	
+
+
+endif::showScript[]
+

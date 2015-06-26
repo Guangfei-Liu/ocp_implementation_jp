@@ -1,0 +1,180 @@
+:noaudio:
+:scrollbar:
+:data-uri:
+== Creating a STI build
+=== The Build File
+
+// ISSUE: Creating a STI build, Slide: The Build File - Elaborate on resources and possibly break this up a bit.
+a
+* Lets take a look at the JSON that was generated.
+** You will see some familiar items at this point, and some new ones
+*** BuildConfig,
+*** ImageRepository
+* You can have a look at the entire file here, we will cover each section if it on the next slides.
+
+[source,json]
+----
+{
+    "kind": "List",
+    "creationTimestamp": null,
+    "apiVersion": "v1beta1",
+    "items": [
+        {
+            "kind": "Service",
+            "id": "simple-openshift-sinatra",
+            "creationTimestamp": null,
+            "apiVersion": "v1beta1",
+            "port": 8080,
+            "portName": "simple-openshift-sinatra-sti-tcp-8080",
+            "protocol": "TCP",
+            "containerPort": 8080,
+            "selector": {
+                "deploymentconfig": "simple-openshift-sinatra-sti"
+            },
+            "ports": [
+                {
+                    "name": "simple-openshift-sinatra-sti-tcp-8080",
+                    "protocol": "TCP",
+                    "port": 8080,
+                    "containerPort": 8080
+                }
+            ]
+        },
+        {
+            "kind": "ImageStream",
+            "apiVersion": "v1beta1",
+            "metadata": {
+                "name": "simple-openshift-sinatra-sti",
+                "creationTimestamp": null
+            },
+            "spec": {},
+            "status": {
+                "dockerImageRepository": ""
+            }
+        },
+        {
+            "kind": "BuildConfig",
+            "apiVersion": "v1beta1",
+            "metadata": {
+                "name": "simple-openshift-sinatra-sti",
+                "creationTimestamp": null
+            },
+            "triggers": [
+                {
+                    "type": "github",
+                    "github": {
+                        "secret": "XZEOkRzImL-R0KxqcLEN"
+                    }
+                },
+                {
+                    "type": "generic",
+                    "generic": {
+                        "secret": "4a3d9dqocP2ajk0zYW7q"
+                    }
+                }
+            ],
+            "parameters": {
+                "source": {
+                    "type": "Git",
+                    "git": {
+                        "uri": "https://github.com/openshift/simple-openshift-sinatra-sti.git"
+                    }
+                },
+                "strategy": {
+                    "type": "STI",
+                    "stiStrategy": {
+                        "builderImage": "registry.access.redhat.com/openshift3_beta/ruby-20-rhel7",
+                        "image": "registry.access.redhat.com/openshift3_beta/ruby-20-rhel7",
+                        "clean": true
+                    }
+                },
+                "output": {
+                    "to": {
+                        "name": "simple-openshift-sinatra-sti"
+                    }
+                }
+            }
+        },
+        {
+            "kind": "DeploymentConfig",
+            "apiVersion": "v1beta1",
+            "metadata": {
+                "name": "simple-openshift-sinatra-sti",
+                "creationTimestamp": null
+            },
+            "triggers": [
+                {
+                    "type": "ConfigChange"
+                },
+                {
+                    "type": "ImageChange",
+                    "imageChangeParams": {
+                        "automatic": true,
+                        "containerNames": [
+                            "simple-openshift-sinatra-sti"
+                        ],
+                        "from": {
+                            "name": "simple-openshift-sinatra-sti"
+                        },
+                        "tag": "latest",
+                        "lastTriggeredImage": ""
+                    }
+                }
+            ],
+            "template": {
+                "strategy": {
+                    "type": "Recreate"
+                },
+                "controllerTemplate": {
+                    "replicas": 1,
+                    "replicaSelector": {
+                        "deploymentconfig": "simple-openshift-sinatra-sti"
+                    },
+                    "podTemplate": {
+                        "desiredState": {
+                            "manifest": {
+                                "version": "v1beta2",
+                                "id": "",
+                                "volumes": null,
+                                "containers": [
+                                    {
+                                        "name": "simple-openshift-sinatra-sti",
+                                        "image": "library/simple-openshift-sinatra-sti:latest",
+                                        "ports": [
+                                            {
+                                                "name": "simple-openshift-sinatra-sti-tcp-8080",
+                                                "containerPort": 8080,
+                                                "protocol": "TCP"
+                                            }
+                                        ],
+                                        "resources": {},
+                                        "imagePullPolicy": "",
+                                        "capabilities": {}
+                                    }
+                                ],
+                                "restartPolicy": {}
+                            }
+                        },
+                        "labels": {
+                            "deploymentconfig": "simple-openshift-sinatra-sti"
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}
+
+----
+
+
+ifdef::showScript[]
+
+=== Transcript
+
+* Have a brief look at the generated JSON file, in the next few slides we will focus on different sections of this file.
+
+endif::showScript[]
+
+
+

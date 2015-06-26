@@ -1,8 +1,12 @@
+<<<<<<< HEAD
 == &nbsp;
 :noaudio:
 :numbered!:
 :scrollbar:
 :data-uri:
+=======
+:noaudio:
+>>>>>>> origin/beta4
 
 ifdef::revealjs_slideshow[] 
 [#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"] 
@@ -45,6 +49,18 @@ ifdef::showScript[]
 endif::showScript[]
 
 
+<<<<<<< HEAD
+=======
+
+
+== Module Progress
+
+// This is the Module06 Topic01 Image.
+// ISSUE: M06, M06_T01.png Needs to be created 
+//image::images/M06_T01.png[width=852,height=672]
+
+
+>>>>>>> origin/beta4
 == Template Overview
 
 
@@ -689,6 +705,7 @@ endif::showScript[]
 
 
 
+<<<<<<< HEAD
 
 == How to create a Template file
 
@@ -741,6 +758,11 @@ ifdef::showScript[]
 
 endif::showScript[]
 
+=======
+// This is the Module06 Topic02 Image.
+// ISSUE: M06, M06_T02.png Needs to be created 
+//image::images/M06_T02.png[width=852,height=672]
+>>>>>>> origin/beta4
 
 
 == Creating a Configuration From a Template

@@ -1,0 +1,34 @@
+:noaudio:
+:scrollbar:
+:data-uri:
+== Why Use S2I Builds
+
+
+* Provides a developer-centric flow 
+** Focuses on turning source code into running application
+** S2I project aims to combine source code with image containing a build and runtime environment
+
+* Strong separation between source code and runtime environment in Docker image helps migrate code between:
+
+** Runtime environments 
+** Across major versions of a runtime 
+** Across operating system versions 
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+OpenShift Enterprise v3 provides a developer-centric flow that focuses on turning developer's source code into a running application as simply as possible. 
+
+The Source-to-Image project was started to make it easy for developers to take source code and combine it with an image, called a builder image. 
+The builder image contains both a build and runtime environment for that source code.
+
+Having a strong separation between source code, or even binary artifacts, and the runtime environment in the Docker image helps you migrate your code between:
+
+* Runtime environments like Tomcat and other JEE servers, 
+* Across major versions of a runtime like Ruby 1.9 and Ruby 2.0, 
+* And even across operating system versions like CentOS and Red Hat Enterprise Linux.
+
+endif::showscript[]
+

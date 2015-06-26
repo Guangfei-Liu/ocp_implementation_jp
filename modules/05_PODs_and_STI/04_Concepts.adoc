@@ -1,0 +1,30 @@
+
+:noaudio:
+:scrollbar:
+:data-uri:
+== Concepts
+
+=== Build & Deployment Automation
+
+// ISSUE: Concepts, Slide: Build & Deployment Automation Need to add an explanation for STI
+
+* Integrated Docker registry and automated image builds
+* Source code deployments leveraging source-to-image build automation
+* Binary deployments integrated with your existing build and CI infrastructure
+* Configurable deployment patterns (rolling, etc.)
+
+ifdef::showScript[]
+
+=== Transcript
+
+* STI Build process is a process in which a developer points to a code repository in any of the supported frameworks and selects a "builder" image that would contain the Operating system and framework to support the code.
+** OpenShift will then create an image, based on the builder image that contains the selected code
+
+
+endif::showScript[]
+
+
+
+
+
+

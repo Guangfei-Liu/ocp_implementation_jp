@@ -29,7 +29,7 @@ systemctl restart network.service
 #2. insert open.repo
 #### sborenst: I would prefer to curl/wget this file from www.opentlc.com/repos/open7.repo
 #### Patrick, what do you think?
-cat << EOF >> /etc/yum.repos.d/open.repo
+cat << EOF > /etc/yum.repos.d/open.repo
 [rhel-x86_64-server-7]
 name=Red Hat Enterprise Linux 7
 baseurl=http://www.opentlc.com/repos/rhel-x86_64-server-7
@@ -60,8 +60,6 @@ sed -i 's/enabled=1/enabled=0/' /etc/yum/pluginconf.d/subscription-manager.conf
 
 
 
-#3. install cloud init  
-yum install cloud-init curl -y
 
 
 #4. Root Password Change
@@ -76,74 +74,36 @@ sed -i 's/ssh_pwauth:.*0$/ssh_pwauth: 1/' /etc/cloud/cloud.cfg
 
 
 #5. yum update to latest version 
+#3. install cloud init  
+
 yum clean all
+yum install cloud-init curl -y
+yum -y install deltarpm
+yum -y install wget vim-enhanced net-tools bind-utils tmux git
+
 yum update -y 
 yum clean all
+rm /etc/yum.repos.d/open.repo
 
- 
 
 #6. Add the open-init.sh file
-export course="ose_fastrax";
-curl http://www.opentlc.com/download/${course}/open-init.sh > /usr/local/bin/open-init.sh
+echo 'export course=$2;
+export whoiam=`hostname -s| awk -F"-" '{print $1}'`;
+echo curl --connect-timeout 120 --max-time=180 -s http://www.opentlc.com/download/${course}/${whoiam}-init.sh > /usr/local/bin/${whoiam}-init.sh;
+curl --connect-timeout 120 --max-time=180 -s http://www.opentlc.com/download/${course}/${whoiam}-init.sh > /usr/local/bin/${whoiam}-init.sh;
+bash /usr/local/bin/${whoiam}-init.sh;' > /usr/local/bin/open-init.sh
+
+
 chmod +x  /usr/local/bin/open-init.sh
 
 #7. configure ssh-keygen and ssh-copy-id
 
 ssh-keygen -f /root/.ssh/id_rsa -N ''
-cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys 
+/usr/bin/cp -f /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys 
 #ssh-copy-id -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa.pub 127.0.0.1
 
 rm -f .ssh/known_hosts
 
-
-#8. Docker set up 
-
-yum -y install deltarpm
-
-yum -y remove NetworkManager*
-# This is a fix that will eventually make it into the image, as its an issue for all RHEL7.x images
-echo  DEVICE=eth0 >> /etc/sysconfig/network-scripts/ifcfg-eth0 
-
-### Tool install 
-yum -y install wget vim-enhanced net-tools bind-utils tmux git
-
-
-### Docker Install
-
-cat << EOF >> /etc/yum.repos.d/open.repo
-[ose3]
-name=Red Hat Enterprise Linux 7 OSE 3
-baseurl=http://www.opentlc.com/repos/ose3
-enabled=1
-gpgcheck=0
-EOF
-#Make sure that you are running at least docker-1.6.0-6.el7.x86_64.
-yum -y install docker ; systemctl enable docker
-
-### Update all packages 
-yum clean all;yum -y update
- 
-### Configure Docker's Registry settings. 
-sed -i "s/OPTIONS.*/OPTIONS='--selinux-enabled --insecure-registry 0.0.0.0\/0'/" /etc/sysconfig/docker
-systemctl restart docker
-  
-### Download All the images needed for training
-### For fastrax, we might need less images - but for now it all stays 
-docker pull registry.access.redhat.com/openshift3_beta/ose-haproxy-router:v0.4.3.2
-docker pull registry.access.redhat.com/openshift3_beta/ose-deployer:v0.4.3.2
-docker pull registry.access.redhat.com/openshift3_beta/ose-sti-builder:v0.4.3.2
-docker pull registry.access.redhat.com/openshift3_beta/ose-docker-builder:v0.4.3.2
-docker pull registry.access.redhat.com/openshift3_beta/ose-pod:v0.4.3.2
-docker pull registry.access.redhat.com/openshift3_beta/ose-docker-registry:v0.4.3.2
-docker pull registry.access.redhat.com/openshift3_beta/sti-basicauthurl:latest
-
-docker pull registry.access.redhat.com/openshift3_beta/ruby-20-rhel7
-docker pull registry.access.redhat.com/openshift3_beta/mysql-55-rhel7
-docker pull openshift/hello-openshift
-
-systemctl restart docker
-
-############ POWER OFF
 
 #9. General Template cleanup
 rm -f /etc/ssh/ssh_host_*
@@ -169,12 +129,12 @@ poweroff
 
 ### 1MASTER00
 ### master00-REPL.oslab.opentlc.com
-### 80,443,8443,8444,
+### 80,443,8443,8444
 ### 192.168.0.100
 ###
-### 2MASTER01
+### 2Infranode
 ### master01-REPL.oslab.opentlc.com
-### 80,443,8443,8444
+### 80,443,8443,8444,1936
 ### 192.168.0.101
 ###
 ### 3NODE00

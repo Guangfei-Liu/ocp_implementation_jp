@@ -1,61 +1,18 @@
 ###############################################################################################################
 #### COMMON Tasks
-#1.1 COMMON -  Add the Red Hat OpenShift Enterprise 3.0 Repo
-
-#### master 00 ONLY 
-
-###############################################################################################################
-####
-## Notes
-## Maybe I need to remove all repos other than open.repo at the beginning
+# Fix some Internal issues, We don't do anything in implementation
 
 #vars
 ###############################################################################################################
-export LOGFILE="/root/.master00Log.log"
+export LOGFILE="/root/.Node00.log"
 ###############################################################################################################
 
-echo "Hostname is `cat /etc/hostname`" >> $LOGFILE
+echo "Hostname is `hostname`" >> $LOGFILE
 
-export DATE=`date`;
-cat << EOF > /etc/motd
-###############################################################################################################
-###############################################################################################################
-###############################################################################################################
-Environment Deployment In Progress : ${DATE}
-DO NOT USE THIS ENVIRONMENT AT THIS POINT - DISCONNECT AND TRY AGAIN 20 MINUTES FROM THE DATE ABOVE
-DO NOT USE THIS ENVIRONMENT AT THIS POINT - DISCONNECT AND TRY AGAIN 20 MINUTES FROM THE DATE ABOVE
-DO NOT USE THIS ENVIRONMENT AT THIS POINT - DISCONNECT AND TRY AGAIN 20 MINUTES FROM THE DATE ABOVE
-DO NOT USE THIS ENVIRONMENT AT THIS POINT - DISCONNECT AND TRY AGAIN 20 MINUTES FROM THE DATE ABOVE
-Is this clear enough?
-###############################################################################################################
-###############################################################################################################
-###############################################################################################################
-
-EOF
+# This is the Fix for the SSH issue we have in our environment 
+systemctl restart firewalld
+# add eth0 to public zone
+firewall-cmd --zone public --add-interface=eth0
 
 
-# Delete repo file 
-#rm /etc/yum.repos.d/open.repo
-#rm /etc/sysconfig/docker
-#yum -y remove docker
-#rm root/.ssh/*
-yum clean all -y
-
-
-curl -s http://www.opentlc.com/download/ose_implementation/Lab01_Module03_Solution.sh > .Lab01_Module03_Solution.sh 
-
-export DATE=`date`;
-cat << EOF > /etc/motd
-###############################################################################################################
-###############################################################################################################
-###############################################################################################################
-Environment Deployment Is Completed : ${DATE}
-###############################################################################################################
-###############################################################################################################
-###############################################################################################################
-
-EOF
-
-
-reboot
-
+echo "----Completed Host Specific Script `date` "| tee -a $LOGFILE

@@ -1,29 +1,18 @@
 ###############################################################################################################
 #### COMMON Tasks
-#1.1 COMMON -  Add the Red Hat OpenShift Enterprise 3.0 Repo (with Ravello Fix)
+# Fix some Internal issues, We don't do anything in implementation
 
 #vars
 ###############################################################################################################
-export LOGFILE="/root/.Node01Log.log"
+export LOGFILE="/root/.Node01.log"
 ###############################################################################################################
 
-####1.1 COMMON -  Add the Red Hat OpenShift Enterprise 3.0 Repo [ deprecated this is done in the image for now]
-echo "----1.1 COMMON -  Add the Red Hat OpenShift Enterprise 3.0 Repo" | tee -a $LOGFILE
-echo "---- Adding OSE3 Repository to  /etc/yum.repos.d/open.repo" | tee -a $LOGFILE
-# added the Repo to enable the Ravello Fix packages.
-cat << EOF >> /etc/yum.repos.d/open.repo
-[ose3_fix]
-name=Red Hat Enterprise Linux 7 OSE 3
-baseurl=http://www.opentlc.com/repos/ose3_ravellofix
-enabled=1
-gpgcheck=0
-EOF
-
 echo "Hostname is `hostname`" >> $LOGFILE
- 
+
+# This is the Fix for the SSH issue we have in our environment 
 systemctl restart firewalld
 # add eth0 to public zone
 firewall-cmd --zone public --add-interface=eth0
 
 
-echo "----Completed Host Specific Script `date`" | tee -a $LOGFILE
+echo "----Completed Host Specific Script `date` "| tee -a $LOGFILE

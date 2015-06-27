@@ -129,22 +129,22 @@ poweroff
 
 ### 1MASTER00
 ### master00-REPL.oslab.opentlc.com
-### 80,443,8443,8444
+### 80,443,8443,8444 (Master is no longer a node, does it need to have port 80 and 443 open?)
 ### 192.168.0.100
 ###
-### 2Infranode
-### master01-REPL.oslab.opentlc.com
-### 80,443,8443,8444,1936
+### 2INFRANODE
+### infranode00-REPL.oslab.opentlc.com
+### 80,443,8443,8444,1936 (Do I need ports 8443 and 8444 on infranode?)
 ### 192.168.0.101
 ###
 ### 3NODE00
 ### node00-REPL.oslab.opentlc.com	
-### 80,443
+### 80,443 (Do these ports need to be open on the nodes?)
 ### 192.168.0.200
 ###
 ### 4NODE01
 ### node01-REPL.oslab.opentlc.com	
-### 80,443
+### 80,443 (Do these ports need to be open on the nodes?)
 ### 192.168.0.201
 ###
 
@@ -153,4 +153,4 @@ poweroff
 ### oselab-REPL.oslab.opentlc.com	
 ### 80,443
 ### 192.168.0.254
-###
+###	

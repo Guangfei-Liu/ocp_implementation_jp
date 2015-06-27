@@ -35,10 +35,10 @@ EOF
 
 
 # Delete repo file 
-rm /etc/yum.repos.d/open.repo
-rm /etc/sysconfig/docker
-yum -y remove docker
-rm root/.ssh/*
+#rm /etc/yum.repos.d/open.repo
+#rm /etc/sysconfig/docker
+#yum -y remove docker
+#rm root/.ssh/*
 yum clean all -y
 
 

@@ -1,28 +1,65 @@
-#!/bin/bash
+################################################################################################
+#### COMMON Tasks
+#1. Set MOTD
+#2. Configure Repos
+#3. Download and run the DNS bind install and configure the *.cloudapps-$GUID.oslab.opentlc.com wildcard
+
+
+#vars
+#############################################################################
+export LOGFILE="/root/.Oselab.log"
 export USER=$1
 export course=$2;
-
 export DATE=`date`;
 cat << EOF > /etc/motd
-####################################################################################################
-####################################################################################################
-###############################################################################################################
-Environment Deployment In Progress : ${DATE}
-DO NOT USE THIS ENVIRONMENT AT THIS POINT - DISCONNECT AND TRY AGAIN 20 MINUTES FROM THE DATE ABOVE
-DO NOT USE THIS ENVIRONMENT AT THIS POINT - DISCONNECT AND TRY AGAIN 20 MINUTES FROM THE DATE ABOVE
-DO NOT USE THIS ENVIRONMENT AT THIS POINT - DISCONNECT AND TRY AGAIN 20 MINUTES FROM THE DATE ABOVE
-DO NOT USE THIS ENVIRONMENT AT THIS POINT - DISCONNECT AND TRY AGAIN 20 MINUTES FROM THE DATE ABOVE
-Is this clear enough?
-###############################################################################################################
-###############################################################################################################
-###############################################################################################################
+#############################################################################
 
+
+#############################################################################
+#############################################################################
+#############################################################################
+Environment Deployment In Progress : ${DATE}
+DO NOT USE THIS ENVIRONMENT YET - TRY AGAIN 20 MINUTES FROM THE DATE ABOVE
+DO NOT USE THIS ENVIRONMENT YET - TRY AGAIN 20 MINUTES FROM THE DATE ABOVE
+DO NOT USE THIS ENVIRONMENT YET - TRY AGAIN 20 MINUTES FROM THE DATE ABOVE
+Is this clear enough?
+#############################################################################
+#############################################################################
+#############################################################################
 EOF
 
-echo '%partner-users ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
+#2. insert open.repo
+cat << EOF > /etc/yum.repos.d/open.repo
+[rhel-x86_64-server-7]
+name=Red Hat Enterprise Linux 7
+baseurl=http://www.opentlc.com/repos/rhel-x86_64-server-7
+enabled=1
+gpgcheck=0
+
+[rhel-x86_64-server-rh-common-7]
+name=Red Hat Enterprise Linux 7 Common
+baseurl=http://www.opentlc.com/repos/rhel-x86_64-server-rh-common-7
+enabled=1
+gpgcheck=0
+
+[rhel-x86_64-server-extras-7]
+name=Red Hat Enterprise Linux 7 Extras
+baseurl=http://www.opentlc.com/repos/rhel-x86_64-server-extras-7
+enabled=1
+gpgcheck=0
+
+[rhel-x86_64-server-optional-7]
+name=Red Hat Enterprise Linux 7 Optional
+baseurl=http://www.opentlc.com/repos/rhel-x86_64-server-optional-7
+enabled=1
+gpgcheck=0
+EOF
+
+yum repolist
 
 
-####2.1 Download and run the DNS bind install and configure the *.cloudapps-$GUID.oslab.opentlc.com wildcard
+
+####3. Download and run the DNS bind install and configure the *.cloudapps-$GUID.oslab.opentlc.com wildcard
 
 echo "XXXX2.1 Download and run the DNS bind install and configure the .cloudapps-$GUID.oslab.opentlc.com wildcard"  | tee -a $LOGFILE
 echo "XXXXDownloading http://www.opentlc.com/download/o${course}/oselab.dns.installer.sh"  | tee -a $LOGFILE
@@ -126,15 +163,17 @@ systemctl restart httpd
 iptables -I INPUT -p tcp --dport 443 -j ACCEPT
 iptables-save
 
+echo '%partner-users ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
+
 export DATE=`date`;
 cat << EOF > /etc/motd
-###############################################################################################################
-###############################################################################################################
-###############################################################################################################
+#############################################################################
+#############################################################################
+#############################################################################
 Environment Deployment Is Completed : ${DATE}
-###############################################################################################################
-###############################################################################################################
-###############################################################################################################
+#############################################################################
+#############################################################################
+#############################################################################
 
 EOF
 

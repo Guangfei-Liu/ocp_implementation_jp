@@ -25,8 +25,6 @@ sed -i 's/disable_root:.*1$/disable_root: 0/' /etc/cloud/cloud.cfg
 sed -i 's/ssh_pwauth:.*0$/ssh_pwauth: 1/' /etc/cloud/cloud.cfg
 
 #3. insert open.repo
-#### sborenst: I would prefer to curl/wget this file from www.opentlc.com/repos/open7.repo
-#### Patrick, what do you think?
 cat << EOF > /etc/yum.repos.d/open.repo
 [rhel-x86_64-server-7]
 name=Red Hat Enterprise Linux 7

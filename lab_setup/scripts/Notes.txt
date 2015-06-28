@@ -1,0 +1,142 @@
+The system requirements vary per host type:
+Masters
+Physical or virtual system
+Base OS: Red Hat Enterprise Linux (RHEL) 7.1 with "Minimal" installation option
+2 vCPU
+Minimum 8 GB RAM
+Minimum 30 GB hard disk space
+Nodes
+Physical or virtual system, or an instance running on a public IaaS
+Base OS: Red Hat Enterprise Linux (RHEL) 7.1 with "Minimal" installation option
+Docker 1.6 or later
+1 vCPU
+Minimum 8 GB RAM
+Minimum 15 GB hard disk space
+
+* Our Components
+
+1. Configure DNS Server on oseadmin
+2. set up repositories
+3. Disable NetworkManager 
+yum remove NetworkManager*
+4. Install tools
+yum install wget git net-tools bind-utils iptables-services
+bridge-utils
+5. Update the system to the latest packages:
+yum update -y 
+6. Install Docker version 1.6 or later from the rhel-7-server-ose-3.0-rpms repository must be installed and
+running on master and node hosts before installing OpenShift.
+
+yum install docker
+
+
+7. e dit the /etc/sysconfig/docker file and add --insecure-registry 172.30.0.0/16 to
+the OPTIONS parameter. For example:
+OPTIONS=--selinux-enabled --insecure-registry 172.30.0.0/16
+The --insecure-registry option instructs the Docker daemon to trust any Docker
+registry on the 172.30.0.0/16 subnet, rather than requiring a certificate.
+
+
+Note
+After installing OpenShift, you can choose to secure the integrated Docker registry, which
+involves adjusting the --insecure-registry option accordingly.
+
+
+8. Configuring Docker Storage
+Docker’s default loopback storage mechanism is not supported for production use and is only
+appropriate for proof of concept environments. For production environments, you must create a thin-
+pool logical volume and re-configure docker to use that volume.
+You can use the docker-storage-setup script to create a thin-pool device and configure docker’s
+storage driver after installing docker but before you start using it. The script reads configuration
+options from the /etc/sysconfig/docker-storage-setup file.
+
+
+Configure docker-storage-setup for your environment. There are three options available
+based on your storage configuration:
+a. Create a thin-pool volume from the remaining free space in the volume group where
+your root filesystem resides; this requires no configuration:
+# docker-storage-setup
+b. Use an existing volume group, in this example docker-vg, to create a thin-pool:
+# echo <<EOF > /etc/sysconfig/docker-storage-setup
+VG=docker-vg
+SETUP_LVM_THIN_POOL=yes
+EOF
+# docker-storage-setup
+
+
+Verify your configuration. You should have dm.thinpooldev value in the
+/etc/sysconfig/docker-storage file and a docker-pool device:
+
+# lvs
+LV
+VG
+Attr
+LSize Pool Origin
+Data% Meta% Move Log Cpy%Sync Convert
+docker-pool
+docker-vg twi-a-tz-- 48.95g
+0.00
+0.44
+# cat /etc/sysconfig/docker-storage
+DOCKER_STORAGE_OPTIONS=--storage-opt dm.fs=xfs --storage-opt
+dm.thinpooldev=/dev/mapper/docker--vg-docker--pool
+
+
+* Re-initialize docker.
+# systemctl stop docker
+# rm -rf /var/lib/docker/*
+# systemctl restart docker
+
+Ensuring Installer Access to Hosts
+Ansible, which is used to run the installation process, requires a user that has access to all hosts.
+For running the installer as a non-root user, passwordless sudo rights must also be configured on
+each destination host.
+For example, you can generate an SSH key on the host where you will invoke the installation
+process:
+# ssh-keygen
+
+copy all the ssh keys to the other hosts
+
+=== 1.3. QUICK INSTALLATION
+
+
+
+
+1.3.1. Overview
+The quick installation method allows you to use an interactive CLI utility to install OpenShift across a
+set of hosts. The installation utility is provided to make the trial installation experience easier by
+interactively gathering the data to run deployments. The utility is a Python wrapper around the
+Ansible-based installation process, available at https://install.openshift.com.
+8CHAPTER 1. INSTALLATION
+Alternatively, you can use the advanced installation method to manually configure and run the
+Ansible playbooks.
+
+
+1.3.2. Prerequisites
+The installation utility allows you to install OpenShift master and node hosts. By default, any hosts
+you designate as masters during the installation process will also be configured as nodes that are
+marked xref:../../admin_guide/manage_nodes.adoc#marking-nodes-as-unschedulable-or-
+schedulable[unschedulable]. This is so the masters are configured as part of the OpenShift SDN.
+Before installing OpenShift, you must first satisfy the prerequisites on your hosts, which includes
+verifying system and environment requirements and properly installing and configuring Docker. After
+following the instructions in the Prerequisites topic, you can continue to installing OpenShift.
+
+
+
+
+
+
+Method 2: Downloading and Running the Installation Utility
+1. Download and unpack the installation utility on a host that has SSH access to your intended
+master and node hosts:
+$ curl -o oo-install-ose.tgz \
+https://install.openshift.com/portable/oo-install-ose.tgz
+$ tar -zxf oo-install-ose.tgz
+2. Execute the installation utility to interactively configure one or more hosts:
+$ ./oo-install-ose
+3. Follow the on-screen instructions to install a new OpenShift instance.
+
+
+
+
+7. 

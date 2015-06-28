@@ -87,13 +87,9 @@ rm /etc/yum.repos.d/open.repo
 
 
 #6. Add the open-init.sh file
-echo 'export course=$2;
-export whoiam=`hostname -s| awk -F"-" '{print $1}'`;
-echo curl --connect-timeout 120 --max-time=180 -s http://www.opentlc.com/download/${course}/${whoiam}-init.sh > /usr/local/bin/${whoiam}-init.sh;
-curl --connect-timeout 120 --max-time=180 -s http://www.opentlc.com/download/${course}/${whoiam}-init.sh > /usr/local/bin/${whoiam}-init.sh;
-bash /usr/local/bin/${whoiam}-init.sh;' > /usr/local/bin/open-init.sh
 
-
+echo curl --connect-timeout 120 --max-time=180 -s http://www.opentlc.com/download/${course}/open-init.sh > /usr/local/bin/open-init.sh;
+curl --connect-timeout 120 --max-time=180 -s http://www.opentlc.com/download/${course}/open-init.sh > /usr/local/bin/open-init.sh;
 chmod +x  /usr/local/bin/open-init.sh
 
 #7. configure ssh-keygen and ssh-copy-id
@@ -154,3 +150,4 @@ poweroff
 ### 80,443
 ### 192.168.0.254
 ###	
+

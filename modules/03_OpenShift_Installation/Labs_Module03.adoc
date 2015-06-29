@@ -8,25 +8,24 @@
 
 In this lab we will Deploy OpenShift Enterprise on a single host (in later labs we will add more nodes).
 
+* Configure a DNS on our *oselab* server to serve our OpenShift environment.
+
+* Configure SSH Keys
+
 * Configure Repositories
 
 * Configure Network Settings
 
 * Install Docker on our host 
 
-* Configure SSH Keys
 
 * Install Ansible Installer 
 
 * Configure and Install OpenShift Enterprise
 
-* Configure a DNS on our *oselab* server to serve our OpenShift environment.
+
 
 * Test deployment.
-
-== Beta Course Warning
-
-Take note that all of the steps in the lab may change when OpenShift 3.0 goes GA.  This course was built on a beta build.
 
 == Lab Environment Architecture and Important Information
 
@@ -34,11 +33,13 @@ The lab environment consists of 4 VMs:
 
 * `oselab-GUID.oslab.opentlc.com` (administration host)
 
-* `master00-GUID.oslab.opentlc.com` (master host, includes node role as well)
+* `master00-GUID.oslab.opentlc.com` (master host, contains Etcd and the management console)
 
-* `node00-GUID.oslab.opentlc.com` (node host)
+* `infranode00-GUID.oslab.opentlc.com` (infranode host, Will run our infrastructure containers: Registry and Router)
 
-* `node01-GUID.oslab.opentlc.com` (node host)
+* `node00-GUID.oslab.opentlc.com` (node host, Region: Primary, Zone: East. )
+
+* `node01-GUID.oslab.opentlc.com` (node host, Region: Primary, Zone: West. )
 
 [NOTE]
 As a reminder you will only be allowed to SSH to the administration host from the outside of the lab environment, all other hosts have external SSH blocked.  Once on the administration host, you can SSH to the other hosts internally.  As described earlier, you will have to use your private SSH key and OPENTLC login to access the system (not root!).
@@ -62,6 +63,204 @@ Each student lab is assigned a global unique identifier (GUID) that consists of 
 [root@master00-GUID ~]# command
 
 ----
+
+
+== Configure Wildcard DNS to Service the OpenShift Environment.
+
+OpenShift requires a wildcard DNS A record.  The wildcard A record should point to the publicly available (external) IP address of the OpenShift router.  For this training, we will ensure that the router will end up on the OpenShift server that is running the master.  It is advisable to use a low TTL for this record in order for DNS client caches to expire quicker so that changes become available quicker.  The DNS server runs on the administration host.
+
+. Connect to your administration host `oselab-GUID.oslab.opentlc.com` (your private key location may vary):
++
+----
+
+yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-GUID.oslab.opentlc.com
+
+----
+
+. Become the `root` user on the administration host:
++
+----
+
+-bash-4.2$ su - 
+
+----
+
+. Install the `bind` and `bind-utils` package on the administration host:
++
+----
+
+[root@oselab-GUID ~]# yum -y install bind bind-utils
+
+----
+
+. On the admistration host collect and define the environment's information:
++
+----
+
+[root@oselab-GUID ~]# guid=`hostname|cut -f2 -d-|cut -f1 -d.`
+[root@oselab-GUID ~]# masterIP=`host master00-$guid.oslab.opentlc.com ipa.opentlc.com | grep $guid | awk '{ print $4 }'`
+[root@oselab-GUID ~]# domain="cloudapps-$guid.oslab.opentlc.com"
+
+----
+
+. On the administration host create the zone file with the wildcard DNS:
++
+----
+
+[root@oselab-GUID ~]# mkdir /var/named/zones
+[root@oselab-GUID ~]# echo "\$ORIGIN  .
+\$TTL 1  ;  1 seconds (for testing only)
+${domain} IN SOA master.${domain}.  root.${domain}.  (
+  2011112904  ;  serial
+  60  ;  refresh (1 minute)
+  15  ;  retry (15 seconds)
+  1800  ;  expire (30 minutes)
+  10  ; minimum (10 seconds)
+)
+  NS master.${domain}.
+\$ORIGIN ${domain}.
+test A ${masterIP}
+* A ${masterIP}"  >  /var/named/zones/${domain}.db
+
+----
+
+. Configure `named.conf` on the administration host:
++
+----
+
+[root@oselab-GUID ~]# echo "// named.conf
+options {
+  listen-on port 53 { any; };
+  directory \"/var/named\";
+  dump-file \"/var/named/data/cache_dump.db\";
+  statistics-file \"/var/named/data/named_stats.txt\";
+  memstatistics-file \"/var/named/data/named_mem_stats.txt\";
+  allow-query { any; };
+  recursion yes;
+  /* Path to ISC DLV key */
+  bindkeys-file \"/etc/named.iscdlv.key\";
+};
+logging {
+  channel default_debug {
+    file \"data/named.run\";
+    severity dynamic;
+  }; 
+};
+zone \"${domain}\" IN {
+  type master;
+  file \"zones/${domain}.db\";
+  allow-update { key ${domain} ; } ;
+};" > /etc/named.conf
+
+----
+
+. On the administration host correct file permissions and start the DNS server:
++
+----
+
+[root@oselab-GUID ~]# chgrp named -R /var/named
+[root@oselab-GUID ~]# chown named -R /var/named/zones
+[root@oselab-GUID ~]# restorecon -R /var/named
+[root@oselab-GUID ~]# chown root:named /etc/named.conf
+[root@oselab-GUID ~]# restorecon /etc/named.conf
+
+----
+
+. Enable and start `named` on the administration host:
++
+----
+
+[root@oselab-GUID ~]# systemctl enable named
+[root@oselab-GUID ~]# systemctl start named
+
+----
+
+. Configure FirewallD on the administation host to allow inbound DNS queries:
++
+----
+
+[root@oselab-GUID bin]# firewall-cmd --zone=public --add-service=dns --permanent
+[root@oselab-GUID bin]# firewall-cmd --reload
+
+----
+
+=== Verify DNS configuration:
+
+A test DNS entry was created called `test.cloud-appsGUID.oslab.opentlc.com`.  This lab will test internal and external resolution of that DNS entry.
+
+. First try testing the DNS server running on the administration host:
++
+----
+
+[root@oselab-GUID ~]# guid=`hostname|cut -f2 -d-|cut -f1 -d.`
+[root@oselab-GUID ~]# host test.cloudapps-$guid.oslab.opentlc.com 127.0.0.1
+
+----
+
+. Second try testing with an external name server:
++
+----
+
+[root@oselab-GUID ~]# host test.cloudapps-$guid.oslab.opentlc.com 8.8.8.8
+
+----
++
+[NOTE]
+The first time you query 8.8.8.8 you may notice lag and an error:
+`;; connection timed out; trying next origin
+Host test.cloudapps-GIOD.oslab.opentlc.com not found: 3(NXDOMAIN)`
+This is normal.  if you do the test again, it will go faster and not error out.
+
+. Lastly test DNS from your laptop/desktop, this might take a few minutes to be updated.  Be sure to replace GUID with the correct GUID.
++
+----
+
+yourhost$ nslookup test.cloudapps-$GUID.oslab.opentlc.com
+
+----
+
+== Configure SSH Keys:
+
+The OpenShift installer uses SSH to configure hosts.  In this lab we create and install an SSH key pair on the master host and add the public key to the `authorized_hosts` file.
+
+. On the master host, create an SSH key pair for the `root` user.
++
+----
+
+[root@master00-GUID ~]# ssh-keygen -f /root/.ssh/id_rsa -N '' 
+
+----
+
+. Add the public ssh key to `/root/.ssh/authorized_keys` locally to the master host:
++
+----
+
+[root@master00-GUID ~]# cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys 
+
+----
+
+. Configure `/etc/ssh/ssh_conf` to disable `StrictHostKeyChecking` on the master host:
++
+----
+
+[root@master00-GUID ~]# echo StrictHostKeyChecking no >> /etc/ssh/ssh_config
+
+----
++
+[NOTE]
+Only do this for hosts that are used for development, testing, or demos!
+
+. From the master host test the new SSH key by connecting to itself over the loopback interface without a keyboard prompt:
++
+----
+
+[root@master00-GUID ~]# ssh 127.0.0.1
+...[output ommitted]...
+[root@master00-GUID ~]# exit
+
+----
+
+
 
 
 == Configure the Repositories on the Master Host
@@ -90,7 +289,7 @@ yourdesktop$ ssh -i ~/.ssh/mykey your-opentlc-login@oselab-GUID.oslab.opentlc.co
 +
 ----
 
-[yourlogin@oselab-GUID ~]$ ssh root@master00-GUID.oslab.opentlc.com
+[yourlogin@oselab-GUID ~]$ ssh root@master00-$GUID.oslab.opentlc.com
 
 ----
 +
@@ -150,9 +349,9 @@ We are using a local mirror of the repositories in our lab environment, as state
 ----
 
 [root@master00-GUID ~]# cat << EOF >> /etc/yum.repos.d/open.repo
-[rhel-server-7-ose-beta-rpms]
+[rhel-7-server-ose-3.0-rpms]
 name=Red Hat Enterprise Linux 7 OSE 3
-baseurl=http://www.opentlc.com/repos/ose3_beta4
+baseurl=http://www.opentlc.com/repos/rhel-7-server-ose-3.0-rpms
 enabled=1
 gpgcheck=0
 
@@ -180,6 +379,17 @@ rhel-x86_64-server-optional-7     Red Hat Enterprise Linux 7 Optional     4,087
 rhel-x86_64-server-rh-common-7    Red Hat Enterprise Linux 7 Common          19
 
 ----
+
+. The Nodes require to be configures as well, for the sake of simplicity we will copy the repo file to all the nodes directly from the the master
++
+-----
+
+[root@master00-GUID ~]# scp /etc/yum.repos.d/open.repo node00-$GUID.oslab.opentlc.com:/etc/yum.repos.d/open.repo
+[root@master00-GUID ~]# scp /etc/yum.repos.d/open.repo node01-$GUID.oslab.opentlc.com:/etc/yum.repos.d/open.repo
+[root@master00-GUID ~]# scp /etc/yum.repos.d/open.repo infranode00-$GUID.oslab.opentlc.com:/etc/yum.repos.d/open.repo
+
+-----
+
 
 == Verify Network Configuration:
 
@@ -232,6 +442,8 @@ master00-GUID.oslab.opentlc.com
 
 ----
 
+NOTE: It might take some time for the global DNS servers to be updated. Try again after a short while if this doesn't work on the first try.
+
 == Install Docker
 
 OpenShift uses Docker to store and manage container images.  In this lab we install Docker and provide it's required storage pool.
@@ -244,6 +456,15 @@ OpenShift uses Docker to store and manage container images.  In this lab we inst
 
 ----
 +
+
+. Install the `docker` package on *ALL* the node hosts
++ 
+----
+
+[root@node00-GUID ~]# yum -y install docker
+
+----
+
 [NOTE]
 The default Docker storage configuration uses loopback devices and is not appropriate for production. Red Hat considers the dm.thinpooldev storage option to be the only appropriate configuration for production use.
 
@@ -255,11 +476,33 @@ The default Docker storage configuration uses loopback devices and is not approp
 
 ----
 
-. In order to use `dm.thinpooldev` you must have space for an LVM thinpool available, the `docker-storage-setup` package will assist you in configuring LVM.  Run `docker-storage-setup` on the master host to create logical volumes for Docker:
+. Configure the *Docker* registry on the master host:
 +
 ----
 
-[root@master00-GUID ~]# docker-storage-setup
+[root@master00-GUID ~]# sed -i "s/OPTIONS.*/OPTIONS='--selinux-enabled --insecure-registry 0.0.0.0\/0'/" /etc/sysconfig/docker
+
+----
+
+.. You can use the ssh command to do this from the master host quickly for all hosts
++
+----
+
+[root@master00-GUID ~]# ssh root@infranode00-$GUID.oslab.opentlc.com "yum -y install docker; rm -rf /var/lib/docker/* ; sed -i \"s/OPTIONS.*/OPTIONS='--selinux-enabled --insecure-registry 0.0.0.0\/0'/\" /etc/sysconfig/docker;"
+[root@master00-GUID ~]# ssh root@node00-$GUID.oslab.opentlc.com "yum -y install docker; rm -rf /var/lib/docker/* ; sed -i \"s/OPTIONS.*/OPTIONS='--selinux-enabled --insecure-registry 0.0.0.0\/0'/\" /etc/sysconfig/docker;"
+[root@master00-GUID ~]# ssh root@node01-$GUID.oslab.opentlc.com "yum -y install docker; rm -rf /var/lib/docker/* ; sed -i \"s/OPTIONS.*/OPTIONS='--selinux-enabled --insecure-registry 0.0.0.0\/0'/\" /etc/sysconfig/docker;"
+
+----
+
+
+
+
+. In order to use `dm.thinpooldev` you must have space for an LVM thinpool available, the `docker-storage-setup` package will assist you in configuring LVM.  Run `docker-storage-setup` on the infranode host to create logical volumes for Docker:
++
+----
+[root@infranode-GUID ~]# pvcreate /dev/vdb
+[root@infranode-GUID ~]# vgextend `vgs | grep rhel | awk '{print $1}'` /dev/vdb
+[root@infranode-GUID ~]# docker-storage-setup
 
 ----
 +
@@ -284,7 +527,7 @@ Be careful with `docker-storage-setup` as it will, by default, find any unused e
 +
 ----
 
-[root@master00-GUID ~]# lvs /dev/rhel_host2cc260760b15/docker-pool
+[root@infranode-GUID ~]# lvs /dev/rhel_host2cc260760b15/docker-pool
 
 ----
 +
@@ -297,11 +540,11 @@ You should see the following:
 
 ----
 
-. On the master host, examine the docker storage configuration:
+. On the infranode host, examine the docker storage configuration:
 +
 ----
 
-[root@master00-GUID ~]# cat /etc/sysconfig/docker-storage
+[root@infranode-GUID ~]# cat /etc/sysconfig/docker-storage
 
 ----
 +
@@ -313,22 +556,13 @@ DOCKER_STORAGE_OPTIONS=-s devicemapper --storage-opt dm.fs=xfs --storage-opt dm.
 
 ----
 
-. Configure the *Docker* registry on the master host:
-+
-----
-
-[root@master00-GUID ~]# sed -i "s/OPTIONS.*/OPTIONS='--selinux-enabled --insecure-registry 0.0.0.0\/0'/" \
-    /etc/sysconfig/docker
-
-----
-
 . Enable, start, and get status for the *Docker* service on the master host:
 +
 ----
 
-[root@master00-GUID ~]# systemctl enable docker
-[root@master00-GUID ~]# systemctl start docker
-[root@master00-GUID ~]# systemctl status docker
+[root@infranode-GUID ~]# systemctl enable docker
+[root@infranode-GUID ~]# systemctl start docker
+[root@infranode-GUID ~]# systemctl status docker
 
 ----
 +
@@ -420,47 +654,6 @@ You should see something similar to the following:
   LV          VG                    Attr       LSize Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
   docker-pool rhel_host2cc260760b15 twi-aot--- 5.98g             35.96  2.32
   
-----
-
-== Configure SSH Keys:
-
-The OpenShift installer uses SSH to configure hosts.  In this lab we create and install an SSH key pair on the master host and add the public key to the `authorized_hosts` file.
-
-. On the master host, create an SSH key pair for the `root` user.
-+
-----
-
-[root@master00-GUID ~]# ssh-keygen -f /root/.ssh/id_rsa -N '' 
-
-----
-
-. Add the public ssh key to `/root/.ssh/authorized_keys` locally to the master host:
-+
-----
-
-[root@master00-GUID ~]# cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys 
-
-----
-
-. Configure `/etc/ssh/ssh_conf` to disable `StrictHostKeyChecking` on the master host:
-+
-----
-
-[root@master00-GUID ~]# echo StrictHostKeyChecking no >> /etc/ssh/ssh_config
-
-----
-+
-[NOTE]
-Only do this for hosts that are used for development, testing, or demos!
-
-. From the master host test the new SSH key by connecting to itself over the loopback interface without a keyboard prompt:
-+
-----
-
-[root@master00-GUID ~]# ssh 127.0.0.1
-...[output ommitted]...
-[root@master00-GUID ~]# exit
-
 ----
 
 == Install Ansible Installer
@@ -582,159 +775,6 @@ For OpenShift 3, Kubernetes doesn't actually care about your topology. In other 
 
 For the purposes of a simple example, we'll be sticking with the "regions" and "zones" theme. But, as you go through these examples, think about what other complex topologies you could implement. Perhaps "secure" and "insecure" hosts, or other topologies.
 
-=== Configure Wildcard DNS to Service the OpenShift Environment.
-
-OpenShift requires a wildcard DNS A record.  The wildcard A record should point to the publicly available (external) IP address of the OpenShift router.  For this training, we will ensure that the router will end up on the OpenShift server that is running the master.  It is advisable to use a low TTL for this record in order for DNS client caches to expire quicker so that changes become available quicker.  The DNS server runs on the administration host.
-
-. Connect to your administration host `oselab-GUID.oslab.opentlc.com` (your private key location may vary):
-+
-----
-
-yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-GUID.oslab.opentlc.com
-
-----
-
-. Become the `root` user on the administration host:
-+
-----
-
--bash-4.2$ sudo -i
-
-----
-
-. Install the `bind` and `bind-utils` package on the administration host:
-+
-----
-
-[root@oselab-GUID ~]# yum -y install bind bind-utils
-
-----
-
-. On the admistration host collect and define the environment's information:
-+
-----
-
-[root@oselab-GUID ~]# guid=`hostname|cut -f2 -d-|cut -f1 -d.`
-[root@oselab-GUID ~]# masterIP=`host master00-$guid.oslab.opentlc.com ipa.opentlc.com | grep $guid | awk '{ print $4 }'`
-[root@oselab-GUID ~]# domain="cloudapps-$guid.oslab.opentlc.com"
-
-----
-
-. On the administration host create the zone file with the wildcard DNS:
-+
-----
-
-[root@oselab-GUID ~]# mkdir /var/named/zones
-[root@oselab-GUID ~]# echo "\$ORIGIN  .
-\$TTL 1  ;  1 seconds (for testing only)
-${domain} IN SOA master.${domain}.  root.${domain}.  (
-  2011112904  ;  serial
-  60  ;  refresh (1 minute)
-  15  ;  retry (15 seconds)
-  1800  ;  expire (30 minutes)
-  10  ; minimum (10 seconds)
-)
-  NS master.${domain}.
-\$ORIGIN ${domain}.
-test A ${masterIP}
-* A ${masterIP}"  >  /var/named/zones/${domain}.db
-
-----
-
-. Configure `named.conf` on the administration host:
-+
-----
-
-[root@oselab-GUID ~]# echo "// named.conf
-options {
-  listen-on port 53 { any; };
-  directory \"/var/named\";
-  dump-file \"/var/named/data/cache_dump.db\";
-  statistics-file \"/var/named/data/named_stats.txt\";
-  memstatistics-file \"/var/named/data/named_mem_stats.txt\";
-  allow-query { any; };
-  recursion yes;
-  /* Path to ISC DLV key */
-  bindkeys-file \"/etc/named.iscdlv.key\";
-};
-logging {
-  channel default_debug {
-    file \"data/named.run\";
-    severity dynamic;
-  }; 
-};
-zone \"${domain}\" IN {
-  type master;
-  file \"zones/${domain}.db\";
-  allow-update { key ${domain} ; } ;
-};" > /etc/named.conf
-
-----
-
-. On the administration host correct file permissions and start the DNS server:
-+
-----
-
-[root@oselab-GUID ~]# chgrp named -R /var/named
-[root@oselab-GUID ~]# chown named -R /var/named/zones
-[root@oselab-GUID ~]# restorecon -R /var/named
-[root@oselab-GUID ~]# chown root:named /etc/named.conf
-[root@oselab-GUID ~]# restorecon /etc/named.conf
-
-----
-
-. Enable and start `named` on the administration host:
-+
-----
-
-[root@oselab-GUID ~]# systemctl enable named
-[root@oselab-GUID ~]# systemctl start named
-
-----
-
-. Configure FirewallD on the administation host to allow inbound DNS queries:
-+
-----
-
-[root@oselab-GUID bin]# firewall-cmd --zone=public --add-service=dns --permanent
-[root@oselab-GUID bin]# firewall-cmd --reload
-
-----
-
-== Verify DNS configuration:
-
-A test DNS entry was created called `test.cloud-appsGUID.oslab.opentlc.com`.  This lab will test internal and external resolution of that DNS entry.
-
-. First try testing the DNS server running on the administration host:
-+
-----
-
-[root@oselab-GUID ~]# guid=`hostname|cut -f2 -d-|cut -f1 -d.`
-[root@oselab-GUID ~]# host test.cloudapps-$guid.oslab.opentlc.com 127.0.0.1
-
-----
-
-. Second try testing with an external name server:
-+
-----
-
-[root@oselab-GUID ~]# host test.cloudapps-$guid.oslab.opentlc.com 8.8.8.8
-
-----
-+
-[NOTE]
-The first time you query 8.8.8.8 you may notice lag and an error:
-`;; connection timed out; trying next origin
-Host test.cloudapps-GIOD.oslab.opentlc.com not found: 3(NXDOMAIN)`
-This is normal.  if you do the test again, it will go faster and not error out.
-
-. Lastly test DNS from your laptop/desktop, this might take a few minutes to be updated.  Be sure to replace GUID with the correct GUID.
-+
-----
-
-yourhost$ nslookup test.cloudapps-GUID.oslab.opentlc.com
-
-----
 
 == Add Nodes to the Environment
 :numbered:	

@@ -28,7 +28,8 @@ root@192.168.0.100's password: ******** (r3dh4t1!)
 . Create The *integrated-template.json* file for our template
 +
 ----
-cat << EOF > integrated-template.json
+root@master00-r2d2 ~]# export GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
+root@master00-2e24 ~]# cat << EOF > integrated-template.json
 {
   "kind": "Template",
   "apiVersion": "v1beta3",
@@ -78,7 +79,7 @@ cat << EOF > integrated-template.json
         "creationTimestamp": null
       },
       "spec": {
-        "host": "integrated.cloudapps.example.com",
+        "host": "integrated.cloudapps-$GUID.oslab.opentlc.com",
         "to": {
           "kind": "Service",
           "name": "frontend"
@@ -411,7 +412,8 @@ EOF
 . Create the template in the `openshift` namespace to its available to all users 
 +
 ----
-osc create -f integrated-template.json -n openshift
+[root@master00-2e24 ~]# osc create -f integrated-template.json -n openshift
+templates/quickstart-keyvalue-application
 ----
 
 
@@ -424,8 +426,11 @@ osc create -f integrated-template.json -n openshift
 [root@master00~]# su - joe
 [joe@master00~]$ export GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
 [joe@master00~]$ osc login -u joe \
---certificate-authority=/var/lib/openshift/openshift.local.certificates/ca/cert.crt \
---server=https://master00-${GUID}.oslab.opentlc.com:8443 
+--certificate-authority=/etc/openshift/master/ca.crt \
+--server=https://master00-${GUID}.oslab.opentlc.com:8443
+
+
+
 Password: (Enter r3dh4t1!)
 Login successful.
 
@@ -435,11 +440,9 @@ Welcome to OpenShift! See 'osc help' to get started.
 . Create a project for the lab
 +
 ----
-osc new-project quickstart --display-name="Quickstart" \
+[joe@master00~]$ osc new-project quickstart --display-name="Quickstart" \
 --description='A demonstration of a "quickstart/template"'
-
-osc project quickstart
-Now using project "quickstart" on server "https://`hostname`:8443".
+Now using project "quickstart" on server "https://master00-r2d2.oslab.opentlc.com:8443".
 ----
 
 . In the web console, logged in as joe, find the "Quickstart" project, 
@@ -451,13 +454,16 @@ Now using project "quickstart" on server "https://`hostname`:8443".
 . Leave all of the defaults and simply click "Create".
 
 . If you click "Browse" and then "Services" you will see that there is a route for the frontend service:
++
 ----
-`integrated.cloudapps.example.com`
+integrated.cloudapps-GUID.oslab.opentlc.com
 ----
 
 . The build was started for us immediately after creating an instance of the template, so you can wait for it to finish. Feel free to check the build logs.
++
 ----
 osc build-logs [name of build]
 ----
-. Once the build is complete, you can go on to: http://integrated.cloudapps.example.com
+
+. Once the build is complete, you can go on to: http://integrated.cloudapps-GUID.oslab.opentlc.com
 

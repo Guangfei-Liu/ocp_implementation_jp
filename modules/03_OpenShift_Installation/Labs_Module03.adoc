@@ -97,7 +97,6 @@ yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-GUID.oslab.opentlc.c
 +
 ----
 
-[root@oselab-GUID ~]# guid=`hostname|cut -f2 -d-|cut -f1 -d.`
 [root@oselab-GUID ~]# masterIP=`host master00-$guid.oslab.opentlc.com ipa.opentlc.com | grep $guid | awk '{ print $4 }'`
 [root@oselab-GUID ~]# domain="cloudapps-$guid.oslab.opentlc.com"
 
@@ -187,12 +186,11 @@ zone \"${domain}\" IN {
 === Verify DNS configuration:
 
 A test DNS entry was created called `test.cloud-appsGUID.oslab.opentlc.com`.  This lab will test internal and external resolution of that DNS entry.
-
+host test.cloudapps-$guid.oslab.opentlc.com 127.0.0.1
 . First try testing the DNS server running on the administration host:
 +
 ----
 
-[root@oselab-GUID ~]# guid=`hostname|cut -f2 -d-|cut -f1 -d.`
 [root@oselab-GUID ~]# host test.cloudapps-$guid.oslab.opentlc.com 127.0.0.1
 
 ----
@@ -260,7 +258,13 @@ Only do this for hosts that are used for development, testing, or demos!
 
 ----
 
+. Copy the SSH key to the rest of the nodes in the environment
++
+----
 
+[root@master00-GUID ~]# for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do ssh-copy-id root@$node ; done
+
+----
 
 
 == Configure the Repositories on the Master Host
@@ -383,11 +387,7 @@ rhel-x86_64-server-rh-common-7    Red Hat Enterprise Linux 7 Common          19
 . The Nodes require to be configures as well, for the sake of simplicity we will copy the repo file to all the nodes directly from the the master
 +
 -----
-
-[root@master00-GUID ~]# scp /etc/yum.repos.d/open.repo node00-$GUID.oslab.opentlc.com:/etc/yum.repos.d/open.repo
-[root@master00-GUID ~]# scp /etc/yum.repos.d/open.repo node01-$GUID.oslab.opentlc.com:/etc/yum.repos.d/open.repo
-[root@master00-GUID ~]# scp /etc/yum.repos.d/open.repo infranode00-$GUID.oslab.opentlc.com:/etc/yum.repos.d/open.repo
-
+[root@master00-GUID ~]# for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do scp /etc/yum.repos.d/open.repo ${node}:/etc/yum.repos.d/open.repo ; done
 -----
 
 
@@ -487,11 +487,7 @@ The default Docker storage configuration uses loopback devices and is not approp
 .. You can use the ssh command to do this from the master host quickly for all hosts
 +
 ----
-
-[root@master00-GUID ~]# ssh root@infranode00-$GUID.oslab.opentlc.com "yum -y install docker; rm -rf /var/lib/docker/* ; sed -i \"s/OPTIONS.*/OPTIONS='--selinux-enabled --insecure-registry 0.0.0.0\/0'/\" /etc/sysconfig/docker;"
-[root@master00-GUID ~]# ssh root@node00-$GUID.oslab.opentlc.com "yum -y install docker; rm -rf /var/lib/docker/* ; sed -i \"s/OPTIONS.*/OPTIONS='--selinux-enabled --insecure-registry 0.0.0.0\/0'/\" /etc/sysconfig/docker;"
-[root@master00-GUID ~]# ssh root@node01-$GUID.oslab.opentlc.com "yum -y install docker; rm -rf /var/lib/docker/* ; sed -i \"s/OPTIONS.*/OPTIONS='--selinux-enabled --insecure-registry 0.0.0.0\/0'/\" /etc/sysconfig/docker;"
-
+[root@master00-GUID ~]# for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do ssh $node "yum -y install docker; rm -rf /var/lib/docker/* ; sed -i \"s/OPTIONS.*/OPTIONS='--selinux-enabled --insecure-registry 0.0.0.0\/0'/\" /etc/sysconfig/docker; reboot;" ; done
 ----
 
 
@@ -561,9 +557,21 @@ DOCKER_STORAGE_OPTIONS=-s devicemapper --storage-opt dm.fs=xfs --storage-opt dm.
 ----
 
 [root@infranode-GUID ~]# systemctl enable docker
-[root@infranode-GUID ~]# systemctl start docker
-[root@infranode-GUID ~]# systemctl status docker
 
+----
+
+. Reboot the system
++
+-----
+
+[root@infranode-GUID ~]# reboot 
+
+-----
+
+. Check that the *Docker* service is started
++
+----
+[root@infranode-GUID ~]# systemctl status docker
 ----
 +
 You should see the following:
@@ -656,118 +664,65 @@ You should see something similar to the following:
   
 ----
 
-== Install Ansible Installer
+== Install OpenShift Enterprise
 
-Currently the Ansible installer is only available via the `Extra Packages for Enterprise Linux` or `EPEL` repository.  This lab will configure the `EPEL` repositroy and install the `ansible` package.
 
-. Add the `EPEL` repository to the master host and disable it:
+. Download and unpack the installation utility on a host that has SSH access to your intended master and node hosts
 +
 ----
 
-[root@master00-GUID ~]# yum -y install http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
-[root@master00-GUID ~]# sed -i -e "s/^enabled=1/enabled=0/" /etc/yum.repos.d/epel.repo
+[root@master00-GUID ~]# curl -o oo-install-ose.tgz https://install.openshift.com/portable/oo-install-ose.tgz
+[root@master00-GUID ~]# tar -zxf oo-install-ose.tgz
 
 ----
 +
-[NOTE]
-At this time, the `ansible` package is only available from `EPEL`.  We disable the `EPEL` repository so that other packages from the repository are not accidentally installed.
 
-. Install the `ansible` package on the master host:
+. Execute the installation utility to interactively configure one or more hosts
 +
 ----
 
-[root@master00-GUID ~]# yum -y --enablerepo=epel install ansible
+[root@master00-GUID ~]# ./oo-install-ose
 
 ----
 +
 [NOTE]
-*The steps in this section will drastically change when the product goes GA.*
-Eventually there will be an interactive text-based CLI installer that leverages Ansible under the covers. For now, we have to invoke Ansible manually.  We will do this in the next lab.
+The steps in this section will be changing soon as there is a lot of work being done to add features to the text installer.
 
-=== Configure and Install OpenShift Enterprise 3.0
+. Follow the instructions of the Installer
+----
 
-In this lab we will use Ansible to install OpenShift on the master host.  This will configure the master host with the master and node roles.
 
-. Download the OpenShift 3 Ansible "playbook" to the master host in root's home directory:
-+
----- 
 
-[root@master00-GUID ~]# cd;git clone https://github.com/detiber/openshift-ansible.git -b v3-beta4 
+PLAY RECAP ******************************************************************** 
+infranode00-d540.oslab.opentlc.com : ok=46   changed=20   unreachable=0    failed=0   
+localhost                  : ok=5    changed=0    unreachable=0    failed=0   
+master00-d540.oslab.opentlc.com : ok=102  changed=43   unreachable=0    failed=0   
+node00-d540.oslab.opentlc.com : ok=46   changed=20   unreachable=0    failed=0   
+node01-d540.oslab.opentlc.com : ok=46   changed=20   unreachable=0    failed=0   
+
+
+The installation was successful!
 
 ----
 
-. The OpenShift playbook uses `/etc/ansible/hosts` to determine which hosts to configure and what roles to apply.  Configure `/etc/ansible/hosts` on the master host:
-+
-----
-
-[root@master00-GUID ~]# export GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
-[root@master00-GUID ~]# cat << EOF > /etc/ansible/hosts
-# Create an OSEv3 group that contains the masters and nodes groups
-[OSEv3:children]
-masters
-nodes
-
-# Set variables common for all OSEv3 hosts
-[OSEv3:vars]
-# SSH user, this user should allow ssh based auth without requiring a password
-ansible_ssh_user=root
-
-# To deploy origin, change deployment_type to origin
-deployment_type=enterprise
-
-# enable htpasswd authentication
-openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/openshift/openshift-passwd'}]
-
-# host group for masters
-[masters]
-master00-$GUID.oslab.opentlc.com
-
-# host group for nodes, includes region info
-[nodes]
-master00-$GUID.oslab.opentlc.com openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
-#node00-$GUID.oslab.opentlc.com openshift_node_labels="{'region': 'primary', 'zone': 'east'}"
-#node01-$GUID.oslab.opentlc.com openshift_node_labels="{'region': 'primary', 'zone': 'west'}"
-
-EOF
-
-----
-+
-[NOTE]
-Note that the nodes are commented out, they will be enabled later.  Also note the region and zone settings.  These are explained a little more in the next section.
-
-. Run the Ansible installer `ansible-playbook` on the master host:
-+
----- 
-
-[root@master00-GUID ~]# ansible-playbook -vvv /root/openshift-ansible/playbooks/byo/config.yml
-
-----
-+
-[NOTE]
-Running the Ansible installer will take a few minutes to run.  This is a good time for a break.
-
-. The output of the `ansible-playbook` command shoold show *failed=0* for all hosts:
-+
-----
-
-...OUTPUT OMMITTED...
-PLAY RECAP ********************************************************************
-localhost                  : ok=5    changed=0    unreachable=0    failed=0
-master00-GUID.oslab.opentlc.com : ok=X   changed=Y    unreachable=0    failed=0
-
-----
+ 
 
 . After the installer is complete, check the status of your host using the `osc get nodes` command on the master host:
 +
 ----
 
-[root@master00-GUID ~]#  osc get nodes
-NAME                              LABELS                                                                             STATUS
-master00-GUID.oslab.opentlc.com   kubernetes.io/hostname=master00-GUID.oslab.opentlc.com,region=infra,zone=default   Ready
+root@master00-GUID ~]# oc get nodes
+NAME                                 LABELS                                                                        STATUS
+infranode00-d540.oslab.opentlc.com   kubernetes.io/hostname=infranode00-d540.oslab.opentlc.com                     Ready
+master00-d540.oslab.opentlc.com      kubernetes.io/hostname=master00-d540.oslab.opentlc.com							    Ready,SchedulingDisabled
+node00-d540.oslab.opentlc.com        kubernetes.io/hostname=node00-d540.oslab.opentlc.com                          Ready
+node01-d540.oslab.opentlc.com        kubernetes.io/hostname=node01-d540.oslab.opentlc.com                          Ready
+
+
 
 ----
 
-== About Regions and Zones
+== Set Regions and Zones
 
 In OpenShift 2, we introduced the specific concepts of "regions" and "zones" to enable organizations to provide some topologies for application resiliency. Apps would be spread throughout the zones in a region and, depending on the way you configured OpenShift, you could make different regions accessible to users.
 
@@ -776,371 +731,25 @@ For OpenShift 3, Kubernetes doesn't actually care about your topology. In other 
 For the purposes of a simple example, we'll be sticking with the "regions" and "zones" theme. But, as you go through these examples, think about what other complex topologies you could implement. Perhaps "secure" and "insecure" hosts, or other topologies.
 
 
-== Add Nodes to the Environment
-:numbered:	
-
-In the previous lab we have installed OpenShift Enterprise 3.0 On a single host. 
-In this lab we will demonstrate how easy it is to add nodes to the OpenShift 3.0 environment. 
-
-. From the master host use `ssh-copy-id` to copy the public SSH key to each of the nodes:
-+
-----
-
-[root@master00-GUID ~]# GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
-[root@master00-GUID ~]# ssh-copy-id node00-$GUID.oslab.opentlc.com
-[root@master00-GUID ~]# ssh-copy-id node01-$GUID.oslab.opentlc.com
-
-----
-+
-[NOTE]
-If prompted for a password use *r3dh4t1!*
-The SSH keys may already be in place in this lab environment, but it is good practice to make sure this is done.
-
-. From the master host test password-less SSH connections to both of the nodes:
-+
-----
-
-[root@master00-GUID ~]# ssh node00-$GUID.oslab.opentlc.com "hostname -f"
-
-----
-+
-----
-
-node00-$GUID.oslab.opentlc.com
-
-----
-+
-----
-
-[root@master00-GUID ~]# ssh node01-$GUID.oslab.opentlc.com "hostname -f"
-
-----
-+
-----
-
-node01-$GUID.oslab.opentlc.com
-
-----
-
-=== Configure the Repositories on the Node Hosts
-
-OpenShift nodes require the same repositories as the master:
-
-* `rhel-7-server-rpms`
-
-* `rhel-7-server-extras-rpms`
-
-* `rhel-7-server-optional-rpms`
-
-* `rhel-server-7-ose-beta-rpms`
-
-Normally you would get these repositories via `subscription-manager` but we have provided a mirror that we will configure in the following lab steps.
-
-. On *each node* set up the yum repository configuration file `/etc/yum.repos.d/open.repo` with the following command.  In each instance of this step where it says node0X replace it with *node00* and *node01*:
-+
-----
-[root@master00-GUID ~]# ssh node0X-$GUID.oslab.opentlc.com
-[root@node0X-GUID ~]# cat << EOF > /etc/yum.repos.d/open.repo
-[rhel-x86_64-server-7]
-name=Red Hat Enterprise Linux 7
-baseurl=http://www.opentlc.com/repos/rhel-x86_64-server-7
-enabled=1
-gpgcheck=0
-
-[rhel-x86_64-server-rh-common-7]
-name=Red Hat Enterprise Linux 7 Common
-baseurl=http://www.opentlc.com/repos/rhel-x86_64-server-rh-common-7
-enabled=1
-gpgcheck=0
-
-[rhel-x86_64-server-extras-7]
-name=Red Hat Enterprise Linux 7 Extras
-baseurl=http://www.opentlc.com/repos/rhel-x86_64-server-extras-7
-enabled=1
-gpgcheck=0
-
-[rhel-x86_64-server-optional-7]
-name=Red Hat Enterprise Linux 7 Optional
-baseurl=http://www.opentlc.com/repos/rhel-x86_64-server-optional-7
-enabled=1
-gpgcheck=0
-
-[rhel-server-7-ose-beta-rpms]
-name=Red Hat Enterprise Linux 7 OSE 3
-baseurl=http://www.opentlc.com/repos/ose3_beta4
-enabled=1
-gpgcheck=0
-
-EOF
-
-----
-
-. List the available repositories on the node host:
-+
------
-
-[root@node0X-GUID ~]# yum repolist 
-
------
-+
-You should see the following:
-+
-----
-
-repo id                           repo name                               status
-rhel-server-7-ose-beta-rpms       Red Hat Enterprise Linux 7 OSE 3           16
-rhel-x86_64-server-7              Red Hat Enterprise Linux 7              4,387
-rhel-x86_64-server-extras-7       Red Hat Enterprise Linux 7 Extras          19
-rhel-x86_64-server-optional-7     Red Hat Enterprise Linux 7 Optional     4,087
-rhel-x86_64-server-rh-common-7    Red Hat Enterprise Linux 7 Common          19
-
-----
-
-. Exit the first node and *repeat these steps for the second node*.  When you get here on the second node, just exit:
-+
-----
-
-[root@node0X-GUID ~]# exit 
-
-----
-
-=== Reconfigure and Re-Run the Ansible Playbook to Add Nodes
-
-. Edit the Ansible host configuration file `/etc/ansible/hosts` on the master host and note only the master host is uncommented under `[nodes]`:
-+
-----
-
-[root@master00-GUID ~]# vi /etc/ansible/hosts
-...
-[nodes]
-master00-$GUID.oslab.opentlc.com openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
-#node00-$GUID.oslab.opentlc.com openshift_node_labels="{'region': 'primary', 'zone': 'east'}"
-#node01-$GUID.oslab.opentlc.com openshift_node_labels="{'region': 'primary', 'zone': 'west'}"
-
----- 
-
-. Uncommment the two nodes in the Ansible host configuration file on the master host, do not change or remove anything else from the file.  Write the file when done editing: 
-+
-----
-
-[nodes]
-master00-$GUID.oslab.opentlc.com openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
-node00-$GUID.oslab.opentlc.com openshift_node_labels="{'region': 'primary', 'zone': 'east'}"
-node01-$GUID.oslab.opentlc.com openshift_node_labels="{'region': 'primary', 'zone': 'west'}"
-
----- 
-
-. Run the Ansible installer on the master host again using the `ansible-playbook` command:
-+
-----
-
-[root@master00-GUID ~]# ansible-playbook ~/openshift-ansible/playbooks/byo/config.yml
-
-----
-+
-[NOTE]
-This will take a while to complete.  This is a good time for a break.
-
-. The output of the `ansible-playbook` command shoold show failed=0 for all hosts:
-+
-----
-
-...OUTPUT OMMITTED...
-PLAY RECAP ********************************************************************
-localhost                  : ok=5    changed=0    unreachable=0    failed=0
-master00-GUID.oslab.opentlc.com : ok=83   changed=5    unreachable=0    failed=0
-node00-GUID.oslab.opentlc.com : ok=40   changed=18   unreachable=0    failed=0
-node01-GUID.oslab.opentlc.com : ok=40   changed=18   unreachable=0    failed=0
-
-----
-
-. After the installer is complete, check the status of your nodes using the `osc get nodes` command on the master host:
-+
-----
-
-[root@master00-GUID ~]# osc get nodes
-NAME                              LABELS        STATUS
-master00-GUID.oslab.opentlc.com   Schedulable   <none>    Ready
-node00-GUID.oslab.opentlc.com     Schedulable   <none>    NotReady
-node01-GUID.oslab.opentlc.com     Schedulable   <none>    NotReady
-
----- 
-
-### Scheduler and Defaults
-
-The "scheduler" is essentially the OpenShift master. Any time a pod needs to be
-created (instantiated) somewhere, the master needs to figure out where to do
-this. This is called "scheduling". The default configuration for the scheduler
-looks like the following JSON (although this is embedded in the OpenShift code
-and you won't find this in a file):
-
-    {
-      "predicates" : [
-        {"name" : "PodFitsResources"},
-        {"name" : "MatchNodeSelector"},
-        {"name" : "HostName"},
-        {"name" : "PodFitsPorts"},
-        {"name" : "NoDiskConflict"}
-      ],"priorities" : [
-        {"name" : "LeastRequestedPriority", "weight" : 1},
-        {"name" : "ServiceSpreadingPriority", "weight" : 1}
-      ]
-    }
-
-When the scheduler tries to make a decision about pod placement, first it goes
-through "predicates", which essentially filter out the possible nodes we can
-choose. Note that, depending on your predicate configuration, you might end up
-with no possible nodes to choose. This is totally OK (although generally not
-desired).
-
-These default options are documented in the JSON code above.  Here is a quick overview of what it means:
-
-* *PodFitsResources* - Place pod on a node that has enough resources for it
-
-* *PodFitsPorts* - Place pod on a node that doesn't have a port conflict
-
-* *NoDiskConflict* - Place pod on a node that doesn't have a storage conflict
-
-And some more obscure ones:
-
-* *MatchNodeSelector* - Place pod on a node whose `NodeSelector` matches
-
-* *HostName* - Place pod on a node whose hostname matches the `Host` attribute value
-
-The next thing is, of the available nodes after the filters are applied, how do
-we select the "best" one. This is where "priorities" come in. Long story short,
-the various priority functions each get a score, multiplied by the weight, and
-the node with the highest score is selected to host the pod.
-
-The defaults are:
-
-* Choose the node that is "least requested" (the least busy)
-
-* Spread services around - minimize the number of pods in the same service on the same node
-
-[NOTE]
-For an extremely detailed explanation about what these various
-configuration flags are doing, check out: http://docs.openshift.org/latest/admin_guide/scheduler.html
-
-In a small environment, the defaults are pretty sane. Let's look at one of the
-important predicates (filters) before we move on to "regions" and "zones".
-
-### The NodeSelector
-`NodeSelector` is a part of the Pod data model. And, if we think back to our pod
-definition, there was a "label", which is just a key:value pair. In the case of
-a `NodeSelector`, our labels (key:value pairs) are used to help us try to find
-nodes that match, assuming that:
-
-* The scheduler is configured to *MatchNodeSelector*
-
-* The end user creating the pod knows which labels are out there
-
-This use case is pretty simplistic.  It doesn't really allow for a
-topology, and there's not a lot of logic behind it. For instance, if you specify a
-*NodeSelector* label when using *MatchNodeSelector* and there are no matching nodes,
-my workload will *never* get scheduled.
-
-We can make this more intelligent by using "regions" and "zones".
-
-### Customizing the Scheduler Configuration
-
-The Ansible installer is configured to understand "regions" and "zones" as a
-matter of convenience. However, for the master (scheduler) to actually do
-something with them requires changing from the default configuration.
-
-. On the master host take a look at `/etc/openshift/master/master-config.yaml` and find the line with `schedulerConfigFile`.
-+
-----
-
-[root@master00-GUID ~]# less /etc/openshift/master/master-config.yaml
-
-----
-+
-You should see:
-+
-----
-
-    schedulerConfigFile: "/etc/openshift/master/scheduler.json"
-
-----
-
-. On the master host take a look at `/etc/openshift/master/scheduler.json`:
-+
-----
-
-[root@master00-GUID ~]# less /etc/openshift/master/scheduler.json
-
-----
-+
-You should see:
-+
-----
-
-    {
-      "predicates" : [
-        {"name" : "PodFitsResources"},
-        {"name" : "PodFitsPorts"},
-        {"name" : "NoDiskConflict"},
-        {"name" : "Region", "argument" : {"serviceAffinity" : { "labels" : ["region"]}}}
-      ],"priorities" : [
-        {"name" : "LeastRequestedPriority", "weight" : 1},
-        {"name" : "ServiceSpreadingPriority", "weight" : 1},
-        {"name" : "Zone", "weight" : 2, "argument" : {"serviceAntiAffinity" : { "label" : "zone" }}}
-      ]
-    }
-
-----
-
-To quickly review the JSON code above:
-
-* Filter out nodes that don't fit the resources, don't have the ports, or have disk conflicts
-
-* If the pod specifies a label with the key "region", filter nodes by the value.
-
-So, if we have the following nodes and the following labels:
-
-* Node 1 -- "region":"infra"
-
-* Node 2 -- "region":"primary"
-
-* Node 3 -- "region":"primary"
-
-If we try to schedule a pod that has a `NodeSelector` of "region":"primary",
-then only Node 1 and Node 2 would be considered.
-
-That takes care of the "region" part.  What about the "zone" part?
-
-Our priorities tell us to:
-
-* Score the least-busy node higher
-
-* Score any nodes who don't already have a pod in this service higher
-
-* Score any nodes whose zone label's value **does not** match higher
-
-Why do we score a zone that **doesn't** match higher? Note that the definition
-for the Zone priority is a `serviceAntiAffinity` -- anti affinity. In this case,
-our anti affinity rule helps to ensure that we try to get nodes from *different*
-zones to take our pod.
-
-If we consider that our "primary" region might be a certain datacenter, and that
-each "zone" in that datacenter might be on its own power system with its own
-dedicated networking, this would ensure that, within the datacenter, pods of an
-application would be spread across power/network segments.
-
-The documentation link provided earlier has some more complicated examples. The topoligical
-possibilities are endless!
-
-### Node Labels
 
 The assignments of "regions" and "zones" at the node-level are handled by labels
 on the nodes. 
+
+. Label the Master and the nodes
++
+----
+oc label node master00-$guid.oslab.opentlc.com region="infra" zone="na" 
+oc label node infranode00-$guid.oslab.opentlc.com region="infra" zone="infranodes" 
+oc label node node00-$guid.oslab.opentlc.com region="primary" zone="east"
+oc label node node01-$guid.oslab.opentlc.com region="primary" zone="west"
+----
+
 
 . On the master host look at how the labels were implemented with `osc get nodes`:
 +
 ----
 
-[root@master00-GUID ~]# osc get nodes
+[root@master00-GUID ~]# oc get nodes
 
 ----
 +
@@ -1148,10 +757,11 @@ You should see:
 +
 ----
 
-NAME                              LABELS                                                                             STATUS
-master00-GUID.oslab.opentlc.com   kubernetes.io/hostname=master00-GUID.oslab.opentlc.com,region=infra,zone=default   Ready
-node00-GUID.oslab.opentlc.com     kubernetes.io/hostname=node00-GUID.oslab.opentlc.com,region=primary,zone=east      Ready
-node01-GUID.oslab.opentlc.com     kubernetes.io/hostname=node01-GUID.oslab.opentlc.com,region=primary,zone=west      Ready
+NAME                                 LABELS                                                                                   STATUS
+infranode00-d540.oslab.opentlc.com   kubernetes.io/hostname=infranode00-d540.oslab.opentlc.com,region=infra,zone=infranodes   Ready
+master00-d540.oslab.opentlc.com      kubernetes.io/hostname=master00-d540.oslab.opentlc.com,region=infra,zone=na              Ready,SchedulingDisabled
+node00-d540.oslab.opentlc.com        kubernetes.io/hostname=node00-d540.oslab.opentlc.com,region=primary,zone=east            Ready
+node01-d540.oslab.opentlc.com        kubernetes.io/hostname=node01-d540.oslab.opentlc.com,region=primary,zone=west            Ready
 
 ----
 

@@ -15,4 +15,5 @@ systemctl restart firewalld
 firewall-cmd --zone public --add-interface=eth0
 
 
+
 echo "----Completed Host Specific Script `date` "| tee -a $LOGFILE

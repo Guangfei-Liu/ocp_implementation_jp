@@ -17,6 +17,7 @@ export course="ose_implementation"
 #1. sed out mac address and uuid from ifcfg-eth0
 sed -i '/^HW/d' /etc/sysconfig/network-scripts/ifcfg-eth0
 sed -i '/^UUID/d' /etc/sysconfig/network-scripts/ifcfg-eth0
+echo  DEVICE=eth0 >> /etc/sysconfig/network-scripts/ifcfg-eth0
 systemctl restart network.service
 
 #2. Root Password Change
@@ -63,7 +64,7 @@ yum update -y
 yum clean all
 
 #5. remove the repos so our students can add them.   
-rm /etc/yum.repos.d/open.repo
+#rm /etc/yum.repos.d/open.repo
 
 
 #6. Add the open-init.sh file

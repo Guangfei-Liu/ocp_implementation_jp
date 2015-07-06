@@ -138,5 +138,108 @@ $ ./oo-install-ose
 
 
 
+get
+7.
+oc delete all -l docker-registry=default ; oc delete pod docker-registry-1-deploy
 
-7. 
+
+docker pull registry.access.redhat.com/openshift3/ose-docker-registry:v3.0.0.0
+oadm registry --config=admin.kubeconfig   --credentials=openshift-registry.kubeconfig  --images='openshift3/ose-${component}:v3.0.0.0' --selector='zone=infranodes'
+oadm registry --config=/etc/openshift/master/admin.kubeconfig   --credentials=/etc/openshift/master/openshift-registry.kubeconfig  --images='registry.access.redhat.com/openshift3/ose-${component}:v3.0.0.0' --selector='region=infra' 
+
+ curl -v `oc get services | grep registry | awk '{print $4":"$5}/v2/' | sed 's,/[^/]\+$,/v2/,'`
+
+
+oc delete all -l router=trainingrouter
+
+
+    
+oadm router trainingrouter --stats-password='r3dh@t1!' --replicas=1     --credentials='/etc/openshift/master/openshift-router.kubeconfig'     --images='registry.access.redhat.com/openshift3/ose-${component}:${version}'  --selector='region=infra'
+
+oc exec -it -p $(oc get pods | grep router | awk '{print $1}' | head -n 1) /bin/bash
+cat /var/lib/containers/router/routes.json
+
+
+
+iptables -I OS_FIREWALL_ALLOW -p tcp -m tcp --dport 1936 -j ACCEPT
+
+
+trainingrouter
+Mlk9eBqAoy
+
+
+docker pull registry.access.redhat.com/openshift3/ruby-20-rhel7
+
+
+
+
+
+{
+    "kind": "Route",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "test-route"
+    },
+    "spec": {
+        "host": "test1.cloudapps-635b.oslab.opentlc.com",
+        "to": {
+            "kind": "Service",
+            "name": "simple-openshift-sinatra"
+        }
+    },
+    "status": {}
+}
+
+
+
+
+
+
+
+[root@master00-f4fc ~]# curl -E /etc/openshift/master/master.etcd-client.crt --cacert /etc/openshift/master/ca.crt --key /etc/openshift/master/master.etcd-client.key https://`hostname -f`:4001/v2/keys/openshift.io/registry/sdnsubnets | python -mjson.tool
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  1845  100  1845    0     0   5508      0 --:--:-- --:--:-- --:--:--  5523
+{
+    "action": "get",
+    "node": {
+        "createdIndex": 287,
+        "dir": true,
+        "key": "/openshift.io/registry/sdnsubnets",
+        "modifiedIndex": 287,
+        "nodes": [
+            {
+                "createdIndex": 289,
+                "key": "/openshift.io/registry/sdnsubnets/node01-f4fc.oslab.opentlc.com",
+                "modifiedIndex": 289,
+                "value": "{\"kind\":\"HostSubnet\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"node01-f4fc.oslab.opentlc.com\",\"uid\":\"414cc048-2081-11e5-bc86-2cc260072896\",\"creationTimestamp\":\"2015-07-02T06:12:02Z\"},\"host\":\"node01-f4fc.oslab.opentlc.com\",\"hostIP\":\"192.168.0.201\",\"subnet\":\"10.1.1.0/24\"}"
+            },
+            {
+                "createdIndex": 296,
+                "key": "/openshift.io/registry/sdnsubnets/infranode00-f4fc.oslab.opentlc.com",
+                "modifiedIndex": 296,
+                "value": "{\"kind\":\"HostSubnet\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"infranode00-f4fc.oslab.opentlc.com\",\"uid\":\"42b33822-2081-11e5-bc86-2cc260072896\",\"creationTimestamp\":\"2015-07-02T06:12:04Z\"},\"host\":\"infranode00-f4fc.oslab.opentlc.com\",\"hostIP\":\"192.168.0.101\",\"subnet\":\"10.1.3.0/24\"}"
+            },
+            {
+                "createdIndex": 292,
+                "key": "/openshift.io/registry/sdnsubnets/master00-f4fc.oslab.opentlc.com",
+                "modifiedIndex": 292,
+                "value": "{\"kind\":\"HostSubnet\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"master00-f4fc.oslab.opentlc.com\",\"uid\":\"4188bd9c-2081-11e5-bc86-2cc260072896\",\"creationTimestamp\":\"2015-07-02T06:12:02Z\"},\"host\":\"master00-f4fc.oslab.opentlc.com\",\"hostIP\":\"192.168.0.100\",\"subnet\":\"10.1.2.0/24\"}"
+            },
+            {
+                "createdIndex": 287,
+                "key": "/openshift.io/registry/sdnsubnets/node00-f4fc.oslab.opentlc.com",
+                "modifiedIndex": 287,
+                "value": "{\"kind\":\"HostSubnet\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"node00-f4fc.oslab.opentlc.com\",\"uid\":\"414990ac-2081-11e5-bc86-2cc260072896\",\"creationTimestamp\":\"2015-07-02T06:12:02Z\"},\"host\":\"node00-f4fc.oslab.opentlc.com\",\"hostIP\":\"192.168.0.200\",\"subnet\":\"10.1.0.0/24\"}"
+            }
+        ]
+    }
+}
+
+
+
+
+
+
+
+

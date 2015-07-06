@@ -12,7 +12,7 @@ systemctl stop named
 #sleep 100; 
 
 #master00-$guid.oslab.opentlc.com
-masterIP=`host master00-$guid.oslab.opentlc.com ipa.opentlc.com  | grep $guid | awk '{ print $4 }'`
+masterIP=`host infranode00-$guid.oslab.opentlc.com ipa.opentlc.com  | grep $guid | awk '{ print $4 }'`
 domain="cloudapps-$guid.oslab.opentlc.com"
 
 echo master ip is $masterIP | tee -a /root/.dns.installer.txt

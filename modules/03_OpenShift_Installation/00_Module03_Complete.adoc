@@ -1,1 +1,424 @@
+
+== Title
 :noaudio:
+
+ifdef::revealjs_slideshow[] 
+[#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"] 
+
+
+[#cover-h1] 
+Red Hat OpenShift Enterprise Implementation
+
+[#cover-h2] 
+OpenShift 3.0 Installation
+
+[#cover-logo] 
+image::{revealjs_cover_image}[] 
+
+endif::[]
+
+
+
+
+
+
+== Module Topics
+:noaudio:
+:numbered!:
+:scrollbar:
+:data-uri:
+* Installation Overview
+* Prepare your Hosts
+* Installation Methods 
+* Authentication 
+* Web UI
+* Scheduler - Regions and Zones
+* High Availability Deployments.  
+* Lab : Install OpenShift Using the installer
+* Lab : Regions and Zones
+* Lab : The Registry and Router
+
+
+ifdef::showscript[]
+
+=== Transcript
+Welcome to Module 3 of the OpenShift Enterprise Implementation course.
+
+
+
+endif::showscript[]
+
+
+
+== Installation Scenario
+
+* In this training we will review the install of the following environment
+
+** Master00 [192.168.0.100] - Our master will host the Web Console, The API service and the ETCd DB.
+*** Labels : Region=*Infra*, Zone=*NA*, schedulable=`*false*`
+** InfraNode00 [192.168.0.101] - The InfraNode0 is to be used only to host "Infrastructure" containers such as the *Registry* and our HAproxy *Router*.
+*** Labels : Region=*Infra*, Zone=*infranode*, schedulable=*true* 
+** Node00 [192.168.0.200] - Part of the Primary Region, Will co-host all the user workloads. 
+*** Labels : Region=*Primary*, Zone=*East*, schedulable=*true*  
+** Node01  [192.168.0.201] - Part of the Primary Region, Will co-host all the user workloads. 
+*** Labels : Region=*Primary*, Zone=*West*, schedulable=*true*
+** oselab  [192.168.0.254] - This server will simulate our corporate DNS server that will point our wildcard entry to our HAproxy *router* (that lives on Infranode)
+*** Not part of the OpenShift Cluster. 
+
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+== Installation Methods
+
+* Currently, There are two types of install methods you can use: 
+** *Quick Install* - The quick installation method allows you to use an interactive CLI utility to install OpenShift across a set of hosts. The utility is a self-contained wrapper intended for usage on a Red Hat Enterprise Linux 7 host, available at link:https://install.openshift.com[https://install.openshift.com].
+** *Ansible Install* - For production environments, a reference configuration implemented using Ansible playbooks is available as the advanced installation method for installing OpenShift hosts. Familiarity with Ansible is assumed.
+
+* In this training we will focus on the Quick Install Method.
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+
+
+== Installation Workflow
+
+* Prerequisites 
+
+** System Requirements
+** DNS Setup
+** Host Preparation
+
+* OpenShift Installation 
+
+** Downloading and Running the Installation Utility
+
+* Post-Install tasks
+
+** Deploy an integrated Docker registry.
+** Deploy an HAProxy router.
+** Populate your OpenShift installation with image streams and templates.
+** Configure authentication and create project for your users.
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+
+
+
+
+== Prerequisites
+
+.System Requirements
+
+* The following are the recommended system requirements for an OpenShift deployment.
+
+* Masters
+** Physical or virtual system
+** Base OS: Red Hat Enterprise Linux (RHEL) 7.1 with "Minimal" installation option
+** 2 vCPU
+** Minimum 8 GB RAM
+** Minimum 30 GB hard disk space
+
+* Nodes
+
+** Physical or virtual system, or an instance running on a public IaaS
+** Base OS: Red Hat Enterprise Linux (RHEL) 7.1 with "Minimal" installation option
+** Docker 1.6 or later
+** 1 vCPU
+** Minimum 8 GB RAM
+** Minimum 15 GB hard disk space
+
+* In our learning environment the servers are not configured with the recommended settings to lower costs.
+
+endif::showscript[]
+
+== Prerequisites
+.DNS Setup
+
+* A wildcard for a DNS zone must ultimately resolve to the IP address of the OpenShift router.
+* For example, create a wildcard DNS entry for cloudapps, or something similar, that has a low TTL and points to the public IP address of the host where the router will be deployed:
++
+----
+*.cloudapps.example.com. 300 IN  A 192.168.133.2
+----
+
+* In almost all cases, when referencing VMs you must use host names, and the host names that you use must match the output of the hostname -f command on each node.
+
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+== Prerequisites
+.Host Preparation
+
+* To prepare your hosts for OpenShift 3 Enterprise 
+** *Installing Red Hat Enterprise Linux 7.1* - A base installation of `Red Hat Enterprise Linux (RHEL) 7.1` is required for master or node hosts. See the link:https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Installation_Guide/index.html[Red Hat Enterprise Linux 7.1 Installation Guide]
+ for more information.
+** *Registering the Hosts to RHN* - You will need to register all the hosts to RHEL7.1 and OpenShift Enterprise repositories.
+** *Managing Base Packages* - You will need to remove NetworkManager and install some utility packages (i.e git, net-tools, bind-utils, iptables-services, bridge-utils)
+** *Install Docker 1.6.x* - Docker version 1.6 or later needs to be installed and storage backend configured for images.
+** *Host Password-less communication* - You will ensure that the master hosts can issue remove commands on the nodes without requiring a password.
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+== Prerequisites
+.Docker Install 
+
+* Docker version 1.6 or later from the rhel-7-server-ose-3.0-rpms repository must be installed and running on master and node hosts before installing OpenShift.
+* We will run through the following procedure:
+** Install Docker:
++
+----
+# yum install docker
+----
+
+** Edit the /etc/sysconfig/docker file and add --insecure-registry 172.30.0.0/16 to the OPTIONS parameter. For example:
++
+----
+OPTIONS=--selinux-enabled --insecure-registry 172.30.0.0/16
+----
+
+** The --insecure-registry option instructs the Docker daemon to trust any Docker registry on the 172.30.0.0/16 subnet, rather than requiring a certificate.
+
+
+
+NOTE: After installing OpenShift, you can choose to link:https://access.redhat.com/beta/documentation/en/openshift-enterprise-30-administrator-guide/chapter-1-installation#securing-the-registry[secure the integrated Docker registry], which involves adjusting the --insecure-registry option accordingly.
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+
+== Prerequisites
+.Configuring Docker Storage
+
+* Docker’s default loopback storage mechanism is not supported for production use and is only appropriate for proof of concept environments. For production environments, you must create a thin-pool logical volume and re-configure docker to use that volume.
+* You can use the docker-storage-setup script to create a thin-pool device and configure docker’s storage driver after installing docker but before you start using it. 
+* The script reads configuration options from the /etc/sysconfig/docker-storage-setup file. 
+* Configure *docker-storage-setup* script for your environment. There are three options available based on your storage configuration:
+** Create a thin-pool volume from the remaining free space in the volume group where your root filesystem resides; this requires no configuration:
++
+----
+# docker-storage-setup
+Use an existing volume group, in this example docker-vg, to create a thin-pool:
+
+# echo <<EOF > /etc/sysconfig/docker-storage-setup
+VG=docker-vg
+SETUP_LVM_THIN_POOL=yes
+EOF
+# docker-storage-setup
+----
+
+** Use an unpartitioned block device to create a new volume group and thinpool. In this example, the /dev/vdc device is used to create the docker-vg volume group:
++
+----
+# cat <<EOF > /etc/sysconfig/docker-storage-setup
+DEVS=/dev/vdc
+VG=docker-vg
+SETUP_LVM_THIN_POOL=yes
+EOF
+# docker-storage-setup
+----
+
+
+** Verify your configuration. You should have dm.thinpooldev value in the /etc/sysconfig/docker-storage file and a docker-pool device:
++
+----
+# lvs
+LV                  VG        Attr       LSize  Pool Origin Data%  Meta% Move Log Cpy%Sync Convert
+docker-pool         docker-vg twi-a-tz-- 48.95g             0.00   0.44
+
+# cat /etc/sysconfig/docker-storage
+DOCKER_STORAGE_OPTIONS=--storage-opt dm.fs=xfs --storage-opt
+dm.thinpooldev=/dev/mapper/docker--vg-docker--pool
+
+----
+
+WARNING: This will destroy any docker containers or images currently on the host.
+
+* Re-initialize docker
+----
+# systemctl stop docker
+# rm -rf /var/lib/docker/*
+# systemctl restart docker
+----
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+
+== Prerequisites
+
+.Ensuring Installer Access to Hosts
+* Ansible, which is used to run the installation process, requires a user that has access to all hosts. For running the installer as a non-root user, passwordless sudo rights must also be configured on each destination host.
+* For example, you can generate an SSH key on the host where you will invoke the installation process:
++
+----
+# ssh-keygen
+----
+
+NOTE: Do not use a password.
+
+** An easy way to distribute your SSH keys is by using a bash loop:
++
+----
+# for host in ose3-master.example.com \
+    ose3-node1.example.com \
+    ose3-node2.example.com; \
+    do ssh-copy-id -i ~/.ssh/id_rsa.pub $host; \
+    done
+----
+
+NOTE: Modify the host names in the above command according to your configuration.
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+
+== OpenShift Installation 	
+
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+
+
+== Slide_Name
+
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+
+
+== Slide_Name
+
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+
+
+== Slide_Name
+
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+
+
+== Slide_Name
+
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+
+
+== Slide_Name
+
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+
+
+== Slide_Name
+
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+
+
+== Slide_Name
+
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+
+
+== Slide_Name
+
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]

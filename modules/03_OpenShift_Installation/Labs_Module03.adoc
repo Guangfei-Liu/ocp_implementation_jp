@@ -184,8 +184,7 @@ zone \"${domain}\" IN {
 
 === Verify DNS configuration:
 
-A test DNS entry was created called `test.cloud-appsGUID.oslab.opentlc.com`.  This lab will test internal and external resolution of that DNS entry.
-host test.cloudapps-$guid.oslab.opentlc.com 127.0.0.1
+. A test DNS entry was created called `test.cloudapps-GUID.oslab.opentlc.com`.  
 . First try testing the DNS server running on the administration host:
 +
 ----
@@ -202,11 +201,8 @@ host test.cloudapps-$guid.oslab.opentlc.com 127.0.0.1
 
 ----
 +
-[NOTE]
-The first time you query 8.8.8.8 you may notice lag and an error:
-`;; connection timed out; trying next origin
-Host test.cloudapps-GIOD.oslab.opentlc.com not found: 3(NXDOMAIN)`
-This is normal.  if you do the test again, it will go faster and not error out.
+[NOTE] 
+The first time you query 8.8.8.8 you may notice lag and an error "connection timed out; trying next origin Host test.cloudapps-GUID.oslab.opentlc.com not found: 3(NXDOMAIN)" is normal.  if you do the test again, it will go faster and not error out. 
 
 . Lastly test DNS from your laptop/desktop, this might take a few minutes to be updated.  Be sure to replace GUID with the correct GUID.
 +
@@ -440,7 +436,7 @@ master00-GUID.oslab.opentlc.com
 [root@master00-GUID ~]# host `hostname -f` 8.8.8.8
 
 ----
-
++
 NOTE: It might take some time for the global DNS servers to be updated. Try again after a short while if this doesn't work on the first try.
 
 . Remove NetworkManager:
@@ -449,8 +445,10 @@ NOTE: It might take some time for the global DNS servers to be updated. Try agai
 [root@master00-GUID ~]# yum -y  remove NetworkManager*
 ----
 
-.
-+ Install Misc tools and utilities 
+
+
+. Install Misc tools and utilities
++  
 ----
 [root@master00-GUID ~]# yum install wget git net-tools bind-utils iptables-services bridge-utils python-virtualenv gcc
 
@@ -470,8 +468,8 @@ OpenShift uses Docker to store and manage container images.  In this lab we inst
 ----
 +
 NOTE: We will provide you with a command to do all the node configuration at once, *learn that you need to run these commands on the nodes* but know that we have a command waiting to install them all at once later on.
-
-NOTE: please *RUN ALL COMMANDS on master host*
++
+CAUTION: Make sure you `do run all the commands on the master host`.
 
 . Install the `docker` package on *ALL* the node hosts 
 + 
@@ -932,14 +930,6 @@ node01-d540.oslab.opentlc.com        kubernetes.io/hostname=node01-d540.oslab.op
 ----
 
 == Set Regions and Zones
-
-In OpenShift 2, we introduced the specific concepts of "regions" and "zones" to enable organizations to provide some topologies for application resiliency. Apps would be spread throughout the zones in a region and, depending on the way you configured OpenShift, you could make different regions accessible to users.
-
-For OpenShift 3, Kubernetes doesn't actually care about your topology. In other words, OpenShift is "topology agnostic". In fact, OpenShift 3 provides advanced controls for implementing whatever topologies you can dream up, leveraging filtering and affinity rules to ensure that parts of applications (pods) are either grouped together or spread apart.
-
-For the purposes of a simple example, we'll be sticking with the "regions" and "zones" theme. But, as you go through these examples, think about what other complex topologies you could implement. Perhaps "secure" and "insecure" hosts, or other topologies.
-
-
 
 The assignments of "regions" and "zones" at the node-level are handled by labels
 on the nodes. 

@@ -30,13 +30,13 @@ endif::[]
 * Installation Overview
 * Prepare your Hosts
 * Installation Methods 
-* Authentication 
-* Web UI
 * Scheduler - Regions and Zones
-* High Availability Deployments.  
+* The Registry and Router
+* Populating OpenShift
 * Lab : Install OpenShift Using the installer
 * Lab : Regions and Zones
-* Lab : The Registry and Router
+* Lab : The Registy and Router
+* Lab : Populating OpenShift
 
 
 ifdef::showscript[]
@@ -164,8 +164,8 @@ ifdef::showscript[]
 endif::showscript[]
 
 
-== Prerequisites
-.Host Preparation
+== Host Preparation
+.Host Preparation - overview 
 
 * To prepare your hosts for OpenShift 3 Enterprise 
 ** *Installing Red Hat Enterprise Linux 7.1* - A base installation of `Red Hat Enterprise Linux (RHEL) 7.1` is required for master or node hosts. See the link:https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Installation_Guide/index.html[Red Hat Enterprise Linux 7.1 Installation Guide]
@@ -181,9 +181,102 @@ ifdef::showscript[]
 
 endif::showscript[]
 
+== Host Preparation
+. Host Preparation - Password-less communication
 
-== Prerequisites
-.Docker Install 
+.Ensuring Installer Access to Hosts
+* Ansible, which is used to run the installation process, requires a user that has access to all hosts. For running the installer as a non-root user, passwordless sudo rights must also be configured on each destination host.
+* For example, you can generate an SSH key on the host where you will invoke the installation process:
++
+----
+# ssh-keygen
+----
+
+NOTE: Do not use a password.
+
+** An easy way to distribute your SSH keys is by using a bash loop:
++
+----
+# for host in ose3-master.example.com \
+    ose3-node1.example.com \
+    ose3-node2.example.com; \
+    do ssh-copy-id -i ~/.ssh/id_rsa.pub $host; \
+    done
+----
+
+NOTE: Modify the host names in the above command according to your configuration.
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+== Host Preparation 	
+.Host Preparation - Networking 
+
+* Network needs to be configured and nodes need access to each other
+* Ports 
+** Node-To-Node 
+*** 4789 : required between nodes for SDN communication between pods on separate hosts
+
+** Nodes-To-Master 
+*** 53: On openshift master server. Which provides DNS services within the environment
+*** 4789 : required between nodes for SDN communication between pods on separate hosts
+*** 8443/443 : Access to the API   
+
+** Master-To-Node
+*** 10250 : on the minons(Kublet), accepts requests ensure state of pods is healthy etc
+*** 4789 : required between nodes for SDN communication between pods on separate hosts
+
+** Master to Master 
+*** 4789 : required between nodes for SDN communication between pods on separate hosts
+
+** External - Master 
+*** 8443: To allow API updates via cli, GUI or REST.  eg provisioning of new pods or application,deployment rollout, Using the remote client
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+
+== Host Preparation 	
+
+.Host Preparation - Networking and misc 
+
+* You need to remove NetworkManager 
++
+----
+# yum remove NetworkManager*
+----
+
+* You would need to install the following software packages 
+* You would need to install the following software packages 
++
+----
+# yum install wget git net-tools bind-utils iptables-services bridge-utils python-virtualenv gcc
+----
+
+*  Update your software before installation
++
+----
+# yum update -y 
+----
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+
+
+== Docker Install 
+
 
 * Docker version 1.6 or later from the rhel-7-server-ose-3.0-rpms repository must be installed and running on master and node hosts before installing OpenShift.
 * We will run through the following procedure:
@@ -214,7 +307,7 @@ endif::showscript[]
 
 
 
-== Prerequisites
+== Docker Install 
 .Configuring Docker Storage
 
 * Docker’s default loopback storage mechanism is not supported for production use and is only appropriate for proof of concept environments. For production environments, you must create a thin-pool logical volume and re-configure docker to use that volume.
@@ -277,41 +370,37 @@ endif::showscript[]
 
 
 
-== Prerequisites
 
-.Ensuring Installer Access to Hosts
-* Ansible, which is used to run the installation process, requires a user that has access to all hosts. For running the installer as a non-root user, passwordless sudo rights must also be configured on each destination host.
-* For example, you can generate an SSH key on the host where you will invoke the installation process:
+
+== Installing OpenShift
+
+* The installation utility is provided at https://install.openshift.com. Visit that page for the latest information and to download the portable version if neccessary.
+
+* There are two methods for using the installation utility.
+** Method 1: Running the Installation Utility From the Internet
+*** Run the installation utility directly from the Internet by running the following command on a host that has SSH access to your intended master and node hosts:
 +
 ----
-# ssh-keygen
-----
+$ sh <(curl -s https://install.openshift.com/ose/)
+---- 
 
-NOTE: Do not use a password.
+*** Follow the on-screen instructions to install a new OpenShift instance.
 
-** An easy way to distribute your SSH keys is by using a bash loop:
+** Method 2: Downloading and Running the Installation Utility
+*** Download and unpack the installation utility on a host that has SSH access to your intended master and node hosts:
 +
 ----
-# for host in ose3-master.example.com \
-    ose3-node1.example.com \
-    ose3-node2.example.com; \
-    do ssh-copy-id -i ~/.ssh/id_rsa.pub $host; \
-    done
+$ curl -o oo-install-ose.tgz \
+    https://install.openshift.com/portable/oo-install-ose.tgz
+$ tar -zxf oo-install-ose.tgz
+Execute the installation utility to interactively configure one or more hosts:
+
+$ ./oo-install-ose
 ----
 
-NOTE: Modify the host names in the above command according to your configuration.
+*** Follow the on-screen instructions to install a new OpenShift instance.
 
-ifdef::showscript[]
-
-=== Transcript
-
-endif::showscript[]
-
-
-
-== OpenShift Installation 	
-
-
+* The installer will ask you for Internal and Public IPs of your Master's and Nodes and will configure then accordingly. 
 
 ifdef::showscript[]
 
@@ -322,8 +411,136 @@ endif::showscript[]
 
 
 
-== Slide_Name
+== Regions and Zones
 
+* In OpenShift 2, we introduced the specific concepts of "regions" and "zones" to enable organizations to provide some topologies for application resiliency. 
+** Apps would be spread throughout the zones in a region and, depending on the way you configured OpenShift, you could make different regions accessible to users.
+* For OpenShift 3, Kubernetes doesn’t actually care about your topology or is "topology agnostic". 
+* OpenShift 3 provides advanced controls for implementing whatever topologies you can dream up. 
+** You can manipulate filtering and affinity rules to ensure that parts of applications (pods) are either grouped together or spread apart.
+** For the purposes of a simple example, we’ll be sticking with the "regions" and "zones" theme. (But think of other option you can up with, "Prod and Dev", "Secure and Insecure") 
+* The assignments of "regions" and "zones" at the node-level are handled by labels on the nodes.
++
+----
+# oc label node master00-$guid.oslab.opentlc.com region="infra" zone="na"
+# oc label node infranode00-$guid.oslab.opentlc.com region="infra" zone="infranodes"
+# oc label node node00-$guid.oslab.opentlc.com region="primary" zone="east"
+# oc label node node01-$guid.oslab.opentlc.com region="primary" zone="west"
+----
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+
+
+== Deploying the Registry
+* OpenShift can build Docker images from your source code, deploy them, and manage their lifecycle. To enable this, OpenShift provides an internal, integrated Docker registry to can be deployed in your OpenShift environment to manage images "locally".
++
+----
+$ oadm registry --config=admin.kubeconfig \
+    --credentials=openshift-registry.kubeconfig 
+----
+
+* If you wanted to control where your registry gets deployed, you can use the following 
+** This will make sure that the *registry* pod will only be hosted in the "infra" region. 
++
+----
+$ oadm registry --config=admin.kubeconfig \
+    --credentials=openshift-registry.kubeconfig \ 
+	   --selector='region=infra' 
+----
+
+* This creates a service and a deployment configuration, both called docker-registry. Once deployed successfully, a pod is created with a name similar to docker-registry-1-cpty9.
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+
+
+== Deploying the Registry
+.Storage for the Registry
+* The registry stores Docker images and metadata. If you simply deploy a pod with the registry, it uses an ephemeral volume that is destroyed if the pod exits. Any images anyone has built or pushed into the registry would disappear.
+* For production use, you should use persistent storage using PersistentVolume and PersistentVolumeClaim objects for storage for the registry.
+* For non-production use, you can use the --mount-host option to specify a directory for the registry to use for persistent storage.
+* We will not cover this topic in this version of the training, it is covered in the link:https://access.redhat.com/beta/documentation/en/openshift-enterprise-30-administrator-guide/chapter-13-persistent-storage-using-nfs[documentation] 
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+
+
+== Deploying the Default HAProxy Router
+
+* The OpenShift router is the ingress point for all traffic destined for services in your OpenShift installation. 
+* An HAProxy template router implementation is provided as the default template router plug-in. 
+** uses the *openshift3/ose-haproxy-router* repository to run an HAProxy instance alongside the template router plug-in. 
+** currently supports only HTTP(S) traffic and TLS-enabled traffic via SNI. *While it is called a "router", it is essentially a proxy*.
+
+* The default router’s openshift3/ose-haproxy-router container listens on the host network interface.
+** unlike most containers that listen only on private IPs, The default router's container listens on external/public ports. 
+** The router proxies external requests for route names to the IPs of actual pods identified by the service associated with the route.  
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+
+
+== Populating OpenShift
+* You can populate your OpenShift installation with a useful set of Red Hat-provided *image streams* and *templates* to make it easy for developers to create new applications.
+** Template: A template describes a set of resources intended to be used together that can be customized and processed to produce a configuration. Each template defines a list of parameters that can be modified for consumption by containers.
+** Image Streams: An image stream is similar to a Docker image repository in that it contains one or more Docker images identified by tags. An image stream presents a single virtual view of related images.
+
+* The core set of image streams provide images that can be used to build *Node.js*, *Perl*, *PHP*, *Python*, and *Ruby* applications. It also defines images for *MongoDB*, *MySQL*, and *PostgreSQL* to support data storage.
+** To create the core set of image streams, that use the Red Hat Enterprise Linux (RHEL) 7 based images:
++
+----
+oc create -f \
+    examples/image-streams/image-streams-rhel7.json \
+    -n openshift
+----
+ 
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+== Populating OpenShift
+ 
+* The xPaaS Middleware image streams provide images for *JBoss EAP*, *JBoss EWS*, and *JBoss A-MQ*. They can be used to build applications for those platforms or run directly as is.
+** To create the Image Streams for xPaaS Middleware Images:
++
+----
+$ oc create -f \
+    examples/xpaas-streams/jboss-image-streams.json
+    -n openshift
+----
+* The database service templates make it easy to run a database image which can be utilized by other components. 
+* For each database (*MongoDB*, *MySQL*, and *PostgreSQL*), two templates are defined.
+** To create the core set of database templates:
++
+----
+$ oc create -f \
+    examples/db-templates -n openshift
+----
+
+** After creating the templates, users are able to easily instantiate the various templates, giving them quick access to a database deployment.
 
 
 ifdef::showscript[]
@@ -335,86 +552,22 @@ endif::showscript[]
 
 
 
-== Slide_Name
+== Populating OpenShift
 
+* The QuickStart templates define a full set of objects for a running application. 
+** These Include:
+*** Build configurations to build the application from source located in a GitHub public repository
+*** Deployment configurations to deploy the application image after it is built.
+*** Services to provide load balancing for the application pods.
+*** Routes to provide external access to the application.
+** To create the core QuickStart templates:
++
+----
 
-
-ifdef::showscript[]
-
-=== Transcript
-
-endif::showscript[]
-
-
-
-
-== Slide_Name
-
-
-
-ifdef::showscript[]
-
-=== Transcript
-
-endif::showscript[]
-
-
-
-
-== Slide_Name
-
-
-
-ifdef::showscript[]
-
-=== Transcript
-
-endif::showscript[]
-
-
-
-
-== Slide_Name
-
-
-
-ifdef::showscript[]
-
-=== Transcript
-
-endif::showscript[]
-
-
-
-
-== Slide_Name
-
-
-
-ifdef::showscript[]
-
-=== Transcript
-
-endif::showscript[]
-
-
-
-
-== Slide_Name
-
-
-
-ifdef::showscript[]
-
-=== Transcript
-
-endif::showscript[]
-
-
-
-
-== Slide_Name
-
+$ oc create -f \
+    examples/quickstart-templates -n openshift
+    
+----
 
 
 ifdef::showscript[]

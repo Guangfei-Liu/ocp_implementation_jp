@@ -1,0 +1,24 @@
+
+:scrollbar:
+:data-uri:
+== Prerequisites
+.DNS Setup
+
+* A wildcard for a DNS zone must ultimately resolve to the IP address of the OpenShift router.
+* For example, create a wildcard DNS entry for cloudapps, or something similar, that has a low TTL and points to the public IP address of the host where the router will be deployed:
++
+----
+*.cloudapps.example.com. 300 IN  A 192.168.133.2
+----
+
+* In almost all cases, when referencing VMs you must use host names, and the host names that you use must match the output of the hostname -f command on each node.
+
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+

@@ -212,7 +212,7 @@ ifdef::showscript[]
 
 endif::showscript[]
 
-== Host Preparation 	
+== Host Preparation
 .Host Preparation - Networking 
 
 * Network needs to be configured and nodes need access to each other
@@ -243,7 +243,7 @@ endif::showscript[]
 
 
 
-== Host Preparation 	
+== Host Preparation
 
 .Host Preparation - Networking and misc 
 
@@ -275,9 +275,7 @@ endif::showscript[]
 
 
 
-== Docker Install 
-
-
+== Docker Install
 * Docker version 1.6 or later from the rhel-7-server-ose-3.0-rpms repository must be installed and running on master and node hosts before installing OpenShift.
 * We will run through the following procedure:
 ** Install Docker:
@@ -307,7 +305,7 @@ endif::showscript[]
 
 
 
-== Docker Install 
+== Docker Install
 .Configuring Docker Storage
 
 * Docker’s default loopback storage mechanism is not supported for production use and is only appropriate for proof of concept environments. For production environments, you must create a thin-pool logical volume and re-configure docker to use that volume.

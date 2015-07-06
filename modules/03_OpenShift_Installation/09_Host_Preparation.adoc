@@ -1,0 +1,34 @@
+
+:scrollbar:
+:data-uri:
+== Host Preparation
+. Host Preparation - Password-less communication
+
+.Ensuring Installer Access to Hosts
+* Ansible, which is used to run the installation process, requires a user that has access to all hosts. For running the installer as a non-root user, passwordless sudo rights must also be configured on each destination host.
+* For example, you can generate an SSH key on the host where you will invoke the installation process:
++
+----
+# ssh-keygen
+----
+
+NOTE: Do not use a password.
+
+** An easy way to distribute your SSH keys is by using a bash loop:
++
+----
+# for host in ose3-master.example.com \
+    ose3-node1.example.com \
+    ose3-node2.example.com; \
+    do ssh-copy-id -i ~/.ssh/id_rsa.pub $host; \
+    done
+----
+
+NOTE: Modify the host names in the above command according to your configuration.
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+

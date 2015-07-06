@@ -1,0 +1,33 @@
+
+:scrollbar:
+:data-uri:
+== Docker Install
+* Docker version 1.6 or later from the rhel-7-server-ose-3.0-rpms repository must be installed and running on master and node hosts before installing OpenShift.
+* We will run through the following procedure:
+** Install Docker:
++
+----
+# yum install docker
+----
+
+** Edit the /etc/sysconfig/docker file and add --insecure-registry 172.30.0.0/16 to the OPTIONS parameter. For example:
++
+----
+OPTIONS=--selinux-enabled --insecure-registry 172.30.0.0/16
+----
+
+** The --insecure-registry option instructs the Docker daemon to trust any Docker registry on the 172.30.0.0/16 subnet, rather than requiring a certificate.
+
+
+
+NOTE: After installing OpenShift, you can choose to link:https://access.redhat.com/beta/documentation/en/openshift-enterprise-30-administrator-guide/chapter-1-installation#securing-the-registry[secure the integrated Docker registry], which involves adjusting the --insecure-registry option accordingly.
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+

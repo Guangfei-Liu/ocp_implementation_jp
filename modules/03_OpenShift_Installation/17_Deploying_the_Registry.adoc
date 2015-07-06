@@ -1,0 +1,18 @@
+
+:scrollbar:
+:data-uri:
+== Deploying the Registry
+.Storage for the Registry
+* The registry stores Docker images and metadata. If you simply deploy a pod with the registry, it uses an ephemeral volume that is destroyed if the pod exits. Any images anyone has built or pushed into the registry would disappear.
+* For production use, you should use persistent storage using PersistentVolume and PersistentVolumeClaim objects for storage for the registry.
+* For non-production use, you can use the --mount-host option to specify a directory for the registry to use for persistent storage.
+* We will not cover this topic in this version of the training, it is covered in the link:https://access.redhat.com/beta/documentation/en/openshift-enterprise-30-administrator-guide/chapter-13-persistent-storage-using-nfs[documentation] 
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+
+

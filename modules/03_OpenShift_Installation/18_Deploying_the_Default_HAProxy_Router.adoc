@@ -1,0 +1,23 @@
+
+:scrollbar:
+:data-uri:
+== Deploying the Default HAProxy Router
+
+* The OpenShift router is the ingress point for all traffic destined for services in your OpenShift installation. 
+* An HAProxy template router implementation is provided as the default template router plug-in. 
+** uses the *openshift3/ose-haproxy-router* repository to run an HAProxy instance alongside the template router plug-in. 
+** currently supports only HTTP(S) traffic and TLS-enabled traffic via SNI. *While it is called a "router", it is essentially a proxy*.
+
+* The default router’s openshift3/ose-haproxy-router container listens on the host network interface.
+** unlike most containers that listen only on private IPs, The default router's container listens on external/public ports. 
+** The router proxies external requests for route names to the IPs of actual pods identified by the service associated with the route.  
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+
+

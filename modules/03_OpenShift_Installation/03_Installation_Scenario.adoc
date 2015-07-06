@@ -1,0 +1,26 @@
+
+:scrollbar:
+:data-uri:
+== Installation Scenario
+
+* In this training we will review the install of the following environment
+
+** Master00 [192.168.0.100] - Our master will host the Web Console, The API service and the ETCd DB.
+*** Labels : Region=*Infra*, Zone=*NA*, schedulable=`*false*`
+** InfraNode00 [192.168.0.101] - The InfraNode0 is to be used only to host "Infrastructure" containers such as the *Registry* and our HAproxy *Router*.
+*** Labels : Region=*Infra*, Zone=*infranode*, schedulable=*true* 
+** Node00 [192.168.0.200] - Part of the Primary Region, Will co-host all the user workloads. 
+*** Labels : Region=*Primary*, Zone=*East*, schedulable=*true*  
+** Node01  [192.168.0.201] - Part of the Primary Region, Will co-host all the user workloads. 
+*** Labels : Region=*Primary*, Zone=*West*, schedulable=*true*
+** oselab  [192.168.0.254] - This server will simulate our corporate DNS server that will point our wildcard entry to our HAproxy *router* (that lives on Infranode)
+*** Not part of the OpenShift Cluster. 
+
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+

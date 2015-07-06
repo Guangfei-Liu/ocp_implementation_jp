@@ -1,0 +1,35 @@
+
+:scrollbar:
+:data-uri:
+== Host Preparation
+
+.Host Preparation - Networking and misc 
+
+* You need to remove NetworkManager 
++
+----
+# yum remove NetworkManager*
+----
+
+* You would need to install the following software packages 
+* You would need to install the following software packages 
++
+----
+# yum install wget git net-tools bind-utils iptables-services bridge-utils python-virtualenv gcc
+----
+
+*  Update your software before installation
++
+----
+# yum update -y 
+----
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+
+

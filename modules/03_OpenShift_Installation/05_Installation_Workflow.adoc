@@ -1,0 +1,30 @@
+
+:scrollbar:
+:data-uri:
+== Installation Workflow
+
+* Prerequisites 
+
+** System Requirements
+** DNS Setup
+** Host Preparation
+
+* OpenShift Installation 
+
+** Downloading and Running the Installation Utility
+
+* Post-Install tasks
+
+** Deploy an integrated Docker registry.
+** Deploy an HAProxy router.
+** Populate your OpenShift installation with image streams and templates.
+** Configure authentication and create project for your users.
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+
+
+
+

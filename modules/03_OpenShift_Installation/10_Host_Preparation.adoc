@@ -1,0 +1,34 @@
+
+:scrollbar:
+:data-uri:
+== Host Preparation
+.Host Preparation - Networking 
+
+* Network needs to be configured and nodes need access to each other
+* Ports 
+** Node-To-Node 
+*** 4789 : required between nodes for SDN communication between pods on separate hosts
+
+** Nodes-To-Master 
+*** 53: On openshift master server. Which provides DNS services within the environment
+*** 4789 : required between nodes for SDN communication between pods on separate hosts
+*** 8443/443 : Access to the API   
+
+** Master-To-Node
+*** 10250 : on the minons(Kublet), accepts requests ensure state of pods is healthy etc
+*** 4789 : required between nodes for SDN communication between pods on separate hosts
+
+** Master to Master 
+*** 4789 : required between nodes for SDN communication between pods on separate hosts
+
+** External - Master 
+*** 8443: To allow API updates via cli, GUI or REST.  eg provisioning of new pods or application,deployment rollout, Using the remote client
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+

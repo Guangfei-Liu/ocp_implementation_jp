@@ -1,0 +1,29 @@
+
+:scrollbar:
+:data-uri:
+== Prerequisites
+
+.System Requirements
+
+* The following are the recommended system requirements for an OpenShift deployment.
+
+* Masters
+** Physical or virtual system
+** Base OS: Red Hat Enterprise Linux (RHEL) 7.1 with "Minimal" installation option
+** 2 vCPU
+** Minimum 8 GB RAM
+** Minimum 30 GB hard disk space
+
+* Nodes
+
+** Physical or virtual system, or an instance running on a public IaaS
+** Base OS: Red Hat Enterprise Linux (RHEL) 7.1 with "Minimal" installation option
+** Docker 1.6 or later
+** 1 vCPU
+** Minimum 8 GB RAM
+** Minimum 15 GB hard disk space
+
+* In our learning environment the servers are not configured with the recommended settings to lower costs.
+
+endif::showscript[]
+

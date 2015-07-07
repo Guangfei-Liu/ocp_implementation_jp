@@ -49,13 +49,16 @@ Module 03 : OpenShift Installation
 
 Module 04 : Resource Management 
 	Topic		: OpenShift Resources
-	Topic		: Projects and Quotas
-	Topic 	: Scaling with Replication Controllers
+	Topic		: Projects and Users
+	Topic 	: Resource Quota
 	Topic		: Services and Routes
+	Topic		: Scaling with Replication Controllers
 	Lab 		: Users, Projects and Quotas
-	Lab 		: Services and Routes	
+	Lab 		: Creating Services and Routes
 	Lab 		: Deployment Configuration and Replication Controllers
 	
+	
+
 
 Module 05 : The STI Build Method
 	Topic		: STI Overview

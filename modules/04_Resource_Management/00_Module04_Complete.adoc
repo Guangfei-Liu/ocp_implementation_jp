@@ -37,7 +37,6 @@ Module 04 : Resource Management
 * Deployment Configuration
 * Replication Controllers
 * Lab: Users, Projects and Quotas
-* Lab: Projects, Users and Quotas
 * Lab: Creating Services and Routes
 * Lab: Deployment Configuration and Replication Controllers
 

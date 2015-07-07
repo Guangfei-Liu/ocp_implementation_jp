@@ -7,7 +7,52 @@
 
 == Resource Management
 
-=== Connect to the Environment
+In this module we have the following labs: 
+
+* Lab: Configure Authentication
+* Lab: Users, Projects and Quotas
+* Lab: Creating Services and Routes
+* Lab: Deployment Configuration and Replication Controllers
+
+
+=== Lab Environment Architecture and Important Information
+
+The lab environment consists of 4 VMs:
+
+* `oselab-GUID.oslab.opentlc.com` (administration host)
+
+* `master00-GUID.oslab.opentlc.com` (master host, contains Etcd and the management console)
+
+* `infranode00-GUID.oslab.opentlc.com` (infranode host, Will run our infrastructure containers: Registry and Router)
+
+* `node00-GUID.oslab.opentlc.com` (node host, Region: Primary, Zone: East. )
+
+* `node01-GUID.oslab.opentlc.com` (node host, Region: Primary, Zone: West. )
+
+[NOTE]
+As a reminder you will only be allowed to SSH to the administration host from the outside of the lab environment, all other hosts have external SSH blocked.  Once on the administration host, you can SSH to the other hosts internally.  As described earlier, you will have to use your private SSH key and OPENTLC login to access the system (not root!).
+
+Each student lab is assigned a global unique identifier (GUID) that consists of 4 characters.  This GUID is provided to you in the provisioning email that will be sent to you when you provision your lab environment.  *Anywhere you see GUID from this point on, you will replace it with your lab's GUID.*
+
+*In each lab step take special care to make sure that you are running the step on the required host.  Each step should contain the name of the host to run the step on and the example code should contain the host name in the shell prompt.*
+
+* Administration host example:
++
+----
+
+[root@oselab-GUID ~]# command
+
+----
+
+* Master host example:
++
+----
+
+[root@master00-GUID ~]# command
+
+----
+
+== Connect to the Environment
 
 . If not already connected, connect to your administration host `oselab-GUID.oslab.opentlc.com` using your OPENTLC login and private SSH key:
 +
@@ -34,30 +79,58 @@ root@master00-GUID.oslab.opentlc.com's password: ******** (r3dh4t1!)
 
 ----
 
-=== Get the Training Repo
+== Lab: Configure Authentication
 
-. On the master host download the training repo to root's home directory:
+. Edit your `/etc/openshift/master/master-config.yml` so that the oauthConfig section look like this:
+
+----
+oauthConfig:
+  assetPublicURL: https://master00-2642.oslab.opentlc.com:8443/console/
+  grantConfig:
+    method: auto
+  identityProviders:
+  - name: htpasswd_auth
+    challenge: true
+    login: true
+    provider:
+      apiVersion: v1
+      kind: HTPasswdPasswordIdentityProvider
+      file: /etc/openshift/openshift-passwd
+  masterPublicURL: https://master00-2642.oslab.opentlc.com:8443
+  masterURL: https://master00-2642.oslab.opentlc.com:8443
+  sessionConfig:
+    sessionMaxAgeSeconds: 3600
+    sessionName: ssn
+    sessionSecretsFile:
+  tokenConfig:
+    accessTokenMaxAgeSeconds: 86400
+    authorizeTokenMaxAgeSeconds: 500
+
+----
+
+. Restart `openshift-master` for changes to take effect
 +
 ----
-
-[root@master00-GUID ~]# cd;git clone https://github.com/openshift/training.git
-
+[root@master00-GUID ~]# systemctl restart openshift-master
 ----
+   
+          
+== Lab: Users, Projects and Quotas
 
 === Add Development Users
 
 In the "real world" your developers would likely be using the OpenShift tools on
-their own machines (`osc` and the web console). For this course, we
-will create user accounts for two non-privileged users of OpenShift, *joe* and
-*alice*, on the master. This is done for convenience and because we'll be using
+their own machines (`oc` and the web console). For this course, we
+will create user accounts for two non-privileged users of OpenShift, *andrew* and
+*marina*, on the master. This is done for convenience and because we'll be using
 `htpasswd` for authentication.
 
 . On the master host add two Linux accounts:
 +
 ----
 
-[root@master00-GUID ~]# useradd joe
-[root@master00-GUID ~]# useradd alice
+[root@master00-GUID ~]# useradd andrew
+[root@master00-GUID ~]# useradd marina
 
 ----
 
@@ -81,67 +154,27 @@ To start, we will need the `htpasswd` binary available in the `httpd-tools` pack
 ----
 
 [root@master00-GUID ~]# touch /etc/openshift/openshift-passwd
-[root@master00-GUID ~]# htpasswd -b /etc/openshift/openshift-passwd joe r3dh4t1!
-[root@master00-GUID ~]# htpasswd -b /etc/openshift/openshift-passwd alice r3dh4t1!
-
+[root@master00-GUID ~]# htpasswd -b /etc/openshift/openshift-passwd andrew r3dh4t1!
+[root@master00-GUID ~]# htpasswd -b /etc/openshift/openshift-passwd marina r3dh4t1!
+								
 ----
 
-The OpenShift configuration is kept in a YAML file which currently lives at
-`/etc/openshift/master/master-config.yaml`. By default Ansible is configured to edit
-the `oauthConfig`'s `identityProviders` stanza so that it looks like the following:
+=== Create Projects
 
-    identityProviders:
-    - challenge: true
-      login: true
-      name: htpasswd_auth
-      provider:
-        apiVersion: v1
-        file: /etc/openshift/openshift-passwd
-        kind: HTPasswdPasswordIdentityProvider
-
-[NOTE]
-More information on these configuration settings (and other identity providers) can be found at http://docs.openshift.org/latest/admin_guide/configuring_authentication.html#HTPasswdPasswordIdentityProvider
-
-== Projects
-
-OpenShift 3 has a concept of "projects" to contain a number of different resources:
-services and their pods, builds and so on. They are somewhat similar to
-"namespaces" in OpenShift v2. We'll explore what this means in more details
-throughout the rest of the labs. Let's create a project for our first
-application.
-
-We also need to understand a little bit about users and administration. The
-default configuration for CLI operations currently is to be the `master-admin`
-user, which is allowed to create projects. We can use the "admin"
-
-. On the master host use the `osadm` command to create a project, and assign an administrative user to it:
+. On the master host use the `oadm` command to create a project, and assign an administrative user to it:
 +
 ----
 
-[root@master00-GUID ~]# osadm new-project demo --display-name="OpenShift 3 Demo" \
-    --description="This is the first demo project with OpenShift v3" \
-    --admin=joe
+[root@master00-GUID ~]# oadm new-project resourcemanageme --display-name="Resources Management" \
+    --description="This is the project we use to learn about resource management" \
+    --admin=andrew
 
 ----
 
-This command creates a project:
-
-* with the id `demo`
-
-* with a display name
-
-* with a description
-
-* with an administrative user `joe` who can login with the password defined by
-    htpasswd
-
-Future use of command line statements will have to reference this project in
-order for things to land in the right place.
+=== A look at resources in the Web Console 
 
 Now that you have a project created, it's time to look at the web console, which
 has been completely redesigned for V3.
-
-== Web Console
 
 . Open your desktop/laptop web browser and visit the following URL:
 +
@@ -159,77 +192,50 @@ any time you restart the master.
 certificate.
 
 . You will be asked for a username and a password. Remembering
-that we created a user previously, `joe`, go ahead and enter that and use
+that we created a user previously, `andrew`, go ahead and enter that and use
 the password (`r3dh4t1!`) you set earlier.
 
-. Once you are in, click the *OpenShift 3 Demo* project. There really isn't
+. Once you are in, click the *"Resources Management"* project. There really isn't
 anything of interest at the moment, because we haven't put anything into our
 project.
 
-== Resources
 
-There are a number of different resource types in OpenShift 3, and, essentially,
-going through the motions of creating/destroying apps, scaling, building and
-etc. all ends up manipulating OpenShift and Kubernetes resources under the
-covers. Resources can have quotas enforced against them, so let's take a moment
-to look at some example JSON for project resource quota might look like:
+=== Applying Quota to Projects
 
-    {
-      "apiVersion": "v1beta3",
-      "kind": "ResourceQuota",
-      "metadata": {
-        "name": "test-quota"
-      },
-      "spec": {
-        "hard": {
-          "memory": "512Mi",
-          "cpu": "200m",
-          "pods": "3",
-          "services": "3",
-          "replicationcontrollers": "3",
-          "resourcequotas": "1"
-        }
-      }
-    }
-
-The above quota (simply called *test-quota*) defines limits for several
-resources. In other words, within a project, users cannot "do stuff" that will
-cause these resource limits to be exceeded. Since quota is enforced at the
-project level, it is up to the users to allocate resources (more specifically,
-memory and CPU) to their pods/containers. OpenShift will soon provide sensible
-defaults.
-
-* Memory
-
-    The memory figure is in bytes, but various other suffixes are supported (eg:
-    Mi (mebibytes), Gi (gibibytes), etc.
-
-* CPU
-
-    CPU is a little tricky to understand. The unit of measure is actually a
-    "Kubernetes Compute Unit" (KCU, or "kookoo"). The KCU is a "normalized" unit
-    that should be roughly equivalent to a single hyperthreaded CPU core.
-    Fractional assignment is allowed. For fractional assignment, the
-    **m**illicore may be used (eg: 200m = 0.2 KCU)
-
-More details on CPU will come in later betas and documentation.
-
-We will get into a description of what pods, services and replication
-controllers are over the next few labs. Lastly, we can ignore "resourcequotas",
-as it is a bit of a trick so that Kubernetes doesn't accidentally try to apply
-two quotas to the same namespace.
-
-== Applying Quota to Projects
-
-At this point we have created our "demo" project, so let's apply the quota above
+At this point we have created our "Resource Management" project, so let's apply the quota above
 to it. 
 
-. On the master host apply a file called `quota.json` from the training repo cloned earlier using the `osc create` command:
+. Create a Quota definition file 
++
+[source,json]
+----
+[root@master00-GUID ~]# cat << EOF > quota.json
+{
+  "apiVersion": "v1",
+  "kind": "ResourceQuota",
+  "metadata": {
+    "name": "quota"
+  },
+  "spec": {
+    "hard": {
+      "memory": "1Gi",
+      "cpu": "20",
+      "pods": "3",
+      "services": "5",
+      "replicationcontrollers":"5",
+      "resourcequotas":"1"
+    }
+  }
+}
+EOF
+
+----
+
+. On the master host apply a file called `quota.json` from the training repo cloned earlier using the `oc create` command:
 +
 ----
 
-[root@master00-GUID ~]# cd /root/training/beta4
-[root@master00-GUID beta4]# oc create -f quota.json --namespace=demo
+[root@master00-GUID ~]# oc create -f quota.json --namespace=resourcemanageme
 
 ----
 
@@ -237,7 +243,7 @@ to it.
 +
 ----
 
-[root@master00-GUID beta4]# osc get -n demo quota
+[root@master00-GUID ~]# oc get -n resourcemanageme quota
 
 ----
 +
@@ -252,7 +258,7 @@ test-quota
 +
 ----
 
-[root@master00-GUID beta4]# osc describe quota test-quota -n demo
+[root@master00-GUID ~]# oc describe quota test-quota -n resourcemanageme
 
 ----
 +
@@ -270,7 +276,7 @@ services                0       3
 
 ----
 
-. Go back into the web console and click into the "OpenShift 3 Demo"
+. Go back into the web console and click into the "Resource Management"
 project.
 
 . Click on the *Settings* tab and you'll see that the quota information
@@ -289,11 +295,58 @@ both a pod and container level. Without default values for containers projects
 with quotas will fail because the deployer and other infrastructure pods are
 unbounded and therefore forbidden.
 
-. On the master host run `osc create` against the `limits.json` file in the training folder:
+. Create the Limits file 
++
+----
+[root@master00-GUID ~]# cat << EOF > limits.json
+{
+    "kind": "LimitRange",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "limits",
+        "creationTimestamp": null
+    },
+    "spec": {
+        "limits": [
+            {
+                "type": "Pod",
+                "max": {
+                    "cpu": "500m",
+                    "memory": "750Mi"
+                },
+                "min": {
+                    "cpu": "10m",
+                    "memory": "5Mi"
+                }
+            },
+            {
+                "type": "Container",
+                "max": {
+                    "cpu": "500m",
+                    "memory": "750Mi"
+                },
+                "min": {
+                    "cpu": "10m",
+                    "memory": "5Mi"
+                },
+                "default": {
+                    "cpu": "100m",
+                    "memory": "100Mi"
+                }
+            }
+        ]
+    }
+}
+EOF
+
+
+----
+
+. On the master host run `oc create` against the `limits.json` file and the "resourcemanageme" project
 +
 ----
 
-[root@master00-GUID beta4]# osc create -f limits.json --namespace=demo
+[root@master00-GUID ~]# oc create -f limits.json --namespace=resourcemanageme
 
 ----
 
@@ -301,7 +354,7 @@ unbounded and therefore forbidden.
 +
 ----
 
-[root@master00-GUID beta4]# osc describe limitranges limits -n demo
+[root@master00-GUID ~]# oc describe limitranges limits -n resourcemanageme
 
 ----
 +
@@ -316,5 +369,465 @@ Container       cpu             10m     500m    100m
 Container       memory          5Mi     750Mi   100Mi
 
 ----
+
+=== Test your Quotas
+
+.Authenticate to OpenShift Enterprise and Choose Your Project
+
+. Connect to the OpenShift Enterprise master by following the same steps you used previously.
+. Authenticate user `andrew` to Openshift Enterprise and create a token in the `.config/openshift/.config` file:
++
+----
+
+[root@master00~]# su - andrew
+[andrew@master00~]$ oc login -u andrew --insecure-skip-tls-verify --server=https://master00-${GUID}.oslab.opentlc.com:8443
+
+----
++
+You will See
++
+----
+Password: (Enter r3dh4t1!)
+Login successful.
+Welcome to OpenShift! See 'oc help' to get started.
+----
+
+
+.Create the Pod Definition
+
+Run the following command to create the `hello-pod.json` file:
+
+----
+
+[andrew@master00~]$ cat <<EOF > hello-pod.json
+{
+  "kind": "Pod",
+  "apiVersion": "v1beta3",
+  "metadata": {
+    "name": "hello-openshift",
+    "creationTimestamp": null,
+    "labels": {
+      "name": "hello-openshift"
+    }
+  },
+  "spec": {
+    "containers": [
+      {
+        "name": "hello-openshift",
+        "image": "openshift/hello-openshift:v0.4.3",
+        "ports": [
+          {
+            "hostPort": 36061,
+            "containerPort": 8080,
+            "protocol": "TCP"
+          }
+        ],
+        "resources": {
+          "limits": {
+            "cpu": "10m",
+            "memory": "16Mi"
+          }
+        },
+        "terminationMessagePath": "/dev/termination-log",
+        "imagePullPolicy": "IfNotPresent",
+        "capabilities": {},
+        "securityContext": {
+          "capabilities": {},
+          "privileged": false
+        },
+        "nodeSelector": {
+          "region": "primary"
+        }
+      }
+    ],
+    "restartPolicy": "Always",
+    "dnsPolicy": "ClusterFirst",
+    "serviceAccount": ""
+  },
+  "status": {}
+}
+EOF
+
+----
+
+.Run the Pod
+
+We will now create a simple pod without a *route* or a *service*
+ 
+. Run the following commands to create and verify the pod:
++
+----
+
+[andrew@master00~]$ oc create -f hello-pod.json
+pods/hello-openshift
+
+[andrew@master00-3186 ~]$ oc get pods
+NAME              READY     REASON    RESTARTS   AGE
+hello-openshift   1/1       Running   0          2m
+
+----
+
+. Run the *oc describe* command to learn about your pod.
++
+----
+[andrew@master00-f4fc ~]$  oc describe pod hello-openshift
+Name:                           hello-openshift
+Image(s):                       openshift/hello-openshift:v0.4.3
+Host:                           node01-f4fc.oslab.opentlc.com/192.168.0.201
+Labels:                         name=hello-openshift
+Status:                         Running
+IP:                             10.1.1.2
+Replication Controllers:        <none>
+Containers:
+  hello-openshift:
+    Image:              openshift/hello-openshift:v0.4.3
+    State:              Running
+      Started:          Thu, 02 Jul 2015 02:42:50 -0400
+    Ready:              True
+    Restart Count:      0
+Conditions:
+  Type          Status
+  Ready         True 
+Events:
+  .... "Successfully assigned hello-openshift to node01-f4fc.oslab.opentlc.com" .... 
+ 
+----
++
+. Test that your pod is responding with "Hello OpenShift"
++
+----
+
+[andrew@master00 ~]$ curl http://10.1.0.4:8080 # The IP will be replaced with your pod IP.
+----
++
+You will see:
++
+----
+Hello OpenShift!
+----
+
+. Great, the pod works, Now, lets kill it and create a few moew 
++
+----
+oc delete -f hello-pod.json 
+----
+
+. Create a new definition file that launches 4 hello-pods 
++
+----
+[andrew@master00~]$ cat << EOF > hello-many-pods.json
+{
+  "metadata":{
+    "name":"quota-pod-deployment-test"
+  },
+  "kind":"List",
+  "apiVersion":"v1",
+  "items":[
+    {
+      "kind": "Pod",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "hello-openshift-1",
+        "creationTimestamp": null,
+        "labels": {
+          "name": "hello-openshift"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "hello-openshift",
+            "image": "openshift/hello-openshift",
+            "ports": [
+              {
+                "containerPort": 8080,
+                "protocol": "TCP"
+              }
+            ],
+            "resources": {
+              "limits": {
+                "cpu": "10m",
+                "memory": "16Mi"
+              }
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "imagePullPolicy": "IfNotPresent",
+            "capabilities": {},
+            "securityContext": {
+              "capabilities": {},
+              "privileged": false
+            }
+          }
+        ],
+        "restartPolicy": "Always",
+        "dnsPolicy": "ClusterFirst",
+        "serviceAccount": ""
+      },
+      "status": {}
+    },
+    {
+      "kind": "Pod",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "hello-openshift-2",
+        "creationTimestamp": null,
+        "labels": {
+          "name": "hello-openshift"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "hello-openshift",
+            "image": "openshift/hello-openshift",
+            "ports": [
+              {
+                "containerPort": 8080,
+                "protocol": "TCP"
+              }
+            ],
+            "resources": {
+              "limits": {
+                "cpu": "10m",
+                "memory": "16Mi"
+              }
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "imagePullPolicy": "IfNotPresent",
+            "capabilities": {},
+            "securityContext": {
+              "capabilities": {},
+              "privileged": false
+            }
+          }
+        ],
+        "restartPolicy": "Always",
+        "dnsPolicy": "ClusterFirst",
+        "serviceAccount": ""
+      },
+      "status": {}
+    },
+    {
+      "kind": "Pod",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "hello-openshift-3",
+        "creationTimestamp": null,
+        "labels": {
+          "name": "hello-openshift"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "hello-openshift",
+            "image": "openshift/hello-openshift",
+            "ports": [
+              {
+                "containerPort": 8080,
+                "protocol": "TCP"
+              }
+            ],
+            "resources": {
+              "limits": {
+                "cpu": "10m",
+                "memory": "16Mi"
+              }
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "imagePullPolicy": "IfNotPresent",
+            "capabilities": {},
+            "securityContext": {
+              "capabilities": {},
+              "privileged": false
+            }
+          }
+        ],
+        "restartPolicy": "Always",
+        "dnsPolicy": "ClusterFirst",
+        "serviceAccount": ""
+      },
+      "status": {}
+    },
+    {
+      "kind": "Pod",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "hello-openshift-4",
+        "creationTimestamp": null,
+        "labels": {
+          "name": "hello-openshift"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "hello-openshift",
+            "image": "openshift/hello-openshift",
+            "ports": [
+              {
+                "containerPort": 8080,
+                "protocol": "TCP"
+              }
+            ],
+            "resources": {
+              "limits": {
+                "cpu": "10m",
+                "memory": "16Mi"
+              }
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "imagePullPolicy": "IfNotPresent",
+            "capabilities": {},
+            "securityContext": {
+              "capabilities": {},
+              "privileged": false
+            }
+          }
+        ],
+        "restartPolicy": "Always",
+        "dnsPolicy": "ClusterFirst",
+        "serviceAccount": ""
+      },
+      "status": {}
+    }
+  ]
+}
+
+
+EOF 
+
+----
+
+. Create the items in the *hello-many-pods.json* file
++
+----
+[andrew@master00~]$ oc create -f hello-many-pods.json
+pods/hello-openshift-1
+pods/hello-openshift-2
+pods/hello-openshift-3
+Error from server: Pod "hello-openshift-4" is forbidden: Limited to 3 pods
+----
+
+. Lets delete the objects and move on
++
+----
+[andrew@master00~]$ oc delete  -f hello-many-pods.json
+----
+
+. *Optional* - Using what you have learned, remove the quota from the project, change the pods value to 10 and run the *hello-many-pods.json* again.
+
+== Lab: Creating Services and Routes
+
+. Run the following command to create the `hello-service.json` file:
++
+----
+
+[andrew@master00 ~]$  cat <<EOF > hello-service.json
+		{
+	  "kind": "Service",
+	  "apiVersion": "v1",
+	  "metadata": {
+	    "name": "hello-service"
+	  },
+	  "spec": {
+	    "selector": {
+	      "name":"hello-openshift"
+	    },
+	    "ports": [
+	      {
+	        "protocol": "TCP",
+	        "port": 8888,
+	        "targetPort": 8080
+	      }
+	    ]
+	  }
+	}
+EOF
+
+----
++
+. Run the following commands to create and verify the pod:
++
+----
+
+[andrew@master00 ~]$ oc create -f hello-service.json
+Hello-openshift
+----
++
+. Display the running services (under the current project)
++
+----
+[andrew@master00 ~]$ oc get services
+NAME            LABELS    SELECTOR               IP(S)          PORT(S)
+hello-service   <none>    name=hello-openshift   172.30.5.240   8888/TCP
+----
++
+. Lets look at the details of our service, Please notice the *selector* and the *Endpoints* lines.
+.. The *selector* describes which pods should be "selected" or "listed" by the service.
+.. The *Endpoints* line lists all the pods that are currently listed, notice that we have none.   
++
+----
+[andrew@master00 ~]$ oc describe service hello-service
+Name:                   hello-service
+Labels:                 <none>
+Selector:               name=hello-openshift
+Type:                   ClusterIP
+IP:                     172.30.5.240
+Port:                   <unnamed>       8888/TCP
+Endpoints:              <none>
+Session Affinity:       None
+No events.
+----
+
+. Lets create some pods 
+----
+[andrew@master00 ~]$ oc create -f hello-many-pods.json
+----
+
+. Now lets check the service again, you can see that the pods who share the label "name=hello-service" are all listed.
++
+----
+[andrew@master00 ~]$ oc get service
+NAME            LABELS    SELECTOR               IP(S)          PORT(S)
+hello-service   <none>    name=hello-openshift   172.30.5.240   8888/TCP
+[andrew@master00 ~]$ oc describe service hello-service                                                                                                                                                
+Name:                   hello-service
+Labels:                 <none>
+Selector:               name=hello-openshift
+Type:                   ClusterIP
+IP:                     172.30.5.240
+Port:                   <unnamed>       8888/TCP
+Endpoints:              10.1.0.4:8080,10.1.1.5:8080,10.1.1.7:8080
+Session Affinity:       None
+No events.
+----
+
+. Lets test our service 
++
+----
+[andrew@master00 ~]$ curl http://172.30.5.240:8888
+
+----
+cat << EOF > hello-route.json
+   {
+      "kind": "Route",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "hello-openshift-route"
+      },
+      "spec": {
+        "host": "hello-openshift.cloudapps-$GUID.oslab.opentlc.com",
+        "to": {
+          "name": "hello-openshift-service"
+        },
+        "tls": {
+          "termination": "edge"
+        }
+      }
+}
+
+EOF
+
 
 

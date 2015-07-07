@@ -37,15 +37,15 @@ Module 03 : OpenShift Installation
 	Topic		: Installation Overview
 	Topic		: Prepare your Hosts
 	Topic		: Installation Methods 
-	Topic		: Authentication 
-	Topic		: Web UI
 	Topic 	: Scheduler - Regions and Zones
-	Topic 	: High Availability Deployments.  
-	Lab : Install OpenShift Using Ansible
-	Lab : Add Nodes
+	Topic 	: High Availability Deployments.
+	Topic 	: Deploying The Registry and Router
+	Topic 	: Populating OpenShift
+	Lab : Install OpenShift Using the installer
 	Lab : Regions and Zones
+	Lab : The Registy and Router
 	Lab : Deploy The "Router" and "Registry" Containers
-	
+	Lab : Populating OpenShift  
 
 Module 04 : Resource Management 
 	Topic		: OpenShift Resources

@@ -242,4 +242,18 @@ docker pull registry.access.redhat.com/openshift3/ruby-20-rhel7
 
 
 
+Disabling Self-provisioning
+
+Deleting the self-provisioners cluster role binding will deny permissions for self-provisioning any new projects.
+ When disabling self-provisioning, 
+ set the projectRequestMessage parameter in the master-config.yaml file instructing developers on how to request a new project. 
+ This parameter is a string that will be presented to the developer in the web console and command line when they attempt to self-provision a project. For example:
+
+Contact your system administrator at projectname@example.com to request a project.
+
+
+
+
+
+
 

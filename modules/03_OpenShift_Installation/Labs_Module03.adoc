@@ -992,3 +992,116 @@ window:
 [NOTE]
 You will want to do this on the other nodes, but you won't need the
 `openshift-master` service. You may also wish to watch the Docker logs, too.
+
+= The Registy and Router
+
+In the scenario we are simulating in the lab, we are using *Infranode00* as the target for both the *registry* and the *default router*.  
+
+. make the master unschedulable"
++
+----
+[root@master00-GUID ~]# oadm manage-node master00-$GUID.oslab.opentlc.com  --schedulable=false 
+master00-2642.oslab.opentlc.com   kubernetes.io/hostname=master00-2642.oslab.opentlc.com,region=infra,zone=na   Ready,SchedulingDisabled
+----
+
+. Checkout the output of *oc get nodes*
++
+----
+ oc get nodes
+NAME                                 LABELS                                                                                   STATUS
+infranode00-2642.oslab.opentlc.com   kubernetes.io/hostname=infranode00-2642.oslab.opentlc.com,region=infra,zone=infranodes   Ready
+master00-2642.oslab.opentlc.com      kubernetes.io/hostname=master00-2642.oslab.opentlc.com,region=infra,zone=na              Ready,SchedulingDisabled
+node00-2642.oslab.opentlc.com        kubernetes.io/hostname=node00-2642.oslab.opentlc.com,region=primary,zone=east            Ready
+node01-2642.oslab.opentlc.com        kubernetes.io/hostname=node01-2642.oslab.opentlc.com,region=primary,zone=west            Ready
+
+
+----
+
+. Deploy the *Registry*
++
+----
+[root@master00-2642 ~]# oadm registry  --credentials=/etc/openshift/master/openshift-registry.kubeconfig  --images='registry.access.redhat.com/openshift3/ose-haproxy-router:v3.0.0.0' --selector='region=infra'
+----
+
+.. You can look at the status of your pod using the following commands:
++
+----
+
+[root@master00-2642 ~]# oc get pods
+NAME                       READY     REASON    RESTARTS   AGE
+docker-registry-1-deploy   0/1       Running   0          6s
+
+... Wait a few seconds ... 
+
+[root@master00-2642 ~]# oc get pods
+NAME                      READY     REASON    RESTARTS   AGE
+docker-registry-1-j6hdu   1/1       Running   0          59s
+
+----
+
+. Deploy the *Default Router*
++
+----
+[root@master00-2642 ~]# oadm router trainingrouter --stats-password='r3dh@t1!' --replicas=1 \   
+--config=/etc/openshift/master/admin.kubeconfig  \ 
+--credentials='/etc/openshift/master/openshift-router.kubeconfig' \
+--images='registry.access.redhat.com/openshift3/ose-haproxy-router:v3.0.0.0' \
+--selector='region=infra' 
+----
+
+. You should see the following output:
++
+----
+deploymentconfigs/trainingrouter
+services/trainingrouter
+----
+
+.. You can look at the status of your pod using the following commands:
++
+----
+[root@master00-2642 ~]# oc get pods
+NAME                      READY     REASON    RESTARTS   AGE
+trainingrouter-1-deploy   0/1       Pending   0          4s
+
+.. Wait a few seconds ..  
+[root@master00-2642 ~]# oc get pods
+NAME                      READY     REASON    RESTARTS   AGE
+trainingrouter-1-22mr1    0/1       Pending   0          2s
+trainingrouter-1-deploy   1/1       Running   0          8s
+
+.. Wait a few seconds ..
+[root@master00-2642 ~]# oc get pods
+NAME                      READY     REASON    RESTARTS   AGE
+trainingrouter-1-22mr1    0/1       Running   0          8s
+trainingrouter-1-deploy   1/1       Running   0          14s
+
+----
+
+.. You would probably also have the Registry pods listed in the output above.
+
+
+= Populating OpenShift
+
+. OpenShift Ships with *Image Streams* and *Templates* you can import, they reside in: `/usr/share/openshift/`
+. Create the core set of image streams, that use the Red Hat Enterprise Linux (RHEL) 7 based images:
++
+----
+oc create -f /usr/share/openshift/examples/image-streams/image-streams-rhel7.json -n openshift
+----
+ 
+
+. Create the core set of database templates:
++
+----
+$ oc create -f /usr/share/openshift/examples/db-templates -n openshift
+----
+
+. To create the core QuickStart templates:
++
+----
+
+$ oc create -f /usr/share/openshift/examples/quickstart-templates -n openshift
+    
+----
+
+NOTE: Some of the  *Image Streams* and *Templates* would have already been installed by the OpenShift installer.

@@ -229,7 +229,7 @@ to it.
 ----
 
 [root@master00-GUID ~]# cd /root/training/beta4
-[root@master00-GUID beta4]# osc create -f quota.json --namespace=demo
+[root@master00-GUID beta4]# oc create -f quota.json --namespace=demo
 
 ----
 

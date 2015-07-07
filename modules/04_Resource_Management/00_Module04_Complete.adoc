@@ -1,1 +1,679 @@
+
+== Title
 :noaudio:
+
+ifdef::revealjs_slideshow[] 
+[#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"] 
+
+
+[#cover-h1] 
+Red Hat OpenShift Enterprise Implementation
+
+[#cover-h2] 
+Resource Management
+
+[#cover-logo] 
+image::{revealjs_cover_image}[] 
+
+endif::[]
+
+
+
+
+
+
+
+== Module Topics
+:noaudio:
+:numbered!:
+
+Module 04 : Resource Management 
+
+* OpenShift Resources
+* Projects and Users
+* Resource Quota
+* Services and Routes
+* Deplpyments 
+* Deployment Configuration
+* Replication Controllers
+* Lab: Users, Projects and Quotas
+* Lab: Projects, Users and Quotas
+* Lab: Creating Services and Routes
+* Lab: Deployment Configuration and Replication Controllers
+
+
+ifdef::showscript[]
+
+=== Transcript
+Welcome to Module 4 of the OpenShift Enterprise Implementation course.
+
+endif::showscript[]
+
+
+
+
+== OpenShift Resources
+* There are a number of different resource types in OpenShift 3.
+* When creating/destroying apps, scaling, building and etc, we are manipulating OpenShift and Kubernetes resources under the covers. 
+* Resources can have quotas enforced against them.
+* OpenShift Enterprise 3.0 includes different resource types
+** Resources in this context can refer to:
+*** Hardware Resources: Memory, CPU, other "platform" resources
+*** OpenShift Resources: Pods, services, replication controllers
+
+
+ifdef::showscript[]
+
+=== Transcript
+OpenShift Enterprise 3.0 includes a number of different resource types.
+
+Actions such as creating and destroying apps, scaling, building, and so on all result in  manipulating OpenShift Enterprise and Kubernetes resources in the background. 
+
+You can enforce quotas against resources. The quota defines limits for multiple resources--for example, in the code sample shown here, the quota called `test-quota` defines limits for several resources. 
+
+Within a project, users cannot run actions that result in exceeding these resource limits. Because the quota is enforced at the project level, it is up to the users to allocate resources--specifically, memory and CPU--to their pods and containers.
+
+Resources in this context can refer not only to memory, CPU, and other "platform" resources, but also to pods, services, and replication controllers. 
+
+endif::showscript[]
+
+
+== Projects and Users
+.Users and User Types
+
+* Users : Interaction with OpenShift is associated with a user. 
+* An OpenShift user object represents an "actor" which may be granted permissions in the system by adding roles to them or to their groups. 
+* Several types of users can exist:
+** *Regular users* - This is the way most interactive OpenShift users will be represented. 
+*** Regular users are created automatically in the system upon first login, or can be created via the API. 
+*** Regular users are represented with the User object. 
+** *System users* - Many of these are created automatically when the infrastructure is defined, mainly for the purpose of enabling the infrastructure to interact with the API securely.
+*** They include a cluster administrator (with access to everything), a per-node user, users for use by routers and registries, and various others. 
+*** There is also an anonymous system user that is used by default for unauthenticated requests. 
++
+----
+For example : system:admin system:openshift-registry system:node:node1.example.com
+----
+ 
+** *Service accounts* - These are special system users associated with projects; 
+*** some are created automatically when the project is first created, 
+*** while project administrators can create more for the purpose of defining access to the contents of each project. 
+*** Service accounts are represented with the ServiceAccount object.
++
+---- 
+For example : system:serviceaccount:default:deployer system:serviceaccount:foo:builder  
+----
+
+* Every user must authenticate in some way in order to access OpenShift. API requests with no authentication or invalid authentication are authenticated as requests by the anonymous system user. Once authenticated, policy determines what the user is authorized to do. 
+
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+
+endif::showscript[]
+
+
+== Projects and Users
+.Concept: "Namespace"
+* A Kubernetes namespace provides a mechanism to scope resources in a cluster. In OpenShift, a project is a Kubernetes namespace with additional annotations.
+* Namespaces provide a unique scope for:
+** Named resources to avoid basic naming collisions.
+** Delegated management authority to trusted users.
+** The ability to limit community resource consumption.
+* Most objects in the system are scoped by namespace, but some are excepted and have no namespace, including nodes and users.
+
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+
+endif::showscript[]
+
+
+
+== Projects and Users
+.What are Projects?
+* A project is a Kubernetes namespace with additional annotations, and is the central vehicle by which access to resources for regular users is managed. 
+* A project allows a community of users to organize and manage their content in isolation from other communities. 
+* Users must be given access to projects by administrators, or if allowed to create projects, automatically have access to their own projects.
+
+* Each project scopes its own set of:
+** *Objects:* Pods, services, replication controllers, etc.
+** *Policies:* Rules for which users can or cannot perform actions on objects.
+** *Constraints:* Quotas for each kind of object that can be limited.
+** *Service accounts:* Service accounts act automatically with designated access to objects in the project.
+
+* Cluster administrators can create projects and delegate administrative rights for the project to any member of the user community. Cluster administrators can also allow developers to create their own projects.
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+
+endif::showscript[]
+
+
+
+== ResourceQuota
+.What is ResourceQuota
+* OpenShift can limit both the number of objects created in a Project , and the total amount of resources requested across objects in a namespace/Project. 
+* This facilitates sharing of a single OpenShift cluster by several teams, each in a Project of their own, as a mechanism of preventing one team from starving another team of cluster resources.
+* A ResourceQuota object enumerates hard resource usage limits per project. 
+** It can limit the total number of a particular type of object that may be created in a project, and the total amount of compute resources that may be consumed by resources in that project.
+
+
+.Usage limits
+|===
+|Resource Name |Description
+|cpu |Total cpu usage across all containers
+|memory |Total memory usage across all containers
+|pods |Total number of pods
+|replicationcontrollers | Total number of replication controllers
+|resourcequotas | Total number of resource quotas
+| services | Total number of services
+| secrets | Total number of secrets
+| persistentvolumeclaims |Total number of persistent volume claims 
+|===
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+
+endif::showscript[]
+
+
+
+== ResourceQuota
+
+.Quota enforcement
+* After a quota is first created in a project, the project restricts the ability to create any new resources that may violate a quota constraint until it has calculated updated usage statistics.
+
+* Once a quota is created and usage statistics are up-to-date, the project accepts the creation of new content. When you create resources, your quota usage is incremented immediately upon the request to create or modify the resource. When you delete a resource, your quota use is decremented during the next full recalculation of quota statistics for the project. As a result, it may take a moment for your quota usage statistics to be reduced to their current observed system value when you delete resources.
+
+* If your modification to a project would exceed a quota usage limit, the action is denied by the server, and an appropriate error message is returned to the end-user. The error explains what quota constraint was violated, and what their currently observed usage stats are in the system. 
+
+ifdef::showscript[]
+
+=== Transcript
+
+
+endif::showscript[]
+
+
+
+== ResourceQuota
+
+.Creating and applying a quota to a project
+
+* Sample quota definition file
+
++
+----
+{
+  "apiVersion": "v1",
+  "kind": "ResourceQuota",
+  "metadata": {
+    "name": "quota" <1>
+  },
+  "spec": {
+    "hard": {
+      "memory": "1Gi", <2>
+      "cpu": "20", <3>
+      "pods": "10", <4>
+      "services": "5", <5>
+      "replicationcontrollers":"5", <6>
+      "resourcequotas":"1" <7>
+    }
+  }
+}
+----
+<1>  The name of this quota document 
+<2>  The total amount of memory consumed across all containers may not exceed 1Gi. 
+<3>  The total number of cpu usage consumed across all containers may not exceed 20 Kubernetes compute units. 
+<4>  The total number of pods in the project 
+<5>  The total number of services in the project 
+<6>  The total number of replication controllers in the project 
+<7>  The total number of resource quota documents in the project 
+
+ifdef::showscript[]
+
+=== Transcript
+
+
+endif::showscript[]
+
+
+
+
+
+
+== ResourceQuota
+
+.Creating and applying a quota to a project
+
+* Apply a quota to a Project
++
+----
+
+$ osc create -f create_quota_def_file.json --namespace=your_project_name
+
+----
+
+ifdef::showscript[]
+
+=== Transcript
+
+
+endif::showscript[]
+
+
+== Services and Routes
+
+.Pods Recap:
+* *Pod* - Application or instance of something
+** Similar to *gear* in OpenShift Enterprise 2.x
+** Reality is more complex - will learn more moving forward
+* Here is a sample Pod definition .json File:
++
+[source,json]
+----
+{
+  "kind": "Pod",
+  "apiVersion": "v1beta3",
+  "metadata": {
+    "name": "hello-openshift",
+    "creationTimestamp": null,
+    "labels": {
+      "name": "hello-openshift"
+    }
+  },
+  "spec": {
+    "containers": [
+      {
+        "name": "hello-openshift",
+        "image": "openshift/hello-openshift:v0.4.3",
+        "ports": [
+          {
+            "hostPort": 36061,
+            "containerPort": 8080,
+            "protocol": "TCP"
+          }
+        ],
+        "resources": {
+          "limits": {
+            "cpu": "10m",
+            "memory": "16Mi"
+          }
+        },
+        "terminationMessagePath": "/dev/termination-log",
+        "imagePullPolicy": "IfNotPresent",
+        "capabilities": {},
+        "securityContext": {
+          "capabilities": {},
+          "privileged": false
+        },
+        "nodeSelector": {
+          "region": "primary"
+        }
+      }
+    ],
+    "restartPolicy": "Always",
+    "dnsPolicy": "ClusterFirst",
+    "serviceAccount": ""
+  },
+  "status": {}
+}
+
+----
+
+ifdef::showscript[]
+
+=== Transcript
+
+In the simplest sense, a *pod* is an application or an instance of something. If you are familiar with OpenShift Enterprise version 2 terminology, a pod is somewhat similar to a *gear*. 
+In reality, pods are more complex, which you will learn as you explore OpenShift Enterprise further.
+
+As shown in the code sample, you use the `oc get pod` command to view pods running in your environment, which is usually your project.
+
+endif::showscript[]
+
+
+
+== Services and Routes
+
+.Services Recap:
+
+* *Service resource* - Defines logical set of pods and policy by which to access them
+* Offers IP and port pair that redirect to the appropriate back ends
+* Label selector determines targeted pod set
+** Service definition tells OpenShift Enterprise that pods with label `name=hello-openshift` are associated and should have traffic distributed among them
+** Service itself is connection to the network or front end to reach all pods
+* Here is a sample *Service* definition *.json* File:
++
+[source,json]
+----
+	{
+	  "kind": "Service",
+	  "apiVersion": "v1beta3",
+	  "metadata": {
+	    "name": "hello-service"
+	  },
+	  "spec": {
+	    "selector": {
+	      "name":"hello-openshift"
+	    },
+	    "ports": [
+	      {
+	        "protocol": "TCP",
+	        "port": 8888,
+	        "targetPort": 8080
+	      }
+	    ]
+	  }
+	}
+----
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+A *service* resource is an abstraction that defines a logical set of pods and a policy that you use to access the pods. The service offers clients an IP and port pair that, when accessed, redirect to the appropriate back ends.
+
+A label selector determines the set of targeted pods.
+
+The definition of the service tells OpenShift Enterprise that any pods with the label `name=hello-openshift` are associated and should have traffic distributed among them.
+
+The service itself is the connection to the network, or front end, to reach all of the pods, though it does not route traffic itself.
+
+
+endif::showscript[]
+
+
+
+
+
+
+== Services and Routes
+.Routes Recap:
+
+* *Routes* - Match FQDN-destined traffic requests to services and pods they represent
+* *Services* - Do not route or load balance between pods
+** Services only provide pod information (IP) to router
+** You may consider a service as a list of IPs and ports of the pods that the service represents
+* *Router container* (not *route*) - An `openshift3/ose-haproxy-router` container that is a preconfigured instance of HAProxy
+** An instance of *Router* container watches a route's resource and updates with changes when required
+* Sample route JSON definition:
++
+[source,json]
+----
+$ oc expose service hello-service --hostname=hello-openshift.cloudapps-$GUID.oslab.opentlc.com
+NAME            HOST/PORT                                 PATH      SERVICE         LABELS
+hello-service   hello-openshift-f4fc.oslab.opentlc.com             hello-service   
+----
+
+* To display the *routes* in your current project
++
+----
+
+[$ oc get routes
+NAME                    HOST/PORT                                          SERVICE                   LABELS
+hello-openshift-route   hello-openshift.cloudapps-GUID.oslab.opentlc.com   hello-openshift-service
+
+----
+
+ifdef::showscript[]
+
+=== Transcript
+
+*Routes* allow FQDN-destined traffic to ultimately reach the pods. The services do not route or load balance between the pods--they only provide the pod information (IP) to the router.
+
+You can consider the service as a list of IPs and ports of the pods that the service represents.
+
+In a simplification of the process, the `openshift3/ose-haproxy-router` container is a preconfigured instance of HAProxy. 
+
+The OpenShift Enterprise instance running in this container watches a route's resource on the OpenShift Enterprise master.
+
+The code sample gives an example of a route JSON definition. You can see it defines certain aspects of the route: its name, the fully qualified domain name, and the service to which the 
+route points. Note that the route actually routes directly to the pods, not to the service. The route gets the pod connection details from the service.
+
+endif::showscript[]
+
+== Routes
+
+* An OpenShift route is a way to announce your service to the world. A route, consumed by a router in conjunction with service endpoints, provides named connectivity from external sources to your applications. Each route provides a name, service selector, and, optionally, security configuration.
+
+* Here is a Route Object Definition:
++
+[source,json]
+----
+{
+  "kind": "Route",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "route-unsecure"
+  },
+  "spec": {
+    "host": "www.example.com",
+    "to": {
+      "kind": "Service",
+      "name": "hello-nginx"
+    }
+  }
+}
+----
+
+* OpenShift routers provide external DNS mapping and load balancing to services over protocols that pass distinguishing information directly to the router. 
+* Routers support the following protocols:
+** HTTP
+** HTTPS
+** WebSockets
+** TLS with SNI
+
+
+== Deployments
+.Deployments Overview
+* A deployment in OpenShift is a replication controller based on a user defined template called a deployment configuration. Deployments are created manually or in response to triggered events.
+* The deployment system provides:
+** A deployment configuration, which is a template for deployments.
+** Triggers that drive automated deployments in response to events.
+** User-customizable strategies to transition from the previous deployment to the new deployment.
+** Rollbacks to a previous deployment.
+** Manual replication scaling.
+* The deployment configuration contains a version number that is incremented each time a new deployment is created from that configuration. In addition, the cause of the last deployment is added to the configuration.
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+
+endif::showscript[]
+
+
+== DeploymentConfig
+.Creating a DeploymentConfig
+
+* A deployment configuration consists of the following key parts:
+** A replication controller template which describes the application to be deployed.
+** The default replica count for the deployment.
+** A deployment strategy which will be used to execute the deployment.
+** A set of triggers which cause deployments to be created automatically.
+** Deployment configurations are deploymentConfig OpenShift API resources which can be managed with the oc command like any other resource. The following is an example of a deploymentConfig resource:
++
+----
+{
+  "kind": "DeploymentConfig",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "frontend"
+  },
+  "spec": {
+    "template": { 1
+      "metadata": {
+        "labels": {
+          "name": "frontend"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "helloworld",
+            "image": "openshift/origin-ruby-sample",
+            "ports": [
+              {
+                "containerPort": 8080,
+                "protocol": "TCP"
+              }
+            ]
+          }
+        ]
+      }
+    }
+    "replicas": 5, <2>
+    "selector": {
+      "name": "frontend"
+    },
+    "triggers": [
+      {
+        "type": "ConfigChange" <3>
+      },
+      {
+        "type": "ImageChange", <4>
+        "imageChangeParams": {
+          "automatic": true,
+          "containerNames": [
+            "helloworld"
+          ],
+          "from": {
+            "kind": "ImageStreamTag",
+            "name": "origin-ruby-sample:latest"
+          }
+        }
+      }
+    ],
+    "strategy": { <5>
+      "type": "Rolling"
+    }
+  }
+}
+----
+
+<1> The replication controller template named frontend describes a simple Ruby application.
+<2> There will be 5 replicas of frontend by default.
+<3> A configuration change trigger causes a new deployment to be created any time the replication controller template changes.
+<4> An image change trigger trigger causes a new deployment to be created each time a new version of the origin-ruby-sample:latest image repository is available.
+<5> The rolling strategy is the default and may be omitted.
+
+ifdef::showscript[]
+
+=== Transcript
+
+
+endif::showscript[]
+
+
+
+== Replication Controllers
+
+. What Are Replication Controllers:
+* A replication controller ensures that a specified number of replicas of a pod are running at all times. If pods exit or are deleted, the replica controller acts to instantiate more up to the desired number. Likewise, if there are more running than desired, it deletes as many as necessary to match the number.
+* The definition of a replication controller consists mainly of:
+** The number of replicas desired (which can be adjusted at runtime).
+** A pod definition for creating a replicated pod.
+** A selector for identifying managed pods.
+* The selector is just a set of labels that all of the pods managed by the replication controller should have. So that set of labels is included in the pod definition that the replication controller instantiates. This selector is used by the replication controller to determine how many instances of the pod are already running in order to adjust as needed.
+
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+
+endif::showscript[]
+
+
+== Replication Controllers
+.Managing replica count with Replication Controllers
+* We can manually adjust the number of *replicas* a pod has by using the *oc scale* command. 
+* It is not the job of the replication controller to perform auto-scaling based on load or traffic, as it does not track either; rather, this would require its replica count to be adjusted by an external auto-scaler.
+* Here is an example ReplicationController definition with some omissions and callouts:
++
+----
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: frontend-1
+spec:
+  replicas: 1  <1>
+  selector:    <2>
+    name: frontend
+  template:    <3>
+    metadata:
+      labels:  <4>
+        name: frontend
+    spec:
+      containers:
+      - image: openshift/hello-openshift
+        name: helloworld
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+      restartPolicy: Always
+----
+<1> The number of copies of the pod to run.
+<2> The label selector of the pod to run.
+<3> A template for the pod the controller creates.
+<4> Labels on the pod should include those from the label selector.
+ifdef::showscript[]
+
+=== Transcript
+
+
+endif::showscript[]
+
+
+== Replication Controllers 
+.Manual scale 
+* 
+* You can scale any DeploymentConfig with the *oc scale dc* command 
++
+----
+$ oc scale dc deploymentconfigname --replicas=3
+----
+
+ifdef::showscript[]
+
+=== Transcript
+
+
+endif::showscript[]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

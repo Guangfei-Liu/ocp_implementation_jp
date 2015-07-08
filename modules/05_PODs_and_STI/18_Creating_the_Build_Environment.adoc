@@ -1,0 +1,60 @@
+
+:scrollbar:
+:data-uri:
+== Creating the Build Environment
+
+* To create build environment and *start the build*, use `oc create` on the .json file created earlier:
++
+----
+$ oc create -f ~/simple-sinatra.json
+----
+
+* This creates:
+** `ImageRepository` entry
+** `BuildConfig`
+** `DeploymentConfig`
+** `Service`
+
+* To review what happened:
++
+----
+$ for i in imagerepository buildconfig deploymentconfig service; do \
+> echo $i; oc get $i; echo -e "\n\n"; done
+imagerepository
+NAME                           DOCKER REPO                                               TAGS
+simple-openshift-sinatra-sti   172.30.17.153:5000/sinatra/simple-openshift-sinatra-sti   
+
+
+
+buildconfig
+NAME                           TYPE      SOURCE
+simple-openshift-sinatra-sti   S2I       https://github.com/openshift/simple-openshift-sinatra-sti.git
+
+
+
+deploymentconfig
+NAME                           TRIGGERS                    LATEST VERSION
+simple-openshift-sinatra-sti   ConfigChange, ImageChange   0
+
+
+
+service
+NAME                       LABELS    SELECTOR                                        IP              PORT(S)
+simple-openshift-sinatra   <none>    deploymentconfig=simple-openshift-sinatra-sti   172.30.17.225   8080/TCP
+
+
+----
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+As shown in the first code sample, you use the `oc create` command to create the build environment and resources. 
+This does not start the build process for your image but creates the required resources discussed previously. 
+These include an `ImageRepository` entry, a `BuildConfig`, a `DeploymentConfig`, and a `Service`.
+
+To review what happened, run the command shown in the second code sample.
+
+endif::showscript[]
+

@@ -1,0 +1,20 @@
+
+:scrollbar:
+:data-uri:
+== Deploying an S2I Build Image
+
+* In basic S2I process, OpenShift Enterprise:
+** Sets up components to build source code into Docker image
+** On command, builds Docker image with source code
+** Deploys Docker image as pod with associated service
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+Essentially, the S2I process is as follows: 
+OpenShift Enterprise sets up various components such that it can build source code into a Docker image. OpenShift Enterprise then, on command, builds the Docker image with the source code. And finally, OpenShift Enterprise deploys the Docker image as a pod with an associated service.
+
+endif::showscript[]
+

@@ -1,0 +1,31 @@
+
+:scrollbar:
+:data-uri:
+== What Is S2I?
+
+* Source-to-Image (S2I) is a tool for building reproducible Docker images. It produces ready-to-run images by injecting a user source into a docker image and assembling a new docker image. 
+** The new image incorporates the base image (the builder) and built source, and is ready to use with the docker run command. 
+** S2I supports incremental builds, which re-use previously downloaded dependencies, previously built artifacts, etc. 
+* Process OpenShift Enterprise uses to build Docker image from base image and application source code
+* Requirements:
+** Code repository
+** Base image (i.e `ruby-20-rhel7` or `php-51-centos7`)
+*** Base images are built in--no need to create
+
+* Docker build vs. S2I build: 
++
+image::images/DockerVsS2IBuilds.png[]
+
+ifdef::showscript[]
+
+=== Transcript
+
+*S2I* stands for Source-to-Image. It is the process OpenShift uses to build a Container image from a base image and your application source code.  
+
+To start an S2I build, your code must reside in a supported code repository and you need a base or builder image, for example `ruby-20-rhel7`, on top of which to start building. These base images are available built in  to OpenShift Enterprise--you do not need to create them yourself.
+
+
+This illustration shows the key differences between a Docker build and an S2I build. 
+
+endif::showscript[]
+

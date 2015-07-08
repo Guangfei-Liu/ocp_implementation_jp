@@ -1,0 +1,20 @@
+:scrollbar:
+:data-uri:
+
+== Create an S2I Build in Web Console
+
+.Enter repository
+
+* Enter build Git repository
+
+image::images/GuiSTLDemo02.png[]
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+Next, enter the Git repository for your build.
+
+endif::showscript[]
+

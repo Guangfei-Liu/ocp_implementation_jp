@@ -1,0 +1,946 @@
+
+:scrollbar:
+:data-uri:
+== &nbsp;
+:noaudio:
+
+ifdef::revealjs_slideshow[] 
+
+[#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"] 
+
+
+[#cover-h1] 
+Red Hat OpenShift Enterprise FASTRAX
+
+[#cover-h2] 
+Creating and Deploying Your First Image
+
+[#cover-logo] 
+image::{revealjs_cover_image}[] 
+
+endif::[]
+
+:data-uri:
+:numbered!:
+
+
+:scrollbar:
+:data-uri:
+== Module Topics
+
+* Concepts
+* Creating an S2I build
+* Deploying an S2I build image	
+
+ifdef::showscript[]
+
+=== Transcript
+
+Welcome to module 5 of the OpenShift Enterprise FASTRAX course.
+
+This module covers the following topics:
+
+* Concepts such as build and deployment automation; the definition of Source-to-Image, or S2I; the build process; the `BuildConfig` object; and build strategies
+* Creating an S2I build, including creating the build file and understanding the various sections of the build file.
+* Deploying an S2I build image, including creating the build environment, starting the build, and using the web console to create an S2I build
+
+
+endif::showscript[]
+
+
+:scrollbar:
+:data-uri:
+== Build and Deployment Automation
+
+* Integrated Docker registry and automated image builds
+* Source code deployments leveraging S2I build automation
+* Binary deployments integrated with existing build and CI infrastructure
+* Configurable deployment patterns--rolling, etc.
+
+ifdef::showscript[]
+
+=== Transcript
+
+The S2I, Source to Image  build is a process in which a developer points to a code repository in any of the supported frameworks and selects a "builder" image that will contain the operating system and framework to support the code.
+
+OpenShift Enterprise then creates an image based on the builder image that contains the selected code.
+
+OpenShift Enterprise offers an integrated Docker registry and automated image builds, enabling both source code deployments leveraging S2I build automation 
+and binary deployments integrated with your existing build and CI infrastructure.
+
+OpenShift Enterprise also offers configurable deployment patterns, which would be covered in future courses.
+
+endif::showscript[]
+
+
+:scrollbar:
+:data-uri:
+== What Is S2I?
+
+* *S2I* - Source-to-Image
+* Process OpenShift Enterprise uses to build Docker image from base image and application source code
+* Requirements:
+** Code repository
+** Base image (i.e `ruby-20-rhel7` or `php-51-centos7`)
+*** Base images are built in--no need to create
+
+* Docker build vs. S2I build: 
++
+image::images/DockerVsS2IBuilds.png[width=426*1.5,height=336*1.5]
+
+ifdef::showscript[]
+
+=== Transcript
+
+*S2I* stands for Source-to-Image. It is the process OpenShift uses to build a Container image from a base image and your application source code.  
+
+To start an S2I build, your code must reside in a supported code repository and you need a base or builder image, for example `ruby-20-rhel7`, on top of which to start building. These base images are available built in  to OpenShift Enterprise--you do not need to create them yourself.
+
+
+This illustration shows the key differences between a Docker build and an S2I build. 
+
+endif::showscript[]
+
+
+:scrollbar:
+:data-uri:
+== The Build Process
+
+* *Build* - Process of transforming input parameters into a resulting object
+* Object depends on builder used to create image
+
+ifdef::showscript[]
+
+=== Transcript
+
+A *build* is a process of transforming input parameters, typically transforming source code into a resulting object, which is typically a run-able image. 
+The resulting object depends on the builder used to create the image.
+
+endif::showscript[]
+
+
+:scrollbar:
+:data-uri:
+== `BuildConfig`
+
+* *`BuildConfig` object* - Definition of the entire build process consisting of:
+** *triggers* - Define policies for invoking builds
+*** *GitHub webhooks* - Specify which repository changes invoke a new build; specific to the GitHub API
+*** *generic webhooks* - Invoke a new build when notified; payload slightly different from GitHub
+*** *image change* - Invoked when new image is available in specified `ImageRepository`
+** *parameters*
+*** `source` - Describes SCM used to locate the sources; supports Git only
+*** `strategy` - Describes invoked build type and build type details
+*** `output` - Describes resulting image name, tag, and registry to which OpenShift Enterprise should push image
+
+ifdef::showscript[]
+
+=== Transcript
+
+The `BuildConfig` object is the definition of the entire build process. 
+It consists of the following elements: the triggers that define policies used to automatically invoke builds and the parameters that point OpenShift Enterprise to your source code and builder image.
+
+The three trigger types include:
+
+* GitHub-specific webhooks, which specify the repository changes, such as a new commit, that invokes a new build. This trigger is specific to the GitHub API.
+* The second trigger type: Generic webhooks, which are similar to GitHub webhooks in that they invoke a new build whenever they receive a notification. 
+* and lastly, Image change, a trigger that is invoked when a new image is available in the specified `ImageRepository` or 'ImageStream'
+
+The three parameter types include:
+
+* `source`, which describes the SCM used to locate the source code. The source parameter currently supports Git only.
+* `strategy`, which describes the build type being invoked, along with build type-specific details.
+* And `output`, which describes the resulting image name, tag, and registry to which OpenShift Enterprise should push the image.
+
+endif::showscript[]
+
+
+:scrollbar:
+:data-uri:
+== Build Strategies
+
+* OpenShift Enterprise build system supports build strategies based on types specified in build API
+* Two strategies supported by default:
+** Docker builds
+*** Invoke `docker build`, expect a repository with a `Dockerfile` and directories required for a Docker build process
+*** Suitable for deploying prebuilt Docker container
+*** Developer, provider, or ops team needs to create Docker image and inject code into it
+** S2I builds
+*** S2I - Tool for building reproducible Docker images
+*** Produces ready-to-run images by injecting user source into Docker image and assembling new Docker image
+*** Created image incorporates base image and built source, ready to use with Docker run
+*** Supports incremental builds that reuse downloaded dependencies, built artifacts, etc.
+
+image::images/DockerVsS2IBuilds.png[width=426*1.5,height=336*1.5]
+
+ifdef::showscript[]
+
+=== Transcript
+
+The OpenShift build system provides extensible support for build strategies based on selectable types specified in the build API. By default, OpenShift Enterprise supports two strategies: Docker builds and S2I builds.
+
+Docker builds invoke the plain `docker build` command, and therefore expect a repository with a `Dockerfile` and all required directories for a Docker build process. This method is suitable for deploying a prebuilt Docker container. With this approach, a developer, provider, or ops team needs to create the Docker image and inject the code into it.
+
+As mentioned earlier, Source-to-Image, or S2I, is a tool for building reproducible Docker images. S2I produces ready-to-run images by injecting a user's source code into an image and assembling a new Docker image. 
+The created image incorporates the base image and built source, S2I supports incremental builds that reuse previously downloaded dependencies, previously built artifacts, and so on.
+
+This module focuses on the S2I build strategy.
+
+
+endif::showscript[]
+
+
+:scrollbar:
+:data-uri:
+== Build Strategies
+
+.S2I Build
+* S2I builds replace OpenShift Enterprise 2.x-like developer experience
+** Developer specifies:
+*** Repository where project is located
+*** Builder image that defines language and framework for writing application
+** S2I assembles new image that runs application defined by source using framework defined by builder image
+
+ifdef::showscript[]
+
+=== Transcript
+
+S2I builds are a replacement for the OpenShift Enterprise Version 2-like developer experience. The developer needs to provide only the repository where the project is located and a builder image, which defines the language and framework used for writing the application. 
+
+S2I then assembles a new image that runs the application defined by the source using the framework defined by the builder image. You can customize the assembly process to fit different approaches. 
+
+endif::showscript[]
+
+
+:scrollbar:
+:data-uri:
+== Creating an S2I Build
+
+* Process of creating S2I build
+** Uses Ruby Sinatra gem as application framework
++
+link:https://github.com/openshift/simple-openshift-sinatra-sti[https://github.com/openshift/simple-openshift-sinatra-sti]
+** Uses S2I build with `ruby-20-rhel7` image
+* Run new image in a pod
+** Create service for the pod
+** Create route for external access
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+This module describes the process of creating an S2I build. It uses Ruby's Sinatra gem, found at the URL shown here, as the application framework to build a simple "Hello World" application. 
+It shows how to create an S2I build with a `ruby-20-rhel7` image.
+
+The module also shows the process of running the new image in a pod, including creating a service for the pod and creating a route for external access.
+
+endif::showscript[]
+
+
+:scrollbar:
+:data-uri:
+== Creating the Build File
+
+* To create the instructions/config, use `oc new-app`:
++
+----
+
+$ oc new-app https://github.com/openshift/simple-openshift-sinatra-sti.git -o json | tee ~/simple-sinatra.json
+
+----
+
+* `oc new-app`:
+** Examines directory tree, remote repo, or other sources
+** Attempts to generate JSON configuration so that OpenShift Enterprise can build image to run
+** Creates service and route to pods
+*** _Does not_ start the build yet
+
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+As shown in the code sample, you use the `oc new-app` command to generate a JSON file that defines your build. 
+`oc new-app` is a tool that examines a directory tree, a remote repo, or other sources and attempts to generate an appropriate JSON configuration so that, 
+after it creates the file, OpenShift can build the resulting image to run.
+
+This also creates a service and a route to the pods, but it does not start the build yet.
+
+You can edit the JSON file before you create the build.
+
+endif::showscript[]
+
+
+:scrollbar:
+:data-uri:
+== The Build File
+
+* Contains some familiar items, some new ones:
+** `BuildConfig`
+** `ImageRepository`
++
+.Generated JSON file
+[source,json]
+----
+{
+    "kind": "List",
+    "creationTimestamp": null,
+    "apiVersion": "v1beta1",
+    "items": [
+        {
+            "kind": "Service",
+            "id": "simple-openshift-sinatra",
+            "creationTimestamp": null,
+            "apiVersion": "v1beta1",
+            "port": 8080,
+            "portName": "simple-openshift-sinatra-sti-tcp-8080",
+            "protocol": "TCP",
+            "containerPort": 8080,
+            "selector": {
+                "deploymentconfig": "simple-openshift-sinatra-sti"
+            },
+            "ports": [
+                {
+                    "name": "simple-openshift-sinatra-sti-tcp-8080",
+                    "protocol": "TCP",
+                    "port": 8080,
+                    "containerPort": 8080
+                }
+            ]
+        },
+        {
+            "kind": "ImageStream",
+            "apiVersion": "v1beta1",
+            "metadata": {
+                "name": "simple-openshift-sinatra-sti",
+                "creationTimestamp": null
+            },
+            "spec": {},
+            "status": {
+                "dockerImageRepository": ""
+            }
+        },
+        {
+            "kind": "BuildConfig",
+            "apiVersion": "v1beta1",
+            "metadata": {
+                "name": "simple-openshift-sinatra-sti",
+                "creationTimestamp": null
+            },
+            "triggers": [
+                {
+                    "type": "github",
+                    "github": {
+                        "secret": "XZEOkRzImL-R0KxqcLEN"
+                    }
+                },
+                {
+                    "type": "generic",
+                    "generic": {
+                        "secret": "4a3d9dqocP2ajk0zYW7q"
+                    }
+                }
+            ],
+            "parameters": {
+                "source": {
+                    "type": "Git",
+                    "git": {
+                        "uri": "https://github.com/openshift/simple-openshift-sinatra-sti.git"
+                    }
+                },
+                "strategy": {
+                    "type": "S2I",
+                    "stiStrategy": {
+                        "builderImage": "registry.access.redhat.com/openshift3_beta/ruby-20-rhel7",
+                        "image": "registry.access.redhat.com/openshift3_beta/ruby-20-rhel7",
+                        "clean": true
+                    }
+                },
+                "output": {
+                    "to": {
+                        "name": "simple-openshift-sinatra-sti"
+                    }
+                }
+            }
+        },
+        {
+            "kind": "DeploymentConfig",
+            "apiVersion": "v1beta1",
+            "metadata": {
+                "name": "simple-openshift-sinatra-sti",
+                "creationTimestamp": null
+            },
+            "triggers": [
+                {
+                    "type": "ConfigChange"
+                },
+                {
+                    "type": "ImageChange",
+                    "imageChangeParams": {
+                        "automatic": true,
+                        "containerNames": [
+                            "simple-openshift-sinatra-sti"
+                        ],
+                        "from": {
+                            "name": "simple-openshift-sinatra-sti"
+                        },
+                        "tag": "latest",
+                        "lastTriggeredImage": ""
+                    }
+                }
+            ],
+            "template": {
+                "strategy": {
+                    "type": "Recreate"
+                },
+                "controllerTemplate": {
+                    "replicas": 1,
+                    "replicaSelector": {
+                        "deploymentconfig": "simple-openshift-sinatra-sti"
+                    },
+                    "podTemplate": {
+                        "desiredState": {
+                            "manifest": {
+                                "version": "v1beta2",
+                                "id": "",
+                                "volumes": null,
+                                "containers": [
+                                    {
+                                        "name": "simple-openshift-sinatra-sti",
+                                        "image": "library/simple-openshift-sinatra-sti:latest",
+                                        "ports": [
+                                            {
+                                                "name": "simple-openshift-sinatra-sti-tcp-8080",
+                                                "containerPort": 8080,
+                                                "protocol": "TCP"
+                                            }
+                                        ],
+                                        "resources": {},
+                                        "imagePullPolicy": "",
+                                        "capabilities": {}
+                                    }
+                                ],
+                                "restartPolicy": {}
+                            }
+                        },
+                        "labels": {
+                            "deploymentconfig": "simple-openshift-sinatra-sti"
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}
+
+----
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+Here you can see the generated JSON file. At this point, it contains some familiar items, and some new ones--specifically, `BuildConfig` and `ImageRepository`. 
+Upcoming slides cover each section of the file.
+
+endif::showscript[]
+
+
+:scrollbar:
+:data-uri:
+== The Build File
+
+.`Service`
+* The *Service* section describes the service to be created to support your built application. 
+* Notice the "ContainerPort" and "Selector" lines. 
+
+// ISSUE: Creating an S2I build Slides: The Build File : .* - Need to add some words in these slide
+
+
+[source,json]
+----
+ "items": [
+        {
+            "kind": "Service",
+            "id": "simple-openshift-sinatra",
+            "creationTimestamp": null,
+            "apiVersion": "v1beta1",
+            "port": 8080,
+            "portName": "simple-openshift-sinatra-sti-tcp-8080",
+            "protocol": "TCP",
+            "containerPort": 8080,
+            "selector": {
+                "deploymentconfig": "simple-openshift-sinatra-sti"
+            },
+            "ports": [
+                {
+                    "name": "simple-openshift-sinatra-sti-tcp-8080",
+                    "protocol": "TCP",
+                    "port": 8080,
+                    "containerPort": 8080
+                }
+            ]
+        },
+
+
+----
+
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+The `Service` section describes the service to be created to support your built application. 
+Notice the "ContainerPort" and "Selector" lines. 
+
+endif::showscript[]
+
+
+:scrollbar:
+:data-uri:
+== The Build File
+
+.`ImageStream`
+
+* The *ImageStream* section describes the *ImageStream* resource to be created to support your built application.
+* Using *ImageStreams* lets your OpenShift "listen" or "poll" for changes in the image, such as security patches, and rebuild when a change like this occurs.
+
+[source,json]
+----
+
+  {
+            "kind": "ImageStream",
+            "apiVersion": "v1beta1",
+            "metadata": {
+                "name": "simple-openshift-sinatra-sti",
+                "creationTimestamp": null
+            },
+            "spec": {},
+            "status": {
+                "dockerImageRepository": ""
+            }
+        },
+
+----
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+The `ImageStream` section describes the `ImageStream` resource to be created to support your built application.
+
+Using `ImageStreams` lets your OpenShift "listen" or "poll" for changes in the image, such as security patches, and rebuild when a change like this occurs.
+
+endif::showscript[]
+
+
+:scrollbar:
+:data-uri:
+== The Build File
+
+.`BuildConfig`
+
+* In the `BuildConfig` section, you define both the triggers you can use to start a "rebuild" of your application and the parameters that define the repository and the builder image that the build process uses.
+
+[source,json]
+----
+{
+            "kind": "BuildConfig",
+            "apiVersion": "v1beta1",
+            "metadata": {
+                "name": "simple-openshift-sinatra-sti",
+                "creationTimestamp": null
+            },
+            "triggers": [
+                {
+                    "type": "github",
+                    "github": {
+                        "secret": "XZEOkRzImL-R0KxqcLEN"
+                    }
+                },
+                {
+                    "type": "generic",
+                    "generic": {
+                        "secret": "4a3d9dqocP2ajk0zYW7q"
+                    }
+                }
+            ],
+            "parameters": {
+                "source": {
+                    "type": "Git",
+                    "git": {
+                        "uri": "https://github.com/openshift/simple-openshift-sinatra-sti.git"
+                    }
+                },
+                "strategy": {
+                    "type": "S2I",
+                    "stiStrategy": {
+                        "builderImage": "registry.access.redhat.com/openshift3_beta/ruby-20-rhel7",
+                        "image": "registry.access.redhat.com/openshift3_beta/ruby-20-rhel7",
+                        "clean": true
+                    }
+                },
+                "output": {
+                    "to": {
+                        "name": "simple-openshift-sinatra-sti"
+                    }
+                }
+            }
+        },
+
+
+----
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+In the `BuildConfig` section, you define both the triggers you can use to start a "rebuild" of your application and the parameters that define the repository and the builder image that the build process uses.
+
+endif::showscript[]
+
+
+:scrollbar:
+:data-uri:
+== The Build File
+
+.`DeploymentConfig`
+
+* In the `DeploymentConfig` section, you define more triggers that can start a "rebuild" of your image.
+
+[source,json]
+----
+
+"kind": "DeploymentConfig",
+            "apiVersion": "v1beta1",
+            "metadata": {
+                "name": "simple-openshift-sinatra-sti",
+                "creationTimestamp": null
+            },
+            "triggers": [
+                {
+                    "type": "ConfigChange"
+                },
+                {
+                    "type": "ImageChange",
+                    "imageChangeParams": {
+                        "automatic": true,
+                        "containerNames": [
+                            "simple-openshift-sinatra-sti"
+                        ],
+                        "from": {
+                            "name": "simple-openshift-sinatra-sti"
+                        },
+                        "tag": "latest",
+                        "lastTriggeredImage": ""
+                    }
+                }
+
+----
+
+ifdef::showscript[]
+
+=== Transcript
+
+In the `DeploymentConfig` section, you define more triggers that can start a "rebuild" of your image.
+
+endif::showscript[]
+
+
+:scrollbar:
+:data-uri:
+== The Build File
+
+.`template`
+
+* The `template` section defines different aspects of your application--for example, how many replicas to create for your application. 
+
+[source,json]
+----
+
+
+
+      "template": {
+                "strategy": {
+                    "type": "Recreate"
+                },
+                "controllerTemplate": {
+                    "replicas": 1,
+                    "replicaSelector": {
+                        "deploymentconfig": "simple-openshift-sinatra-sti"
+                    },
+                    "podTemplate": {
+                        "desiredState": {
+                            "manifest": {
+                                "version": "v1beta2",
+                                "id": "",
+                                "volumes": null,
+                                "containers": [
+                                    {
+                                        "name": "simple-openshift-sinatra-sti",
+                                        "image": "library/simple-openshift-sinatra-sti:latest",
+                                        "ports": [
+                                            {
+                                                "name": "simple-openshift-sinatra-sti-tcp-8080",
+                                                "containerPort": 8080,
+                                                "protocol": "TCP"
+                                            }
+                                        ],
+                                        "resources": {},
+                                        "imagePullPolicy": "",
+                                        "capabilities": {}
+                                    }
+                                ],
+                                "restartPolicy": {}
+                            }
+                        },
+                        "labels": {
+                            "deploymentconfig": "simple-openshift-sinatra-sti"
+                        }
+                    }
+----
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+The `template` section defines different aspects of your application--for example, how many replicas to create for your application. 
+
+endif::showscript[]
+
+
+:scrollbar:
+:data-uri:
+== Deploying an S2I Build Image
+
+* In basic S2I process, OpenShift Enterprise:
+** Sets up components to build source code into Docker image
+** On command, builds Docker image with source code
+** Deploys Docker image as pod with associated service
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+Essentially, the S2I process is as follows: 
+OpenShift Enterprise sets up various components such that it can build source code into a Docker image. OpenShift Enterprise then, on command, builds the Docker image with the source code. And finally, OpenShift Enterprise deploys the Docker image as a pod with an associated service.
+
+endif::showscript[]
+
+
+:scrollbar:
+:data-uri:
+== Creating the Build Environment
+
+* To create build environment, use `oc create` on file created earlier:
++
+----
+$ oc create -f ~/simple-sinatra.json
+----
+
+* This creates:
+** `ImageRepository` entry
+** `BuildConfig`
+** `DeploymentConfig`
+** `Service`
+
+* To review what happened:
++
+----
+$ for i in imagerepository buildconfig deploymentconfig service; do \
+> echo $i; oc get $i; echo -e "\n\n"; done
+imagerepository
+NAME                           DOCKER REPO                                               TAGS
+simple-openshift-sinatra-sti   172.30.17.153:5000/sinatra/simple-openshift-sinatra-sti   
+
+
+
+buildconfig
+NAME                           TYPE      SOURCE
+simple-openshift-sinatra-sti   S2I       https://github.com/openshift/simple-openshift-sinatra-sti.git
+
+
+
+deploymentconfig
+NAME                           TRIGGERS                    LATEST VERSION
+simple-openshift-sinatra-sti   ConfigChange, ImageChange   0
+
+
+
+service
+NAME                       LABELS    SELECTOR                                        IP              PORT(S)
+simple-openshift-sinatra   <none>    deploymentconfig=simple-openshift-sinatra-sti   172.30.17.225   8080/TCP
+
+
+----
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+As shown in the first code sample, you use the `oc create` command to create the build environment and resources. 
+This does not start the build process for your image but creates the required resources discussed previously. 
+These include an `ImageRepository` entry, a `BuildConfig`, a `DeploymentConfig`, and a `Service`.
+
+To review what happened, run the command shown in the second code sample.
+
+endif::showscript[]
+
+
+:scrollbar:
+:data-uri:
+== Starting the Build
+
+* To start the build process, use `oc start-build` with build name:
++
+----
+$ oc start-build simple-openshift-sinatra-sti
+simple-openshift-sinatra-sti-1
+
+----
+
+* To see builds and their status, use `oc get builds`:
++
+----
+$ oc get builds
+NAME                             TYPE      STATUS    POD
+simple-openshift-sinatra-sti-1   S2I       Running   simple-openshift-sinatra-sti-1
+
+----
+
+* To follow the build process, use `oc build-logs`:
++
+----
+oc build-logs sin-simple-openshift-sinatra-sti-1
+----
+
+ifdef::showscript[]
+
+=== Transcript
+
+To start the build process, use the `oc start-build` command with your build name, as shown in the first code sample. 
+
+To see the builds and their status, use the `oc get builds` command, as shown in the second code sample. 
+
+Finally, to follow the build process by checking the log created for your build, use the `oc build-logs` command, as shown in the third code sample.
+
+endif::showscript[]
+
+
+:scrollbar:
+:data-uri:
+== Using the Web Console to Create an S2I Build
+
+* Select project and click *Create*.
+
+image::images/GuiSTLDemo01.png[width=852,height=672]
+
+ifdef::showscript[]
+
+=== Transcript
+
+To create an S2I build in the web console, first select your project and click *Create*.
+
+endif::showscript[]
+
+
+:scrollbar:
+:data-uri:
+== Using the Web Console to Create an S2I Build
+
+.Enter repository
+
+* Enter build Git repository
+
+image::images/GuiSTLDemo02.png[width=852,height=672]
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+Next, enter the Git repository for your build.
+
+endif::showscript[]
+
+
+:scrollbar:
+:data-uri:
+== Using the Web Console to Create an S2I Build
+
+.Select image
+
+* Select build base image
+
+image::images/GuiSTLDemo03.png[width=852,height=672]
+image::images/GuiSTLDemo04.png[width=852,height=672]
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+* Select the base image for your build.
+
+endif::showscript[]
+
+
+:scrollbar:
+:data-uri:
+== Using the Web Console to create an S2I Build
+
+.Edit and create
+
+* Edit options and create build
+
+image::images/GuiSTLDemo05a.png[width=852,height=672]
+image::images/GuiSTLDemo05b.png[width=852,height=672]
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+Finally, edit your options and click *Create* to create the build.
+
+endif::showscript[]
+
+
+:scrollbar:
+:data-uri:
+== Summary
+
+* Concepts
+* Creating an S2I build
+* Deploying an S2I build image	
+
+ifdef::showscript[]
+
+=== Transcript
+
+This module covered the following topics:
+
+* Concepts such as build and deployment automation; the definition of Source-to-Image, or S2I; the build process; the `BuildConfig` object; and build strategies.
+* Creating an S2I build, including creating the build file and understanding the various sections of the build file: `Service,`, `ImageStreams`, `BuildConfig`, `DeploymentConfig`, and `templates`
+* Deploying an S2I build image, including creating the build environment, starting the build, and using the web console to create an S2I build.
+
+endif::showscript[]
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,35 @@
+
+:scrollbar:
+:data-uri:
+== Build Strategies
+
+* OpenShift Enterprise build system supports build strategies based on types specified in build API
+* Two strategies supported by default:
+** Docker builds
+*** Invoke `docker build`, expect a repository with a `Dockerfile` and directories required for a Docker build process
+*** Suitable for deploying prebuilt Docker container
+*** Developer, provider, or ops team needs to create Docker image and inject code into it
+** S2I builds
+*** S2I - Tool for building reproducible Docker images
+*** Produces ready-to-run images by injecting user source into Docker image and assembling new Docker image
+*** Created image incorporates base image and built source, ready to use with Docker run
+*** Supports incremental builds that reuse downloaded dependencies, built artifacts, etc.
+
+image::images/DockerVsS2IBuilds.png[]
+
+ifdef::showscript[]
+
+=== Transcript
+
+The OpenShift build system provides extensible support for build strategies based on selectable types specified in the build API. By default, OpenShift Enterprise supports two strategies: Docker builds and S2I builds.
+
+Docker builds invoke the plain `docker build` command, and therefore expect a repository with a `Dockerfile` and all required directories for a Docker build process. This method is suitable for deploying a prebuilt Docker container. With this approach, a developer, provider, or ops team needs to create the Docker image and inject the code into it.
+
+As mentioned earlier, Source-to-Image, or S2I, is a tool for building reproducible Docker images. S2I produces ready-to-run images by injecting a user's source code into an image and assembling a new Docker image. 
+The created image incorporates the base image and built source. S2I supports incremental builds that reuse previously downloaded dependencies, previously built artifacts, and so on.
+
+This module focuses on the S2I build strategy.
+
+
+endif::showscript[]
+

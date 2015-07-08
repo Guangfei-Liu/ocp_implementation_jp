@@ -1,1694 +1,210 @@
 :scrollbar:
 :data-uri:
 :icons: images/icons
-:toc2:		
+:toc2:
+
+== Create Your First STI Build Lab
+
+In this lab, you create a simple STI build. As part of this process, you create a `BuildConfig` object and build an image using the STI build process. You also create the pod, service, and route for your STI build image. 
+
 :numbered:
+== Prepare Your Environment
 
-== PODs and S2Is
+If you have not done so in previous labs, follow these steps before starting this lab.
 
-=== Connect to Lab
-
-. If not already connected, connect to your administration host:
+. Connect to your master with the `root` user.
+. Run the post-deployment script:
 +
 ----
+[sborenst@desktop01 ~]$ ssh -i ~/.ssh/sborenstkey.pub shacharb-redhat.com@oselab-GUID.oslab.opentlc.com
 
-yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-GUID.oslab.opentlc.com
+[bash-4.2$ ~] ssh root@192.168.0.100
+root@192.168.0.100's password: ******** (r3dh4t1!) 
 
-----
-
-. SSH to the master host:
-+
-----
-
-[root@oselab-GUID ~]# ssh root@master00-GUID.oslab.opentlc.com
+[root@master00-GUID ~]# sh Post_Deployment_Script.sh
 
 ----
 +
-[NOTE]
-If prompted for a password use *r3dh4t1!*
+[NOTE] 
+This process might take a while. Use this time to read the lab and get a good understanding of the scenario.
+
+
+== Authenticate to OpenShift Enterprise and Choose Your Project 
+
+. If you have not done so in a previous lab, authenticate to OpenShift Enterprise as user `andrew`:
++ 
+----
+
+[root@master00~]# su - andrew
+[andrew@master00~]$ oc login -u andrew --insecure-skip-tls-verify --server=https://master00-${GUID}.oslab.opentlc.com:8443
+
+----
+
+. Change the context to the `sinatra` project: 
++
+---- 
+
+[root@master00]# su - andrew
+[andrew@master00~]$ oc project hello-s2i
+Now using project "hello-s2i" on server "https://master00-c142.oslab.opentlc.com:8443".
+
+----
+
+. Check your current context: 
+
+.. View the `~/.kube/config` file to review the information.
+.. Run the following command for a quick test:
 +
 ----
 
-root@master00-GUID.oslab.opentlc.com's password: ******** (r3dh4t1!) 
+[andrew@master00~]$ grep current ~/.kube/config
+current-context: hello-s2i
 
 ----
 
-== Your First Application
+== Create Your S2I description
 
-At this point you essentially have a sufficiently-functional OpenShift 3
-environment. It is now time to create the classic "Hello World" application
-using some sample code.  But, first, some housekeeping.
+For this activity, you use a prebuilt and preconfigured code repository. This repository is an extremely simple application of the `Hello World` type.
 
-=== Login
+. Go to link:https://github.com/openshift/simple-openshift-sinatra-sti[https://github.com/openshift/simple-openshift-sinatra-sti]. You will use this application's source code.
 
-Since we have taken the time to create the *joe* user as well as a project for
-him, we can log into a terminal as *joe* and then set up the command line
-tooling.
-
-. On the master host become the user `joe`:
+. Take a minute to review the repository.
+. To create the instructions and configuration for your image, use the `oc new-app` command as follows:
+** To use the default image suggested by the builder, run the following: 
 +
 ----
 
-[root@master00-GUID ~]# su - joe
-
+[andrew@master00~]$ oc new-app https://github.com/openshift/simple-openshift-sinatra-sti.git -o json | tee ~/simple-sinatra.json
 ----
 
-. On the master host execute the following as user `joe` with password 'r3dh4t1!':
+. Look at the JSON that you generated.
 +
 ----
-
-[joe@master00-GUID ~]$ export GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
-[joe@master00-GUID ~]$ osc login -u joe \
-    --certificate-authority=/etc/openshift/master/ca.crt \
-    --server=https://master00-$GUID.oslab.opentlc.com:8443
-
-----
-+
-[NOTE]
-OpenShift, by default, is using a self-signed SSL certificate, so we must point
-our tool at the CA file.
-
-. The `login` process in the last step created a file called `config` in the `~/.config/openshift`
-folder. On the master host as user `joe` take a look at it:
-+
-----
-
-[joe@oselab-GUID ~]$ cat ~/.config/openshift/config
-
-----
-+
-You will see something like the following:
-+
-----
-
-apiVersion: v1
-clusters:
-- cluster:
-    certificate-authority: ../../../../etc/openshift/master/ca.crt
-    server: https://master00-GUID.oslab.opentlc.com:8443
-  name: master00-GUID-oslab-opentlc-com:8443
-contexts:
-- context:
-    cluster: master00-GUID-oslab-opentlc-com:8443
-    namespace: demo
-    user: joe/master00-GUID-oslab-opentlc-com:8443
-  name: demo/master00-GUID-oslab-opentlc-com:8443/joe
-current-context: demo/master00-GUID-oslab-opentlc-com:8443/joe
-kind: Config
-preferences: {}
-users:
-- name: joe/master00-GUID-oslab-opentlc-com:8443
-  user:
-    token: DFkB72aijHEHGvfmwhPke5px1pi1UXwZXKbqPt6_4A8
-    
-----
-
-This configuration file has an authorization token, some information about where
-our server lives, our project, etc.
-
-[NOTE]
-You will have to fetch a new token once this one expires.  The installer sets
-the default token lifetime to 4 hours.
-
-=== Get the Training Repo for user Joe
-
-. On the master host as user `joe` download the training repo to joe's home directory:
-+
-----
-
-[joe@master00-GUID ~]$ cd;git clone https://github.com/openshift/training.git
+[andrew@master00~]$ cat ~/simple-sinatra.json
 
 ----
 
-=== The Hello World Definition JSON
+== Start Your Build
 
-. On the master host as user `joe` in the beta4 training folder, examine the contents of our pod definition by
-using `cat`:
-+
-----
-
-[joe@master00-GUID ~]$ cd ~/training/beta4; cat hello-pod.json
-    
-----
-+
-    {
-      "kind": "Pod",
-      "apiVersion": "v1beta3",
-      "metadata": {
-        "name": "hello-openshift",
-        "creationTimestamp": null,
-        "labels": {
-          "name": "hello-openshift"
-        }
-      },
-      "spec": {
-        "containers": [
-          {
-            "name": "hello-openshift",
-            "image": "openshift/hello-openshift:v0.4.3",
-            "ports": [
-              {
-                "hostPort": 36061,
-                "containerPort": 8080,
-                "protocol": "TCP"
-              }
-            ],
-            "resources": {
-              "limits": {
-                "cpu": "10m",
-                "memory": "16Mi"
-              }
-            },
-            "terminationMessagePath": "/dev/termination-log",
-            "imagePullPolicy": "IfNotPresent",
-            "capabilities": {},
-            "securityContext": {
-              "capabilities": {},
-              "privileged": false
-            },
-            "nodeSelector": {
-              "region": "primary"
-            }
-          }
-        ],
-        "restartPolicy": "Always",
-        "dnsPolicy": "ClusterFirst",
-        "serviceAccount": ""
-      },
-      "status": {}
-    }
-
-In the simplest sense, a *pod* is an application or an instance of something. If
-you are familiar with OpenShift V2 terminology, it is similar to a *gear*.
-Reality is more complex, and we will learn more about the terms as we explore
-OpenShift further.
-
-=== Run the Pod
-
-. On the master host as `joe`, create a pod from our JSON file:
-+
-----
-
-[joe@master00-GUID beta4]$ osc create -f hello-pod.json
-
-----
-+
-Remember, we've "logged in" to OpenShift and our project, so this will create
-the pod inside of it. The command should display the ID of the pod:
-+
-----
-
-pods/hello-openshift
-
-----
-
-. On the master host issue `get pods` to see the details of how it was defined:
-+
-----
-
-[joe@master00-GUID beta4]$ osc get pods
-
-----
-+
-----
-
-POD               IP         CONTAINER(S)      IMAGE(S)                           HOST                                            LABELS                 STATUS    CREATED      MESSAGE
-hello-openshift   10.1.0.4                                                        master00-0a0c.oslab.opentlc.com/192.168.0.100   name=hello-openshift   Running   51 seconds
-                             hello-openshift   openshift/hello-openshift:v0.4.3                                                                          Running   37 seconds
  
-----
-+
-The output of this command shows all of the Docker containers in a pod, which
-explains some of the spacing.
-+
-On the node where the pod is running (`HOST`), look at the list of Docker
-containers with `docker ps` (in a `root` terminal) to see the bound ports.  We
-should see an `openshift3_beta/ose-pod` container bound to 36061 on the host and
-bound to 8080 on the container, along with several other `ose-pod` containers.
-+
-The `openshift3_beta/ose-pod` container exists because of the way network
-namespacing works in Kubernetes. For the sake of simplicity, think of the
-container as nothing more than a way for the host OS to get an interface created
-for the corresponding pod to be able to receive traffic.
-
-. On the master server verify that the app is working, you can issue a curl to the app's port *on
-the node where the pod is running*
-+
-----
-
-[root@HOST ~]# curl localhost:36061
-
-----
-+
-----
-
-Hello OpenShift!
-
-----
-
-=== Looking at the Pod in the Web Console
-
-. Go to the web console and go to the *Overview* tab for the *OpenShift 3 Demo*
-project.
-
-You'll see some interesting things:
-
-* The pod is running
-
-* The SDN IP address that the pod is associated with (10....)
-
-* The internal port that the pod's container's "application"/process is using
-
-* The host port that the pod is bound to
-
-* There's no service yet - we'll get to services soon.
-
-=== POD Quota Usage
-
-. In the web console click on the *Settings* tab and verify that pod usage has increased to 1.
-
-. On the master host use `osc` to determine the current quota usage of your project as the user `joe`:
-+
-----
-
-[joe@master00-GUID beta4]$ osc describe quota test-quota -n demo
-
-----
-
-=== Delete the Pod
-
-. On the master host as `joe` delete this pod so that you don't get confused in later examples:
-+
-----
-
-[joe@master00-GUID beta4]$ osc delete pod hello-openshift
-
-----
-
-Take a moment to think about what this pod exercise really did -- it referenced
-an arbitrary Docker image, made sure to fetch it (if it wasn't present), and
-then ran it. This could have just as easily been an application from an ISV
-available in a registry or something already written and built in-house.
-
-This is really powerful. We will explore using "arbitrary" docker images later.
-
-=== POD Quota Enforcement
-
-Since we know we can run a pod directly, we'll go through a simple quota
-enforcement exercise. The `hello-quota` JSON will attempt to create four
-instances of the "hello-openshift" pod. It will fail when it tries to create the
-fourth, because the quota on this project limits us to three total pods.
-
-. On the master host as `joe` use `osc create` with `hello-quota.json`:
-+
-----
-
-[joe@master00-GUID beta4]$ osc create -f hello-quota.json 
-
-----
-+
-You will see the following:
-+
-----
-
-pods/hello-openshift-1
-pods/hello-openshift-2
-pods/hello-openshift-3
-Error from server: Pod "hello-openshift-4" is forbidden: Limited to 3 pods
-
-----
-
-. On the master host delete these pods as `joe` again:
-+
-----
-
-[joe@master00-GUID beta4]$ osc delete pod --all
-
-----
-+
-[NOTE]
-You can delete most resources using "--all" but there is *no sanity check*. Be careful.
-
-== Services
-
-From the [Kubernetes
-documentation](https://github.com/GoogleCloudPlatform/kubernetes/blob/master/docs/services.md):
-
-    A Kubernetes service is an abstraction which defines a logical set of pods and a
-    policy by which to access them - sometimes called a micro-service. The goal of
-    services is to provide a bridge for non-Kubernetes-native applications to access
-    backends without the need to write code that is specific to Kubernetes. A
-    service offers clients an IP and port pair which, when accessed, redirects to
-    the appropriate backends. The set of pods targetted is determined by a label
-    selector.
-
-If you think back to the simple pod we created earlier, there was a "label":
-
-      "labels": {
-        "name": "hello-openshift"
-      },
-
-Now, let's look at a *service* definition:
-
-    {
-      "kind": "Service",
-      "apiVersion": "v1beta3",
-      "metadata": {
-        "name": "hello-service"
-      },
-      "spec": {
-        "selector": {
-          "name":"hello-openshift"
-        },
-        "ports": [
-          {
-            "protocol": "TCP",
-            "port": 80,
-            "targetPort": 9376
-          }
-        ]
-      }
-    }
-
-The *service* has a `selector` element. In this case, it is a key:value pair of
-`name:hello-openshift`. If you looked at the output of `osc get pods` on your
-master, you saw that the `hello-openshift` pod has a label:
-
-    name=hello-openshift
-
-The definition of the *service* tells Kubernetes that any pods with the label
-"name=hello-openshift" are associated, and should have traffic distributed
-amongst them. In other words, the service itself is the "connection to the
-network", so to speak, or the input point to reach all of the pods. Generally
-speaking, pod containers should not bind directly to ports on the host. We'll
-see more about this later.
-
-But, to really be useful, we want to make our application accessible via a FQDN,
-and that is where the routing tier comes in.
-
-== Routing
-
-The OpenShift routing tier is how FQDN-destined traffic enters the OpenShift
-environment so that it can ultimately reach pods. In a simplification of the
-process, the `openshift3_beta/ose-haproxy-router` container we will create below
-is a pre-configured instance of HAProxy as well as some of the OpenShift
-framework. The OpenShift instance running in this container watches for route
-resources on the OpenShift master.
-
-Here is an example route resource JSON definition:
-
-    {
-      "kind": "Route",
-      "apiVersion": "v1beta3",
-      "metadata": {
-        "name": "hello-openshift-route"
-      },
-      "spec": {
-        "host": "hello-openshift.cloudapps-GUID.oslab.opentlc.com",
-        "to": {
-          "name": "hello-openshift-service"
-        },
-        "tls": {
-          "termination": "edge"
-        }
-      }
-    }
-
-When the `osc` command is used to create this route, a new instance of a route
-*resource* is created inside OpenShift's data store. This route resource is
-affiliated with a service.
-
-The HAProxy/Router is watching for changes in route resources. When a new route
-is detected, an HAProxy pool is created. When a change in a route is detected,
-the pool is updated.
-
-This HAProxy pool ultimately contains all pods that are in a service. Which
-service? The service that corresponds to the `serviceName` directive that you
-see above.
-
-You'll notice that the definition above specifies TLS edge termination. This
-means that the router should provide this route via HTTPS. Because we provided
-no certificate info, the router will provide the default SSL certificate when
-the user connects. Because this is edge termination, user connections to the
-router will be SSL encrypted but the connection between the router and the pods
-is unencrypted.
-
-It is possible to utilize various TLS termination mechanisms, and more details
-is provided in the router documentation:
-
-    http://docs.openshift.org/latest/architecture/core_objects/routing.html#securing-routes
-
-We'll see this edge termination in action shortly.
-
-=== Creating a Wildcard Certificate
-
-In order to serve a valid certificate for secure access to applications in our
-cloud domain, we will need to create a key and wildcard certificate that the
-router will use by default for any routes that do not specify a key/cert of their
-own. OpenShift supplies a command for creating a key/cert signed by the OpenShift
-CA which we will use.
-
-. Open a new session to the master host, as `root`:
-+
-----
-
-[root@master00-GUID ~]# CA=/etc/openshift/master
-[root@master00-GUID ~]# export GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
-[root@master00-GUID ~]# osadm create-server-cert --signer-cert=$CA/ca.crt \
-      --signer-key=$CA/ca.key --signer-serial=$CA/ca.serial.txt \
-      --hostnames="*.cloudapps-$GUID.oslab.opentlc.com" \
-      --cert=cloudapps.crt --key=cloudapps.key
-
-----
-
-. On the master host combine `cloudapps.crt` and `cloudapps.key` with the CA into
-a single PEM format file that the router needs in the next step:
-+
-----
-
-[root@master00-GUID ~]# cat cloudapps.crt cloudapps.key $CA/ca.crt > cloudapps.router.pem
-
-----
-+
-[NOTE]
-Make sure you remember where you put this PEM file.
-
-=== Creating the Router
-
-The router is the ingress point for all traffic destined for OpenShift
-v3 services. It currently supports only HTTP(S) traffic (and "any"
-TLS-enabled traffic via SNI). While it is called a "router", it is essentially a
-proxy.
-
-The `openshift3_beta/ose-haproxy-router` container listens on the host network
-interface, unlike most containers that listen only on private IPs. The router
-proxies external requests for route names to the IPs of actual pods identified
-by the service associated with the route.
-
-. On the master host as the `root` user, try `osadm router --create` as specified in the prevous output:
-+
-----
-
-[root@master00-GUID ~]# osadm router --create
-
-----
-+
-----
-
-F0223 11:51:19.350154    2617 router.go:148] You must specify a .kubeconfig
-file path containing credentials for connecting the router to the master
-with --credentials
-
-----
-+
-Just about every form of communication with OpenShift components is secured by
-SSL and uses various certificates and authentication methods. Even though we set
-up our `.kubeconfig` for the root user, `osadm router` is asking us what
-credentials the *router* should use to communicate. 
-
-. On the master host as the `root` user, try `osadm router` and specify the credentials:
-+
-----
-
-[root@master00-GUID ~]# osadm router --dry-run \
-  --credentials=/etc/openshift/master/openshift-router.kubeconfig
-
-----
-
-. Adding the above would be enough to allow the command to proceed, but if we want this router to work for our environment, we also need to specify the beta router image (the tooling defaults to upstream/origin otherwise) and we need to supply the wildcard cert/key that we created for the cloud domain.
-+
-----
-
-[root@master00-GUID ~]# osadm router --default-cert=cloudapps.router.pem \
-    --credentials=/etc/openshift/master/openshift-router.kubeconfig \
-    --selector='region=infra' \
-    --images='registry.access.redhat.com/openshift3_beta/ose-${component}:${version}'
-
-----
-+
-You should see:
-+
-----
-
-services/router
-deploymentConfigs/router
-
-----
-+
-[NOTE]
-You will have to reference the absolute path of the PEM file if you
-did not run this command in the folder where you created it.
-
-. On the master host check the pods:
-+
-----
-
-[root@master00-GUID ~]# osc get pods 
-
-----
-+
-In the output, you should see the router pod status change to "running" after a
-few moments (it may take up to a few minutes):
-+
-----
-
-POD                       IP         CONTAINER(S)   IMAGE(S)                                                                  HOST                                            LABELS                                                                                  STATUS       CREATED         MESSAGE
-router-1-deploy                                                                                                               node00-GUID.oslab.opentlc.com/192.168.0.200     <none>                                                                                  Succeeded    57 seconds
-                                     deployment     openshift3_beta/ose-deployer:v0.5.2.2                                                                                                                                                                             Terminated   16 seconds      exit code 0
-router-1-tcfz8                                                                                                                master00-GUID.oslab.opentlc.com/                deployment=router-1,deploymentconfig=router,router=router                               Pending      15 seconds
-                                     router         registry.access.redhat.com/openshift3_beta/ose-haproxy-router:v0.5.2.2
-
-----
-
-In the above router creation command (`osadm router...`) we also specified
-`--selector`. This flag causes a `nodeSelector` to be placed on all of the pods
-created. If you think back to our "regions" and "zones" conversation, the
-OpenShift environment is currently configured with an *infra*structure region
-called "infra". This `--selector` argument asks OpenShift:
-
-*Please place all of these router pods in the infra region*.
-
-=== Router Placement By Region
-
-In the very beginning of the labs, we indicated that a wildcard DNS
-entry is required and should point at the master. When the router receives a
-request for an FQDN that it knows about, it will proxy the request to a pod for
-a service. But, for that FQDN request to actually reach the router, the FQDN has
-to resolve to whatever the host is where the router is running. Remember, the
-router is bound to ports 80 and 443 on the *host* interface. Since our wildcard
-DNS entry points to the public IP address of the master, the `--selector` flag
-used above ensures that the router is placed on our master as it's the only node
-with the label `region=infra`.
-
-For a true HA implementation, one would want multiple "infra" nodes and
-multiple, clustered router instances. We will describe this later.
-
-=== Viewing Router Stats
-
-Haproxy provides a stats page that's visible on port 1936 of your router host.
-Currently the stats page is password protected with a static password, this
-password will be generated using a template parameter in the future, for now the
-password is `cEVu2hUb` and the username is `admin`.
-
-To make this acessible publicly, you will need to open this port on your master:
-
-    iptables -I OS_FIREWALL_ALLOW -p tcp -m tcp --dport 1936 -j ACCEPT
-
-You will also want to add this rule to `/etc/sysconfig/iptables` as well to keep it
-across reboots. However, don't restart the iptables service, as this would destroy
-docker networking. Use the `iptables` command to change rules on a live system.
-
-Feel free to not open this port if you don't want to make this accessible, or if
-you only want it accessible via port fowarding, etc.
-
-**Note**: Unlike OpenShift v2 this router is not specific to a given project, as
-such it's really intended to be viewed by cluster admins rather than project
-admins.
-
-Using SSH tunnels, you can forward port 1936 from the administration host to the master host using an SSH tunnel originating from your desktop system:
-
-    yourhost $ ssh yourlogin@oselab00-$GUID.oslab.opentlc.com -L1936:master00-$GUID.oslab.opentlc.com:1936
-
-Then from your desktop system go to the following URL with a web browser to view your router stats:
-
-    http://admin:cEVu2hUb@localhost:1936
-
-=== The Complete Pod-Service-Route
-
-With a router now available, let's take a look at an entire
-Pod-Service-Route definition template and put all the pieces together.
-
-=== Creating the Definition
-
-The following is a complete definition for a pod with a corresponding service
-and a corresponding route. It also includes a deployment configuration.
-
-    {
-      "kind": "Config",
-      "apiVersion": "v1beta3",
-      "metadata": {
-        "name": "hello-service-complete-example"
-      },
-      "items": [
-        {
-          "kind": "Service",
-          "apiVersion": "v1beta3",
-          "metadata": {
-            "name": "hello-openshift-service"
-          },
-          "spec": {
-            "selector": {
-              "name": "hello-openshift"
-            },
-            "ports": [
-              {
-                "protocol": "TCP",
-                "port": 27017,
-                "targetPort": 8080
-              }
-            ]
-          }
-        },
-        {
-          "kind": "Route",
-          "apiVersion": "v1beta3",
-          "metadata": {
-            "name": "hello-openshift-route"
-          },
-          "spec": {
-            "host": "hello-openshift.cloudapps-GUID.oslab.opentlc.com",
-            "to": {
-              "name": "hello-openshift-service"
-            },
-            "tls": {
-              "termination": "edge"
-            }
-          }
-        },
-        {
-          "kind": "DeploymentConfig",
-          "apiVersion": "v1beta3",
-          "metadata": {
-            "name": "hello-openshift"
-          },
-          "spec": {
-            "strategy": {
-              "type": "Recreate",
-              "resources": {}
-            },
-            "replicas": 1,
-            "selector": {
-              "name": "hello-openshift"
-            },
-            "template": {
-              "metadata": {
-                "creationTimestamp": null,
-                "labels": {
-                  "name": "hello-openshift"
-                }
-              },
-              "spec": {
-                "containers": [
-                  {
-                    "name": "hello-openshift",
-                    "image": "openshift/hello-openshift:v0.4.3",
-                    "ports": [
-                      {
-                        "name": "hello-openshift-tcp-8080",
-                        "containerPort": 8080,
-                        "protocol": "TCP"
-                      }
-                    ],
-                    "resources": {},
-                    "terminationMessagePath": "/dev/termination-log",
-                    "imagePullPolicy": "PullIfNotPresent",
-                    "capabilities": {},
-                    "securityContext": {
-                      "capabilities": {},
-                      "privileged": false
-                    },
-                    "livenessProbe": {
-                      "tcpSocket": {
-                        "port": 8080
-                      },
-                      "timeoutSeconds": 1,
-                      "initialDelaySeconds": 10
-                    }
-                  }
-                ],
-                "restartPolicy": "Always",
-                "dnsPolicy": "ClusterFirst",
-                "serviceAccount": "",
-                "nodeSelector": {
-                  "region": "primary"
-                }
-              }
-            }
-          },
-          "status": {
-            "latestVersion": 1
-          }
-        }
-      ]
-    }
-
-In the JSON above:
-
-* There is a pod whose containers have the label `name=hello-openshift` and the nodeSelector `region=primary`
-
-* There is a service:
-
-** with the id `hello-openshift-service`
-
-** with the selector `name=hello-openshift`
-
-* There is a route:
-
-** with the FQDN `hello-openshift.cloudapps-GUID.oslab.opentlc.com`
-
-** with the `spec` `to` `name=hello-openshift-service`
-
-If we work from the route down to the pod:
-
-* The route for `hello-openshift.cloudapps-GUID.oslab.opentlc.com` has an HAProxy pool
-
-* The pool is for any pods in the service whose ID is `hello-openshift-service`,
-    via the `serviceName` directive of the route.
-
-* The service `hello-openshift-service` includes every pod who has a label
-    `name=hello-openshift`
-
-* There is a single pod with a single container that has the label
-    `name=hello-openshift`
-
-:numbered:
-
-. Become user `joe` on the master host.
-+
-----
-
-[root@master00-GUID ~]# su - joe
-
-----
-
-. On the master host as user `joe` change to the directory `/home/joe/training/beta4`.
-+
-----
-
-[joe@master00-GUID ~]$  cd /home/joe/training/beta4
-
-----
-
-. On the master host as user `joe` change the `test-complete.json` file to use our lab's domain:
-+
-----
-
-[joe@master00-GUID beta4]$ export GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
-[joe@master00-GUID beta4]$ sed -i "s/cloudapps.example.com/cloudapps-$GUID.oslab.opentlc.com/" test-complete.json
-
-----
-
-. On the master host as user `joe` use `osc` to create everything:
-+
-----
-
-[joe@master00-GUID beta4]$ osc create -f test-complete.json
-
-----
-+
-You should see something like the following:
-+
-----
-
-services/hello-openshift-service
-routes/hello-openshift-route
-pods/hello-openshift
-
-----
-
-. On the master host you can verify this with other `osc` commands:
-+
-----
-
-[joe@master00-GUID beta4]$ osc get pods
-[joe@master00-GUID beta4]$ osc get services
-[joe@master00-GUID beta4]$ osc get routes
-
-----
-
-=== Project Status
-
-OpenShift provides a handy tool, `osc status`, to give you a summary of
-common resources existing in the current project:
-
-. Use `osc status` on the master host:
-+
-----
-
-[joe@master00-GUID beta4]$ osc status
-
-----
-+
-You should see something like:
-+
-----
-
-In project OpenShift 3 Demo (demo)
-
-service hello-openshift-service (172.30.237.48:27017 -> 8080)
-  hello-openshift deploys docker.io/openshift/hello-openshift:v0.4.3
-    #1 deployed 3 minutes ago - 1 pod
-
-To see more information about a Service or DeploymentConfig, use 'osc describe service <name>' or 'osc describe dc <name>'.
-You can use 'osc get all' to see lists of each of the types described above.
-
-----
-
-=== Verifying the Service
-
-Services are not externally accessible without a route being defined, because
-they always listen on "local" IP addresses (eg: 172.x.x.x). However, if you have
-access to the OpenShift environment, you can still test a service.
-
-. On the master host get the service information:
-+
-----
-
-[joe@master00-GUID beta4]$ osc get services
-
-----
-+
-You should get (IP will differ):
-+
-----
-
-NAME                      LABELS    SELECTOR                     IP              PORT(S)
-hello-openshift-service   <none>    name=hello-openshift   172.30.17.229   27017/TCP
-
-----
-+
-We can see that the service has been defined based on the JSON we used earlier.
-If the output of `osc get pods` shows that our pod is running.
-
-. Try to access the service:
-+
-----
-
-[joe@master00-GUID beta4]$ curl `osc get services | grep hello-openshift | awk '{print $4":"$5}' | sed -e 's/\/.*//'`
-
-----
-+
-You should see:
-+
-----
-
-Hello OpenShift!
-
-----
-+
-This is a good sign! It means that, if the router is working, we should be able
-to access the service via the route.
-
-=== Verifying the Routing
-
-Verifying the routing is a little complicated, but not terribly so. Since we
-specified that the router should land in the "infra" region, we know that its
-Docker container is on the master.
-
-. As the `root` user on the master host use `osc exec` to get a bash interactive shell inside the running
-router container:
-+
-----
-
-[root@master00-GUID ~]# osc exec -it -p $(osc get pods | grep router | awk '{print $1}' | head -n 1) /bin/bash
-
-----
-+
-You are now in a bash session *inside* the container running the router.
-+
-----
-
-[root@router-1-tcfz8 /]#
-
-----
-
-. Since we are using HAProxy as the router, we can cat the `routes.json` file:
-+
-----
-
-[root@router-1-tcfz8 /]# cat /var/lib/containers/router/routes.json
-
-----
-+
-If you see some content that looks like:
-+
-----
-    "demo/hello-openshift-service": {
-      "Name": "demo/hello-openshift-service",
-      "EndpointTable": {
-        "10.1.0.9:8080": {
-          "ID": "10.1.0.9:8080",
-          "IP": "10.1.0.9",
-          "Port": "8080"
-        }
-      },
-      "ServiceAliasConfigs": {
-        "demo-hello-openshift-route": {
-          "Host": "hello-openshift.cloudapps-$GUID.oslab.opentlc.com",
-          "Path": "",
-          "TLSTermination": "edge",
-          "Certificates": {
-            "hello-openshift.cloudapps-$GUID.oslab.opentlc.com": {
-              "ID": "demo-hello-openshift-route",
-              "Contents": "",
-              "PrivateKey": ""
-            }
-          },
-          "Status": "saved"
-        }
-      }
-----
-+
-You know that "it" worked -- the router watcher detected the creation of the
-route in OpenShift and added the corresponding configuration to HAProxy.
-
-. `exit` from the container.
-+
-----
-
-[root@router-1-tcfz8 /]# exit
-
-----
-
-. From the master host test if you can reach the route securely and check that it is using the right certificate:
-+
-----
-
-[root@master00-GUID ~]# export GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
-[root@master00-GUID ~]# curl --cacert /etc/openshift/master/ca.crt \
-             https://hello-openshift.cloudapps-$GUID.oslab.opentlc.com
-
-----
-+
-You should see:
-+
-----
-
-Hello OpenShift!
-
-----
-
-. From the master host check the SSL certificate:
-+
-----
-[root@master00-GUID ~]# openssl s_client -connect hello.cloudapps-$GUID.oslab.opentlc.com:443 \
-                       -CAfile /etc/openshift/master/ca.crt
-----
-+
-You should see:
-+
-----
-
-CONNECTED(00000003)
-depth=1 CN = openshift-signer@1430768237
-verify return:1
-depth=0 CN = *.cloudapps-GUID.oslab.opentlc.com
-verify return:1
-[...]
-
-----
-
-Since we used OpenShift's CA to create the wildcard SSL certificate, and since
-that CA is not "installed" in our system, we need to point our tools at that CA
-certificate in order to validate the SSL certificate presented to us by the
-router. With a CA or all certificates signed by a trusted authority, it would
-not be necessary to specify the CA everywhere.
-
-== The Web Console
-
-Take a moment to look in the web console to see if you can find everything that
-was just created.
-
-== Project Administration
-
-When we created the `demo` project, `joe` was made a project administrator. As
-an example of an administrative function, if `joe` now wants to let `alice` look
-at his project, with his project administrator rights 
-
-. On the master host as user `joe` add her using the `osadm policy` command:
-+
-----
-
-[joe@master00-GUID ~]$ osadm policy add-role-to-user view alice
-
-----
-+
-[NOTE]
-`osadm` will act, by default, on whatever project the user has
-selected. If you recall earlier, when we logged in as `joe` we ended up in the
-`demo` project. We'll see how to switch projects later.
-
-. Open a new terminal window to the master host as the `alice` user:
-+
-----
-
-[root@master00-GUID ~]# su - alice
-
-----
-
-. As user `alice` on the master host login to OpenShift with password 'r3dh4t1!':
-+
-----
-
-[alice@master00-GUID ~]$ export GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
-[alice@master00-GUID ~]$ osc login -u alice \
-    --certificate-authority=/etc/openshift/master/ca.crt \
-    --server=https://master00-$GUID.oslab.opentlc.com:8443
-
-----
-+
-`alice` has no projects of her own yet (she is not an administrator on
-anything), so she is automatically configured to look at the `demo` project
-since she has access to it. She only has "view" access.
-
-. As user `alice` on the master host use `osc status` and `osc get pods` to see if she sees that same thing as `joe`:
-+
-----
-
-[alice@master00-GUID ~]$ osc get pods
-
-----
-
-. As user `alice` on the master host attempt to make a change:
-+
-----
-
-[alice@master00-GUID ~]$ osc delete pod hello-openshift
-
-----
-+
-No text will be returned, nothing happened, you can verify with `osc get pods`.
-
-.  Login as `alice` in the web console and confirm that she can view
-the `demo` project.
-
-. As user `joe` on the master host give `alice` the role of `edit`, which gives her access
-to do nearly anything in the project except adjust access.
-+
-----
-
-[joe@master00-GUID ~]$ osadm policy add-role-to-user edit alice
-
-----
-
-. Now `alice` can delete that pod if she wants, but she can not add access for
-another user or upgrade her own access. To allow that, `joe` could give
-`alice` the role of `admin`, which gives her the same access as himself.
-+
-----
-
-[joe@master00-GUID ~]$ osadm policy add-role-to-user admin alice
-
-----
-
-. There is no "owner" of a project, and projects can certainly be created
-without any administrator. `alice` or `joe` can remove the `admin`
-role (or all roles) from each other or themselves at any time without
-affecting the existing project.
-
-. Check `osadm policy help` for a list of available commands to modify
-project permissions. OpenShift RBAC is extremely flexible. The roles
-mentioned here are simply defaults - they can be adjusted (per-project
-and per-resource if needed), more can be added, groups can be given
-access, etc. Check the documentation for more details:
-
-* http://docs.openshift.org/latest/dev_guide/authorization.html
-
-* https://github.com/openshift/origin/blob/master/docs/proposals/policy.md
-
-=== Deleting a Project
-
-Since we are done with this "demo" project, and since the `alice` user is a
-project administrator, let's go ahead and delete the project. This should also
-end up deleting all the pods, and other resources, too.
-
-. On the master host as the `alice` user:
-+
-----
-
-[alice@master00-GUID ~]$ osc delete project demo
-
-----
-
-If you quickly go to the web console and return to the top page, you'll see a
-warning icon that will pop-up a hover tip saying the project is marked for
-deletion.
-
-If you switch to the `root` user and issue `osc get project` you will see that
-the demo project's status is "Terminating". If you do an `osc get pod -n demo`
-you may see the pods, still. It takes about 60 seconds for the project deletion
-cleanup routine to finish.
-
-Once the project disappears from `osc get project`, doing `osc get pod -n demo`
-should return no results.
-
-== S2I
-
-=== Preparing for S2I: the Registry
-
-One of the really interesting things about OpenShift v3 is that it will build
-Docker images from your source code, deploy them, and manage their lifecycle.
-OpenShift 3 will provide a Docker registry that administrators may run inside
-the OpenShift environment that will manage images "locally". Let's take a moment
-to set that up.
-
-=== Storage for the Registry
-
-The registry stores docker images and metadata. If you simply deploy a pod
-with the registry, it will use an ephemeral volume that is destroyed once the
-pod exits. Any images anyone has built or pushed into the registry would
-disappear. That would be bad.
-
-What we will do for this demo is use a directory on the master host for
-persistent storage. In production, this directory could be backed by an NFS
-mount supplied from the HA storage solution of your choice. That NFS mount
-could then be shared between multiple hosts for multiple replicas of the
-registry to make the registry HA.
-
-For now we will just show how to specify the directory and the and leave the NFS
-configuration as a later exercise. 
-
-.  On the master host as `root`, create the storage directory with:
-+
-----
-
-[root@master00-GUID ~]# mkdir -p /mnt/registry
-
-----
-
-=== Creating the registry
-
-. As the `root` user on the master host use `osadm` to create the registry:
-+
-----
-
-[root@master00-GUID ~]# osadm registry --create \
-    --credentials=/etc/openshift/master/openshift-registry.kubeconfig \
-    --images='registry.access.redhat.com/openshift3_beta/ose-${component}:${version}' \
-    --selector="region=infra" --mount-host=/mnt/registry
-
-----
-+
-You'll get output like:
-+
-----
-
-services/docker-registry
-deploymentConfigs/docker-registry
-
-----
-+
-You can use `osc get pods`, `osc get services`, and `osc get deploymentconfig`
-to see what happened. 
-
-. On the master host use `osc status` as the `root` user:
-+
-----
-
-[root@master00-GUID ~]# osc status
-
-----
-+
-----
-
-In project default
-
-service docker-registry (172.30.17.196:5000 -> 5000)
-  docker-registry deploys registry.access.redhat.com/openshift3_beta/ose-docker-registry
-    #1 deployed about a minute ago
-
-service kubernetes (172.30.17.2:443 -> 443)
-service kubernetes-ro (172.30.17.1:80 -> 80)
-
-service router (172.30.17.129:80 -> 80)
-  router deploys registry.access.redhat.com/openshift3_beta/ose-haproxy-router
-    #1 deployed 7 minutes ago
-
-----
-+
-The project we have been working in when using the `root` user is called
-"default". This is a special project that always exists (you can delete it, but
-OpenShift will re-create it) and that the administrative user uses by default.
-One interesting features of `osc status` is that it lists recent deployments.
-When we created the router and registry, each created one deployment.  We will
-talk more about deployments when we get into builds.
-+
-You will ultimately have a Docker registry that is being hosted by OpenShift
-and that is running on the master (because we specified "region=infra" as the
-registry's node selector).
-
-. To quickly test your Docker registry, you can do the following from the master host:
-+
-----
-
-[root@master00-GUID ~]# curl -v `osc get services | grep registry | awk '{print $4":"$5}/v2/' | sed 's,/[^/]\+$,/v2/,'`
-
-----
-+
-And you should see [a 200
-response](https://docs.docker.com/registry/spec/api/#api-version-check) and a
-mostly empty body.  Your IP addresses will almost certainly be different.
-+
-----
-
-* About to connect() to 172.30.17.114 port 5000 (#0)
-*   Trying 172.30.17.114...
-* Connected to 172.30.17.114 (172.30.17.114) port 5000 (#0)
-> GET /v2/ HTTP/1.1
-> User-Agent: curl/7.29.0
-> Host: 172.30.17.114:5000
-> Accept: */*
->
-< HTTP/1.1 200 OK
-< Content-Length: 2
-< Content-Type: application/json; charset=utf-8
-< Docker-Distribution-Api-Version: registry/2.0
-< Date: Tue, 26 May 2015 17:18:02 GMT
-<
-* Connection #0 to host 172.30.17.114 left intact
-{}    
-
-----
-+
-[NOTE]
-If you get "connection reset by peer" you may have to wait a few more moments
-after the pod is running for the service proxy to update the endpoints necessary
-to fulfill your request. 
-
-. On the master host check if your service has finished updating its
-endpoints with:
-+
-----
-
-[root@master00-GUID ~]# osc describe service docker-registry
-
-----
-+
-You will eventually see something like:
-+
-----
-
-Name:                   docker-registry
-Labels:                 docker-registry=default
-Selector:               docker-registry=default
-Type:                   ClusterIP
-IP:                     172.30.239.41
-Port:                   <unnamed>       5000/TCP
-Endpoints:              <unnamed>       10.1.0.4:5000
-Session Affinity:       None
-No events.
-
-----
-+
-Once there is an endpoint listed, the curl should work and the registry is available.
-+
-Highly available, actually. You should be able to delete the registry pod at any
-point in this training and have it return shortly after with all data intact.
-
-=== S2I - What Is It?
-
-S2I stands for *source-to-image* and is the process where OpenShift will take
-your application source code and build a Docker image for it. In the real world,
-you would need to have a code repository (where OpenShift can introspect an
-appropriate Docker image to build and use to support the code) or a code
-repository + a Dockerfile (so that OpenShift can pull or build the Docker image
-for you).
-
-=== Create a New Project
-
-By default, users are allowed to create their own projects. Let's try this now.
-
-. As the `joe` user on the master host, we will create a new project to put our first S2I example
-into:
-+
-----
-
-[joe@master00-GUID ~]$ osc new-project sinatra --display-name="Sinatra Example" \
-    --description="This is your first build on OpenShift 3" 
-
-----
-
-. Logged in as `joe` in the web console, if you click the OpenShift image you
-should be returned to the project overview page where you will see the new
-project show up. Go ahead and click the *Sinatra* project - you'll see why soon.
-
-=== Switch Projects
-
-. On the master node as the `joe` user, let's switch to the `sinatra` project:
-+
-----
-
-[joe@master00-GUID ~]$ osc project sinatra
-
-----
-+
-You should see:
-+
-----
-
-Now using project "sinatra" on server "https://master00-GUID.oslab.opentlc.com:8443".
-
-----
-
-=== A Simple Code Example
-
-We'll be using a pre-build/configured code repository. This repository is an
-extremely simple "Hello World" type application that looks very much like our
-previous example, except that it uses a Ruby/Sinatra application instead of a Go
-application.
-
-For this example, we will be using the following application's source code:
-
-    https://github.com/openshift/simple-openshift-sinatra-sti
-
-. On the master node take a look at the application's JSON:
-+
-----
-
-[joe@master00-GUID ~]$ osc new-app -o json https://github.com/openshift/simple-openshift-sinatra-sti.git
-
-----
-+
-Take a look at the JSON that was generated. You will see some familiar items at
-this point, and some new ones, like `BuildConfig`, `ImageStream` and others.
-
-Essentially, the S2I process is as follows:
-
-* OpenShift sets up various components such that it can build source code into
-a Docker image.
-
-* OpenShift will then (on command) build the Docker image with the source code.
-
-* OpenShift will then deploy the built Docker image as a Pod with an associated
-Service.
-
-== CLI versus Console
-
-There are currently two ways to get from source code to components on OpenShift.
-The CLI has a tool (`new-app`) that can take a source code repository as an
-input and will make its best guesses to configure OpenShift to do what we need
-to build and run the code. You looked at that already.
-
-You can also just run `osc new-app --help` to see other things that `new-app`
-can help you achieve.
-
-The web console also lets you point directly at a source code repository, but
-requires a little bit more input from a user to get things running. Let's go
-through an example of pointing to code via the web console. Later examples will
-use the CLI tools.
-
-== Adding the Builder ImageStreams
-
-While `new-app` has some built-in logic to help automatically determine the
-correct builder ImageStream, the web console currently does not have that
-capability. The user will have to first target the code repository, and then
-select the appropriate builder image.
-
-. Perform the following command on the master host as `root` in the `/root/training/beta4` folder in order to add all
-of the builder images:
-+
-----
-
-[root@master00-GUID beta4]# osc create -f image-streams-rhel7.json \
-    -f image-streams-jboss-rhel7.json -n openshift
-
-----
+. To create the build components, use the `oc create` command on the `BuildConfig` file:
 +
-You will see the following:
-+
 ----
 
-imageStreams/ruby
-imageStreams/nodejs
-imageStreams/perl
-imageStreams/php
-imageStreams/python
-imageStreams/mysql
-imageStreams/postgresql
-imageStreams/mongodb
-imageStreams/jboss-webserver3-tomcat7-openshift
-imageStreams/jboss-webserver3-tomcat8-openshift
-imageStreams/jboss-eap6-openshift
-imageStreams/jboss-amq-62
-imageStreams/jboss-mysql-55
-imageStreams/jboss-postgresql-92
-imageStreams/jboss-mongodb-24
+[andrew@master00~]$ oc create -f ~/simple-sinatra.json
 
 ----
-+
-What is the `openshift` project where we added these builders? This is a
-special project that can contain various elements that should be available to
-all users of the OpenShift environment.
-
-=== ImageStreams
-
-If you think about one of the important things that OpenShift needs to do, it's
-to be able to deploy newer versions of user applications into Docker containers
-quickly. But an "application" is really two pieces -- the starting image (the
-S2I builder) and the application code. While it's "obvious" that we need to
-update the deployed Docker containers when application code changes, it may not
-have been so obvious that we also need to update the deployed container if the
-**builder** image changes.
 
-For example, what if a security vulnerability in the Ruby runtime is discovered?
-It would be nice if we could automatically know this and take action. If you dig
-around in the JSON output above from `new-app` you will see some reference to
-"triggers". This is where `ImageStream`s come together.
-
-The `ImageStream` resource is, somewhat unsurprisingly, a definition for a
-stream of Docker images that might need to be paid attention to. By defining an
-`ImageStream` on "ruby-20-rhel7", for example, and then building an application
-against it, we have the ability with OpenShift to "know" when that `ImageStream`
-changes and take action based on that change. In our example from the previous
-paragraph, if the "ruby-20-rhel7" image changed in the Docker repository defined
-by the `ImageStream`, we might automatically trigger a new build of our
-application code.
-
-An organization will likely choose several supported builders and databases from
-Red Hat, but may also create their own builders, DBs, and other images. This
-system provides a great deal of flexibility.
-
-Feel free to look around `image-streams.json` for more details.  As you can see,
-we have provided definitions for EAP and Tomcat builders as well as other DBs
-and etc. Please feel free to experiment with these - we will attempt to provide
-sample apps as time progresses.
-
-When finished, let's go move over to the web console to create our
-"application".
-
-== Adding Code Via the Web Console
-
-. Go to the web console and then select the "Sinatra Example" project.
-
-. Click the "Create +" button in the upper right hand corner. 
-+
-You will see two options:
+. To see the output of the last command, run the following:
 +
-* The second option is to create an application from a template. We will explore that later.
-+
-* The first option you see is a text area where you can type a URL for source
-code.
-
-. We are going to use the Git repository for the Sinatra application referenced earlier. Enter this repo in the box:
-+
 ----
-
-https://github.com/openshift/simple-openshift-sinatra-sti
+ 
+[andrew@master00~]$ for i in buildconfig deploymentconfig service; do echo $i; oc get $i; echo -e "\n\n"; done
+buildconfig
 
 ----
-
-. Click "Next".
-
-. You will then be asked which builder image you want to use. This application uses the Ruby language, click
-`ruby:latest`. 
-
-. You'll see a pop-up with some more details asking for confirmation. Click "Select image..."
-
-. The next screen you see lets you begin to customize the information a little
-bit. The only default setting we have to change is the name, because it is too
-long. Enter something sensible like "*ruby-example*", then scroll to the bottom
-and click "Create".
 
-. At this point, OpenShift has created several things for you. Use the "Browse"
-tab to poke around and find them. You can also use `osc status` as the `joe`
-user, too.
-
-. As the user `joe` on the master host run:
+. Output after build is complete would look similar to this: 
 +
 ----
+NAME                           TYPE      SOURCE
+simple-openshift-sinatra-sti   Source    https://github.com/openshift/simple-openshift-sinatra-sti.git
 
-[joe@master00-GUID ~]$ osc get pods
+deploymentconfig
+NAME                           TRIGGERS                    LATEST VERSION
+simple-openshift-sinatra-sti   ConfigChange, ImageChange   2
 
-----
-+
-You will see that there are currently no pods. That is because we have not
-actually gone through a build yet. While OpenShift has the capability of
-automatically triggering builds based on source control pushes (eg: Git(hub)
-webhooks, etc), we will have to trigger our build manually in this example.
-+
-Most of these things can (SHOULD!) also be verified in the web
-console. If anything, it looks prettier!
+service
+NAME                       LABELS    SELECTOR                                        IP(S)           PORT(S)
+simple-openshift-sinatra   <none>    deploymentconfig=simple-openshift-sinatra-sti   172.30.64.255   8080/TCP
 
-. As the `joe` user on the master host run this to start the build:
-+
 ----
-
-[joe@master00-GUID ~]$ osc start-build ruby-example
 
-----
-+
-You'll see some output to indicate the build:
+. Display your running pods 
 +
 ----
+[andrew@master00~]$ oc get pods
+[andrew@master00-f4fc ~]$ oc get pods
+NAME                                   READY     REASON       RESTARTS   AGE
+simple-openshift-sinatra-sti-1-build   0/1       ExitCode:0   0          2m
+simple-openshift-sinatra-sti-2-cpp9t   1/1       Running      0          7m
 
-ruby-example-1
 
 ----
-
-. On the master host check on the status of a build (it will switch to "Running" in a few
-moments):
 +
-----
 
-[joe@master00-GUID ~]$ osc get builds
-
-----
-+
-----
+NOTE: Don't be alarmed if you see that the pod has failed to deploy, that happens before our image is created and will rectify itself once the image build process is complete.
 
-NAME             TYPE      STATUS     POD
-ruby-example-1   Source    Running   ruby-example-1
 
-----
-+
-The web console would've updated the *Overview* tab for the *Sinatra* project to
-say:
+. To view the current build status and build logs, run the following:
 +
 ----
 
-A build of ruby-example is running. A new deployment will be
-created automatically once the build completes.
+[andrew@master00~]$ oc get builds
+NAME                             TYPE      STATUS     POD
+simple-openshift-sinatra-sti-1   Source    Complete   simple-openshift-sinatra-sti-1-build
 
 ----
 
-. On the master host start "tailing" the build log (substitute the proper UUID for
-your environment):
+. View the Build log 
 +
 ----
+[andrew@master00~]$ oc build-logs simple-openshift-sinatra-sti-1
+....
+....
+....
+I0702 05:36:50.618747       1 sti.go:246] Successfully built 172.30.133.153:5000/sinatra/simple-openshift-sinatra-sti
+I0702 05:36:50.703511       1 cleanup.go:23] Removing temporary directory /tmp/sti235763477
+I0702 05:36:50.703600       1 fs.go:99] Removing directory '/tmp/sti235763477'
+I0702 05:36:50.727475       1 cfg.go:46] PUSH_DOCKERCFG_PATH=/var/run/secrets/openshift.io/push/.dockercfg
+I0702 05:36:50.733088       1 cfg.go:64] Using serviceaccount user for Docker authentication
+I0702 05:36:50.733130       1 sti.go:96] Using provided push secret for pushing 172.30.133.153:5000/sinatra/simple-openshift-sinatra-sti image
+I0702 05:36:50.733157       1 sti.go:99] Pushing 172.30.133.153:5000/sinatra/simple-openshift-sinatra-sti image ...
+I0702 05:39:46.967064       1 sti.go:103] Successfully pushed 172.30.133.153:5000/sinatra/simple-openshift-sinatra-sti
 
-[joe@master00-GUID ~]$ osc build-logs ruby-example-1
 
-----
-+
-[NOTE]
-If the build isn't "Running" yet, or the sti-build container hasn't been
-deployed yet, build-logs will give you an error. Just wait a few moments and
-retry it.
-
-=== The Web Console Revisited
-
-If you peeked at the web console while the build was running, you probably
-noticed a lot of new information in the web console - the build status, the
-deployment status, new pods, and more.
-
-. Go to the web console now. The overview page should show that the
-application is running and show the information about the service at the top:
-+
-----
-
-SERVICE: RUBY-EXAMPLE routing traffic on 172.30.17.20 port 8080 - 8080 (tcp)
 
 ----
 
-=== Examining the Build
+. Make sure to check the progress on the web console.
 
-If you go back to your console session where you examined the `build-logs`,
-you'll see a number of things happened.
+== Create Your First Image (Sinatra)
 
-What were they?
-
-=== Testing the Application
-
-. Using the information you found in the web console, try to see if your service
-is working (as the `joe` user on the master host):
-+
-----
-
-[joe@master00-GUID ~]$ curl `osc get service | grep example | awk '{print $4":"$5}' | sed -e 's/\/.*//'`
-
-----
-+
-----
+. After your build is complete, to verify your pod and service, run the following:
++ 
+---- 
 
+[andrew@master00~]$ curl `oc get services | grep sin | awk '{print $4":"$5}' | awk -F'/' '{print $1}'`
 Hello, Sinatra!
 
 ----
 
-So, from a simple code repository with a few lines of Ruby, we have successfully
-built a Docker image and OpenShift has deployed it for us.
-
-The last step will be to add a route to make it publicly accessible. You might
-have noticed that adding the application code via the web console resulted in a
-route being created. Currently that route doesn't have a corresponding DNS
-entry, so it is unusable. The default domain is also not currently configurable,
-so it's not very useful at the moment.
-
-=== Adding a Route to Our Application
-
-. Remember that routes are associated with services, so, determine the id of your
-services from the service output you looked at above.
-+
-**Hint:** You will need to use `osc get services` to find it.
-+
-**Hint:** Do this as `joe` on the master host.
-+
-**Hint:** It is `ruby-example`.
-
-. Edit sinatra-route.json so that any instance of `cloudapps.example.com` is replaced with `cloudapps-$GUID.oslab.opentlc.com`.
+. Your last step is to add a route to make the application publicly accessible. To do this, run the following: 
 +
 ----
 
-[joe@master00-GUID ~]$ sed -i "s/cloudapps.example.com/cloudapps-$GUID.oslab.opentlc.com/" ~/training/beta4/sinatra-route.json
+[andrew@master00~]$ oc expose service simple-openshift-sinatra --hostname=mysinatra.cloudapps-$GUID.oslab.opentlc.com
 
-----
 
-. When you are done, create your route as the `joe` user on the master host:
-+
-----
 
-[joe@master00-GUID ~]$ osc create -f ~/training/beta4/sinatra-route.json
+[andrew@master00~]$ oc get routes 
+NAME                       HOST/PORT                                        PATH      SERVICE                    LABELS
+simple-openshift-sinatra   mysinatra.cloudapps-f4fc.oslab.opentlc.com             simple-openshift-sinatra   
 
-----
-
-. Check to make sure it was created on the master host:
-+
-----
-
-[joe@master00-GUID ~]$ osc get route
-
-----
-+
-----
-
-NAME                 HOST/PORT                                   PATH      SERVICE        LABELS
-ruby-example         ruby-example.sinatra.router.default.local             ruby-example   generatedby=OpenShiftWebConsole,name=ruby-example
-   ruby-example-route   hello-sinatra.cloudapps-GUID.oslab.opentlc.com                   ruby-example
-
-----
-
-. Verify everything is working right:
-+
-----
-
-[joe@master00-GUID ~]$ curl http://hello-sinatra.cloudapps-$GUID.oslab.opentlc.com
-
-----
-+
-----
-
+[andrew@master00~]$ curl http://mysinatra.cloudapps-$GUID.oslab.opentlc.com
 Hello, Sinatra!
-
 ----
 
-. Try accessing http://hello-sinatra.cloudapps-$GUID.oslab.opentlc.com in your web browser!
+== Using the Web Console 
 
-You'll note above that there is a route involving "router.default.local". If you
-remember, when creating the application from the web console, there was a
-section for "route". In the future the router will provide more configuration
-options for default domains and etc. Currently, the "default" domain for
-applications is "router.default.local", which is most likely unusable in your
-environment.
+. Using what you learned in this chapter, create an application using the Web Console and the command line.
+.. Create a project called "nodejs"
+.. The Application repository is link:https://github.com/openshift/nodejs-ex[https://github.com/openshift/nodejs-ex]
+.. Use the "nodejs:0.10" image
+.. Create a route and expose the service to the world under the name : http://nodejs.cloudapps-f4fc.oslab.opentlc.com/
+... Try to explore the *oc edit route* command
+.. Make sure Application has 4 replicas.
 
-[NOTE]
-HTTPS will *not* work for this route, because we have not specified
-any TLS termination.
+NOTE: At this point the web console can create a local route. To create an external route use the *oc expose* command or edit the existing route with *oc edit route*
+
+

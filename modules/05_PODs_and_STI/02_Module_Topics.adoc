@@ -11,7 +11,7 @@ ifdef::showscript[]
 
 === Transcript
 
-Welcome to module 5 of the OpenShift Enterprise FASTRAX course.
+Welcome to module 5 of the OpenShift Enterprise Implementation course.
 
 This module covers the following topics:
 

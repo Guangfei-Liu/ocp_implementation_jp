@@ -7,7 +7,7 @@ ifdef::revealjs_slideshow[]
 
 
 [#cover-h1] 
-Red Hat OpenShift Enterprise FASTRAX
+Red Hat OpenShift Enterprise Implementation
 
 [#cover-h2] 
 Creating and Deploying Your First Image

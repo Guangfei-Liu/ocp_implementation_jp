@@ -20,9 +20,6 @@ If you have not done so in previous labs, follow these steps before starting thi
 
 [bash-4.2$ ~] ssh root@192.168.0.100
 root@192.168.0.100's password: ******** (r3dh4t1!) 
-
-[root@master00-GUID ~]# sh Post_Deployment_Script.sh
-
 ----
 +
 [NOTE] 
@@ -44,7 +41,6 @@ This process might take a while. Use this time to read the lab and get a good un
 +
 ---- 
 
-[root@master00]# su - andrew
 [andrew@master00~]$ oc project hello-s2i
 Now using project "hello-s2i" on server "https://master00-c142.oslab.opentlc.com:8443".
 
@@ -100,7 +96,7 @@ For this activity, you use a prebuilt and preconfigured code repository. This re
 ----
  
 [andrew@master00~]$ for i in buildconfig deploymentconfig service; do echo $i; oc get $i; echo -e "\n\n"; done
-buildconfig
+
 
 ----
 
@@ -124,7 +120,6 @@ simple-openshift-sinatra   <none>    deploymentconfig=simple-openshift-sinatra-s
 +
 ----
 [andrew@master00~]$ oc get pods
-[andrew@master00-f4fc ~]$ oc get pods
 NAME                                   READY     REASON       RESTARTS   AGE
 simple-openshift-sinatra-sti-1-build   0/1       ExitCode:0   0          2m
 simple-openshift-sinatra-sti-2-cpp9t   1/1       Running      0          7m

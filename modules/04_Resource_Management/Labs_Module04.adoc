@@ -81,8 +81,13 @@ root@master00-GUID.oslab.opentlc.com's password: ******** (r3dh4t1!)
 
 == Lab: Configure Authentication
 
-. Edit your `/etc/openshift/master/master-config.yml` so that the oauthConfig section look like this:
-
+. Create a copy of your master's config file
++
+----
+[root@master00-GUID ~]# cp /etc/openshift/master/master-config.yaml /etc/openshift/master/master-config.yaml.original
+----
+. Edit your `/etc/openshift/master/master-config.yaml` so that the oauthConfig section look like this:
++
 ----
 oauthConfig:
   assetPublicURL: https://master00-2642.oslab.opentlc.com:8443/console/
@@ -791,6 +796,7 @@ No events.
 [andrew@master00 ~]$ oc get service
 NAME            LABELS    SELECTOR               IP(S)          PORT(S)
 hello-service   <none>    name=hello-openshift   172.30.5.240   8888/TCP
+
 [andrew@master00 ~]$ oc describe service hello-service                                                                                                                                                
 Name:                   hello-service
 Labels:                 <none>
@@ -807,27 +813,29 @@ No events.
 +
 ----
 [andrew@master00 ~]$ curl http://172.30.5.240:8888
-
 ----
-cat << EOF > hello-route.json
-   {
-      "kind": "Route",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "hello-openshift-route"
-      },
-      "spec": {
-        "host": "hello-openshift.cloudapps-$GUID.oslab.opentlc.com",
-        "to": {
-          "name": "hello-openshift-service"
-        },
-        "tls": {
-          "termination": "edge"
-        }
-      }
-}
 
-EOF
+. Create the Router 
++
+----
+[andrew@master00 ~]$ oc expose service/hello-service --hostname=hello2-openshift.cloudapps-6b80.oslab.opentlc.com
+----
+
+
+. Create a *route* for our service
++
+----
+[andrew@master00-6b80 ~]$ oc create -f hello-route.json
+routes/hello-openshift-route
+----
+
+. Lets see our routes 
++
+----
+[andrew@master00-6b80 ~]$ oc get routes
+NAME                    HOST/PORT                                          PATH      SERVICE                   LABELS
+hello-openshift-route   hello-openshift.cloudapps-6b80.oslab.opentlc.com             hello-openshift-service   
+----
 
 
 

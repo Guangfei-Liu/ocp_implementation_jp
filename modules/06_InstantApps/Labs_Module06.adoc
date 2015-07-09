@@ -49,11 +49,11 @@ comes in a template that you can just fire up and start using or hacking on.
 
 === A Project for the Quickstart
 
-. On the master host as `joe`, create a new project:
+. On the master host as `andrew`, create a new project:
 +
 ----
 
-[joe@master00-GUID ~]$ osc new-project quickstart --display-name="Quickstart" \
+[andrew@master00-GUID ~]$ oc new-project quickstart --display-name="Quickstart" \
     --description='A demonstration of a "quickstart/template"'
 
 ----
@@ -92,11 +92,11 @@ using a regex-like string that will be presented as ADMIN_USERNAME.
 
 === Adding the Template
 
-. On the master host as `root` in the `/root/training/beta4` folder:
-+
+. On the master host as `root`, get and create the Example template:
 ----
 
-[root@master00-GUID ~]# cd /root/training/beta4;osc create -f integrated-template.json -n openshift
+[root@master00-GUID ~]# wget http://www.opentlc.com/download/ose_fastrax/resources/Template_Example.json
+[root@master00-GUID ~]# oc create -f Template_Example.json -n openshift
 
 ----
 +
@@ -105,7 +105,7 @@ What did you just do? The `integrated-template.json` file defined a template. By
 
 === Create an Instance of the Template
 
-. In the web console, log in as `joe`.
+. In the web console, log in as `andrew`.
 
 . Find the "Quickstart" project, and then click the "Create +" button.
 +
@@ -184,12 +184,12 @@ separate "applications" that we want to wire together.
 +
 ----
 
-[alice@master00-GUID ~]$ osc new-project wiring --display-name="Exploring Parameters" \
+[alice@master00-GUID ~]$ oc new-project wiring --display-name="Exploring Parameters" \
     --description='An exploration of wiring using parameters'
 
 ----
 
-. Log into the web console as `alice`. Can you see `joe`'s projects and content?
+. Log into the web console as `alice`. Can you see `andrew`'s projects and content?
 
 . Before continuing, `alice` will also need the training repository run the following on the master host as `alice`:
 +
@@ -211,7 +211,7 @@ looking for a DB, but won't fail spectacularly if one isn't found.
 +
 ----
 
-[alice@master00-GUID ~]$ osc process -f frontend-template.json > frontend-config.json
+[alice@master00-GUID ~]$ oc process -f frontend-template.json > frontend-config.json
 
 ----
 +
@@ -226,7 +226,7 @@ generated (remember the template and parameter info from earlier?).
 +
 ----
 
-[alice@master00-GUID ~]$ osc create -f frontend-config.json
+[alice@master00-GUID ~]$ oc create -f frontend-config.json
 
 ----
 
@@ -243,9 +243,9 @@ missing. So, let's create it!
 
 === Create the Database Config
 
-Remember, `osc process` will examine a template, generate any desired
+Remember, `oc process` will examine a template, generate any desired
 parameters, and spit out a JSON `config`uration that can be `created` with
-`osc`.
+`oc`.
 
 Processing the template for the db will generate some values for the DB root
 user and password, but they don't actually match what was previously generated
@@ -286,13 +286,13 @@ the template using the `process` command and create the result:
 +
 ----
 
-[alice@master00-GUID ~]$ osc process -f db-template.json \
+[alice@master00-GUID ~]$ oc process -f db-template.json \
         -v MYSQL_USER=userMXG,MYSQL_PASSWORD=slDrggRv,MYSQL_DATABASE=root \
-        | osc create -f -
+        | oc create -f -
 
 ----
 +
-`osc process` can be passed values for parameters, which will override
+`oc process` can be passed values for parameters, which will override
 auto-generation.
 +
 It may take a little while for the MySQL container to download (if you didn't
@@ -304,7 +304,7 @@ verify MySQL is running with curl:
 +
 ----
 
-[alice@master00-GUID ~]$ curl `osc get services | grep database | awk '{print $4}'`:5434
+[alice@master00-GUID ~]$ curl `oc get services | grep database | awk '{print $4}'`:5434
 
 ----
 +
@@ -336,7 +336,7 @@ The easiest way to get this going? Just nuke the existing pod.
 +
 ----
 
-[alice@master00-GUID ~]$ osc get replicationcontroller
+[alice@master00-GUID ~]$ oc get replicationcontroller
 
 ----
 
@@ -346,7 +346,7 @@ should be:
 +
 ----
 
-[alice@master00-GUID ~]$ osc describe rc ruby-hello-world-1
+[alice@master00-GUID ~]$ oc describe rc ruby-hello-world-1
 
 ----
 +
@@ -359,7 +359,7 @@ longer see the database error!
 +
 ----
 
-[alice@master00-GUID ~]$ osc delete pod `osc get pod | grep -e "hello-world-[0-9]" | grep -v build | awk '{print $1}'`
+[alice@master00-GUID ~]$ oc delete pod `oc get pod | grep -e "hello-world-[0-9]" | grep -v build | awk '{print $1}'`
 
 ----
 +
@@ -379,7 +379,7 @@ deployment hooks a bit later.
 +
 ----
 
-[alice@master00-GUID ~]$ osc get pod | grep world
+[alice@master00-GUID ~]$ oc get pod | grep world
 
 ----
 +
@@ -593,7 +593,7 @@ NFS mount:
 [root@master00-GUID ~]# GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
 [root@master00-GUID ~]# cd /root/training/beta4
 [root@master00-GUID ~]# sed -i "s/ose3-master.example.com/master00-$GUID.oslab.opentlc.com/" persistent-volume.json
-[root@master00-GUID ~]# osc create -f persistent-volume.json
+[root@master00-GUID ~]# oc create -f persistent-volume.json
     
 ----
 +
@@ -611,7 +611,7 @@ volume a separate filesystem if you want to enforce this limit).
 +
 ----
 
-[root@master00-GUID ~]# osc describe persistentvolumes/pv0001
+[root@master00-GUID ~]# oc describe persistentvolumes/pv0001
 
 ----
 +
@@ -650,7 +650,7 @@ that specifies what kind and how much storage is desired:
 +
 ----
 
-[alice@master00-GUID ~]$ cd ~/training/beta4; osc create -f persistent-volume-claim.json
+[alice@master00-GUID ~]$ cd ~/training/beta4; oc create -f persistent-volume-claim.json
 
 ----
 +
@@ -668,7 +668,7 @@ been filled ("bound" to a PersistentVolume).
 +
 ----
 
-[alice@master00-GUID ~]$ osc get pvc
+[alice@master00-GUID ~]$ oc get pvc
 
 ----
 +
@@ -683,7 +683,7 @@ claim1    map[]     Bound     pv0001
 +
 ----
 
-[root@master00-GUID ~]# osc describe pv/pv0001
+[root@master00-GUID ~]# oc describe pv/pv0001
 
 ----
 +
@@ -711,7 +711,7 @@ this volume should be mounted where the database will use it. As `alice`:
 +
 ----
 
-[alice@master00-GUID ~]$ osc edit dc/database
+[alice@master00-GUID ~]$ oc edit dc/database
 
 ----
 
@@ -780,7 +780,7 @@ restart:
 +
 ----
 
-[alice@master00-GUID ~]$ osc delete pod `osc get pod | grep front | awk {'print $1'}`
+[alice@master00-GUID ~]$ oc delete pod `oc get pod | grep front | awk {'print $1'}`
 
 ----
 
@@ -796,7 +796,7 @@ To quickly delete the Database pod you can do the following:
 
 ----
 
-[alice@master00-GUID ~]$ osc delete pod/`osc get pod | grep -e "database-[0-9]" | awk {'print $1'}`
+[alice@master00-GUID ~]$ oc delete pod/`oc get pod | grep -e "database-[0-9]" | awk {'print $1'}`
 
 ----
 

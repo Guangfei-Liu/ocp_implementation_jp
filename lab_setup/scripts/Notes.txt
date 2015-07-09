@@ -144,7 +144,7 @@ oc delete all -l docker-registry=default ; oc delete pod docker-registry-1-deplo
 
 
 docker pull registry.access.redhat.com/openshift3/ose-docker-registry:v3.0.0.0
-oadm registry --config=admin.kubeconfig   --credentials=openshift-registry.kubeconfig  --images='openshift3/ose-${component}:v3.0.0.0' --selector='zone=infranodes'
+oadm registry --config=admin.kubeconfig   --credentials=openshift-registry.kubeconfig  --s='openshift3/ose-${component}:v3.0.0.0' --selector='zone=infranodes'
 oadm registry --config=/etc/openshift/master/admin.kubeconfig   --credentials=/etc/openshift/master/openshift-registry.kubeconfig  --images='registry.access.redhat.com/openshift3/ose-${component}:v3.0.0.0' --selector='region=infra' 
 
  curl -v `oc get services | grep registry | awk '{print $4":"$5}/v2/' | sed 's,/[^/]\+$,/v2/,'`

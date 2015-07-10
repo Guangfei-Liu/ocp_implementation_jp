@@ -1,7 +1,5 @@
-
-:scrollbar:
-:data-uri:
 == Prerequisites
+:noaudio:
 
 .System Requirements
 

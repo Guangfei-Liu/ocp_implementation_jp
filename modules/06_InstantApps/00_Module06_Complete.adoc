@@ -1,38 +1,36 @@
-<<<<<<< HEAD
+
 == &nbsp;
 :noaudio:
 :numbered!:
 :scrollbar:
 :data-uri:
-=======
-:noaudio:
->>>>>>> origin/beta4
 
-ifdef::revealjs_slideshow[] 
-[#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"] 
+ifdef::revealjs_slideshow[]
+[#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"]
 
 
-[#cover-h1] 
+[#cover-h1]
 Red Hat OpenShift Enterprise Implementation
 
-[#cover-h2] 
-Instant Apps and Templates 
+[#cover-h2]
+Instant Apps and Templates
 
-[#cover-logo] 
-image::{revealjs_cover_image}[] 
+[#cover-logo]
+image::{revealjs_cover_image}[]
 
 endif::[]
 
 
 == Module Topics
+:noaudio:
 
 
 * Templates Overview
-* How to create a Template file 
+* How to create a Template file
 * Creating a Configuration From a Template
 * Wiring Disparate Components
 * Using Templates from the Web Management Console
-* Lab	: Installing a Template 
+* Lab	: Installing a Template
 * Lab	: Wiring Templates together
 
 
@@ -40,8 +38,8 @@ ifdef::showScript[]
 
 === Transcript
 
-* In this Module we will discuss the following topics: 
-** Templates Overview 
+* In this Module we will discuss the following topics:
+** Templates Overview
 ** Templates Structure
 ** Wiring Disparate Components
 ** Using Templates from the Web Management Console
@@ -54,29 +52,33 @@ endif::showScript[]
 
 
 == Module Progress
+:noaudio:
+
 
 // This is the Module06 Topic01 Image.
-// ISSUE: M06, M06_T01.png Needs to be created 
+// ISSUE: M06, M06_T01.png Needs to be created
 //image::images/M06_T01.png[width=852,height=672]
 
 
 >>>>>>> origin/beta4
 == Template Overview
+:noaudio:
 
 
-.What is a Template 
+
+.What is a Template
 
 * From: link:http://docs.openshift.org/latest/dev_guide/templates.html[docs.openshift.org]
-** A template describes a set of `resources` that can be customized and processed to produce a configuration. 
-** Each template is a parameterized list that is used by OpenShift to create a list of resources, including services, pods, routes, buildconfigs, etc. 
+** A template describes a set of `resources` that can be customized and processed to produce a configuration.
+** Each template is a parameterized list that is used by OpenShift to create a list of resources, including services, pods, routes, buildconfigs, etc.
 ** A template also defines a set of labels to apply to every resource created by the template.
 
 ifdef::showScript[]
 
 === Transcript
 
-* A template describes a set of `resources` that can be customized and processed to produce a configuration. 
-* Each template is a parameterized list that is used by OpenShift to create a list of resources, including services, pods, routes, buildconfigs, etc. 
+* A template describes a set of `resources` that can be customized and processed to produce a configuration.
+* Each template is a parameterized list that is used by OpenShift to create a list of resources, including services, pods, routes, buildconfigs, etc.
 * A template also defines a set of labels to apply to every resource created by the template.
 
 endif::showScript[]
@@ -85,12 +87,13 @@ endif::showScript[]
 
 
 == Template Overview
+:noaudio:
 
-.What are Templates for?  
+.What are Templates for?
 
 * With Templates we can create instantly deployable apps for our developers or customers.
 * A template can use a pre-set variables or randomize values (i.e passwords) according to definition.
-  
+
 
 ifdef::showScript[]
 
@@ -102,10 +105,11 @@ endif::showScript[]
 
 
 == Template Overview
+:noaudio:
 
-.Components 
+.Components
 
-* Review the following sample template file: 
+* Review the following sample template file:
 
 [source,json]
 ----
@@ -122,17 +126,17 @@ endif::showScript[]
 
     }
   },
-  "parameters": [ 
+  "parameters": [
     {
       "name": "username"
       "value": "admin"
       "description": "administrative user"
     }
   ],
-  "labels": { 
+  "labels": {
     "custom_label": "Label_Name"
   },
-  "objects": [ 
+  "objects": [
     {
       ...
     }
@@ -159,15 +163,16 @@ endif::showScript[]
 
 
 == Template Overview
+:noaudio:
 
 .Components continued:
 
-* Labels  
+* Labels
 ** Labels are used to manage and organize generated resources, such as pods. The labels specified in the template are applied to every resource that is generated from the template.
 ** Labels are used to organize, group, or select objects and resources.  resources and pods are "tagged" with labels, and then services and replication controllers use labels to indicate the pods they relate to. This makes it possible for services and replication controllers to reference groups of pods, or treat pods with potentially different Docker containers as similar entities.
 
-* Parameters 
-** Parameters are used to "share" configuration values between the different items in the template.  
+* Parameters
+** Parameters are used to "share" configuration values between the different items in the template.
 ** An easy example would be the database user name, password or port needed by the frontend pods to communicate to our database backend pods.
 
 * Items - Items can be any resources that needs to be created for the template, in our example we will create Pods, Services, Replication controllers and a route for our template.
@@ -184,6 +189,7 @@ endif::showScript[]
 
 
 == How to create a Template file
+:noaudio:
 
 . Template example - Metadata
 
@@ -212,8 +218,9 @@ ifdef::showScript[]
 endif::showScript[]
 
 == How to create a Template file
+:noaudio:
 
-. Template example - Objects: Service "web" 
+. Template example - Objects: Service "web"
 
 [source,json]
 ----
@@ -247,7 +254,7 @@ endif::showScript[]
         "loadBalancer": {}
       }
     },
-    
+
 ----
 
 ifdef::showScript[]
@@ -259,6 +266,7 @@ ifdef::showScript[]
 endif::showScript[]
 
 == How to create a Template file
+:noaudio:
 
 . Template example - Objects: Service "database"
 
@@ -304,6 +312,7 @@ endif::showScript[]
 
 
 == How to create a Template file
+:noaudio:
 
 . Template example - Objects: Route
 
@@ -338,6 +347,7 @@ endif::showScript[]
 
 
 == How to create a Template file
+:noaudio:
 
 . Template example - Objects: ImageStreams "ruby-sample" and "ruby-20-rhel7"
 
@@ -380,6 +390,7 @@ ifdef::showScript[]
 endif::showScript[]
 
 == How to create a Template file
+:noaudio:
 
 . Template example - Objects: BuildConfig
 
@@ -496,6 +507,7 @@ endif::showScript[]
 
 
 == How to create a Template file
+:noaudio:
 
 . Template example - Objects: DeploymentConfig "frontend"
 
@@ -613,6 +625,7 @@ endif::showScript[]
 
 
 == How to create a Template file
+:noaudio:
 
 . Template example - Objects: DeploymentConfig "db"
 
@@ -708,8 +721,9 @@ endif::showScript[]
 <<<<<<< HEAD
 
 == How to create a Template file
+:noaudio:
 
-. Template example - Parameters 
+. Template example - Parameters
 
 [source,json]
 ----
@@ -760,12 +774,13 @@ endif::showScript[]
 
 =======
 // This is the Module06 Topic02 Image.
-// ISSUE: M06, M06_T02.png Needs to be created 
+// ISSUE: M06, M06_T02.png Needs to be created
 //image::images/M06_T02.png[width=852,height=672]
 >>>>>>> origin/beta4
 
 
 == Creating a Configuration From a Template
+:noaudio:
 
 .Uploading a Template
 
@@ -800,6 +815,7 @@ endif::showScript[]
 
 
 == Creating a Configuration From a Template
+:noaudio:
 
 .Generating a Configuration
 
@@ -840,10 +856,11 @@ endif::showScript[]
 
 
 == Wiring Disparate Components
+:noaudio:
 
 .Overview
 
-* Sometimes a developer wants to build up the various components manually. 
+* Sometimes a developer wants to build up the various components manually.
 * Let's take our example and treat it like two separate "applications" that we want to wire together.
 ** Process and create a template for the "frontend"
 ** Extract the values of the *mysql* credentials from the config file
@@ -859,11 +876,12 @@ endif::showScript[]
 
 
 == Wiring Disparate Components
+:noaudio:
 
 .Process "frontend"
- 
-* The first step will be to stand up the frontend of our application. 
-** Process the "frontend" template and create the *config* file.  
+
+* The first step will be to stand up the frontend of our application.
+** Process the "frontend" template and create the *config* file.
 
 ----
 osc process -f frontend-template.json > frontend-config.json
@@ -893,11 +911,12 @@ endif::showScript[]
 
 
 == Wiring Disparate Components
+:noaudio:
 
 .Extract the values from config file
- 
 
-* Before creating the "db" template we will review the config file for "frontend" 
+
+* Before creating the "db" template we will review the config file for "frontend"
 ** In the config, you will see that a DB password and other parameters have been generated
 ----
 grep -A 1 MYSQL_* frontend-config.json
@@ -930,12 +949,13 @@ endif::showScript[]
 
 
 == Wiring Disparate Components
+:noaudio:
 
 .Process "db"
 
 * Now that we know the values that were used to create "frontend" we can use them when we process the "db" template
 * In this example we are processing and creating the "db" template while overriding the mysql credentials variables.
-** Process the "frontend" template and create the *config* file.  
+** Process the "frontend" template and create the *config* file.
 +
 ----
 osc process -f db-template.json  -v MYSQL_USER=userMXG,MYSQL_PASSWORD=slDrggRv,MYSQL_DATABASE=root > db-config.json
@@ -969,13 +989,14 @@ endif::showScript[]
 
 
 == Summary
+:noaudio:
 
 * Templates Overview
-* How to create a Template file 
+* How to create a Template file
 * Creating a Configuration From a Template
 * Wiring Disparate Components
 * Using Templates from the Web Management Console
-* Lab	: Installing a Template 
+* Lab	: Installing a Template
 * Lab	: Wiring Templates together
 
 
@@ -988,13 +1009,3 @@ ifdef::showScript[]
 * Place narrator script here
 
 endif::showScript[]
-
-
-
-
-
-
-
-
-
-

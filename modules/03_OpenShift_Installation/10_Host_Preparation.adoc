@@ -1,28 +1,27 @@
-
-:scrollbar:
-:data-uri:
 == Host Preparation
-.Host Preparation - Networking 
+:noaudio:
 
-* Network needs to be configured and nodes need access to each other
-* Ports 
-** Node-To-Node 
+.Host Preparation - Firewalls
+OpenShift relies heavily on iptables under the covers. As such, it must be running, and various ports will need to be opened to allow communication between OpenShift components.
+
+* Ports
+** Node-To-Node
 *** 4789 : required between nodes for SDN communication between pods on separate hosts
 
-** Nodes-To-Master 
-*** 53: On openshift master server. Which provides DNS services within the environment
+** Nodes-To-Master
+*** 53: DNS services within the environment
 *** 4789 : required between nodes for SDN communication between pods on separate hosts
-*** 8443/443 : Access to the API   
+*** 8443 : Access to the API
 
 ** Master-To-Node
-*** 10250 : on the minons(Kublet), accepts requests ensure state of pods is healthy etc
+*** 10250 : endpoint for master communication with nodes
 *** 4789 : required between nodes for SDN communication between pods on separate hosts
 
-** Master to Master 
+** Master to Master
 *** 4789 : required between nodes for SDN communication between pods on separate hosts
 
-** External - Master 
-*** 8443: To allow API updates via cli, GUI or REST.  eg provisioning of new pods or application,deployment rollout, Using the remote client
+** External - Master
+*** 8443: CLI and IDE plugins communicate via REST to this port. Web console runs on this port.
 
 ifdef::showscript[]
 

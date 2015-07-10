@@ -1,11 +1,10 @@
-
-:scrollbar:
-:data-uri:
 == How to create a Template file
+:noaudio:
 
-. Template example - Objects: DeploymentConfig "frontend"
+. Template example - Objects: BuildConfig
 
 [source,json]
+
 ----
  {
       "kind": "DeploymentConfig",
@@ -102,8 +101,8 @@
       },
       "status": {}
     },
+    {
 ----
-
 ifdef::showScript[]
 
 === Transcript
@@ -111,8 +110,6 @@ ifdef::showScript[]
 * Place narrator script here
 
 endif::showScript[]
-
-
 
 
 

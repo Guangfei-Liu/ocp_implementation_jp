@@ -1,17 +1,15 @@
-
-:scrollbar:
-:data-uri:
 == How to create a Template file
+:noaudio:
 
-. Template example - Objects: DeploymentConfig "db"
+. Template example - Objects: DeploymentConfig "frontend"
 
 [source,json]
 ----
-  {
+ {
       "kind": "DeploymentConfig",
       "apiVersion": "v1beta3",
       "metadata": {
-        "name": "database",
+        "name": "frontend",
         "creationTimestamp": null
       },
       "spec": {
@@ -20,18 +18,32 @@
         },
         "triggers": [
           {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "ruby-helloworld"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "ruby-sample:latest"
+              },
+              "lastTriggeredImage": ""
+            }
+          },
+          {
             "type": "ConfigChange"
           }
         ],
-        "replicas": 1,
+        "replicas": 2,
         "selector": {
-          "name": "database"
+          "name": "frontend"
         },
         "template": {
           "metadata": {
             "creationTimestamp": null,
             "labels": {
-              "name": "database"
+              "name": "frontend"
             }
           },
           "nodeSelector": {
@@ -40,15 +52,23 @@
           "spec": {
             "containers": [
               {
-                "name": "ruby-helloworld-database",
-                "image": "registry.access.redhat.com/openshift3_beta/mysql-55-rhel7:latest",
+                "name": "ruby-helloworld",
+                "image": "ruby-sample",
                 "ports": [
                   {
-                    "containerPort": 3306,
+                    "containerPort": 8080,
                     "protocol": "TCP"
                   }
                 ],
                 "env": [
+                  {
+                    "name": "ADMIN_USERNAME",
+                    "value": "${ADMIN_USERNAME}"
+                  },
+                  {
+                    "name": "ADMIN_PASSWORD",
+                    "value": "${ADMIN_PASSWORD}"
+                  },
                   {
                     "name": "MYSQL_USER",
                     "value": "${MYSQL_USER}"
@@ -64,7 +84,7 @@
                 ],
                 "resources": {},
                 "terminationMessagePath": "/dev/termination-log",
-                "imagePullPolicy": "Always",
+                "imagePullPolicy": "IfNotPresent",
                 "capabilities": {},
                 "securityContext": {
                   "capabilities": {},
@@ -79,7 +99,7 @@
         }
       },
       "status": {}
-    }
+    },
 ----
 
 ifdef::showScript[]
@@ -89,6 +109,7 @@ ifdef::showScript[]
 * Place narrator script here
 
 endif::showScript[]
+
 
 
 

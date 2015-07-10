@@ -1,31 +1,25 @@
-
-:scrollbar:
-:data-uri:
 == Wiring Disparate Components
+:noaudio:
 
-.Process "db"
+.Extract the values from config file
 
-* Now that we know the values that were used to create "frontend" we can use them when we process the "db" template
-* In this example we are processing and creating the "db" template while overriding the mysql credentials variables.
-** Process the "frontend" template and create the *config* file.  
-+
+
+* Before creating the "db" template we will review the config file for "frontend"
+** In the config, you will see that a DB password and other parameters have been generated
 ----
-osc process -f db-template.json  -v MYSQL_USER=userMXG,MYSQL_PASSWORD=slDrggRv,MYSQL_DATABASE=root > db-config.json
------
+grep -A 1 MYSQL_* frontend-config.json
+                                            "name": "MYSQL_USER",
+                                            "key": "MYSQL_USER",
+                                            "value": "userMXG"
 
-** create the configuration:
-+
-----
-osc create -f frontend-config.json
----
+                                            "name": "MYSQL_PASSWORD",
+                                            "key": "MYSQL_PASSWORD",
+                                            "value": "slDrggRv"
 
-* We can also achieve this in a single step.
-** The following will process and create the application:
-----
+                                            "name": "MYSQL_DATABASE",
+                                            "key": "MYSQL_DATABASE",
+                                            "value": "root"
 
-osc process -f db-template.json \
-    -v MYSQL_USER=userMXG,MYSQL_PASSWORD=slDrggRv,MYSQL_DATABASE=root \
-    | osc create -f -
 ----
 
 
@@ -36,6 +30,8 @@ ifdef::showScript[]
 * Place narrator script here
 
 endif::showScript[]
+
+
 
 
 

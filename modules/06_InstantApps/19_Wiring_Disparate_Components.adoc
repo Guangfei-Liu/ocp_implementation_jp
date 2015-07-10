@@ -1,28 +1,13 @@
-
-:scrollbar:
-:data-uri:
 == Wiring Disparate Components
+:noaudio:
 
-.Process "frontend"
- 
-* The first step will be to stand up the frontend of our application. 
-** Process the "frontend" template and create the *config* file.  
+.Overview
 
-----
-osc process -f frontend-template.json > frontend-config.json
------
-
-
-
-
-** create the configuration:
-----
-osc create -f frontend-config.json
----
-
-* As soon as you create this, all of the resources will be created and a build will be started for you.
-
-
+* Sometimes a developer wants to build up the various components manually.
+* Let's take our example and treat it like two separate "applications" that we want to wire together.
+** Process and create a template for the "frontend"
+** Extract the values of the *mysql* credentials from the config file
+** Process and create a template for the "db" and override the values with the values we extracted from "frontend" config file.
 
 ifdef::showScript[]
 
@@ -31,7 +16,5 @@ ifdef::showScript[]
 * Place narrator script here
 
 endif::showScript[]
-
-
 
 

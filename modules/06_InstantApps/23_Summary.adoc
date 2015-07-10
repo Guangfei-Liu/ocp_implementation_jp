@@ -1,14 +1,12 @@
-
-:scrollbar:
-:data-uri:
 == Summary
+:noaudio:
 
 * Templates Overview
-* How to create a Template file 
+* How to create a Template file
 * Creating a Configuration From a Template
 * Wiring Disparate Components
 * Using Templates from the Web Management Console
-* Lab	: Installing a Template 
+* Lab	: Installing a Template
 * Lab	: Wiring Templates together
 
 
@@ -21,13 +19,3 @@ ifdef::showScript[]
 * Place narrator script here
 
 endif::showScript[]
-
-
-
-
-
-
-
-
-
-

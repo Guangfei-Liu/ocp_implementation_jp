@@ -1,21 +1,20 @@
-
-:scrollbar:
-:data-uri:
 == Deploying the Registry
-* OpenShift can build Docker images from your source code, deploy them, and manage their lifecycle. To enable this, OpenShift provides an internal, integrated Docker registry to can be deployed in your OpenShift environment to manage images "locally".
+:noaudio:
+
+* OpenShift can build Docker images from your source code, deploy them, and manage their lifecycle. To enable this, an internal, integrated Docker registry can be deployed in your OpenShift environment. OpenShift runs the registry in a pod on a node, just like any other workload.
 +
 ----
 $ oadm registry --config=admin.kubeconfig \
-    --credentials=openshift-registry.kubeconfig 
+    --credentials=openshift-registry.kubeconfig
 ----
 
-* If you wanted to control where your registry gets deployed, you can use the following 
-** This will make sure that the *registry* pod will only be hosted in the "infra" region. 
+* If you wanted to control where your registry gets deployed, you can specify the labels you want to match.
+** This will make sure that the *registry* pod will only be hosted in the "infra" region.
 +
 ----
 $ oadm registry --config=admin.kubeconfig \
-    --credentials=openshift-registry.kubeconfig \ 
-	   --selector='region=infra' 
+    --credentials=openshift-registry.kubeconfig \
+	   --selector='region=infra'
 ----
 
 * This creates a service and a deployment configuration, both called docker-registry. Once deployed successfully, a pod is created with a name similar to docker-registry-1-cpty9.

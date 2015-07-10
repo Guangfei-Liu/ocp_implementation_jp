@@ -1,7 +1,7 @@
-
-:scrollbar:
-:data-uri:
 == Docker Install
+:noaudio:
+
+
 * Docker version 1.6 or later from the rhel-7-server-ose-3.0-rpms repository must be installed and running on master and node hosts before installing OpenShift.
 * We will run through the following procedure:
 ** Install Docker:

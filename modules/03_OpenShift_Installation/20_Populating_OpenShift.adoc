@@ -1,9 +1,7 @@
-
-:scrollbar:
-:data-uri:
 == Populating OpenShift
- 
-* The xPaaS Middleware image streams provide images for *JBoss EAP*, *JBoss EWS*, and *JBoss A-MQ*. They can be used to build applications for those platforms or run directly as is.
+:noaudio:
+
+* The xPaaS Middleware image streams provide images for *JBoss EAP*, *JBoss EWS*, and *JBoss A-MQ*. They can be used to build applications for those platforms.
 ** To create the Image Streams for xPaaS Middleware Images:
 +
 ----
@@ -11,8 +9,8 @@ $ oc create -f \
     examples/xpaas-streams/jboss-image-streams.json
     -n openshift
 ----
-* The database service templates make it easy to run a database image which can be utilized by other components. 
-* For each database (*MongoDB*, *MySQL*, and *PostgreSQL*), two templates are defined.
+* The database service templates make it easy to run a database instance which can be utilized by other components.
+* For each database (*MongoDB*, *MySQL*, and *PostgreSQL*), two templates are provided.
 ** To create the core set of database templates:
 +
 ----

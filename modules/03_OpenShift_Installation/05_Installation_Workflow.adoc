@@ -1,15 +1,13 @@
-
-:scrollbar:
-:data-uri:
 == Installation Workflow
+:noaudio:
 
-* Prerequisites 
+* Prerequisites
 
 ** System Requirements
 ** DNS Setup
 ** Host Preparation
 
-* OpenShift Installation 
+* OpenShift Installation
 
 ** Downloading and Running the Installation Utility
 

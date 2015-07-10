@@ -1,0 +1,40 @@
+== Wiring Disparate Components
+:noaudio:
+
+.Process "db"
+
+* Now that we know the values that were used to create "frontend" we can use them when we process the "db" template
+* In this example we are processing and creating the "db" template while overriding the mysql credentials variables.
+** Process the "frontend" template and create the *config* file.
++
+----
+osc process -f db-template.json  -v MYSQL_USER=userMXG,MYSQL_PASSWORD=slDrggRv,MYSQL_DATABASE=root > db-config.json
+-----
+
+** create the configuration:
++
+----
+osc create -f frontend-config.json
+---
+
+* We can also achieve this in a single step.
+** The following will process and create the application:
+----
+
+osc process -f db-template.json \
+    -v MYSQL_USER=userMXG,MYSQL_PASSWORD=slDrggRv,MYSQL_DATABASE=root \
+    | osc create -f -
+----
+
+
+ifdef::showScript[]
+
+=== Transcript
+
+* Place narrator script here
+
+endif::showScript[]
+
+
+
+

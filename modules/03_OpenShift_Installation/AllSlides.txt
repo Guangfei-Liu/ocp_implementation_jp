@@ -1,6 +1,10 @@
-include::00_Module03_Complete.adoc[]
-include::01_Title.adoc[]
-include::02_Module_Topics.adoc[]
+
+:scriptsdir: scormdriver/auto-scripts
+:script: AutoBookmark.js
+:script: AutoCompleteSCO.js
+:script: CourseExit.js
+
+
 include::01_Title.adoc[]
 
 include::02_Module_Topics.adoc[]

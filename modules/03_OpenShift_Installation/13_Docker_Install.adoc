@@ -1,12 +1,11 @@
-
-:scrollbar:
-:data-uri:
 == Docker Install
+:noaudio:
+
 .Configuring Docker Storage
 
 * Docker’s default loopback storage mechanism is not supported for production use and is only appropriate for proof of concept environments. For production environments, you must create a thin-pool logical volume and re-configure docker to use that volume.
-* You can use the docker-storage-setup script to create a thin-pool device and configure docker’s storage driver after installing docker but before you start using it. 
-* The script reads configuration options from the /etc/sysconfig/docker-storage-setup file. 
+* You can use the docker-storage-setup script to create a thin-pool device and configure docker’s storage driver after installing docker but before you start using it.
+* The script reads configuration options from the /etc/sysconfig/docker-storage-setup file.
 * Configure *docker-storage-setup* script for your environment. There are three options available based on your storage configuration:
 ** Create a thin-pool volume from the remaining free space in the volume group where your root filesystem resides; this requires no configuration:
 +

@@ -1,27 +1,18 @@
-
-:scrollbar:
-:data-uri:
 == Host Preparation
+:noaudio:
 
-.Host Preparation - Networking and misc 
+.Host Preparation - Networking and misc
 
-* You need to remove NetworkManager 
+* You would need to install the following software packages
 +
 ----
-# yum remove NetworkManager*
-----
-
-* You would need to install the following software packages 
-* You would need to install the following software packages 
-+
-----
-# yum install wget git net-tools bind-utils iptables-services bridge-utils python-virtualenv gcc
+# yum install wget git net-tools iptables-services ython-virtualenv gcc
 ----
 
 *  Update your software before installation
 +
 ----
-# yum update -y 
+# yum update -y
 ----
 
 ifdef::showscript[]

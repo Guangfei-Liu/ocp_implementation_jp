@@ -1,27 +1,37 @@
-
-:scrollbar:
-:data-uri:
 == How to create a Template file
+:noaudio:
 
-. Template example - Objects: Route
+. Template example - Objects: Service "database"
 
 [source,json]
 ----
-    {
-      "kind": "Route",
+  {
+      "kind": "Service",
       "apiVersion": "v1beta3",
       "metadata": {
-        "name": "route-edge",
+        "name": "database",
         "creationTimestamp": null
       },
       "spec": {
-        "host": "integrated.cloudapps.example.com",
-        "to": {
-          "kind": "Service",
-          "name": "frontend"
-        }
+        "ports": [
+          {
+            "name": "db",
+            "protocol": "TCP",
+            "port": 5434,
+            "targetPort": 3306,
+            "nodePort": 0
+          }
+        ],
+        "selector": {
+          "name": "database"
+        },
+        "portalIP": "",
+        "type": "ClusterIP",
+        "sessionAffinity": "None"
       },
-      "status": {}
+      "status": {
+        "loadBalancer": {}
+      }
     },
 ----
 
@@ -32,6 +42,5 @@ ifdef::showScript[]
 * Place narrator script here
 
 endif::showScript[]
-
 
 

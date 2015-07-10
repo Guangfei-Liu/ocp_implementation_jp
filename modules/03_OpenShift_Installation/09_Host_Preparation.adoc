@@ -1,7 +1,6 @@
-
-:scrollbar:
-:data-uri:
 == Host Preparation
+:noaudio:
+
 . Host Preparation - Password-less communication
 
 .Ensuring Installer Access to Hosts

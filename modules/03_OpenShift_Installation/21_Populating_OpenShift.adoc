@@ -1,9 +1,7 @@
-
-:scrollbar:
-:data-uri:
 == Populating OpenShift
+:noaudio:
 
-* The QuickStart templates define a full set of objects for a running application. 
+* The QuickStart templates define a full set of objects for a running application.
 ** These Include:
 *** Build configurations to build the application from source located in a GitHub public repository
 *** Deployment configurations to deploy the application image after it is built.
@@ -15,7 +13,7 @@
 
 $ oc create -f \
     examples/quickstart-templates -n openshift
-    
+
 ----
 
 

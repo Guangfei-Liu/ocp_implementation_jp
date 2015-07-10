@@ -1,36 +1,26 @@
-
-:scrollbar:
-:data-uri:
 == Creating a Configuration From a Template
+:noaudio:
 
-.Generating a Configuration
+.Uploading a Template
 
+* You can create a configuration from a template using the CLI or, if a template has been uploaded to your project or global template library, using the Management Console.
+* You can create a template JSON file, like the above example, then upload it with the CLI using the following process:
+** You can upload a template to your current project’s template library by passing a JSON file with the following command:
+----
 
-* Generate a configuration with the following command:
-** osc process will examine a template, generate any desired parameters, and output a JSON configuration that can be created with osc.
+$ osc create -f <filename>
 
 ----
 
-$ osc process -f <filename>
+** You can upload a template to a different project using the -n option with the name of the project:
 
 ----
 
-** Alternatively, you can create from a template without uploading it to the template library by processing the template and creating from the same template by piping both commands:
+$ osc create -f <filename> -n <project>
 
 ----
 
-$ osc process -f <filename.json> | osc create -f -
-
-----
-
-** You can override any parameters defined in the JSON file by adding the -v option and any desired parameters. For example, you can override the ADMIN_USERNAME and MYSQL_DATABASE parameters to create a configuration with customized environment variables:
-
-----
-
-$ osc process -f examples/sample-app/application-template-dockerbuild.json -v ADMIN_USERNAME=root,MYSQL_DATABASE=admin
-
-----
-
+** The template would now available to be selected for a configuration using the Management Console or the CLI.
 
 ifdef::showScript[]
 
@@ -39,5 +29,7 @@ ifdef::showScript[]
 * Place narrator script here
 
 endif::showScript[]
+
+
 
 

@@ -1,37 +1,25 @@
-
-:scrollbar:
-:data-uri:
 == How to create a Template file
+:noaudio:
 
-. Template example - Objects: ImageStreams "ruby-sample" and "ruby-20-rhel7"
+. Template example - Objects: Route
 
 [source,json]
 ----
- {
-"kind": "ImageStream",
-      "apiVersion": "v1beta3",
-      "metadata": {
-        "name": "ruby-sample",
-        "creationTimestamp": null
-      },
-      "spec": {},
-      "status": {
-        "dockerImageRepository": ""
-      }
-    },
     {
-      "kind": "ImageStream",
+      "kind": "Route",
       "apiVersion": "v1beta3",
       "metadata": {
-        "name": "ruby-20-rhel7",
+        "name": "route-edge",
         "creationTimestamp": null
       },
       "spec": {
-        "dockerImageRepository": "registry.access.redhat.com/openshift3_beta/ruby-20-rhel7"
+        "host": "integrated.cloudapps.example.com",
+        "to": {
+          "kind": "Service",
+          "name": "frontend"
+        }
       },
-      "status": {
-        "dockerImageRepository": ""
-      }
+      "status": {}
     },
 ----
 
@@ -42,4 +30,6 @@ ifdef::showScript[]
 * Place narrator script here
 
 endif::showScript[]
+
+
 

@@ -1,13 +1,13 @@
 
 :noaudio:
 == Connection Details
-.Master Hosts
+.Master and Infranode Hosts
 [options="header",width="65"]
 |=======================
-||Master00|Master01
+||Master00|Infranode00
 |*Internal IP*|192.168.0.100|192.168.0.101
 |*External IP*|Provided|Provided
-|*DNS Name*|master00-*GUID*.oslab.rhpds.opentlc.com
+|*DNS Name*|master00-*GUID*.oslab.rhpds.opentlc.com|infranode00-*GUID*.oslab.opentlc.com
 |*Credentials*|root / r3dh4t1!|root / r3dh4t1!
 |=======================
 

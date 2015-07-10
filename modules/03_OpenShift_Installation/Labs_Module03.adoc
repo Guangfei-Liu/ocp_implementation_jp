@@ -1005,7 +1005,7 @@ and "primary".
 From here we will start to deploy "applications" and other resources into
 OpenShift.
 
-### Useful OpenShift Logs
+== Useful OpenShift Logs
 
 RHEL 7 uses `systemd` and `journal`. As such, looking at logs is not a matter of
 `/var/log/messages` any longer. You will need to use `journalctl`.
@@ -1126,7 +1126,7 @@ trainingrouter-1-deploy   1/1       Running   0          14s
 
 .. Press *CTRL+C* to exit the watch on `oc get pods`.
 
-=== Populating OpenShift
+== Populating OpenShift
 
 OpenShift ships with *Image Streams* and *Templates*, they reside in: `/usr/share/openshift/examples/`.  The installer will import all of the ImageStreams and Templates for you from this directory.
 

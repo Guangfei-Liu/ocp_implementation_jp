@@ -3,7 +3,7 @@
 
 * In OpenShift 2, we introduced the specific concepts of "regions" and "zones" to enable organizations to provide some topologies for application resiliency.
 ** Apps would be spread throughout the zones within a region and, depending on the way you configured OpenShift, you could make different regions accessible to users.
-* penShift 3 doesn’t actually care about your topology or is "topology agnostic".
+* OpenShift 3 doesn’t actually care about your topology or is "topology agnostic".
 * OpenShift 3 provides advanced controls for implementing whatever topologies you can dream up.
 ** You can manipulate filtering and affinity rules to ensure that parts of applications (pods) are either grouped together or spread apart.
 ** For the purposes of a simple example, we’ll be sticking with the "regions" and "zones" theme. (But think of other option you can up with, "Prod and Dev", "Secure and Insecure", "Rack and Power")

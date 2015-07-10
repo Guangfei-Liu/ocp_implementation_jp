@@ -7,6 +7,7 @@
 * For production use, you should use persistent storage using PersistentVolume and PersistentVolumeClaim objects for storage for the registry.
 * For non-production use, other options exist to provide persistent storage for the registry, like the --mount-host option.
 * We will not cover this topic in this version of the training, it is covered in the link:https://access.redhat.com/beta/documentation/en/openshift-enterprise-30-administrator-guide/chapter-13-persistent-storage-using-nfs[documentation]
+
 ifdef::showscript[]
 
 === Transcript

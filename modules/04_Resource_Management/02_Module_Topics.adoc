@@ -5,6 +5,7 @@
 == Module Topics
 
 Module 04 : Resource Management 
+
 * OpenShift Resources
 * Projects and Quotas
 * Scaling with Replication Controllers

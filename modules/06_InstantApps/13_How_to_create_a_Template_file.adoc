@@ -1,10 +1,9 @@
 == How to create a Template file
 :noaudio:
 
-. Template example - Objects: BuildConfig
+. Template example - Objects: DeploymentConfig "frontend"
 
 [source,json]
-
 ----
  {
       "kind": "DeploymentConfig",
@@ -101,8 +100,8 @@
       },
       "status": {}
     },
-    {
 ----
+
 ifdef::showScript[]
 
 === Transcript
@@ -110,6 +109,8 @@ ifdef::showScript[]
 * Place narrator script here
 
 endif::showScript[]
+
+
 
 
 

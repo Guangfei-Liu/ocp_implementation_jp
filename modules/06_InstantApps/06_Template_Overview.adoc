@@ -1,50 +1,18 @@
 == Template Overview
 :noaudio:
 
-.Components
+.Components continued:
 
-* Review the following sample template file:
+* Labels
+** Labels are used to manage and organize generated resources, such as pods. The labels specified in the template are applied to every resource that is generated from the template.
+** Labels are used to organize, group, or select objects and resources.  resources and pods are "tagged" with labels, and then services and replication controllers use labels to indicate the pods they relate to. This makes it possible for services and replication controllers to reference groups of pods, or treat pods with potentially different Docker containers as similar entities.
 
-[source,json]
-----
-{
-  "kind": "Template",
-  "apiVersion": "v1beta3",
-  "metadata": {
-    "name": "quickstart-keyvalue-application",
-    "creationTimestamp": null,
-    "annotations": {
-      "description": "This is an example of a Ruby and MySQL application on OpenShift 3",
-      "iconClass": "icon-ruby",
-      "tags": "instant-app,ruby,mysql"
+* Parameters
+** Parameters are used to "share" configuration values between the different items in the template.
+** An easy example would be the database user name, password or port needed by the frontend pods to communicate to our database backend pods.
 
-    }
-  },
-  "parameters": [
-    {
-      "name": "username"
-      "value": "admin"
-      "description": "administrative user"
-    }
-  ],
-  "labels": {
-    "custom_label": "Label_Name"
-  },
-  "objects": [
-    {
-      ...
-    }
-  ]
-}
-
-----
-
-* Notice the following elements:
-** *"name":* - The name of the template
-** *"description":* - Optional description for the template
-** *"parameters":* - A list of parameters for the template (Parameters like Username, Passwords and others)
-** *"labels":* - A list of labels to apply to resources
-** *"objects":* - list of resources to create (Resources like *Pods*, *Services* and *Routes*)
+* Items - Items can be any resources that needs to be created for the template, in our example we will create Pods, Services, Replication controllers and a route for our template.
+** Other items can be BuildConfigs, ImageStreams and more.
 
 
 ifdef::showScript[]

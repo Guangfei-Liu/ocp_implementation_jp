@@ -1,0 +1,20 @@
+== Wiring Disparate Components
+:noaudio:
+
+.Overview
+
+* Sometimes a developer wants to build up the various components manually.
+* Let's take our example and treat it like two separate "applications" that we want to wire together.
+** Process and create a template for the "frontend"
+** Extract the values of the *mysql* credentials from the config file
+** Process and create a template for the "db" and override the values with the values we extracted from "frontend" config file.
+
+ifdef::showScript[]
+
+=== Transcript
+
+* Place narrator script here
+
+endif::showScript[]
+
+

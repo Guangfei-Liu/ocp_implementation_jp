@@ -1,29 +1,48 @@
 == How to create a Template file
 :noaudio:
 
-. Template example - Metadata
+. Template example - Objects: Service "web"
 
 [source,json]
 ----
-{
-  "kind": "Template",
-  "apiVersion": "v1beta3",
-  "metadata": {
-    "name": "quickstart-keyvalue-application",
-    "creationTimestamp": null,
-    "annotations": {
-      "description": "This is an example of a Ruby and MySQL application on OpenShift 3",
-      "iconClass": "icon-ruby",
-      "tags": "instant-app,ruby,mysql"
-    }
-  },
+
+"objects": [
+    {
+      "kind": "Service",
+      "apiVersion": "v1beta3",
+      "metadata": {
+        "name": "frontend",
+        "creationTimestamp": null
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "web",
+            "protocol": "TCP",
+            "port": 5432,
+            "targetPort": 8080,
+            "nodePort": 0
+          }
+        ],
+        "selector": {
+          "name": "frontend"
+        },
+        "portalIP": "",
+        "type": "ClusterIP",
+        "sessionAffinity": "None"
+      },
+      "status": {
+        "loadBalancer": {}
+      }
+    },
+
 ----
 
 ifdef::showScript[]
 
 === Transcript
 
-
+* Place narrator script here
 
 endif::showScript[]
 

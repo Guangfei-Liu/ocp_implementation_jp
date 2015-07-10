@@ -1,15 +1,15 @@
 == How to create a Template file
 :noaudio:
 
-. Template example - Objects: DeploymentConfig "frontend"
+. Template example - Objects: DeploymentConfig "db"
 
 [source,json]
 ----
- {
+  {
       "kind": "DeploymentConfig",
       "apiVersion": "v1beta3",
       "metadata": {
-        "name": "frontend",
+        "name": "database",
         "creationTimestamp": null
       },
       "spec": {
@@ -18,32 +18,18 @@
         },
         "triggers": [
           {
-            "type": "ImageChange",
-            "imageChangeParams": {
-              "automatic": true,
-              "containerNames": [
-                "ruby-helloworld"
-              ],
-              "from": {
-                "kind": "ImageStreamTag",
-                "name": "ruby-sample:latest"
-              },
-              "lastTriggeredImage": ""
-            }
-          },
-          {
             "type": "ConfigChange"
           }
         ],
-        "replicas": 2,
+        "replicas": 1,
         "selector": {
-          "name": "frontend"
+          "name": "database"
         },
         "template": {
           "metadata": {
             "creationTimestamp": null,
             "labels": {
-              "name": "frontend"
+              "name": "database"
             }
           },
           "nodeSelector": {
@@ -52,23 +38,15 @@
           "spec": {
             "containers": [
               {
-                "name": "ruby-helloworld",
-                "image": "ruby-sample",
+                "name": "ruby-helloworld-database",
+                "image": "registry.access.redhat.com/openshift3_beta/mysql-55-rhel7:latest",
                 "ports": [
                   {
-                    "containerPort": 8080,
+                    "containerPort": 3306,
                     "protocol": "TCP"
                   }
                 ],
                 "env": [
-                  {
-                    "name": "ADMIN_USERNAME",
-                    "value": "${ADMIN_USERNAME}"
-                  },
-                  {
-                    "name": "ADMIN_PASSWORD",
-                    "value": "${ADMIN_PASSWORD}"
-                  },
                   {
                     "name": "MYSQL_USER",
                     "value": "${MYSQL_USER}"
@@ -84,7 +62,7 @@
                 ],
                 "resources": {},
                 "terminationMessagePath": "/dev/termination-log",
-                "imagePullPolicy": "IfNotPresent",
+                "imagePullPolicy": "Always",
                 "capabilities": {},
                 "securityContext": {
                   "capabilities": {},
@@ -99,7 +77,7 @@
         }
       },
       "status": {}
-    },
+    }
 ----
 
 ifdef::showScript[]
@@ -114,5 +92,5 @@ endif::showScript[]
 
 
 
-
+<<<<<<< HEAD
 

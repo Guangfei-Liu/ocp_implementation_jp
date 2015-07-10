@@ -1,4 +1,4 @@
-== Title
+== &nbsp;
 :noaudio:
 
 ifdef::revealjs_slideshow[]
@@ -15,9 +15,3 @@ OpenShift 3.0 Installation
 image::{revealjs_cover_image}[]
 
 endif::[]
-
-
-
-
-
-

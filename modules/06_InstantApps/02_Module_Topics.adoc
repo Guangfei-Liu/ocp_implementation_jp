@@ -24,7 +24,4 @@ ifdef::showScript[]
 endif::showScript[]
 
 
-<<<<<<< HEAD
-=======
-
 

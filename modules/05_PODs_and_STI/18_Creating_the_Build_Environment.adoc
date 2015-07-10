@@ -1,6 +1,4 @@
 
-:scrollbar:
-:data-uri:
 == Creating the Build Environment
 
 * To create build environment and *start the build*, use `oc create` on the .json file created earlier:

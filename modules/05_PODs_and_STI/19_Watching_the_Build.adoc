@@ -1,6 +1,4 @@
 
-:scrollbar:
-:data-uri:
 == Watching the Build
 
 * To see builds and their status, use `oc get builds`:

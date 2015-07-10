@@ -1,6 +1,4 @@
 :noaudio:
-:scrollbar:
-:data-uri:
 == Third-Party Registries
 
 

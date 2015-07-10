@@ -1,6 +1,4 @@
 
-:scrollbar:
-:data-uri:
 == Build Strategies
 
 * OpenShift Enterprise build system supports build strategies based on types specified in build API

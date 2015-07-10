@@ -1,6 +1,4 @@
 :noaudio:
-:scrollbar:
-:data-uri:
 == Integrated Registry
 
 * Provides an integrated Docker registry 

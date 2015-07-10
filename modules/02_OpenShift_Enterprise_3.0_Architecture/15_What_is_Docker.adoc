@@ -1,7 +1,5 @@
 
 :noaudio:
-:scrollbar:
-:data-uri:
 == What is Docker
 
 * *Docker* - Open platform for developers and admins to build, ship, and run distributed applications.

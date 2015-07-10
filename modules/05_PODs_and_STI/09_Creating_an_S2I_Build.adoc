@@ -1,6 +1,4 @@
 
-:scrollbar:
-:data-uri:
 == Creating an S2I Build Example
 
 * In this example we will create an image using the S2I process, We will use: 

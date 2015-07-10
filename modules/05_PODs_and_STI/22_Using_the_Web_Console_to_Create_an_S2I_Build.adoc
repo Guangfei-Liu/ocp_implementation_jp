@@ -1,5 +1,3 @@
-:scrollbar:
-:data-uri:
 
 == Create an S2I Build in Web Console
 

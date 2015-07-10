@@ -25,8 +25,6 @@ endif::[]
 == Module Topics
 :noaudio:
 :numbered!:
-:scrollbar:
-:data-uri:
 * Installation Overview
 * Prepare your Hosts
 * Installation Methods

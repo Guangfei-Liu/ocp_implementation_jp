@@ -18,8 +18,6 @@ image::{revealjs_cover_image}[]
 endif::[]
 
 
-:scrollbar:
-:data-uri:
 == Module Topics
 
 * Concepts
@@ -42,8 +40,6 @@ This module covers the following topics:
 endif::showscript[]
 
 
-:scrollbar:
-:data-uri:
 == Build and Deployment Automation
 
 * Integrated Docker registry and automated image builds
@@ -67,8 +63,6 @@ OpenShift Enterprise also offers configurable deployment patterns, which would b
 endif::showscript[]
 
  
-:scrollbar:
-:data-uri:
 :noaudio:
 
 == Why S2I?
@@ -99,8 +93,6 @@ endif::showscript[]
  
  
 
-:scrollbar:
-:data-uri:
 == What Is S2I?
 
 * Source-to-Image (S2I) is a tool for building reproducible Docker images. It produces ready-to-run images by injecting a user source into a docker image and assembling a new docker image. 
@@ -130,8 +122,6 @@ This illustration shows the key differences between a Docker build and an S2I bu
 endif::showscript[]
 
 
-:scrollbar:
-:data-uri:
 == The Build Process
 
 * *Build* - A build is a process of creating runnable images to be used on OpenShift. There are three build strategies: 
@@ -149,8 +139,6 @@ The resulting object depends on the builder used to create the image.
 endif::showscript[]
 
 
-:scrollbar:
-:data-uri:
 == `BuildConfig`
 
 * A *buildConfig* describes a single build definition and a set of triggers for when a new build should be created.
@@ -187,8 +175,6 @@ The three parameter types include:
 endif::showscript[]
 
 
-:scrollbar:
-:data-uri:
 == Build Strategies
 
 * OpenShift Enterprise build system supports build strategies based on types specified in build API
@@ -222,8 +208,6 @@ This module focuses on the S2I build strategy.
 endif::showscript[]
 
 
-:scrollbar:
-:data-uri:
 == Build Strategies
 
 .S2I Build
@@ -244,8 +228,6 @@ S2I then assembles a new image that runs the application defined by the source u
 endif::showscript[]
 
 
-:scrollbar:
-:data-uri:
 == Creating an S2I Build Example
 
 * In this example we will create an image using the S2I process, We will use: 
@@ -272,8 +254,6 @@ The module also shows the process of running the new image in a pod, including c
 endif::showscript[]
 
 
-:scrollbar:
-:data-uri:
 == Creating the Build File
 
 * To create the instructions/config, use `oc new-app`:
@@ -307,8 +287,6 @@ You can edit the JSON file before you create the build.
 endif::showscript[]
 
 
-:scrollbar:
-:data-uri:
 == The Build File
 
 * Contains some familiar items, some new ones:
@@ -501,8 +479,6 @@ Upcoming slides cover each section of the file.
 endif::showscript[]
 
 
-:scrollbar:
-:data-uri:
 == The Build File
 
 .`Service`
@@ -551,8 +527,6 @@ Notice the "ContainerPort" and "Selector" lines.
 
 endif::showscript[]
 
-:scrollbar:
-:data-uri:
 
 == The Build File
 
@@ -600,8 +574,6 @@ Using `ImageStreams` lets your OpenShift "listen" or "poll" for changes in the i
 
 endif::showscript[]
 
-:scrollbar:
-:data-uri:
 
 == The Build File
 
@@ -678,8 +650,6 @@ In the `BuildConfig` section, you define both the triggers you can use to start 
 
 endif::showscript[]
 
-:scrollbar:
-:data-uri:
 
 == The Build File
 
@@ -735,8 +705,6 @@ In the `DeploymentConfig` section, you define more triggers that can start a "re
 
 endif::showscript[]
 
-:scrollbar:
-:data-uri:
 
 == The Build File
 
@@ -786,8 +754,6 @@ The `template` section defines different aspects of your application--for exampl
 endif::showscript[]
 
 
-:scrollbar:
-:data-uri:
 == Deploying an S2I Build Image
 
 * In basic S2I process, OpenShift Enterprise:
@@ -806,8 +772,6 @@ OpenShift Enterprise sets up various components such that it can build source co
 endif::showscript[]
 
 
-:scrollbar:
-:data-uri:
 == Creating the Build Environment
 
 * To create build environment and *start the build*, use `oc create` on the .json file created earlier:
@@ -866,8 +830,6 @@ To review what happened, run the command shown in the second code sample.
 endif::showscript[]
 
 
-:scrollbar:
-:data-uri:
 == Watching the Build
 
 * To see builds and their status, use `oc get builds`:
@@ -895,8 +857,6 @@ Finally, to follow the build process by checking the log created for your build,
 
 endif::showscript[]
 
-:scrollbar:
-:data-uri:
 
 == Create an S2I Build in Web Console
 
@@ -912,8 +872,6 @@ To create an S2I build in the web console, first select your project and click *
 
 endif::showscript[]
 
-:scrollbar:
-:data-uri:
 
 == Create an S2I Build in Web Console
 
@@ -932,8 +890,6 @@ Next, enter the Git repository for your build.
 
 endif::showscript[]
 
-:scrollbar:
-:data-uri:
 
 == Create an S2I Build in Web Console
 
@@ -953,8 +909,6 @@ ifdef::showscript[]
 
 endif::showscript[]
 
-:scrollbar:
-:data-uri:
 
 == Create an S2I Build in Web Console
 
@@ -975,8 +929,6 @@ Finally, edit your options and click *Create* to create the build.
 endif::showscript[]
 
 
-:scrollbar:
-:data-uri:
 == Summary
 
 * Concepts

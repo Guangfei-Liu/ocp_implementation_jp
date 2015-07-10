@@ -1,6 +1,4 @@
 
-:scrollbar:
-:data-uri:
 == What Is S2I?
 
 * Source-to-Image (S2I) is a tool for building reproducible Docker images. It produces ready-to-run images by injecting a user source into a docker image and assembling a new docker image. 

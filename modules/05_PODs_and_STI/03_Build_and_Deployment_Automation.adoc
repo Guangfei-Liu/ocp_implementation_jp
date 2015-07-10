@@ -1,6 +1,4 @@
 
-:scrollbar:
-:data-uri:
 == Build and Deployment Automation
 
 * Integrated Docker registry and automated image builds

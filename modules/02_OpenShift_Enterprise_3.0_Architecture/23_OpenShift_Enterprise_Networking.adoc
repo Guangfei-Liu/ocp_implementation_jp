@@ -1,7 +1,5 @@
 
 :noaudio:
-:scrollbar:
-:data-uri:
 == OpenShift Enterprise Networking
 
 * Container networking based on integrated Open vSwitch

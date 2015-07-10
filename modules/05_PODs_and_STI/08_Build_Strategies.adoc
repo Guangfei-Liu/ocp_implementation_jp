@@ -1,6 +1,4 @@
 
-:scrollbar:
-:data-uri:
 == Build Strategies
 
 .S2I Build

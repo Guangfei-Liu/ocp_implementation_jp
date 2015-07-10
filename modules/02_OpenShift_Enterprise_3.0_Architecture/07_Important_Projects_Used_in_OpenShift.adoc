@@ -1,7 +1,5 @@
 
 :noaudio:
-:scrollbar:
-:data-uri:
 == Important Projects in OpenShift
 
 * *Kubernetes* - link:http://kubernetes.io/[http://kubernetes.io/]

@@ -1,6 +1,4 @@
 :noaudio:
-:scrollbar:
-:data-uri:
 == Connection Details
 .Administration and Support Host
 [options="header",cols ="1,4",width="65"]

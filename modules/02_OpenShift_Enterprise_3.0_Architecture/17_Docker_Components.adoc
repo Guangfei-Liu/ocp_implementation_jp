@@ -1,7 +1,5 @@
 
 :noaudio:
-:scrollbar:
-:data-uri:
 == Docker Components
 
 * *Docker daemon* - Runs on a host machine 

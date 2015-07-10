@@ -1,7 +1,5 @@
 
 :noaudio:
-:scrollbar:
-:data-uri:
 == Kubernetes Concepts
 
 * *Nodes* - Compute resources on top of which containers are built

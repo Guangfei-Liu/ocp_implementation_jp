@@ -1,7 +1,5 @@
 
 :noaudio:
-:scrollbar:
-:data-uri:
 == Course Overview
 
 Module 01 : Introduction to Course and Learning Environment

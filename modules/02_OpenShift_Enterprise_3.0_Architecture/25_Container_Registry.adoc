@@ -1,7 +1,5 @@
 
 :noaudio:
-:scrollbar:
-:data-uri:
 == Container Registry
 
 * Fully integrated Docker v2 registry

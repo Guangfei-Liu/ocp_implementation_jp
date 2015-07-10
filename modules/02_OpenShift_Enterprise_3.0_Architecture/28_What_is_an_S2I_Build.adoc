@@ -1,6 +1,4 @@
 :noaudio:
-:scrollbar:
-:data-uri:
 == What is an S2I Build
 
 * Integrated Docker registry and automated image builds

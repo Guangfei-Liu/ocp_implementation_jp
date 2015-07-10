@@ -1,7 +1,5 @@
 
 :noaudio:
-:scrollbar:
-:data-uri:
 == What is Kubernetes
 
 * *Kubernetes* - Open source system for managing containerized applications across multiple hosts

@@ -1,7 +1,5 @@
 
 :noaudio:
-:scrollbar:
-:data-uri:
 == Assumptions
 
 * You want to learn how to use OpenShift Enterprise 3.0.

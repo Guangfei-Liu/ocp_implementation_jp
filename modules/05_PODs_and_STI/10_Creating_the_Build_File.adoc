@@ -1,6 +1,4 @@
 
-:scrollbar:
-:data-uri:
 == Creating the Build File
 
 * To create the instructions/config, use `oc new-app`:

@@ -1,6 +1,4 @@
 :noaudio:
-:scrollbar:
-:data-uri:
 == Summary
 
 * Overview and design concepts in OpenShift Enterprise v3 

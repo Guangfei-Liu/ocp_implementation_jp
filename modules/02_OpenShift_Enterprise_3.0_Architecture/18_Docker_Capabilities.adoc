@@ -1,7 +1,5 @@
 
 :noaudio:
-:scrollbar:
-:data-uri:
 == Docker Capabilities
 
 // ISSUE : Introduction to Docker, Slide "Docker Capabilities", do we want to say what it can't do?

@@ -1,6 +1,4 @@
 
-:scrollbar:
-:data-uri:
 == `BuildConfig`
 
 * A *buildConfig* describes a single build definition and a set of triggers for when a new build should be created.

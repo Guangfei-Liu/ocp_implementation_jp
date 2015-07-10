@@ -1,7 +1,5 @@
 
 :noaudio:
-:scrollbar:
-:data-uri:
 == Pods
 
 * Correspond to colocated group of applications running with shared context

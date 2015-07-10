@@ -1,7 +1,5 @@
 
 :noaudio:
-:scrollbar:
-:data-uri:
 == OpenShift Model
 
 * *Masters* - Responsible for managing system state 

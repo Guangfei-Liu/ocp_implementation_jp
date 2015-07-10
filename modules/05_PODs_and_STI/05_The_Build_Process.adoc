@@ -1,6 +1,4 @@
 
-:scrollbar:
-:data-uri:
 == The Build Process
 
 * *Build* - A build is a process of creating runnable images to be used on OpenShift. There are three build strategies: 

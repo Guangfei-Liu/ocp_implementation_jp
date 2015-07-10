@@ -1,7 +1,5 @@
 
 :noaudio:
-:scrollbar:
-:data-uri:
 == Course Goals
 
 * Explain  with the technical architecture of OSE3.0

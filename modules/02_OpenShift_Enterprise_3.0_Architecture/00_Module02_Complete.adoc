@@ -21,8 +21,6 @@ endif::[]
 
 
 :numbered!:
-:scrollbar:
-:data-uri:
 
 == Module Topics
 
@@ -56,8 +54,6 @@ This module presents the following topics:
 endif::showscript[]
 
 
-:scrollbar:
-:data-uri:
 
 == What is OpenShift
 
@@ -84,8 +80,6 @@ endif::showscript[]
 
 
 
-:scrollbar:
-:data-uri:
 == OpenShift Enterprise v3 Stack
 
 * Standard containers API
@@ -118,8 +112,6 @@ endif::showscript[]
 
 
 
-:scrollbar:
-:data-uri:
 == How OpenShift Works
 
 * *Containers* - Run languages/framework middleware, database, and other runtimes
@@ -147,8 +139,6 @@ endif::showscript[]
 
 
 
-:scrollbar:
-:data-uri:
 == Containerization Standards
 
 .Isolation with Linux containers
@@ -191,8 +181,6 @@ endif::showscript[]
 
 
 
-:scrollbar:
-:data-uri:
 == Important Projects in OpenShift
 
 * *Kubernetes* - link:http://kubernetes.io/[http://kubernetes.io/]
@@ -223,8 +211,6 @@ endif::showscript[]
 
 
 
-:scrollbar:
-:data-uri:
 == OpenShift Model
 
 * *Masters* - Responsible for managing system state 
@@ -255,8 +241,6 @@ endif::showscript[]
 
 
 
-:scrollbar:
-:data-uri:
 == OpenShift Workflow
 
 
@@ -305,8 +289,6 @@ endif::showscript[]
 
 
 
-:scrollbar:
-:data-uri:
 == How it Works
 
 .Service and Routing
@@ -326,8 +308,6 @@ A service provides a list of IPs for the pods it represents. The routing layer d
 endif::showscript[]
 
 
-:scrollbar:
-:data-uri:
 == How it Works
 
 .Authentication
@@ -351,8 +331,6 @@ endif::showscript[]
 
 
 
-:scrollbar:
-:data-uri:
 == How it Works
 
 .Store
@@ -372,8 +350,6 @@ endif::showscript[]
 
 
 
-:scrollbar:
-:data-uri:
 == How it Works
 
 .Replication
@@ -392,8 +368,6 @@ The replication controller instantiates (creates) or kills pods according to the
 endif::showscript[]
 
 
-:scrollbar:
-:data-uri:
 == How it Works
 
 .Scheduler
@@ -413,8 +387,6 @@ endif::showscript[]
 
 
 
-:scrollbar:
-:data-uri:
 == What is Docker
 
 * *Docker* - Open platform for developers and admins to build, ship, and run distributed applications.
@@ -448,8 +420,6 @@ endif::showscript[]
 
 
 
-:scrollbar:
-:data-uri:
 
 == How Containers Differ From VMs
 
@@ -475,8 +445,6 @@ endif::showscript[]
 
 
 
-:scrollbar:
-:data-uri:
 == Docker Components
 
 * *Docker daemon* - Runs on a host machine 
@@ -508,8 +476,6 @@ endif::showscript[]
 
 
 
-:scrollbar:
-:data-uri:
 == Docker Capabilities
 
 // ISSUE : Introduction to Docker, Slide "Docker Capabilities", do we want to say what it can't do?
@@ -532,8 +498,6 @@ endif::showscript[]
 
 
 
-:scrollbar:
-:data-uri:
 == How Does a Docker Image Work
 
 
@@ -560,8 +524,6 @@ endif::showscript[]
 
 
 
-:scrollbar:
-:data-uri:
 == What is Kubernetes
 
 * *Kubernetes* - Open source system for managing containerized applications across multiple hosts
@@ -593,8 +555,6 @@ endif::showscript[]
 
 
 
-:scrollbar:
-:data-uri:
 == Kubernetes Concepts
 
 * *Nodes* - Compute resources on top of which containers are built
@@ -622,8 +582,6 @@ Labels are used to organize and select groups of objects based on key-value pair
 endif::showscript[]
 
 
-:scrollbar:
-:data-uri:
 == Pods
 
 * Correspond to colocated group of applications running with shared context
@@ -651,8 +609,6 @@ endif::showscript[]
 
 
 
-:scrollbar:
-:data-uri:
 == OpenShift Enterprise Networking
 
 * Container networking based on integrated Open vSwitch
@@ -671,8 +627,6 @@ endif::showscript[]
 
 
 
-:scrollbar:
-:data-uri:
 
 == Networking Workflow
 
@@ -703,8 +657,6 @@ endif::showscript[]
 
 
 
-:scrollbar:
-:data-uri:
 == Container Registry
 
 * Fully integrated Docker v2 registry
@@ -736,8 +688,6 @@ endif::showscript[]
 
 
 
-:scrollbar:
-:data-uri:
 == Integrated Registry
 
 * Provides an integrated Docker registry 
@@ -757,8 +707,6 @@ endif::showscript[]
 
 
 
-:scrollbar:
-:data-uri:
 == Third-Party Registries
 
 
@@ -783,8 +731,6 @@ endif::showscript[]
 
 
 
-:scrollbar:
-:data-uri:
 == What is an S2I Build
 
 * Integrated Docker registry and automated image builds
@@ -807,8 +753,6 @@ endif::showscript[]
 
 
 
-:scrollbar:
-:data-uri:
 == Why Use S2I Builds
 
 
@@ -841,8 +785,6 @@ Having a strong separation between source code, or even binary artifacts, and th
 endif::showscript[]
 
 
-:scrollbar:
-:data-uri:
 == Summary
 
 * Overview and design concepts in OpenShift Enterprise v3 

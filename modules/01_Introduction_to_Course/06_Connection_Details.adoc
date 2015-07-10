@@ -1,7 +1,5 @@
 
 :noaudio:
-:scrollbar:
-:data-uri:
 == Connection Details
 .Master Hosts
 [options="header",width="65"]

@@ -1,6 +1,4 @@
 
-:scrollbar:
-:data-uri:
 == The Build File
 
 * Contains some familiar items, some new ones:

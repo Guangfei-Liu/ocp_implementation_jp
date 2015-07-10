@@ -1,7 +1,5 @@
 
 :noaudio:
-:scrollbar:
-:data-uri:
 == OpenShift Enterprise v3 Stack Diagram
 
 image::images/OpenShiftStack.png[]

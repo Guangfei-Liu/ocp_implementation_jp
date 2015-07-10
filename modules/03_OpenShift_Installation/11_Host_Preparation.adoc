@@ -6,7 +6,7 @@
 * You would need to install the following software packages
 +
 ----
-# yum install wget git net-tools iptables-services ython-virtualenv gcc
+# yum install wget git net-tools iptables-services python-virtualenv gcc
 ----
 
 *  Update your software before installation

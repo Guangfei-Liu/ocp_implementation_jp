@@ -1,10 +1,10 @@
 :scrollbar:
 :data-uri:
 :icons: images/icons
-:toc2:		
+:toc2:
 
 == Deploy OpenShift Enterprise
-:numbered:	
+:numbered:
 
 In this lab we will Deploy OpenShift Enterprise on a single host (in later labs we will add more nodes).
 
@@ -12,7 +12,7 @@ In this lab we will Deploy OpenShift Enterprise on a single host (in later labs 
 * Configure SSH Keys
 * Configure Repositories
 * Configure Network Settings
-* Install Docker on our host 
+* Install Docker on our host
 * Configure and Install OpenShift Enterprise
 * Test deployment.
 
@@ -134,7 +134,7 @@ logging {
   channel default_debug {
     file \"data/named.run\";
     severity dynamic;
-  }; 
+  };
 };
 zone \"${domain}\" IN {
   type master;
@@ -176,7 +176,7 @@ zone \"${domain}\" IN {
 
 === Verify DNS configuration:
 
-. A test DNS entry was created called `test.cloudapps-GUID.oslab.opentlc.com`.  
+. A test DNS entry was created called `test.cloudapps-GUID.oslab.opentlc.com`.
 . First try testing the DNS server running on the administration host:
 +
 ----
@@ -193,8 +193,8 @@ zone \"${domain}\" IN {
 
 ----
 +
-[NOTE] 
-The first time you query 8.8.8.8 you may notice lag and an error "connection timed out; trying next origin Host test.cloudapps-GUID.oslab.opentlc.com not found: 3(NXDOMAIN)" is normal.  if you do the test again, it will go faster and not error out. 
+[NOTE]
+The first time you query 8.8.8.8 you may notice lag and an error "connection timed out; trying next origin Host test.cloudapps-GUID.oslab.opentlc.com not found: 3(NXDOMAIN)" is normal.  if you do the test again, it will go faster and not error out.
 
 . Lastly test DNS from your laptop/desktop, this might take a few minutes to be updated.  Be sure to replace GUID with the correct GUID.
 +
@@ -212,7 +212,7 @@ The OpenShift installer uses SSH to configure hosts.  In this lab we create and 
 +
 ----
 
-[root@master00-GUID ~]# ssh-keygen -f /root/.ssh/id_rsa -N '' 
+[root@master00-GUID ~]# ssh-keygen -f /root/.ssh/id_rsa -N ''
 
 ----
 
@@ -220,7 +220,7 @@ The OpenShift installer uses SSH to configure hosts.  In this lab we create and 
 +
 ----
 
-[root@master00-GUID ~]# cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys 
+[root@master00-GUID ~]# cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys
 
 ----
 
@@ -289,7 +289,7 @@ When prompted for a password use *r3dh4t1!*
 +
 ----
 
-root@master00-GUID.oslab.opentlc.com's password: ******** (r3dh4t1!) 
+root@master00-GUID.oslab.opentlc.com's password: ******** (r3dh4t1!)
 
 ----
 
@@ -354,7 +354,7 @@ EOF
 +
 -----
 
-[root@master00-GUID ~]# yum repolist 
+[root@master00-GUID ~]# yum repolist
 
 -----
 +
@@ -389,7 +389,7 @@ In this lab we will verify that the master host is configured correctly for inte
 +
 ----
 
-[root@master00-GUID ~]# hostname -f 
+[root@master00-GUID ~]# hostname -f
 
 ----
 +
@@ -412,7 +412,7 @@ master00-GUID.oslab.opentlc.com
 +
 ----
 
-[root@master00-GUID ~]# host `hostname -f` 
+[root@master00-GUID ~]# host `hostname -f`
 
 ----
 
@@ -447,7 +447,7 @@ NOTE: It might take some time for the global DNS servers to be updated. Try agai
 ----
 
 . Install Misc tools and utilities
-+  
++
 ----
 [root@master00-GUID ~]# yum -y install wget git net-tools bind-utils iptables-services bridge-utils python-virtualenv gcc
 
@@ -459,7 +459,7 @@ NOTE: It might take some time for the global DNS servers to be updated. Try agai
 OpenShift uses Docker to store and manage container images.  In this lab we install Docker and provide it's required storage pool.
 
 . Install the `docker` package on the master host
-+ 
++
 ----
 
 [root@master00-GUID ~]# yum -y install docker
@@ -525,7 +525,7 @@ CAUTION: Make sure you `do run all the commands on the master host`.
   THIS WILL DESTROY CONTENT OF LOGICAL VOLUME (filesystem etc.)
   Converted rhel_host2cc260760b15/docker-pool to thin pool.
   Logical volume "docker-pool" changed.
-  
+
 ----
 +
 [NOTE]
@@ -534,10 +534,10 @@ Be careful with `docker-storage-setup` as it will, by default, find any unused e
 .. You can use the ssh command to do this from the master host quickly for all hosts
 +
 ----
-[root@master00-GUID ~]# for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com 
+[root@master00-GUID ~]# for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com
 do
-ssh $node "pvcreate /dev/vdb ; vgextend `vgs | grep rhel | awk '{print $1}'` /dev/vdb; docker-storage-setup ; " 
-ssh $node "systemctl enable docker; reboot " 
+ssh $node "pvcreate /dev/vdb ; vgextend `vgs | grep rhel | awk '{print $1}'` /dev/vdb; docker-storage-setup ; "
+ssh $node "systemctl enable docker; reboot "
 done
 ----
 
@@ -586,7 +586,7 @@ DOCKER_STORAGE_OPTIONS=-s devicemapper --storage-opt dm.fs=xfs --storage-opt dm.
 +
 -----
 
-[root@master00-GUID ~]# reboot 
+[root@master00-GUID ~]# reboot
 
 -----
 
@@ -682,7 +682,7 @@ You should see something similar to the following:
 
   LV          VG                    Attr       LSize Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
   docker-pool rhel_host2cc260760b15 twi-aot--- 5.98g             35.96  2.32
-  
+
 ----
 
 == Install OpenShift Enterprise
@@ -697,7 +697,7 @@ You should see something similar to the following:
 
 ----
 
-. Optional Tip: Copy the master and node names to your paste buffer. 
+. Optional Tip: Copy the master and node names to your paste buffer.
 +
 ----
 [root@master00-GUID ~]# for node in master00-$guid.oslab.opentlc.com infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do echo $node ; done
@@ -738,10 +738,10 @@ official Ansible playbooks be used.
 For more information on installation prerequisites please see:
 https://docs.openshift.com/enterprise/latest/admin_guide/install/prerequisites.html
 
-Are you ready to continue?  y/Y to confirm, or n/N to abort [n]: 
+Are you ready to continue?  y/Y to confirm, or n/N to abort [n]:
 ----
 
-. Answer "Y", and you should see: 
+. Answer "Y", and you should see:
 +
 ----
 
@@ -753,7 +753,7 @@ User for ssh access [root]: root
 
 ----
 
-. Answer "root", and you should see: 
+. Answer "root", and you should see:
 +
 ----
 
@@ -770,28 +770,28 @@ from the API.  By default this Node will be unscheduleable but this can be chang
 after installation with 'oadm manage-node'.
 
 http://docs.openshift.com/enterprise/latest/architecture/infrastructure_components/kubernetes_infrastructure.html#master
-    
+
 
 Next we will launch an editor for entering masters.  The default editor in your
 environment can be overridden exporting the VISUAL environment variable.
-    
+
 Press any key to continue ...
 
 
 ----
 
 
-. Press any key and then enter the following hosts, 
+. Press any key and then enter the following hosts,
 +
 ----
 master00-2642.oslab.opentlc.com
 ----
 
-. Use the ":wq" command to exit *vi*, and you should see: 
+. Use the ":wq" command to exit *vi*, and you should see:
 +
 ----
 1) master00-2642.oslab.opentlc.com
-Please confirm the following masters.  y/Y to confirm, or n/N to edit [n]: 
+Please confirm the following masters.  y/Y to confirm, or n/N to edit [n]:
 ----
 
 . Press "y" to confirm the master hosts.
@@ -805,16 +805,16 @@ host the required services to be managed by the Master.
 By default all Masters will be configured as Nodes.
 
 http://docs.openshift.org/latest/architecture/infrastructure_components/kubernetes_infrastructure.html#node
-    
+
 
 Next we will launch an editor for entering nodes.  The default editor in your
 environment can be overridden exporting the VISUAL environment variable.
-    
+
 Press any key to continue ...
 
 ----
 
-. Press any key and then enter the following hosts, (Yes, the Master host is also a node) 
+. Press any key and then enter the following hosts, (Yes, the Master host is also a node)
 +
 ----
 master00-2642.oslab.opentlc.com
@@ -824,7 +824,7 @@ node01-2642.oslab.opentlc.com
 
 ----
 
-. Use the ":wq" command to exit *vi*, and you should see: 
+. Use the ":wq" command to exit *vi*, and you should see:
 +
 ----
 1) master00-2642.oslab.opentlc.com
@@ -833,7 +833,7 @@ node01-2642.oslab.opentlc.com
 4) node01-2642.oslab.opentlc.com
 
 
-Please confirm the following masters.  y/Y to confirm, or n/N to edit [n]: 
+Please confirm the following masters.  y/Y to confirm, or n/N to edit [n]:
 ----
 
 . Press "y" to confirm the node hosts.
@@ -863,43 +863,43 @@ node00-2642.oslab.opentlc.com,192.168.0.200,192.168.0.200,node00-2642.oslab.open
 node01-2642.oslab.opentlc.com,192.168.0.201,192.168.0.201,node01-2642.oslab.opentlc.com,node01-2642.oslab.opentlc.com
 ----
 
-. Use the ":wq" command to exit *vi*, and you should see: 
+. Use the ":wq" command to exit *vi*, and you should see:
 +
 ----
 If changes are needed to the values recorded by the installer please update /root/.config/openshift/installer.cfg.yml.
 
-Proceed? y/Y to confirm, or n/N to exit [y]: 
+Proceed? y/Y to confirm, or n/N to exit [y]:
 ----
 
 . Answer "y" to start the install:
 +
 ----
-PLAY [Populate oo_masters_to_config host group] ******************************* 
-PLAY [Populate oo_masters_to_config host group] ******************************* 
+PLAY [Populate oo_masters_to_config host group] *******************************
+PLAY [Populate oo_masters_to_config host group] *******************************
 
-TASK: [add_host ] ************************************************************* 
+TASK: [add_host ] *************************************************************
 ok: [localhost] => (item=192.168.0.100)
 
-PLAY [Configure master instances] ********************************************* 
+PLAY [Configure master instances] *********************************************
 
-GATHERING FACTS *************************************************************** 
+GATHERING FACTS ***************************************************************
 ok: [192.168.0.100]
 
-TASK: [os_firewall | Install firewalld packages] ****************************** 
+TASK: [os_firewall | Install firewalld packages] ******************************
 skipping: [192.168.0.100]
 
-TASK: [os_firewall | Check if iptables-services is installed] ***************** 
+TASK: [os_firewall | Check if iptables-services is installed] *****************
 
 ....
 ....
 ....
 
-PLAY RECAP ******************************************************************** 
-infranode00-2642.oslab.opentlc.com : ok=40   changed=0    unreachable=0    failed=0   
-localhost                  : ok=5    changed=0    unreachable=0    failed=0   
-master00-2642.oslab.opentlc.com : ok=94   changed=0    unreachable=0    failed=0   
-node00-2642.oslab.opentlc.com : ok=40   changed=0    unreachable=0    failed=0   
-node01-2642.oslab.opentlc.com : ok=40   changed=0    unreachable=0    failed=0   
+PLAY RECAP ********************************************************************
+infranode00-2642.oslab.opentlc.com : ok=40   changed=0    unreachable=0    failed=0
+localhost                  : ok=5    changed=0    unreachable=0    failed=0
+master00-2642.oslab.opentlc.com : ok=94   changed=0    unreachable=0    failed=0
+node00-2642.oslab.opentlc.com : ok=40   changed=0    unreachable=0    failed=0
+node01-2642.oslab.opentlc.com : ok=40   changed=0    unreachable=0    failed=0
 
 
 The installation was successful!
@@ -918,7 +918,7 @@ The installation was successful!
 
 ----
 
- 
+
 
 . After the installer is complete, check the status of your host using the `osc get nodes` command on the master host:
 +
@@ -938,12 +938,12 @@ node01-d540.oslab.opentlc.com        kubernetes.io/hostname=node01-d540.oslab.op
 == Set Regions and Zones
 
 The assignments of "regions" and "zones" at the node-level are handled by labels
-on the nodes. 
+on the nodes.
 
 . Label the nodes
 +
 ----
-root@master00-GUID ~]# oc label node infranode00-$guid.oslab.opentlc.com region="infra" zone="infranodes" 
+root@master00-GUID ~]# oc label node infranode00-$guid.oslab.opentlc.com region="infra" zone="infranodes"
 root@master00-GUID ~]# oc label node node00-$guid.oslab.opentlc.com region="primary" zone="east"
 root@master00-GUID ~]# oc label node node01-$guid.oslab.opentlc.com region="primary" zone="west"
 ----
@@ -1000,12 +1000,13 @@ You will want to do this on the other nodes, but you won't need the
 
 = The Registy and Router
 
-In the scenario we are simulating in the lab, we are using *Infranode00* as the target for both the *registry* and the *default router*.  
+In the scenario we are simulating in the lab, we are using *Infranode00* as the target for both the *registry* and the *default router*.
 
-. make the master unschedulable"
+. If you wanted to make a node unschedulable, you could use this command:
+.. This isn't needed in our environment as our master is already made unschedulable by the installer
 +
 ----
-[root@master00-GUID ~]# oadm manage-node master00-$guid.oslab.opentlc.com  --schedulable=false 
+[root@master00-GUID ~]# oadm manage-node master00-$guid.oslab.opentlc.com  --schedulable=false
 master00-2642.oslab.opentlc.com   kubernetes.io/hostname=master00-2642.oslab.opentlc.com,region=infra,zone=na   Ready,SchedulingDisabled
 ----
 
@@ -1035,7 +1036,7 @@ node01-2642.oslab.opentlc.com        kubernetes.io/hostname=node01-2642.oslab.op
 NAME                       READY     REASON    RESTARTS   AGE
 docker-registry-1-deploy   0/1       Running   0          6s
 
-... Wait a few seconds ... 
+... Wait a few seconds ...
 
 [root@master00-2642 ~]# oc get pods
 NAME                      READY     REASON    RESTARTS   AGE
@@ -1050,7 +1051,7 @@ docker-registry-1-j6hdu   1/1       Running   0          59s
 --config=/etc/openshift/master/admin.kubeconfig  \
 --credentials='/etc/openshift/master/openshift-router.kubeconfig' \
 --images='registry.access.redhat.com/openshift3/ose-haproxy-router:v3.0.0.1' \
---selector='region=infra' 
+--selector='region=infra'
 ----
 
 . You should see the following output:
@@ -1067,7 +1068,7 @@ services/trainingrouter
 NAME                      READY     REASON    RESTARTS   AGE
 trainingrouter-1-deploy   0/1       Pending   0          4s
 
-.. Wait a few seconds ..  
+.. Wait a few seconds ..
 [root@master00-2642 ~]# oc get pods
 NAME                      READY     REASON    RESTARTS   AGE
 trainingrouter-1-22mr1    0/1       Pending   0          2s
@@ -1084,28 +1085,30 @@ trainingrouter-1-deploy   1/1       Running   0          14s
 .. You would probably also have the Registry pods listed in the output above.
 
 
-= Populating OpenShift
+=== Populating OpenShift
 
-. OpenShift Ships with *Image Streams* and *Templates* you can import, they reside in: `/usr/share/openshift/`
-. Create the core set of image streams, that use the Red Hat Enterprise Linux (RHEL) 7 based images:
+OpenShift Ships with *Image Streams* and *Templates* you can import, they reside in: `/usr/share/openshift/`
+
+NOTE: The installer will already import most of the ImageStreams and Templates for you.
 +
+. core set of image streams, that use the Red Hat Enterprise Linux (RHEL) 7 based images:
 ----
 oc create -f /usr/share/openshift/examples/image-streams/image-streams-rhel7.json -n openshift
 ----
- 
+
 
 . Create the core set of database templates:
 +
 ----
-$ oc create -f /usr/share/openshift/examples/db-templates -n openshift
+ oc create -f /usr/share/openshift/examples/db-templates -n openshift
 ----
 
 . To create the core QuickStart templates:
 +
 ----
 
-$ oc create -f /usr/share/openshift/examples/quickstart-templates -n openshift
-    
+ oc create -f /usr/share/openshift/examples/quickstart-templates -n openshift
+
 ----
 
 NOTE: Some of the  *Image Streams* and *Templates* would have already been installed by the OpenShift installer.

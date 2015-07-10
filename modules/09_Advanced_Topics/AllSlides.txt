@@ -1,3 +1,2 @@
-include::00_Module09_Complete.adoc[]
 include::01_Title.adoc[]
 include::02_Module_Topics.adoc[]

@@ -1,4 +1,3 @@
-include::00_Module01_Complete.adoc[]
 include::01_Title.adoc[]
 include::02_Course_Goals.adoc[]
 include::03_Course_Overview.adoc[]

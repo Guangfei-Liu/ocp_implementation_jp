@@ -1051,17 +1051,19 @@ node01-GUID.oslab.opentlc.com        kubernetes.io/hostname=node01-GUID.oslab.op
 
 ----
 
-. Deploy the *Registry*
-+
-----
-[root@master00-GUID ~]# oadm registry  --credentials=/etc/openshift/master/openshift-registry.kubeconfig  --images='registry.access.redhat.com/openshift3/ose-docker-registry:v3.0.0.1' --selector='region=infra'
-----
-
 . On a separate terminal connected to the master host, watch the output of the `oc get nodes` command:
 +
 ----
 
 [root@master00-GUID ~]# watch oc get pods
+
+----
+
+. Deploy the *Registry*
++
+----
+
+[root@master00-GUID ~]# oadm registry  --credentials=/etc/openshift/master/openshift-registry.kubeconfig  --images='registry.access.redhat.com/openshift3/ose-docker-registry:v3.0.0.1' --selector='region=infra'
 
 ----
 

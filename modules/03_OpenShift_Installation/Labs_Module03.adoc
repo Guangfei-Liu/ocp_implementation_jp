@@ -1027,7 +1027,7 @@ window:
 You will want to do this on the other nodes, but you won't need the
 `openshift-master` service. You may also wish to watch the Docker logs, too.
 
-= The Registy and Router
+== The Registy and Router
 
 In the scenario we are simulating in the lab, we are using *Infranode00* as the target for both the *registry* and the *default router*.
 

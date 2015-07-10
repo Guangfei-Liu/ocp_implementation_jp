@@ -20,9 +20,7 @@ yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-GUID.oslab.opentlc.c
 . SSH to the master host:
 +
 ----
-
 [root@oselab-GUID ~]# ssh root@master00-GUID.oslab.opentlc.com
-
 ----
 +
 [NOTE]
@@ -40,130 +38,244 @@ Not every coder is perfect, and sometimes you want to rollback to a previous
 incarnation of your application. Sometimes you then want to go forward to a
 newer version, too.
 
-The next few labs require that you have a Github account. We will take Alice's
+The next few labs require that you have a Github account. We will take Marina's
 "wiring" application and modify its front-end and then rebuild. We'll roll-back
 to the original version, and then go forward to our re-built version.
 
 === Fork the Repository
 
-Our wiring example's frontend service uses the following Github repository:
-
-    https://github.com/openshift/ruby-hello-world
+. Using the git web interface, fork the following git repo: link:https://github.com/sborenst/ruby-hello-world[https://github.com/sborenst/ruby-hello-world]
 
 . Fork this into your own account by clicking the *Fork* Button at
-the upper right.
+the upper right corner of the Github web UI.
 
-=== Update the BuildConfig
+=== Create your application
 
-Remember that a `BuildConfig`(uration) tells OpenShift how to do a build.
-Still as the `alice` user.
+NOTE: Remember that a `BuildConfig`(uration) tells OpenShift how to do a build.
 
-. As `alice` on the master host create a project called `integrated`.
+. As Root (Or Marina), Create a project for Marina to work with:
++
+----
+[marina@master00-GUID ~]$ oadm new-project lifecycle --display-name="Lifecycle Lab" \
+    --description="This is the project we use to learn about Lifecycle management" \
+    --admin=marina --node-selector='region=primary'
+----
 
-. As user alice clone the training repo:
+. Switch to Marina and use the *"lifecycle"* project.
++
+----
+[marina@master00-GUID ~]$ oc project lifecycle 
+----
+
+. Lets create an app based on the link:https://github.com/sborenst/ruby-hello-world[https://github.com/sborenst/ruby-hello-world] repo
++
+----
+[marina@master00-GUID ~]$ oc new-app https://github.com/sborenst/ruby-hello-world
+----
++
+NOTE: You could have, of course, started the new-app with your own repo, we are only picking the "wrong" one as part of the learning exercise. 
+
+. Since we know that we want to talk to a database eventually, let's take a moment to add the environment variables for it. Conveniently, there is an env subcommand to oc. As marina, we can use it like so:
++
+----
+[marina@master00-cfe3 ~]$ oc env dc/ruby-hello-world MYSQL_USER=root MYSQL_PASSWORD=redhat MYSQL_DATABASE=mydb
+----
+
+. While we wait for the build to finish, lets *expose* our service to the world so we can test this from our local browser:
++
+
+----
+[marina@master00-GUID ~]$ oc expose service ruby-hello-world --name="ruby-hello-world" --hostname=ruby-hello-world.lifecycle.cloudapps-$guid.oslab.opentlc.com
+
+----
+
+
+. Take a look at the current `BuildConfig` for our application:
 +
 ----
 
-[alice@master00-GUID ~]$ cd;git clone https://github.com/openshift/training.git
+[marina@master00-GUID ~]$ oc get buildconfig ruby-hello-world -o yaml
 
 ----
 
-. In the training/beta4 directory update integrated-template.json 
+. Expect output similar to the following
 +
 ----
 
-[alice@master00-GUID ~]$ sed -i "s/cloudapps.example.com/cloudapps-$GUID.oslab.opentlc.com/" ~/training/beta4/integrated-template.json
+apiVersion: v1
+kind: BuildConfig
+metadata:
+  creationTimestamp: 2015-07-10T01:26:25Z
+  name: ruby-hello-world
+  namespace: lifecycle
+  resourceVersion: "91786"
+  selfLink: /osapi/v1beta3/namespaces/justanother1/buildconfigs/ruby-hello-world
+  uid: ae290227-26a2-11e5-8b7a-2cc260072896
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: ruby-hello-world:latest
+  resources: {}
+  source:
+    git:
+      uri: https://github.com/sborenst/ruby-hello-world.git
+    type: Git
+  strategy:
+    dockerStrategy:
+      from:
+        kind: ImageStreamTag
+        name: ruby:latest
+        namespace: openshift
+    type: Docker
+  triggers:
+  - github:
+      secret: xTah2lioO2Bz9JZT9dPf
+    type: GitHub
+  - generic:
+      secret: B5h3ARS88HD7S3LOcbRZ
+    type: Generic
+  - imageChange:
+      lastTriggeredImageID: registry.access.redhat.com/openshift3/ruby-20-rhel7:latest
+    type: ImageChange
+status:
+  lastVersion: 4
 
 ----
++
 
-. Load the template:
+. As you can see, the current configuration points at the `sborenst/ruby-hello-world` repository. Since you've forked this repo, let's go ahead and re-point our configuration. 
+
+. Use `oc edit` to re-point the configuration:
 +
 ----
 
-[alice@master00-GUID ~]$ osc create -f ~/training/beta4/integrated-template.json
-
-----
-
-. In the web console create instant an app based on the template.
-
-. Take a look at the current `BuildConfig` for our frontend:
-+
-----
-
-[alice@master00-GUID ~]$ osc get buildconfig ruby-sample-build -o yaml
-
-----
-+
-----
-
-    apiVersion: v1beta1
-    kind: BuildConfig
-    metadata:
-      creationTimestamp: 2015-03-10T15:40:26-04:00
-      labels:
-        template: application-template-stibuild
-      name: ruby-sample-build
-      namespace: wiring
-      resourceVersion: "831"
-      selfLink: /osapi/v1beta1/buildConfigs/ruby-sample-build?namespace=wiring
-      uid: 4cff2e5e-c75d-11e4-806e-525400b33d1d
-    parameters:
-      output:
-        to:
-          kind: ImageStream
-          name: origin-ruby-sample
-      source:
-        git:
-          uri: git://github.com/openshift/ruby-hello-world.git
-          ref: beta4
-        type: Git
-      strategy:
-        stiStrategy:
-          builderImage: openshift/ruby-20-rhel7
-          image: openshift/ruby-20-rhel7
-        type: STI
-    triggers:
-    - github:
-        secret: secret101
-      type: github
-    - generic:
-        secret: secret101
-      type: generic
-    - imageChange:
-        from:
-          name: ruby-20-rhel7
-        image: openshift/ruby-20-rhel7
-        imageRepositoryRef:
-          name: ruby-20-rhel7
-        tag: latest
-      type: imageChange
-----
-+
-As you can see, the current configuration points at the
-`openshift/ruby-hello-world` repository. Since you've forked this repo, let's go
-ahead and re-point our configuration. 
-
-. Use `osc edit` to re-point the configuration:
-+
-----
-
-[alice@master00-GUID ~]$  osc edit bc ruby-sample-build
+[marina@master00-GUID ~]$  oc edit bc ruby-hello-world
 
 ----
 
 . Change the "uri" reference to match the name of your Github
-repository. Assuming your github user is `alice`, you would point it
-to `git://github.com/alice/ruby-hello-world.git`. Save and exit
+repository. Assuming your github user is `marina`, you would point it
+to `git://github.com/marina/ruby-hello-world.git`. Save and exit
 the editor.
 
-. If you again run `osc get buildconfig ruby-sample-build -o yaml` you should see
+. If you again run `oc get buildconfig ruby-hello-world -o yaml` you should see
 that the `uri` has been updated.
 
-=== Change the Code
+. Check to see if a new build has been created:
++
+----
+[marina@master00-GUID ~]$  oc get builds
+----
 
+. If a build has not started yet, you can start it yourself and follow the build-log:
++
+----
+[marina@master00-GUID ~]$ oc get bc 
+NAME               TYPE      SOURCE
+ruby-hello-world   Docker    https://github.com/marina/ruby-hello-world.git
+
+[marina@master00-GUID ~]$ oc start-build ruby-hello-world
+ruby-hello-world-7
+
+[marina@master00-GUID ~]$ oc get builds
+NAME                 TYPE      STATUS     POD
+ruby-hello-world-5   Docker    Complete   ruby-hello-world-5-build
+ruby-hello-world-6   Docker    Complete   ruby-hello-world-6-build
+ruby-hello-world-7   Docker    Running    ruby-hello-world-7-build
+
+[marina@master00-GUID ~]$ oc build-logs ruby-hello-world-7
+I0709 23:41:08.493756       1 docker.go:69] Starting Docker build from justanother1/ruby-hello-world-7 BuildConfig ...
+I0709 23:41:08.508448       1 tar.go:133] Adding to tar: /tmp/docker-build062004796/.gitignore as .gitignore
+I0709 23:41:08.509588       1 tar.go:133] Adding to tar: /tmp/docker-build062004796/.sti/bin/README as .sti/bin/README
+I0709 23:41:08.509953       1 tar.go:133] Adding to tar: /tmp/docker-build062004796/.sti/environment as .sti/environment
+I0709 23:41:08.510183       1 tar.go:133] Adding to tar: /tmp/docker-build062004796/Dockerfile as Dockerfile
+I0709 23:41:08.510548       1 tar.go:133] Adding to tar: /tmp/docker-build062004796/Gemfile as Gemfile
+.......
+Cropped Output
+.......
+----
+
+. Lets start the *database* service, This time we will do it a little differently:
+.. Notice how we are providing the values and processing the *mysql-template.json* file. 
+.. The *oc process* command output can be saved into a file or "piped" into the *oc create* command
++
+----
+[marina@master00-GUID ~]$ oc process -f mysql-template.json --value="MYSQL_USER=root,MYSQL_PASSWORD=redhat,MYSQL_DATABASE=mydb" | tee mysql-processed.json
+[marina@master00-GUID ~]$ oc create -f  mysql-processed.json
+----
+. *Or* we can process the template, add our variables and "pipe" the output directly to the *oc create* command
+.. Note that we are providing the *MYSQL_* attibutes, but also choosing the name of the *service* to be created.
++
+----
+[marina@master00-GUID ~]$ oc process -f mysql-template.json --value="MYSQL_USER=root,MYSQL_PASSWORD=redhat,MYSQL_DATABASE=mydb,DATABASE_SERVICE_NAME=database" | oc create -f -
+---- 
+
+. Check that your values were processed correctly
++
+----
+[marina@master00-cfe3 ~]$ oc env dc/mysql --list
+# deploymentconfigs mysql, container mysql
+MYSQL_USER=root
+MYSQL_PASSWORD=redhat
+MYSQL_DATABASE=mydb
+----
+
+INFO: Your frontend needs to be "redeployed" so it checked for the DB again.
+
+== Using Webhooks
+
+=== Create a Webhook
+
+Webhooks are a way to integrate external systems into your OpenShift
+environment so that they can fire off OpenShift builds. Generally
+speaking, one would make code changes, update the code repository, and
+then some process would hit OpenShift's webhook URL in order to start
+a build with the new code.
+
+Your GitHub account has the capability to configure a webhook to request
+whenever a commit is pushed to a specific branch; 
+
+. To find the webhook URL, you can visit the web console, click into the
+project, click on *Browse* and then on *Builds*. You'll see two webhook
+URLs. 
+
+. Copy the *Generic* one. It should look like:
++
+----
+https://master00-cfe3.oslab.opentlc.com:8443/osapi/v1beta3/namespaces/justanother1/buildconfigs/ruby-hello-world/webhooks/B5h3ARS88HD7S3LOcbRZ/generic
+----
+
+. Get the *secret* password from the *BuildConfig*
++
+----
+[marina@master00-GUID ~]$ oc get bc ruby-hello-world -o yaml
+----
+
+. It will similar to this output, use the "secret" value in your configuration in git.
++
+----
+.... Cropped Output .... 
+  triggers:
+  - github:
+      secret: xTah2lioO2Bz9JZT9dPf
+    type: GitHub
+  - generic:
+      secret: B5h3ARS88HD7S3LOcbRZ
+    type: Generic
+.... Cropped Output ....
+----
+
+. Complete the configuration on Github.
+
+=== Test your WebHook
+
+We want to make a change to the code, then, commit and push the change into the git repository.
++
+NOTE: If you know how, you can do this "the normal way" but cloning your repo locally, making changes and pushing them to the repo.
++
 . Github's web interface will let you make edits to files. Go to your forked
-repository (eg: https://github.com/alice/ruby-hello-world), select the `beta4`
-branch, and find the file `main.erb` in the `views` folder.
+repository (eg: https://github.com/marina/ruby-hello-world), and find the file `main.erb` in the `views` folder.
 
 . Change the following HTML:
 +
@@ -185,96 +297,12 @@ To read (with the typo):
 
 ----
 
-You can edit code on Github by clicking the pencil icon which is next to the
-"History" button. Provide some nifty commit message like "Personalizing the
-application."
-
-If you know how to use Git/Github, you can just do this "normally".
-
-=== Start a Build with a Webhook
-
-Webhooks are a way to integrate external systems into your OpenShift
-environment so that they can fire off OpenShift builds. Generally
-speaking, one would make code changes, update the code repository, and
-then some process would hit OpenShift's webhook URL in order to start
-a build with the new code.
-
-Your GitHub account has the capability to configure a webhook to request
-whenever a commit is pushed to a specific branch; however, it would only
-be able to make a request against your OpenShift master if that master
-is exposed on the Internet, so you will probably need to simulate the
-request manually for now.
-
-. To find the webhook URL, you can visit the web console, click into the
-project, click on *Browse* and then on *Builds*. You'll see two webhook
-URLs. 
-
-. Copy the *Generic* one. It should look like:
-
-    https://master00-GUID.oslab.opentlc.com:8443/osapi/v1beta3/namespaces/wiring/buildconfigs/ruby-sample-build/webhooks/secret101/generic
-
-[NOTE]
-As of the cut of beta 4, the generic webhook URL was incorrect in the
-webUI. Note the correct syntax above. This is fixed already, but did not make it
-in:
-
-    https://github.com/openshift/origin/issues/2981
-
-If you look at the `frontend-config.json` file created in an earlier lab,
-you'll notice the same "secret101" entries in triggers. These are
-basically passwords so that just anyone on the web can't trigger the
-build with knowledge of the name only. You could of course have adjusted
-the passwords or had the template generate randomized ones.
-
-This time, in order to run a build for the frontend, we'll use `curl` to hit our
-webhook URL.
-
-. Look at the list of builds:
-+
-----
-
-[alice@master00-GUID ~]$ osc get build
-
-----
-
-. You should see that the first build had completed. Then, `curl`:
-+
-----
-
-[alice@master00-GUID ~]$ curl -i -H "Accept: application/json" \
--H "X-HTTP-Method-Override: PUT" -X POST -k \
-https://master00-GUID.oslab.opentlc.com:8443/osapi/v1beta3/namespaces/wiring/buildconfigs/ruby-sample-build/webhooks/secret101/generic
-
-----
-
-. And now `osc get build` again:
-+
-----
-
-[alice@master00-GUID ~]$ osc get build
-
-----
-+
-----
-
-NAME                  TYPE      STATUS     POD
-ruby-sample-build-1   Source    Complete   ruby-sample-build-1
-ruby-sample-build-2   Source    Pending    ruby-sample-build-2
-
-----
-+
-You can see that this could have been part of some CI/CD workflow that
-automatically called our webhook once the code was tested.
-
-. You can also check the web interface (logged in as `alice`) and see
+. When finished changing your code, commit the change to the repo. 
+. Now check if a build has been triggered. 
+. You can also check the web interface (logged in as `marina`) and see
 that the build is running. Once it is complete, point your web browser
-at the application:
-+
-----
+at the application: link:http://ruby-hello-world.lifecycle.cloudapps-GUID.oslab.opentlc.com/[http://ruby-hello-world.lifecycle.cloudapps-GUID.oslab.opentlc.com/]
 
-http://ruby-hello-world.wiring.cloudapps-GUID.oslab.opentlc.com/
-
-----
 +
 You should see your big fat typo.
 +
@@ -287,7 +315,7 @@ Since we failed to properly test our application, and our ugly typo has made it
 into production, a nastygram from corporate marketing has told us that we need
 to revert to the previous version, ASAP.
 
-. If you log into the web console as `alice` and find the `Deployments` section of
+. If you log into the web console as `marina` and find the `Deployments` section of
 the `Browse` menu, you'll see that there are two deployments of our frontend: 1
 and 2.
 
@@ -295,7 +323,7 @@ and 2.
 +
 ----
 
-[alice@master00-GUID ~]$ osc get replicationcontroller
+[marina@master00-GUID ~]$ oc get replicationcontroller
 
 ----
 +
@@ -306,12 +334,17 @@ from the `ImageStream`.
 === Rollback
 
 You can rollback a deployment using the CLI. 
+. Check which builds you have available 
++
+----
+[marina@master00-GUID ~] oc get builds 
 
-. Check out what a rollback to`frontend-1` would look like:
+----
+. Choose a deployment and, check out what a rollback to`ruby-hello-world-#` would look like:
 +
 ----
 
-[alice@master00-GUID ~]$ osc rollback frontend-1 --dry-run
+[marina@master00-GUID ~]$ oc rollback ruby-hello-world-2 --dry-run
 
 ----
 
@@ -319,7 +352,7 @@ You can rollback a deployment using the CLI.
 +
 ----
 
-[alice@master00-GUID ~]$ osc rollback frontend-1
+[marina@master00-GUID ~]$ oc rollback ruby-hello-world-2
 
 ----
 +
@@ -327,14 +360,14 @@ If you look at the `Browse` tab of your project, you'll see that in the `Pods`
 section there is a `frontend-3...` pod now. After a few moments, revisit the
 application in your web browser, and you should see the old "Welcome..." text.
 
-=== Activate
+=== Roll Back/Forward
 
 . Corporate marketing called again. They think the typo makes us look hip and
 cool. Let's now roll forward (activate) the typo-enabled application:
 +
 ----
 
-[alice@master00-GUID ~]$ osc rollback frontend-2
+[marina@master00-GUID ~]$ oc rollback ruby-hello-world-3
 
 ----
 
@@ -355,10 +388,7 @@ customization can be found here:
 
 . Go to your Github repository for your application from the previous lab.
 
-. In the Github web GUI change to the `beta4` branch (top left).
-+
-[NOTE]
-If you are unfamiliar with github, changing the branch could be tricky, make sure you do not skip this step.
+. In the Github web GUI
 
 . Navigate to the `.sti/bin` folder.
 
@@ -366,7 +396,7 @@ If you are unfamiliar with github, changing the branch could be tricky, make sur
 
 . Name your file `assemble`.
 
-. On the master host command line find the script called `custom-assemble.sh` in the `training/beta4` folder and paste the contents of `custom-assemble.sh` into the text area.
+. On the master host command line find the script called `custom-assemble.sh` in the `resources` folder and paste the contents of `custom-assemble.sh` into the text area.
 
 . Provide a nifty commit message.
 
@@ -378,18 +408,6 @@ If you know how to Git(hub), you can do this via your shell.
 . Once the file is added, we can now do another build. The "custom" assemble
 script will log some extra data.
 
-=== Kick Off a Build
-
-. Use `curl` to start the build:
-+
-----
-
-[alice@master00-GUID ~]$ GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
-[alice@master00-GUID ~]$ curl -i -H "Accept: application/json" \
-    -H "X-HTTP-Method-Override: PUT" -X POST -k \
-    https://master00-$GUID.oslab.opentlc.com:8443/osapi/v1beta3/namespaces/wiring/buildconfigs/ruby-sample-build/webhooks/secret101/generic
-
-----
 
 === Watch the Build Logs
 
@@ -413,11 +431,11 @@ output of the assemble script. The
 other words, the `run` script is what starts the Ruby process for an image that
 was built based on the `ruby-20-rhel7` S2I builder. 
 
-. To look inside the builder pod, as `alice`:
+. To look inside the builder pod, as `marina`:
 +
 ----
 
-[alice@master00-GUID ~]$ osc logs `osc get pod | grep -e "[0-9]-build" | tail -1 | awk {'print $1'}` | grep CUSTOM
+[marina@master00-GUID ~]$ oc logs `oc get pod | grep -e "[0-9]-build" | tail -1 | awk {'print $1'}` | grep CUSTOM
 
 ----
 +
@@ -511,11 +529,11 @@ information can be found in the documentation:
 === Modifying the Hooks
 
 . Since we are talking about **deployments**, let's look at our
-`DeploymentConfig`s. As the `alice` user in the `wiring` project:
+`DeploymentConfig`s. As the `marina` user in the `wiring` project:
 +
 ----
 
-[alice@master00-GUID ~]$ osc get dc
+[marina@master00-GUID ~]$ oc get dc
 
 ----
 +
@@ -523,23 +541,24 @@ You should see something like:
 +
 ----
 
-NAME       TRIGGERS       LATEST VERSION
-database   ConfigChange   1
-frontend   ImageChange    7
+NAME               TRIGGERS                    LATEST VERSION
+database           Change, ConfigChange        1
+ruby-hello-world   ConfigChange, ImageChange   6
+
 
 ----
 
 . Since we are trying to associate a Rails database migration hook with our
-application, we are ultimately talking about a deployment of the frontend. If
-you edit the frontend's `DeploymentConfig` as `alice`:
+application, we are ultimately talking about a deployment of the frontend (ruby-hello-world). If
+you edit the ruby-hello-world's `DeploymentConfig` as `marina`:
 +
 ----
 
-[alice@master00-GUID ~]$ osc edit dc frontend -ojson
+[marina@master00-GUID ~]$ oc edit dc ruby-hello-world -o json
 
 ----
 
-. Yes, the default for `osc edit` is to use YAML. For this exercise, JSON will be
+. Yes, the default for `oc edit` is to use YAML. For this exercise, JSON will be
 easier as it is indentation-insensitive. Find the section that looks like the
 following before continuing:
 +
@@ -634,12 +653,12 @@ stale pods that are not running (`Succeeded`). Currently we do not auto-delete
 these pods because we have no log store -- once they are deleted, you can't view
 their logs any longer.
 
-. For now, we can clean up by doing the following as `alice`:
+. For now, we can clean up by doing the following as `marina`:
 +
 ----
 
-[alice@master00-GUID ~]$ osc get pod | grep -E "[0-9]-build" |\
-   awk {'print $1'} | xargs -r osc delete pod
+[marina@master00-GUID ~]$ oc get pod | grep -E "[0-9]-build" |\
+   awk {'print $1'} | xargs -r oc delete pod
 
 ----
 
@@ -660,11 +679,11 @@ image, fetches the source code, executes the (customized) assemble script, and
 then pushes the resulting Docker image into the registry. **Then** the
 deployment happens.
 
-. As `alice`:
+. As `marina`:
 +
 ----
 
-[alice@master00-GUID ~]$ osc start-build ruby-sample-build
+[marina@master00-GUID ~]$ oc start-build ruby-hello-world
 
 ----
 +
@@ -674,11 +693,11 @@ area.
 === Verify the Migration
 
 . About a minute after the build completes, you should see something like the following output
-of `osc get pod` as `alice`:
+of `oc get pod` as `marina`:
 +
 ----
 
-[alice@master00-GUID ~]$ osc get pod
+[marina@master00-GUID ~]$ oc get pod
 
 ----
 +
@@ -703,7 +722,7 @@ with the pod that ran our pre-deployment hook.
 +
 ----
 
-[alice@master00-GUID ~]$ osc logs deployment-frontend-7-hook-4i8ch
+[marina@master00-GUID ~]$ oc logs deployment-frontend-7-hook-4i8ch
 
 ----
 +
@@ -726,11 +745,11 @@ You can even talk directly to the database on its service IP/port
 using the `mysql` client and the environment variables (you would need the
 `mysql` package installed on your master, for example).
 
-. As `alice`, find your database:
+. As `marina`, find your database:
 +
 ----
 
-[alice@master00-GUID ~]$ osc get service
+[marina@master00-GUID ~]$ oc get service
 NAME       LABELS    SELECTOR        IP(S)            PORT(S)
 database   <none>    name=database   172.30.108.133   5434/TCP
 frontend   <none>    name=frontend   172.30.229.16    5432/TCP
@@ -743,7 +762,7 @@ Take note of the database IP and PORT.
 +
 ----
 
-[alice@master00-GUID ~]$ osc get dc database -o yaml | grep -A1 MYSQL
+[marina@master00-GUID ~]$ oc get dc database -o yaml | grep -A1 MYSQL
 
 ----
 +
@@ -770,7 +789,7 @@ Take note of the database IP and PORT.
 +
 ----
 
-[alice@master00-GUID ~]$ mysql -u[username] \
+[marina@master00-GUID ~]$ mysql -u[username] \
       -p[password] \
       -h[db_IP] \
       -P[db_PORT] \
@@ -812,21 +831,21 @@ image:
 We've taken the content of this subfolder and placed it in the GitHub
 `openshift/centos7-wordpress` repository. 
 
-. Run `osc new-app` and see what happens:
+. Run `oc new-app` and see what happens:
 +
 ----
 
-[alice@master00-GUID ~]$ osc new-app https://github.com/openshift/centos7-wordpress.git -o yaml
+[marina@master00-GUID ~]$ oc new-app https://github.com/openshift/centos7-wordpress.git -o yaml
 
 ----
 
 === Create a Project
 
-. As `alice`, go ahead and create a new project:
+. As `marina`, go ahead and create a new project:
 +
 ----
 
-[alice@master00-GUID ~]$ osc new-project wordpress --display-name="Wordpress" \
+[marina@master00-GUID ~]$ oc new-project wordpress --display-name="Wordpress" \
     --description='Building an arbitrary Wordpress Docker image'
 
 ----
@@ -837,7 +856,7 @@ We've taken the content of this subfolder and placed it in the GitHub
 +
 ----
 
-[alice@master00-GUID ~]$ osc new-app -l name=wordpress https://github.com/openshift/centos7-wordpress.git
+[marina@master00-GUID ~]$ oc new-app -l name=wordpress https://github.com/openshift/centos7-wordpress.git
 
 ----
 +
@@ -848,7 +867,7 @@ imageStreams/centos7-wordpress
 buildConfigs/centos7-wordpress
 deploymentConfigs/centos7-wordpress
 services/centos7-wordpress
-A build was created - you can run `osc start-build centos7-wordpress` to start it.
+A build was created - you can run `oc start-build centos7-wordpress` to start it.
 Service "centos7-wordpress" created at 172.30.135.252 with port mappings 22.
 
 ----
@@ -857,7 +876,7 @@ Service "centos7-wordpress" created at 172.30.135.252 with port mappings 22.
 +
 ----
 
-[alice@master00-GUID ~]$ osc start-build centos7-wordpress
+[marina@master00-GUID ~]$ oc start-build centos7-wordpress
 
 ----
 +
@@ -868,18 +887,18 @@ This can take a *really* long time to build.**
 +
 ----
 
-[alice@master00-GUID ~]$ sed -i "s/cloudapps.example.com/cloudapps-$GUID.oslab.opentlc.com/" ~/training/beta4/wordpress-addition.json
+[marina@master00-GUID ~]$ sed -i "s/cloudapps.example.com/cloudapps-$GUID.oslab.opentlc.com/" ~/training/beta4/wordpress-addition.json
 
 ----
 
 . You will need a route for this application, as `curl` won't do a whole lot for
-us here. Additionally, `osc new-app` currently has a bug in the way services are
+us here. Additionally, `oc new-app` currently has a bug in the way services are
 detected, so we'll have a service for SSH (thus port 22 above) but not one for
 httpd. So we'll add on a service and route for web access.
 +
 ----
 
-[alice@master00-GUID ~]$ cd ~/training/beta4; osc create -f wordpress-addition.json
+[marina@master00-GUID ~]$ cd ~/training/beta4; oc create -f wordpress-addition.json
 
 ----
 
@@ -897,14 +916,14 @@ you allow it, developers can actually simply build Docker containers as their
 === Application Resource Labels
 
 You may have wondered about the `-l name=wordpress` in the invocation above. This
-applies a label to all of the resources created by `osc new-app` so that they can
+applies a label to all of the resources created by `oc new-app` so that they can
 be easily distinguished from any other resources in a project. 
 
 . For example, we can easily delete only the things with this label:
 +
 ----
 
-[alice@master00-GUID ~]$ osc delete all -l name=wordpress
+[marina@master00-GUID ~]$ oc delete all -l name=wordpress
 
 ----
 +
@@ -925,7 +944,7 @@ have this label, so they didn't get deleted:
 +
 ----
 
-[alice@master00-GUID ~]$ osc get services
+[marina@master00-GUID ~]$ oc get services
 
 ----
 +
@@ -938,7 +957,7 @@ wordpress-httpd-service   <none>    deploymentconfig=centos7-wordpress   172.30.
 +
 ----
 
-[alice@master00-GUID ~]$ osc get route
+[marina@master00-GUID ~]$ oc get route
 
 ----
 +
@@ -992,7 +1011,7 @@ We want to:
 +
 ----
 
-[alice@master00-GUID ~]$ sed -i "s/cloudapps.example.com/cloudapps-$GUID.oslab.opentlc.com/" ~/training/beta4/eap6-basic-sti.json
+[marina@master00-GUID ~]$ sed -i "s/cloudapps.example.com/cloudapps-$GUID.oslab.opentlc.com/" ~/training/beta4/eap6-basic-sti.json
 
 ----
 
@@ -1002,7 +1021,7 @@ Ok, we're ready:
 +
 ----
 
-[alice@master00-GUID ~]$ cd ~training/beta4; osc create -f eap6-basic-sti.json
+[marina@master00-GUID ~]$ cd ~training/beta4; oc create -f eap6-basic-sti.json
 
 ----
 
@@ -1010,7 +1029,7 @@ Ok, we're ready:
 +
 ----
 
-[alice@master00-GUID beta4]$ osc create -f eap-app-secret.json
+[marina@master00-GUID beta4]$ oc create -f eap-app-secret.json
 
 ----
 
@@ -1043,7 +1062,7 @@ that is not the case. The EAP imageStream exists in the `openshift` namespace.
 +
 ----
 
-[alice@master00-GUID ~]$ osc edit bc helloworld
+[marina@master00-GUID ~]$ oc edit bc helloworld
 
 ----
 

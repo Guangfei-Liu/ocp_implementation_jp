@@ -248,7 +248,7 @@ MYSQL_DATABASE=mydb
 ----
 
 . Notice that your build might have already started before you changed the *DeploymentConfig* environment variables, this would trigger another deployment to start.   
-. Expose the Service
+. Expose the *ruby-hello-world* Service
 +
 ----
 [marina@master00-cfe3 ~]$ oc expose service --name=frontend-route ruby-hello-world --hostname="frontwire2.cloudapps-$guid.oslab.opentlc.com"

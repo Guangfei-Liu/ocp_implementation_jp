@@ -47,6 +47,13 @@
         "creationTimestamp": null
       },
       "spec": {
+        "host": "REPLACEME.com",
+        "to": {
+          "kind": "Service",
+          "name": "frontend"
+        }
+      },
+      "spec": {
         "to": {
           "kind": "Service",
           "name": "frontend"

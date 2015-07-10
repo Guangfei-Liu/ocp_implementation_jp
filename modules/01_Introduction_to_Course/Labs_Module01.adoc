@@ -15,20 +15,13 @@ If you forgot your username or password, go to https://www.opentlc.com/pwm to re
 
 . Navigate to *Services* -> *Catalogs* -> *All Services* -> *OPENTLC Cloud Infrastructure Labs*.
 
-. On the left side of the screen, locate *OpenShift 3.0 Beta Implementation Lab* and click  *Order*  (appears on the right).
+. On the left side of the screen, locate *OpenShift 3.0 Implementation Lab* and click  *Order*  (appears on the right).
 
 . Click *Submit* (in the lower right) to order your environment. 
 +
 In a few minutes you receive an email describing how to connect to the environment.
 
 . Wait about 20 minutes to allow your environment to build. 
-+
-The environment includes the following entities:
-
-- One host for the broker 
-- Two hosts for nodes
-- One administration host for connection into the environment and miscellaneous tasks
-- IPA identity management
 
 [WARNING] 
 Do not select *App Control* -> *Start* after ordering the lab. The lab is already starting. Selecting *Start* may corrupt the lab environment or cause other complications. You can select *Status* to receive an email with the status of your environment.
@@ -68,16 +61,6 @@ For more information on using SSH and keys, see link:https://www.opentlc.com/ssh
 ----
 -bash-4.2$ sudo -i
 ----
-
-. From the administraion host, make sure you can SSH to each of your provisioned hosts (192.168.0.100, 192.168.0.200, 192.168.0.201):
-+
-[subs="verbatim,macros"]
-----
-[root@oselab-GUID ~]# ssh root@192.168.0.X
-----
-+
-[NOTE]
-If prompted for a password, remember the root password is *r3dh4t1!*.
 
 :numbered!:
 

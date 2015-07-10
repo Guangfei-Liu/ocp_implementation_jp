@@ -6,8 +6,9 @@
 * Class related content found at https://www.opentlc.com/classes/ose_implementation.
 * Class labs and demonstrations require provisioning the following virtual machines:
 ** *Master host* – VM that serves as the Master for the OpenShift Enterprise environment.
+** *Infranode host* – VM that runs the HA Proxy and Docker Registry
 ** *Node hosts* – VMs that serve as the nodes of the OpenShift Enterprise environment.
-** *oselab host* – VM for repositories, files, SSH "Jumpbox," and other services.
+** *Admin aka oselab host* – VM for repositories, files, SSH "Jumpbox," and other services.
 * Red Hat Enterprise Linux 7.1 is preinstalled and configured for deployment.
 * Connection details arrive via email after you provision the environment.
 

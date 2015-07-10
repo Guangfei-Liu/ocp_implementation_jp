@@ -2,18 +2,18 @@
 == Title
 :noaudio:
 
-ifdef::revealjs_slideshow[] 
-[#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"] 
+ifdef::revealjs_slideshow[]
+[#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"]
 
 
-[#cover-h1] 
+[#cover-h1]
 Red Hat OpenShift Enterprise Implementation
 
-[#cover-h2] 
+[#cover-h2]
 Resource Management
 
-[#cover-logo] 
-image::{revealjs_cover_image}[] 
+[#cover-logo]
+image::{revealjs_cover_image}[]
 
 endif::[]
 
@@ -27,13 +27,13 @@ endif::[]
 :noaudio:
 :numbered!:
 
-Module 04 : Resource Management 
+Module 04 : Resource Management
 
 * OpenShift Resources
 * Projects and Users
 * Resource Quota
 * Services and Routes
-* Deplpyments 
+* Deplpyments
 * Deployment Configuration
 * Replication Controllers
 * Lab: Users, Projects and Quotas
@@ -53,7 +53,7 @@ endif::showscript[]
 
 == OpenShift Resources
 * There are a number of different resource types in OpenShift 3.
-* When creating/destroying apps, scaling, building and etc, we are manipulating OpenShift and Kubernetes resources under the covers. 
+* When creating/destroying apps, scaling, building and etc, we are manipulating OpenShift and Kubernetes resources under the covers.
 * Resources can have quotas enforced against them.
 * OpenShift Enterprise 3.0 includes different resource types
 ** Resources in this context can refer to:
@@ -66,13 +66,13 @@ ifdef::showscript[]
 === Transcript
 OpenShift Enterprise 3.0 includes a number of different resource types.
 
-Actions such as creating and destroying apps, scaling, building, and so on all result in  manipulating OpenShift Enterprise and Kubernetes resources in the background. 
+Actions such as creating and destroying apps, scaling, building, and so on all result in  manipulating OpenShift Enterprise and Kubernetes resources in the background.
 
-You can enforce quotas against resources. The quota defines limits for multiple resources--for example, in the code sample shown here, the quota called `test-quota` defines limits for several resources. 
+You can enforce quotas against resources. The quota defines limits for multiple resources--for example, in the code sample shown here, the quota called `test-quota` defines limits for several resources.
 
 Within a project, users cannot run actions that result in exceeding these resource limits. Because the quota is enforced at the project level, it is up to the users to allocate resources--specifically, memory and CPU--to their pods and containers.
 
-Resources in this context can refer not only to memory, CPU, and other "platform" resources, but also to pods, services, and replication controllers. 
+Resources in this context can refer not only to memory, CPU, and other "platform" resources, but also to pods, services, and replication controllers.
 
 endif::showscript[]
 
@@ -80,30 +80,30 @@ endif::showscript[]
 == Projects and Users
 .Users and User Types
 
-* Users : Interaction with OpenShift is associated with a user. 
-* An OpenShift user object represents an "actor" which may be granted permissions in the system by adding roles to them or to their groups. 
+* Users : Interaction with OpenShift is associated with a user.
+* An OpenShift user object represents an "actor" which may be granted permissions in the system by adding roles to them or to their groups.
 * Several types of users can exist:
-** *Regular users* - This is the way most interactive OpenShift users will be represented. 
-*** Regular users are created automatically in the system upon first login, or can be created via the API. 
-*** Regular users are represented with the User object. 
+** *Regular users* - This is the way most interactive OpenShift users will be represented.
+*** Regular users are created automatically in the system upon first login, or can be created via the API.
+*** Regular users are represented with the User object.
 ** *System users* - Many of these are created automatically when the infrastructure is defined, mainly for the purpose of enabling the infrastructure to interact with the API securely.
-*** They include a cluster administrator (with access to everything), a per-node user, users for use by routers and registries, and various others. 
-*** There is also an anonymous system user that is used by default for unauthenticated requests. 
+*** They include a cluster administrator (with access to everything), a per-node user, users for use by routers and registries, and various others.
+*** There is also an anonymous system user that is used by default for unauthenticated requests.
 +
 ----
 For example : system:admin system:openshift-registry system:node:node1.example.com
 ----
- 
-** *Service accounts* - These are special system users associated with projects; 
-*** some are created automatically when the project is first created, 
-*** while project administrators can create more for the purpose of defining access to the contents of each project. 
+
+** *Service accounts* - These are special system users associated with projects;
+*** some are created automatically when the project is first created,
+*** while project administrators can create more for the purpose of defining access to the contents of each project.
 *** Service accounts are represented with the ServiceAccount object.
 +
----- 
-For example : system:serviceaccount:default:deployer system:serviceaccount:foo:builder  
+----
+For example : system:serviceaccount:default:deployer system:serviceaccount:foo:builder
 ----
 
-* Every user must authenticate in some way in order to access OpenShift. API requests with no authentication or invalid authentication are authenticated as requests by the anonymous system user. Once authenticated, policy determines what the user is authorized to do. 
+* Every user must authenticate in some way in order to access OpenShift. API requests with no authentication or invalid authentication are authenticated as requests by the anonymous system user. Once authenticated, policy determines what the user is authorized to do.
 
 
 
@@ -137,8 +137,8 @@ endif::showscript[]
 
 == Projects and Users
 .What are Projects?
-* A project is a Kubernetes namespace with additional annotations, and is the central vehicle by which access to resources for regular users is managed. 
-* A project allows a community of users to organize and manage their content in isolation from other communities. 
+* A project is a Kubernetes namespace with additional annotations, and is the central vehicle by which access to resources for regular users is managed.
+* A project allows a community of users to organize and manage their content in isolation from other communities.
 * Users must be given access to projects by administrators, or if allowed to create projects, automatically have access to their own projects.
 
 * Each project scopes its own set of:
@@ -161,9 +161,9 @@ endif::showscript[]
 
 == ResourceQuota
 .What is ResourceQuota
-* OpenShift can limit both the number of objects created in a Project , and the total amount of resources requested across objects in a namespace/Project. 
+* OpenShift can limit both the number of objects created in a Project , and the total amount of resources requested across objects in a namespace/Project.
 * This facilitates sharing of a single OpenShift cluster by several teams, each in a Project of their own, as a mechanism of preventing one team from starving another team of cluster resources.
-* A ResourceQuota object enumerates hard resource usage limits per project. 
+* A ResourceQuota object enumerates hard resource usage limits per project.
 ** It can limit the total number of a particular type of object that may be created in a project, and the total amount of compute resources that may be consumed by resources in that project.
 
 
@@ -177,7 +177,7 @@ endif::showscript[]
 |resourcequotas | Total number of resource quotas
 | services | Total number of services
 | secrets | Total number of secrets
-| persistentvolumeclaims |Total number of persistent volume claims 
+| persistentvolumeclaims |Total number of persistent volume claims
 |===
 
 
@@ -197,7 +197,7 @@ endif::showscript[]
 
 * Once a quota is created and usage statistics are up-to-date, the project accepts the creation of new content. When you create resources, your quota usage is incremented immediately upon the request to create or modify the resource. When you delete a resource, your quota use is decremented during the next full recalculation of quota statistics for the project. As a result, it may take a moment for your quota usage statistics to be reduced to their current observed system value when you delete resources.
 
-* If your modification to a project would exceed a quota usage limit, the action is denied by the server, and an appropriate error message is returned to the end-user. The error explains what quota constraint was violated, and what their currently observed usage stats are in the system. 
+* If your modification to a project would exceed a quota usage limit, the action is denied by the server, and an appropriate error message is returned to the end-user. The error explains what quota constraint was violated, and what their currently observed usage stats are in the system.
 
 ifdef::showscript[]
 
@@ -234,13 +234,13 @@ endif::showscript[]
   }
 }
 ----
-<1>  The name of this quota document 
-<2>  The total amount of memory consumed across all containers may not exceed 1Gi. 
-<3>  The total number of cpu usage consumed across all containers may not exceed 20 Kubernetes compute units. 
-<4>  The total number of pods in the project 
-<5>  The total number of services in the project 
-<6>  The total number of replication controllers in the project 
-<7>  The total number of resource quota documents in the project 
+<1>  The name of this quota document
+<2>  The total amount of memory consumed across all containers may not exceed 1Gi.
+<3>  The total number of cpu usage consumed across all containers may not exceed 20 Kubernetes compute units.
+<4>  The total number of pods in the project
+<5>  The total number of services in the project
+<6>  The total number of replication controllers in the project
+<7>  The total number of resource quota documents in the project
 
 ifdef::showscript[]
 
@@ -337,7 +337,7 @@ ifdef::showscript[]
 
 === Transcript
 
-In the simplest sense, a *pod* is an application or an instance of something. If you are familiar with OpenShift Enterprise version 2 terminology, a pod is somewhat similar to a *gear*. 
+In the simplest sense, a *pod* is an application or an instance of something. If you are familiar with OpenShift Enterprise version 2 terminology, a pod is somewhat similar to a *gear*.
 In reality, pods are more complex, which you will learn as you explore OpenShift Enterprise further.
 
 As shown in the code sample, you use the `oc get pod` command to view pods running in your environment, which is usually your project.
@@ -416,7 +416,7 @@ endif::showscript[]
 ----
 $ oc expose service hello-service --hostname=hello-openshift.cloudapps-$GUID.oslab.opentlc.com
 NAME            HOST/PORT                                 PATH      SERVICE         LABELS
-hello-service   hello-openshift-f4fc.oslab.opentlc.com             hello-service   
+hello-service   hello-openshift-f4fc.oslab.opentlc.com             hello-service
 ----
 
 * To display the *routes* in your current project
@@ -437,11 +437,11 @@ ifdef::showscript[]
 
 You can consider the service as a list of IPs and ports of the pods that the service represents.
 
-In a simplification of the process, the `openshift3/ose-haproxy-router` container is a preconfigured instance of HAProxy. 
+In a simplification of the process, the `openshift3/ose-haproxy-router` container is a preconfigured instance of HAProxy.
 
 The OpenShift Enterprise instance running in this container watches a route's resource on the OpenShift Enterprise master.
 
-The code sample gives an example of a route JSON definition. You can see it defines certain aspects of the route: its name, the fully qualified domain name, and the service to which the 
+The code sample gives an example of a route JSON definition. You can see it defines certain aspects of the route: its name, the fully qualified domain name, and the service to which the
 route points. Note that the route actually routes directly to the pods, not to the service. The route gets the pod connection details from the service.
 
 endif::showscript[]
@@ -470,7 +470,7 @@ endif::showscript[]
 }
 ----
 
-* OpenShift routers provide external DNS mapping and load balancing to services over protocols that pass distinguishing information directly to the router. 
+* OpenShift routers provide external DNS mapping and load balancing to services over protocols that pass distinguishing information directly to the router.
 * Routers support the following protocols:
 ** HTTP
 ** HTTPS
@@ -603,9 +603,9 @@ endif::showscript[]
 
 == Replication Controllers
 .Managing replica count with Replication Controllers
-* We can manually adjust the number of *replicas* a pod has by using the *oc scale* command. 
+* We can manually adjust the number of *replicas* a pod has by using the *oc scale* command.
 * It is not the job of the replication controller to perform auto-scaling based on load or traffic, as it does not track either; rather, this would require its replica count to be adjusted by an external auto-scaler.
-* Here is an example ReplicationController definition with some omissions and callouts:
+* Here is an example ReplicationController definition with some omissions and call-outs:
 +
 ----
 apiVersion: v1
@@ -641,10 +641,10 @@ ifdef::showscript[]
 endif::showscript[]
 
 
-== Replication Controllers 
-.Manual scale 
-* 
-* You can scale any DeploymentConfig with the *oc scale dc* command 
+== Replication Controllers
+.Manual scale
+*
+* You can scale any DeploymentConfig with the *oc scale dc* command
 +
 ----
 $ oc scale dc deploymentconfigname --replicas=3
@@ -656,23 +656,3 @@ ifdef::showscript[]
 
 
 endif::showscript[]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

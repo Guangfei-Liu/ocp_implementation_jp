@@ -145,6 +145,11 @@ endif::showscript[]
 
 * In our learning environment the servers are not configured with the recommended settings to lower costs.
 
+
+ifdef::showscript[]
+=== Transcript
+
+
 endif::showscript[]
 
 == Prerequisites

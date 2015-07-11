@@ -26,21 +26,32 @@ This process might take a while. Use this time to read the lab and get a good un
 
 == Authenticate to OpenShift Enterprise and Choose Your Project 
 
-. If you have not done so in a previous lab, authenticate to OpenShift Enterprise as user `andrew`:
+. On the master host as root create a project called *hello-s2i*:
 + 
 ----
 
-[root@master00~]# su - andrew
-[andrew@master00~]$ oc login -u andrew --insecure-skip-tls-verify --server=https://master00-${GUID}.oslab.opentlc.com:8443
+[root@master00-GUID ~]# oadm new-project hello-s2i --display-name="Resources Management" \
+    --description="This is the project we use to learn about resource management" \
+    --admin=andrew
 
 ----
 
-. Change the context to the `sinatra` project: 
+. Become and authenticate to OpenShift Enterprise as user `andrew`:
++
+----
+
+[root@master00 ~]# su - andrew
+[andrew@master00 ~]$ guid=`hostname|cut -f2 -d-|cut -f1 -d.`
+[andrew@master00 ~]$ oc login -u andrew --insecure-skip-tls-verify --server=https://master00-${guid}.oslab.opentlc.com:8443
+
+----
+
+. Change the context to the `hello-s2i` project: 
 +
 ---- 
 
-[andrew@master00~]$ oc project hello-s2i
-Now using project "hello-s2i" on server "https://master00-c142.oslab.opentlc.com:8443".
+[andrew@master00 ~]$ oc project hello-s2i
+Now using project "hello-s2i" on server "https://master00-GUID.oslab.opentlc.com:8443".
 
 ----
 
@@ -51,8 +62,8 @@ Now using project "hello-s2i" on server "https://master00-c142.oslab.opentlc.com
 +
 ----
 
-[andrew@master00~]$ grep current ~/.kube/config
-current-context: hello-s2i
+[andrew@master00 ~]$ grep current ~/.kube/config
+current-context: hello-s2i/master00-GUID-oslab-opentlc-com:8443/andrew
 
 ----
 
@@ -68,13 +79,13 @@ For this activity, you use a prebuilt and preconfigured code repository. This re
 +
 ----
 
-[andrew@master00~]$ oc new-app https://github.com/openshift/simple-openshift-sinatra-sti.git -o json | tee ~/simple-sinatra.json
+[andrew@master00 ~]$ oc new-app https://github.com/openshift/simple-openshift-sinatra-sti.git -o json | tee ~/simple-sinatra.json
 ----
 
 . Look at the JSON that you generated.
 +
 ----
-[andrew@master00~]$ cat ~/simple-sinatra.json
+[andrew@master00 ~]$ cat ~/simple-sinatra.json
 
 ----
 
@@ -85,7 +96,7 @@ For this activity, you use a prebuilt and preconfigured code repository. This re
 +
 ----
 
-[andrew@master00~]$ oc create -f ~/simple-sinatra.json
+[andrew@master00 ~]$ oc create -f ~/simple-sinatra.json
 
 ----
 
@@ -93,7 +104,7 @@ For this activity, you use a prebuilt and preconfigured code repository. This re
 +
 ----
  
-[andrew@master00~]$ for i in buildconfig deploymentconfig service; do echo $i; oc get $i; echo -e "\n\n"; done
+[andrew@master00 ~]$ for i in buildconfig deploymentconfig service; do echo $i; oc get $i; echo -e "\n\n"; done
 
 
 ----
@@ -114,14 +125,30 @@ simple-openshift-sinatra   <none>    deploymentconfig=simple-openshift-sinatra-s
 
 ----
 
-. Display your running pods 
+. Watch the running pods in realtime:
 +
 ----
-[andrew@master00~]$ oc get pods
+
+[andrew@master00 ~]$ watch oc get pods
+
+. Note you will see an error for a few minutes, it will clear up:
++
+----
+
+NAME                                   READY     REASON                                                               RESTARTS   AGE
+simple-openshift-sinatra-sti-1-o72am   0/1       Error: image library/simple-openshift-sinatra-sti:latest not found   0          1m
+
+----
+
+. Eventually it will build and look like this:
++
+----
+
 NAME                                   READY     REASON       RESTARTS   AGE
 simple-openshift-sinatra-sti-1-build   0/1       ExitCode:0   0          2m
 simple-openshift-sinatra-sti-2-cpp9t   1/1       Running      0          7m
-
+...
+CTRL+C
 
 ----
 +
@@ -133,7 +160,7 @@ NOTE: Don't be alarmed if you see that the pod has failed to deploy, that happen
 +
 ----
 
-[andrew@master00~]$ oc get builds
+[andrew@master00 ~]$ oc get builds
 NAME                             TYPE      STATUS     POD
 simple-openshift-sinatra-sti-1   Source    Complete   simple-openshift-sinatra-sti-1-build
 
@@ -142,7 +169,7 @@ simple-openshift-sinatra-sti-1   Source    Complete   simple-openshift-sinatra-s
 . View the Build log 
 +
 ----
-[andrew@master00~]$ oc build-logs simple-openshift-sinatra-sti-1
+[andrew@master00 ~]$ oc build-logs simple-openshift-sinatra-sti-1
 ....
 ....
 ....
@@ -167,7 +194,7 @@ I0702 05:39:46.967064       1 sti.go:103] Successfully pushed 172.30.133.153:500
 + 
 ---- 
 
-[andrew@master00~]$ curl `oc get services | grep sin | awk '{print $4":"$5}' | awk -F'/' '{print $1}'`
+[andrew@master00 ~]$ curl `oc get services | grep sin | awk '{print $4":"$5}' | awk -F'/' '{print $1}'`
 Hello, Sinatra!
 
 ----
@@ -176,15 +203,16 @@ Hello, Sinatra!
 +
 ----
 
-[andrew@master00~]$ oc expose service simple-openshift-sinatra --hostname=mysinatra.cloudapps-$GUID.oslab.opentlc.com
+[andrew@master00 ~]$ oc expose service simple-openshift-sinatra \
+  --hostname=mysinatra.cloudapps-${guid}.oslab.opentlc.com
 
 
 
-[andrew@master00~]$ oc get routes 
+[andrew@master00 ~]$ oc get routes 
 NAME                       HOST/PORT                                        PATH      SERVICE                    LABELS
 simple-openshift-sinatra   mysinatra.cloudapps-f4fc.oslab.opentlc.com             simple-openshift-sinatra   
 
-[andrew@master00~]$ curl http://mysinatra.cloudapps-$GUID.oslab.opentlc.com
+[andrew@master00 ~]$ curl http://mysinatra.cloudapps-${guid}.oslab.opentlc.com
 Hello, Sinatra!
 ----
 
@@ -194,7 +222,7 @@ Hello, Sinatra!
 .. Create a project called "nodejs"
 .. The Application repository is link:https://github.com/openshift/nodejs-ex[https://github.com/openshift/nodejs-ex]
 .. Use the "nodejs:0.10" image
-.. Create a route and expose the service to the world under the name : http://nodejs.cloudapps-f4fc.oslab.opentlc.com/
+.. Create a route and expose the service to the world under the name : http://nodejs.cloudapps-GUID.oslab.opentlc.com/
 ... Try to explore the *oc edit route* command
 .. Make sure Application has 4 replicas.
 

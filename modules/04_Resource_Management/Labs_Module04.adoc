@@ -856,7 +856,7 @@ Hello OpenShift!
 [andrew@master00 ~]$ guid=`hostname|cut -f2 -d-|cut -f1 -d.`
 [andrew@master00 ~]$ oc expose service/hello-service --hostname=hello2-openshift.cloudapps-${guid}.oslab.opentlc.com
 ----
-
++
 // NO LONGER NEEDED
 // . Create a *route* for our service
 // +
@@ -869,8 +869,8 @@ Hello OpenShift!
 +
 ----
 [andrew@master00-6b80 ~]$ oc get routes
-NAME                    HOST/PORT                                          PATH      SERVICE                   LABELS
-hello-openshift-route   hello-openshift.cloudapps-6b80.oslab.opentlc.com             hello-openshift-service   
+NAME            HOST/PORT                                           PATH      SERVICE         LABELS
+hello-service   hello2-openshift.cloudapps-GUID.oslab.opentlc.com             hello-service
 ----
 
 . Test Route:

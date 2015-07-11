@@ -31,10 +31,10 @@ endif::[]
 * Scheduler - Regions and Zones
 * The Registry and Router
 * Populating OpenShift
+* Lab : Prepare to Deploy OpenShift
 * Lab : Install OpenShift Using the installer
-* Lab : Regions and Zones
-* Lab : The Registy and Router
-* Lab : Populating OpenShift
+* Lab : OpenShift Configuration and Setup
+* Lab : Configuring Authentication
 
 
 ifdef::showscript[]

@@ -1,7 +1,7 @@
 :icons: images/icons
 :toc2:
 
-== Deploy OpenShift Enterprise
+== Lab: Prepare to Deploy OpenShift
 :numbered:
 
 In this lab we will Deploy OpenShift Enterprise on a single host (in later labs we will add more nodes).
@@ -14,7 +14,7 @@ In this lab we will Deploy OpenShift Enterprise on a single host (in later labs 
 * Configure and Install OpenShift Enterprise
 * Test deployment.
 
-== Lab Environment Architecture and Important Information
+=== Lab Environment Architecture and Important Information
 
 The lab environment consists of 4 VMs:
 
@@ -52,7 +52,7 @@ Each student lab is assigned a global unique identifier (GUID) that consists of 
 ----
 
 
-== Configure Wildcard DNS to Service the OpenShift Environment.
+=== Configure Wildcard DNS to Service the OpenShift Environment.
 
 OpenShift requires a wildcard DNS A record.  The wildcard A record should point to the publicly available (external) IP address of the OpenShift router.  For this training, we will ensure that the router will end up on the OpenShift server that is running the master.  It is advisable to use a low TTL for this record in order for DNS client caches to expire quicker so that changes become available quicker.  The DNS server runs on the administration host.
 
@@ -202,7 +202,7 @@ yourhost$ nslookup test.cloudapps-$guid.oslab.opentlc.com
 
 ----
 
-== Configure SSH Keys:
+=== Configure SSH Keys:
 
 The OpenShift installer uses SSH to configure hosts.  In this lab we create and install an SSH key pair on the master host and add the public key to the `authorized_hosts` file.
 
@@ -261,7 +261,7 @@ Only do this for hosts that are used for development, testing, or demos!
 Remember the default root password is *r3dh4t1!*
 
 
-== Configure the Repositories on the Master Host
+=== Configure the Repositories on the Master Host
 
 OpenShift requires several software repositories:
 
@@ -373,7 +373,7 @@ rhel-x86_64-server-rh-common-7    Red Hat Enterprise Linux 7 Common          19
 -----
 
 
-== Verify Network Configuration:
+=== Verify Network Configuration:
 
 In this lab we will verify that the master host is configured correctly for internal and external DNS name resolution.
 
@@ -449,7 +449,7 @@ NOTE: It might take some time for the global DNS servers to be updated. Try agai
 ----
 
 
-== Install Docker
+=== Install Docker
 
 OpenShift uses Docker to store and manage container images.  In this lab we install Docker.
 
@@ -489,7 +489,7 @@ CAUTION: Make sure you `do run all the commands on the master host`.
 
 ----
 
-== Configure Docker Storage
+=== Configure Docker Storage
 
 In this lab we configure the Docker storage pool.
 
@@ -505,9 +505,9 @@ In this lab we configure the Docker storage pool.
 . Do the same for the rest of the nodes
 +
 ----
- 
+
 [root@master00-GUID ~]# for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do ssh $node "rm -rf /var/lib/docker/*"  ; done
- 
+
 ----
 
 . In order to use `dm.thinpooldev` you must have space for an LVM thinpool available, the `docker-storage-setup` package will assist you in configuring LVM.  Run `docker-storage-setup` on the infranode host to create logical volumes for Docker:
@@ -598,7 +598,7 @@ DOCKER_STORAGE_OPTIONS=-s devicemapper --storage-opt dm.fs=xfs --storage-opt dm.
 
 -----
 
-== Populate local Docker registry
+=== Populate local Docker registry
 
 . Log back into the master host after the reboot from previous lab is complete.
 
@@ -607,7 +607,7 @@ DOCKER_STORAGE_OPTIONS=-s devicemapper --storage-opt dm.fs=xfs --storage-opt dm.
 ----
 
 [root@master00-GUID ~]# guid=`hostname|cut -f2 -d-|cut -f1 -d.`
-[root@master00-GUID ~]# ssh infranode00-$guid
+[root@master00-GUID ~]# ssh infranode00-$guid.oslab.opentlc.com
 [root@infranode00-GUID ~]# systemctl status docker
 
 ----
@@ -700,12 +700,13 @@ You should see something similar to the following:
 ----
 
   LV          VG                    Attr       LSize Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
-  docker-pool rhel_host2cc260760b15 twi-aot--- 5.98g             54.53  3.22    
+  docker-pool rhel_host2cc260760b15 twi-aot--- 5.98g             54.53  3.22
 
 ----
 
-== Install OpenShift Enterprise
+== Lab: Install OpenShift Enterprise
 
+=== Download the Installer
 
 . on the *master00* host, download and unpack the installation utility on a host that has SSH access to your intended master and node hosts
 +
@@ -726,6 +727,8 @@ node00-GUID.oslab.opentlc.com
 node01-GUID.oslab.opentlc.com
 
 ----
+
+=== Run the Installer
 
 . Execute the installation utility to interactively configure one or more hosts
 +
@@ -926,9 +929,6 @@ master00-GUID.oslab.opentlc.com : ok=94   changed=0    unreachable=0    failed=0
 node00-GUID.oslab.opentlc.com : ok=40   changed=0    unreachable=0    failed=0
 node01-GUID.oslab.opentlc.com : ok=40   changed=0    unreachable=0    failed=0
 
-
-The installation was successful!
-
 If this is your first time installing please take a look at the Administrator
 Guide for advanced options related to routing, storage, authentication and much
 more:
@@ -949,6 +949,8 @@ The installation was successful!
 root@master00-GUID ~]# reboot
 ----
 
+=== Verify your environmet
+
 . Log back into the *master* and check the status of your host using the `oc get nodes` command:
 +
 ----
@@ -964,7 +966,10 @@ node01-GUID.oslab.opentlc.com        kubernetes.io/hostname=node01-GUID.oslab.op
 
 ----
 
-== Set Regions and Zones
+
+== Lab: OpenShift Configuration and Setup
+
+=== Set Regions and Zones
 
 The assignments of "regions" and "zones" at the node-level are handled by labels
 on the nodes.
@@ -1005,7 +1010,7 @@ and "primary".
 From here we will start to deploy "applications" and other resources into
 OpenShift.
 
-== Useful OpenShift Logs
+=== Useful OpenShift Logs
 
 RHEL 7 uses `systemd` and `journal`. As such, looking at logs is not a matter of
 `/var/log/messages` any longer. You will need to use `journalctl`.
@@ -1027,7 +1032,7 @@ window:
 You will want to do this on the other nodes, but you won't need the
 `openshift-master` service. You may also wish to watch the Docker logs, too.
 
-== The Registy and Router
+=== The Registy and Router
 
 In the scenario we are simulating in the lab, we are using *Infranode00* as the target for both the *registry* and the *default router*.
 
@@ -1126,7 +1131,7 @@ trainingrouter-1-deploy   1/1       Running   0          14s
 
 .. Press *CTRL+C* to exit the watch on `oc get pods`.
 
-== Populating OpenShift
+=== Populating OpenShift
 
 OpenShift ships with *Image Streams* and *Templates*, they reside in: `/usr/share/openshift/examples/`.  The installer will import all of the ImageStreams and Templates for you from this directory.
 
@@ -1153,4 +1158,84 @@ OpenShift ships with *Image Streams* and *Templates*, they reside in: `/usr/shar
  oc create -f /usr/share/openshift/examples/quickstart-templates -n openshift
 
 ----
+== Lab: Configure Authentication
 
+. Create a copy of your master's config file
++
+----
+[root@master00-GUID ~]# cp /etc/openshift/master/master-config.yaml /etc/openshift/master/master-config.yaml.original
+----
+. Edit your `/etc/openshift/master/master-config.yaml` so that the oauthConfig section look like this:
++
+----
+oauthConfig:
+  assetPublicURL: https://master00-GUID.oslab.opentlc.com:8443/console/
+  grantConfig:
+    method: auto
+  identityProviders:
+  - name: htpasswd_auth
+    challenge: true
+    login: true
+    provider:
+      apiVersion: v1
+      kind: HTPasswdPasswordIdentityProvider
+      file: /etc/openshift/openshift-passwd
+  masterPublicURL: https://master00-GUID.oslab.opentlc.com:8443
+  masterURL: https://master00-GUID.oslab.opentlc.com:8443
+  sessionConfig:
+    sessionMaxAgeSeconds: 3600
+    sessionName: ssn
+    sessionSecretsFile:
+  tokenConfig:
+    accessTokenMaxAgeSeconds: 86400
+    authorizeTokenMaxAgeSeconds: 500
+
+----
+
+=== Add Development Users
+
+In the "real world" your developers would likely be using the OpenShift tools on
+their own machines (`oc` and the web console). For this course, we
+will create user accounts for two non-privileged users of OpenShift, *andrew* and
+*marina*, on the master. This is done for convenience and because we'll be using
+`htpasswd` for authentication.
+
+. On the master host add two Linux accounts:
++
+----
+
+[root@master00-GUID ~]# useradd andrew
+[root@master00-GUID ~]# useradd marina
+
+----
+
+=== Configuring htpasswd Authentication
+
+OpenShift v3 supports a number of mechanisms for authentication. The simplest
+use case for our testing purposes is `htpasswd`-based authentication.
+
+To start, we will need the `htpasswd` binary available in the `httpd-tools` package.
+
+. Install `httpd-tools` on the master host:
++
+----
+
+[root@master00-GUID ~]# yum -y install httpd-tools
+
+----
+
+. Create a password for our users, Joe and Alice on the master host:
++
+----
+
+[root@master00-GUID ~]# touch /etc/openshift/openshift-passwd
+[root@master00-GUID ~]# htpasswd -b /etc/openshift/openshift-passwd andrew r3dh4t1!
+[root@master00-GUID ~]# htpasswd -b /etc/openshift/openshift-passwd marina r3dh4t1!
+
+----
+
+. Restart `openshift-master` for changes to take effect
++
+----
+[root@master00-GUID ~]# systemctl restart openshift-master
+----

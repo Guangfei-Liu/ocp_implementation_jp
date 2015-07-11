@@ -1,16 +1,18 @@
 == Module Topics
 :noaudio:
 :numbered!:
+== Module Topics
+
 * Installation Overview
 * Prepare your Hosts
 * Installation Methods
 * Scheduler - Regions and Zones
 * The Registry and Router
 * Populating OpenShift
+* Lab : Prepare to Deploy OpenShift
 * Lab : Install OpenShift Using the installer
-* Lab : Regions and Zones
-* Lab : The Registy and Router
-* Lab : Populating OpenShift
+* Lab : OpenShift Configuration and Setup
+* Lab : Configuring Authentication
 
 
 ifdef::showscript[]
@@ -21,6 +23,3 @@ Welcome to Module 3 of the OpenShift Enterprise Implementation course.
 
 
 endif::showscript[]
-
-
-

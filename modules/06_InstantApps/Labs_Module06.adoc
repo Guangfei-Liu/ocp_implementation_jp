@@ -1,9 +1,9 @@
 :icons: images/icons
-:toc2:		
+:toc2:
 
 :numbered:
 
-== Instant Apps
+== Lab	: Installing a Template
 
 === Connect to Lab
 
@@ -28,11 +28,11 @@ If prompted for a password use *r3dh4t1!*
 +
 ----
 
-root@master00-GUID.oslab.opentlc.com's password: ******** (r3dh4t1!) 
+root@master00-GUID.oslab.opentlc.com's password: ******** (r3dh4t1!)
 
 ----
 
-== Templates, Instant Apps, and "Quickstarts"
+=== Templates, Instant Apps, and "Quickstarts"
 
 This example will involve a build of another application, but also a service
 that has two pods -- a "front-end" web tier and a "back-end" database tier. This
@@ -162,7 +162,7 @@ actually use the application!
 HTTPS will *not* work for this example because the form submission was
 written with HTTP links. Be sure to use HTTP.
 
-== Creating and Wiring Disparate Components
+== Lab: Wiring Templates together
 
 Quickstarts are great, but sometimes a developer wants to build up the various
 components manually. Let's take our quickstart example and treat it like two
@@ -203,7 +203,7 @@ looking for a DB, but won't fail spectacularly if one isn't found.
 [marina@master00-GUID ~]$ oc new-app -i openshift/ruby https://github.com/openshift/ruby-hello-world#beta4
 ----
 
-.. You should see something like 
+.. You should see something like
 +
 ----
 I0709 05:09:45.198010    9706 newapp.go:301] Image "openshift/ruby" is a builder, so a repository will be expected unless you also specify --strategy=docker
@@ -245,7 +245,7 @@ MYSQL_PASSWORD=redhat
 MYSQL_DATABASE=mydb
 ----
 
-. Notice that your build might have already started before you changed the *DeploymentConfig* environment variables, this would trigger another deployment to start.   
+. Notice that your build might have already started before you changed the *DeploymentConfig* environment variables, this would trigger another deployment to start.
 . Expose the *ruby-hello-world* Service
 +
 ----
@@ -257,11 +257,11 @@ MYSQL_DATABASE=mydb
 ----
 [marina@master00-cfe3 ~]$ oc get route
 NAME               HOST/PORT                                       PATH      SERVICE            LABELS
-ruby-hello-world   frontwire.cloudapps-r2d2.oslab.opentlc.com             ruby-hello-world 
+ruby-hello-world   frontwire.cloudapps-r2d2.oslab.opentlc.com             ruby-hello-world
 ----
 
 . Now you should be able to access your application with your browser, Go ahead and do that now. link:http://frontwire.wiring.cloudapps-GUID.oslab.opentlc.com[http://frontwire.wiring.cloudapps-GUID.oslab.opentlc.com]
-. Earlier we added a template to the openshift namespace to make it available for all users. Now we'll demonstrate adding a template to our own project. 
+. Earlier we added a template to the openshift namespace to make it available for all users. Now we'll demonstrate adding a template to our own project.
 +
 ----
 [marina@master00-cfe3 ~]$ oc create -f mysql-template.json
@@ -274,11 +274,11 @@ templates/mysql-ephemeral
 ----
 
 . Create the Database From the Web Console
-.. Go to the web console and make sure you are logged in as andrew and using the wiring project. You should see your front-end already there. 
-.. Click the "Create..." button and then the "Browse all templates..." button. 
+.. Go to the web console and make sure you are logged in as andrew and using the wiring project. You should see your front-end already there.
+.. Click the "Create..." button and then the "Browse all templates..." button.
 .. You should see the mysql-ephemeral template. Click it and then click "Select template".
-. You will need to edit the parameters of this template, because the defaults will not work for us. 
-.. Change the DATABASE_SERVICE_NAME to be "*database*", because that is what service the frontend expects to connect to. 
+. You will need to edit the parameters of this template, because the defaults will not work for us.
+.. Change the DATABASE_SERVICE_NAME to be "*database*", because that is what service the frontend expects to connect to.
 .. Make sure that the MySQL user, password and database match whatever values you specified in the previous steps.
 . Click the "Create" button when you are ready.
 
@@ -302,7 +302,7 @@ mysql-3-4rk55 node00-cfe3.oslab.opentlc.com
 ruby-hello-world-2-build node01-cfe3.oslab.opentlc.com
 ruby-hello-world-5-9doo2 node01-cfe3.oslab.opentlc.com
 ----
- 
+
 . As *root* connect to the node where the pod is running, and find the Docker container id
 +
 ----
@@ -324,13 +324,13 @@ ruby-hello-world-5-9doo2 node01-cfe3.oslab.opentlc.com
 
 NOTE:
 Why does it still say that there is no database?
-When the frontend was first built and created, there was no service called "database", so the environment variable DATABASE_SERVICE_HOST did not get populated with any values. 
+When the frontend was first built and created, there was no service called "database", so the environment variable DATABASE_SERVICE_HOST did not get populated with any values.
 Our database does exist now, and there is a service for it, but OpenShift could not "inject" those values into the frontend container.
 
 
 === Replication Controllers
 
-The easiest way to get this going? Just nuke the existing pod. 
+The easiest way to get this going? Just nuke the existing pod.
 
 
 . We need to kill our front-end pods so they retry the database
@@ -401,7 +401,7 @@ ruby-hello-world-1-4ikbl
 +
 This shows that, underneath the covers, the RC restarted our pod. Since it was
 restarted, it should have a value for the `DATABASE_SERVICE_HOST` environment
-variable. 
+variable.
 
 . Go to the node where the pod is running, and find the Docker container
 id as `root`:
@@ -433,4 +433,3 @@ The output will look something like:
 
 Go ahead and revisit `http://frontwire.wiring.cloudapps-GUID.oslab.opentlc.com` in your browser, and you should see that the application is now fully
 functional!
-

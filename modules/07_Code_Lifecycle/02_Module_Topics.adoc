@@ -4,13 +4,12 @@
 
 == Module Topics
 
-* Overview and design concepts in OpenShift Enterprise v3 
-* Introduction to Docker
-* Introduction to Kubernetes infrastructure 
-* Networking in OpenShift Enterprise v3
-* Image registry 
-* Builds and OpenShift STI images
-
+* Pre and Post deployment Hooks
+* Rollback and Activate
+* Lab: Rollback/Activate and Code Lifecycle
+* Lab: Using Webhooks
+* Lab: Customized Build and Run Processes
+* Lab: Pre and Post Deployment Hooks (Optional)
 
 ifdef::showscript[]
 
@@ -20,17 +19,15 @@ Welcome to Module 2 of the OpenShift Enterprise Implementation course.
 This module presents the following topics:
 
 * Overview and design concepts in OpenShift Enterprise v3, including the OpenShift stack, how OpenShift works, standards, important projects, and how the various components work together.
-    
+
 * An introduction to Docker, including the difference between containers and VMs and Docker components and capabilities.
 
-* An introduction to Kubernetes infrastructure, covering features and concepts with an emphasis on pods. 
- 
-* An Overview of Networking in OpenShift Enterprise v3, 
+* An introduction to Kubernetes infrastructure, covering features and concepts with an emphasis on pods.
+
+* An Overview of Networking in OpenShift Enterprise v3,
 
 * The Image registry is described, including the integrated OpenShift Enterprise registry and third-party registries.
- 
+
 * And the module ends with a discussion of Builds and OpenShift STI images, which explains what an STI build is and why to use it.
 
 endif::showscript[]
-
-

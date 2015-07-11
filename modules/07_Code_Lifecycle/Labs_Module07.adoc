@@ -1,9 +1,7 @@
 :icons: images/icons
-:toc2:		
+:toc2:
 
 :numbered:
-
-== Code Lifecycle
 
 === Connect to Lab
 
@@ -26,10 +24,10 @@ If prompted for a password use *r3dh4t1!*
 +
 ----
 
-root@master00-GUID.oslab.opentlc.com's password: ******** (r3dh4t1!) 
+root@master00-GUID.oslab.opentlc.com's password: ******** (r3dh4t1!)
 
 ----
-		
+
 == Rollback/Activate and Code Lifecycle
 
 Not every coder is perfect, and sometimes you want to rollback to a previous
@@ -64,7 +62,7 @@ NOTE: Remember that a `BuildConfig`(uration) tells OpenShift how to do a build.
 ----
 [marina@master00 ~]$ guid=`hostname|cut -f2 -d-|cut -f1 -d.`
 [marina@master00 ~]$ oc login -u andrew --insecure-skip-tls-verify --server=https://master00-${guid}.oslab.opentlc.com:8443
-[marina@master00-GUID ~]$ oc project lifecycle 
+[marina@master00-GUID ~]$ oc project lifecycle
 ----
 
 . Lets create an app based on the link:https://github.com/sborenst/ruby-hello-world[https://github.com/sborenst/ruby-hello-world.git] repo
@@ -73,7 +71,7 @@ NOTE: Remember that a `BuildConfig`(uration) tells OpenShift how to do a build.
 [marina@master00-GUID ~]$ oc new-app https://github.com/sborenst/ruby-hello-world.git
 ----
 +
-NOTE: You could have, of course, started the new-app with your own repo, we are only picking the "wrong" one as part of the learning exercise. 
+NOTE: You could have, of course, started the new-app with your own repo, we are only picking the "wrong" one as part of the learning exercise.
 
 . Since we know that we want to talk to a database eventually, let's take a moment to add the environment variables for it. Conveniently, there is an env subcommand to oc. As marina, we can use it like so:
 +
@@ -146,7 +144,7 @@ status:
 ----
 +
 
-. As you can see, the current configuration points at the `sborenst/ruby-hello-world` repository. Since you've forked this repo, let's go ahead and re-point our configuration. 
+. As you can see, the current configuration points at the `sborenst/ruby-hello-world` repository. Since you've forked this repo, let's go ahead and re-point our configuration.
 
 . Use `oc edit` to re-point the configuration:
 +
@@ -173,7 +171,7 @@ that the `uri` has been updated.
 . If a build has not started yet, you can start it yourself and follow the build-log:
 +
 ----
-[marina@master00-GUID ~]$ oc get bc 
+[marina@master00-GUID ~]$ oc get bc
 NAME               TYPE      SOURCE
 ruby-hello-world   Docker    https://github.com/marina/ruby-hello-world.git
 
@@ -364,7 +362,7 @@ EOF
 ----
 
 . Lets start the *database* service, This time we will do it a little differently:
-.. Notice how we are providing the values and processing the *mysql-template.json* file. 
+.. Notice how we are providing the values and processing the *mysql-template.json* file.
 .. The *oc process* command output can be saved into a file or "piped" into the *oc create* command
 +
 ----
@@ -378,7 +376,7 @@ EOF
 +
 ----
 [marina@master00-GUID ~]$ oc process -f mysql-template.json --value="MYSQL_USER=root,MYSQL_PASSWORD=redhat,MYSQL_DATABASE=mydb,DATABASE_SERVICE_NAME=database" | oc create -f -
----- 
+----
 
 . Check that your values were processed correctly
 +
@@ -404,16 +402,16 @@ then some process would hit OpenShift's webhook URL in order to start
 a build with the new code.
 
 Your GitHub account has the capability to configure a webhook to request
-whenever a commit is pushed to a specific branch; 
+whenever a commit is pushed to a specific branch;
 
 . To find the webhook URL, you can visit the web console, click into the
 project, click on *Browse* and then on *Builds*. You'll see two webhook
-URLs. 
+URLs.
 
 . Copy the *Generic* one. It should look like:
 +
 ----
-https://master00-GUID.oslab.opentlc.com:8443/osapi/v1beta3/namespaces/lifecycle/buildconfigs/ruby-hello-world/webhooks/ALNUyArydLb22JqdXYIb/generic 
+https://master00-GUID.oslab.opentlc.com:8443/osapi/v1beta3/namespaces/lifecycle/buildconfigs/ruby-hello-world/webhooks/ALNUyArydLb22JqdXYIb/generic
 ----
 
 . Get the *secret* password from the *BuildConfig*
@@ -425,7 +423,7 @@ https://master00-GUID.oslab.opentlc.com:8443/osapi/v1beta3/namespaces/lifecycle/
 . It will look similar to this output, use the "secret" value in your configuration in git.
 +
 ----
-.... Cropped Output .... 
+.... Cropped Output ....
   triggers:
   - github:
       secret: xTah2lioO2Bz9JZT9dPf
@@ -454,7 +452,7 @@ repository (eg: https://github.com/marina/ruby-hello-world), and find the file `
     <div class="page-header" align=center>
       <h1> Welcome to an OpenShift v3 Demo App! </h1>
     </div>
-    
+
 ----
 +
 To read (with the typo):
@@ -467,8 +465,8 @@ To read (with the typo):
 
 ----
 
-. When finished changing your code, commit the change to the repo. 
-. Now check if a build has been triggered. 
+. When finished changing your code, commit the change to the repo.
+. Now check if a build has been triggered.
 . You can also check the web interface (logged in as `marina`) and see
 that the build is running. Once it is complete, point your web browser
 at the application: link:http://ruby-hello-world.lifecycle.cloudapps-GUID.oslab.opentlc.com/[http://ruby-hello-world.lifecycle.cloudapps-GUID.oslab.opentlc.com/]
@@ -503,11 +501,11 @@ from the `ImageStream`.
 
 === Rollback
 
-You can rollback a deployment using the CLI. 
-. Check which builds you have available 
+You can rollback a deployment using the CLI.
+. Check which builds you have available
 +
 ----
-[marina@master00-GUID ~] oc get builds 
+[marina@master00-GUID ~] oc get builds
 
 ----
 . Choose a deployment and, check out what a rollback to`ruby-hello-world-#` would look like:
@@ -599,7 +597,7 @@ run inside of your builder pod. That's what you see by using `build-logs` - the
 output of the assemble script. The
 `run` script actually is what is executed to "start" your application's pod. In
 other words, the `run` script is what starts the Ruby process for an image that
-was built based on the `ruby-20-rhel7` S2I builder. 
+was built based on the `ruby-20-rhel7` S2I builder.
 
 . To look inside the builder pod, as `marina`:
 +
@@ -767,7 +765,7 @@ This command:
 
 * changes to the `/opt/openshift/src` directory (where our applications' code is
     located)
-    
+
 * executes `bundle exec rake db:migrate`
 
 If you're not familiar with Ruby, Rails, or Bundler, that's OK.
@@ -874,13 +872,13 @@ of `oc get pod` as `marina`:
 ----
 
 POD                                IP          CONTAINER(S)               IMAGE(S)                                                                                                                HOST                                    LABELS                                                                                                                  STATUS       CREATED         MESSAGE
-database-2-rj72q                   10.1.0.15                                                                                                                                                      master00-GUID.oslab.opentlc.com/192.168.133.2   deployment=database-2,deploymentconfig=database,name=database                                                           Running      About an hour   
-                                               ruby-helloworld-database   registry.access.redhat.com/openshift3_beta/mysql-55-rhel7                                                                                                                                                                                                                               Running      About an hour   
-deployment-frontend-7-hook-4i8ch                                                                                                                                                                  node00-GUID.oslab.opentlc.com/192.168.133.3    <none>                                                                                                                  Succeeded    41 seconds      
+database-2-rj72q                   10.1.0.15                                                                                                                                                      master00-GUID.oslab.opentlc.com/192.168.133.2   deployment=database-2,deploymentconfig=database,name=database                                                           Running      About an hour
+                                               ruby-helloworld-database   registry.access.redhat.com/openshift3_beta/mysql-55-rhel7                                                                                                                                                                                                                               Running      About an hour
+deployment-frontend-7-hook-4i8ch                                                                                                                                                                  node00-GUID.oslab.opentlc.com/192.168.133.3    <none>                                                                                                                  Succeeded    41 seconds
                                                lifecycle                  172.30.118.110:5000/wiring/origin-ruby-sample@sha256:2984cfcae1dd42c257bd2f79284293df8992726ae24b43470e6ffd08affc3dfd                                                                                                                                                                   Terminated   36 seconds      exit code 0
-frontend-7-nnnxz                   10.1.1.24                                                                                                                                                      node00-GUID.oslab.opentlc.com/192.168.133.3    deployment=frontend-7,deploymentconfig=frontend,name=frontend                                                           Running      29 seconds      
-                                               ruby-helloworld            172.30.118.110:5000/wiring/origin-ruby-sample@sha256:2984cfcae1dd42c257bd2f79284293df8992726ae24b43470e6ffd08affc3dfd                                                                                                                                                                   Running      26 seconds      
-ruby-sample-build-7-build                                                                                                                                                                         master00-GUID.oslab.opentlc.com/192.168.133.2   build=ruby-sample-build-7,buildconfig=ruby-sample-build,name=ruby-sample-build,template=application-template-stibuild   Succeeded    2 minutes       
+frontend-7-nnnxz                   10.1.1.24                                                                                                                                                      node00-GUID.oslab.opentlc.com/192.168.133.3    deployment=frontend-7,deploymentconfig=frontend,name=frontend                                                           Running      29 seconds
+                                               ruby-helloworld            172.30.118.110:5000/wiring/origin-ruby-sample@sha256:2984cfcae1dd42c257bd2f79284293df8992726ae24b43470e6ffd08affc3dfd                                                                                                                                                                   Running      26 seconds
+ruby-sample-build-7-build                                                                                                                                                                         master00-GUID.oslab.opentlc.com/192.168.133.2   build=ruby-sample-build-7,buildconfig=ruby-sample-build,name=ruby-sample-build,template=application-template-stibuild   Succeeded    2 minutes
                                                sti-build                  openshift3_beta/ose-sti-builder:v0.5.2.2                                                                                                                                                                                                                                                Terminated   2 minutes       exit code 0
 
 ----
@@ -999,7 +997,7 @@ image:
     https://github.com/CentOS/CentOS-Dockerfiles/tree/master/wordpress/centos7
 
 We've taken the content of this subfolder and placed it in the GitHub
-`openshift/centos7-wordpress` repository. 
+`openshift/centos7-wordpress` repository.
 
 . Run `oc new-app` and see what happens:
 +
@@ -1079,7 +1077,7 @@ you allow it, developers can actually simply build Docker containers as their
 
 You may have wondered about the `-l name=wordpress` in the invocation above. This
 applies a label to all of the resources created by `oc new-app` so that they can
-be easily distinguished from any other resources in a project. 
+be easily distinguished from any other resources in a project.
 
 . For example, we can easily delete only the things with this label:
 +
@@ -1131,5 +1129,3 @@ wordpress-route   wordpress.cloudapps.example.com             wordpress-httpd-se
 ----
 
 Labels will be useful for many things, including identification in the web console.
-
-

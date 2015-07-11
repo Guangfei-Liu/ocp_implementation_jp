@@ -1,0 +1,44 @@
+:icons: images/icons
+:toc2:
+
+:numbered:
+
+== Linux, Mac, and Windows clients
+
+The OpenShift client `oc` is available for Linux, Mac OSX, and Windows. You
+can use these clients to perform all tasks in this documentation that make use
+of the `oc` command.
+
+=== Downloading The Clients
+
+	Visit [Download Red Hat OpenShift Enterprise Beta](https://access.redhat.com/downloads/content/289/ver=/rhel---7/0.5.2.2/x86_64/product-downloads)
+	to download the Beta4 clients. You will need to sign into Customer Portal using
+	an account that includes the OpenShift Enterprise High Touch Beta entitlements.
+
+=== Log In To Your OpenShift Environment
+
+You will need to log into your environment using `oc login` as you have
+elsewhere. If you have access to the CA certificate you can pass it to oc with
+the --certificate-authority flag or otherwise import the CA into your host's
+certificate authority. If you do not import or specify the CA you will be
+prompted to accept an untrusted certificate which is not recommended.
+
+The CA is created on your master in `/etc/openshift/master/ca.crt`
+
+    C:\Users\test\Downloads> oc --certificate-authority="ca.crt"
+    OpenShift server [[https://localhost:8443]]: https://ose3-master.example.com:8443
+    Authentication required for https://ose3-master.example.com:8443 (openshift)
+    Username: joe
+    Password:
+    Login successful.
+
+    Using project "sinatra"
+
+On Mac OSX and Linux you will need to make the file executable
+
+    chmod +x oc
+
+In the future users will be able to download clients directly from the OpenShift
+console rather than needing to visit Customer Portal.
+
+:numbered!:

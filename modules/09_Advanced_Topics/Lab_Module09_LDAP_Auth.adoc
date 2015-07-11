@@ -1,10 +1,7 @@
 :icons: images/icons
-:toc2:		
-
+:toc2:
 :numbered:
 
-= Advanced Topics
-	
 == LDAP Authentication
 
 OpenShift currently supports several authentication methods for obtaining API
@@ -20,7 +17,7 @@ For full documentation on the other authentication options please refer to the
 [Official
 Documentation](http://docs.openshift.org/latest/admin_guide/configuring_authentication.html)
 
-=== Prerequirements:
+.Prerequisites:
 
 * A working Router with a wildcard DNS entry pointed to it
 
@@ -36,21 +33,21 @@ possible to change the ldap server that is used at any time.
 For convenience the example LDAP server can be deployed on OpenShift as
 follows:
 
-    osc create -f openldap-example.json
+    oc create -f openldap-example.json
 
 That will create a pod from an OpenLDAP image hosted externally on the Docker
 Hub.  You can find the source for it [here](beta4/images/openldap-example/).
 
-Do osc get pod and make sure the openldap pod is running (The ldapsearch in the next step will fail or timeout otherwise):
+Do oc get pod and make sure the openldap pod is running (The ldapsearch in the next step will fail or timeout otherwise):
 
-    osc get pod
+    oc get pod
 
 To test the example LDAP service you can run the following:
 
     yum -y install openldap-clients
     ldapsearch -D 'cn=Manager,dc=example,dc=com' -b "dc=example,dc=com" \
                -s sub "(objectclass=*)" -w redhat \
-               -h `osc get services | grep openldap-example-service | awk '{print $4}'`
+               -h `oc get services | grep openldap-example-service | awk '{print $4}'`
 
 You should see ldif output that shows the example.com users.
 
@@ -82,20 +79,20 @@ No arguments are required but the help output will show you the defaults:
 
 Once you run the helper script it will output the configuration changes
 required for `/etc/openshift/master/master-config.yaml` as well as create
-`basicauthurl.json`.  You can now feed that to `osc`:
+`basicauthurl.json`.  You can now feed that to `oc`:
 
-    osc create -f basicauthurl.json
+    oc create -f basicauthurl.json
 
 At this point everything is in place to start the build which will trigger the
 deployment.
 
-    osc start-build basicauthurl-build
+    oc start-build basicauthurl-build
 
 When the build finished you can run the following command to test that the
 Service is responding correctly:
 
     curl -v -u joe:redhat --cacert /etc/openshift/master/ca.crt \
-        --resolve basicauthurl.example.com:443:`osc get services | grep basicauthurl | awk '{print $4}'` \
+        --resolve basicauthurl.example.com:443:`oc get services | grep basicauthurl | awk '{print $4}'` \
         https://basicauthurl.example.com/validate
 
 In that case in order for SNI to work correctly we had to trick curl with the `--resolve` flag.  If wildcard DNS is set up in your environment to point to the router then the following should test the service end to end:
@@ -107,49 +104,7 @@ If you've made the required changes to `/etc/openshift/master/master-config.yaml
 restarted `openshift-master` then you should now be able to log it with the
 example users `joe` and `alice` with the password `redhat`.
 
-=== Using an LDAP server external to OpenShift
-
+NOTE:
 For more advanced usage it's best to refer to the
 [README](https://github.com/openshift/sti-basicauthurl) for now.  All
 mod_authnz_ldap directives are available.
-
-== Linux, Mac, and Windows clients
-
-The OpenShift client `osc` is available for Linux, Mac OSX, and Windows. You
-can use these clients to perform all tasks in this documentation that make use
-of the `osc` command.
-
-=== Downloading The Clients
-
-Visit [Download Red Hat OpenShift Enterprise Beta](https://access.redhat.com/downloads/content/289/ver=/rhel---7/0.5.2.2/x86_64/product-downloads)
-to download the Beta4 clients. You will need to sign into Customer Portal using
-an account that includes the OpenShift Enterprise High Touch Beta entitlements.
-
-=== Log In To Your OpenShift Environment
-
-You will need to log into your environment using `osc login` as you have
-elsewhere. If you have access to the CA certificate you can pass it to osc with
-the --certificate-authority flag or otherwise import the CA into your host's
-certificate authority. If you do not import or specify the CA you will be
-prompted to accept an untrusted certificate which is not recommended.
-
-The CA is created on your master in `/etc/openshift/master/ca.crt`
-
-    C:\Users\test\Downloads> osc --certificate-authority="ca.crt"
-    OpenShift server [[https://localhost:8443]]: https://ose3-master.example.com:8443
-    Authentication required for https://ose3-master.example.com:8443 (openshift)
-    Username: joe
-    Password:
-    Login successful.
-
-    Using project "sinatra"
-
-On Mac OSX and Linux you will need to make the file executable
-
-    chmod +x osc
-
-In the future users will be able to download clients directly from the OpenShift
-console rather than needing to visit Customer Portal.
-
-:numbered!:
-

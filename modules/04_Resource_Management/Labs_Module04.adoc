@@ -1,16 +1,15 @@
 :icons: images/icons
-:toc2:		
+:toc2:
 
 :numbered:
 
 == Resource Management
 
-In this module we have the following labs: 
+In this module we have the following labs:
 
-* Lab: Configure Authentication
 * Lab: Users, Projects and Quotas
 * Lab: Creating Services and Routes
-* Lab: Deployment Configuration and Replication Controllers
+* Lab: Deployment Configuration and Replication Controllers (Missing)
 
 
 === Lab Environment Architecture and Important Information
@@ -50,7 +49,7 @@ Each student lab is assigned a global unique identifier (GUID) that consists of 
 
 ----
 
-== Connect to the Environment
+=== Connect to the Environment
 
 . If not already connected, connect to your administration host `oselab-GUID.oslab.opentlc.com` using your OPENTLC login and private SSH key:
 +
@@ -73,92 +72,12 @@ If prompted for a password use *r3dh4t1!*
 +
 ----
 
-root@master00-GUID.oslab.opentlc.com's password: ******** (r3dh4t1!) 
+root@master00-GUID.oslab.opentlc.com's password: ******** (r3dh4t1!)
 
 ----
 
-== Lab: Configure Authentication
 
-. Create a copy of your master's config file
-+
-----
-[root@master00-GUID ~]# cp /etc/openshift/master/master-config.yaml /etc/openshift/master/master-config.yaml.original
-----
-. Edit your `/etc/openshift/master/master-config.yaml` so that the oauthConfig section look like this:
-+
-----
-oauthConfig:
-  assetPublicURL: https://master00-GUID.oslab.opentlc.com:8443/console/
-  grantConfig:
-    method: auto
-  identityProviders:
-  - name: htpasswd_auth
-    challenge: true
-    login: true
-    provider:
-      apiVersion: v1
-      kind: HTPasswdPasswordIdentityProvider
-      file: /etc/openshift/openshift-passwd
-  masterPublicURL: https://master00-GUID.oslab.opentlc.com:8443
-  masterURL: https://master00-GUID.oslab.opentlc.com:8443
-  sessionConfig:
-    sessionMaxAgeSeconds: 3600
-    sessionName: ssn
-    sessionSecretsFile:
-  tokenConfig:
-    accessTokenMaxAgeSeconds: 86400
-    authorizeTokenMaxAgeSeconds: 500
 
-----
-
-=== Add Development Users
-
-In the "real world" your developers would likely be using the OpenShift tools on
-their own machines (`oc` and the web console). For this course, we
-will create user accounts for two non-privileged users of OpenShift, *andrew* and
-*marina*, on the master. This is done for convenience and because we'll be using
-`htpasswd` for authentication.
-
-. On the master host add two Linux accounts:
-+
-----
-
-[root@master00-GUID ~]# useradd andrew
-[root@master00-GUID ~]# useradd marina
-
-----
-
-=== Configuring htpasswd Authentication
-
-OpenShift v3 supports a number of mechanisms for authentication. The simplest
-use case for our testing purposes is `htpasswd`-based authentication.
-
-To start, we will need the `htpasswd` binary available in the `httpd-tools` package.
-
-. Install `httpd-tools` on the master host:
-+
-----
-
-[root@master00-GUID ~]# yum -y install httpd-tools
-
-----
-
-. Create a password for our users, Joe and Alice on the master host:
-+
-----
-
-[root@master00-GUID ~]# touch /etc/openshift/openshift-passwd
-[root@master00-GUID ~]# htpasswd -b /etc/openshift/openshift-passwd andrew r3dh4t1!
-[root@master00-GUID ~]# htpasswd -b /etc/openshift/openshift-passwd marina r3dh4t1!
-								
-----
-
-. Restart `openshift-master` for changes to take effect
-+
-----
-[root@master00-GUID ~]# systemctl restart openshift-master
-----
-          
 == Lab: Users, Projects and Quotas
 === Create Projects
 
@@ -172,7 +91,7 @@ To start, we will need the `htpasswd` binary available in the `httpd-tools` pack
 
 ----
 
-=== A look at resources in the Web Console 
+=== A look at resources in the Web Console
 
 Now that you have a project created, it's time to look at the web console, which
 has been completely redesigned for V3.
@@ -204,9 +123,9 @@ project.
 === Applying Quota to Projects
 
 At this point we have created our "Resource Management" project, so let's apply the quota above
-to it. 
+to it.
 
-. Create a Quota definition file 
+. Create a Quota definition file
 +
 ----
 
@@ -288,7 +207,7 @@ Once creating the quota, it can take a few moments for it to be fully
 processed. If you get blank output from the `get` or `describe` commands, wait a
 few moments and try again.
 
-== Applying Limit Ranges to Projects
+=== Applying Limit Ranges to Projects
 
 In order for quotas to be effective you need to also create Limit Ranges
 which set the maximum, minimum, and default allocations of memory and cpu at
@@ -296,7 +215,7 @@ both a pod and container level. Without default values for containers projects
 with quotas will fail because the deployer and other infrastructure pods are
 unbounded and therefore forbidden.
 
-. Create the Limits file 
+. Create the Limits file
 +
 ----
 [root@master00-GUID ~]# cat << EOF > limits.json
@@ -452,10 +371,10 @@ EOF
 
 ----
 
-.Run the Pod
+=== Run the Pod
 
 We will now create a simple pod without a *route* or a *service*
- 
+
 . Run the following commands to create and verify the pod:
 +
 ----
@@ -489,10 +408,10 @@ Containers:
     Restart Count:      0
 Conditions:
   Type          Status
-  Ready         True 
+  Ready         True
 Events:
-  .... "Successfully assigned hello-openshift to node01-f4fc.oslab.opentlc.com" .... 
- 
+  .... "Successfully assigned hello-openshift to node01-f4fc.oslab.opentlc.com" ....
+
 ----
 +
 . Test that your pod is responding with "Hello OpenShift"
@@ -510,15 +429,15 @@ You will see:
 Hello OpenShift!
 ----
 
-. Great, the pod works, Now, lets kill it and create a few moew 
+. Great, the pod works, Now, lets kill it and create a few moew
 +
 ----
 
-[andrew@master00 ~]$ oc delete -f hello-pod.json 
+[andrew@master00 ~]$ oc delete -f hello-pod.json
 
 ----
 
-. Create a new definition file that launches 4 hello-pods 
+. Create a new definition file that launches 4 hello-pods
 +
 ----
 [andrew@master00 ~]$ cat << EOF > hello-many-pods.json
@@ -701,7 +620,7 @@ Hello OpenShift!
 }
 
 
-EOF 
+EOF
 
 ----
 
@@ -797,7 +716,7 @@ hello-service   <none>    name=hello-openshift   172.30.xxx.yyy   8888/TCP
 +
 . Lets look at the details of our service, Please notice the *selector* and the *Endpoints* lines.
 .. The *selector* describes which pods should be "selected" or "listed" by the service.
-.. The *Endpoints* line lists all the pods that are currently listed, notice that we have none.   
+.. The *Endpoints* line lists all the pods that are currently listed, notice that we have none.
 +
 ----
 [andrew@master00 ~]$ oc describe service hello-service
@@ -812,7 +731,7 @@ Session Affinity:       None
 No events.
 ----
 
-. Lets create some pods 
+. Lets create some pods
 ----
 
 [andrew@master00 ~]$ oc create -f hello-many-pods.json
@@ -827,7 +746,7 @@ No events.
 NAME            LABELS    SELECTOR               IP(S)          PORT(S)
 hello-service   <none>    name=hello-openshift   172.30.5.240   8888/TCP
 
-[andrew@master00 ~]$ oc describe service hello-service                                                                                                                                                
+[andrew@master00 ~]$ oc describe service hello-service
 Name:                   hello-service
 Labels:                 <none>
 Selector:               name=hello-openshift
@@ -840,7 +759,7 @@ No events.
 
 ----
 
-. Lets test our service 
+. Lets test our service
 +
 ----
 
@@ -850,7 +769,7 @@ Hello OpenShift!
 
 ----
 
-. Create the Router 
+. Create the Router
 +
 ----
 [andrew@master00 ~]$ guid=`hostname|cut -f2 -d-|cut -f1 -d.`
@@ -865,7 +784,7 @@ Hello OpenShift!
 // routes/hello-openshift-route
 // ----
 
-. Lets see our routes 
+. Lets see our routes
 +
 ----
 [andrew@master00-6b80 ~]$ oc get routes
@@ -881,5 +800,3 @@ hello-service   hello2-openshift.cloudapps-GUID.oslab.opentlc.com             he
 Hello OpenShift!
 
 ----
-
-

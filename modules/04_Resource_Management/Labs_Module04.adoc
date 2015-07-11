@@ -88,7 +88,7 @@ root@master00-GUID.oslab.opentlc.com's password: ******** (r3dh4t1!)
 +
 ----
 oauthConfig:
-  assetPublicURL: https://master00-2642.oslab.opentlc.com:8443/console/
+  assetPublicURL: https://master00-GUID.oslab.opentlc.com:8443/console/
   grantConfig:
     method: auto
   identityProviders:
@@ -99,8 +99,8 @@ oauthConfig:
       apiVersion: v1
       kind: HTPasswdPasswordIdentityProvider
       file: /etc/openshift/openshift-passwd
-  masterPublicURL: https://master00-2642.oslab.opentlc.com:8443
-  masterURL: https://master00-2642.oslab.opentlc.com:8443
+  masterPublicURL: https://master00-GUID.oslab.opentlc.com:8443
+  masterURL: https://master00-GUID.oslab.opentlc.com:8443
   sessionConfig:
     sessionMaxAgeSeconds: 3600
     sessionName: ssn
@@ -110,15 +110,6 @@ oauthConfig:
     authorizeTokenMaxAgeSeconds: 500
 
 ----
-
-. Restart `openshift-master` for changes to take effect
-+
-----
-[root@master00-GUID ~]# systemctl restart openshift-master
-----
-   
-          
-== Lab: Users, Projects and Quotas
 
 === Add Development Users
 
@@ -162,6 +153,13 @@ To start, we will need the `htpasswd` binary available in the `httpd-tools` pack
 								
 ----
 
+. Restart `openshift-master` for changes to take effect
++
+----
+[root@master00-GUID ~]# systemctl restart openshift-master
+----
+          
+== Lab: Users, Projects and Quotas
 === Create Projects
 
 . On the master host use the `oadm` command to create a project, and assign an administrative user to it:
@@ -210,14 +208,14 @@ to it.
 
 . Create a Quota definition file 
 +
-[source,json]
 ----
+
 [root@master00-GUID ~]# cat << EOF > quota.json
 {
   "apiVersion": "v1",
   "kind": "ResourceQuota",
   "metadata": {
-    "name": "quota"
+    "name": "test-quota"
   },
   "spec": {
     "hard": {
@@ -234,7 +232,7 @@ EOF
 
 ----
 
-. On the master host apply a file called `quota.json` from the training repo cloned earlier using the `oc create` command:
+. On the master host apply the file you just created with the `oc create` command:
 +
 ----
 
@@ -270,12 +268,12 @@ test-quota
 Name:                   test-quota
 Resource                Used    Hard
 --------                ----    ----
-cpu                     0m      200m
-memory                  0       512Mi
+cpu                     0       20
+memory                  0       1Gi
 pods                    0       3
-replicationcontrollers  0       3
+replicationcontrollers  0       5
 resourcequotas          1       1
-services                0       3
+services                0       5
 
 ----
 
@@ -382,8 +380,9 @@ Container       memory          5Mi     750Mi   100Mi
 +
 ----
 
-[root@master00~]# su - andrew
-[andrew@master00~]$ oc login -u andrew --insecure-skip-tls-verify --server=https://master00-${GUID}.oslab.opentlc.com:8443
+[root@master00 ~]# su - andrew
+[andrew@master00 ~]$ guid=`hostname|cut -f2 -d-|cut -f1 -d.`
+[andrew@master00 ~]$ oc login -u andrew --insecure-skip-tls-verify --server=https://master00-${guid}.oslab.opentlc.com:8443
 
 ----
 +
@@ -402,10 +401,10 @@ Run the following command to create the `hello-pod.json` file:
 
 ----
 
-[andrew@master00~]$ cat <<EOF > hello-pod.json
+[andrew@master00 ~]$ cat <<EOF > hello-pod.json
 {
   "kind": "Pod",
-  "apiVersion": "v1beta3",
+  "apiVersion": "v1",
   "metadata": {
     "name": "hello-openshift",
     "creationTimestamp": null,
@@ -461,7 +460,7 @@ We will now create a simple pod without a *route* or a *service*
 +
 ----
 
-[andrew@master00~]$ oc create -f hello-pod.json
+[andrew@master00 ~]$ oc create -f hello-pod.json
 pods/hello-openshift
 
 [andrew@master00-3186 ~]$ oc get pods
@@ -500,7 +499,9 @@ Events:
 +
 ----
 
-[andrew@master00 ~]$ curl http://10.1.0.4:8080 # The IP will be replaced with your pod IP.
+[andrew@master00 ~]$ ip=`oc describe pod hello-openshift|grep IP:|awk '{print $2}'`
+[andrew@master00 ~]$ curl http://${ip}:8080
+
 ----
 +
 You will see:
@@ -512,13 +513,15 @@ Hello OpenShift!
 . Great, the pod works, Now, lets kill it and create a few moew 
 +
 ----
-oc delete -f hello-pod.json 
+
+[andrew@master00 ~]$ oc delete -f hello-pod.json 
+
 ----
 
 . Create a new definition file that launches 4 hello-pods 
 +
 ----
-[andrew@master00~]$ cat << EOF > hello-many-pods.json
+[andrew@master00 ~]$ cat << EOF > hello-many-pods.json
 {
   "metadata":{
     "name":"quota-pod-deployment-test"
@@ -705,7 +708,7 @@ EOF
 . Create the items in the *hello-many-pods.json* file
 +
 ----
-[andrew@master00~]$ oc create -f hello-many-pods.json
+[andrew@master00 ~]$ oc create -f hello-many-pods.json
 pods/hello-openshift-1
 pods/hello-openshift-2
 pods/hello-openshift-3
@@ -715,37 +718,60 @@ Error from server: Pod "hello-openshift-4" is forbidden: Limited to 3 pods
 . Lets delete the objects and move on
 +
 ----
-[andrew@master00~]$ oc delete  -f hello-many-pods.json
+[andrew@master00 ~]$ oc delete  -f hello-many-pods.json
 ----
 
-. *Optional* - Using what you have learned, remove the quota from the project, change the pods value to 10 and run the *hello-many-pods.json* again.
+. *Optional* - Using what you have learned, create a new project, and set the quota so that the pods value is 10 and run the *hello-many-pods.json* again.
 
 == Lab: Creating Services and Routes
+
+. As root on the master host create a new project:
++
+----
+
+[andrew@master00 ~]$ exit
+[root@master00 ~]# oadm new-project svcslab --display-name="Services Lab" \
+    --description="This is the project we use to learn about services" \
+    --admin=andrew
+----
+
+. Become the *andrew* user and log back into OpenShift and switch to the *svcslab* project:
++
+----
+
+[root@master00 ~]# su - andrew
+[andrew@master00 ~]$ guid=`hostname|cut -f2 -d-|cut -f1 -d.`
+[andrew@master00 ~]$ oc login -u andrew --insecure-skip-tls-verify --server=https://master00-${guid}.oslab.opentlc.com:8443
+...
+[andrew@master00 ~]$ oc project svcslab
+Now using project "svcslab" on server "https://master00-GUID.oslab.opentlc.com:8443".
+
+----
 
 . Run the following command to create the `hello-service.json` file:
 +
 ----
 
 [andrew@master00 ~]$  cat <<EOF > hello-service.json
-		{
-	  "kind": "Service",
-	  "apiVersion": "v1",
-	  "metadata": {
-	    "name": "hello-service"
-	  },
-	  "spec": {
-	    "selector": {
-	      "name":"hello-openshift"
-	    },
-	    "ports": [
-	      {
-	        "protocol": "TCP",
-	        "port": 8888,
-	        "targetPort": 8080
-	      }
-	    ]
-	  }
-	}
+{
+  "kind": "Service",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "hello-service"
+  },
+  "spec": {
+    "selector": {
+      "name":"hello-openshift"
+    },
+    "ports": [
+      {
+        "protocol": "TCP",
+        "port": 8888,
+        "targetPort": 8080
+      }
+    ]
+  }
+}
 EOF
 
 ----
@@ -755,15 +781,18 @@ EOF
 ----
 
 [andrew@master00 ~]$ oc create -f hello-service.json
-Hello-openshift
+services/hello-service
+
 ----
 +
 . Display the running services (under the current project)
 +
 ----
+
 [andrew@master00 ~]$ oc get services
 NAME            LABELS    SELECTOR               IP(S)          PORT(S)
-hello-service   <none>    name=hello-openshift   172.30.5.240   8888/TCP
+hello-service   <none>    name=hello-openshift   172.30.xxx.yyy   8888/TCP
+
 ----
 +
 . Lets look at the details of our service, Please notice the *selector* and the *Endpoints* lines.
@@ -776,7 +805,7 @@ Name:                   hello-service
 Labels:                 <none>
 Selector:               name=hello-openshift
 Type:                   ClusterIP
-IP:                     172.30.5.240
+IP:                     172.30.xxx.yyy
 Port:                   <unnamed>       8888/TCP
 Endpoints:              <none>
 Session Affinity:       None
@@ -785,12 +814,15 @@ No events.
 
 . Lets create some pods 
 ----
+
 [andrew@master00 ~]$ oc create -f hello-many-pods.json
+
 ----
 
 . Now lets check the service again, you can see that the pods who share the label "name=hello-service" are all listed.
 +
 ----
+
 [andrew@master00 ~]$ oc get service
 NAME            LABELS    SELECTOR               IP(S)          PORT(S)
 hello-service   <none>    name=hello-openshift   172.30.5.240   8888/TCP
@@ -805,27 +837,33 @@ Port:                   <unnamed>       8888/TCP
 Endpoints:              10.1.0.4:8080,10.1.1.5:8080,10.1.1.7:8080
 Session Affinity:       None
 No events.
+
 ----
 
 . Lets test our service 
 +
 ----
-[andrew@master00 ~]$ curl http://172.30.5.240:8888
+
+[andrew@master00 ~]$ ip=`oc describe service hello-service|grep IP:|awk '{print $2}'`
+[andrew@master00 ~]$ curl http://${ip}:8888
+Hello OpenShift!
+
 ----
 
 . Create the Router 
 +
 ----
-[andrew@master00 ~]$ oc expose service/hello-service --hostname=hello2-openshift.cloudapps-6b80.oslab.opentlc.com
+[andrew@master00 ~]$ guid=`hostname|cut -f2 -d-|cut -f1 -d.`
+[andrew@master00 ~]$ oc expose service/hello-service --hostname=hello2-openshift.cloudapps-${guid}.oslab.opentlc.com
 ----
 
-
-. Create a *route* for our service
-+
-----
-[andrew@master00-6b80 ~]$ oc create -f hello-route.json
-routes/hello-openshift-route
-----
+//// NO LONGER NEEDED
+//// . Create a *route* for our service
+//// +
+//// ----
+//// [andrew@master00-6b80 ~]$ oc create -f hello-route.json
+//// routes/hello-openshift-route
+//// ----
 
 . Lets see our routes 
 +
@@ -835,5 +873,13 @@ NAME                    HOST/PORT                                          PATH 
 hello-openshift-route   hello-openshift.cloudapps-6b80.oslab.opentlc.com             hello-openshift-service   
 ----
 
+. Test Route:
++
+----
+
+[andrew@master00 ~]$ curl http://hello2-openshift.cloudapps-${guid}.oslab.opentlc.com
+Hello OpenShift!
+
+----
 
 

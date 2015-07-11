@@ -2,7 +2,7 @@
 
 == Demonstration Goals and Audience
 
-.Operation Team's Day Demonstration Scenario (the Alice track)
+.Operation Team's Day Demonstration Scenario (the Karla track)
 
 * *Goal* - Demonstrate OpenShift Enterprise's ability to reduce the complexity of application deployment and management
 * *Audience* - This is a technical demonstration intended for technical resources, but you can present it at different depths

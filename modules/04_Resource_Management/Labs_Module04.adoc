@@ -857,13 +857,13 @@ Hello OpenShift!
 [andrew@master00 ~]$ oc expose service/hello-service --hostname=hello2-openshift.cloudapps-${guid}.oslab.opentlc.com
 ----
 
-//// NO LONGER NEEDED
-//// . Create a *route* for our service
-//// +
-//// ----
-//// [andrew@master00-6b80 ~]$ oc create -f hello-route.json
-//// routes/hello-openshift-route
-//// ----
+// NO LONGER NEEDED
+// . Create a *route* for our service
+// +
+// ----
+// [andrew@master00-6b80 ~]$ oc create -f hello-route.json
+// routes/hello-openshift-route
+// ----
 
 . Lets see our routes 
 +

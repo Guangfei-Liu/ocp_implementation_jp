@@ -166,7 +166,7 @@ NFS mount:
 [root@master00-GUID ~]# cd /root/training/beta4
 [root@master00-GUID ~]# sed -i "s/ose3-master.example.com/master00-$GUID.oslab.opentlc.com/" persistent-volume.json
 [root@master00-GUID ~]# oc create -f persistent-volume.json
-    
+
 ----
 +
 ----
@@ -288,7 +288,7 @@ this volume should be mounted where the database will use it. As `marina`:
 ----
 
 . The part we will need to edit is the pod template. We will need to add two
-parts: 
+parts:
 +
 * a definition of the volume
 
@@ -356,9 +356,9 @@ restart:
 
 ----
 
-. Once the new pod has started, go ahead and visit the web page. 
+. Once the new pod has started, go ahead and visit the web page.
 
-. Add a few values via the application. 
+. Add a few values via the application.
 
 . Delete the database pod and wait for it to come back.
 You should be able to retrieve the same values you entered.
@@ -396,133 +396,3 @@ Further information on use of PersistentVolumes is available in the
 [OpenShift Origin documentation](http://docs.openshift.org/latest/dev_guide/volumes.html).
 This is a very new feature, so it is very manual for now, but look for more tooling
 taking advantage of PersistentVolumes to be created in the future.
-
-
-
-== EAP Example
-
-This example requires internet access because the Maven configuration uses
-public repositories.
-
-If you have a Java application whose Maven configuration uses local
-repositories, or has no Maven requirements, you could probably substitute that
-code repository for the one below.
-
-=== Create a Project
-
-Using the skills you have learned earlier in the training, create a new project
-for the EAP example. Make sure to use the user that created the project in the subsequent commands.
-
-=== Instantiate the Template
-When we imported the imagestreams into the `openshift` namespace earlier, we
-also brought in JBoss EAP and Tomcat S2I builder images.
-
-Take a look at the `eap6-basic-sti.json` in the `training/beta4` folder.  You'll see that
-there are a number of bash-style variables (`${SOMETHING}`) in use in this
-template. This template is already configured to use the EAP builder image, so
-we can use the web console to simply isntantiate it in the desired way.
-
-We want to:
-
-* set the application name to *helloworld*
-
-* set the application hostname to *helloworld.cloudapps-GUID.oslab.opentlc.com*
-
-* set the Git URI to *https://github.com/jboss-developer/jboss-eap-quickstarts/*
-
-* set the Git ref to *6.4.x*
-
-* set the Git context dir to *helloworld*
-
-* set Github and Generic trigger secrets to *secret*
-
-. Update the JSON file with the correct domain:
-+
-----
-
-[marina@master00-GUID ~]$ sed -i "s/cloudapps.example.com/cloudapps-$GUID.oslab.opentlc.com/" ~/training/beta4/eap6-basic-sti.json
-
-----
-
-Ok, we're ready:
-
-. Add the `eap6-basic-sti.json` template to your project using the commandline:
-+
-----
-
-[marina@master00-GUID ~]$ cd ~training/beta4; oc create -f eap6-basic-sti.json
-
-----
-
-. Create the secret for the EAP template:
-+
-----
-
-[marina@master00-GUID beta4]$ oc create -f eap-app-secret.json
-
-----
-
-. Go into the web console.
-
-. Find the project you created and click on it.
-
-. Click the "Create..." button.
-
-. Click the "Browse all templates..." button.
-
-. Click the "eap6-basic-sti" example.
-
-. Click "Select template".
-
-. Now that you are on the overview page, you'll have to click "Edit Paremeters"
-and fill in the values with the things we wanted above. 
-
-. Hit "Create" when you are done.
-
-In the UI you will see a bunch of things get created -- several services, some
-routes, and etc.
-
-=== Update the BuildConfig
-
-The template assumes that the imageStream exists in our current project, but
-that is not the case. The EAP imageStream exists in the `openshift` namespace.
-
-. Edit the resulting `buildConfig` and specify that.
-+
-----
-
-[marina@master00-GUID ~]$ oc edit bc helloworld
-
-----
-
-. You will need to edit the `strategy` section to look like the following:
-
-    strategy:
-      sourceStrategy:
-        from:
-          kind: ImageStreamTag
-          name: jboss-eap6-openshift:6.4
-          namespace: openshift
-
-**REMEMBER** indentation is *important* in YAML.
-
-=== Watch the Build
-
-In a few moments a build will start. You can watch the build if you choose, or
-just look at the web console and wait for it to finish. If you do watch the
-build, you might notice some Maven errors.  These are non-critical and will not
-affect the success or failure of the build.
-
-=== Visit Your Application
-
-We specified a route via defining the application hostname, so you should be able to
-visit your app at:
-
-    http://helloworld.cloudapps-GUID.oslab.opentlc.com/jboss-helloworld
-
-The reason that it is "/jboss-helloworld" and not just "/" is because the
-helloworld application does not use a "ROOT.war". If you don't understand this,
-it's because Java is confusing.
-
-
-:numbered!:

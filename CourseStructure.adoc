@@ -97,14 +97,18 @@ NOTE: Status 11/06/15 Got Lots of Labs ready for GA and slides updated to Beta4
 
 = Module 07 : Code Lifecycle
 == Module Topics
-	* Pre and Post deployment Hooks
-	* Rollback and Activate
-	* Lab: Rollback/Activate and Code Lifecycle
+	* Deployments
+  * Strategies
+  * Lifecycle Hooks
+  * Build Triggers
+  * Lab: Rollback/Activate and Code Lifecycle
 	* Lab: Using Webhooks
 	* Lab: Customized Build and Run Processes
 	* Lab: Pre and Post Deployment Hooks (Optional)
 
 NOTE: Status 11/06/15 Lots of labs, No slides, Some labs have issues
+NOTE: Status 12/06/15 Lots of labs, CREATED SLIDES, Some labs have issues
+
 
 = Module 08 : Demonstrating OpenShift 3.0 Capabilities
 == Module Topics

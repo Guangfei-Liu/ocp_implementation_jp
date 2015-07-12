@@ -1,0 +1,17 @@
+== Strategies
+:noaudio:
+
+A deployment configuration declares a strategy which is responsible for
+executing the deployment process.
+* Each application has different requirements for availability (and
+other considerations) during deployments.
+* OpenShift provides out-of-the-box strategies to support a variety of
+deployment scenarios.
+
+* The *rolling strategy* is the default strategy used if no strategy is
+specified on a deployment configuration.
+
+ifdef::showscript[]
+
+endif::showscript[]
+

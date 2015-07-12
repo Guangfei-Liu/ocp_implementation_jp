@@ -1,0 +1,61 @@
+== Deployments
+:noaudio:
+
+.Triggers
+
+* A deployment configuration can contain triggers, which drive the creation of
+new deployments in response to events, both inside and outside OpenShift.
+
+* If no triggers are defined on a deployment configuration, deployments must be
+started manually.
+* Configuration Change Trigger
+** The ConfigChange trigger results in a new deployment whenever changes are
+detected to the replication controller template of the deployment configuration.
+
+** If a ConfigChange trigger is defined on a deployment configuration,
+the first deployment will be automatically created soon after the deployment
+configuration itself is created.
+
+** The following is an example of a ConfigChange trigger:
++
+[source,json]
+----
+"triggers": [
+  {
+    "type": "ConfigChange"
+  }
+]
+Image Change Trigger
+The ImageChange trigger results in a new deployment whenever the value of an image stream tag changes.
+
+The following is an example of an ImageChange trigger:
+
+"triggers": [
+  {
+    "type": "ImageChange",
+    "imageChangeParams": {
+      "automatic": true,
+      "from": {
+        "kind": "ImageStreamTag",
+        "name": "origin-ruby-sample:latest"
+      },
+      "containerNames": [
+        "helloworld"
+      ]
+    }
+  }
+]
+----
+
+** If the automatic option is set to false, the trigger is disabled.
+** With the above example, when the latest tag value of the origin-ruby-sample
+image stream changes and the new tag value differs from the current image
+specified in the deployment configuration’s helloworld container, a new
+deployment is created using the new tag value for the helloworld container
+
+
+ifdef::showscript[]
+
+endif::showscript[]
+
+

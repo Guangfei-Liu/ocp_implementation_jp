@@ -1,8 +1,8 @@
-== Module Topics
+== Summary
 :noaudio:
-:numbered!:
+In this module we covered:
 
-  * Deployments
+	* Deployments
   * Strategies
   * Lifecycle Hooks
   * Build Triggers
@@ -10,12 +10,3 @@
 	* Lab: Using Webhooks
 	* Lab: Customized Build and Run Processes
 	* Lab: Pre and Post Deployment Hooks (Optional)
-
-
-ifdef::showscript[]
-
-=== Transcript
-Welcome to Module 7 of the OpenShift Enterprise Implementation course.
-
-endif::showscript[]
-

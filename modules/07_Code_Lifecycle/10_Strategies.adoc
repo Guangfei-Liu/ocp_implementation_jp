@@ -1,0 +1,46 @@
+== Strategies
+:noaudio:
+
+.Custom Strategy
+
+The Custom strategy allows you to provide your own deployment behavior.
+
+* The following is an example of the Custom strategy:
++
+[source,json]
+----
+"strategy": {
+  "type": "Custom",
+  "customParams": {
+    "image": "organization/strategy",
+    "command": ["command", "arg1"],
+    "environment": [
+      {
+        "name": "ENV_1",
+        "value": "VALUE_1"
+      }
+    ]
+  }
+}
+----
++
+** In the above example, the organization/strategy Docker image provides the
+deployment behavior. The optional command array overrides any CMD directive
+specified in the image’s Dockerfile. The optional environment variables provided
+  are added to the execution environment of the strategy process.
+
+* Additionally, OpenShift provides the following environment variables to the
+strategy process:
+|====
+|Environment Variable|Description
+|OPENSHIFT_DEPLOYMENT_NAME| The name of the new deployment (a replication controller).
+|OPENSHIFT_DEPLOYMENT_NAMESPACE| The namespace of the new deployment.
+|====
+** The replica count of the new deployment will initially be zero. The
+responsibility of the strategy is to make the new deployment active using the logic that best serves the needs of the user.
+
+
+ifdef::showscript[]
+
+endif::showscript[]
+

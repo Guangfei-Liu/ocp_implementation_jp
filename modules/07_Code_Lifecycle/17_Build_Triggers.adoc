@@ -1,0 +1,90 @@
+== Build Triggers
+:noaudio:
+
+.Image Change Triggers
+Image change triggers allow your build to be automatically invoked when a new
+  of an upstream image is available. For example, if a build is based on top of
+a RHEL image, then you can trigger that build to run any time the RHEL image
+changes. As a result, the application image is always running on the latest RHEL
+base image.
+
+* Configuring an image change trigger requires the following actions:
+** Define an ImageStream that points to the upstream image you want to trigger on:
++
+[source,json]
+----
+{
+  "kind": "ImageStream",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "ruby-20-centos7"
+  }
+}
+----
++
+*** This defines the image stream that is tied to a Docker image repository
+located at <system-registry>/<namespace>/ruby-20-centos7. The <system-registry> is defined as a service with the name docker-registry running in OpenShift.
+
+** Define a build with a strategy that consumes the image stream:
+[source,json]
+----
+{
+  "strategy": {
+    "type": "Source",
+    "sourceStrategy": {
+      "from": {
+        "kind": "ImageStreamTag",
+        "name": "ruby-20-centos7:latest"
+      },
+    }
+  }
+}
+----
++
+*** In this case, the sourceStrategy definition is consuming the latest tag of
+the ImageStream named ruby-20-centos7 located within this namespace.
+
+** Define an image change trigger:
+[source,json]
+----
+{
+  "type": "imageChange",
+  "imageChange": {}
+}
+----
++
+*** This defines an image change trigger that monitors the ImageStream and Tag
+as defined by the Strategy’s From field. When a change occurs, a new build is
+triggered and is supplied with an immutable Docker tag that points to the new
+image that was just created. This new image will be used by the Strategy when
+it executes for the build. For example, the resulting build will be:
++
+[source,json]
+----
+{
+  "strategy": {
+    "type": "Source",
+    "sourceStrategy": {
+      "from": {
+        "kind": "DockerImage",
+        "name": "172.30.17.3:5001/mynamespace/ruby-20-centos7:immutableid"
+      }
+    }
+  }
+}
+----
++
+*** This ensures that the triggered build uses the new image that was just
+pushed to the repository, and the build can be re-run any time with the same
+nputs.
+
+* In addition to setting the image field for all Strategy types, for custom
+builds, the OPENSHIFT_CUSTOM_BUILD_BASE_IMAGE environment variable is checked.
+If it does not exist, then it is created with the immutable image reference.
+If it does exist then it is updated with the immutable image reference.
+
+* If a build is triggered due to a webhook trigger or manual request, the build
+that is created uses the immutableid resolved from the ImageStream referenced
+by the Strategy. This ensures that builds are performed using consistent image
+tags for ease of reproduction.
+

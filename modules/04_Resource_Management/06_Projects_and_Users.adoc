@@ -1,0 +1,26 @@
+== Projects and Users
+:noaudio:
+
+.What are Projects?
+* A project is a Kubernetes namespace with additional annotations, and is the central vehicle by which access to resources for regular users is managed.
+* A project allows a community of users to organize and manage their content in isolation from other communities.
+* Users must be given access to projects by administrators, or if allowed to create projects, automatically have access to their own projects.
+
+* Each project scopes its own set of:
+** *Objects:* Pods, services, replication controllers, etc.
+** *Policies:* Rules for which users can or cannot perform actions on objects.
+** *Constraints:* Quotas for each kind of object that can be limited.
+** *Service accounts:* Service accounts act automatically with designated access to objects in the project.
+
+* Cluster administrators can create projects and delegate administrative rights for the project to any member of the user community. Cluster administrators can also allow developers to create their own projects.
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+
+endif::showscript[]
+
+
+

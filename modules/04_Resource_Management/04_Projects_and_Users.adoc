@@ -1,0 +1,40 @@
+== Projects and Users
+:noaudio:
+
+.Users and User Types
+
+* Users : Interaction with OpenShift is associated with a user.
+* An OpenShift user object represents an "actor" which may be granted permissions in the system by adding roles to them or to their groups.
+* Several types of users can exist:
+** *Regular users* - This is the way most interactive OpenShift users will be represented.
+*** Regular users are created automatically in the system upon first login, or can be created via the API.
+*** Regular users are represented with the User object.
+** *System users* - Many of these are created automatically when the infrastructure is defined, mainly for the purpose of enabling the infrastructure to interact with the API securely.
+*** They include a cluster administrator (with access to everything), a per-node user, users for use by routers and registries, and various others.
+*** There is also an anonymous system user that is used by default for unauthenticated requests.
++
+----
+For example : system:admin system:openshift-registry system:node:node1.example.com
+----
+
+** *Service accounts* - These are special system users associated with projects;
+*** some are created automatically when the project is first created,
+*** while project administrators can create more for the purpose of defining access to the contents of each project.
+*** Service accounts are represented with the ServiceAccount object.
++
+----
+For example : system:serviceaccount:default:deployer system:serviceaccount:foo:builder
+----
+
+* Every user must authenticate in some way in order to access OpenShift. API requests with no authentication or invalid authentication are authenticated as requests by the anonymous system user. Once authenticated, policy determines what the user is authorized to do.
+
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+
+endif::showscript[]
+
+

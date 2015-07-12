@@ -33,13 +33,12 @@ Module 04 : Resource Management
 * Projects and Users
 * Resource Quota
 * Services and Routes
-* Deplpyments
+* Deployments
 * Deployment Configuration
 * Replication Controllers
 * Lab: Users, Projects and Quotas
 * Lab: Creating Services and Routes
 * Lab: Deployment Configuration and Replication Controllers
-
 
 ifdef::showscript[]
 
@@ -52,6 +51,8 @@ endif::showscript[]
 
 
 == OpenShift Resources
+:noaudio:
+
 * There are a number of different resource types in OpenShift 3.
 * When creating/destroying apps, scaling, building and etc, we are manipulating OpenShift and Kubernetes resources under the covers.
 * Resources can have quotas enforced against them.
@@ -78,6 +79,8 @@ endif::showscript[]
 
 
 == Projects and Users
+:noaudio:
+
 .Users and User Types
 
 * Users : Interaction with OpenShift is associated with a user.
@@ -116,6 +119,8 @@ endif::showscript[]
 
 
 == Projects and Users
+:noaudio:
+
 .Concept: "Namespace"
 * A Kubernetes namespace provides a mechanism to scope resources in a cluster. In OpenShift, a project is a Kubernetes namespace with additional annotations.
 * Namespaces provide a unique scope for:
@@ -136,6 +141,8 @@ endif::showscript[]
 
 
 == Projects and Users
+:noaudio:
+
 .What are Projects?
 * A project is a Kubernetes namespace with additional annotations, and is the central vehicle by which access to resources for regular users is managed.
 * A project allows a community of users to organize and manage their content in isolation from other communities.
@@ -159,7 +166,9 @@ endif::showscript[]
 
 
 
-== ResourceQuota
+== Resource Quota
+:noaudio:
+
 .What is ResourceQuota
 * OpenShift can limit both the number of objects created in a Project , and the total amount of resources requested across objects in a namespace/Project.
 * This facilitates sharing of a single OpenShift cluster by several teams, each in a Project of their own, as a mechanism of preventing one team from starving another team of cluster resources.
@@ -190,7 +199,8 @@ endif::showscript[]
 
 
 
-== ResourceQuota
+== Resource Quota
+:noaudio:
 
 .Quota enforcement
 * After a quota is first created in a project, the project restricts the ability to create any new resources that may violate a quota constraint until it has calculated updated usage statistics.
@@ -208,7 +218,8 @@ endif::showscript[]
 
 
 
-== ResourceQuota
+== Resource Quota
+:noaudio:
 
 .Creating and applying a quota to a project
 
@@ -254,7 +265,8 @@ endif::showscript[]
 
 
 
-== ResourceQuota
+== Resource Quota
+:noaudio:
 
 .Creating and applying a quota to a project
 
@@ -275,6 +287,7 @@ endif::showscript[]
 
 
 == Services and Routes
+:noaudio:
 
 .Pods Recap:
 * *Pod* - Application or instance of something
@@ -347,6 +360,7 @@ endif::showscript[]
 
 
 == Services and Routes
+:noaudio:
 
 .Services Recap:
 
@@ -402,6 +416,8 @@ endif::showscript[]
 
 
 == Services and Routes
+:noaudio:
+
 .Routes Recap:
 
 * *Routes* - Match FQDN-destined traffic requests to services and pods they represent
@@ -446,7 +462,8 @@ route points. Note that the route actually routes directly to the pods, not to t
 
 endif::showscript[]
 
-== Routes
+== Services and Routes
+:noaudio:
 
 * An OpenShift route is a way to announce your service to the world. A route, consumed by a router in conjunction with service endpoints, provides named connectivity from external sources to your applications. Each route provides a name, service selector, and, optionally, security configuration.
 
@@ -479,6 +496,8 @@ endif::showscript[]
 
 
 == Deployments
+:noaudio:
+
 .Deployments Overview
 * A deployment in OpenShift is a replication controller based on a user defined template called a deployment configuration. Deployments are created manually or in response to triggered events.
 * The deployment system provides:
@@ -499,6 +518,8 @@ endif::showscript[]
 
 
 == DeploymentConfig
+:noaudio:
+
 .Creating a DeploymentConfig
 
 * A deployment configuration consists of the following key parts:
@@ -582,6 +603,7 @@ endif::showscript[]
 
 
 == Replication Controllers
+:noaudio:
 
 . What Are Replication Controllers:
 * A replication controller ensures that a specified number of replicas of a pod are running at all times. If pods exit or are deleted, the replica controller acts to instantiate more up to the desired number. Likewise, if there are more running than desired, it deletes as many as necessary to match the number.
@@ -602,6 +624,8 @@ endif::showscript[]
 
 
 == Replication Controllers
+:noaudio:
+
 .Managing replica count with Replication Controllers
 * We can manually adjust the number of *replicas* a pod has by using the *oc scale* command.
 * It is not the job of the replication controller to perform auto-scaling based on load or traffic, as it does not track either; rather, this would require its replica count to be adjusted by an external auto-scaler.
@@ -642,6 +666,8 @@ endif::showscript[]
 
 
 == Replication Controllers
+:noaudio:
+
 .Manual scale
 *
 * You can scale any DeploymentConfig with the *oc scale dc* command

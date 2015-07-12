@@ -1,19 +1,19 @@
-
+== Module Topics
 :noaudio:
 :numbered!:
 
-== Module Topics
-
-Module 04 : Resource Management 
+Module 04 : Resource Management
 
 * OpenShift Resources
-* Projects and Quotas
-* Scaling with Replication Controllers
+* Projects and Users
+* Resource Quota
 * Services and Routes
-* Lab	: Projects and Quotas
-* Lab	: Deployment Configuration and Replication Controllers
-* Lab	: Services and Routes	
-
+* Deployments
+* Deployment Configuration
+* Replication Controllers
+* Lab: Users, Projects and Quotas
+* Lab: Creating Services and Routes
+* Lab: Deployment Configuration and Replication Controllers
 
 ifdef::showscript[]
 
@@ -21,5 +21,7 @@ ifdef::showscript[]
 Welcome to Module 4 of the OpenShift Enterprise Implementation course.
 
 endif::showscript[]
+
+
 
 

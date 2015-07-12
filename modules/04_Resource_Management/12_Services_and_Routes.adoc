@@ -1,0 +1,56 @@
+== Services and Routes
+:noaudio:
+
+.Services Recap:
+
+* *Service resource* - Defines logical set of pods and policy by which to access them
+* Offers IP and port pair that redirect to the appropriate back ends
+* Label selector determines targeted pod set
+** Service definition tells OpenShift Enterprise that pods with label `name=hello-openshift` are associated and should have traffic distributed among them
+** Service itself is connection to the network or front end to reach all pods
+* Here is a sample *Service* definition *.json* File:
++
+[source,json]
+----
+	{
+	  "kind": "Service",
+	  "apiVersion": "v1beta3",
+	  "metadata": {
+	    "name": "hello-service"
+	  },
+	  "spec": {
+	    "selector": {
+	      "name":"hello-openshift"
+	    },
+	    "ports": [
+	      {
+	        "protocol": "TCP",
+	        "port": 8888,
+	        "targetPort": 8080
+	      }
+	    ]
+	  }
+	}
+----
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+A *service* resource is an abstraction that defines a logical set of pods and a policy that you use to access the pods. The service offers clients an IP and port pair that, when accessed, redirect to the appropriate back ends.
+
+A label selector determines the set of targeted pods.
+
+The definition of the service tells OpenShift Enterprise that any pods with the label `name=hello-openshift` are associated and should have traffic distributed among them.
+
+The service itself is the connection to the network, or front end, to reach all of the pods, though it does not route traffic itself.
+
+
+endif::showscript[]
+
+
+
+
+
+

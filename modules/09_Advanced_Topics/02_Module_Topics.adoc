@@ -17,5 +17,3 @@ This module presents the following topics:
 * LDAP Authentication
 
 endif::showscript[]
-
-

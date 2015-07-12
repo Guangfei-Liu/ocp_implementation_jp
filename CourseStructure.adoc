@@ -59,9 +59,15 @@ NOTE: Status 11/06/15 We got Slides and Labs ready for GA. If any issues arise w
 == Module Topics
 	* OpenShift Resources
 	* Projects and Users
+https://access.redhat.com/beta/documentation/en/openshift-enterprise-30-architecture#projects-and-users
 	* Resource Quota
+https://access.redhat.com/beta/documentation/en/openshift-enterprise-30-architecture#resourcequota
 	* Services and Routes
+https://access.redhat.com/beta/documentation/en/openshift-enterprise-30-architecture#routes
+https://access.redhat.com/beta/documentation/en/openshift-enterprise-30-architecture#services
 	* Deplpyments
+https://access.redhat.com/beta/documentation/en/openshift-enterprise-30-architecture#deployments
+
 	* Deployment Configuration
 	* Replication Controllers
 	* Lab: Users, Projects and Quotas

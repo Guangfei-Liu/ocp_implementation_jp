@@ -602,13 +602,13 @@ DOCKER_STORAGE_OPTIONS=-s devicemapper --storage-opt dm.fs=xfs --storage-opt dm.
 
 . Log back into the master host after the reboot from previous lab is complete.
 
-. Log into the infranode and check that the *Docker* service is started
+. Log into the each node (including Infranode) and check that the *Docker* service is started
 +
 ----
 
 [root@master00-GUID ~]# guid=`hostname|cut -f2 -d-|cut -f1 -d.`
 [root@master00-GUID ~]# ssh infranode00-$guid.oslab.opentlc.com
-[root@infranode00-GUID ~]# systemctl status docker
+[root@node0X-GUID ~]# systemctl status docker
 
 ----
 +
@@ -626,12 +626,12 @@ docker.service - Docker Application Container Engine
 [NOTE]
 Make sure the status shows *enabled* and *active (running)*.
 
-. In order to save time later, we will pre-fetch the docker images to the *infranode00* host. This process will take about 10 minutes to complete:
+. In order to save time later, we will pre-fetch the docker images to all the nodes. This process will take about 10 minutes to complete:
 +
 ----
 
-[root@infranode00-GUID ~]# RHN="registry.access.redhat.com";PTH="openshift3"
-[root@infranode00-GUID ~]# docker pull $RHN/$PTH/ose-haproxy-router:v3.0.0.1 ; \
+[root@node0X-GUID ~]# RHN="registry.access.redhat.com";PTH="openshift3"
+[root@node0X-GUID ~]# docker pull $RHN/$PTH/ose-haproxy-router:v3.0.0.1 ; \
 docker pull $RHN/$PTH/ose-deployer:v3.0.0.1 ; \
 docker pull $RHN/$PTH/ose-sti-builder:v3.0.0.1 ; \
 docker pull $RHN/$PTH/ose-sti-image-builder:v3.0.0.1 ; \
@@ -649,11 +649,11 @@ docker pull openshift/hello-openshift:v0.4.3
 [NOTE]
 This will take about 10 minutes to complete.
 
-. Examine docker pool info on the *infranode00* host:
+. Examine docker pool info on the *node0X* host:
 +
 ----
 
-[root@infranode00-GUID ~]# docker info
+[root@node0X-GUID ~]# docker info
 
 ----
 +
@@ -687,7 +687,7 @@ Name: infranode00-GUID.oslab.opentlc.com
 
 ----
 
-. On the *infranode00* host examine the `docker-pool` logical volume again:
+. On the *node0X* host examine the `docker-pool` logical volume again:
 +
 ----
 

@@ -1,3 +1,8 @@
+:icons: images/icons
+:toc2:
+
+:numbered:
+
 == Lab: Arbitrary Docker Image (WordPress)
 
 One of the first things we did with OpenShift was launch an "arbitrary" Docker
@@ -60,15 +65,8 @@ Service "centos7-wordpress" created at 172.30.135.252 with port mappings 22.
 ----
 +
 [NOTE]
-This can take a *really* long time to build.**
-
-. Fix the json file from the training repo to match the lab hostnames:
-+
-----
-
-[marina@master00-GUID ~]$ sed -i "s/cloudapps.example.com/cloudapps-$GUID.oslab.opentlc.com/" ~/training/beta4/wordpress-addition.json
-
-----
+Do not run oc start-build as requested!  This is a bug.
+This can take a *really* long time to build.
 
 . You will need a route for this application, as `curl` won't do a whole lot for
 us here. Additionally, `oc new-app` currently has a bug in the way services are
@@ -77,7 +75,10 @@ httpd. So we'll add on a service and route for web access.
 +
 ----
 
-[marina@master00-GUID ~]$ cd ~/training/beta4; oc create -f wordpress-addition.json
+[marina@master00-GUID ~]$ oc expose dc centos7-wordpress --port=80 \
+  --generator=service/v1
+[marina@master00-GUID ~]$ oc expose service centos7-wordpress \
+  --hostname=wordpress.cloudapps-${guid}.oslab.opentlc.com
 
 ----
 

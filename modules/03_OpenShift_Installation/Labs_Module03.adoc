@@ -1168,6 +1168,7 @@ OpenShift ships with *Image Streams* and *Templates*, they reside in: `/usr/shar
  oc create -f /usr/share/openshift/examples/quickstart-templates -n openshift
 
 ----
+
 == Lab: Configure Authentication
 
 . Create a copy of your master's config file

@@ -161,7 +161,7 @@ to `https://github.com/marina/ruby-hello-world.git`. Save and exit
 the editor.
 
 WARNING: Please do not use `marina` as your user name, this needs to be you actual
-GitHub user. for example, `https://github.com/sborenst/ruby-hello-world.git`
+GitHub user. for example, `https://github.com/openshift/ruby-hello-world.git`
 
 . If you again run `oc get buildconfig ruby-hello-world -o yaml` you should see
 that the `uri` has been updated.

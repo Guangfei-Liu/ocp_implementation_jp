@@ -336,7 +336,7 @@ baseurl=http://www.opentlc.com/repos/rhel-7-server-ose-3.0-rpms
 enabled=1
 gpgcheck=0
 
-EOF
+
 
 ----
 
@@ -602,12 +602,12 @@ DOCKER_STORAGE_OPTIONS=-s devicemapper --storage-opt dm.fs=xfs --storage-opt dm.
 
 . Log back into the master host after the reboot from previous lab is complete.
 
-. Log into the each node (including Infranode) and check that the *Docker* service is started
+. Log into the each node (We don't need them on Infranode) and check that the *Docker* service is started
 +
 ----
 
 [root@master00-GUID ~]# guid=`hostname|cut -f2 -d-|cut -f1 -d.`
-[root@master00-GUID ~]# ssh infranode00-$guid.oslab.opentlc.com
+[root@master00-GUID ~]# ssh node0x-$guid.oslab.opentlc.com
 [root@node0X-GUID ~]# systemctl status docker
 
 ----
@@ -637,7 +637,6 @@ docker pull $RHN/$PTH/ose-sti-builder:v3.0.0.1 ; \
 docker pull $RHN/$PTH/ose-sti-image-builder:v3.0.0.1 ; \
 docker pull $RHN/$PTH/ose-docker-builder:v3.0.0.1 ; \
 docker pull $RHN/$PTH/ose-pod:v3.0.0.1 ; \
-docker pull $RHN/$PTH/ose-docker-registry:v3.0.0.1 ; \
 docker pull $RHN/$PTH/ose-keepalived-ipfailover:v3.0.0.1 ; \
 docker pull $RHN/$PTH/ruby-20-rhel7 ; \
 docker pull $RHN/$PTH/mysql-55-rhel7 ; \
@@ -1049,7 +1048,7 @@ master00-GUID.oslab.opentlc.com   kubernetes.io/hostname=master00-GUID.oslab.ope
 ----
 [root@master00-GUID ~]# oc get nodes
 NAME                                 LABELS                                                                                   STATUS
-infranode00-GUID.oslab.opentlc.com   kubernetes.io/hostname=infranode00-GUID.oslab.opentlc.com,region=infra,zone=infranodes   Ready
+infranode00-GUID.oslab.opentlc.com   kubernetes.io/hostname=infranode00-GUID.oslab.opentlc.com                                Ready
 master00-GUID.oslab.opentlc.com      kubernetes.io/hostname=master00-GUID.oslab.opentlc.com,region=infra,zone=na              Ready,SchedulingDisabled
 node00-GUID.oslab.opentlc.com        kubernetes.io/hostname=node00-GUID.oslab.opentlc.com,region=primary,zone=east            Ready
 node01-GUID.oslab.opentlc.com        kubernetes.io/hostname=node01-GUID.oslab.opentlc.com,region=primary,zone=west            Ready

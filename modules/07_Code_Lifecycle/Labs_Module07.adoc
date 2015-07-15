@@ -41,7 +41,7 @@ to the original version, and then go forward to our re-built version.
 === Fork the Repository
 
 . Using the git web interface, fork the following git repo:
-link:https://github.com/sborenst/ruby-hello-world[https://github.com/sborenst/ruby-hello-world]
+link:https://github.com/openshift/ruby-hello-world[https://github.com/openshift/ruby-hello-world]
 
 . Fork this into your own account by clicking the *Fork* Button at
 the upper right corner of the Github web UI.
@@ -62,14 +62,14 @@ NOTE: Remember that a `BuildConfig`(uration) tells OpenShift how to do a build.
 +
 ----
 [marina@master00 ~]$ guid=`hostname|cut -f2 -d-|cut -f1 -d.`
-[marina@master00 ~]$ oc login -u andrew --insecure-skip-tls-verify --server=https://master00-${guid}.oslab.opentlc.com:8443
+[marina@master00 ~]$ oc login -u marina --insecure-skip-tls-verify --server=https://master00-${guid}.oslab.opentlc.com:8443
 [marina@master00-GUID ~]$ oc project lifecycle
 ----
 
-. Lets create an app based on the link:https://github.com/sborenst/ruby-hello-world[https://github.com/sborenst/ruby-hello-world.git] repo
+. Lets create an app based on the link:https://github.com/openshift/ruby-hello-world[https://github.com/openshift/ruby-hello-world.git] repo
 +
 ----
-[marina@master00-GUID ~]$ oc new-app https://github.com/sborenst/ruby-hello-world.git
+[marina@master00-GUID ~]$ oc new-app https://github.com/openshift/ruby-hello-world.git
 ----
 +
 NOTE: You could have, of course, started the new-app with your own repo, we are only picking the "wrong" one as part of the learning exercise.
@@ -121,7 +121,7 @@ spec:
   resources: {}
   source:
     git:
-      uri: https://github.com/sborenst/ruby-hello-world.git
+      uri: https://github.com/openshift/ruby-hello-world.git
     type: Git
   strategy:
     dockerStrategy:
@@ -145,7 +145,7 @@ status:
 ----
 +
 
-. As you can see, the current configuration points at the `sborenst/ruby-hello-world` repository. Since you've forked this repo, let's go ahead and re-point our configuration.
+. As you can see, the current configuration points at the `openshift/ruby-hello-world` repository. Since you've forked this repo, let's go ahead and re-point our configuration.
 
 . Use `oc edit` to re-point the configuration:
 +

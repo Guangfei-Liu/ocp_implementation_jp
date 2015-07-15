@@ -77,9 +77,10 @@ httpd. So we'll add on a service and route for web access.
 +
 ----
 
-[marina@master00-GUID ~]$ oc expose dc centos7-wordpress --port=80 --generator=service/v1
+[marina@master00-GUID ~]$ oc expose dc centos7-wordpress --port=80 \
+  --generator=service/v1
 [marina@master00-GUID ~]$ oc expose service centos7-wordpress \
-     --hostname=wordpress.cloudapps-${guid}.oslab.opentlc.com
+  --hostname=wordpress.cloudapps-${guid}.oslab.opentlc.com
 
 ----
 
@@ -177,15 +178,6 @@ This process might take a while. Use this time to read the lab and get a good un
 
 === Authenticate to OpenShift Enterprise and Choose Your Project
 
-. On the master host as root create a project called *hello-s2i*:
-+
-----
-
-[root@master00-GUID ~]# oadm new-project hello-s2i --display-name="Resources Management" \
-    --description="This is the project we use to learn about resource management" \
-    --admin=andrew
-
-----
 
 . Become and authenticate to OpenShift Enterprise as user `andrew`:
 +
@@ -195,6 +187,14 @@ This process might take a while. Use this time to read the lab and get a good un
 [andrew@master00 ~]$ guid=`hostname|cut -f2 -d-|cut -f1 -d.`
 [andrew@master00 ~]$ oc login -u andrew --insecure-skip-tls-verify --server=https://master00-${guid}.oslab.opentlc.com:8443
 
+----
+
+. On the master host as andrew create a project called *hello-s2i*:
++
+----
+[andrew@master00-GUID ~]$ oc new-project hello-s2i \
+  --display-name="Resources Management" \
+  --description="This is the project we use to learn about resource management" 
 ----
 
 . Change the context to the `hello-s2i` project:

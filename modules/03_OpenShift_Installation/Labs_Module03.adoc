@@ -80,12 +80,11 @@ yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-GUID.oslab.opentlc.c
 
 ----
 
-. On the admistration host collect and define the environment's information, We will define the Public IP of our *InfraNode00* as the taget of our wildcard record.
+. On the admistration host collect and define the environment's information, We will define the Public IP of our *InfraNode00* as the target of our wildcard record.
 +
 ----
 [root@oselab-GUID ~]# guid=`hostname|cut -f2 -d-|cut -f1 -d.`
 [root@oselab-GUID ~]# host infranode00-$guid.oslab.opentlc.com  ipa.opentlc.com |grep infranode | awk '{print $4}'
-54.201.162.205
 [root@oselab-GUID ~]# HostIP=`host infranode00-$guid.oslab.opentlc.com  ipa.opentlc.com |grep infranode | awk '{print $4}'`
 [root@oselab-GUID ~]# domain="cloudapps-$guid.oslab.opentlc.com"
 
@@ -953,13 +952,24 @@ The installation was successful!
 
 ----
 
+. Add the Default route to the OpenShift master configuration file
++
+----
+echo "configuration:
+  subdomain: cloudapps-$GUID.oslab.opentlc.com" >> /etc/openshift/master/master-config.yaml
+----
+
+.. Take a second to varify that your *master-config.yaml* file was updated correctly.
++
+NOTE: Remember, *yaml* files are space-sensitive
+
 . After the installer is complete press any key as requested and reboot the master host:
 +
 ----
 root@master00-GUID ~]# reboot
 ----
 
-=== Verify your environmet
+=== Verify your environment
 
 . Log back into the *master* and check the status of your host using the `oc get nodes` command:
 +

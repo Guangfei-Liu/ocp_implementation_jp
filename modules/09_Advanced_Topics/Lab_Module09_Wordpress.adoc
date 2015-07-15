@@ -1,0 +1,150 @@
+== Lab: Arbitrary Docker Image (WordPress)
+
+One of the first things we did with OpenShift was launch an "arbitrary" Docker
+image from the Docker Hub. However, we can also build Docker images from Docker
+files, too. While this is a "build" process, it's not a "source-to-image"
+process -- we're not working with only a source code repo.
+
+As an example, the CentOS community maintains a Wordpress all-in-one Docker
+image:
+
+    https://github.com/CentOS/CentOS-Dockerfiles/tree/master/wordpress/centos7
+
+We've taken the content of this subfolder and placed it in the GitHub
+`openshift/centos7-wordpress` repository.
+
+. Either from the *Master* or from your *desktop* authenticate to openshift as
+*marina*
++
+----
+[marina@master00~]$ oc login -u marina --insecure-skip-tls-verify --server=https://master00-${GUID}.oslab.opentlc.com:8443
+----
+
+=== Create a Project
+
+. As `marina`, go ahead and create a new project:
++
+----
+[marina@master00-GUID ~]$ oc new-project wordpress --display-name="Wordpress" \
+    --description='Building an arbitrary Wordpress Docker image'
+----
+
+
+
+=== Build Wordpress
+
+. Run `oc new-app` and see what happens:
++
+----
+[marina@master00-GUID ~]$ oc new-app https://github.com/openshift/centos7-wordpress.git -o yaml
+----
+
+. Let's choose the Wordpress example:
++
+----
+
+[marina@master00-GUID ~]$ oc new-app -l name=wordpress https://github.com/openshift/centos7-wordpress.git
+
+----
++
+----
+
+imageStreams/centos
+imageStreams/centos7-wordpress
+buildConfigs/centos7-wordpress
+deploymentConfigs/centos7-wordpress
+services/centos7-wordpress
+A build was created - you can run `oc start-build centos7-wordpress` to start it.
+Service "centos7-wordpress" created at 172.30.135.252 with port mappings 22.
+
+----
++
+[NOTE]
+This can take a *really* long time to build.**
+
+. Fix the json file from the training repo to match the lab hostnames:
++
+----
+
+[marina@master00-GUID ~]$ sed -i "s/cloudapps.example.com/cloudapps-$GUID.oslab.opentlc.com/" ~/training/beta4/wordpress-addition.json
+
+----
+
+. You will need a route for this application, as `curl` won't do a whole lot for
+us here. Additionally, `oc new-app` currently has a bug in the way services are
+detected, so we'll have a service for SSH (thus port 22 above) but not one for
+httpd. So we'll add on a service and route for web access.
++
+----
+
+[marina@master00-GUID ~]$ cd ~/training/beta4; oc create -f wordpress-addition.json
+
+----
+
+=== Test Your Application
+
+. You should be able to visit:
+
+    http://wordpress.cloudapps-GUID.oslab.opentlc.com
+
+Remember - not only did we use an arbitrary Docker image, we actually built the
+Docker image using OpenShift. Technically there was no "code repository". So, if
+you allow it, developers can actually simply build Docker containers as their
+"apps" and run them directly on OpenShift.
+
+=== Application Resource Labels
+
+You may have wondered about the `-l name=wordpress` in the invocation above. This
+applies a label to all of the resources created by `oc new-app` so that they can
+be easily distinguished from any other resources in a project.
+
+. For example, we can easily delete only the things with this label:
++
+----
+
+[marina@master00-GUID ~]$ oc delete all -l name=wordpress
+
+----
++
+----
+
+buildConfigs/centos7-wordpress
+builds/centos7-wordpress-1
+imageStreams/centos
+imageStreams/centos7-wordpress
+deploymentConfigs/centos7-wordpress
+replicationcontrollers/centos7-wordpress-1
+services/centos7-wordpress
+
+----
+
+. Notice that the things we created from wordpress-addition.json didn't
+have this label, so they didn't get deleted:
++
+----
+
+[marina@master00-GUID ~]$ oc get services
+
+----
++
+----
+
+NAME                      LABELS    SELECTOR                             IP             PORT(S)
+wordpress-httpd-service   <none>    deploymentconfig=centos7-wordpress   172.30.17.83   80/TCP
+
+----
++
+----
+
+[marina@master00-GUID ~]$ oc get route
+
+----
++
+----
+
+NAME              HOST/PORT                         PATH      SERVICE                   LABELS
+wordpress-route   wordpress.cloudapps.example.com             wordpress-httpd-service
+
+----
+
+Labels will be useful for many things, including identification in the web console.

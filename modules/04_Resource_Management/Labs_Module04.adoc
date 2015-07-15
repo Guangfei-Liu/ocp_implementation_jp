@@ -429,7 +429,7 @@ You will see:
 Hello OpenShift!
 ----
 
-. Great, the pod works, Now, lets kill it and create a few moew
+. Great, the pod works, Now, lets kill it and create a few more
 +
 ----
 
@@ -634,6 +634,8 @@ pods/hello-openshift-3
 Error from server: Pod "hello-openshift-4" is forbidden: Limited to 3 pods
 ----
 
+NOTE: Because we created a quota, the forth pod will not be created.
+
 . Lets delete the objects and move on
 +
 ----
@@ -769,7 +771,7 @@ Hello OpenShift!
 
 ----
 
-. Create the Router
+. Create the Route
 +
 ----
 [andrew@master00 ~]$ guid=`hostname|cut -f2 -d-|cut -f1 -d.`

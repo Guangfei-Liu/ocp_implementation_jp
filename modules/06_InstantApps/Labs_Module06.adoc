@@ -445,5 +445,5 @@ The output will look something like:
 
 === Revisit the Webpage
 
-Go ahead and revisit `http://frontwire.wiring.cloudapps-GUID.oslab.opentlc.com` in your browser, and you should see that the application is now fully
+Go ahead and revisit `http://frontwire.cloudapps-GUID.oslab.opentlc.com` in your browser, and you should see that the application is now fully
 functional!

@@ -93,7 +93,7 @@ using a regex-like string that will be presented as ADMIN_USERNAME.
 . On the master host as `root`, get and create the Example template:
 ----
 
-[root@master00-GUID ~]# wget http://www.opentlc.com/download/ose_fastrax/resources/Template_Example.json
+[root@master00-GUID ~]# wget http://www.opentlc.com/download/ose_implementation/resources/Template_Example.json
 [root@master00-GUID ~]# oc create -f Template_Example.json -n openshift
 
 ----

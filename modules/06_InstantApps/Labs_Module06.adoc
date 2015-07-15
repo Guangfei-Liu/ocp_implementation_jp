@@ -233,7 +233,7 @@ NAME      TYPE      STATUS    POD
 [marina@master00-GUID ~]$ oc get buildconfig
 NAME               TYPE      SOURCE
 ruby-hello-world   Source    https://github.com/openshift/ruby-hello-world
-[marina@master00-cfe3 ~]$ oc get dc
+[marina@master00-GUID ~]$ oc get dc
 NAME               TRIGGERS                    LATEST VERSION
 ruby-hello-world   ConfigChange, ImageChange   1
 ----
@@ -241,13 +241,13 @@ ruby-hello-world   ConfigChange, ImageChange   1
 . Since we know that we want to talk to a database eventually, let's take a moment to add the environment variables for it. Conveniently, there is an env subcommand to oc. As marina, we can use it like so:
 +
 ----
-[marina@master00-cfe3 ~]$ oc env dc/ruby-hello-world MYSQL_USER=root MYSQL_PASSWORD=redhat MYSQL_DATABASE=mydb
+[marina@master00-GUID ~]$ oc env dc/ruby-hello-world MYSQL_USER=root MYSQL_PASSWORD=redhat MYSQL_DATABASE=mydb
 ----
 
 . If you want to double-check, you can verify using the following:
 +
 ----
-[marina@master00-cfe3 ~]$ oc env dc/ruby-hello-world --list
+[marina@master00-GUID ~]$ oc env dc/ruby-hello-world --list
 # deploymentconfigs ruby-hello-world, container ruby-hello-world
 MYSQL_USER=root
 MYSQL_PASSWORD=redhat
@@ -258,22 +258,23 @@ MYSQL_DATABASE=mydb
 . Expose the *ruby-hello-world* Service
 +
 ----
-[marina@master00-cfe3 ~]$ oc expose service --name=frontend-route ruby-hello-world --hostname="frontwire.cloudapps-$guid.oslab.opentlc.com"
+[marina@master00-GUID ~]$ oc expose service --name=frontend-route ruby-hello-world --hostname="frontwire.cloudapps-$guid.oslab.opentlc.com"
 ----
 
 . Check that your route was created
 +
 ----
-[marina@master00-cfe3 ~]$ oc get route
+[marina@master00-GUID ~]$ oc get route
 NAME               HOST/PORT                                       PATH      SERVICE            LABELS
 ruby-hello-world   frontwire.cloudapps-r2d2.oslab.opentlc.com             ruby-hello-world
 ----
 
-. Now you should be able to access your application with your browser, Go ahead and do that now. link:http://frontwire.wiring.cloudapps-GUID.oslab.opentlc.com[http://frontwire.wiring.cloudapps-GUID.oslab.opentlc.com]
+. Now you should be able to access your application with your browser, Go ahead and do that now. link:http://frontwire.cloudapps-GUID.oslab.opentlc.com[http://frontwire.cloudapps-GUID.oslab.opentlc.com]
 . Earlier we added a template to the openshift namespace to make it available for all users. Now we'll demonstrate adding a template to our own project.
 +
 ----
-[marina@master00-cfe3 ~]$ oc create -f mysql-template.json
+[marina@master00-GUID ~]$ wget http://www.opentlc.com/download/ose_implementation/resources/mysql_template.json
+[marina@master00-GUID ~]$ oc create -f mysql-template.json
 ----
 
 . You'll see:
@@ -283,7 +284,7 @@ templates/mysql-ephemeral
 ----
 
 . Create the Database From the Web Console
-.. Go to the web console and make sure you are logged in as andrew and using the wiring project. You should see your front-end already there.
+.. Go to the web console and make sure you are logged in as andrew and using the Quickstart project. You should see your front-end already there.
 .. Click the "Create..." button and then the "Browse all templates..." button.
 .. You should see the mysql-ephemeral template. Click it and then click "Select template".
 . You will need to edit the parameters of this template, because the defaults will not work for us.
@@ -298,7 +299,7 @@ templates/mysql-ephemeral
 . It may take a little while for the MySQL container to download (if you didn't pre-fetch it). It's a good idea to verify that the database is running before continuing. If you don't happen to have a MySQL client installed you can still verify MySQL is running with curl:
 +
 ----
-[marina@master00-cfe3 ~]$ curl `oc get services | grep mysql | awk '{print $4}'`:3306
+[marina@master00-GUID ~]$ curl `oc get services | grep mysql | awk '{print $4}'`:3306
 ----
 
 . MySQL doesn't speak HTTP so you will see garbled output like this (however, you'll know your database is running!):
@@ -310,16 +311,16 @@ templates/mysql-ephemeral
 . Lets see on which nodes our pods are hosted
 +
 ----
-[marina@master00-cfe3 ~]$ oc get pod -t '{{range .items}}{{.metadata.name}} {{.spec.host}}{{"\n"}}{{end}}'
-mysql-3-4rk55 node00-cfe3.oslab.opentlc.com
-ruby-hello-world-2-build node01-cfe3.oslab.opentlc.com
-ruby-hello-world-5-9doo2 node01-cfe3.oslab.opentlc.com
+[marina@master00-GUID ~]$ oc get pod -t '{{range .items}}{{.metadata.name}} {{.spec.host}}{{"\n"}}{{end}}'
+mysql-3-4rk55 node00-GUID.oslab.opentlc.com
+ruby-hello-world-2-build node01-GUID.oslab.opentlc.com
+ruby-hello-world-5-9doo2 node01-GUID.oslab.opentlc.com
 ----
 
 . As *root* connect to the node where the pod is running, and find the Docker container id
 +
 ----
-[root@node01-cfe3 ~] docker inspect `docker ps | grep hello-world | grep run | awk '{print $1}'` | grep -i mysql
+[root@node01-GUID ~] docker inspect `docker ps | grep hello-world | grep run | awk '{print $1}'` | grep -i mysql
             "MYSQL_USER=root",
             "MYSQL_PASSWORD=redhat",
             "MYSQL_DATABASE=database",
@@ -349,7 +350,7 @@ The easiest way to get this going? Just nuke the existing pod.
 . We need to kill our front-end pods so they retry the database
 +
 ----
-[marina@master00-cfe3 ~]$ oc delete pods -l deploymentconfig=ruby-hello-world
+[marina@master00-GUID ~]$ oc delete pods -l deploymentconfig=ruby-hello-world
 ----
 
 . Wait a few seconds and see that a new pod was created, thanks to our trusty *Replication Controller*

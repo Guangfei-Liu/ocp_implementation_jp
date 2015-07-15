@@ -175,7 +175,7 @@ separate "applications" that we want to wire together.
 ----
 
 [root@master00~]# su - marina
-[andrew@master00~]$ oc login -u marina --insecure-skip-tls-verify --server=https://master00-${GUID}.oslab.opentlc.com:8443
+[marina@master00~]$ oc login -u marina --insecure-skip-tls-verify --server=https://master00-${GUID}.oslab.opentlc.com:8443
 
 ----
 +
@@ -186,7 +186,6 @@ Password: (Enter r3dh4t1!)
 Login successful.
 Welcome to OpenShift! See 'oc help' to get started.
 ----
-
 
 . Log into the web console as `marina`. Can you see `andrew`'s projects and content?
 
@@ -249,7 +248,7 @@ MYSQL_DATABASE=mydb
 . Expose the *ruby-hello-world* Service
 +
 ----
-[marina@master00-cfe3 ~]$ oc expose service --name=frontend-route ruby-hello-world --hostname="frontwire2.cloudapps-$guid.oslab.opentlc.com"
+[marina@master00-cfe3 ~]$ oc expose service --name=frontend-route ruby-hello-world --hostname="frontwire.cloudapps-$guid.oslab.opentlc.com"
 ----
 
 . Check that your route was created
@@ -279,6 +278,10 @@ templates/mysql-ephemeral
 .. You should see the mysql-ephemeral template. Click it and then click "Select template".
 . You will need to edit the parameters of this template, because the defaults will not work for us.
 .. Change the DATABASE_SERVICE_NAME to be "*database*", because that is what service the frontend expects to connect to.
+.. Change the MYSQL_USER to be "*root*", because that is what mysql user that the frontend will use.
+.. Change the MYSQL_PASSWORD to be "*redhat*", because the password the frontend will use.
+.. Change the MYSQL_DATABASE to be "*mydb*", because that is what database the frontend expects to connect to.
+
 .. Make sure that the MySQL user, password and database match whatever values you specified in the previous steps.
 . Click the "Create" button when you are ready.
 

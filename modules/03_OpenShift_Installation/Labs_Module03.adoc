@@ -648,6 +648,17 @@ docker pull openshift/hello-openshift:v0.4.3
 [NOTE]
 This will take about 10 minutes to complete.
 
+. On the *Infranode00*, Installer pull the *Registry* and *Router* images.
++
+----
+[root@node0X-GUID ~]# RHN="registry.access.redhat.com";PTH="openshift3"
+[root@node0X-GUID ~]# docker pull $RHN/$PTH/ose-haproxy-router:v3.0.0.1 ; \
+docker pull $RHN/$PTH/ose-deployer:v3.0.0.1 ; \
+
+docker pull $RHN/$PTH/ose-docker-registry:v3.0.0.1 ; \
+
+----
+
 . Examine docker pool info on the *node0X* host:
 +
 ----

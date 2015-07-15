@@ -98,7 +98,7 @@ using a regex-like string that will be presented as ADMIN_USERNAME.
 
 ----
 +
-What did you just do? The `integrated-template.json` file defined a template. By
+What did you just do? The `Template_Example.json` file defined a template. By
 "creating" it, you have added it to the `openshift` project.
 
 === Create an Instance of the Template
@@ -142,14 +142,24 @@ the *frontend* service:
 +
 ----
 
-`integrated.cloudapps.example.com`
+`frontend.quickstart.router.default.local`
 
 ----
 +
 The build was started for us immediately after creating an instance of the
 template, so you can wait for it to finish. Feel free to check the build logs.
 
-. Once the build is complete, you can go on to the next step.
+. Once the build is complete edit the router configuration:
++
+----
+[andrew@master00-GUID ~]$ oc edit route example-route
+----
+
+. Update the host: line to have the correct hostname:
++
+----
+  host: integrated.cloudapps-GUID.oslab.opentlc.com
+----
 
 === Using Your App
 

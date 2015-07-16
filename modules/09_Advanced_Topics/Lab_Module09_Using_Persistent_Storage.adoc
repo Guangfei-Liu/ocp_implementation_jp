@@ -7,7 +7,7 @@ storage, we need a way to specify that pods should use external volumes.
 
 We can do this a number of ways. [Kubernetes provides methods for directly
 specifying the mounting of several different volume
-types.](https://github.com/GoogleCloudPlatform/kubernetes/blob/master/docs/volumes.md)
+types.](https://github.com/GoogleCloudPlatform/kubernetes/blob/master/docs/user-guide/volumes.md)
 This is perfect if you want to use known external resources. But that's
 not very PaaS-y. If I'm using a PaaS, I might really just rather request a
 chunk of storage and not need a side channel to provision that. OpenShift 3

@@ -45,7 +45,8 @@ This process might take a while. Use this time to read the lab and get a good un
 ----
 [andrew@master00-GUID ~]$ oc new-project hello-s2i \
   --display-name="Resources Management" \
-  --description="This is the project we use to learn about resource management"
+  --description="This is the project we use to learn about resource management" \
+   --node-selector='region=primary'
 ----
 
 . Change the context to the `hello-s2i` project:

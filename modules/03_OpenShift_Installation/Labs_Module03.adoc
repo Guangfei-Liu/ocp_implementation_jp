@@ -639,7 +639,6 @@ docker pull $RHN/$PTH/ose-pod:v3.0.0.1 ; \
 docker pull $RHN/$PTH/ose-keepalived-ipfailover:v3.0.0.1 ; \
 docker pull $RHN/$PTH/ruby-20-rhel7 ; \
 docker pull $RHN/$PTH/mysql-55-rhel7 ; \
-docker pull $RHN/jboss-eap-6/eap-openshift ; \
 docker pull openshift/hello-openshift:v0.4.3
 
 ----

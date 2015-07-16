@@ -87,7 +87,7 @@ root@master00-GUID.oslab.opentlc.com's password: ******** (r3dh4t1!)
 
 [root@master00-GUID ~]# oadm new-project resourcemanageme --display-name="Resources Management" \
     --description="This is the project we use to learn about resource management" \
-    --admin=andrew
+    --admin=andrew  --node-selector='region=primary'
 
 ----
 
@@ -653,7 +653,7 @@ NOTE: Because we created a quota, the forth pod will not be created.
 [andrew@master00 ~]$ exit
 [root@master00 ~]# oadm new-project svcslab --display-name="Services Lab" \
     --description="This is the project we use to learn about services" \
-    --admin=andrew
+    --admin=andrew  --node-selector='region=primary'
 ----
 
 . Become the *andrew* user and log back into OpenShift and switch to the *svcslab* project:

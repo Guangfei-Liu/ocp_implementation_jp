@@ -16,7 +16,7 @@ yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-GUID.oslab.opentlc.c
 . SSH to the master host:
 +
 ----
-[root@oselab-GUID ~]# ssh root@master00-GUID.oslab.opentlc.com
+[root@oselab~]# ssh root@master00-GUID.oslab.opentlc.com
 ----
 +
 [NOTE]
@@ -63,13 +63,13 @@ NOTE: Remember that a `BuildConfig`(uration) tells OpenShift how to do a build.
 ----
 [marina@master00 ~]$ guid=`hostname|cut -f2 -d-|cut -f1 -d.`
 [marina@master00 ~]$ oc login -u marina --insecure-skip-tls-verify --server=https://master00-${guid}.oslab.opentlc.com:8443
-[marina@master00-GUID ~]$ oc project lifecycle
+[marina@master00 ~]$ oc project lifecycle
 ----
 
 . Lets create an app based on the link:https://github.com/openshift/ruby-hello-world[https://github.com/openshift/ruby-hello-world.git] repo
 +
 ----
-[marina@master00-GUID ~]$ oc new-app https://github.com/openshift/ruby-hello-world.git
+[marina@master00~]$ oc new-app https://github.com/openshift/ruby-hello-world.git
 ----
 +
 NOTE: You could have, of course, started the new-app with your own repo, we are only picking the "wrong" one as part of the learning exercise.
@@ -77,7 +77,7 @@ NOTE: You could have, of course, started the new-app with your own repo, we are 
 . Since we know that we want to talk to a database eventually, let's take a moment to add the environment variables for it. Conveniently, there is an env subcommand to oc. As marina, we can use it like so:
 +
 ----
-[marina@master00-GUID ~]$ oc env dc/ruby-hello-world MYSQL_USER=root \
+[marina@master00~]$ oc env dc/ruby-hello-world MYSQL_USER=root \
   MYSQL_PASSWORD=redhat MYSQL_DATABASE=mydb
 ----
 
@@ -85,7 +85,7 @@ NOTE: You could have, of course, started the new-app with your own repo, we are 
 +
 
 ----
-[marina@master00-GUID ~]$ oc expose service ruby-hello-world \
+[marina@master00~]$ oc expose service ruby-hello-world \
   --name="ruby-hello-world" \
   --hostname=ruby-hello-world.lifecycle.cloudapps-${guid}.oslab.opentlc.com
 
@@ -96,7 +96,7 @@ NOTE: You could have, of course, started the new-app with your own repo, we are 
 +
 ----
 
-[marina@master00-GUID ~]$ oc get buildconfig ruby-hello-world -o yaml
+[marina@master00~]$ oc get buildconfig ruby-hello-world -o yaml
 
 ----
 
@@ -151,7 +151,7 @@ status:
 +
 ----
 
-[marina@master00-GUID ~]$  oc edit bc ruby-hello-world
+[marina@master00~]$  oc edit bc ruby-hello-world
 
 ----
 
@@ -169,20 +169,20 @@ that the `uri` has been updated.
 . Run `oc get builds` to see if the new build has started:
 +
 ----
-[marina@master00-GUID ~]$ oc get builds
+[marina@master00~]$ oc get builds
 ----
 
 . If a build has not started yet, you can start it yourself and follow the build-log:
 +
 ----
-[marina@master00-GUID ~]$ oc get bc
+[marina@master00~]$ oc get bc
 NAME               TYPE      SOURCE
 ruby-hello-world   Docker    https://github.com/marina/ruby-hello-world.git
 
-[marina@master00-GUID ~]$ oc start-build ruby-hello-world
+[marina@master00~]$ oc start-build ruby-hello-world
 ruby-hello-world-7
 
-[marina@master00-GUID ~]$ watch oc get builds
+[marina@master00~]$ watch oc get builds
 NAME                 TYPE      STATUS     POD
 ruby-hello-world-5   Docker    Complete   ruby-hello-world-5-build
 ruby-hello-world-6   Docker    Complete   ruby-hello-world-6-build
@@ -190,7 +190,7 @@ ruby-hello-world-7   Docker    Running    ruby-hello-world-7-build
 ...
 CTRL+C
 
-[marina@master00-GUID ~]$ oc build-logs ruby-hello-world-X # Replace X with proper number from oc start-build output
+[marina@master00~]$ oc build-logs ruby-hello-world-X # Replace X with proper number from oc start-build output
 I0709 23:41:08.493756       1 docker.go:69] Starting Docker build from justanother1/ruby-hello-world-7 BuildConfig ...
 I0709 23:41:08.508448       1 tar.go:133] Adding to tar: /tmp/docker-build062004796/.gitignore as .gitignore
 I0709 23:41:08.509588       1 tar.go:133] Adding to tar: /tmp/docker-build062004796/.sti/bin/README as .sti/bin/README
@@ -370,22 +370,22 @@ EOF
 .. The *oc process* command output can be saved into a file or "piped" into the *oc create* command
 +
 ----
-[marina@master00-GUID ~]$ oc process -f mysql-template.json \
+[marina@master00~]$ oc process -f mysql-template.json \
   --value="MYSQL_USER=root,MYSQL_PASSWORD=redhat,MYSQL_DATABASE=mydb" | \
   tee mysql-processed.json
-[marina@master00-GUID ~]$ oc create -f  mysql-processed.json
+[marina@master00~]$ oc create -f  mysql-processed.json
 ----
 . *Or* we can process the template, add our variables and "pipe" the output directly to the *oc create* command
 .. Note that we are providing the *MYSQL_* attibutes, but also choosing the name of the *service* to be created.
 +
 ----
-[marina@master00-GUID ~]$ oc process -f mysql-template.json --value="MYSQL_USER=root,MYSQL_PASSWORD=redhat,MYSQL_DATABASE=mydb,DATABASE_SERVICE_NAME=database" | oc create -f -
+[marina@master00~]$ oc process -f mysql-template.json --value="MYSQL_USER=root,MYSQL_PASSWORD=redhat,MYSQL_DATABASE=mydb,DATABASE_SERVICE_NAME=database" | oc create -f -
 ----
 
 . Check that your values were processed correctly
 +
 ----
-[marina@master00-GUID ~]$ oc env dc/mysql --list
+[marina@master00~]$ oc env dc/mysql --list
 # deploymentconfigs mysql, container mysql
 MYSQL_USER=root
 MYSQL_PASSWORD=redhat
@@ -421,7 +421,7 @@ https://master00-GUID.oslab.opentlc.com:8443/osapi/v1beta3/namespaces/lifecycle/
 . Get the *secret* password from the *BuildConfig*
 +
 ----
-[marina@master00-GUID ~]$ oc get bc ruby-hello-world -o yaml
+[marina@master00~]$ oc get bc ruby-hello-world -o yaml
 ----
 
 . It will look similar to this output, use the "secret" value in your configuration in git.
@@ -495,7 +495,7 @@ and 2.
 +
 ----
 
-[marina@master00-GUID ~]$ oc get replicationcontroller
+[marina@master00~]$ oc get replicationcontroller
 
 ----
 +
@@ -509,14 +509,14 @@ You can rollback a deployment using the CLI.
 . Check which builds you have available
 +
 ----
-[marina@master00-GUID ~] oc get builds
+[marina@master00~] oc get builds
 
 ----
 . Choose a deployment and, check out what a rollback to`ruby-hello-world-#` would look like:
 +
 ----
 
-[marina@master00-GUID ~]$ oc rollback ruby-hello-world-2 --dry-run
+[marina@master00~]$ oc rollback ruby-hello-world-2 --dry-run
 
 ----
 
@@ -524,7 +524,7 @@ You can rollback a deployment using the CLI.
 +
 ----
 
-[marina@master00-GUID ~]$ oc rollback ruby-hello-world-2
+[marina@master00~]$ oc rollback ruby-hello-world-2
 
 ----
 +
@@ -539,7 +539,7 @@ cool. Let's now roll forward (activate) the typo-enabled application:
 +
 ----
 
-[marina@master00-GUID ~]$ oc rollback ruby-hello-world-3
+[marina@master00~]$ oc rollback ruby-hello-world-3
 
 ----
 
@@ -607,7 +607,7 @@ was built based on the `ruby-20-rhel7` S2I builder.
 +
 ----
 
-[marina@master00-GUID ~]$ oc logs `oc get pod | grep -e "[0-9]-build" | tail -1 | awk {'print $1'}` | grep CUSTOM
+[marina@master00~]$ oc logs `oc get pod | grep -e "[0-9]-build" | tail -1 | awk {'print $1'}` | grep CUSTOM
 
 ----
 +
@@ -705,7 +705,7 @@ information can be found in the documentation:
 +
 ----
 
-[marina@master00-GUID ~]$ oc get dc
+[marina@master00~]$ oc get dc
 
 ----
 +
@@ -726,7 +726,7 @@ you edit the ruby-hello-world's `DeploymentConfig` as `marina`:
 +
 ----
 
-[marina@master00-GUID ~]$ oc edit dc ruby-hello-world -o json
+[marina@master00~]$ oc edit dc ruby-hello-world -o json
 
 ----
 
@@ -829,7 +829,7 @@ their logs any longer.
 +
 ----
 
-[marina@master00-GUID ~]$ oc get pod | grep -E "[0-9]-build" |\
+[marina@master00~]$ oc get pod | grep -E "[0-9]-build" |\
    awk {'print $1'} | xargs -r oc delete pod
 
 ----
@@ -855,7 +855,7 @@ deployment happens.
 +
 ----
 
-[marina@master00-GUID ~]$ oc start-build ruby-hello-world
+[marina@master00~]$ oc start-build ruby-hello-world
 
 ----
 +
@@ -869,7 +869,7 @@ of `oc get pod` as `marina`:
 +
 ----
 
-[marina@master00-GUID ~]$ oc get pod
+[marina@master00~]$ oc get pod
 
 ----
 +
@@ -894,7 +894,7 @@ with the pod that ran our pre-deployment hook.
 +
 ----
 
-[marina@master00-GUID ~]$ oc logs deployment-frontend-7-hook-4i8ch
+[marina@master00~]$ oc logs deployment-frontend-7-hook-4i8ch
 
 ----
 +
@@ -921,7 +921,7 @@ using the `mysql` client and the environment variables (you would need the
 +
 ----
 
-[marina@master00-GUID ~]$ oc get service
+[marina@master00~]$ oc get service
 NAME       LABELS    SELECTOR        IP(S)            PORT(S)
 database   <none>    name=database   172.30.108.133   5434/TCP
 frontend   <none>    name=frontend   172.30.229.16    5432/TCP
@@ -934,7 +934,7 @@ Take note of the database IP and PORT.
 +
 ----
 
-[marina@master00-GUID ~]$ oc get dc database -o yaml | grep -A1 MYSQL
+[marina@master00~]$ oc get dc database -o yaml | grep -A1 MYSQL
 
 ----
 +
@@ -953,7 +953,7 @@ Take note of the database IP and PORT.
 +
 ----
 
-[root@master00-GUID ~]# yum -y install mariadb
+[root@master00~]# yum -y install mariadb
 
 ----
 
@@ -961,7 +961,7 @@ Take note of the database IP and PORT.
 +
 ----
 
-[marina@master00-GUID ~]$ mysql -u[username] \
+[marina@master00~]$ mysql -u[username] \
       -p[password] \
       -h[db_IP] \
       -P[db_PORT] \

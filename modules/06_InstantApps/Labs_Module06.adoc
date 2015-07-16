@@ -176,6 +176,8 @@ separate "applications" that we want to wire together.
 
 [root@master00~]# su - marina
 [marina@master00~]$ oc login -u marina --insecure-skip-tls-verify --server=https://master00-${GUID}.oslab.opentlc.com:8443
+[marina@master00~ ~]$ oc new-project wiring --display-name="Wiring" \
+    --description='A demonstration of wiring components together'
 
 ----
 +
@@ -188,6 +190,10 @@ Welcome to OpenShift! See 'oc help' to get started.
 ----
 
 . Log into the web console as `marina`. Can you see `andrew`'s projects and content?
++
+NOTE: Of course you dont.
+
+
 
 === Stand Up the Frontend
 
@@ -248,7 +254,7 @@ MYSQL_DATABASE=mydb
 . Expose the *ruby-hello-world* Service
 +
 ----
-[marina@master00-cfe3 ~]$ oc expose service --name=frontend-route ruby-hello-world --hostname="frontwire.cloudapps-$guid.oslab.opentlc.com"
+[marina@master00-cfe3 ~]$ oc expose service --name=frontend-route ruby-hello-world --hostname="frontwire.wiring.cloudapps-$guid.oslab.opentlc.com"
 ----
 
 . Check that your route was created

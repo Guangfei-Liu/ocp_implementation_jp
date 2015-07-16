@@ -208,7 +208,7 @@ Cropped Output
 [marina@master00 ~]$ cat << EOF > mysql-template.json
 {
   "kind": "Template",
-  "apiVersion": "v1beta3",
+  "apiVersion": "v1",
   "metadata": {
     "name": "mysql-ephemeral",
     "creationTimestamp": null,
@@ -221,9 +221,9 @@ Cropped Output
   "objects": [
     {
       "kind": "Service",
-      "apiVersion": "v1beta3",
+      "apiVersion": "v1",
       "metadata": {
-        "name": "${DATABASE_SERVICE_NAME}",
+        "name": "\${DATABASE_SERVICE_NAME}",
         "creationTimestamp": null
       },
       "spec": {
@@ -237,7 +237,7 @@ Cropped Output
           }
         ],
         "selector": {
-          "name": "${DATABASE_SERVICE_NAME}"
+          "name": "\${DATABASE_SERVICE_NAME}"
         },
         "portalIP": "",
         "type": "ClusterIP",
@@ -249,9 +249,9 @@ Cropped Output
     },
     {
       "kind": "DeploymentConfig",
-      "apiVersion": "v1beta3",
+      "apiVersion": "v1",
       "metadata": {
-        "name": "${DATABASE_SERVICE_NAME}",
+        "name": "\${DATABASE_SERVICE_NAME}",
         "creationTimestamp": null
       },
       "spec": {
@@ -281,13 +281,13 @@ Cropped Output
         ],
         "replicas": 1,
         "selector": {
-          "name": "${DATABASE_SERVICE_NAME}"
+          "name": "\${DATABASE_SERVICE_NAME}"
         },
         "template": {
           "metadata": {
             "creationTimestamp": null,
             "labels": {
-              "name": "${DATABASE_SERVICE_NAME}"
+              "name": "\${DATABASE_SERVICE_NAME}"
             }
           },
           "spec": {
@@ -304,15 +304,15 @@ Cropped Output
                 "env": [
                   {
                     "name": "MYSQL_USER",
-                    "value": "${MYSQL_USER}"
+                    "value": "\${MYSQL_USER}"
                   },
                   {
                     "name": "MYSQL_PASSWORD",
-                    "value": "${MYSQL_PASSWORD}"
+                    "value": "\${MYSQL_PASSWORD}"
                   },
                   {
                     "name": "MYSQL_DATABASE",
-                    "value": "${MYSQL_DATABASE}"
+                    "value": "\${MYSQL_DATABASE}"
                   }
                 ],
                 "resources": {},
@@ -391,9 +391,12 @@ MYSQL_USER=root
 MYSQL_PASSWORD=redhat
 MYSQL_DATABASE=mydb
 ----
+
+. Your frontend needs to be "redeployed" so it checks for the DB again.
 +
-[INFO]
-Your frontend needs to be "redeployed" so it checked for the DB again.
+----
+[marina@master00-GUID ~]$ oc deploy ruby-hello-world --latest -n lifecycle
+----
 
 == Lab: Using Webhooks
 
@@ -415,7 +418,7 @@ URLs.
 . Copy the *Generic* one. It should look like:
 +
 ----
-https://master00-GUID.oslab.opentlc.com:8443/osapi/v1beta3/namespaces/lifecycle/buildconfigs/ruby-hello-world/webhooks/ALNUyArydLb22JqdXYIb/generic
+https://master00-GUID.oslab.opentlc.com:8443/osapi/v1/namespaces/lifecycle/buildconfigs/ruby-hello-world/webhooks/ALNUyArydLb22JqdXYIb/generic
 ----
 
 . Get the *secret* password from the *BuildConfig*
@@ -438,7 +441,13 @@ https://master00-GUID.oslab.opentlc.com:8443/osapi/v1beta3/namespaces/lifecycle/
 .... Cropped Output ....
 ----
 
-. Complete the configuration on Github.
+. In your Github repo that you forked go to settings -> webhooks and services
+
+. Paste the URL copied from the OpenShift GUI into the Payload URL field.  
+
+. Complete the secret field and disable SSL verification.  
+
+. Click Update Webhook.
 
 === Test your WebHook
 

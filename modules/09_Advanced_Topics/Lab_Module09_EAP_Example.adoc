@@ -18,8 +18,6 @@ for the EAP example. Make sure to use the user that created the project in the s
 When we imported the imagestreams into the `openshift` namespace earlier, we
 also brought in JBoss EAP and Tomcat S2I builder images.
 
-\\
-
 . Download an EAP template and secret file for use in the lab:
 +
 ----
@@ -45,8 +43,6 @@ We want to:
 * set the Git context dir to *helloworld*
 
 * set Github and Generic trigger secrets to *secret*
-
-\\
 
 . Update the JSON file with the correct domain:
 +

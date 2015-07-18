@@ -1,43 +1,19 @@
-
-:scriptsdir: scormdriver/auto-scripts
-:script: AutoBookmark.js
-:script: AutoCompleteSCO.js
-:script: CourseExit.js
-
-
 include::01_Title.adoc[]
-
 include::02_Module_Topics.adoc[]
-
 include::03_Deployments.adoc[]
-
 include::04_Deployments.adoc[]
-
 include::05_Deployments.adoc[]
-
 include::06_Deployments.adoc[]
-
 include::07_Strategies.adoc[]
-
 include::08_Strategies.adoc[]
-
 include::09_Strategies.adoc[]
-
 include::10_Strategies.adoc[]
-
 include::11_Lifecycle_Hooks.adoc[]
-
 include::12_Lifecycle_Hooks.adoc[]
-
 include::13_Build_Triggers.adoc[]
-
 include::14_Build_Triggers.adoc[]
-
 include::15_Build_Triggers.adoc[]
-
 include::16_Build_Triggers.adoc[]
-
 include::17_Build_Triggers.adoc[]
-
 include::18_Summary.adoc[]
 

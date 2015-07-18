@@ -87,10 +87,3 @@ ifdef::showScript[]
 * Place narrator script here
 
 endif::showScript[]
-
-
-
-
-
-<<<<<<< HEAD
-

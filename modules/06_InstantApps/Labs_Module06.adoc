@@ -52,7 +52,8 @@ comes in a template that you can just fire up and start using or hacking on.
 ----
 
 [andrew@master00-GUID ~]$ oc new-project quickstart --display-name="Quickstart" \
-    --description='A demonstration of a "quickstart/template"'
+    --description='A demonstration of a "quickstart/template"' \
+    --node-selector='region=primary'
 
 ----
 +
@@ -180,14 +181,15 @@ separate "applications" that we want to wire together.
 
 === Create a New Project
 
-. Authenticate user `marina` to Openshift Enterprise and create a token in the `.config/openshift/.config` file:
+. Authenticate user `marina` to Openshift Enterprise:
 +
 ----
 
 [root@master00~]# su - marina
 [marina@master00~]$ oc login -u marina --insecure-skip-tls-verify --server=https://master00-${GUID}.oslab.opentlc.com:8443
 [marina@master00~ ~]$ oc new-project wiring --display-name="Wiring" \
-    --description='A demonstration of wiring components together'
+    --description='A demonstration of wiring components together' \
+    --node-selector='region=primary'
 
 ----
 +
@@ -264,11 +266,7 @@ MYSQL_DATABASE=mydb
 . Expose the *ruby-hello-world* Service
 +
 ----
-<<<<<<< HEAD
-[marina@master00-cfe3 ~]$ oc expose service --name=frontend-route ruby-hello-world --hostname="frontwire.wiring.cloudapps-$guid.oslab.opentlc.com"
-=======
 [marina@master00-GUID ~]$ oc expose service --name=frontend-route ruby-hello-world --hostname="frontwire.cloudapps-$guid.oslab.opentlc.com"
->>>>>>> ded9d646717b142f563215117aac71c54f7be033
 ----
 
 . Check that your route was created
@@ -344,7 +342,7 @@ ruby-hello-world-5-9doo2 node01-GUID.oslab.opentlc.com
             "MYSQL_SERVICE_HOST=172.30.168.254",
 ----
 
-. Visit Your Application Again, link:http://frontwire.wiring.cloudapps-GUID.oslab.opentlc.com[http://frontwire.wiring.cloudapps-GUID.oslab.opentlc.com]
+. Visit Your Application Again, link:http://frontwire.cloudapps-GUID.oslab.opentlc.com[http://frontwire.cloudapps-GUID.oslab.opentlc.com]
 
 NOTE:
 Why does it still say that there is no database?

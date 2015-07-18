@@ -386,6 +386,9 @@ EOF
 +
 ----
 [marina@master00~]$ oc env dc/mysql --list
+----
++
+----
 # deploymentconfigs mysql, container mysql
 MYSQL_USER=root
 MYSQL_PASSWORD=redhat
@@ -644,11 +647,14 @@ How is this accomplished? OpenShift will actually spin-up an *extra* instance of
 your built image, execute your hook script(s), and then shut the instance down.
 Neat, huh?
 
-Since we already have our `wiring` app pointing at our forked code repository,
-let's go ahead and add a database migration file. In the `beta4` folder you will
-find a file called `1_sample_table.rb`. Add this file to the `db/migrate` folder
-of the `ruby-hello-world` repository that you forked. If you don't add this file
-to the right folder, the rest of the steps will fail.
+. Since we already have our `wiring` app pointing at our forked code repository,
+let's go ahead and add a database migration file.  Open a web browser to the following URL:
++
+----
+https://raw.githubusercontent.com/openshift/training/master/beta4/1_sample_table.rb
+----
+
+. In your forked repository of `ruby-hello-world` create a file called `db/migrate/1_sample_table.rb`.
 
 === Examining Deployment Hooks
 

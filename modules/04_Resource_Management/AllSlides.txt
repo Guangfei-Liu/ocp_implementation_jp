@@ -1,45 +1,20 @@
-
-:scriptsdir: scormdriver/auto-scripts
-:script: AutoBookmark.js
-:script: AutoCompleteSCO.js
-:script: CourseExit.js
-
-
 include::01_Title.adoc[]
-
 include::02_Module_Topics.adoc[]
-
 include::03_OpenShift_Resources.adoc[]
-
 include::04_Projects_and_Users.adoc[]
-
 include::05_Projects_and_Users.adoc[]
-
 include::06_Projects_and_Users.adoc[]
-
 include::07_Resource_Quota.adoc[]
-
 include::08_Resource_Quota.adoc[]
-
 include::09_Resource_Quota.adoc[]
-
 include::10_Resource_Quota.adoc[]
-
 include::11_Services_and_Routes.adoc[]
-
 include::12_Services_and_Routes.adoc[]
-
 include::13_Services_and_Routes.adoc[]
-
 include::14_Services_and_Routes.adoc[]
-
 include::15_Deployments.adoc[]
-
 include::16_DeploymentConfig.adoc[]
-
 include::17_Replication_Controllers.adoc[]
-
 include::18_Replication_Controllers.adoc[]
-
 include::19_Replication_Controllers.adoc[]
 

@@ -1,7 +1,5 @@
 == Module Topics
 :noaudio:
-:numbered!:
-== Module Topics
 
 * Installation Overview
 * Prepare your Hosts

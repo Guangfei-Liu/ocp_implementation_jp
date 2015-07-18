@@ -33,10 +33,14 @@ possible to change the ldap server that is used at any time.
 For convenience the example LDAP server can be deployed on OpenShift as
 follows:
 
+    wget http://www.opentlc.com/download/ose_implementation/resources/openldap-example.json
     oc create -f openldap-example.json
+    oc new-app openldap-example
+    oc expose service openldap-example-service \
+      --hostname=ldap.cloudapps-${guid}.oslab.opentlc.com
 
 That will create a pod from an OpenLDAP image hosted externally on the Docker
-Hub.  You can find the source for it [here](beta4/images/openldap-example/).
+Hub. 
 
 Do oc get pod and make sure the openldap pod is running (The ldapsearch in the next step will fail or timeout otherwise):
 
@@ -62,7 +66,7 @@ and talk to an LDAP server.  Since it's stateless simply increasing the
 replicas in the replication controller is all that is needed to make the
 application highly available.
 
-To make this as easy as possible for the beta training a helper script has been
+To make this as easy as possible for training a helper script has been
 provided to create a Route, Service, Build Config and Deployment Config.  The
 Basic Auth service will be configured to use TLS all the way to the pod by
 means of the [Router's SNI
@@ -70,12 +74,18 @@ capabilities](http://docs.openshift.org/latest/architecture/core_objects/routing
 Since TLS is used this helper script will also generated the required
 certificates using OpenShift default CA.
 
+    wget https://raw.githubusercontent.com/openshift/training/master/beta4/basicauthurl.sh
+    chmod +x basicauthurl.sh
     ./basicauthurl.sh -h
 
 No arguments are required but the help output will show you the defaults:
 
     --route    basicauthurl.example.com
     --git-repo git://github.com/brenton/basicauthurl-example.git
+
+Run the helpser script:
+
+    ./basicauthurl.sh --route ldap.cloudapps-${guid}.oslab.opentlc.com
 
 Once you run the helper script it will output the configuration changes
 required for `/etc/openshift/master/master-config.yaml` as well as create
@@ -92,13 +102,13 @@ When the build finished you can run the following command to test that the
 Service is responding correctly:
 
     curl -v -u joe:redhat --cacert /etc/openshift/master/ca.crt \
-        --resolve basicauthurl.example.com:443:`oc get services | grep basicauthurl | awk '{print $4}'` \
-        https://basicauthurl.example.com/validate
+        --resolve basicauthurl.cloudapps-${guid}.oslab.opentlc.com:443:`oc get services | grep basicauthurl | awk '{print $4}'` \
+        https://basicauthurl.cloudapps-${guid}.oslab.opentlc.com/validate
 
 In that case in order for SNI to work correctly we had to trick curl with the `--resolve` flag.  If wildcard DNS is set up in your environment to point to the router then the following should test the service end to end:
 
     curl -u joe:redhat --cacert /etc/openshift/master/ca.crt \
-        https://basicauthurl.example.com/validate
+        https://basicauthurl.cloudapps-${guid}.oslab.opentlc.com/validate
 
 If you've made the required changes to `/etc/openshift/master/master-config.yaml` and
 restarted `openshift-master` then you should now be able to log it with the

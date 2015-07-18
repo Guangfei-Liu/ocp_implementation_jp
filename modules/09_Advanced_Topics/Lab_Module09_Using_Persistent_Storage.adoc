@@ -21,21 +21,21 @@ almost certainly not want to do this in production.** If you happen
 to have another host with an NFS export handy, feel free to substitute
 that instead of the master.
 
-. As `root` on the master host ensure that nfs-utils is installed (**on all systems**):
+. As `root` on the master host ensure that nfs-utils is installed on the nodes:
 +
 ----
 
-[root@master00-GUID ~]# yum -y install nfs-utils
+[root@master00-GUID ~]# ]# for node in node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do yum -y install nfs-utils ; done
 
 ----
 
-. Create the directory we will export:
+. On the **oselab** admin host we will createi a directory we will export via NFS:
 +
 ----
 
-[root@master00-GUID ~]# mkdir -p /var/export/vol1
-[root@master00-GUID ~]# chown nfsnobody:nfsnobody /var/export/vol1
-[root@master00-GUID ~]# chmod 700 /var/export/vol1
+[root@oselab-GUID ~]# mkdir -p /var/export/vol1
+[root@oselab-GUID ~]# chown nfsnobody:nfsnobody /var/export/vol1
+[root@oselab-GUID ~]# chmod 700 /var/export/vol1
 
 ----
 
@@ -43,7 +43,7 @@ that instead of the master.
 +
 ----
 
-[root@master00-GUID ~]# echo "/var/export/vol1 *(rw,sync,all_squash)" >> /etc/exports
+[root@oselab-GUID ~]# echo "/var/export/vol1 *(rw,sync,all_squash)" >> /etc/exports
 
 ----
 
@@ -51,8 +51,8 @@ that instead of the master.
 +
 ----
 
-[root@master00-GUID ~]# systemctl enable rpcbind nfs-server
-[root@master00-GUID ~]# systemctl start rpcbind nfs-server nfs-lock nfs-idmap
+[root@oselab-GUID ~]# systemctl enable rpcbind nfs-server
+[root@oselab-GUID ~]# systemctl start rpcbind nfs-server nfs-lock nfs-idmap
 
 ----
 +
@@ -119,7 +119,7 @@ all nodes where the pod could land (i.e. all of them) with:
 +
 ----
 
-[root@master00-GUID ~]# setsebool -P virt_use_nfs=true
+[root@oselab-GUID ~]# setsebool -P virt_use_nfs=true
 
 ----
 +
@@ -162,10 +162,10 @@ NFS mount:
 +
 ----
 
-[root@master00-GUID ~]# GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
-[root@master00-GUID ~]# cd /root/training/beta4
-[root@master00-GUID ~]# sed -i "s/ose3-master.example.com/master00-$GUID.oslab.opentlc.com/" persistent-volume.json
-[root@master00-GUID ~]# oc create -f persistent-volume.json
+[root@oselab-GUID ~]# GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
+[root@oselab-GUID ~]# wget https://raw.githubusercontent.com/openshift/training/master/beta4/persistent-volume.json
+[root@oselab-GUID ~]# sed -i "s/ose3-master.example.com/oselab-$GUID.oslab.opentlc.com/" persistent-volume.json
+[root@oselab-GUID ~]# oc create -f persistent-volume.json
 
 ----
 +
@@ -183,7 +183,7 @@ volume a separate filesystem if you want to enforce this limit).
 +
 ----
 
-[root@master00-GUID ~]# oc describe persistentvolumes/pv0001
+[root@oselab-GUID ~]# oc describe persistentvolumes/pv0001
 
 ----
 +
@@ -222,7 +222,8 @@ that specifies what kind and how much storage is desired:
 +
 ----
 
-[marina@master00-GUID ~]$ cd ~/training/beta4; oc create -f persistent-volume-claim.json
+[marina@oselab-GUID ~]$ wget https://raw.githubusercontent.com/openshift/training/master/beta4/persistent-volume-claim.json
+[marina@oselab-GUID ~]$ oc create -f persistent-volume-claim.json
 
 ----
 +
@@ -240,7 +241,7 @@ been filled ("bound" to a PersistentVolume).
 +
 ----
 
-[marina@master00-GUID ~]$ oc get pvc
+[marina@oselab-GUID ~]$ oc get pvc
 
 ----
 +
@@ -255,7 +256,7 @@ claim1    map[]     Bound     pv0001
 +
 ----
 
-[root@master00-GUID ~]# oc describe pv/pv0001
+[root@oselab-GUID ~]# oc describe pv/pv0001
 
 ----
 +
@@ -283,7 +284,7 @@ this volume should be mounted where the database will use it. As `marina`:
 +
 ----
 
-[marina@master00-GUID ~]$ oc edit dc/database
+[marina@oselab-GUID ~]$ oc edit dc/database
 
 ----
 
@@ -352,7 +353,7 @@ restart:
 +
 ----
 
-[marina@master00-GUID ~]$ oc delete pod `oc get pod | grep front | awk {'print $1'}`
+[marina@oselab-GUID ~]$ oc delete pod `oc get pod | grep front | awk {'print $1'}`
 
 ----
 
@@ -368,7 +369,7 @@ To quickly delete the Database pod you can do the following:
 
 ----
 
-[marina@master00-GUID ~]$ oc delete pod/`oc get pod | grep -e "database-[0-9]" | awk {'print $1'}`
+[marina@oselab-GUID ~]$ oc delete pod/`oc get pod | grep -e "database-[0-9]" | awk {'print $1'}`
 
 ----
 
@@ -382,7 +383,7 @@ volume, simply check what is stored there on `master`:
 +
 ----
 
-[marina@master00-GUID ~]$ ls /var/export/vol1
+[marina@oselab-GUID ~]$ ls /var/export/vol1
 
 ----
 +

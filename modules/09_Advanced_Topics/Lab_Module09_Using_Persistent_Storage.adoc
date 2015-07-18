@@ -29,7 +29,7 @@ that instead of the master.
 
 ----
 
-. On the **oselab** admin host we will createi a directory we will export via NFS:
+. On the **oselab** admin host we will create a directory that we will export via NFS:
 +
 ----
 
@@ -53,6 +53,8 @@ that instead of the master.
 
 [root@oselab-GUID ~]# systemctl enable rpcbind nfs-server
 [root@oselab-GUID ~]# systemctl start rpcbind nfs-server nfs-lock nfs-idmap
+[root@oselab-GUID ~]# systemctl stop iptables firewalld
+[root@oselab-GUID ~]# systemctl disable iptables firewalld
 
 ----
 +
@@ -68,7 +70,7 @@ probably need to come up with best practices for use of NFS from containers.
 
 === NFS Firewall (Info only, do not do the steps here!)
 
-**In our lab environment, the firewall is disabled on the master host, so these steps are not necessary.**
+**In our lab environment, the firewall is disabled on the oselab host, so these steps are not necessary.**
 
 We will need to open ports on the firewall on the master to enable NFS to
 communicate from the nodes. First, let's add rules for NFS to the running state
@@ -119,7 +121,7 @@ all nodes where the pod could land (i.e. all of them) with:
 +
 ----
 
-[root@oselab-GUID ~]# setsebool -P virt_use_nfs=true
+[root@node0X-GUID ~]# setsebool -P virt_use_nfs=true
 
 ----
 +
@@ -162,10 +164,10 @@ NFS mount:
 +
 ----
 
-[root@oselab-GUID ~]# GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
-[root@oselab-GUID ~]# wget https://raw.githubusercontent.com/openshift/training/master/beta4/persistent-volume.json
-[root@oselab-GUID ~]# sed -i "s/ose3-master.example.com/oselab-$GUID.oslab.opentlc.com/" persistent-volume.json
-[root@oselab-GUID ~]# oc create -f persistent-volume.json
+[root@master00-GUID ~]# GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
+[root@master00-GUID ~]# wget https://raw.githubusercontent.com/openshift/training/master/beta4/persistent-volume.json
+[root@master00-GUID ~]# sed -i "s/ose3-master.example.com/oselab-$GUID.oslab.opentlc.com/" persistent-volume.json
+[root@master00-GUID ~]# oc create -f persistent-volume.json
 
 ----
 +
@@ -183,7 +185,7 @@ volume a separate filesystem if you want to enforce this limit).
 +
 ----
 
-[root@oselab-GUID ~]# oc describe persistentvolumes/pv0001
+[root@master00-GUID ~]# oc describe persistentvolumes/pv0001
 
 ----
 +
@@ -222,8 +224,8 @@ that specifies what kind and how much storage is desired:
 +
 ----
 
-[marina@oselab-GUID ~]$ wget https://raw.githubusercontent.com/openshift/training/master/beta4/persistent-volume-claim.json
-[marina@oselab-GUID ~]$ oc create -f persistent-volume-claim.json
+[marina@master00-GUID ~]$ wget https://raw.githubusercontent.com/openshift/training/master/beta4/persistent-volume-claim.json
+[marina@master00-GUID ~]$ oc create -f persistent-volume-claim.json
 
 ----
 +
@@ -241,7 +243,7 @@ been filled ("bound" to a PersistentVolume).
 +
 ----
 
-[marina@oselab-GUID ~]$ oc get pvc
+[marina@master00-GUID ~]$ oc get pvc
 
 ----
 +
@@ -256,7 +258,7 @@ claim1    map[]     Bound     pv0001
 +
 ----
 
-[root@oselab-GUID ~]# oc describe pv/pv0001
+[root@master00-GUID ~]# oc describe pv/pv0001
 
 ----
 +
@@ -284,7 +286,7 @@ this volume should be mounted where the database will use it. As `marina`:
 +
 ----
 
-[marina@oselab-GUID ~]$ oc edit dc/database
+[marina@master00-GUID ~]$ oc edit dc/database
 
 ----
 
@@ -353,7 +355,7 @@ restart:
 +
 ----
 
-[marina@oselab-GUID ~]$ oc delete pod `oc get pod | grep front | awk {'print $1'}`
+[marina@master00-GUID ~]$ oc delete pod `oc get pod | grep front | awk {'print $1'}`
 
 ----
 
@@ -369,7 +371,7 @@ To quickly delete the Database pod you can do the following:
 
 ----
 
-[marina@oselab-GUID ~]$ oc delete pod/`oc get pod | grep -e "database-[0-9]" | awk {'print $1'}`
+[marina@master00-GUID ~]$ oc delete pod/`oc get pod | grep -e "database-[0-9]" | awk {'print $1'}`
 
 ----
 
@@ -379,7 +381,7 @@ it has to do with Ruby's persistent connection to the MySQL service not going
 away gracefully, or something. Killing the frontend again will definitely work.
 
 . For further confirmation that your database pod is in fact using the NFS
-volume, simply check what is stored there on `master`:
+volume, simply check what is stored there on `oselab`:
 +
 ----
 

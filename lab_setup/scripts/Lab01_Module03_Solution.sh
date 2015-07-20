@@ -217,7 +217,25 @@ validated_facts:
 
 EOF
 
-echo "Answer 'y' to all quetions"
+echo "########################################################################"
+echo "########################################################################"
+echo "########################################################################"
+echo "We will now start the installer, make sure you answer 'y' when the installer asks you to."
+echo "#You will see:
+Preparing to install.  This can take a minute or two..."
+echo "#Question 1, Answer 'y':
+Are you ready to continue?  y/Y to confirm, or n/N to abort [n]: y"
+echo "#Question 2, Answer 'root' or press enter:
+User for ssh access [root]:"
+echo "#Question 3, Answer 'y':
+Proceed? y/Y to confirm, or n/N to exit [y]: y"
+echo "The installer takes a minute or so to start, dont press any key (other than 'y') after it starts otherwise it will abort"
+echo "Now, to continue and start the installer, press any key (but just once)"
+echo "This should be clear, right?"
+echo "########################################################################"
+echo "########################################################################"
+echo "########################################################################"
+read x;
 
 ./oo-install-ose
 

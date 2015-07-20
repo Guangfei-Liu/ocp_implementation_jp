@@ -6,24 +6,24 @@
 :numbered:
 == Provision Your Lab Environment
 
-To do the labs in this training, you must provision the lab environment, which provides access to an environment with all the components required to perform the labs. 
+To do the labs in this training, you must provision the lab environment, which provides access to an environment with all the components required to perform the labs.
 
 . Go to https://labs.opentlc.com and use your credentials to log in to the OPENTLC labs provisioning system, which is built on top of Red Hat CloudForms to provide a self-service portal.
 +
 [TIP]
-If you forgot your username or password, go to https://www.opentlc.com/pwm to reset your password or obtain a user name reminder. 
+If you forgot your username or password, go to https://www.opentlc.com/pwm to reset your password or obtain a user name reminder.
 
 . Navigate to *Services* -> *Catalogs* -> *All Services* -> *OPENTLC Cloud Infrastructure Labs*.
 
 . On the left side of the screen, locate *OpenShift 3.0 Implementation Lab* and click  *Order*  (appears on the right).
 
-. Click *Submit* (in the lower right) to order your environment. 
+. Click *Submit* (in the lower right) to order your environment.
 +
 In a few minutes you receive an email describing how to connect to the environment.
 
-. Wait about 20 minutes to allow your environment to build. 
+. Wait about 20 minutes to allow your environment to build.
 
-[WARNING] 
+[WARNING]
 Do not select *App Control* -> *Start* after ordering the lab. The lab is already starting. Selecting *Start* may corrupt the lab environment or cause other complications. You can select *Status* to receive an email with the status of your environment.
 
 [NOTE]
@@ -37,7 +37,7 @@ To access any of your lab systems via SSH, you must use your personal OPENTLC SS
 [NOTE]
 If you have not already done so, you must provide a public SSH key.
 
-. Go to https://www.opentlc.com/update and log in.  
+. Go to https://www.opentlc.com/update and log in.
 
 . Paste your public key in that location.
 
@@ -55,7 +55,7 @@ The text *GUID* is a 4-character unique identifier generated for your lab enviro
 [NOTE]
 For more information on using SSH and keys, see link:https://www.opentlc.com/ssh.html[https://www.opentlc.com/ssh.html]
 
-. Become the root user on the administration host:
+. to Become the root user on the administration host use:
 +
 [subs="verbatim,macros"]
 ----
@@ -63,4 +63,3 @@ For more information on using SSH and keys, see link:https://www.opentlc.com/ssh
 ----
 
 :numbered!:
-

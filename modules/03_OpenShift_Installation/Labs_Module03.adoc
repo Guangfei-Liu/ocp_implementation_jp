@@ -335,7 +335,7 @@ baseurl=http://www.opentlc.com/repos/rhel-7-server-ose-3.0-rpms
 enabled=1
 gpgcheck=0
 
-
+EOF
 
 ----
 
@@ -477,7 +477,7 @@ CAUTION: Make sure you `do run all the commands on the master host`.
 +
 ----
 
-[root@master00-GUID ~]# sed -i "s/OPTIONS.*/OPTIONS='--selinux-enabled --insecure-registry 0.0.0.0\/0'/" /etc/sysconfig/docker
+[root@master00-GUID ~]# sed -i "s/OPTIONS.*/OPTIONS='--selinux-enabled --insecure-registry 172.30.0.0\/0'/" /etc/sysconfig/docker
 
 ----
 .. Do the same for the rest of the nodes
@@ -625,7 +625,8 @@ docker.service - Docker Application Container Engine
 [NOTE]
 Make sure the status shows *enabled* and *active (running)*.
 
-. In order to save time later, we will pre-fetch the docker images to all the nodes. This process will take about 10 minutes to complete:
+. In order to save time later, we will pre-fetch the docker images to all the nodes in the primary region (Node00 and Node01).
+This process will take about 10 minutes to complete:
 +
 ----
 
@@ -644,16 +645,17 @@ docker pull openshift/hello-openshift:v0.4.3
 ----
 +
 [NOTE]
-This will take about 10 minutes to complete.
+This will take about 10 minutes to complete on each node, you don't have to wait
+for this to complete, just connect to each node, run the pull and continue with
+other tasks.
 
 . On the *Infranode00*, Installer pull the *Registry* and *Router* images.
 +
 ----
-[root@node0X-GUID ~]# RHN="registry.access.redhat.com";PTH="openshift3"
-[root@node0X-GUID ~]# docker pull $RHN/$PTH/ose-haproxy-router:v3.0.0.1 ; \
+[root@infranode00-GUID ~]# RHN="registry.access.redhat.com";PTH="openshift3"
+[root@infranode00-GUID ~]# docker pull $RHN/$PTH/ose-haproxy-router:v3.0.0.1 ; \
 docker pull $RHN/$PTH/ose-deployer:v3.0.0.1 ; \
-
-docker pull $RHN/$PTH/ose-docker-registry:v3.0.0.1 ; \
+docker pull $RHN/$PTH/ose-docker-registry:v3.0.0.1 ;
 
 ----
 
@@ -699,7 +701,7 @@ Name: infranode00-GUID.oslab.opentlc.com
 +
 ----
 
-[root@infranode00-GUID ~]# lvs /dev/rhel_host2cc260760b15/docker-pool
+[root@node0X-GUID ~]# lvs /dev/rhel_host2cc260760b15/docker-pool
 
 ----
 +
@@ -891,6 +893,10 @@ Press any key to continue ...
 ----
 
 . Press any key and verify that the information gathered is correct (order may vary):
++
+NOTE: Don't worry that out "public ips" are actualyl our internal IPs, if we
+were planning to expose our nodes to the world we would set the real public IPs
+here.
 +
 ----
 infranode00-GUID.oslab.opentlc.com,192.168.0.101,192.168.0.101,infranode00-GUID.oslab.opentlc.com,infranode00-GUID.oslab.opentlc.com

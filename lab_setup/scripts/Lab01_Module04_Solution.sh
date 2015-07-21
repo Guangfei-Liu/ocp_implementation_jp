@@ -435,4 +435,4 @@ su - andrew -c"export guid=`hostname|cut -f2 -d-|cut -f1 -d.` ; echo  --hostname
 echo "Lets see our routes"
 
 su - andrew -c"oc get routes"
-su - andrew -c"export guid=`hostname|cut -f2 -d-|cut -f1 -d.` ;curl http://hello2-openshift.cloudapps-${guid}.oslab.opentlc.com"
+su - andrew -c "export guid=`hostname|cut -f2 -d-|cut -f1 -d.` ;curl http://hello2-openshift.cloudapps-${guid}.oslab.opentlc.com"

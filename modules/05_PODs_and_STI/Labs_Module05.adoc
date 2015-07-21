@@ -9,28 +9,19 @@
 In this lab, you create a simple STI build. As part of this process, you create a `BuildConfig` object and build an image using the STI build process. You also create the pod, service, and route for your STI build image.
 
 :numbered:
-=== Prepare Your Environment
-
-If you have not done so in previous labs, follow these steps before starting this lab.
-
-. Connect to your master with the `root` user.
-. Run the post-deployment script:
-+
-----
-[sborenst@desktop01 ~]$ ssh -i ~/.ssh/sborenstkey.pub shacharb-redhat.com@oselab-GUID.oslab.opentlc.com
-
-[bash-4.2$ ~] ssh root@192.168.0.100
-root@192.168.0.100's password: ******** (r3dh4t1!)
-----
-+
-[NOTE]
-This process might take a while. Use this time to read the lab and get a good understanding of the scenario.
-
 
 === Authenticate to OpenShift Enterprise and Choose Your Project
 
+. On the master host use the `oadm` command to create a project called: *hello-s2i*, and assign an administrative user to it:
++
+----
 
-. Become and authenticate to OpenShift Enterprise as user `andrew`:
+[root@master00-GUID ~]# oadm new-project hello-s2i --display-name="Hello Source2Image" \
+    --description="This is the project we use to learn about Source to Image builds" \
+      --node-selector='region=primary' --admin=andrew
+----
+
+. Become and authenticate to OpenShift Enterprise as user `andrew` (if you haven't done so already:
 +
 ----
 
@@ -38,15 +29,6 @@ This process might take a while. Use this time to read the lab and get a good un
 [andrew@master00 ~]$ guid=`hostname|cut -f2 -d-|cut -f1 -d.`
 [andrew@master00 ~]$ oc login -u andrew --insecure-skip-tls-verify --server=https://master00-${guid}.oslab.opentlc.com:8443
 
-----
-
-. On the master host as andrew create a project called *hello-s2i*:
-+
-----
-[andrew@master00-GUID ~]$ oc new-project hello-s2i \
-  --display-name="Resources Management" \
-  --description="This is the project we use to learn about resource management" \
-   --node-selector='region=primary'
 ----
 
 . Change the context to the `hello-s2i` project:

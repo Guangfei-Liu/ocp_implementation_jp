@@ -6,10 +6,10 @@ systemctl enable named
 systemctl stop named
 
 ### firewalld was being a bit problematic
-### Since we turn it off later anyway, I've skipped this step.  
+### Since we turn it off later anyway, I've skipped this step.
 #firewall-cmd --permanent --zone=public --add-service=dns
 #firewall-cmd --reload
-#sleep 100; 
+#sleep 100;
 
 #master00-$guid.oslab.opentlc.com
 masterIP=`host infranode00-$guid.oslab.opentlc.com ipa.opentlc.com  | grep $guid | awk '{ print $4 }'`
@@ -58,7 +58,7 @@ logging {
   channel default_debug {
     file \"data/named.run\";
     severity dynamic;
-  }; 
+  };
 };
 zone \"${domain}\" IN {
   type master;
@@ -71,7 +71,7 @@ restorecon /etc/named.conf
 
 systemctl start named
 
-dig @127.0.0.1 test.cloudapps-$guid.oslab.opentlc.com 
+dig @127.0.0.1 test.cloudapps-$guid.oslab.opentlc.com
 
 if [ $? = 0 ]
 then
@@ -82,3 +82,11 @@ fi
 
 echo Fully Finished the $0 script  | tee -a /root/.dns.installer.txt
 
+yum install ipatables-service -y
+systemctl stop firewalld
+
+systemctl disable firewalld
+
+iptables -I INPUT -p tcp --dport 53 -j ACCEPT
+iptables -I INPUT -p udp --dport 53 -j ACCEPT
+iptables-save

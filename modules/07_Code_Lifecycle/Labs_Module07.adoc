@@ -61,6 +61,7 @@ NOTE: Remember that a `BuildConfig`(uration) tells OpenShift how to do a build.
 . Switch to Marina and use the *"lifecycle"* project.
 +
 ----
+[root@master00 ~]# su - marina
 [marina@master00 ~]$ guid=`hostname|cut -f2 -d-|cut -f1 -d.`
 [marina@master00 ~]$ oc login -u marina --insecure-skip-tls-verify --server=https://master00-${guid}.oslab.opentlc.com:8443
 [marina@master00 ~]$ oc project lifecycle

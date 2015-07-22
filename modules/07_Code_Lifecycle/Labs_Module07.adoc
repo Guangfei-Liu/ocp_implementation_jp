@@ -372,7 +372,7 @@ EOF
 +
 ----
 [marina@master00~]$ oc process -f mysql-template.json \
-  --value="MYSQL_USER=root,MYSQL_PASSWORD=redhat,MYSQL_DATABASE=mydb" | \
+  --value="MYSQL_USER=root,MYSQL_PASSWORD=redhat,MYSQL_DATABASE=mydb,DATABASE_SERVICE_NAME=database" | \
   tee mysql-processed.json
 [marina@master00~]$ oc create -f  mysql-processed.json
 ----

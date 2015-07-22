@@ -8,22 +8,22 @@
 ** Process the "frontend" template and create the *config* file.
 +
 ----
-osc process -f db-template.json  -v MYSQL_USER=userMXG,MYSQL_PASSWORD=slDrggRv,MYSQL_DATABASE=root > db-config.json
+oc process -f db-template.json  -v MYSQL_USER=userMXG,MYSQL_PASSWORD=slDrggRv,MYSQL_DATABASE=root > db-config.json
 -----
 
 ** create the configuration:
 +
 ----
-osc create -f frontend-config.json
+oc create -f frontend-config.json
 ---
 
 * We can also achieve this in a single step.
 ** The following will process and create the application:
 ----
 
-osc process -f db-template.json \
+oc process -f db-template.json \
     -v MYSQL_USER=userMXG,MYSQL_PASSWORD=slDrggRv,MYSQL_DATABASE=root \
-    | osc create -f -
+    | oc create -f -
 ----
 
 
@@ -34,7 +34,3 @@ ifdef::showScript[]
 * Place narrator script here
 
 endif::showScript[]
-
-
-
-

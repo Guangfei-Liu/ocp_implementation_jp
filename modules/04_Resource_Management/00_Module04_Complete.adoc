@@ -274,7 +274,7 @@ endif::showscript[]
 +
 ----
 
-$ osc create -f create_quota_def_file.json --namespace=your_project_name
+$ oc create -f create_quota_def_file.json --namespace=your_project_name
 
 ----
 

@@ -768,7 +768,7 @@ endif::showScript[]
 ** You can upload a template to your current project’s template library by passing a JSON file with the following command:
 ----
 
-$ osc create -f <filename>
+$ oc create -f <filename>
 
 ----
 
@@ -776,7 +776,7 @@ $ osc create -f <filename>
 
 ----
 
-$ osc create -f <filename> -n <project>
+$ oc create -f <filename> -n <project>
 
 ----
 
@@ -800,11 +800,11 @@ endif::showScript[]
 
 
 * Generate a configuration with the following command:
-** osc process will examine a template, generate any desired parameters, and output a JSON configuration that can be created with osc.
+** oc process will examine a template, generate any desired parameters, and output a JSON configuration that can be created with oc.
 
 ----
 
-$ osc process -f <filename>
+$ oc process -f <filename>
 
 ----
 
@@ -812,7 +812,7 @@ $ osc process -f <filename>
 
 ----
 
-$ osc process -f <filename.json> | osc create -f -
+$ oc process -f <filename.json> | oc create -f -
 
 ----
 
@@ -820,7 +820,7 @@ $ osc process -f <filename.json> | osc create -f -
 
 ----
 
-$ osc process -f examples/sample-app/application-template-dockerbuild.json -v ADMIN_USERNAME=root,MYSQL_DATABASE=admin
+$ oc process -f examples/sample-app/application-template-dockerbuild.json -v ADMIN_USERNAME=root,MYSQL_DATABASE=admin
 
 ----
 
@@ -863,7 +863,7 @@ endif::showScript[]
 ** Process the "frontend" template and create the *config* file.
 
 ----
-osc process -f frontend-template.json > frontend-config.json
+oc process -f frontend-template.json > frontend-config.json
 -----
 
 
@@ -871,7 +871,7 @@ osc process -f frontend-template.json > frontend-config.json
 
 ** create the configuration:
 ----
-osc create -f frontend-config.json
+oc create -f frontend-config.json
 ---
 
 * As soon as you create this, all of the resources will be created and a build will be started for you.
@@ -937,22 +937,22 @@ endif::showScript[]
 ** Process the "frontend" template and create the *config* file.
 +
 ----
-osc process -f db-template.json  -v MYSQL_USER=userMXG,MYSQL_PASSWORD=slDrggRv,MYSQL_DATABASE=root > db-config.json
+oc process -f db-template.json  -v MYSQL_USER=userMXG,MYSQL_PASSWORD=slDrggRv,MYSQL_DATABASE=root > db-config.json
 -----
 
 ** create the configuration:
 +
 ----
-osc create -f frontend-config.json
+oc create -f frontend-config.json
 ---
 
 * We can also achieve this in a single step.
 ** The following will process and create the application:
 ----
 
-osc process -f db-template.json \
+oc process -f db-template.json \
     -v MYSQL_USER=userMXG,MYSQL_PASSWORD=slDrggRv,MYSQL_DATABASE=root \
-    | osc create -f -
+    | oc create -f -
 ----
 
 

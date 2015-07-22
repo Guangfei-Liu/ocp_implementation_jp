@@ -7,7 +7,7 @@
 ** Process the "frontend" template and create the *config* file.
 
 ----
-osc process -f frontend-template.json > frontend-config.json
+oc process -f frontend-template.json > frontend-config.json
 -----
 
 
@@ -15,7 +15,7 @@ osc process -f frontend-template.json > frontend-config.json
 
 ** create the configuration:
 ----
-osc create -f frontend-config.json
+oc create -f frontend-config.json
 ---
 
 * As soon as you create this, all of the resources will be created and a build will be started for you.

@@ -8,7 +8,7 @@
 ** You can upload a template to your current project’s template library by passing a JSON file with the following command:
 ----
 
-$ osc create -f <filename>
+$ oc create -f <filename>
 
 ----
 
@@ -16,7 +16,7 @@ $ osc create -f <filename>
 
 ----
 
-$ osc create -f <filename> -n <project>
+$ oc create -f <filename> -n <project>
 
 ----
 

@@ -5,33 +5,6 @@
 
 == Lab	: Installing a Template
 
-=== Connect to Lab
-
-. If not already connected, connect to your administration host:
-+
-----
-
-yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-GUID.oslab.opentlc.com
-
-----
-
-. SSH to the master host:
-+
-----
-
-[root@oselab-GUID ~]# ssh root@master00-GUID.oslab.opentlc.com
-
-----
-+
-[NOTE]
-If prompted for a password use *r3dh4t1!*
-+
-----
-
-root@master00-GUID.oslab.opentlc.com's password: ******** (r3dh4t1!)
-
-----
-
 === Templates, Instant Apps, and "Quickstarts"
 
 This example will involve a build of another application, but also a service
@@ -47,22 +20,13 @@ comes in a template that you can just fire up and start using or hacking on.
 
 === A Project for the Quickstart
 
-. On the master host as `andrew`, create a new project:
+. On the master host as `root`, create a new project:
 +
 ----
 
-[andrew@master00-GUID ~]$ oc new-project quickstart --display-name="Quickstart" \
+[root@master00-GUID ~]$ oadm new-project quickstart --display-name="Quickstart" \
     --description='A demonstration of a "quickstart/template"' \
-    --node-selector='region=primary'
-
-----
-+
-This also changes you to use that project:
-+
-----
-
-Now using project "quickstart" on server "https://master00-GUID.oslab.opentlc.com:8443".
-
+    --node-selector='region=primary' --admin=andrew
 ----
 
 === A Quick Aside on Templates
@@ -92,15 +56,18 @@ using a regex-like string that will be presented as ADMIN_USERNAME.
 === Adding the Template
 
 . On the master host as `root`, get and create the Example template:
++
 ----
 
 [root@master00-GUID ~]# wget http://www.opentlc.com/download/ose_implementation/resources/Template_Example.json
 [root@master00-GUID ~]# oc create -f Template_Example.json -n openshift
 
 ----
-+
-What did you just do? The `Template_Example.json` file defined a template. By
-"creating" it, you have added it to the `openshift` project.
+
+NOTE: What did you just do? The `Template_Example.json` file defined a template.
+ By "creating" it, you have added it to the `openshift` project. if we wanted
+to make the template available for only limited projects we would add it to them
+and not the openshift project.
 
 === Create an Instance of the Template
 
@@ -181,6 +148,16 @@ separate "applications" that we want to wire together.
 
 === Create a New Project
 
+. On the *master* host as `root`, create a new project, *wiring*:
++
+----
+
+[root@master00-GUID ~]$ oadm new-project wiring --display-name='Wiring' \
+    --description='A demonstration of wiring components together' \
+    --node-selector='region=primary' --admin=marina
+
+----
+
 . Authenticate user `marina` to Openshift Enterprise:
 +
 ----
@@ -204,8 +181,6 @@ Welcome to OpenShift! See 'oc help' to get started.
 . Log into the web console as `marina`. Can you see `andrew`'s projects and content?
 +
 NOTE: Of course you dont.
-
-
 
 === Stand Up the Frontend
 
@@ -266,7 +241,7 @@ MYSQL_DATABASE=mydb
 . Expose the *ruby-hello-world* Service
 +
 ----
-[marina@master00-GUID ~]$ oc expose service --name=frontend-route ruby-hello-world --hostname="frontwire.cloudapps-$guid.oslab.opentlc.com"
+[marina@master00-GUID ~]$ oc expose service --name=frontend-route ruby-hello-world --hostname="frontwire.wiring.cloudapps-$guid.oslab.opentlc.com"
 ----
 
 . Check that your route was created
@@ -274,15 +249,15 @@ MYSQL_DATABASE=mydb
 ----
 [marina@master00-GUID ~]$ oc get route
 NAME               HOST/PORT                                       PATH      SERVICE            LABELS
-ruby-hello-world   frontwire.cloudapps-r2d2.oslab.opentlc.com             ruby-hello-world
+ruby-hello-world   frontwire.wiring.cloudapps-r2d2.oslab.opentlc.com             ruby-hello-world
 ----
 
-. Now you should be able to access your application with your browser, Go ahead and do that now. link:http://frontwire.cloudapps-GUID.oslab.opentlc.com[http://frontwire.cloudapps-GUID.oslab.opentlc.com]
+. Now you should be able to access your application with your browser, Go ahead and do that now. link:http://frontwire.wiring.cloudapps-GUID.oslab.opentlc.com[http://frontwire.wiring.cloudapps-GUID.oslab.opentlc.com]
 . Earlier we added a template to the openshift namespace to make it available for all users. Now we'll demonstrate adding a template to our own project.
 +
 ----
 [marina@master00-GUID ~]$ wget http://www.opentlc.com/download/ose_implementation/resources/mysql_template.json
-[marina@master00-GUID ~]$ oc create -f mysql-template.json
+[marina@master00-GUID ~]$ oc create -f mysql_template.json
 ----
 
 . You'll see:
@@ -328,7 +303,7 @@ ruby-hello-world-5-9doo2 node01-GUID.oslab.opentlc.com
 . As *root* connect to the node where the pod is running, and find the Docker container id
 +
 ----
-[root@node01-GUID ~] docker inspect `docker ps | grep hello-world | grep run | awk '{print $1}'` | grep -i mysql
+[root@node0X-GUID ~] docker inspect `docker ps | grep hello-world | grep run | awk '{print $1}'` | grep -i mysql
             "MYSQL_USER=root",
             "MYSQL_PASSWORD=redhat",
             "MYSQL_DATABASE=database",
@@ -342,7 +317,7 @@ ruby-hello-world-5-9doo2 node01-GUID.oslab.opentlc.com
             "MYSQL_SERVICE_HOST=172.30.168.254",
 ----
 
-. Visit Your Application Again, link:http://frontwire.cloudapps-GUID.oslab.opentlc.com[http://frontwire.cloudapps-GUID.oslab.opentlc.com]
+. Visit Your Application Again, link:http://frontwire.wiring.cloudapps-GUID.oslab.opentlc.com[http://frontwire.wiring.cloudapps-GUID.oslab.opentlc.com]
 
 NOTE:
 Why does it still say that there is no database?
@@ -385,7 +360,7 @@ gets fired up this time, it will then have the `DATABASE_SERVICE_HOST` value,
 which means it will be able to connect to the DB, which means that we should no
 longer see the database error!
 
-. As `marina`, go ahead and find your frontend pod, and then kill it:
+. As `marina`, Lets try another way to kill the pod
 +
 ----
 
@@ -425,13 +400,13 @@ This shows that, underneath the covers, the RC restarted our pod. Since it was
 restarted, it should have a value for the `DATABASE_SERVICE_HOST` environment
 variable.
 
-. Go to the node where the pod is running, and find the Docker container
+. Go to the *node* where the *pod is running*, and find the Docker container
 id as `root`:
 +
 ----
 
-[marina@master00-GUID ~]$ docker inspect `docker ps | grep hello-world | grep run | awk \
-   '{print $1}'` | grep DATABASE
+[marina@node0X-GUID ~]$ docker inspect `docker ps | grep hello-world | grep run | awk \
+   '{print $1}'` | grep mysql
 
 ----
 +
@@ -453,5 +428,5 @@ The output will look something like:
 
 === Revisit the Webpage
 
-Go ahead and revisit `http://frontwire.cloudapps-GUID.oslab.opentlc.com` in your browser, and you should see that the application is now fully
+Go ahead and revisit `http://frontwire.wiring.cloudapps-GUID.oslab.opentlc.com` in your browser, and you should see that the application is now fully
 functional!

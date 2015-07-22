@@ -157,12 +157,12 @@ status:
 ----
 
 . Change the "uri" reference to match the name of your Github
-repository. Assuming your github user is `marina`, you would point it
-to `https://github.com/marina/ruby-hello-world.git`. Save and exit
+repository. For example if your github user is `jeandeaux`, you would point it
+to `https://github.com/jeandeaux/ruby-hello-world.git`. Save and exit
 the editor.
 
-WARNING: Please do not use `marina` as your user name, this needs to be you actual
-GitHub user. for example, `https://github.com/openshift/ruby-hello-world.git`
+WARNING: Please do not use `jeandeaux` as your user name, this needs to be you actual
+GitHub user. for example, `https://github.com/<mylogin>/ruby-hello-world.git`
 
 . If you again run `oc get buildconfig ruby-hello-world -o yaml` you should see
 that the `uri` has been updated.

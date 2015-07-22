@@ -84,7 +84,7 @@ ifdef::showscript[]
 endif::showscript[]
 
 
-= Deployments
+== Deployments
 
 .Manage Deployments
 
@@ -119,7 +119,7 @@ ifdef::showscript[]
 endif::showscript[]
 
 
-= Deployments
+-= Deployments
 
 .Manage Deployments
 

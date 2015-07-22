@@ -73,7 +73,7 @@ and not the openshift project.
 
 . In the web console, log in as `andrew`.
 
-. Find the "Quickstart" project, and then click the "Create +" button.
+. Find the "Quickstart" project, and then click the "Create..." button.
 +
 We've seen this page before, but now it contains something new -- an "instant app(lication)". An instant app is a "special" kind of template (relaly, it just has the "instant-app" tag). The idea behind an
 "instant app" is that, when creating an instance of the template, you will have
@@ -120,6 +120,7 @@ template, so you can wait for it to finish. Feel free to check the build logs.
 . Once the build is complete edit the router configuration:
 +
 ----
+[andrew@master00-GUID ~]$ oc project quickstart
 [andrew@master00-GUID ~]$ oc edit route example-route
 ----
 
@@ -152,7 +153,7 @@ separate "applications" that we want to wire together.
 +
 ----
 
-[root@master00-GUID ~]$ oadm new-project wiring --display-name='Wiring' \
+[root@master00-GUID ~]# oadm new-project wiring --display-name='Wiring' \
     --description='A demonstration of wiring components together' \
     --node-selector='region=primary' --admin=marina
 
@@ -164,9 +165,6 @@ separate "applications" that we want to wire together.
 
 [root@master00~]# su - marina
 [marina@master00~]$ oc login -u marina --insecure-skip-tls-verify --server=https://master00-${GUID}.oslab.opentlc.com:8443
-[marina@master00~ ~]$ oc new-project wiring --display-name="Wiring" \
-    --description='A demonstration of wiring components together' \
-    --node-selector='region=primary'
 
 ----
 +

@@ -294,17 +294,24 @@ templates/mysql-ephemeral
 . Lets see on which nodes our pods are hosted
 +
 ----
-[marina@master00-GUID ~]$ oc get pod -t '{{range .items}}{{.metadata.name}} {{.spec.host}}{{"\n"}}{{end}}' | grep ruby-hello-world|grep -v buid|awk '{print $2}'
+[marina@master00-GUID ~]$ oc get pod -t '{{range .items}}{{.metadata.name}} {{.spec.host}}{{"\n"}}{{end}}' | grep ruby-hello-world|awk '{print $2}'
+----
++
+----
 node0X-GUID.oslab.opentlc.com
 ----
 
 . As *root* connect to the node where the pod is running (found in the previous command), and find the Docker container id
 +
 ----
-[root@node0X-GUID ~] docker inspect `docker ps | grep hello-world | grep run | awk '{print $1}'` | grep -i mysql
+[root@node0X-GUID ~] docker inspect `docker ps | grep hello-world | grep run | awk '{print $1}'` | egrep -i "mysql|database"
+----
++
+----
             "MYSQL_USER=root",
             "MYSQL_PASSWORD=redhat",
             "MYSQL_DATABASE=database",
+...OUTPUT OMITTED...
 ----
 
 . Visit Your Application Again, link:http://frontwire.wiring.cloudapps-GUID.oslab.opentlc.com[http://frontwire.wiring.cloudapps-GUID.oslab.opentlc.com]
@@ -390,13 +397,19 @@ This shows that, underneath the covers, the RC restarted our pod. Since it was
 restarted, it should have a value for the `DATABASE_SERVICE_HOST` environment
 variable.
 
-. Go to the *node* where the *pod is running*, and find the Docker container
+. As marina on the master host find the node where the pod is running:
++
+----
+[marina@master00-GUID ~]$ oc get pod -t '{{range .items}}{{.metadata.name}} {{.spec.host}}{{"\n"}}{{end}}' | grep ruby-hello-world|awk '{print $2}'
+----
+
+. From root on the master SSH to the *node* where the *pod is running*, and find the Docker container
 id as `root`:
 +
 ----
 
-[marina@node0X-GUID ~]$ docker inspect `docker ps | grep hello-world | grep run | awk \
-   '{print $1}'` | grep mysql
+[root@master-GUID ~]# ssh node0X-$guid
+[root@node0X-GUID ~]# docker inspect `docker ps | grep hello-world | grep run | awk '{print $1}'` | egrep -i "mysql|database"
 
 ----
 +

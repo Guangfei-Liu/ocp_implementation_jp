@@ -386,7 +386,7 @@ EOF
 . Check that your values were processed correctly
 +
 ----
-[marina@master00~]$ oc env dc/mysql --list
+[marina@master00~]$ oc env dc/database --list
 ----
 +
 ----

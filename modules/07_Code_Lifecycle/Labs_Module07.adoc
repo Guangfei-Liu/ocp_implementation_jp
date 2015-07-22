@@ -567,21 +567,25 @@ builder image's scripts. If so, it will execute the repository script instead.
 More information on the scripts, their execution during the process, and
 customization can be found here:
 
-    http://docs.openshift.org/latest/creating_images/sti.html#sti-scripts
+    https://docs.openshift.org/latest/creating_images/overview.html
 
 === Add a Script
 
+. In a new tab in your web browser open the following URL and copy all of the text:
++
+----
+http://www.opentlc.com/download/ose_implementation/resources/custom-assemble.sh
+----
+
 . Go to your Github repository for your application from the previous lab.
 
-. In the Github web GUI
-
-. Navigate to the `.sti/bin` folder.
+. In the Github web GUI navigate to the `.sti/bin` folder.
 
 . Click the "+" button at the top (to the right of `bin` in the breadcrumbs).
 
 . Name your file `assemble`.
 
-. On the master host command line find the script called `custom-assemble.sh` in the `resources` folder and paste the contents of `custom-assemble.sh` into the text area.
+. In the GitHub GUI paste the contents you copied earlier into the text area.
 
 . Provide a nifty commit message.
 

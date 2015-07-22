@@ -239,7 +239,9 @@ MYSQL_DATABASE=mydb
 . Expose the *ruby-hello-world* Service
 +
 ----
-[marina@master00-GUID ~]$ oc expose service --name=frontend-route ruby-hello-world --hostname="frontwire.wiring.cloudapps-$guid.oslab.opentlc.com"
+[marina@master00-GUID ~]$ oc expose service \
+  --name=frontend-route ruby-hello-world \
+  --hostname="frontwire.wiring.cloudapps-$guid.oslab.opentlc.com"
 ----
 
 . Check that your route was created
@@ -265,7 +267,7 @@ templates/mysql-ephemeral
 ----
 
 . Create the Database From the Web Console
-.. Go to the web console and make sure you are logged in as marina and using the Wirinig project. You should see your front-end already there.
+.. Go to the web console and make sure you are logged in as marina and using the Wiring project. You should see your front-end already there.
 .. Click the "Create..." button and then the "Browse all templates..." button.
 .. You should see the mysql-ephemeral template. Click it and then click "Select template".
 . You will need to edit the parameters of this template, because the defaults will not work for us.
@@ -292,27 +294,17 @@ templates/mysql-ephemeral
 . Lets see on which nodes our pods are hosted
 +
 ----
-[marina@master00-GUID ~]$ oc get pod -t '{{range .items}}{{.metadata.name}} {{.spec.host}}{{"\n"}}{{end}}'
-mysql-3-4rk55 node00-GUID.oslab.opentlc.com
-ruby-hello-world-2-build node01-GUID.oslab.opentlc.com
-ruby-hello-world-5-9doo2 node01-GUID.oslab.opentlc.com
+[marina@master00-GUID ~]$ oc get pod -t '{{range .items}}{{.metadata.name}} {{.spec.host}}{{"\n"}}{{end}}' | grep ruby-hello-world|grep -v buid|awk '{print $2}'
+node0X-GUID.oslab.opentlc.com
 ----
 
-. As *root* connect to the node where the pod is running, and find the Docker container id
+. As *root* connect to the node where the pod is running (found in the previous command), and find the Docker container id
 +
 ----
 [root@node0X-GUID ~] docker inspect `docker ps | grep hello-world | grep run | awk '{print $1}'` | grep -i mysql
             "MYSQL_USER=root",
             "MYSQL_PASSWORD=redhat",
             "MYSQL_DATABASE=database",
-            "MYSQL_PORT=tcp://172.30.168.254:3306",
-            "MYSQL_PORT_3306_TCP=tcp://172.30.168.254:3306",
-            "MYSQL_SERVICE_PORT=3306",
-            "MYSQL_SERVICE_PORT_MYSQL=3306",
-            "MYSQL_PORT_3306_TCP_PROTO=tcp",
-            "MYSQL_PORT_3306_TCP_PORT=3306",
-            "MYSQL_PORT_3306_TCP_ADDR=172.30.168.254",
-            "MYSQL_SERVICE_HOST=172.30.168.254",
 ----
 
 . Visit Your Application Again, link:http://frontwire.wiring.cloudapps-GUID.oslab.opentlc.com[http://frontwire.wiring.cloudapps-GUID.oslab.opentlc.com]

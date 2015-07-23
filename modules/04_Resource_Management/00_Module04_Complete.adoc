@@ -1,9 +1,8 @@
-
-== Title
 :noaudio:
 
 ifdef::revealjs_slideshow[]
 [#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"]
+== &nbsp;
 
 
 [#cover-h1]
@@ -16,13 +15,6 @@ Resource Management
 image::{revealjs_cover_image}[]
 
 endif::[]
-
-
-
-
-
-
-
 == Module Topics
 :noaudio:
 :numbered!:
@@ -558,16 +550,16 @@ endif::showscript[]
         ]
       }
     }
-    "replicas": 5, <2>
+    "replicas": 5, <1>
     "selector": {
       "name": "frontend"
     },
     "triggers": [
       {
-        "type": "ConfigChange" <3>
+        "type": "ConfigChange" <2>
       },
       {
-        "type": "ImageChange", <4>
+        "type": "ImageChange", <3>
         "imageChangeParams": {
           "automatic": true,
           "containerNames": [
@@ -580,18 +572,18 @@ endif::showscript[]
         }
       }
     ],
-    "strategy": { <5>
+    "strategy": { <4>
       "type": "Rolling"
     }
   }
 }
 ----
 
-<1> The replication controller template named frontend describes a simple Ruby application.
-<2> There will be 5 replicas of frontend by default.
-<3> A configuration change trigger causes a new deployment to be created any time the replication controller template changes.
-<4> An image change trigger trigger causes a new deployment to be created each time a new version of the origin-ruby-sample:latest image repository is available.
-<5> The rolling strategy is the default and may be omitted.
+.The replication controller template named frontend describes a simple Ruby application.
+<1> There will be 5 replicas of frontend by default.
+<2> A configuration change trigger causes a new deployment to be created any time the replication controller template changes.
+<3> An image change trigger trigger causes a new deployment to be created each time a new version of the origin-ruby-sample:latest image repository is available.
+<4> The rolling strategy is the default and may be omitted.
 
 ifdef::showscript[]
 

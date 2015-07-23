@@ -1,10 +1,9 @@
-
-== &nbsp;
 :noaudio:
-:numbered!:
 
 ifdef::revealjs_slideshow[]
+
 [#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"]
+== &nbsp;
 
 
 [#cover-h1]
@@ -698,13 +697,6 @@ ifdef::showScript[]
 * Place narrator script here
 
 endif::showScript[]
-
-
-
-
-
-<<<<<<< HEAD
-
 == How to create a Template file
 :noaudio:
 
@@ -963,10 +955,6 @@ ifdef::showScript[]
 * Place narrator script here
 
 endif::showScript[]
-
-
-
-
 == Summary
 :noaudio:
 

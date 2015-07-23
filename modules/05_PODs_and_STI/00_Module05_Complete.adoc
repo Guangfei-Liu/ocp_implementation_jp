@@ -22,7 +22,10 @@ endif::[]
 
 * Concepts
 * Creating an S2I build
-* Deploying an S2I build image	
+* Deploying an S2I build image
+* Lab: Arbitrary Docker Image (WordPress)
+* Lab: Deploying an S2I build image
+* Lab:  Install the client on your workstation
 
 ifdef::showscript[]
 
@@ -38,7 +41,6 @@ This module covers the following topics:
 
 
 endif::showscript[]
-
 
 == Build and Deployment Automation
 

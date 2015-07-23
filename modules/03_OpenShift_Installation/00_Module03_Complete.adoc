@@ -1,9 +1,9 @@
-
-== &nbsp;
 :noaudio:
 
 ifdef::revealjs_slideshow[]
+
 [#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"]
+== &nbsp;
 
 
 [#cover-h1]
@@ -16,15 +16,9 @@ OpenShift 3.0 Installation
 image::{revealjs_cover_image}[]
 
 endif::[]
-
-
-
-
-
-
 == Module Topics
 :noaudio:
-:numbered!:
+
 * Installation Overview
 * Prepare your Hosts
 * Installation Methods
@@ -45,26 +39,21 @@ Welcome to Module 3 of the OpenShift Enterprise Implementation course.
 
 
 endif::showscript[]
-
-
-
 == Installation Scenario
 :noaudio:
 
-* In this training we will review the install of the following environment
+In this training we will review the install of the following environment
 
-** Master00 [192.168.0.100] - Our master will host the Web Console, The API service and the ETCd DB.
-*** Labels : Region=*Infra*, Zone=*NA*, schedulable=`*false*`
-** InfraNode00 [192.168.0.101] - The InfraNode0 is to be used only to host "Infrastructure" containers such as the *Registry* and our HAproxy *Router*.
-*** Labels : Region=*Infra*, Zone=*infranode*, schedulable=*true*
-** Node00 [192.168.0.200] - Part of the Primary Region, Will co-host all the user workloads.
-*** Labels : Region=*Primary*, Zone=*East*, schedulable=*true*
-** Node01  [192.168.0.201] - Part of the Primary Region, Will co-host all the user workloads.
-*** Labels : Region=*Primary*, Zone=*West*, schedulable=*true*
-** oselab  [192.168.0.254] - This server will simulate our corporate DNS server that will point our wildcard entry to our HAproxy *router* (that lives on Infranode)
-*** Not part of the OpenShift Cluster.
-
-
+* Master00 [192.168.0.100] - Our master will host the Web Console, The API service and the ETCd DB.
+** Labels : Region=*Infra*, Zone=*NA*, schedulable=`*false*`
+* InfraNode00 [192.168.0.101] - The InfraNode0 is to be used only to host "Infrastructure" containers such as the *Registry* and our HAproxy *Router*.
+** Labels : Region=*Infra*, Zone=*infranode*, schedulable=*true*
+* Node00 [192.168.0.200] - Part of the Primary Region, Will co-host all the user workloads.
+** Labels : Region=*Primary*, Zone=*East*, schedulable=*true*
+* Node01  [192.168.0.201] - Part of the Primary Region, Will co-host all the user workloads.
+** Labels : Region=*Primary*, Zone=*West*, schedulable=*true*
+* oselab  [192.168.0.254] - This server will simulate our corporate DNS server that will point our wildcard entry to our HAproxy *router* (that lives on Infranode)
+** Not part of the OpenShift Cluster.
 
 ifdef::showscript[]
 
@@ -147,9 +136,7 @@ endif::showscript[]
 ifdef::showscript[]
 === Transcript
 
-
 endif::showscript[]
-
 == Prerequisites
 :noaudio:
 
@@ -267,7 +254,7 @@ endif::showscript[]
 * You would need to install the following software packages
 +
 ----
-# yum install wget git net-tools iptables-services ython-virtualenv gcc
+# yum install wget git net-tools iptables-services python-virtualenv gcc
 ----
 
 *  Update your software before installation
@@ -430,7 +417,7 @@ endif::showscript[]
 
 * In OpenShift 2, we introduced the specific concepts of "regions" and "zones" to enable organizations to provide some topologies for application resiliency.
 ** Apps would be spread throughout the zones within a region and, depending on the way you configured OpenShift, you could make different regions accessible to users.
-* penShift 3 doesn’t actually care about your topology or is "topology agnostic".
+* OpenShift 3 doesn’t actually care about your topology or is "topology agnostic".
 * OpenShift 3 provides advanced controls for implementing whatever topologies you can dream up.
 ** You can manipulate filtering and affinity rules to ensure that parts of applications (pods) are either grouped together or spread apart.
 ** For the purposes of a simple example, we’ll be sticking with the "regions" and "zones" theme. (But think of other option you can up with, "Prod and Dev", "Secure and Insecure", "Rack and Power")
@@ -491,6 +478,7 @@ endif::showscript[]
 * For production use, you should use persistent storage using PersistentVolume and PersistentVolumeClaim objects for storage for the registry.
 * For non-production use, other options exist to provide persistent storage for the registry, like the --mount-host option.
 * We will not cover this topic in this version of the training, it is covered in the link:https://access.redhat.com/beta/documentation/en/openshift-enterprise-30-administrator-guide/chapter-13-persistent-storage-using-nfs[documentation]
+
 ifdef::showscript[]
 
 === Transcript

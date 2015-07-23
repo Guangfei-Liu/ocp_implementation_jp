@@ -1,21 +1,21 @@
 QUESTIONBANKCODE|QUESTIONCODE|QUESTIONTYPE|QUESTIONTEXT|QUESTIONTEXTFORMAT|QUESTIONFEEDBACK|OPTION|RIGHTOPTION|OPTIONFEEDBACK|ISCORRECT|OPTIONWEIGHT|ISCASESENSITIVE|RANDOMIZEOPTIONS|STATUS
-OSEIMPLEMENTATION|OSEIMPLEMENTATION301|1|What is the reason to use Projects/Namespaces|||Named resources to avoid basic naming collisions.|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION301|1|What is the reason to use Projects/Namespaces|||Delegated management authority to trusted users.|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION301|1|What is the reason to use Projects/Namespaces|||The ability to limit community resource consumption.|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION301|1|What is the reason to use Projects/Namespaces|||All of the above|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION302|5|OpenShift can limit both the number of objects created in a Project , and the total amount of resources requested across objects in a namespace/Project.|||TRUE|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION302|5|OpenShift can limit both the number of objects created in a Project , and the total amount of resources requested across objects in a namespace/Project.|||FALSE|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION303|1|The “Service” Resource does the following: |||Route between the different pods|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION303|1|The “Service” Resource does the following: |||Provide an up to date list of IPs and ports of the pods that the service represents|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION303|1|The “Service” Resource does the following: |||Load Balance between the pods|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION303|1|The “Service” Resource does the following: |||None of the above|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION304|1|Which of the following could trigger a deployment to re-deploy? (if so configured)|||A Git event such as a “git push”.|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION304|1|Which of the following could trigger a deployment to re-deploy? (if so configured)|||A use of a Web-hook with the correct “secret” parameter |||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION304|1|Which of the following could trigger a deployment to re-deploy? (if so configured)|||A new image is available for the registered image stream|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION304|1|Which of the following could trigger a deployment to re-deploy? (if so configured)|||All of the above|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION305|1|Which one of there is NOT information you would find in the Replication Controller |||The number of replicas desired (which can be adjusted at runtime).|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION305|1|Which one of there is NOT information you would find in the Replication Controller |||The Git repository of our S2I built Pod|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION305|1|Which one of there is NOT information you would find in the Replication Controller |||A pod definition for creating a replicated pod.|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION305|1|Which one of there is NOT information you would find in the Replication Controller |||A selector for identifying managed pods.|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION306|5|Quotas can only be set on an individual Pod not an entire Project|||TRUE|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION306|5|Quotas can only be set on an individual Pod not an entire Project|||FALSE|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION401|1|What is the reason to use Projects/Namespaces|||Named resources to avoid basic naming collisions.|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION401|1|What is the reason to use Projects/Namespaces|||Delegated management authority to trusted users.|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION401|1|What is the reason to use Projects/Namespaces|||The ability to limit community resource consumption.|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION401|1|What is the reason to use Projects/Namespaces|||All of the above|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION402|5|OpenShift can limit both the number of objects created in a Project , and the total amount of resources requested across objects in a namespace/Project.|||TRUE|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION402|5|OpenShift can limit both the number of objects created in a Project , and the total amount of resources requested across objects in a namespace/Project.|||FALSE|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION403|1|The 'Service' Resource does the following: |||Route between the different pods|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION403|1|The 'Service' Resource does the following: |||Provide an up to date list of IPs and ports of the pods that the service represents|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION403|1|The 'Service' Resource does the following: |||Load Balance between the pods|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION403|1|The 'Service' Resource does the following: |||None of the above|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION404|1|Which of the following could trigger a deployment to re-deploy? (if so configured)|||A Git event such as a “git push”.|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION404|1|Which of the following could trigger a deployment to re-deploy? (if so configured)|||A use of a Web-hook with the correct “secret” parameter |||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION404|1|Which of the following could trigger a deployment to re-deploy? (if so configured)|||A new image is available for the registered image stream|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION404|1|Which of the following could trigger a deployment to re-deploy? (if so configured)|||All of the above|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION405|1|Which one of there is NOT information you would find in the Replication Controller |||The number of replicas desired (which can be adjusted at runtime).|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION405|1|Which one of there is NOT information you would find in the Replication Controller |||The Git repository of our S2I built Pod|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION405|1|Which one of there is NOT information you would find in the Replication Controller |||A pod definition for creating a replicated pod.|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION405|1|Which one of there is NOT information you would find in the Replication Controller |||A selector for identifying managed pods.|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION406|5|Quotas can only be set on an individual Pod not an entire Project|||TRUE|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION406|5|Quotas can only be set on an individual Pod not an entire Project|||FALSE|||1|100|||

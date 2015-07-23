@@ -41,10 +41,10 @@ NOTE: Remember that a `BuildConfig`(uration) tells OpenShift how to do a build.
 [marina@master00 ~]$ oc project lifecycle
 ----
 
-. Lets create an app based on the link:https://github.com/openshift/ruby-hello-world[https://github.com/openshift/ruby-hello-world.git] repo
+. Lets create an app based on the link:https://github.com/openshift/ruby-hello-world[https://github.com/openshift/ruby-hello-world#beta4] repo
 +
 ----
-[marina@master00~]$ oc new-app https://github.com/openshift/ruby-hello-world.git
+[marina@master00~]$ oc new-app https://github.com/openshift/ruby-hello-world#beta4
 ----
 +
 NOTE: You could have, of course, started the new-app with your own repo, we are only picking the "wrong" one as part of the learning exercise.
@@ -96,7 +96,7 @@ spec:
   resources: {}
   source:
     git:
-      uri: https://github.com/openshift/ruby-hello-world.git
+      uri: https://github.com/openshift/ruby-hello-world#beta4
     type: Git
   strategy:
     dockerStrategy:
@@ -132,11 +132,11 @@ status:
 
 . Change the "uri" reference to match the name of your Github
 repository. For example if your github user is `jeandeaux`, you would point it
-to `https://github.com/jeandeaux/ruby-hello-world.git`. Save and exit
+to `https://github.com/jeandeaux/ruby-hello-world#beta4`. Save and exit
 the editor.
 
 WARNING: Please do not use `jeandeaux` as your user name, this needs to be you actual
-GitHub user. for example, `https://github.com/<mylogin>/ruby-hello-world.git`
+GitHub user. for example, `https://github.com/<mylogin>/ruby-hello-world#beta4`
 
 . If you again run `oc get buildconfig ruby-hello-world -o yaml` you should see
 that the `uri` has been updated.
@@ -152,7 +152,7 @@ that the `uri` has been updated.
 ----
 [marina@master00~]$ oc get bc
 NAME               TYPE      SOURCE
-ruby-hello-world   Docker    https://github.com/marina/ruby-hello-world.git
+ruby-hello-world   Docker    https://github.com/marina/ruby-hello-world#beta4
 
 [marina@master00~]$ oc start-build ruby-hello-world
 ruby-hello-world-7

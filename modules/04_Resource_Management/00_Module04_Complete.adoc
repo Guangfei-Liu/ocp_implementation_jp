@@ -291,7 +291,7 @@ endif::showscript[]
 ----
 {
   "kind": "Pod",
-  "apiVersion": "v1beta3",
+  "apiVersion": "v1",
   "metadata": {
     "name": "hello-openshift",
     "creationTimestamp": null,
@@ -306,7 +306,6 @@ endif::showscript[]
         "image": "openshift/hello-openshift:v0.4.3",
         "ports": [
           {
-            "hostPort": 36061,
             "containerPort": 8080,
             "protocol": "TCP"
           }
@@ -367,7 +366,7 @@ endif::showscript[]
 ----
 	{
 	  "kind": "Service",
-	  "apiVersion": "v1beta3",
+	  "apiVersion": "v1",
 	  "metadata": {
 	    "name": "hello-service"
 	  },
@@ -483,8 +482,8 @@ endif::showscript[]
 * Routers support the following protocols:
 ** HTTP
 ** HTTPS
-** WebSockets
-** TLS with SNI
+//** WebSockets
+//** TLS with SNI
 
 
 == Deployments
@@ -661,7 +660,7 @@ endif::showscript[]
 :noaudio:
 
 .Manual scale
-*
+
 * You can scale any DeploymentConfig with the *oc scale dc* command
 +
 ----

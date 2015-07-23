@@ -1,34 +1,9 @@
-:icons: images/icons
 :toc2:
 
 :numbered:
 
-=== Connect to Lab
 
-. If not already connected, connect to your administration host:
-+
-----
-
-yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-GUID.oslab.opentlc.com
-
-----
-
-. SSH to the master host:
-+
-----
-[root@oselab~]# ssh root@master00-GUID.oslab.opentlc.com
-----
-+
-[NOTE]
-If prompted for a password use *r3dh4t1!*
-+
-----
-
-root@master00-GUID.oslab.opentlc.com's password: ******** (r3dh4t1!)
-
-----
-
-== Lab: Rollback/Activate and Code Lifecycle
+= Lab: Rollback/Activate and Code Lifecycle
 
 Not every coder is perfect, and sometimes you want to rollback to a previous
 incarnation of your application. Sometimes you then want to go forward to a
@@ -62,7 +37,6 @@ NOTE: Remember that a `BuildConfig`(uration) tells OpenShift how to do a build.
 +
 ----
 [root@master00 ~]# su - marina
-[marina@master00 ~]$ guid=`hostname|cut -f2 -d-|cut -f1 -d.`
 [marina@master00 ~]$ oc login -u marina --insecure-skip-tls-verify --server=https://master00-${guid}.oslab.opentlc.com:8443
 [marina@master00 ~]$ oc project lifecycle
 ----
@@ -447,9 +421,9 @@ https://master00-GUID.oslab.opentlc.com:8443/osapi/v1/namespaces/lifecycle/build
 
 . In your Github repo that you forked go to settings -> webhooks and services
 
-. Paste the URL copied from the OpenShift GUI into the Payload URL field.  
+. Paste the URL copied from the OpenShift GUI into the Payload URL field.
 
-. Complete the secret field and disable SSL verification.  
+. Complete the secret field and disable SSL verification.
 
 . Click Update Webhook.
 

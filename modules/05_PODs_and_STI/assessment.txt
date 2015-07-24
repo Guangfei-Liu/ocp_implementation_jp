@@ -1,29 +1,29 @@
 QUESTIONBANKCODE|QUESTIONCODE|QUESTIONTYPE|QUESTIONTEXT|QUESTIONTEXTFORMAT|QUESTIONFEEDBACK|OPTION|RIGHTOPTION|OPTIONFEEDBACK|ISCORRECT|OPTIONWEIGHT|ISCASESENSITIVE|RANDOMIZEOPTIONS|STATUS
-OSEIMPLEMENTATION|OSEIMPLEMENTATION501|1|Which of the following statements refer to S2I builds?|||Invokes Docker build, expects a repository with a Dockerfile and directories required for a Docker build process|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION501|1|Which of the following statements refer to S2I builds?|||Suitable for deploying a prebuilt Docker container|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION501|1|Which of the following statements refer to S2I builds?|||Creates image that incorporates the base image and built source, and is ready to use with Docker run|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION501|1|Which of the following statements refer to S2I builds?|||Developer, provider, or ops team need to create the Docker image and inject code into it|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION502|1|Which of the following statements refer to Docker builds?|||Supports incremental builds that reuse downloaded dependencies, built artifacts, etc.|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION502|1|Which of the following statements refer to Docker builds?|||Produces ready-to-run images by injecting user source into a Docker image and assembling a new Docker image|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION501|1|Which of the following statements refer to S2I builds?|||It invokes a Docker build, expects a repository with a Dockerfile and the directories required for a Docker build process|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION501|1|Which of the following statements refer to S2I builds?|||It is suitable for deploying a prebuilt Docker container|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION501|1|Which of the following statements refer to S2I builds?|||It creates an image that incorporates the base image and built source, and is ready to use with Docker run|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION501|1|Which of the following statements refer to S2I builds?|||The developer, provider, or ops team need to create the Docker image and inject code into it|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION502|1|Which of the following statements refer to Docker builds?|||It supports incremental builds that reuse downloaded dependencies, built artifacts, etc.|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION502|1|Which of the following statements refer to Docker builds?|||It produces ready-to-run images by injecting user source into a Docker image and assembling a new Docker image|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION502|1|Which of the following statements refer to Docker builds?|||Prior to starting this build, a developer, provider, or ops team member needs to create a Docker image and inject code into it|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION502|1|Which of the following statements refer to Docker builds?|||This build produces ready-to-run images by injecting user source into a Docker image and assembling a new Docker image|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION503|1|What is the role of triggers in an S2I build file?|||Defines components that need to be triggered to start the build, for example, duplicators|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION503|1|What is the role of triggers in an S2I build file?|||Defines policies for invoking builds, for example when a newer base image is available |||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION503|1|What is the role of triggers in an S2I build file?|||Describes the ImageStream resource to be created to support your built application|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION503|1|What is the role of triggers in an S2I build file?|||Defines how many replicas to create for your application|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION504|1|To start an S2I build, you need to supply the following:|||A DockerFile|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION504|1|To start an S2I build, you need to supply the following:|||A git repository URL|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION504|1|To start an S2I build, you need to supply the following:|||A builder image name |||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION504|1|To start an S2I build, you need to supply the following:|||A Git repository URL and a builder image|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION505|1|Which command would you use to create the build file that contains the BuildConfig object?|||oc start-build|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION505|1|Which command would you use to create the build file that contains the BuildConfig object?|||oc new-app|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION505|1|Which command would you use to create the build file that contains the BuildConfig object?|||osadm create|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION505|1|Which command would you use to create the build file that contains the BuildConfig object?|||docker build|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION506|1|When using OpenShift to create a build file, it defines the following:|||A service and a route for your application|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION502|1|Which of the following statements refer to Docker builds?|||It produces ready-to-run images by injecting user source into a Docker image and assembling a new Docker image|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION503|1|What is the role of triggers in an S2I build file?|||They define components that need to be triggered to start the build, for example, duplicators|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION503|1|What is the role of triggers in an S2I build file?|||They define policies for invoking builds, for example when a newer base image is available |||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION503|1|What is the role of triggers in an S2I build file?|||They describe the ImageStream resource to be created to support the built application|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION503|1|What is the role of triggers in an S2I build file?|||They define how many replicas to create for the application|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION504|1|To start an S2I build, the admin must supply the following:|||DockerFile|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION504|1|To start an S2I build, the admin must supply the following:|||Git repository URL|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION504|1|To start an S2I build, the admin must supply the following:|||Builder image name |||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION504|1|To start an S2I build, the admin must supply the following:|||Git repository URL and builder image|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION505|1|Which command creates the build file that contains the BuildConfig object?|||oc start-build|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION505|1|Which command creates the build file that contains the BuildConfig object?|||oc new-app|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION505|1|Which command creates the build file that contains the BuildConfig object?|||osadm create|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION505|1|Which command creates the build file that contains the BuildConfig object?|||docker build|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION506|1|When using OpenShift to create a build file, it defines the following:|||A service and a route for the application|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION506|1|When using OpenShift to create a build file, it defines the following:|||A replication controller|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION506|1|When using OpenShift to create a build file, it defines the following:|||Triggers to start a new build process and deployment|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION506|1|When using OpenShift to create a build file, it defines the following:|||All of the above|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION507|5|You need to create your own base/builder images to use the S2I process.|||TRUE|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION507|5|You need to create your own Base/Builder Images to use the S2I process.|||FALSE|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION507|5|An admin must create his or her own base/builder image to use the S2I process.|||TRUE|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION507|5|An admin must create his or her own base/builder image to use the S2I process.|||FALSE|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION508|5|GitHub webhooks specify which repository changes invoke a new build that is specific to the GitHub API.|||TRUE|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION508|5|GitHub webhooks Specify which repository changes invoke a new build that is specific to the GitHub API.|||FALSE|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION508|5|GitHub webhooks specify which repository changes invoke a new build that is specific to the GitHub API.|||FALSE|||0|0|||

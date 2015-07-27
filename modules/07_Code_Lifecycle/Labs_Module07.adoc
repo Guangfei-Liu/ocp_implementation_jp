@@ -41,12 +41,14 @@ NOTE: Remember that a `BuildConfig`(uration) tells OpenShift how to do a build.
 [marina@master00 ~]$ oc project lifecycle
 ----
 
-. Lets create an app based on the link:https://github.com/openshift/ruby-hello-world[https://github.com/openshift/ruby-hello-world#beta4] repo
+. Lets create an app based on the link:https://github.com/openshift/ruby-hello-world[https://github.com/openshift/ruby-hello-world] repo
 +
 ----
-[marina@master00~]$ oc new-app https://github.com/openshift/ruby-hello-world#beta4
+[marina@master00~]$ oc new-app https://github.com/openshift/ruby-hello-world --strategy=source
 ----
 +
+NOTE: Notice that we are using `"--strategy=source"` to force the *oc new-app*
+command to use the S2I strategy.
 NOTE: You could have, of course, started the new-app with your own repo, we are only picking the "wrong" one as part of the learning exercise.
 
 . Since we know that we want to talk to a database eventually, let's take a moment to add the environment variables for it. Conveniently, there is an env subcommand to oc. As marina, we can use it like so:
@@ -96,7 +98,7 @@ spec:
   resources: {}
   source:
     git:
-      uri: https://github.com/openshift/ruby-hello-world#beta4
+      uri: https://github.com/openshift/ruby-hello-world
     type: Git
   strategy:
     dockerStrategy:
@@ -132,14 +134,12 @@ status:
 
 . Change the "uri" reference to match the name of your Github
 repository. For example if your github user is `jeandeaux`, you would point it
-to `https://github.com/jeandeaux/ruby-hello-world`. 
+to `https://github.com/jeandeaux/ruby-hello-world`.
 
-. If there is a line that says `ref: beta4` remove it.
-
-. Save and exit
+. Save and exit (:wq in vi)
 
 WARNING: Please do not use `jeandeaux` as your user name, this needs to be you actual
-GitHub user. for example, `https://github.com/<mylogin>/ruby-hello-world#beta4`
+GitHub user. for example, `https://github.com/<mylogin>/ruby-hello-world`
 
 . If you again run `oc get buildconfig ruby-hello-world -o yaml` you should see
 that the `uri` has been updated.
@@ -155,18 +155,15 @@ that the `uri` has been updated.
 ----
 [marina@master00~]$ oc get bc
 NAME               TYPE      SOURCE
-ruby-hello-world   Docker    https://github.com/marina/ruby-hello-world#beta4
+ruby-hello-world   Docker    https://github.com/YOURUSERNAME/ruby-hello-world
 
 [marina@master00~]$ oc start-build ruby-hello-world
-ruby-hello-world-7
+ruby-hello-world-2
 
 [marina@master00~]$ watch oc get builds
 NAME                 TYPE      STATUS     POD
-ruby-hello-world-5   Docker    Complete   ruby-hello-world-5-build
-ruby-hello-world-6   Docker    Complete   ruby-hello-world-6-build
-ruby-hello-world-7   Docker    Running    ruby-hello-world-7-build
-...
-CTRL+C
+ruby-hello-world-1   Source    Complete   ruby-hello-world-1-build
+ruby-hello-world-2   Source    Complete   ruby-hello-world-2-build
 
 [marina@master00~]$ oc build-logs ruby-hello-world-X # Replace X with proper number from oc start-build output
 I0709 23:41:08.493756       1 docker.go:69] Starting Docker build from justanother1/ruby-hello-world-7 BuildConfig ...
@@ -376,7 +373,7 @@ MYSQL_DATABASE=mydb
 . Your frontend needs to be "redeployed" so it checks for the DB again.
 +
 ----
-[marina@master00-GUID ~]$ oc deploy ruby-hello-world --latest -n lifecycle
+[marina@master00-GUID ~]$ oc deploy ruby-hello-world --latest
 ----
 
 == Lab: Using Webhooks
@@ -428,7 +425,7 @@ https://master00-GUID.oslab.opentlc.com:8443/osapi/v1/namespaces/lifecycle/build
 
 . Complete the secret field and disable SSL verification.
 
-. Click Update Webhook.
+. Click "add Webhook".
 
 === Test your WebHook
 
@@ -461,6 +458,11 @@ To read (with the typo):
 
 . When finished changing your code, commit the change to the repo.
 . Now check if a build has been triggered.
+
+CAUTION: If a build is currently running, your latest build might fail because
+both builds are pushing to our registry, stop the older build (oc delete build)
+or retry the failed build. (oc start-build )
+
 . You can also check the web interface (logged in as `marina`) and see
 that the build is running. Once it is complete, point your web browser
 at the application: link:http://ruby-hello-world.lifecycle.cloudapps-GUID.oslab.opentlc.com/[http://ruby-hello-world.lifecycle.cloudapps-GUID.oslab.opentlc.com/]
@@ -472,7 +474,10 @@ You should see your big fat typo.
 Remember that it can take a minute for your service endpoint to get
 updated. You might get a `503` error if you try to access the application before
 this happens.
-+
+
+
+=== Rollback
+
 Since we failed to properly test our application, and our ugly typo has made it
 into production, a nastygram from corporate marketing has told us that we need
 to revert to the previous version, ASAP.
@@ -493,7 +498,6 @@ The semantics of this are that a `DeploymentConfig` ensures a
 `ReplicationController` is created to manage the deployment of the built `Image`
 from the `ImageStream`.
 
-=== Rollback
 
 You can rollback a deployment using the CLI.
 . Check which builds you have available
@@ -506,7 +510,20 @@ You can rollback a deployment using the CLI.
 +
 ----
 
-[marina@master00~]$ oc rollback ruby-hello-world-2 --dry-run
+[marina@master00~]$ oc rollback ruby-hello-world-X --dry-run # X is your desired deployment
+Name:           ruby-hello-world
+Created:        39 minutes ago
+Labels:         <none>
+Latest Version: 9
+Triggers:       Config, Image(ruby-hello-world@latest, auto=false)
+Strategy:       Recreate
+Template:
+                        Selector:       deploymentconfig=ruby-hello-world
+                        Replicas:       1
+                        Containers:
+                                NAME                    IMAGE                                                     ENV
+                                ruby-hello-world        172.30.119.73:5000/lifecycle/ruby-hello-world@sha256:fcc9ce95e503429926dbe9e0cde304e0a0de19483e1cb79acada7334d7eb2504      MYSQL_DATABASE=mydb,MYSQL_PASSWORD=redhat,MYSQL_USER=root
+Latest Deployment:      <none>
 
 ----
 
@@ -514,12 +531,15 @@ You can rollback a deployment using the CLI.
 +
 ----
 
-[marina@master00~]$ oc rollback ruby-hello-world-2
+[marina@master00~]$ oc rollback ruby-hello-world-X # X is your desired deployment
+#oc get9 rolled back to ruby-hello-world-X
+Warning: the following images triggers were disabled: ruby-hello-world
+  You can re-enable them with: oc deploy ruby-hello-world --enable-triggers
 
 ----
 +
 If you look at the `Browse` tab of your project, you'll see that in the `Pods`
-section there is a `frontend-3...` pod now. After a few moments, revisit the
+section there is a new pod now. After a few moments, revisit the
 application in your web browser, and you should see the old "Welcome..." text.
 
 === Roll Back/Forward
@@ -529,7 +549,10 @@ cool. Let's now roll forward (activate) the typo-enabled application:
 +
 ----
 
-[marina@master00~]$ oc rollback ruby-hello-world-3
+[marina@master00~]$ oc rollback ruby-hello-world-X # X is your desired deployment
+#11 rolled back to ruby-hello-world-X
+Warning: the following images triggers were disabled: ruby-hello-world
+  You can re-enable them with: oc deploy ruby-hello-world --enable-triggers
 
 ----
 
@@ -610,377 +633,5 @@ You should see something similar to:
 ----
 
 2015-04-27T22:23:24.110630393Z ---> CUSTOM S2I ASSEMBLE COMPLETE
-
-----
-
-== Lab: Lifecycle Pre and Post Deployment Hooks
-
-Like in OpenShift 2, we have the capability of "hooks" - performing actions both
-before and after the **deployment**. In other words, once an S2I build is
-complete, the resulting Docker image is pushed into the registry. Once the push
-is complete, OpenShift detects an `ImageChange` and, if so configured, triggers
-a **deployment**.
-
-The *pre*-deployment hook is executed just *before* the new image is deployed.
-
-The *post*-deployment hook is executed just *after* the new image is deployed.
-
-How is this accomplished? OpenShift will actually spin-up an *extra* instance of
-your built image, execute your hook script(s), and then shut the instance down.
-Neat, huh?
-
-. Since we already have our `wiring` app pointing at our forked code repository,
-let's go ahead and add a database migration file.  Open a web browser to the following URL:
-+
-----
-https://raw.githubusercontent.com/openshift/training/master/beta4/1_sample_table.rb
-----
-
-. In your forked repository of `ruby-hello-world` create a file called `db/migrate/1_sample_table.rb` with the content from the file in the last step.
-
-=== Examining Deployment Hooks
-
-Take a look at the following JSON:
-
-    "strategy": {
-        "type": "Recreate",
-        "resource": {},
-        "recreateParams": {
-            "pre": {
-                "failurePolicy": "Abort",
-                "execNewPod": {
-                    "command": [
-                        "/bin/true"
-                    ],
-                    "env": [
-                        {
-                            "name": "CUSTOM_VAR1",
-                            "value": "custom_value1"
-                        }
-                    ],
-                    "containerName": "ruby-helloworld"
-                }
-            },
-            "post": {
-                "failurePolicy": "Ignore",
-                "execNewPod": {
-                    "command": [
-                        "/bin/false"
-                    ],
-                    "env": [
-                        {
-                            "name": "CUSTOM_VAR2",
-                            "value": "custom_value2"
-                        }
-                    ],
-                    "containerName": "ruby-helloworld"
-                }
-            }
-        }
-    },
-
-You can see that both a *pre* and *post* deployment hook are defined. They don't
-actually do anything useful. But they are good examples.
-
-The pre-deployment hook executes "/bin/true" whose exit code is always 0 --
-success. If for some reason this failed (non-zero exit), our policy would be to
-`Abort` -- consider the entire deployment a failure and stop.
-
-The post-deployment hook executes "/bin/false" whose exit code is always 1 --
-failure. The policy is to `Ignore`, or do nothing. For non-essential tasks that
-might rely on an external service, this might be a good policy.
-
-More information on these strategies, the various policies, and other
-information can be found in the documentation:
-
-    http://docs.openshift.org/latest/dev_guide/deployments.html
-
-=== Modifying the Hooks
-
-. Since we are talking about **deployments**, let's look at our
-`DeploymentConfig`s. As the `marina` user in the `wiring` project:
-+
-----
-
-[marina@master00~]$ oc get dc
-
-----
-+
-You should see something like:
-+
-----
-
-NAME               TRIGGERS                    LATEST VERSION
-database           Change, ConfigChange        1
-ruby-hello-world   ConfigChange, ImageChange   6
-
-
-----
-
-. Since we are trying to associate a Rails database migration hook with our
-application, we are ultimately talking about a deployment of the frontend (ruby-hello-world). If
-you edit the ruby-hello-world's `DeploymentConfig` as `marina`:
-+
-----
-
-[marina@master00~]$ oc edit dc ruby-hello-world -o json
-
-----
-
-. Yes, the default for `oc edit` is to use YAML. For this exercise, JSON will be
-easier as it is indentation-insensitive. Find the section that looks like the
-following before continuing:
-+
-----
-
-    "spec": {
-        "strategy": {
-            "type": "Recreate",
-            "resources": {}
-        },
-
-----
-
-A Rails migration is commonly performed when we have added/modified the database
-as part of our code change. In the case of a pre- or post-deployment hook, it
-would make sense to:
-
-* Attempt to migrate the database
-
-* Abort the new deployment if the migration fails
-
-Otherwise we could end up with our new code deployed but our database schema
-would not match. This could be a *Real Bad Thing (TM)*.
-
-In the case of the `ruby-20` builder image, we are actually using RHEL7 and the
-Red Hat Software Collections (SCL) to get our Ruby 2.0 support. So, the command
-we want to run looks like:
-
-    /usr/bin/scl enable ruby200 ror40 'cd /opt/openshift/src ; bundle exec rake db:migrate'
-
-This command:
-
-* executes inside an SCL "shell"
-
-* enables the Ruby 2.0.0 and Ruby On Rails 4.0 environments
-
-* changes to the `/opt/openshift/src` directory (where our applications' code is
-    located)
-
-* executes `bundle exec rake db:migrate`
-
-If you're not familiar with Ruby, Rails, or Bundler, that's OK.
-
-The `command` directive inside the hook's definition tells us which command to
-actually execute. It is required that this is an array of individual strings.
-Represented in JSON, our desired command above represented as a string array
-looks like:
-
-    "command": [
-        "/usr/bin/scl",
-        "enable",
-        "ruby200",
-        "ror40",
-        "cd /opt/openshift/src ; bundle exec rake db:migrate"
-    ]
-
-This is great, but actually manipulating the database requires that we talk
-**to** the database. Talking to the database requires a user and a password.
-Smartly, our hook pods inherit the same environment variables as the main
-deployed pods, so we'll have access to the same datbase information.
-
-Looking at the original hook example in the previous section, and our command
-reference above, in the end, you will have something that looks like:
-
-    "strategy": {
-        "type": "Recreate",
-        "resources": {},
-        "recreateParams": {
-            "pre": {
-                "failurePolicy": "Abort",
-                "execNewPod": {
-                    "command": [
-                        "/usr/bin/scl",
-                        "enable",
-                        "ruby200",
-                        "ror40",
-                        "cd /opt/openshift/src ; bundle exec rake db:migrate"
-                    ],
-                    "containerName": "ruby-helloworld"
-                }
-            },
-        }
-    },
-
-Remember, indentation isn't critical in JSON, but closing brackets and braces
-are. When you are done editing the deployment config, save and quit your editor.
-
-=== Quickly Clean Up
-
-When we did our previous builds and rollbacks and etc, we ended up with a lot of
-stale pods that are not running (`Succeeded`). Currently we do not auto-delete
-these pods because we have no log store -- once they are deleted, you can't view
-their logs any longer.
-
-. For now, we can clean up by doing the following as `marina`:
-+
-----
-
-[marina@master00~]$ oc get pod | grep -E "[0-9]-build" |\
-   awk {'print $1'} | xargs -r oc delete pod
-
-----
-
-This will get rid of all of our old build and lifecycle pods. The lifecycle pods
-are the pre- and post-deployment hook pods, and the sti-build pods are the pods
-in which our previous builds occurred.
-
-=== Build Again
-
-Now that we have modified the deployment configuration and cleaned up a bit, we
-need to trigger another deployment. While killing the frontend pod would trigger
-another deployment, our current Docker image doesn't have the database migration
-file in it. Nothing really useful would happen.
-
-In order to get the database migration file into the Docker image, we actually
-need to do another build. Remember, the S2I process starts with the builder
-image, fetches the source code, executes the (customized) assemble script, and
-then pushes the resulting Docker image into the registry. **Then** the
-deployment happens.
-
-. As `marina`:
-+
-----
-
-[marina@master00~]$ oc start-build ruby-hello-world
-
-----
-+
-Or go into the web console and click the "Start Build" button in the Builds
-area.
-
-=== Verify the Migration
-
-. About a minute after the build completes, you should see something like the following output
-of `oc get pod` as `marina`:
-+
-----
-
-[marina@master00~]$ oc get pod
-
-----
-+
-----
-
-POD                                IP          CONTAINER(S)               IMAGE(S)                                                                                                                HOST                                    LABELS                                                                                                                  STATUS       CREATED         MESSAGE
-database-2-rj72q                   10.1.0.15                                                                                                                                                      master00-GUID.oslab.opentlc.com/192.168.133.2   deployment=database-2,deploymentconfig=database,name=database                                                           Running      About an hour
-                                               ruby-helloworld-database   registry.access.redhat.com/openshift3_beta/mysql-55-rhel7                                                                                                                                                                                                                               Running      About an hour
-deployment-frontend-7-hook-4i8ch                                                                                                                                                                  node00-GUID.oslab.opentlc.com/192.168.133.3    <none>                                                                                                                  Succeeded    41 seconds
-                                               lifecycle                  172.30.118.110:5000/wiring/origin-ruby-sample@sha256:2984cfcae1dd42c257bd2f79284293df8992726ae24b43470e6ffd08affc3dfd                                                                                                                                                                   Terminated   36 seconds      exit code 0
-frontend-7-nnnxz                   10.1.1.24                                                                                                                                                      node00-GUID.oslab.opentlc.com/192.168.133.3    deployment=frontend-7,deploymentconfig=frontend,name=frontend                                                           Running      29 seconds
-                                               ruby-helloworld            172.30.118.110:5000/wiring/origin-ruby-sample@sha256:2984cfcae1dd42c257bd2f79284293df8992726ae24b43470e6ffd08affc3dfd                                                                                                                                                                   Running      26 seconds
-ruby-sample-build-7-build                                                                                                                                                                         master00-GUID.oslab.opentlc.com/192.168.133.2   build=ruby-sample-build-7,buildconfig=ruby-sample-build,name=ruby-sample-build,template=application-template-stibuild   Succeeded    2 minutes
-                                               sti-build                  openshift3_beta/ose-sti-builder:v0.5.2.2                                                                                                                                                                                                                                                Terminated   2 minutes       exit code 0
-
-----
-+
-You'll see that there is a single `hook`/`lifecycle` pod -- this corresponds
-with the pod that ran our pre-deployment hook.
-
-. Inspect this pod's logs:
-+
-----
-
-[marina@master00~]$ oc logs deployment-frontend-7-hook-4i8ch
-
-----
-+
-The output should show something like:
-+
-----
-
-== 1 SampleTable: migrating ===================================================
--- create_table(:sample_table)
-   -> 0.1075s
-== 1 SampleTable: migrated (0.1078s) ==========================================
-
-----
-+
-If you have no output, you may have forgotten to actually put the migration file
-in your repo. Without that file, the migration does nothing, which produces no
-output.
-+
-You can even talk directly to the database on its service IP/port
-using the `mysql` client and the environment variables (you would need the
-`mysql` package installed on your master, for example).
-
-. As `marina`, find your database:
-+
-----
-
-[marina@master00~]$ oc get service
-NAME       LABELS    SELECTOR        IP(S)            PORT(S)
-database   <none>    name=database   172.30.108.133   5434/TCP
-frontend   <none>    name=frontend   172.30.229.16    5432/TCP
-
-----
-+
-Take note of the database IP and PORT.
-
-. Get database connection info:
-+
-----
-
-[marina@master00~]$ oc get dc database -o yaml | grep -A1 MYSQL
-
-----
-+
-----
-
-  - name: MYSQL_USER
-    value: [username]
-  - named: MYSQL_PASSWORD
-    value: [password]
-  - name: MYSQL_DATABASE
-    value: [database]
-
-----
-
-. As root on the master host install the mysql client:
-+
-----
-
-[root@master00~]# yum -y install mariadb
-
-----
-
-. Then use the `mysql` client to connect to this service using the connection information discovered in the earlier steps and dump the table that we created:
-+
-----
-
-[marina@master00~]$ mysql -u[username] \
-      -p[password] \
-      -h[db_IP] \
-      -P[db_PORT] \
-      -e'show tables; describe sample_table;' \
-      [database]
-
-----
-+
-----
-
-+-------------------+
-| Tables_in_root    |
-+-------------------+
-| sample_table      |
-| key_pairs         |
-| schema_migrations |
-+-------------------+
-+-------+--------------+------+-----+---------+----------------+
-| Field | Type         | Null | Key | Default | Extra          |
-+-------+--------------+------+-----+---------+----------------+
-| id    | int(11)      | NO   | PRI | NULL    | auto_increment |
-| name  | varchar(255) | NO   |     | NULL    |                |
-+-------+--------------+------+-----+---------+----------------+
 
 ----

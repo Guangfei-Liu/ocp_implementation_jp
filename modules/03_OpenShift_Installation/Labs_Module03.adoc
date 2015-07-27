@@ -444,7 +444,7 @@ NOTE: It is possible to configure *NetworkManager*  so it doesn't need to be rem
 +
 ----
 
-[root@master00-GUID ~]# yum -y install wget git net-tools bind-utils iptables-services bridge-utils python-virtualenv gcc
+[root@master00-GUID ~]# yum -y install wget git net-tools bind-utils iptables-services bridge-utils python-virtualenv gcc bash-completion
 
 ----
 

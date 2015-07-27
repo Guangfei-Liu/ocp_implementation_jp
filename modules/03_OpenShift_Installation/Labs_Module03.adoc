@@ -510,13 +510,15 @@ In this lab we configure the Docker storage pool.
 
 ----
 
-. In order to use `dm.thinpooldev` you must have space for an LVM thinpool available, the `docker-storage-setup` package will assist you in configuring LVM.  Run `docker-storage-setup` on the infranode host to create logical volumes for Docker:
+. In order to use `dm.thinpooldev` you must have space for an LVM thinpool
+available, the `docker-storage-setup` package will assist you in configuring LVM.
+Run `docker-storage-setup` on the infranode host to create logical volumes for Docker:
 +
 ----
 
-[root@master00-GUID ~]# pvcreate /dev/vdb
-[root@master00-GUID ~]# vgextend `vgs | grep rhel | awk '{print $1}'` /dev/vdb
-[root@master00-GUID ~]# docker-storage-setup
+[root@infranode00-GUID ~]# pvcreate /dev/vdb
+[root@infranode00-GUID ~]# vgextend `vgs | grep rhel | awk '{print $1}'` /dev/vdb
+[root@infranode00-GUID ~]# docker-storage-setup
 
 ----
 +

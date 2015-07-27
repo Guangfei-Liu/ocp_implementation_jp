@@ -1024,7 +1024,7 @@ You should see:
 
 NAME                                 LABELS                                                                                   STATUS
 infranode00-GUID.oslab.opentlc.com   kubernetes.io/hostname=infranode00-GUID.oslab.opentlc.com,region=infra,zone=infranodes   Ready
-master00-GUID.oslab.opentlc.com      kubernetes.io/hostname=master00-GUID.oslab.opentlc.com,region=infra,zone=na              Ready,SchedulingDisabled
+master00-GUID.oslab.opentlc.com      kubernetes.io/hostname=master00-GUID.oslab.opentlc.com                                   Ready,SchedulingDisabled
 node00-GUID.oslab.opentlc.com        kubernetes.io/hostname=node00-GUID.oslab.opentlc.com,region=primary,zone=east            Ready
 node01-GUID.oslab.opentlc.com        kubernetes.io/hostname=node01-GUID.oslab.opentlc.com,region=primary,zone=west            Ready
 

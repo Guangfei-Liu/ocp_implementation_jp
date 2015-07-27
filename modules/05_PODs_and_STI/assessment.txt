@@ -6,7 +6,7 @@ OSEIMPLEMENTATION|OSEIMPLEMENTATION501|1|Which of the following statements refer
 OSEIMPLEMENTATION|OSEIMPLEMENTATION502|1|Which of the following statements refer to Docker builds?|||It supports incremental builds that reuse downloaded dependencies, built artifacts, etc.|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION502|1|Which of the following statements refer to Docker builds?|||It produces ready-to-run images by injecting user source into a Docker image and assembling a new Docker image|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION502|1|Which of the following statements refer to Docker builds?|||Prior to starting this build, a developer, provider, or ops team member needs to create a Docker image and inject code into it|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION502|1|Which of the following statements refer to Docker builds?|||It produces ready-to-run images by injecting user source into a Docker image and assembling a new Docker image|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION502|1|Which of the following statements refer to Docker builds?|||It produces a custom builder based on Jenkins and Maven products |||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION503|1|What is the role of triggers in an S2I build file?|||They define components that need to be triggered to start the build, for example, duplicators|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION503|1|What is the role of triggers in an S2I build file?|||They define policies for invoking builds, for example when a newer base image is available |||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION503|1|What is the role of triggers in an S2I build file?|||They describe the ImageStream resource to be created to support the built application|||0|0|||

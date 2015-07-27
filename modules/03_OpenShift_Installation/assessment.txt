@@ -1,21 +1,21 @@
 QUESTIONBANKCODE|QUESTIONCODE|QUESTIONTYPE|QUESTIONTEXT|QUESTIONTEXTFORMAT|QUESTIONFEEDBACK|OPTION|RIGHTOPTION|OPTIONFEEDBACK|ISCORRECT|OPTIONWEIGHT|ISCASESENSITIVE|RANDOMIZEOPTIONS|STATUS
-OSEIMPLEMENTATION|OSEIMPLEMENTATION301|1||What version of the operating system is required to install OpenShift Enterprise?|||Centos 7.1|||0|0||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION301|1||What version of the operating system is required to install OpenShift Enterprise?|||Red Hat Enterprise Linux 6.6|||0|0||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION301|1||What version of the operating system is required to install OpenShift Enterprise?|||Red Hat Enterprise Linux 7.0|||0|0||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION301|1||What version of the operating system is required to install OpenShift Enterprise?|||Red Hat Enterprise Linux 7.1|||1|100||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION302|1||What kind of DNS record is required to point to OpenShift from a corporate DNS server?|||A wildcard record: *.cloudapps.example.com|||1|100||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION302|1||What kind of DNS record is required to point to OpenShift from a corporate DNS server?|||A CNAME record: cloudapps.example.com|||0|0||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION302|1||What kind of DNS record is required to point to OpenShift from a corporate DNS server?|||An NS record: cloudapps.example.com|||0|0||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION302|1||What kind of DNS record is required to point to OpenShift from a corporate DNS server?|||An A record: mymaster00.cloudapps.example.com|||0|0||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION303|1||Where would a Corporate DNS point to in the OpenShift environment?|||The OpenShift Master Server|||0|0||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION303|1||Where would a Corporate DNS point to in the OpenShift environment?|||Any Node in the environment|||0|0||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION303|1||Where would a Corporate DNS point to in the OpenShift environment?|||Wherever the default router (Haproxy) is located|||1|100||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION303|1||Where would a Corporate DNS point to in the OpenShift environment?|||All of the above|||0|0||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION304|5||An admin must configure password-less communication between the master and the nodes to use the installer.|||TRUE|||1|100||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION304|5||An admin must configure password-less communication between the master and the nodes to use the installer.|||FALSE|||0|0||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION305|1||What is the :8443 port on the master used for?|||Access to the API|||0|0||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION305|1||What is the :8443 port on the master used for?|||Access for Web Console|||0|0||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION305|1||What is the :8443 port on the master used for?|||Access for CLI tools|||0|0||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION305|1||What is the :8443 port on the master used for?|||All of the above|||1|100||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION306|5||Port 4789 Needs to be open between all members of the SDN.|||TRUE|||1|100||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION306|5||Port 4789 Needs to be open between all members of the SDN.|||FALSE|||0|0||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION301|1||What version of the operating system is required to install OpenShift Enterprise?||Centos 7.1||||0|0||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION301|1||What version of the operating system is required to install OpenShift Enterprise?||Red Hat Enterprise Linux 6.6||||0|0||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION301|1||What version of the operating system is required to install OpenShift Enterprise?||Red Hat Enterprise Linux 7.0||||0|0||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION301|1||What version of the operating system is required to install OpenShift Enterprise?||Red Hat Enterprise Linux 7.1||||1|100||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION302|1||What kind of DNS record is required to point to OpenShift from a corporate DNS server?||A wildcard record: *.cloudapps.example.com||||1|100||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION302|1||What kind of DNS record is required to point to OpenShift from a corporate DNS server?||A CNAME record: cloudapps.example.com||||0|0||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION302|1||What kind of DNS record is required to point to OpenShift from a corporate DNS server?||An NS record: cloudapps.example.com||||0|0||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION302|1||What kind of DNS record is required to point to OpenShift from a corporate DNS server?||An A record: mymaster00.cloudapps.example.com||||0|0||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION303|1||Where would a Corporate DNS point to in the OpenShift environment?||The OpenShift Master Server||||0|0||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION303|1||Where would a Corporate DNS point to in the OpenShift environment?||Any Node in the environment||||0|0||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION303|1||Where would a Corporate DNS point to in the OpenShift environment?||Wherever the default router (Haproxy) is located||||1|100||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION303|1||Where would a Corporate DNS point to in the OpenShift environment?||All of the above||||0|0||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION304|5||An admin must configure password-less communication between the master and the nodes to use the installer.||TRUE||||1|100||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION304|5||An admin must configure password-less communication between the master and the nodes to use the installer.||FALSE||||0|0||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION305|1||What is the :8443 port on the master used for?||Access to the API||||0|0||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION305|1||What is the :8443 port on the master used for?||Access for Web Console||||0|0||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION305|1||What is the :8443 port on the master used for?||Access for CLI tools||||0|0||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION305|1||What is the :8443 port on the master used for?||All of the above||||1|100||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION306|5||Port 4789 Needs to be open between all members of the SDN.||TRUE||||1|100||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION306|5||Port 4789 Needs to be open between all members of the SDN.||FALSE||||0|0||

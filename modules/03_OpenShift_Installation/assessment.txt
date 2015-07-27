@@ -11,8 +11,8 @@ OSEIMPLEMENTATION|OSEIMPLEMENTATION303|1|Where would a Corporate DNS point to in
 OSEIMPLEMENTATION|OSEIMPLEMENTATION303|1|Where would a Corporate DNS point to in the OpenShift environment?|||Any Node in the environment|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION303|1|Where would a Corporate DNS point to in the OpenShift environment?|||Wherever the default router (Haproxy) is located|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION303|1|Where would a Corporate DNS point to in the OpenShift environment?|||All of the above|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION304|5|An admin must configure password-less communication between the master and the nodes to use the installer.|||TRUE||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION304|5|An admin must configure password-less communication between the master and the nodes to use the installer.|||FALSE||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION304|5|An admin must configure password-less communication between the master and the nodes to use the installer.|||TRUE|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION304|5|An admin must configure password-less communication between the master and the nodes to use the installer.|||FALSE|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION305|1|What is the :8443 port on the master used for?||Access to the API|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION305|1|What is the :8443 port on the master used for?||Access for Web Console|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION305|1|What is the :8443 port on the master used for?||Access for CLI tools|||0|0|||

@@ -1270,7 +1270,7 @@ To start, we will need the `htpasswd` binary available in the `httpd-tools` pack
 
 
 
-== Using Persistent Storage (Optional)
+== Lab: Using Persistent Storage (Optional)
 
 Having a database for development is nice, but what if you actually want the
 data you store to stick around after the DB pod is redeployed? Pods are

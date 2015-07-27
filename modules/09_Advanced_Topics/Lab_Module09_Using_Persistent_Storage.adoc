@@ -13,7 +13,7 @@ not very PaaS-y. If I'm using a PaaS, I might really just rather request a
 chunk of storage and not need a side channel to provision that. OpenShift 3
 provides a mechanism for doing just this.
 
-=== Export an NFS Volume
+=== Export an NFS Volume for Persistent Storage
 
 For the purposes of this training, we will just demonstrate the master
 exporting an NFS volume for use as storage by the database. **You would
@@ -138,8 +138,7 @@ of the [volume types available via
 Kubernetes](https://github.com/GoogleCloudPlatform/kubernetes/blob/master/docs/volumes.md).
 In this case it will be our NFS volume.
 
-Currently PersistentVolume objects must be created "by hand". Modify the
-`beta4/persistent-volume.json` file as needed if you are using a different
+file as needed if you are using a different
 NFS mount:
 
     {
@@ -181,7 +180,7 @@ This defines a volume for OpenShift projects to use in deployments. The
 storage should correspond to how much is actually available (make each
 volume a separate filesystem if you want to enforce this limit).
 
-. Take a look at it the voume:
+. Take a look at it the volume:
 +
 ----
 
@@ -198,7 +197,7 @@ Claim:
 
 ----
 
-=== Claim the PersistentVolume
+=== Claim the Persistent Volume
 
 Now that the administrator has provided a PersistentVolume, any project can
 make a claim on that storage. We do this by creating a PersistentVolumeClaim

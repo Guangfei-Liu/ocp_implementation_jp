@@ -1,0 +1,64 @@
+== Deploying the Registry
+:noaudio:
+.Registry File Storage
+
+* Tag and image metadata is stored in OpenShift, but the registry owns layer and
+signature data. The registry stores data in a volume that is mounted into the
+registry container at *_/registry_*.
+
+* If we were to look at the registry's file system, it would look something like:
++
+NOTE: The output below is heavily edited to fit the screen:
+*/r/d/r* stands for */registry/docker/registry*
+and when you see *xx..xx* that is usually a much longer random file name that is
+shortened to fit the screen
++
+[source,bash]
+----
+/r/d/r/v2
+/r/d/r/v2/blobs <1>
+/r/d/r/v2/blobs/sha256
+/r/d/r/v2/blobs/sha256/ed
+/r/d/r/v2/blobs/sha256/ed/ed..10
+/r/d/r/v2/blobs/sha256/ed/ed..10/data <2>
+/r/d/r/v2/blobs/sha256/a3
+/r/d/r/v2/blobs/sha256/a3/a3..d4
+/r/d/r/v2/blobs/sha256/a3/a3..d4/data
+/r/d/r/v2/blobs/sha256/f7
+/r/d/r/v2/blobs/sha256/f7/f7..45
+/r/d/r/v2/blobs/sha256/f7/f7..45/data
+/r/d/r/v2/repositories <3>
+/r/d/r/v2/repositories/p1
+/r/d/r/v2/repositories/p1/pause <4>
+/r/d/r/v2/repositories/p1/pause/_manifests
+/r/d/r/v2/repositories/p1/pause/_manifests/revisions
+/r/d/r/v2/repositories/p1/pause/_manifests/revisions/sha256
+/r/d/r/v2/repositories/p1/pause/_manifests/revisions/sha256/e9..cf
+/r/d/r/v2/repositories/p1/pause/_manifests/revisions/sha256/e9..cf/signatures <5>
+/r/d/r/v2/repositories/p1/pause/_manifests/revisions/sha256/e9..cf/signatures/sha256
+/r/d/r/v2/repositories/p1/pause/_manifests/revisions/sha256/e9..cf/signatures/sha256/ed..10
+/r/d/r/v2/repositories/p1/pause/_manifests/revisions/sha256/e9..cf/signatures/sha256/ed..10/link <6>
+/r/d/r/v2/repositories/p1/pause/_uploads <7>
+/r/d/r/v2/repositories/p1/pause/_layers <8>
+/r/d/r/v2/repositories/p1/pause/_layers/sha256
+/r/d/r/v2/repositories/p1/pause/_layers/sha256/a3..d4
+/r/d/r/v2/repositories/p1/pause/_layers/sha256/a3..d4/link <9>
+/r/d/r/v2/repositories/p1/pause/_layers/sha256/f7..45
+/r/d/r/v2/repositories/p1/pause/_layers/sha256/f7..45/link
+----
+
+<1> This directory stores all layers and signatures as blobs.
+<2> This file contains the blob's contents.
+<3> This directory stores all the image repositories.
+<4> This directory is for a single image repository *p1/pause*.
+<5> This directory contains signatures for a particular image manifest revision.
+<6> This file contains a reference back to a blob (which contains the signature
+data).
+<7> This directory contains any layers that are currently being uploaded and
+staged for the given repository.
+<8> This directory contains links to all the layers this repository references.
+<9> This file contains a reference to a specific layer that has been linked into
+this repository via an image.
+
+
+

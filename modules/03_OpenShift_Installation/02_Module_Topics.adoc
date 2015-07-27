@@ -7,10 +7,12 @@
 * Scheduler - Regions and Zones
 * The Registry and Router
 * Populating OpenShift
+* Configure Persistent Storage
 * Lab : Prepare to Deploy OpenShift
 * Lab : Install OpenShift Using the installer
 * Lab : OpenShift Configuration and Setup
 * Lab : Configuring Authentication
+* Lab : Using Persistent Storage (Optional)
 
 
 ifdef::showscript[]

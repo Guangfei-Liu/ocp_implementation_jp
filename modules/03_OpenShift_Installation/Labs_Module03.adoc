@@ -430,6 +430,7 @@ NOTE: It might take some time for the global DNS servers to be updated. Try agai
 ----
 [root@master00-GUID ~]# yum -y remove NetworkManager*
 ----
+NOTE: It is possible to configure *NetworkManager*  so it doesn't need to be removed.
 
 . Do the same for the rest of the nodes
 +
@@ -722,7 +723,8 @@ You should see something similar to the following:
 +
 ----
 
-[root@master00-GUID ~]# curl -o oo-install-ose.tgz https://install.openshift.com/portable/oo-install-ose.tgz
+[root@master00-GUID ~]# curl -o oo-install-ose.tgz http://www.opentlc.com/download/ose_implementation/oo-install-ose.tgz
+
 [root@master00-GUID ~]# tar -zxf oo-install-ose.tgz
 
 ----
@@ -1156,7 +1158,7 @@ trainingrouter-1-deploy   1/1       Running   0          14s
 
 .. Press *CTRL+C* to exit the watch on `oc get pods`.
 
-=== Populating OpenShift
+=== Populating OpenShift ( Only Read this Part )
 
 OpenShift ships with *Image Streams* and *Templates*, they reside in: `/usr/share/openshift/examples/`.  The installer will import all of the ImageStreams and Templates for you from this directory.
 
@@ -1264,4 +1266,259 @@ To start, we will need the `htpasswd` binary available in the `httpd-tools` pack
 +
 ----
 [root@master00-GUID ~]# systemctl restart openshift-master
+----
+
+
+
+== Using Persistent Storage (Optional)
+
+Having a database for development is nice, but what if you actually want the
+data you store to stick around after the DB pod is redeployed? Pods are
+ephemeral, and so is their storage by default. For shared or persistent
+storage, we need a way to specify that pods should use external volumes.
+
+We can do this a number of ways. [Kubernetes provides methods for directly
+specifying the mounting of several different volume
+types.](https://github.com/GoogleCloudPlatform/kubernetes/blob/master/docs/user-guide/volumes.md)
+This is perfect if you want to use known external resources. But that's
+not very PaaS-y. If I'm using a PaaS, I might really just rather request a
+chunk of storage and not need a side channel to provision that. OpenShift 3
+provides a mechanism for doing just this.
+
+=== Export an NFS Volume for Persistent Storage
+
+For the purposes of this training, we will just demonstrate the master
+exporting an NFS volume for use as storage by the database. **You would
+almost certainly not want to do this in production.** If you happen
+to have another host with an NFS export handy, feel free to substitute
+that instead of the master.
+
+. As `root` on the master host ensure that nfs-utils is installed on the nodes:
++
+----
+
+[root@master00-GUID ~]# ]# for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do yum -y install nfs-utils ; done
+
+----
+
+. On the **oselab** admin host we will create a directory that we will export via NFS:
++
+----
+[root@oselab-GUID ~]# export volname=registry-storage
+[root@oselab-GUID ~]# mkdir -p /var/export/${volname}
+[root@oselab-GUID ~]# chown nfsnobody:nfsnobody /var/export/${volname}
+[root@oselab-GUID ~]# chmod 700 /var/export/${volname}
+
+----
+
+. Add the following line to `/etc/exports`:
++
+----
+
+[root@oselab-GUID ~]# echo "/var/export/${volname} *(rw,sync,all_squash)" >> /etc/exports
+
+----
+
+. Enable and start NFS services:
++
+----
+
+[root@oselab-GUID ~]# systemctl enable rpcbind nfs-server
+[root@oselab-GUID ~]# systemctl start rpcbind nfs-server nfs-lock nfs-idmap
+[root@oselab-GUID ~]# systemctl stop iptables firewalld
+[root@oselab-GUID ~]# systemctl disable iptables firewalld
+
+----
++
+Note that the volume is owned by `nfsnobody` and access by all remote users
+is "squashed" to be access by this user. This essentially disables user
+permissions for clients mounting the volume. While another configuration
+might be preferable, one problem you may run into is that the container
+cannot modify the permissions of the actual volume directory when mounted.
+In the case of MySQL below, MySQL would like to have the volume belong to
+the `mysql` user, and assumes that it is, which causes problems later.
+Arguably, the container should operate differently. In the long run, we
+probably need to come up with best practices for use of NFS from containers.
+
+=== NFS Firewall (Info only, do not do the steps here!)
+
+**In our lab environment, the firewall is disabled on the oselab host, so these steps are not necessary.**
+
+We will need to open ports on the firewall on the master to enable NFS to
+communicate from the nodes. First, let's add rules for NFS to the running state
+of the firewall:
+
+    iptables -I OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 111 -j ACCEPT
+    iptables -I OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 2049 -j ACCEPT
+    iptables -I OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 20048 -j ACCEPT
+    iptables -I OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 50825 -j ACCEPT
+    iptables -I OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 53248 -j ACCEPT
+
+Next, let's add the rules to `/etc/sysconfig/iptables`. Put them at the top of
+the `OS_FIREWALL_ALLOW` set:
+
+    -A OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 53248 -j ACCEPT
+    -A OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 50825 -j ACCEPT
+    -A OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 20048 -j ACCEPT
+    -A OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 2049 -j ACCEPT
+    -A OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 111 -j ACCEPT
+
+Now, we have to edit NFS' configuration to use these ports. First, let's edit
+`/etc/sysconfig/nfs`. Change the RPC option to the following:
+
+    RPCMOUNTDOPTS="-p 20048"
+
+Change the STATD option to the following:
+
+    STATDARG="-p 50825"
+
+Then, edit `/etc/sysctl.conf`:
+
+    fs.nfs.nlm_tcpport=53248
+    fs.nfs.nlm_udpport=53248
+
+Then, persist the `sysctl` changes:
+
+    sysctl -p
+
+Lastly, restart NFS:
+
+    systemctl restart nfs
+
+=== Allow NFS Access in SELinux Policy
+
+. By default policy, containers are not allowed to write to NFS mounted
+directories.  We want to do just that with our database, so enable that on
+all nodes where the pod could land (i.e. all of them) with:
++
+----
+
+[root@master00-GUID ~]# for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do setsebool -P virt_use_nfs=true ; done
+
+----
++
+[NOTE]
+Once the ansible-based installer does this automatically, we can remove this
+section from the document.
+
+=== Create a Persistent Volume for the Registry
+
+
+. Create a Persistent volume definition file:
++
+[source,json]
+----
+[root@master00-678a ~]# cat << EOF > registry-volume.json
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolume",
+      "metadata": {
+        "name": "registry-storage"
+      },
+      "spec": {
+        "capacity": {
+            "storage": "15Gi"
+            },
+        "accessModes": [ "ReadWriteMany" ],
+        "nfs": {
+            "path": "/var/export/registry-storage",
+            "server": "oselab-${GUID}.oslab.opentlc.com"
+        }
+      }
+    }
+
+EOF
+
+----
+
+. Create the Persistent Volume from definition file:
++
+----
+[root@master00-678a ~]# oc create -f registry-volume.json
+persistentvolumes/registry-storage
+----
+
+. View your create Persistent Volume
++
+----
+[root@master00-678a ~]# oc get pv
+NAME               LABELS    CAPACITY      ACCESSMODES   STATUS      CLAIM     REASON
+registry-storage   <none>    16106127360   RWX           Available
+----
+
+. Create a claim definition file to claim your volume
++
+----
+
+[root@master00-678a ~]# cat << EOF > registry-volume-claim.json
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolumeClaim",
+      "metadata": {
+        "name": "registry-claim"
+      },
+      "spec": {
+        "accessModes": [ "ReadWriteMany" ],
+        "resources": {
+          "requests": {
+            "storage": "15Gi"
+          }
+        }
+      }
+    }
+
+EOF
+
+----
+
+. Create the Claim from definition file:
++
+----
+[root@master00-678a ~]# oc create -f registry-volume-claim.json
+persistentvolumeclaims/registry-claim
+----
+
+. View your create Persistent Volume, notice that the status is "Bound"
++
+----
+[root@master00-678a ~]# oc get pv
+NAME               LABELS    CAPACITY      ACCESSMODES   STATUS    CLAIM                    REASON
+registry-storage   <none>    16106127360   RWX           Bound     default/registry-claim
+
+----
+
+. View your create Persistent Volume Claims, notice that the status is "Bound"
++
+----
+[root@master00-678a ~]# oc get pvc
+NAME             LABELS    STATUS    VOLUME
+registry-claim   map[]     Bound     registry-storage
+----
+
+=== Attach the Persistent Volume to the Registry
+
+. Assuming that your registry is already running, you can edit the
+DeploymentConfig and attach the volume to the Registry
++
+----
+[root@master00-678a ~]# oc get dc
+NAME              TRIGGERS       LATEST VERSION
+docker-registry   ConfigChange   1
+trainingrouter    ConfigChange   1
+[root@master00-678a ~]# oc edit dc docker-registry -i json
+----
+
+. Make your volumes entry look like this:
+.. You will be adding the PersistentVolumeClaim lines and deleting the emptydir line.
+----
+"spec": {
+               "volumes": [
+                   {
+                       "name": "registry-storage",
+                       "persistentVolumeClaim": {
+                           "claimName": "registry-claim"
+                       }
+                   }
+               ],
+
 ----

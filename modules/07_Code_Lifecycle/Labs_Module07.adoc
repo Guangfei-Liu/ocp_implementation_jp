@@ -3,7 +3,7 @@
 :numbered:
 
 
-= Lab: Rollback/Activate and Code Lifecycle
+== Lab: Rollback/Activate and Code Lifecycle
 
 Not every coder is perfect, and sometimes you want to rollback to a previous
 incarnation of your application. Sometimes you then want to go forward to a

@@ -25,7 +25,7 @@ that instead of the master.
 +
 ----
 
-[root@master00-GUID ~]# ]# for node in node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do yum -y install nfs-utils ; done
+[root@master00-GUID ~]# ]# for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do yum -y install nfs-utils ; done
 
 ----
 

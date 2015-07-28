@@ -1,0 +1,30 @@
+== Configuring Authentication
+:noaudio:
+
+.Identity Providers - HTPasswd Continued
+
+* To create the file, run:
++
+----
+$ htpasswd -c </path/to/users.htpasswd> <user_name>
+----
+
+* To add or update a login to the file, run:
++
+----
+$ htpasswd </path/to/users.htpasswd> <user_name>
+----
+
+* To remove a login from the file, run:
++
+----
+$ htpasswd </path/to/users.htpasswd> -D <user_name>
+----
+
+
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+

@@ -1,0 +1,44 @@
+== Authorization
+:noaudio:
+
+.Roles - Continued
+* OpenShift includes a set of default roles that can be added to users and
+groups in the _cluster policy_ or the  _local policy_.
+[cols="1,4",options="header"]
+|===
+
+|Default Role |Description
+
+|*admin* |A project manager. If used in a _local binding_, an *admin* user will
+have rights to view any resource in the project and modify any resource in the
+project except for role creation and quota. If the *cluster-admin* wants to
+allow an *admin* to modify roles, the *cluster-admin* must create a
+project-scoped _Policy_ object using JSON. (We will cover this later)
+
+|*basic-user* |A user that can get basic information about projects and users.
+
+|*cluster-admin* |A super-user that can perform any action in any project. When
+granted to a user within a local policy, they have full control over quota and
+roles and every action on every resource in the project.
+
+|*cluster-status* |A user that can get basic cluster status information.
+
+|*edit* |A user that can modify most objects in a project, but does not have the
+power to view or modify roles or bindings.
+
+|*self-provisioner* |A user that can create their own projects.
+
+|*view* |A user who cannot make any modifications, but can see most objects in a
+project. They cannot view or modify roles or bindings.
+
+|===
+
+TIP: Remember that link:authentication.html#users-and-groups[users
+and groups] can be associated with, or _bound_ to, multiple roles at the same
+time.
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+

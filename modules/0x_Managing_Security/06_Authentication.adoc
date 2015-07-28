@@ -1,0 +1,19 @@
+== Authentication
+:noaudio:
+
+.OAuth
+* The OpenShift master includes a built-in OAuth server. Users obtain OAuth
+access tokens to authenticate themselves to the API.
+
+* When a person requests a new OAuth token, the OAuth server uses the configured
+link:https://docs.openshift.com/enterprise/3.0/admin_guide/configuring_authentication.html[identity
+provider] to determine the identity of the person making the request.
+
+** It then determines what user that identity maps to, creates an access token for
+that user, and returns the token for use.
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+

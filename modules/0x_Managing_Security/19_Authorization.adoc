@@ -1,0 +1,19 @@
+== Authorization
+:noaudio:
+
+.Evaluating Authorization - Continued
+
+* OpenShift evaluates authorizations using the following steps:
+
+. The identity and the project-scoped action is used to find all bindings that
+apply to the user or their groups.
+. Bindings are used to locate all the roles that apply.
+. Roles are used to find all the rules that apply.
+. The action is checked against each rule to find a match.
+. If no matching rule is found, the action is then denied by default.
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+

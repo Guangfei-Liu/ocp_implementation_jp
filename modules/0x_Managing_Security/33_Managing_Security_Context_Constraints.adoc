@@ -1,0 +1,28 @@
+== Managing Security Context Constraints
+:noaudio:
+
+.Deleting Security Context Constraints
+
+* To delete an SCC:
++
+----
+$ oc delete scc <scc_name>
+----
+
+NOTE: If you delete the default SCCs, they will not be regenerated upon restart,
+unless you delete all SCCs. If any constraint already exists within the system,
+no regeneration will take place.
+
+.Updating Security Context Constraints
+
+* To update an existing SCC:
++
+----
+$ oc edit scc <scc_name>
+----
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+

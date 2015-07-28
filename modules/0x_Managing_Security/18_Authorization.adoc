@@ -1,0 +1,30 @@
+== Authorization
+:noaudio:
+
+.Evaluating Authorization
+
+* Several factors are combined to make the decision when OpenShift evaluates
+authorization:
+
+[cols="1,7"]
+|===
+
+|*Identity* |In the context of authorization, both the user name and
+list of groups the user belongs to.
+
+|*Action* a|The action being performed. In most cases, this consists of:
+
+[horizontal]
+Project:: The _project_ being accessed.
+Verb:: Can be `get`, `list`, `create`, `update`, or others.
+Resource Name:: The API endpoint being accessed.
+
+|*Bindings* |The full list of link:https://docs.openshift.com/enterprise/3.0/architecture/additional_concepts/authorization.html#bindings[bindings].
+
+|===
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+

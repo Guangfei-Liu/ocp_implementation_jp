@@ -1,0 +1,38 @@
+== Managing Security Context Constraints
+:noaudio:
+
+.Modify Cluster Default Behavior
+
+* To modify your cluster so that it does not pre-allocate UIDs, allows containers
+to run as any user, and prevents privileged containers:
+
+. Edit the *restricted* SCC:
++
+----
+ $ oc edit scc restricted
+----
+
+. Change `*runAsUser.Type*` to *RunAsAny*.
+
+. Ensure `*allowPrivilegedContainer*` is set to false.
+
+. Save the changes.
+
+* To modify your cluster so that it does not pre-allocate UIDs and does not allow
+containers to run as root:
+
+. Edit the *restricted* SCC:
++
+----
+ $ oc edit scc restricted
+----
+
+. Change `*runAsUser.Type*` to *MustRunAsNonRoot*.
+
+. Save the changes.
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+

@@ -1,0 +1,27 @@
+== Security Context Constraints
+:noaudio:
+
+.Privileged and Restricted SCCs
+
+* The _users_ and _groups_ fields on the SCC control which SCCs can be used.
+By default, cluster administrators, nodes, and the build controller are granted
+access to the privileged SCC.
+* All authenticated users are granted access to the restricted SCC.
+
+* The privileged SCC:
+** allows privileged pods.
+**  allows host directories to be mounted as volumes.
+**  allows a pod to run as any user.
+**  allows a pod to run with any MCS label.
+
+* The restricted SCC:
+** ensures pods cannot run as privileged.
+** ensures pods cannot use host directory volumes.
+** requires that a pod run as a user in a pre-allocated range of UIDs.
+** requires that a pod run with a pre-allocated MCS label.
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+

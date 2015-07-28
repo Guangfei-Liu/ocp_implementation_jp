@@ -1,0 +1,25 @@
+== Authorization
+:noaudio:
+
+.Overview - Continued
+* The following excerpt from is _viewing policy bindings] shows the above roles
+bound to various users and groups (Using the command: `oc describe clusterPolicy default`):
++
+[options="nowrap"]
+----
+RoleBinding[admins]:
+				Role:	admin
+				Users:	[alice system:admin]
+				Groups:	[]
+RoleBinding[basic-user]:
+				Role:	basic-user
+				Users:	[joe]
+				Groups:	[devel]
+----
+
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+

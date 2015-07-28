@@ -1,0 +1,36 @@
+== Configuring Authentication
+:noaudio:
+
+.Identity Providers - Allow All
+
+* Set _AllowAllPasswordIdentityProvider_ in the `*identityProviders*` stanza to
+allow any non-empty user name and password to log in. This is the default
+identity provider when running OpenShift without a _master configuration file_.
+
+* Master Configuration Using *AllowAllPasswordIdentityProvider*:
++
+[source,yaml]
+----
+oauthConfig:
+  ...
+  identityProviders:
+  - name: my_allow_provider <1>
+    challenge: true <2>
+    login: true <3>
+    provider:
+      apiVersion: v1
+      kind: AllowAllPasswordIdentityProvider
+----
+<1> This provider name is prefixed to provider user names to form an identity
+name.
+<2> When *true*, unauthenticated token requests from non-web clients (like
+the CLI) are sent a `WWW-Authenticate` challenge header for this provider.
+<3> When *true*, unauthenticated token requests from web clients (like the web
+console) are redirected to a login page backed by this provider.
+
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+

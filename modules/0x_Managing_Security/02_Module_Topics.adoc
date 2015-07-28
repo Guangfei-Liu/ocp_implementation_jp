@@ -1,0 +1,20 @@
+== Module Topics
+:noaudio:
+
+* Authentication
+* Configuring Authentication
+* Authorization
+* Security Context Constraints
+* Managing Security Context Constraints
+* Summary
+* Lab : Managing Authentication
+* Lab : Manage Security Constraints
+
+
+ifdef::showscript[]
+
+=== Transcript
+Welcome to Module X of the OpenShift Enterprise Implementation course.
+endif::showscript[]
+
+

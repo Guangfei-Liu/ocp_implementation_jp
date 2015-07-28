@@ -1,0 +1,42 @@
+== Managing Security Context Constraints
+:noaudio:
+
+.Creating New Security Context Constraints
+
+* To create a new SCC, first define the SCC in a JSON or YAML file:
+* Security Context Constraint Object Definition:
++
+----
+kind: SecurityContextConstraints
+apiVersion: v1
+metadata:
+  name: scc-admin
+allowPrivilegedContainer: true
+runAsUser:
+  type: RunAsAny
+seLinuxContext:
+  type: RunAsAny
+users:
+- my-admin-user
+groups:
+- my-admin-group
+----
+
+* Then, run `oc create` passing the file to create it:
++
+----
+$ oc create -f scc_admin.yaml
+securitycontextconstraints/scc-admin
+
+$ oc get scc
+NAME         PRIV      CAPS      HOSTDIR   SELINUX     RUNASUSER
+privileged   true      []        true      RunAsAny    RunAsAny
+restricted   false     []        false     MustRunAs   MustRunAsRange
+scc-admin    true      []        false     RunAsAny    RunAsAny
+----
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+

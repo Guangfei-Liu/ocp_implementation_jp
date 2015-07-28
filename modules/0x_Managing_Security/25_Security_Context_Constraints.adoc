@@ -1,0 +1,48 @@
+== Security Context Constraints
+:noaudio:
+
+.Overview - Continued
+
+* Two SCCs are added to the cluster by default, _privileged_ and _restricted_,
+which are viewable by cluster administrators using the CLI:
++
+----
+$ oc get scc
+NAME         PRIV      CAPS      HOSTDIR   SELINUX     RUNASUSER
+privileged   true      []        true      RunAsAny    RunAsAny
+restricted   false     []        false     MustRunAs   MustRunAsRange
+----
+
+* The definition for each SCC is also viewable by cluster administrators using the
+CLI. For example, for the privileged SCC:
++
+----
+# oc export scc/privileged
+allowHostDirVolumePlugin: true
+allowPrivilegedContainer: true
+apiVersion: v1
+groups: <1>
+- system:cluster-admins
+- system:nodes
+kind: SecurityContextConstraints
+metadata:
+  creationTimestamp: null
+  name: privileged
+runAsUser:
+  type: RunAsAny <2>
+seLinuxContext:
+  type: RunAsAny <3>
+users: <4>
+- system:serviceaccount:openshift-infra:build-controller
+----
+
+<1> The groups that have access to this SCC
+<2> The run as user strategy type which dictates the allowable values for the Security Context
+<3> The SELinux context strategy type which dictates the allowable values for the Security Context
+<4> The users who have access to this SCC
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+

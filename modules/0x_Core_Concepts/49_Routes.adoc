@@ -22,9 +22,9 @@ spec:
     certificate: [as in edge termination]
     caCertificate: [as in edge termination]
     destinationCaCertificate: |-  <2>
-      -----BEGIN CERTIFICATE-----
+      BEGIN CERTIFICATE
       [...]
-      -----END CERTIFICATE-----
+      END CERTIFICATE
 ----
 
 <1> The `*termination*` field is set to `reencrypt`. Other fields are as in edge termination.

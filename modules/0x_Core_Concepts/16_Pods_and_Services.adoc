@@ -1,4 +1,6 @@
 == Pods and Services
+:noaudio:
+
 .Service Definition file/Manifest
 
 * Like pods, services are REST objects. The following

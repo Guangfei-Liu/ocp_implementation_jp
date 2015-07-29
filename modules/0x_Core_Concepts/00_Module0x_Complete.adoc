@@ -180,6 +180,7 @@ endif::showscript[]
 
 
 == Pods and Services
+:noaudio:
 
 .Pods Overview
 
@@ -198,6 +199,7 @@ ifdef::showscript[]
 endif::showscript[]
 
 == Pods and Services
+:noaudio:
 
 .Pods Overview - Continued
 
@@ -216,6 +218,7 @@ endif::showscript[]
 
 
 == Pods and Services
+:noaudio:
 
 .Pods Lifecycle
 
@@ -230,6 +233,7 @@ ifdef::showscript[]
 endif::showscript[]
 
 == Pods and Services
+:noaudio:
 
 .Pods Definition file/Manifest
 
@@ -266,6 +270,8 @@ ifdef::showscript[]
 endif::showscript[]
 
 == Pods and Services
+:noaudio:
+
 .Pods Definition file/Manifest - Continued
 
 [source,yaml]
@@ -294,6 +300,7 @@ ifdef::showscript[]
 endif::showscript[]
 
 == Pods and Services
+:noaudio:
 
 .Pods Definition file/Manifest - Continued
 [source,yaml]
@@ -330,6 +337,7 @@ ifdef::showscript[]
 endif::showscript[]
 
 == Pods and Services
+:noaudio:
 
 .Pods Definition file/Manifest - Continued
 
@@ -382,6 +390,8 @@ ifdef::showscript[]
 endif::showscript[]
 
 == Pods and Services
+:noaudio:
+
 .Service Definition file/Manifest
 
 * Like pods, services are REST objects. The following
@@ -420,6 +430,7 @@ ifdef::showscript[]
 endif::showscript[]
 
 == Pods and Services
+:noaudio:
 
 .Labels
 
@@ -441,6 +452,7 @@ ifdef::showscript[]
 endif::showscript[]
 
 == Pods and Services
+:noaudio:
 
 .Labels - Continued
 
@@ -1111,17 +1123,17 @@ spec:
   tls:
     termination: edge            <1>
     key: |-                      <2>
-      -----BEGIN PRIVATE KEY-----
+      BEGIN PRIVATE KEY
       [...]
-      -----END PRIVATE KEY-----
+      END PRIVATE KEY
     certificate: |-              <3>
-      -----BEGIN CERTIFICATE-----
+      BEGIN CERTIFICATE
       [...]
-      -----END CERTIFICATE-----
+      END CERTIFICATE
     caCertificate: |-            <4>
-      -----BEGIN CERTIFICATE-----
+      BEGIN CERTIFICATE
       [...]
-      -----END CERTIFICATE-----
+      END
 ----
 
 <1> The `*termination*` field is `edge` for edge termination.
@@ -1229,9 +1241,9 @@ spec:
     certificate: [as in edge termination]
     caCertificate: [as in edge termination]
     destinationCaCertificate: |-  <2>
-      -----BEGIN CERTIFICATE-----
+      BEGIN CERTIFICATE
       [...]
-      -----END CERTIFICATE-----
+      END CERTIFICATE
 ----
 
 <1> The `*termination*` field is set to `reencrypt`. Other fields are as in edge termination.

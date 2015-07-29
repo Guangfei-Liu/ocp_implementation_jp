@@ -19,17 +19,17 @@ spec:
   tls:
     termination: edge            <1>
     key: |-                      <2>
-      -----BEGIN PRIVATE KEY-----
+      BEGIN PRIVATE KEY
       [...]
-      -----END PRIVATE KEY-----
+      END PRIVATE KEY
     certificate: |-              <3>
-      -----BEGIN CERTIFICATE-----
+      BEGIN CERTIFICATE
       [...]
-      -----END CERTIFICATE-----
+      END CERTIFICATE
     caCertificate: |-            <4>
-      -----BEGIN CERTIFICATE-----
+      BEGIN CERTIFICATE
       [...]
-      -----END CERTIFICATE-----
+      END
 ----
 
 <1> The `*termination*` field is `edge` for edge termination.

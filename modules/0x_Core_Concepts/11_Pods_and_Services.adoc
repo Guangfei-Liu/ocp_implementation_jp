@@ -1,4 +1,5 @@
 == Pods and Services
+:noaudio:
 
 .Pods Lifecycle
 

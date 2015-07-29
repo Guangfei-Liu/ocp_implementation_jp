@@ -1,0 +1,18 @@
+== Pods and Services
+
+.Pods Overview - Continued
+
+* OpenShift treats pods as largely "static"; changes cannot be made to
+a pod definition while it is running.
+
+* OpenShift implements changes by terminating an existing pod and recreating it
+with modified configuration, base image(s), or both.
+* Pods are also treated as expendable, and *do not maintain state* when recreated.
+* Therefore pods should usually be managed by higher-level _controllers_ rather
+than directly by users.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+

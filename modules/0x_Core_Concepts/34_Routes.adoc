@@ -1,0 +1,21 @@
+== Routes
+:noaudio:
+.Routers
+
+* An OpenShift administrator can deploy _routers_ in an OpenShift cluster.
+* These enable routes created by developersto be used by external clients.
+
+* OpenShift routers provide external hostname mapping and load balancing
+to _services_ over protocols that pass distinguishing information directly to
+the router.
+** The hostname must be present in the protocol in order for the router to determine
+where to send it.
+
+* Routers support the following protocols:
+- HTTP
+- HTTPS
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+

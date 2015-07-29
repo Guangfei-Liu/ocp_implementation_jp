@@ -1,0 +1,25 @@
+== Builds and Image Streams
+:noaudio:
+
+.Image Pull Policy
+
+* Each container in a pod has a Docker image. Once you have created an image and
+pushed it to a registry, you can then refer to it in the pod.
+
+* When OpenShift creates containers, it uses the container's `imagePullPolicy`
+to determine if the image should be pulled prior to starting the container.
+
+* There are three possible values for `imagePullPolicy`:
+
+- `Always` - always pull the image.
+- `IfNotPresent` - only pull the image if it does not already exist on the node.
+- `Never` - never pull the image.
+
+NOTE: If a container's `imagePullPolicy` parameter is not specified, OpenShift
+sets it based on the image's tag, if the tag is: *latest*, OpenShift defaults
+`imagePullPolicy` to *Always*.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+

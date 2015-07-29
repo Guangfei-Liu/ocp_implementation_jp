@@ -1,0 +1,25 @@
+== Builds and Image Streams
+:noaudio:
+
+.S2I Advantages
+
+[horizontal]
+Image flexibility:: S2I scripts can be written to layer application code onto
+almost any existing Docker image, taking advantage of the existing ecosystem.
+Note that, currently, S2I relies on `tar` to inject application
+source, so the image needs to be able to process tarred content.
+
+Speed:: With S2I, the assemble process can perform a large number of complex
+operations without creating a new layer at each step, resulting in a fast
+process. In addition, S2I scripts can be written to re-use artifacts stored in a
+previous version of the application image, rather than having to download or
+build them, each time the build is run.
+
+Patchability:: S2I allows you to rebuild the application consistently if an
+underlying image needs a patch due to a security issue.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+

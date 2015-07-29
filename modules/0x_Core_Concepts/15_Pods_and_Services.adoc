@@ -1,0 +1,52 @@
+== Pods and Services
+
+.Pods Definition file/Manifest - Continued
+
+[source,yaml]
+----
+   dnsPolicy: ClusterFirst
+   imagePullSecrets:
+   - name: default-dockercfg-at06w
+   restartPolicy: Always
+   serviceAccount: default               <1>
+   volumes:                              <2>
+   - emptyDir: {}
+     name: registry-storage
+   - name: default-token-br6yz
+     secret:
+       secretName: default-token-br6yz
+----
+
+<1> Pods making requests against the OpenShift API is a common enough pattern
+ that there is a `*serviceAccount*` field for specifying which _service account_
+  user the pod should authenticate as when making the requests. This enables
+  fine-grained access control for custom infrastructure components.
+<2> The pod defines storage volumes that are available to its container(s) to
+ use. In this case, it provides an ephemeral volume for the registry storage and
+ a *secret* volume containing the service account credentials.
+
+ ifdef::showscript[]
+ === Transcript
+ endif::showscript[]
+
+ == Pods and Services
+
+ .Services
+
+ * A Kubernetes _service_ serves as an internal load balancer.
+ It identifies a set of replicated _pods_ in order to proxy the connections it
+ receives to them.
+ * Backing pods can be added to or removed from a service arbitrarily while the
+ _service_ remains consistently available, enabling anything that depends on the
+ _service_ to refer to it at a consistent internal address.
+
+ * Services are assigned an IP address and port pair that, when accessed,
+ proxy to an appropriate backing pod.
+ * A service uses a label selector to find  all the containers running that
+ provide a certain network service on a certain port.
+
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+

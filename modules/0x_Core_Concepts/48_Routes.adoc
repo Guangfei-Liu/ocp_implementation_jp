@@ -1,0 +1,18 @@
+== Routes
+:noaudio:
+
+.Secured TLS termination types Re-encryption Termination
+
+*Re-encryption Termination*
+
+* Re-encryption is a variation on edge termination where the router terminates
+TLS with a certificate, then re-encrypts its connection to the endpoint which
+may have a different certificate.
+* Therefore the full path of the connection is encrypted, even over the internal
+network. The router uses health checks to determine the authenticity of the host.
+
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+

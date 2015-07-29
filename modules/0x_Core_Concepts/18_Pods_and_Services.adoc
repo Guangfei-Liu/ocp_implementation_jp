@@ -1,0 +1,33 @@
+== Pods and Services
+
+.Labels - Continued
+
+* Labels are simple key/value pairs, as in the following example:
++
+[source,yaml]
+----
+ labels:
+   key1: value1
+   key2: value2
+----
+
+* Consider:
+ ** A pod consisting of an *nginx* docker container, with the label
+ *role=webserver*.
+ ** A pod consisting of an *Apache httpd* docker container, with the same label
+ *role=webserver*.
+ ** A service or replication controller that is defined to use pods with the
+ *role=webserver* label treats both of these pods as part of the same group.
+
+* Here is an example how you would remove all the components with the same label
+*app=mytest*.
++
+----
+# oc delete all -l app=mytest
+----
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+

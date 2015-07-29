@@ -1,0 +1,38 @@
+== Pods and Services
+.Service Definition file/Manifest
+
+* Like pods, services are REST objects. The following
+example shows the definition of a service for the pod defined above:
++
+[source,yaml]
+----
+ apiVersion: v1
+ kind: Service
+ metadata:
+   name: docker-registry      <1>
+ spec:
+   selector:                  <2>
+     docker-registry: default
+   portalIP: 172.30.136.123   <3>
+   ports:
+   - nodePort: 0
+     port: 5000               <4>
+     protocol: TCP
+     targetPort: 5000
+----
+
+<1> The service name *docker-registry* is also used to construct an
+ environment variable with the service IP that is inserted into other
+ pods in the same namespace.
+<2> The label selector identifies all pods with the
+ *docker-registry=default* label attached as its backing pods.
+<3> Virtual IP of the service, allocated automatically at creation from a pool
+ of internal IPs.
+<4> Port the service listens on.
+<5> Port on the backing pods to which the service forwards connections.
+
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+

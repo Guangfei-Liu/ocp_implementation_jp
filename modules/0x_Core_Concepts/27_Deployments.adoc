@@ -1,0 +1,16 @@
+== Deployments
+:noaudio:
+
+.Replication Controllers
+
+* A replication controller ensures that a specified number of replicas of a pod
+are running at all times.
+* If pods exit or are deleted, the replica controller acts to instantiate more
+up to the desired number.
+* Likewise, if there are more running than desired, it deletes as many as necessary to match the number.
+
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+

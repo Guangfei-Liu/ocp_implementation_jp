@@ -1,0 +1,27 @@
+== Routes
+:noaudio:
+
+.Routes without Hostnames
+
+* If a hostname is *not* provided as part of the route specification, then
+OpenShift will automatically generate one for you.
+* The generated hostname is of the form `$routename[.$namespace].$suffix`.
+* A Route definition without a host:
+
+[source,yaml]
+----
+apiVersion: v1
+kind: Route
+metadata:
+  name: no-route-hostname
+spec:
+  to:
+    kind: Service
+    name: service-name
+----
+
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+

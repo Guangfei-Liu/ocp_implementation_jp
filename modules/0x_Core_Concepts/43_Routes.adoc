@@ -1,0 +1,18 @@
+== Routes
+:noaudio:
+
+.Route Types - Secured Routes
+
+* Secured routes specify the TLS termination of the route and, optionally,
+provide a key and certificate(s).
+
+NOTE: TLS termination in OpenShift relies on
+link:https://en.wikipedia.org/wiki/Server_Name_Indication[SNI] for serving
+custom certificates. Any non-SNI traffic received on port 443 is handled with TLS
+termination and a default certificate (which may not match the requested hostname,
+resulting in validation errors).
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+

@@ -1,0 +1,17 @@
+== Builds and Image Streams
+:noaudio:
+
+.Custom Build
+
+* The Custom build strategy allows developers to define a specific builder image,
+responsible for the entire build process. Using your own builder image allows
+you to customize your build process.
+
+* Custom builder imageis a plain Docker image with embedded build process logic,
+ such as building RPMs or building base Docker images.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+

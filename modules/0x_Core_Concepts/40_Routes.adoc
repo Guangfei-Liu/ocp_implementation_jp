@@ -1,0 +1,29 @@
+== Routes
+:noaudio:
+
+.Route Types - Unsecured Route Object YAML Definition
+
+[source,yaml]
+----
+apiVersion: v1
+kind: Route
+metadata:
+  name: route-unsecured
+spec:
+  host: www.example.com
+  to:
+    kind: Service
+    name: service-name
+----
+
+* Unsecured routes are simplest to configure, as they require no key
+or certificates, but secured routes offer security for connections to
+remain private.
+
+* A secured route is one that specifies the TLS termination of the route.
+The available types of termination described below.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+

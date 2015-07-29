@@ -1,0 +1,39 @@
+== Routes
+:noaudio:
+
+.Secured TLS termination types Re-encryption Termination
+
+* A Secured Route definition using Re-Encrypt Termination
++
+[source,yaml]
+----
+apiVersion: v1
+kind: Route
+metadata:
+  name: route-pt-secured
+spec:
+  host: www.example.com
+  to:
+    kind: Service
+    name: service-name
+  tls:
+    termination: reencrypt        <1>
+    key: [as in edge termination]
+    certificate: [as in edge termination]
+    caCertificate: [as in edge termination]
+    destinationCaCertificate: |-  <2>
+      -----BEGIN CERTIFICATE-----
+      [...]
+      -----END CERTIFICATE-----
+----
+
+<1> The `*termination*` field is set to `reencrypt`. Other fields are as in edge termination.
+<2> The `*destinationCaCertificate*` field optionally specifies a CA
+certificate to validate the endpoint certificate, securing the connection
+from the router to the destination.
+
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+

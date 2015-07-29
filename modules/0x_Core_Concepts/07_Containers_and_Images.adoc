@@ -1,0 +1,27 @@
+== Containers and Images
+:noaudio:
+
+.Docker Images
+
+* You can use Docker directly to build images, but OpenShift also supplies
+builders that assist with creating an image by adding your code or
+configuration to existing images.
+
+* Since applications develop over time, a single image name can actually
+refer to many different versions of the "same" image.
+** Each different image is referred to uniquely by its hash (a long hexadecimal
+  number e.g. `fd44297e2ddb050ec4f...`) which is usually shortened to 12
+characters (e.g. `fd44297e2ddb`).
+** Rather than version numbers, Docker allows applying tags (such as `v1`, `v2.1`
+  , `GA`, or the default `latest`)
+** in addition to the image name to further specify the image desired, so
+you may see the same image referred to as `rhel` (implying the `latest`
+tag), `rhel:rhel7`, or `fd44297e2ddb`.
+
+
+ifdef::showscript[]
+
+ === Transcript
+
+endif::showscript[]
+

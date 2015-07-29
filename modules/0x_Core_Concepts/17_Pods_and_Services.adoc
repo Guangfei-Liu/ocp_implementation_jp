@@ -1,0 +1,21 @@
+== Pods and Services
+
+.Labels
+
+* Labels are used to organize, group, or select API objects.
+**  For example, _pods_ are "tagged" with labels, and then
+ _services_ use label selectors to identify the pods they
+ proxy to.
+** This makes it possible for services to reference groups of pods, even
+treating pods with potentially different docker containers as related entities.
+
+* Most objects can include labels in their metadata. So labels can  be used to
+group arbitrarily-related objects; for example, all of the _pods_, _services_,
+ _replication controllers_, and _deployment configurations_ of a particular
+ application can be grouped.
+
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+

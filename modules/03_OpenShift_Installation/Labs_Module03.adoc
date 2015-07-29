@@ -12,7 +12,7 @@ In this lab we will Deploy OpenShift Enterprise on a single host (in later labs 
 * Configure Network Settings
 * Install Docker on our host
 * Configure and Install OpenShift Enterprise
-* Test deployment.
+
 
 === Lab Environment Architecture and Important Information
 

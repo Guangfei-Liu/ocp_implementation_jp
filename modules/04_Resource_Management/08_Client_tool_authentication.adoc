@@ -1,0 +1,27 @@
+== Client tool authentication
+:noaudio:
+
+.CLI Authentication
+
+* You can authenticate from the command line using the CLI command `oc login`.
++
+----
+$ oc login
+----
+
+* The command's interactive flow helps you establish a session to an OpenShift
+server with the provided credentials.
+
+* All configuration options for the `oc login` command, listed in the `oc login
+--help` command output, are optional. The following example shows usage with
+some common options:
+
+* Here is a handy example, lets say we wanted to authenticate as the Openshift
+Cluster Administrator (Usually root User), we could use the following:
++
+----
+$ oc login -u system:admin -n openshift
+----
+NOTE: Notice that we are setting the user name and the *project* (_namespace_)
+to log in to.
+

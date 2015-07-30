@@ -1,0 +1,33 @@
+== Services and Routes
+:noaudio:
+
+* An OpenShift route is a way to announce your service to the world. A route, consumed by a router in conjunction with service endpoints, provides named connectivity from external sources to your applications. Each route provides a name, service selector, and, optionally, security configuration.
+
+* Here is a Route Object Definition:
++
+[source,json]
+----
+{
+  "kind": "Route",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "route-unsecure"
+  },
+  "spec": {
+    "host": "www.example.com",
+    "to": {
+      "kind": "Service",
+      "name": "hello-nginx"
+    }
+  }
+}
+----
+
+* OpenShift routers provide external DNS mapping and load balancing to services over protocols that pass distinguishing information directly to the router.
+* Routers support the following protocols:
+** HTTP
+** HTTPS
+//** WebSockets
+//** TLS with SNI
+
+

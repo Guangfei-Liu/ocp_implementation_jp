@@ -6,6 +6,7 @@ Module 04 : Resource Management
 
 * OpenShift Resources
 * Projects and Users
+* Client tool authentication
 * Resource Quota
 * Services and Routes
 * Deployments

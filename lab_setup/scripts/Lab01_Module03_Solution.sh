@@ -8,8 +8,12 @@
 #####################################################################################
 
 hostname | grep master
-if [ $? -eq 0 ]
+if [ $? -ne 0 ]
 then
+echo "Not on Master, Quiting"
+exit;
+fi
+
 export guid=`hostname|cut -f2 -d-|cut -f1 -d.`
 export GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
 
@@ -115,7 +119,7 @@ yum -y remove NetworkManager*
 echo "Do the same for the rest of the nodes"
 for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do ssh $node "yum -y  remove NetworkManager*"  ; done
 echo "Install Misc tools and utilities on the master"
-yum -y install wget git net-tools bind-utils iptables-services bridge-utils python-virtualenv gcc
+yum -y install wget git net-tools bind-utils iptables-services bridge-utils python-virtualenv gcc bash-completion
 
 
 echo "=== Install Docker"
@@ -160,7 +164,7 @@ echo "Sleep 60 to wait for the nodes to come up"
 sleep 60
 echo "=== Populate local Docker registry"
 
-
+# We could add an & at the end of the ssh command to make this go faster.
 for node in node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com
 do
 ssh $node "docker pull registry.access.redhat.com/openshift3/ose-deployer:v3.0.0.1 ; \
@@ -242,8 +246,8 @@ read x;
 echo "Add the Default route to the OpenShift master configuration file"
 
 
-echo "configuration:
-  subdomain: cloudapps-$GUID.oslab.opentlc.com" >> /etc/openshift/master/master-config.yaml
+sed -i "s/router.default.local/cloudapps-${GUID}.oslab.opentlc.com/g" /etc/openshift/master/master-config.yaml
+systemctl restart openshift-master
 
 
 echo "== Lab: OpenShift Configuration and Setup"
@@ -258,8 +262,12 @@ oc get nodes
 
 oadm manage-node master00-$guid.oslab.opentlc.com  --schedulable=false
 
-echo "Deploy the Registry"
+echo "SKIPPING create a default NodeSelector in master-config"
+#sed -i 's/defaultNodeSelector: ""/defaultNodeSelector: "region=primary"' /etc/openshift/master/master-config.yaml
+#systemctl restart openshift-master
 
+
+echo "Deploy the Registry"
 
 oadm registry  --credentials=/etc/openshift/master/openshift-registry.kubeconfig  --images='registry.access.redhat.com/openshift3/ose-docker-registry:v3.0.0.1' --selector='region=infra'
 
@@ -271,11 +279,11 @@ oadm router trainingrouter --stats-password='r3dh@t1!' --replicas=1 \
 --selector='region=infra'
 
 
-echo "=== Populating OpenShift"
+echo "SKIPPING, Already populatedPopulating OpenShift"
 
- oc create -f /usr/share/openshift/examples/image-streams/image-streams-rhel7.json -n openshift
- oc create -f /usr/share/openshift/examples/db-templates -n openshift
- oc create -f /usr/share/openshift/examples/quickstart-templates -n openshift
+ #oc create -f /usr/share/openshift/examples/image-streams/image-streams-rhel7.json -n openshift
+ #oc create -f /usr/share/openshift/examples/db-templates -n openshift
+ #oc create -f /usr/share/openshift/examples/quickstart-templates -n openshift
 
 
 echo "== Lab: Configure Authentication"
@@ -305,4 +313,83 @@ echo "Restart openshift-master for changes to take effect"
 systemctl restart openshift-master
 systemctl status openshift-master
 
-fi
+#5.1. Export an NFS Volume for Persistent Storage
+echo "Export an NFS Volume for Persistent Storage"
+
+echo "As root on the master host ensure that nfs-utils is installed on the nodes:"
+for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do yum -y install nfs-utils ; done
+
+ssh root@192.168.0.254 "
+mkdir -p /var/export/registry-storage
+chown nfsnobody:nfsnobody /var/export/registry-storage
+chmod 700 /var/export/registry-storage
+
+systemctl enable rpcbind nfs-server
+systemctl start rpcbind nfs-server nfs-lock nfs-idmap
+systemctl stop firewalld
+systemctl disable firewalld
+"
+
+echo "Allow NFS Access in SELinux Policy on all nodes"
+for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do setsebool -P virt_use_nfs=true ; done
+
+echo "Create a Persistent Volume for the Registry"
+
+cat << EOF > registry-volume.json
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolume",
+      "metadata": {
+        "name": "registry-storage"
+      },
+      "spec": {
+        "capacity": {
+            "storage": "15Gi"
+            },
+        "accessModes": [ "ReadWriteMany" ],
+        "nfs": {
+            "path": "/var/export/registry-storage",
+            "server": "oselab-${GUID}.oslab.opentlc.com"
+        }
+      }
+    }
+
+EOF
+
+echo "Create your registry-volume"
+ oc create -f registry-volume.json -n default
+oc get pv
+
+
+echo "Create a claim definition file to claim your volume"
+
+ cat << EOF > registry-volume-claim.json
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolumeClaim",
+      "metadata": {
+        "name": "registry-claim"
+      },
+      "spec": {
+        "accessModes": [ "ReadWriteMany" ],
+        "resources": {
+          "requests": {
+            "storage": "15Gi"
+          }
+        }
+      }
+    }
+
+EOF
+
+ oc create -f registry-volume-claim.json
+oc get pv
+oc get pvc
+
+
+echo "Attach the Persistent Volume to the Registry"
+
+oc get dc docker-registry -o json > docker-registry.json
+sed -i  '/emptyDir/c\"persistentVolumeClaim": { "claimName": "registry-claim" }' docker-registry.json
+sed -i  's/"privileged": false/"privileged": true' docker-registry.json
+oc update -f docker-registry.json

@@ -317,15 +317,15 @@ systemctl status openshift-master
 echo "Export an NFS Volume for Persistent Storage"
 
 echo "As root on the master host ensure that nfs-utils is installed on the nodes:"
-for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do yum -y install nfs-utils ; done
+for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do ssh $node "yum -y install nfs-utils" ; done
 
 ssh root@192.168.0.254 "
 mkdir -p /var/export/registry-storage
-chown nfsnobody:nfsnobody /var/export/registry-storage
-chmod 700 /var/export/registry-storage
-
+chown -R nfsnobody:nfsnobody /var/export/registry-storage
+chmod -R 700 /var/export/registry-storage
+echo '/var/export/registry-storage *(rw,sync,all_squash)' >> /etc/exports
 systemctl enable rpcbind nfs-server
-systemctl start rpcbind nfs-server nfs-lock nfs-idmap
+systemctl restart rpcbind nfs-server nfs-lock nfs-idmap
 systemctl stop firewalld
 systemctl disable firewalld
 "
@@ -357,7 +357,7 @@ cat << EOF > registry-volume.json
 EOF
 
 echo "Create your registry-volume"
- oc create -f registry-volume.json -n default
+ oc create -f registry-volume.json
 oc get pv
 
 
@@ -388,8 +388,10 @@ oc get pvc
 
 
 echo "Attach the Persistent Volume to the Registry"
+oc volume dc/docker-registry --add --overwrite -t persistentVolumeClaim \
+--claim-name=registry-claim --name=registry-storage
 
-oc get dc docker-registry -o json > docker-registry.json
-sed -i  '/emptyDir/c\"persistentVolumeClaim": { "claimName": "registry-claim" }' docker-registry.json
-sed -i  's/"privileged": false/"privileged": true' docker-registry.json
-oc update -f docker-registry.json
+#oc get dc docker-registry -o json > docker-registry.json
+#sed -i  '/emptyDir/c\"persistentVolumeClaim": { "claimName": "registry-claim" }' docker-registry.json
+#sed -i  's/"privileged": false/"privileged": true/g' docker-registry.json
+#oc update -f docker-registry.json

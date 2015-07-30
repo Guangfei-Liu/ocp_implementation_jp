@@ -1306,7 +1306,7 @@ that instead of the master.
 +
 ----
 
-[root@master00-GUID ~]# ]# for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do yum -y install nfs-utils ; done
+[root@master00-GUID ~]# ]# for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do ssh $node "yum -y install nfs-utils" ; done
 
 ----
 
@@ -1517,26 +1517,10 @@ trainingrouter    ConfigChange   1
 [root@master00-678a ~]# oc edit dc docker-registry -o json
 ----
 
-. Make your volumes entry look like this:
-.. You will be adding the PersistentVolumeClaim lines and deleting the emptyDir line.
-----
-"spec": {
-               "volumes": [
-                   {
-                       "name": "registry-storage",
-                       "persistentVolumeClaim": {
-                           "claimName": "registry-claim"
-                       }
-                   }
-               ],
+. Add the volume to the Registry's _DeploymentConfiguration_, this will trigger
+a redeploymetn of the registry.
 
 ----
-
-. While editing the file, make sure you change your pod's privileged status to true.
-+
-----
-Change:
-"privileged": false
-To:
-"privileged": true
+oc volume dc/docker-registry --add --overwrite -t persistentVolumeClaim \
+--claim-name=registry-claim --name=registry-storage
 ----

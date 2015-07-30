@@ -1,0 +1,18 @@
+== Builds and Image Streams
+:noaudio:
+
+.Builds Overview - Continued
+
+* The resulting object of a build depends on the builder used to create it.
+* For Docker and S2I builds, the resulting objects are runnable images.
+* For Custom builds, the resulting objects are whatever the builder image author has
+specified.
+
+* For a list of build commands, see the :
+link:https://docs.openshift.org/latest/dev_guide/builds.html[Developer's Guide].
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+

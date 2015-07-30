@@ -1,33 +1,72 @@
 == Services and Routes
 :noaudio:
 
-* An OpenShift route is a way to announce your service to the world. A route, consumed by a router in conjunction with service endpoints, provides named connectivity from external sources to your applications. Each route provides a name, service selector, and, optionally, security configuration.
-
-* Here is a Route Object Definition:
+.Pods Recap:
+* *Pod* - Application or instance of something
+** Similar to *gear* in OpenShift Enterprise 2.x
+** Reality is more complex - will learn more moving forward
+* Here is a sample Pod definition .json File:
 +
 [source,json]
 ----
 {
-  "kind": "Route",
+  "kind": "Pod",
   "apiVersion": "v1",
   "metadata": {
-    "name": "route-unsecure"
+    "name": "hello-openshift",
+    "creationTimestamp": null,
+    "labels": {
+      "name": "hello-openshift"
+    }
   },
   "spec": {
-    "host": "www.example.com",
-    "to": {
-      "kind": "Service",
-      "name": "hello-nginx"
-    }
-  }
+    "containers": [
+      {
+        "name": "hello-openshift",
+        "image": "openshift/hello-openshift:v0.4.3",
+        "ports": [
+          {
+            "containerPort": 8080,
+            "protocol": "TCP"
+          }
+        ],
+        "resources": {
+          "limits": {
+            "cpu": "10m",
+            "memory": "16Mi"
+          }
+        },
+        "terminationMessagePath": "/dev/termination-log",
+        "imagePullPolicy": "IfNotPresent",
+        "capabilities": {},
+        "securityContext": {
+          "capabilities": {},
+          "privileged": false
+        },
+        "nodeSelector": {
+          "region": "primary"
+        }
+      }
+    ],
+    "restartPolicy": "Always",
+    "dnsPolicy": "ClusterFirst",
+    "serviceAccount": ""
+  },
+  "status": {}
 }
+
 ----
 
-* OpenShift routers provide external DNS mapping and load balancing to services over protocols that pass distinguishing information directly to the router.
-* Routers support the following protocols:
-** HTTP
-** HTTPS
-** WebSockets
-** TLS with SNI
+ifdef::showscript[]
+
+=== Transcript
+
+In the simplest sense, a *pod* is an application or an instance of something. If you are familiar with OpenShift Enterprise version 2 terminology, a pod is somewhat similar to a *gear*.
+In reality, pods are more complex, which you will learn as you explore OpenShift Enterprise further.
+
+As shown in the code sample, you use the `oc get pod` command to view pods running in your environment, which is usually your project.
+
+endif::showscript[]
+
 
 

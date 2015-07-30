@@ -1,0 +1,18 @@
+== Module Topics
+:noaudio:
+
+* Overview
+* Containers and Images
+* Pods and Services
+* Projects and Users
+* Builds and ImageStreams
+* Deployments
+* Routes
+* Templates
+
+ifdef::showscript[]
+
+=== Transcript
+Welcome to Module X of the OpenShift Enterprise Implementation course.
+
+endif::showscript[]

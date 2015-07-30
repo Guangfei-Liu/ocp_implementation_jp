@@ -1,0 +1,21 @@
+== Resource Quota
+:noaudio:
+
+.Creating and applying a quota to a project
+
+* Apply a quota to a Project
++
+----
+
+$ oc create -f create_quota_def_file.json --namespace=your_project_name
+
+----
+
+ifdef::showscript[]
+
+=== Transcript
+
+
+endif::showscript[]
+
+

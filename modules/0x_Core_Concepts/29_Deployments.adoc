@@ -1,0 +1,42 @@
+== Deployments
+:noaudio:
+
+.Replication Controllers  Definition file/Manifest
+
+* Replication controllers are a core Kubernetes object, _ReplicationController_.
+* Here is an example _ReplicationController_ definition with some omissions
+and callouts:
++
+[source,yaml]
+----
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: frontend-1
+spec:
+  replicas: 1  <1>
+  selector:    <2>
+    name: frontend
+  template:    <3>
+    metadata:
+      labels:  <4>
+        name: frontend
+    spec:
+      containers:
+      - image: openshift/hello-openshift
+        name: helloworld
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+      restartPolicy: Always
+----
+
+<1> The number of copies of the pod to run.
+<2> The label selector of the pod to run.
+<3> A template for the pod the controller creates.
+<4> Labels on the pod should include those from the label selector.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+

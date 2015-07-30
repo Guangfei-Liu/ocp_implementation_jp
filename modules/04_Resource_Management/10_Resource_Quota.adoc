@@ -1,15 +1,26 @@
 == Resource Quota
 :noaudio:
 
-.Creating and applying a quota to a project
+.What is ResourceQuota
+* OpenShift can limit both the number of objects created in a Project , and the total amount of resources requested across objects in a namespace/Project.
+* This facilitates sharing of a single OpenShift cluster by several teams, each in a Project of their own, as a mechanism of preventing one team from starving another team of cluster resources.
+* A ResourceQuota object enumerates hard resource usage limits per project.
+** It can limit the total number of a particular type of object that may be created in a project, and the total amount of compute resources that may be consumed by resources in that project.
 
-* Apply a quota to a Project
-+
-----
 
-$ oc create -f create_quota_def_file.json --namespace=your_project_name
+.Usage limits
+|===
+|Resource Name |Description
+|cpu |Total cpu usage across all containers
+|memory |Total memory usage across all containers
+|pods |Total number of pods
+|replicationcontrollers | Total number of replication controllers
+|resourcequotas | Total number of resource quotas
+| services | Total number of services
+| secrets | Total number of secrets
+| persistentvolumeclaims |Total number of persistent volume claims
+|===
 
-----
 
 ifdef::showscript[]
 
@@ -17,5 +28,6 @@ ifdef::showscript[]
 
 
 endif::showscript[]
+
 
 

@@ -1,0 +1,24 @@
+== Builds and Image Streams
+:noaudio:
+
+.Docker Build
+
+* The Docker build strategy invokes the plain _docker build_ command,
+and therefore expects a repository with a *_Dockerfile_* and all required
+artifacts in it to produce a runnable image.
+
+
+.Source-to-Image (S2I) Build
+* Source-to-Image (S2I)] is a tool for building reproducible Docker images.
+* It produces ready-to-run images by injecting a user source into a docker image
+ and assembling a new docker image.
+* The new image incorporates the base image (the builder) and built source, and
+is ready to use with the `docker run` command.
+* S2I supports incremental builds, which re-use previously downloaded
+dependencies, previously built artifacts, etc.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+

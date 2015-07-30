@@ -1,0 +1,30 @@
+== Pods and Services
+:noaudio:
+
+.Pods Definition file/Manifest - Continued
+
+[source,yaml]
+----
+ spec:
+   containers:                            <1>
+   - env:                                 <2>
+     - name: OPENSHIFT_CA_DATA
+       value: ...
+     - name: OPENSHIFT_CERT_DATA
+       value: ...
+     - name: OPENSHIFT_INSECURE
+       value: "false"
+     - name: OPENSHIFT_KEY_DATA
+       value: ...
+     - name: OPENSHIFT_MASTER
+       value: https://master.example.com:8443
+----
+<1> *containers* specifies an array of container definitions; in this case (as
+ with most), just one.
+<2> Environment variables can be specified to pass necessary values to each
+ container. (For example, these can be credentials and database connection details)
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+

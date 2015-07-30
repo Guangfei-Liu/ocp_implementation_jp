@@ -1,0 +1,23 @@
+== Containers and Images
+:noaudio:
+
+.Containers Continued
+
+* The Linux kernel has been incorporating capabilities for container technologies
+for years.
+* More recently the link:https://www.docker.com/whatisdocker/[Docker project]
+has developed a convenient management interface for Linux containers on a host.
+* OpenShift and Kubernetes add the ability to orchestrate Docker containers across
+multi-host installations.
+
+NOTE: Though you do not directly interact with Docker tools when using
+OpenShift, understanding Docker's capabilities and terminology is
+important for understanding its role in OpenShift and how your
+applications function inside of containers.
+
+ifdef::showscript[]
+
+ === Transcript
+
+endif::showscript[]
+

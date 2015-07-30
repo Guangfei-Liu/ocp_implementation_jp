@@ -1,0 +1,46 @@
+== Routes
+:noaudio:
+
+.Secured TLS termination types - Edge Termination
+
+* A Secured Route definition using Edge Termination:
+
+[source,yaml]
+----
+apiVersion: v1
+kind: Route
+metadata:
+  name: route-edge-secured
+spec:
+  host: www.example.com
+  to:
+    kind: Service
+    name: service-name
+  tls:
+    termination: edge            <1>
+    key: |-                      <2>
+      BEGIN PRIVATE KEY
+      [...]
+      END PRIVATE KEY
+    certificate: |-              <3>
+      BEGIN CERTIFICATE
+      [...]
+      END CERTIFICATE
+    caCertificate: |-            <4>
+      BEGIN CERTIFICATE
+      [...]
+      END
+----
+
+<1> The `*termination*` field is `edge` for edge termination.
+<2> The `*certificate*` field is the contents of the PEM format certificate file.
+<3> The `*key*` field is the contents of the PEM format key file.
+<4> An optional CA certificate may be required to establish a certificate chain for validation.
+
+NOTE: Because TLS is terminated at the router, connections from the router to
+the endpoints over the internal network are not encrypted.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+

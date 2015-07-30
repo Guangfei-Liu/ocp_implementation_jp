@@ -1,9 +1,9 @@
+== &nbsp;
 :noaudio:
 
 ifdef::revealjs_slideshow[]
 
 [#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"]
-== &nbsp;
 
 
 [#cover-h1]
@@ -41,6 +41,7 @@ Welcome to Module 3 of the OpenShift Enterprise Implementation course.
 
 
 endif::showscript[]
+
 == Installation Scenario
 :noaudio:
 

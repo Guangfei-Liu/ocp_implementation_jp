@@ -1,0 +1,37 @@
+== Pods and Services
+:noaudio:
+
+.Pods Definition file/Manifest - Continued
+[source,yaml]
+----
+     image: openshift/origin-docker-registry:v0.6.2 <1>
+     imagePullPolicy: IfNotPresent
+     name: registry
+     ports:                              <2>
+     - containerPort: 5000
+       protocol: TCP
+     resources: {}
+     securityContext: { ... }            <3>
+     volumeMounts:                       <4>
+     - mountPath: /registry
+       name: registry-storage
+     - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+       name: default-token-br6yz
+       readOnly: true
+----
+
+<1> Each container in the pod is instantiated from its own _Docker image_.
+<2> The container can bind to ports which will be made available on the pod's IP.
+<3> OpenShift defines a _security context_ for containers which specifies
+whether they are allowed to run as privileged containers, run as a user of their
+choice, and more. The default context is very restrictive but administrators can
+ modify this as needed.
+<4> The container specifies where external storage volumes should be mounted
+within the container. In this case, there is a volume for storing the registry's
+ data, and one for access to credentials the registry needs for making requests
+ against the OpenShift API.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+

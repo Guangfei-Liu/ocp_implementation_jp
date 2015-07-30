@@ -12,7 +12,7 @@ In this lab we will Deploy OpenShift Enterprise on a single host (in later labs 
 * Configure Network Settings
 * Install Docker on our host
 * Configure and Install OpenShift Enterprise
-* Test deployment.
+
 
 === Lab Environment Architecture and Important Information
 
@@ -444,7 +444,7 @@ NOTE: It is possible to configure *NetworkManager*  so it doesn't need to be rem
 +
 ----
 
-[root@master00-GUID ~]# yum -y install wget git net-tools bind-utils iptables-services bridge-utils python-virtualenv gcc bash-completion
+[root@master00-GUID ~]# yum -y install wget git net-tools bind-utils iptables-services bridge-utils python-virtualenv gcc bash-completion bash-completion
 
 ----
 
@@ -1039,8 +1039,21 @@ and "primary".
 From here we will start to deploy "applications" and other resources into
 OpenShift.
 
-=== Useful OpenShift Logs
+=== Useful OpenShift Configuration Tips
 
+.Setting Default Route
+
+. *If you wanted* to set a _default Route_, you can do it with the following
+commands:
++
+[source,bash]
+----
+[root@master00-GUID ~]# sed -i "s/router.default.local/cloudapps-${GUID}.oslab.opentlc.com/g" /etc/openshift/master/master-config.yaml
+[root@master00-GUID ~]# systemctl restart openshift-master
+
+----
+
+.Logs and Journalctl  (Review Only)
 RHEL 7 uses `systemd` and `journal`. As such, looking at logs is not a matter of
 `/var/log/messages` any longer. You will need to use `journalctl`.
 
@@ -1061,6 +1074,20 @@ window:
 You will want to do this on the other nodes, but you won't need the
 `openshift-master` service. You may also wish to watch the Docker logs, too.
 
+.Setting Default NodeSelector (Review Only)
+. *If you wanted* to set a default NodeSelector, you can do it with the following
+commands (Review Only):
++
+CAUTION: Do not set a Default NodeSelector in our environment. Skipt this step.
++
+[source,bash]
+----
+[root@master00-GUID ~]# sed -i 's/defaultNodeSelector: ""/defaultNodeSelector: "region=primary"' /etc/openshift/master/master-config.yaml
+[root@master00-GUID ~]# systemctl restart openshift-master
+----
+
+
+
 === The Registy and Router
 
 In the scenario we are simulating in the lab, we are using *Infranode00* as the target for both the *registry* and the *default router*.
@@ -1071,36 +1098,6 @@ In the scenario we are simulating in the lab, we are using *Infranode00* as the 
 ----
 [root@master00-GUID ~]# oadm manage-node master00-$guid.oslab.opentlc.com  --schedulable=false
 master00-GUID.oslab.opentlc.com   kubernetes.io/hostname=master00-GUID.oslab.opentlc.com,region=infra,zone=na   Ready,SchedulingDisabled
-----
-
-. If you wanted to set a default NodeSelector, you can do it with the following
-commands:
-+
-[source,bash]
-----
-[root@master00-GUID ~]# sed -i 's/defaultNodeSelector: ""/defaultNodeSelector: "region=primary"' /etc/openshift/master/master-config.yaml
-[root@master00-GUID ~]# systemctl restart openshift-master
-
-----
-
-. Checkout the output of *oc get nodes*
-+
-----
-[root@master00-GUID ~]# oc get nodes
-NAME                                 LABELS                                                                                   STATUS
-infranode00-GUID.oslab.opentlc.com   kubernetes.io/hostname=infranode00-GUID.oslab.opentlc.com                                Ready
-master00-GUID.oslab.opentlc.com      kubernetes.io/hostname=master00-GUID.oslab.opentlc.com,region=infra,zone=na              Ready,SchedulingDisabled
-node00-GUID.oslab.opentlc.com        kubernetes.io/hostname=node00-GUID.oslab.opentlc.com,region=primary,zone=east            Ready
-node01-GUID.oslab.opentlc.com        kubernetes.io/hostname=node01-GUID.oslab.opentlc.com,region=primary,zone=west            Ready
-
-----
-
-. On a separate terminal connected to the master host, watch the output of the `oc get nodes` command:
-+
-----
-
-[root@master00-GUID ~]# watch oc get pods
-
 ----
 
 . Deploy the *Registry*
@@ -1170,7 +1167,7 @@ trainingrouter-1-deploy   1/1       Running   0          14s
 
 .. Press *CTRL+C* to exit the watch on `oc get pods`.
 
-=== Populating OpenShift ( Only Read this Part )
+=== Populating OpenShift ( Review only )
 
 OpenShift ships with *Image Streams* and *Templates*, they reside in: `/usr/share/openshift/examples/`.  The installer will import all of the ImageStreams and Templates for you from this directory.
 
@@ -1400,7 +1397,7 @@ Lastly, restart NFS:
 === Allow NFS Access in SELinux Policy
 
 . By default policy, containers are not allowed to write to NFS mounted
-directories.  We want to do just that with our database, so enable that on
+directories.  We want to allow this for some of our pods, so enable that on
 all nodes where the pod could land (i.e. all of them) with:
 +
 ----
@@ -1510,18 +1507,18 @@ registry-claim   map[]     Bound     registry-storage
 === Attach the Persistent Volume to the Registry
 
 . Assuming that your registry is already running, you can edit the
-DeploymentConfig and attach the volume to the Registry
+DeploymentConfig and attach the volume to the Registry and define the pod as "privileged"
 +
 ----
 [root@master00-678a ~]# oc get dc
 NAME              TRIGGERS       LATEST VERSION
 docker-registry   ConfigChange   1
 trainingrouter    ConfigChange   1
-[root@master00-678a ~]# oc edit dc docker-registry -i json
+[root@master00-678a ~]# oc edit dc docker-registry -o json
 ----
 
 . Make your volumes entry look like this:
-.. You will be adding the PersistentVolumeClaim lines and deleting the emptydir line.
+.. You will be adding the PersistentVolumeClaim lines and deleting the emptyDir line.
 ----
 "spec": {
                "volumes": [
@@ -1533,4 +1530,13 @@ trainingrouter    ConfigChange   1
                    }
                ],
 
+----
+
+. While editing the file, make sure you change your pod's privileged status to true.
++
+----
+Change:
+"privileged": false
+To:
+"privileged": true
 ----

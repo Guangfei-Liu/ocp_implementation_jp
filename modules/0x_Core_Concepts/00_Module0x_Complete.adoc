@@ -1,0 +1,1362 @@
+== &nbsp;
+:noaudio:
+
+ifdef::revealjs_slideshow[]
+
+[#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"]
+
+
+[#cover-h1]
+Red Hat OpenShift Enterprise Implementation
+
+[#cover-h2]
+OpenShift 3.0 Core Concepts
+
+[#cover-logo]
+image::{revealjs_cover_image}[]
+
+endif::[]
+
+== Module Topics
+:noaudio:
+
+* Overview
+* Containers and Images
+* Pods and Services
+* Projects and Users
+* Builds and ImageStreams
+* Deployments
+* Routes
+* Templates
+
+ifdef::showscript[]
+
+=== Transcript
+Welcome to Module X of the OpenShift Enterprise Implementation course.
+
+endif::showscript[]
+== Overview
+:noaudio:
+
+The following module provide high-level, architectural information on core
+concepts and objects you will encounter when using OpenShift.
+
+Many of these objects come from Kubernetes, which is extended by OpenShift to provide
+a more feature-rich development lifecycle platform.
+
+We will learn about:
+
+* *Containers and images* that are the building blocks
+for deploying your applications.
+* *Pods and services* that allow for containers to
+communicate with each other and proxy connections.
+* *Projects and users* that provide the space and means
+for communities to organize and manage their content together.
+* *Builds and image streams* that allow you to
+build working images and react to new images.
+* *Deployments* add expanded support for the software
+development and deployment lifecycle.
+* *Routes* announce your service to the world.
+* *Templates* allow for many objects to be created at once
+based on customized parameters.
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+== Containers and Images
+:noaudio:
+
+.Containers
+
+* The basic units of OpenShift applications are called containers.
+* link:https://access.redhat.com/articles/1353593[Linux container technologies]
+are lightweight mechanisms for isolating running processes so that they are
+limited to interacting with only their designated resources.
+* Many application instances can be running in containers on a single host
+without visibility into each others' processes, files, network, and so on.
+* Typically, each container provides a single service (often called a
+  "micro-service"), such as a web server or a database, though containers can
+  be used for arbitrary workloads.
+
+ifdef::showscript[]
+
+ === Transcript
+
+endif::showscript[]
+
+== Containers and Images
+:noaudio:
+
+.Containers Continued
+
+* The Linux kernel has been incorporating capabilities for container technologies
+for years.
+* More recently the link:https://www.docker.com/whatisdocker/[Docker project]
+has developed a convenient management interface for Linux containers on a host.
+* OpenShift and Kubernetes add the ability to orchestrate Docker containers across
+multi-host installations.
+
+NOTE: Though you do not directly interact with Docker tools when using
+OpenShift, understanding Docker's capabilities and terminology is
+important for understanding its role in OpenShift and how your
+applications function inside of containers.
+
+ifdef::showscript[]
+
+ === Transcript
+
+endif::showscript[]
+
+== Containers and Images
+:noaudio:
+
+.Docker Images
+
+* Docker containers are based on Docker images.
+** A Docker image is a binary that includes all of the requirements for running a single Docker
+container, as well as metadata describing its needs and capabilities.
+* You can think of it as a packaging technology.
+* Docker containers only have access to resources defined in the image, unless
+you give the container additional access when creating it.
+* By deploying the same image in multiple containers across multiple hosts and
+load balancing between them, OpenShift can provide redundancy and horizontal scaling
+for a service packaged into an image.
+
+ifdef::showscript[]
+
+ === Transcript
+
+endif::showscript[]
+
+== Containers and Images
+:noaudio:
+
+.Docker Images
+
+* You can use Docker directly to build images, but OpenShift also supplies
+builders that assist with creating an image by adding your code or
+configuration to existing images.
+
+* Since applications develop over time, a single image name can actually
+refer to many different versions of the "same" image.
+** Each different image is referred to uniquely by its hash (a long hexadecimal
+  number e.g. `fd44297e2ddb050ec4f...`) which is usually shortened to 12
+characters (e.g. `fd44297e2ddb`).
+** Rather than version numbers, Docker allows applying tags (such as `v1`, `v2.1`
+  , `GA`, or the default `latest`)
+** in addition to the image name to further specify the image desired, so
+you may see the same image referred to as `rhel` (implying the `latest`
+tag), `rhel:rhel7`, or `fd44297e2ddb`.
+
+
+ifdef::showscript[]
+
+ === Transcript
+
+endif::showscript[]
+
+== Containers and Images
+:noaudio:
+
+.Docker Registries
+
+* A Docker registry is a service for storing and retrieving Docker images.
+* A registry contains a collection of one or more Docker image repositories.
+* Each image repository contains one or more tagged images.
+* Docker provides its own registry, the
+link:https://registry.hub.docker.com/[Docker Hub], but you may
+also use private or third-party registries.
+* Red Hat provides a Docker registry at `registry.access.redhat.com` for
+subscribers.
+* OpenShift can also supply its own internal registry for managing custom Docker
+images.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+
+== Pods and Services
+:noaudio:
+
+.Pods Overview
+
+* OpenShift leverages the Kubernetes concept of a `*pod*`, which is one or more
+containers deployed together on one host, and the smallest compute unit that can
+be defined, deployed, and managed.
+
+* Pods are the rough equivalent of OpenShift v2 gears, with containers
+the rough equivalent of v2 cartridge instances.
+** Each pod is allocated its own internal IP address, therefore owning its
+entire port space, and containers within pods can share their local storage and
+networking.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Pods and Services
+:noaudio:
+
+.Pods Overview - Continued
+
+* OpenShift treats pods as largely "static"; changes cannot be made to
+a pod definition while it is running.
+
+* OpenShift implements changes by terminating an existing pod and recreating it
+with modified configuration, base image(s), or both.
+* Pods are also treated as expendable, and *do not maintain state* when recreated.
+* Therefore pods should usually be managed by higher-level _controllers_ rather
+than directly by users.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+
+== Pods and Services
+:noaudio:
+
+.Pods Lifecycle
+
+* Pods have a lifecycle they are; *defined*, then they are *assigned* to run on
+a node, then they *run* until their container(s) exit or they are removed
+for some other reason.
+* Pods, depending on policy and exit code, may be removed after exiting, or may
+be retained in order to enable access to the logs of their containers.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Pods and Services
+:noaudio:
+
+.Pods Definition file/Manifest
+
+* Below is an example definition of a pod that provides a long-running
+service, which is actually a part of the OpenShift infrastructure: the
+*private Docker integrated registry*.
+* It demonstrates many features of pods, most of which are discussed in other
+topics and thus only briefly mentioned here.
+* We'll break the file into a few slides to make it easier to follow:
++
+[source,yaml]
+----
+ apiVersion: v1
+ kind: Pod
+ metadata:
+   annotations: { ... }
+   labels:                                <1>
+     deployment: docker-registry-1
+     deploymentconfig: docker-registry
+     docker-registry: default
+   generateName: docker-registry-1-       <2>
+
+----
+<1> Pods can be "tagged" with one or more link:#labels[labels], which can then
+ be used to select and manage groups of pods in a single operation. The labels
+ are stored in key/value format in the *metadata* hash. One label in this
+ example is *docker-registry=default*.
+<2> Pods must have a unique name within their _namespace_. A pod definition may
+specify the basis of a name with the *generateName* attribute, and random
+characters will be added automatically to generate a unique name.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Pods and Services
+:noaudio:
+
+.Pods Definition file/Manifest - Continued
+
+[source,yaml]
+----
+ spec:
+   containers:                            <1>
+   - env:                                 <2>
+     - name: OPENSHIFT_CA_DATA
+       value: ...
+     - name: OPENSHIFT_CERT_DATA
+       value: ...
+     - name: OPENSHIFT_INSECURE
+       value: "false"
+     - name: OPENSHIFT_KEY_DATA
+       value: ...
+     - name: OPENSHIFT_MASTER
+       value: https://master.example.com:8443
+----
+<1> *containers* specifies an array of container definitions; in this case (as
+ with most), just one.
+<2> Environment variables can be specified to pass necessary values to each
+ container. (For example, these can be credentials and database connection details)
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Pods and Services
+:noaudio:
+
+.Pods Definition file/Manifest - Continued
+[source,yaml]
+----
+     image: openshift/origin-docker-registry:v0.6.2 <1>
+     imagePullPolicy: IfNotPresent
+     name: registry
+     ports:                              <2>
+     - containerPort: 5000
+       protocol: TCP
+     resources: {}
+     securityContext: { ... }            <3>
+     volumeMounts:                       <4>
+     - mountPath: /registry
+       name: registry-storage
+     - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+       name: default-token-br6yz
+       readOnly: true
+----
+
+<1> Each container in the pod is instantiated from its own _Docker image_.
+<2> The container can bind to ports which will be made available on the pod's IP.
+<3> OpenShift defines a _security context_ for containers which specifies
+whether they are allowed to run as privileged containers, run as a user of their
+choice, and more. The default context is very restrictive but administrators can
+ modify this as needed.
+<4> The container specifies where external storage volumes should be mounted
+within the container. In this case, there is a volume for storing the registry's
+ data, and one for access to credentials the registry needs for making requests
+ against the OpenShift API.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Pods and Services
+:noaudio:
+
+.Pods Definition file/Manifest - Continued
+
+[source,yaml]
+----
+   dnsPolicy: ClusterFirst
+   imagePullSecrets:
+   - name: default-dockercfg-at06w
+   restartPolicy: Always
+   serviceAccount: default               <1>
+   volumes:                              <2>
+   - emptyDir: {}
+     name: registry-storage
+   - name: default-token-br6yz
+     secret:
+       secretName: default-token-br6yz
+----
+
+<1> Pods making requests against the OpenShift API is a common enough pattern
+ that there is a `*serviceAccount*` field for specifying which _service account_
+  user the pod should authenticate as when making the requests. This enables
+  fine-grained access control for custom infrastructure components.
+<2> The pod defines storage volumes that are available to its container(s) to
+ use. In this case, it provides an ephemeral volume for the registry storage and
+ a *secret* volume containing the service account credentials.
+
+ ifdef::showscript[]
+ === Transcript
+ endif::showscript[]
+
+ == Pods and Services
+
+ .Services
+
+ * A Kubernetes _service_ serves as an internal load balancer.
+ It identifies a set of replicated _pods_ in order to proxy the connections it
+ receives to them.
+ * Backing pods can be added to or removed from a service arbitrarily while the
+ _service_ remains consistently available, enabling anything that depends on the
+ _service_ to refer to it at a consistent internal address.
+
+ * Services are assigned an IP address and port pair that, when accessed,
+ proxy to an appropriate backing pod.
+ * A service uses a label selector to find  all the containers running that
+ provide a certain network service on a certain port.
+
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Pods and Services
+:noaudio:
+
+.Service Definition file/Manifest
+
+* Like pods, services are REST objects. The following
+example shows the definition of a service for the pod defined above:
++
+[source,yaml]
+----
+ apiVersion: v1
+ kind: Service
+ metadata:
+   name: docker-registry      <1>
+ spec:
+   selector:                  <2>
+     docker-registry: default
+   portalIP: 172.30.136.123   <3>
+   ports:
+   - nodePort: 0
+     port: 5000               <4>
+     protocol: TCP
+     targetPort: 5000
+----
+
+<1> The service name *docker-registry* is also used to construct an
+ environment variable with the service IP that is inserted into other
+ pods in the same namespace.
+<2> The label selector identifies all pods with the
+ *docker-registry=default* label attached as its backing pods.
+<3> Virtual IP of the service, allocated automatically at creation from a pool
+ of internal IPs.
+<4> Port the service listens on.
+<5> Port on the backing pods to which the service forwards connections.
+
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Pods and Services
+:noaudio:
+
+.Labels
+
+* Labels are used to organize, group, or select API objects.
+**  For example, _pods_ are "tagged" with labels, and then
+ _services_ use label selectors to identify the pods they
+ proxy to.
+** This makes it possible for services to reference groups of pods, even
+treating pods with potentially different docker containers as related entities.
+
+* Most objects can include labels in their metadata. So labels can  be used to
+group arbitrarily-related objects; for example, all of the _pods_, _services_,
+ _replication controllers_, and _deployment configurations_ of a particular
+ application can be grouped.
+
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Pods and Services
+:noaudio:
+
+.Labels - Continued
+
+* Labels are simple key/value pairs, as in the following example:
++
+[source,yaml]
+----
+ labels:
+   key1: value1
+   key2: value2
+----
+
+* Consider:
+ ** A pod consisting of an *nginx* docker container, with the label
+ *role=webserver*.
+ ** A pod consisting of an *Apache httpd* docker container, with the same label
+ *role=webserver*.
+ ** A service or replication controller that is defined to use pods with the
+ *role=webserver* label treats both of these pods as part of the same group.
+
+* Here is an example how you would remove all the components with the same label
+*app=mytest*.
++
+----
+# oc delete all -l app=mytest
+----
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+
+== Builds and Image Streams
+:noaudio:
+
+.Builds Overview
+
+* A build is the process of transforming input parameters into a resulting object.
+** Most often, the process is used to transform source code into a runnable image.
+** A _BuildConfig_ object is the definition of the entire build process.
+
+* The OpenShift build system provides extensible support for _build strategies_
+that are based on selectable types specified in the build API. There are three
+build strategies available:
+
+** Docker build
+** Source-to-Image (S2I) build
+** Custom build
+
+By default, Docker builds and S2I builds are supported.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+
+== Builds and Image Streams
+:noaudio:
+
+.Builds Overview - Continued
+
+* The resulting object of a build depends on the builder used to create it.
+* For Docker and S2I builds, the resulting objects are runnable images.
+* For Custom builds, the resulting objects are whatever the builder image author has
+specified.
+
+* For a list of build commands, see the :
+link:https://docs.openshift.org/latest/dev_guide/builds.html[Developer's Guide].
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+
+== Builds and Image Streams
+:noaudio:
+
+.Docker Build
+
+* The Docker build strategy invokes the plain _docker build_ command,
+and therefore expects a repository with a *_Dockerfile_* and all required
+artifacts in it to produce a runnable image.
+
+
+.Source-to-Image (S2I) Build
+* Source-to-Image (S2I)] is a tool for building reproducible Docker images.
+* It produces ready-to-run images by injecting a user source into a docker image
+ and assembling a new docker image.
+* The new image incorporates the base image (the builder) and built source, and
+is ready to use with the `docker run` command.
+* S2I supports incremental builds, which re-use previously downloaded
+dependencies, previously built artifacts, etc.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+
+== Builds and Image Streams
+:noaudio:
+
+.S2I Advantages
+
+[horizontal]
+Image flexibility:: S2I scripts can be written to layer application code onto
+almost any existing Docker image, taking advantage of the existing ecosystem.
+Note that, currently, S2I relies on `tar` to inject application
+source, so the image needs to be able to process tarred content.
+
+Speed:: With S2I, the assemble process can perform a large number of complex
+operations without creating a new layer at each step, resulting in a fast
+process. In addition, S2I scripts can be written to re-use artifacts stored in a
+previous version of the application image, rather than having to download or
+build them, each time the build is run.
+
+Patchability:: S2I allows you to rebuild the application consistently if an
+underlying image needs a patch due to a security issue.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+
+== Builds and Image Streams
+:noaudio:
+
+.S2I Advantages - Continued
+
+[horizontal]
+Operational efficiency:: By restricting build operations instead of allowing
+arbitrary actions, such as in a *_Dockerfile_*, the PaaS operator can avoid
+accidental or intentional abuses of the build system.
+
+Operational security:: Building an arbitrary *_Dockerfile_* exposes the host
+system to root privilege escalation. This can be exploited by a malicious user
+because the entire docker build process is run as a user with docker privileges.
+S2I restricts the operations performed as a root user, and can run the scripts
+as a non-root user.
+
+User efficiency:: S2I prevents developers from performing arbitrary `yum
+install` type operations during their application build, which results in slow
+development iteration.
+
+Ecosystem:: S2I encourages a shared ecosystem of images where you can leverage
+best practices for your applications.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+
+== Builds and Image Streams
+:noaudio:
+
+.Custom Build
+
+* The Custom build strategy allows developers to define a specific builder image,
+responsible for the entire build process. Using your own builder image allows
+you to customize your build process.
+
+* Custom builder imageis a plain Docker image with embedded build process logic,
+ such as building RPMs or building base Docker images.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+
+== Builds and Image Streams
+:noaudio:
+
+.Image Streams
+
+* An _image stream_ is similar to a Docker image repository in that it contains
+one or more _Docker images_ identified by tags.
+** An image stream presents a single virtual view of related images, as it may
+contain images from:
+
+. Its own image repository in OpenShift's integrated Docker Registry
+. Other image streams
+. Docker image repositories from external registries
+
+* OpenShift stores complete metadata about each image (e.g., command, entrypoint,
+environment variables, etc.). Images in OpenShift are immutable.
+
+* OpenShift components such as builds and deployments can watch an image stream
+and receive notifications when new images are added, reacting by performing a
+build or a deployment, for example.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+
+== Builds and Image Streams
+:noaudio:
+
+.Image Pull Policy
+
+* Each container in a pod has a Docker image. Once you have created an image and
+pushed it to a registry, you can then refer to it in the pod.
+
+* When OpenShift creates containers, it uses the container's `imagePullPolicy`
+to determine if the image should be pulled prior to starting the container.
+
+* There are three possible values for `imagePullPolicy`:
+
+- `Always` - always pull the image.
+- `IfNotPresent` - only pull the image if it does not already exist on the node.
+- `Never` - never pull the image.
+
+NOTE: If a container's `imagePullPolicy` parameter is not specified, OpenShift
+sets it based on the image's tag, if the tag is: *latest*, OpenShift defaults
+`imagePullPolicy` to *Always*.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Deployments
+:noaudio:
+
+.Replication Controllers
+
+* A replication controller ensures that a specified number of replicas of a pod
+are running at all times.
+* If pods exit or are deleted, the replica controller acts to instantiate more
+up to the desired number.
+* Likewise, if there are more running than desired, it deletes as many as necessary to match the number.
+
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Deployments
+:noaudio:
+
+.Replication Controllers
+
+* The definition of a replication controller consists mainly of:
+- The number of replicas desired (which can be adjusted at runtime).
+- A pod definition for creating a replicated pod.
+- A selector for identifying managed pods.
+
+* The selector is just a set of labels that all of the pods managed by the
+replication controller should have. So that set of labels is included
+in the pod definition that the replication controller instantiates.
+* This selector is used by the replication controller to determine how many
+instances of the pod are already running in order to adjust as needed.
+
+* It is *not the job of the replication controller* to perform `auto-scaling`
+based on load or traffic, as it does not track either; rather, this
+would require its replica count to be adjusted by an external auto-scaler.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Deployments
+:noaudio:
+
+.Replication Controllers  Definition file/Manifest
+
+* Replication controllers are a core Kubernetes object, _ReplicationController_.
+* Here is an example _ReplicationController_ definition with some omissions
+and callouts:
++
+[source,yaml]
+----
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: frontend-1
+spec:
+  replicas: 1  <1>
+  selector:    <2>
+    name: frontend
+  template:    <3>
+    metadata:
+      labels:  <4>
+        name: frontend
+    spec:
+      containers:
+      - image: openshift/hello-openshift
+        name: helloworld
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+      restartPolicy: Always
+----
+
+<1> The number of copies of the pod to run.
+<2> The label selector of the pod to run.
+<3> A template for the pod the controller creates.
+<4> Labels on the pod should include those from the label selector.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Deployments
+:noaudio:
+
+.Deployments and Deployment Configurations
+
+* Building on replication controllers, OpenShift adds expanded support
+for the software development and deployment lifecycle with the concept
+of deployments.
+* In the simplest case, a deployment just creates a new replication controller
+and lets it start up pods.
+* OpenShift deployments also provide the ability to transition from an existing
+deployment of an image to a new one and also define hooks to be run
+before or after creating the replication controller.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Deployments
+:noaudio:
+
+.Deployments and Deployment Configurations - Continued
+The OpenShift DeploymentConfiguration object defines the following details of a
+deployment:
+
+1. The elements of a _ReplicationController_ definition.
+2. Triggers for creating a new deployment automatically.
+3. The strategy for transitioning between deployments.
+4. Life cycle hooks.
+
+* Each time a deployment is triggered, whether manually or automatically,
+a deployer pod manages the deployment (including scaling down the old
+replication controller, scaling up the new one, and running hooks).
+* The deployment pod remains for an indefinite amount of time after it
+completes the deployment in order to retain its logs of the deployment.
+* When a deployment is superseded by another, the previous replication
+controller is retained to enable easy rollback if needed.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Deployments
+:noaudio:
+
+.Deployment Configuration  Definition file/Manifest
+
+* Here is an example _DeploymentConfiguration_ definition with some
+omissions and callouts:
++
+[source,yaml]
+----
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  name: frontend
+spec:
+  replicas: 5
+  selector:
+    name: frontend
+  template: { ... }
+  triggers:
+  - type: ConfigChange <1>
+  - imageChangeParams:
+      automatic: true
+      containerNames:
+      - helloworld
+      from:
+        kind: ImageStreamTag
+        name: hello-openshift:latest
+    type: ImageChange  <2>
+  strategy:
+    type: Rolling      <3>
+----
+
+<1> A `ConfigChange` trigger causes a new deployment to be created any time the
+replication controller template changes.
+<2> An `ImageChange` trigger causes a new deployment to be created each time a
+new version of the backing image is available in the named image stream.
+<3> The default `Rolling` strategy makes a downtime-free transition between
+deployments.
+
+NOTE: We will discuss *Deployment Strategies* in more depth later in the
+training.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Routes
+:noaudio:
+.Overview
+
+* An OpenShift route is a way to expose a _service_ by giving it an
+externally-reachable hostname like `www.example.com`.
+
+* A defined route and the endpoints identified by its service can be consumed by
+a router to provide named connectivity that allows external clients to reach
+your applications.
+* Each route consists of a route name, service selector, and (optionally)
+security configuration.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Routes
+:noaudio:
+.Routers
+
+* An OpenShift administrator can deploy _routers_ in an OpenShift cluster.
+* These enable routes created by developersto be used by external clients.
+
+* OpenShift routers provide external hostname mapping and load balancing
+to _services_ over protocols that pass distinguishing information directly to
+the router.
+** The hostname must be present in the protocol in order for the router to determine
+where to send it.
+
+* Routers support the following protocols:
+- HTTP
+- HTTPS
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Routes
+:noaudio:
+.Routers Continued
+
+* A router uses the service selector to find the service and the endpoints
+backing the service.
+* Service-provided load balancing is bypassed and replaced with the router's own
+ load balancing.
+* Routers watch the cluster API and automatically update their own configuration
+ according to any relevant changes in the API objects.
+ * Routers may be containerized or virtual.
+ ** Custom routers can be deployed to communicate modifications of API objects to another system, such as an *F5*.
+
+ ifdef::showscript[]
+ === Transcript
+ endif::showscript[]
+
+== Routes
+:noaudio:
+
+.Routes
+
+* In order to reach a router in the first place, requests for hostnames
+must resolve via DNS to a router or set of routers.
+* The suggested method is to define a cloud domain with a wildcard DNS entry
+pointing to a virtual IP backed by multiple router instances on designated nodes.
+* DNS for addresses outside the cloud domain would need to be configured
+individually. Other approaches may be feasible.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+.HAProxy default Router
+
+* The HAProxy default router implementation is the reference implementation for
+a template router plug-in. It uses the *openshift3/ose-haproxy-router*
+image to run an HAProxy instance alongside the template router plug-in.
+
+* The following diagram illustrates how data flows from the master through the
+router and finally into an HAProxy configuration:
+
+.HAProxy Router Data Flow
+image::images/router_model.png[HAProxy Router Data Flow]
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+.Sticky Sessions
+
+* Implementing sticky sessions is up to the underlying router configuration.
+* The default HAProxy template implements sticky sessions using the
+*balance source* directive which balances based on the source IP.
+* In addition, the template router plug-in provides the service name and
+namespace to the underlying implementation.
+** This can be used for more advanced configuration such as implementing
+stick-tables that synchronize between a set of peers.
+
+NOTE: Specific configuration for this router implementation is stored in the
+*_haproxy-config.template_* file located in the *_/var/lib/haproxy/conf_*
+directory of the router container.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+.Route Types
+* Routes can be either secured or unsecured.
+* Secure routes provide the ability to use several types of TLS termination to
+serve certificates to the client.
+* Routers support  edge, passthrough, and re-encryption termination.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+.Route Types - Unsecured Route Object YAML Definition
+
+[source,yaml]
+----
+apiVersion: v1
+kind: Route
+metadata:
+  name: route-unsecured
+spec:
+  host: www.example.com
+  to:
+    kind: Service
+    name: service-name
+----
+
+* Unsecured routes are simplest to configure, as they require no key
+or certificates, but secured routes offer security for connections to
+remain private.
+
+* A secured route is one that specifies the TLS termination of the route.
+The available types of termination described below.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+.Route Types - Path Based Routes
+
+* Path based routes specify a path component that can be compared against
+a URL (which requires that the traffic for the route be HTTP based) such
+that multiple routes can be served using the same hostname, each with a
+different path.
+* Routers should match routes based on the most specific
+path to the least; however, this depends on the router implementation. The
+following table shows example routes and their accessibility:
+
+.Route Availability
+[cols="3*", options="header"]
+|===
+|Route |When Compared to |Accessible
+
+.2+|_www.example.com/test_ |_www.example.com/test_ |Yes
+
+|_www.example.com_ |No
+
+.2+|_www.example.com/test_ and _www.example.com_ |_www.example.com/test_ |Yes
+
+|_www.example.com_ |Yes
+
+.2+|_www.example.com_ |_www.example.com/test_ |Yes (Matched by the host, not the
+  route)
+
+|_www.example.com_ |Yes
+|===
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+.Route Types - An Unsecured Route with a Path:
+
+[source,yaml]
+----
+apiVersion: v1
+kind: Route
+metadata:
+  name: route-unsecured
+spec:
+  host: www.example.com
+  path: "/test"   <1>
+  to:
+    kind: Service
+    name: service-name
+----
+
+<1> The path is the only added attribute for a path-based route.
+
+[NOTE]
+====
+Path-based routing is not available when using passthrough TLS, as
+the router does not terminate TLS in that case and cannot read the contents
+of the request.
+====
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+.Route Types - Secured Routes
+
+* Secured routes specify the TLS termination of the route and, optionally,
+provide a key and certificate(s).
+
+NOTE: TLS termination in OpenShift relies on
+link:https://en.wikipedia.org/wiki/Server_Name_Indication[SNI] for serving
+custom certificates. Any non-SNI traffic received on port 443 is handled with TLS
+termination and a default certificate (which may not match the requested hostname,
+resulting in validation errors).
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+.Secured TLS termination types
+
+* Secured routes can use any of the following three types of secure TLS
+termination.
+
+*Edge Termination*
+
+* With edge termination, TLS termination occurs at the
+router, prior to proxying traffic to its destination.
+* TLS certificates are served by the front end of the router,
+so they *must be configured into the route*, otherwise the
+router's default certificate will be used for TLS termination.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+.Secured TLS termination types - Edge Termination
+
+* A Secured Route definition using Edge Termination:
+
+[source,yaml]
+----
+apiVersion: v1
+kind: Route
+metadata:
+  name: route-edge-secured
+spec:
+  host: www.example.com
+  to:
+    kind: Service
+    name: service-name
+  tls:
+    termination: edge            <1>
+    key: |-                      <2>
+      BEGIN PRIVATE KEY
+      [...]
+      END PRIVATE KEY
+    certificate: |-              <3>
+      BEGIN CERTIFICATE
+      [...]
+      END CERTIFICATE
+    caCertificate: |-            <4>
+      BEGIN CERTIFICATE
+      [...]
+      END
+----
+
+<1> The `*termination*` field is `edge` for edge termination.
+<2> The `*certificate*` field is the contents of the PEM format certificate file.
+<3> The `*key*` field is the contents of the PEM format key file.
+<4> An optional CA certificate may be required to establish a certificate chain for validation.
+
+NOTE: Because TLS is terminated at the router, connections from the router to
+the endpoints over the internal network are not encrypted.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+.Secured TLS termination types - Passthrough Termination
+
+*Passthrough Termination*
+
+* With passthrough termination, encrypted traffic is sent straight to the
+destination without the router providing TLS termination. Therefore no
+key or certificate is required.
+
+* The destination pod is responsible for serving certificates for the
+traffic at the endpoint.
+
+* This is currently the only method that can support requiring client
+certificates (also known as two-way authentication).
+
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+.Secured TLS termination types - Passthrough Termination
+
+* A Secured Route definition using Passthrough Termination
++
+[source,yaml]
+----
+apiVersion: v1
+kind: Route
+metadata:
+  name: route-passthrough-secured
+spec:
+  host: www.example.com
+  to:
+    kind: Service
+    name: service-name
+  tls:
+    termination: passthrough     <1>
+----
+
+<1> The `*termination*` field is set to `passthrough`. No other encryption fields are needed.
+
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+.Secured TLS termination types Re-encryption Termination
+
+*Re-encryption Termination*
+
+* Re-encryption is a variation on edge termination where the router terminates
+TLS with a certificate, then re-encrypts its connection to the endpoint which
+may have a different certificate.
+* Therefore the full path of the connection is encrypted, even over the internal
+network. The router uses health checks to determine the authenticity of the host.
+
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+.Secured TLS termination types Re-encryption Termination
+
+* A Secured Route definition using Re-Encrypt Termination
++
+[source,yaml]
+----
+apiVersion: v1
+kind: Route
+metadata:
+  name: route-pt-secured
+spec:
+  host: www.example.com
+  to:
+    kind: Service
+    name: service-name
+  tls:
+    termination: reencrypt        <1>
+    key: [as in edge termination]
+    certificate: [as in edge termination]
+    caCertificate: [as in edge termination]
+    destinationCaCertificate: |-  <2>
+      BEGIN CERTIFICATE
+      [...]
+      END CERTIFICATE
+----
+
+<1> The `*termination*` field is set to `reencrypt`. Other fields are as in edge termination.
+<2> The `*destinationCaCertificate*` field optionally specifies a CA
+certificate to validate the endpoint certificate, securing the connection
+from the router to the destination.
+
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+.Routes with Hostnames
+
+* In order for services to be exposed externally, an OpenShift route allows
+you to associate a service with an externally-reachable hostname.
+* This edge hostname is then used to route traffic to the service.
+
+* A Route with a specified host:
++
+[source,yaml]
+----
+apiVersion: v1
+kind: Route
+metadata:
+  name: host-route
+spec:
+  host: www.example.com  <1>
+  to:
+    kind: Service
+    name: service-name
+----
+
+<1> Specifies the externally-reachable hostname used to expose a service.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+.Routes without Hostnames
+
+* If a hostname is *not* provided as part of the route specification, then
+OpenShift will automatically generate one for you.
+* The generated hostname is of the form `$routename[.$namespace].$suffix`.
+* A Route definition without a host:
+
+[source,yaml]
+----
+apiVersion: v1
+kind: Route
+metadata:
+  name: no-route-hostname
+spec:
+  to:
+    kind: Service
+    name: service-name
+----
+
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+.Custom default routing subdomain
+
+* A cluster administrator can customize the suffix or the default routing
+subdomain for an environment using the OpenShift master configuration.
+* The following example shows how you can set the configured suffix to
+`v3.openshift.test`:
+
+* OpenShift master configuration snippet (master-config.yaml):
++
+[source,yaml]
+----
+routingConfig:
+  subdomain: v3.openshift.test
+----
+
+
+* With the OpenShift master node(s) running the above configuration, the
+generated hostname for our example of a host added to a namespace
++
+----
+my-namespace` would be: `no-route-hostname.my-namespace.v3.openshift.test
+----
+
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+
+== Summary
+:noaudio:
+* Overview
+* Containers and Images
+* Pods and Services
+* Projects and Users
+* Builds and ImageStreams
+* Deployments
+* Routes
+* Templates
+
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]

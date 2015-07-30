@@ -1,9 +1,8 @@
+== &nbsp;
 :noaudio:
 
 ifdef::revealjs_slideshow[]
 [#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"]
-== &nbsp;
-
 
 [#cover-h1]
 Red Hat OpenShift Enterprise Implementation
@@ -15,6 +14,7 @@ Resource Management
 image::{revealjs_cover_image}[]
 
 endif::[]
+
 == Module Topics
 :noaudio:
 :numbered!:
@@ -23,6 +23,7 @@ Module 04 : Resource Management
 
 * OpenShift Resources
 * Projects and Users
+* Client tool authentication
 * Resource Quota
 * Services and Routes
 * Deployments
@@ -84,23 +85,15 @@ endif::showscript[]
 ** *System users* - Many of these are created automatically when the infrastructure is defined, mainly for the purpose of enabling the infrastructure to interact with the API securely.
 *** They include a cluster administrator (with access to everything), a per-node user, users for use by routers and registries, and various others.
 *** There is also an anonymous system user that is used by default for unauthenticated requests.
-+
-----
-For example : system:admin system:openshift-registry system:node:node1.example.com
-----
+*** For example : _system:admin_ , _system:openshift-registry_ and _system:node:node1.example.com_
 
 ** *Service accounts* - These are special system users associated with projects;
 *** some are created automatically when the project is first created,
 *** while project administrators can create more for the purpose of defining access to the contents of each project.
 *** Service accounts are represented with the ServiceAccount object.
-+
-----
-For example : system:serviceaccount:default:deployer system:serviceaccount:foo:builder
-----
+*** For example : _system:serviceaccount:default:deployer_ and  _system:serviceaccount:foo:builder_
 
 * Every user must authenticate in some way in order to access OpenShift. API requests with no authentication or invalid authentication are authenticated as requests by the anonymous system user. Once authenticated, policy determines what the user is authorized to do.
-
-
 
 ifdef::showscript[]
 
@@ -156,7 +149,88 @@ ifdef::showscript[]
 
 endif::showscript[]
 
+== Client tool authentication
+.Web Console Authentication
+:noaudio:
 
+* When accessing the web console from a browser at `_<master-public-addr>_:8443`,
+you are automatically redirected to a login page.
+
+* You can provide your login credentials on this page to obtain a token to make
+API calls. After logging in, you can navigate your projects using the web
+console.
+
+== Client tool authentication
+:noaudio:
+
+.CLI Authentication
+
+* You can authenticate from the command line using the CLI command `oc login`.
++
+----
+$ oc login
+----
+
+* The command's interactive flow helps you establish a session to an OpenShift
+server with the provided credentials.
+
+* All configuration options for the `oc login` command, listed in the `oc login
+--help` command output, are optional. The following example shows usage with
+some common options:
+
+* Here is a handy example, lets say we wanted to authenticate as the Openshift
+Cluster Administrator (Usually root User), we could use the following:
++
+----
+$ oc login -u system:admin -n openshift
+----
+NOTE: Notice that we are setting the user name and the *project* (_namespace_)
+to log in to.
+
+== Client tool authentication
+:noaudio:
+
+.CLI Authentication - Continued
+
+* Here is a an syntax brief:
+[options="nowrap"]
+----
+$ oc login [--username=<username>]  [--password=<password>] [--server=<server>] [--certificate-authority=</path/to/file.crt>|--insecure-skip-tls-verify]
+----
+
+
+* The following table describes these common options for `oc login`:
+
+.Common CLI Configuration Options
+[cols="4,8",options="header"]
+|===
+
+|Option |Description
+|`-s, --server`
+|Specifies the host name of the OpenShift server. If a
+server is provided through this flag, the command does not ask for it
+interactively. This flag can also be used if you already have a CLI
+configuration file and want to log in and switch to another server.
+
+|`-u, --username` and `-p, --password`
+|Allows you to specify the credentials to log in to the OpenShift
+server. If user name or password are provided through these flags, the command
+does not ask for it interactively. These flags can also be used if you already
+have a configuration file with a session token established and want to log in and
+switch to another user name.
+
+|`--certificate-authority`
+|Correctly and securely authenticates with an OpenShift
+server that uses HTTPS. The path to a certificate authority file must be
+provided.
+
+|`--insecure-skip-tls-verify`
+|Allows interaction with an HTTPS server bypassing the server
+certificate checks; however, note that it is not secure. If you try to `oc
+login` to a HTTPS server that does not provide a valid certificate, and this or
+the `--certificate-authority` flags were not provided, `oc login` will prompt
+for user input to confirm (`y/N` kind of input) about connecting insecurely.
+|===
 
 == Resource Quota
 :noaudio:

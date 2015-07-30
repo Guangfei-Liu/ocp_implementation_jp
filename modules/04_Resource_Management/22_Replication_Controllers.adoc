@@ -2,7 +2,7 @@
 :noaudio:
 
 .Manual scale
-*
+
 * You can scale any DeploymentConfig with the *oc scale dc* command
 +
 ----

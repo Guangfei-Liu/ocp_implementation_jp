@@ -1,0 +1,17 @@
+== Routes
+:noaudio:
+.Routers Continued
+
+* A router uses the service selector to find the service and the endpoints
+backing the service.
+* Service-provided load balancing is bypassed and replaced with the router's own
+ load balancing.
+* Routers watch the cluster API and automatically update their own configuration
+ according to any relevant changes in the API objects.
+ * Routers may be containerized or virtual.
+ ** Custom routers can be deployed to communicate modifications of API objects to another system, such as an *F5*.
+
+ ifdef::showscript[]
+ === Transcript
+ endif::showscript[]
+

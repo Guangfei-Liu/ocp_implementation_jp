@@ -1,0 +1,15 @@
+== Pods and Services
+:noaudio:
+
+.Pods Lifecycle
+
+* Pods have a lifecycle they are; *defined*, then they are *assigned* to run on
+a node, then they *run* until their container(s) exit or they are removed
+for some other reason.
+* Pods, depending on policy and exit code, may be removed after exiting, or may
+be retained in order to enable access to the logs of their containers.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+

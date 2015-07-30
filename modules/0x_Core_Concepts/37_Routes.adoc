@@ -1,0 +1,19 @@
+== Routes
+:noaudio:
+
+.HAProxy default Router
+
+* The HAProxy default router implementation is the reference implementation for
+a template router plug-in. It uses the *openshift3/ose-haproxy-router*
+image to run an HAProxy instance alongside the template router plug-in.
+
+* The following diagram illustrates how data flows from the master through the
+router and finally into an HAProxy configuration:
+
+.HAProxy Router Data Flow
+image::images/router_model.png[HAProxy Router Data Flow]
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+

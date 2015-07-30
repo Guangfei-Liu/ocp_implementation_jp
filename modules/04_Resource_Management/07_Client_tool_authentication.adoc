@@ -1,0 +1,11 @@
+== Client tool authentication
+.Web Console Authentication
+:noaudio:
+
+* When accessing the web console from a browser at `_<master-public-addr>_:8443`,
+you are automatically redirected to a login page.
+
+* You can provide your login credentials on this page to obtain a token to make
+API calls. After logging in, you can navigate your projects using the web
+console.
+

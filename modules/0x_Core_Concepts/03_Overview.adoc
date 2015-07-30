@@ -1,0 +1,31 @@
+== Overview
+:noaudio:
+
+The following module provide high-level, architectural information on core
+concepts and objects you will encounter when using OpenShift.
+
+Many of these objects come from Kubernetes, which is extended by OpenShift to provide
+a more feature-rich development lifecycle platform.
+
+We will learn about:
+
+* *Containers and images* that are the building blocks
+for deploying your applications.
+* *Pods and services* that allow for containers to
+communicate with each other and proxy connections.
+* *Projects and users* that provide the space and means
+for communities to organize and manage their content together.
+* *Builds and image streams* that allow you to
+build working images and react to new images.
+* *Deployments* add expanded support for the software
+development and deployment lifecycle.
+* *Routes* announce your service to the world.
+* *Templates* allow for many objects to be created at once
+based on customized parameters.
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+

@@ -1,48 +1,68 @@
-export project=lifecycle
-export user=marina
+whoami | grep andrew
+if [ $? -ne 0 ]
+    echo "Need to be andrew"
+  exit
+fi
 
-echo "As root, Create a project for Marina to work with:"
-oadm new-project ${project} --display-name="${project} Lab" \
-    --description="This is the project we use to learn about ${project}" \
-    --admin=${user} --node-selector='region=primary'
+echo "Echo enter Root Password to create project:"
+su - root -c "oadm new-project hello-s2i --display-name='Hello Source2Image' \
+    --description='This is the project we use to learn about Source to Image builds' \
+      --node-selector='region=primary' --admin='andrew'"
 
-echo "Lets create an app based on the https://github.com/openshift/ruby-hello-world.git#beta4 repo"
-
-
-
-oc new-app https://github.com/sborenst/ruby-hello-world.git
-
-let’s take a moment to add the environment variables for it.
+export guid=`hostname|cut -f2 -d-|cut -f1 -d.`
 
 
-oc env dc/ruby-hello-world MYSQL_USER=root MYSQL_PASSWORD=redhat MYSQL_DATABASE=mydb -n ${project}
+echo "Become and authenticate to OpenShift Enterprise as user andrew:"
 
-While we wait for the build to finish, lets expose our service
+oc login -u andrew --insecure-skip-tls-verify --server=https://master00-${guid}.oslab.opentlc.com:8443
 
-oc expose service ruby-hello-world \
-  --name="ruby-hello-world" \
-  --hostname=ruby-hello-world.lifecycle.cloudapps-${guid}.oslab.opentlc.com -n ${project}
+echo "Change the context to the hello-s2i project:"
 
-  Take a look at the current BuildConfig for our application:
+echo "Switch to the hello-s2i project"
+oc project hello-s2i
+ echo "create a 'new-app' defenition the simple-openshift-sinatra-sti repo"
+ oc new-app https://github.com/openshift/simple-openshift-sinatra-sti.git -o json | tee ~/simple-sinatra.json
 
+echo "To create the build components, use the oc create command on the BuildConfig file:"
+oc create -f ~/simple-sinatra.json
 
+echo "This will take some time, here"
+echo "sleeping to let the build start so we can review the log"
+echo "pushing the image might take up to 10-12 minutes with the hardware we are using"
+sleep 30
+oc build-logs simple-openshift-sinatra-sti-1
 
-oc get buildconfig ruby-hello-world -o yaml -n ${project}
+sleep 10
+echo "After your build is complete, to verify your pod and service, run the following:"
 
-Change the "uri" reference to match the name of your Github repository.
+curl `oc get services | grep sin | awk '{print $4":"$5}' | awk -F'/' '{print $1}'`
 
-echo "What is your user name in git hub"
-echo "Example, mine is 'https://github.com/sborenst/ruby-hello-world'"
-read repo
+echo "Your last step is to add a route to make the application publicly accessible. To do this, run the following:"
+oc expose service simple-openshift-sinatra  --hostname=mysinatra.cloudapps-${guid}.oslab.opentlc.com
 
+echo "Echo enter Root Password to create project:"
+su - root -c "oadm new-project nodejs --display-name='Hello nodejs' \
+    --description='This is the project we use to learn about nodejs' \
+      --node-selector='region=primary' --admin='andrew'"
 
-oc get buildconfig ruby-hello-world -o yaml -n ${project} | sed "s%https://github.com/openshift/ruby-hello-world.git%${repo}%g" | tee edited_ruby-hell-world.yaml
-oc update bc -f edited_ruby-hell-world.yaml
+echo "Creating project nodejs"
+oc project nodejs
 
+echo "Creating new-app defenition file"
+oc new-app  https://github.com/openshift/nodejs-ex -o json | tee ~/nodejs-example.json
+echo "Create the application"
+oc create -f ~/nodejs-example.json
+echo "Scale the application"
+oc scale --replicas=4 deploymentconfigs/nodejs-ex
+echo "expose the service and create the route"
+oc expose services/nodejs-ex --name="nodejs-route" --hostname="nodejs.cloudapps-${guid}.oslab.opentlc.com"
+echo "next we will watch the build log"
+sleep 30
+oc build-logs nodejs-ex-1
 
-oc get buildconfig ruby-hello-world -o yaml -n ${project}
-
-
-Run oc get builds to see if the new build has started:
-
- oc get builds
+sleep 10
+oc get pods
+echo "press any key to see the output of curl to the route"
+echo "Better yet, check in your browser: nodejs.cloudapps-${guid}.oslab.opentlc.com"
+read x
+curl nodejs.cloudapps-${guid}.oslab.opentlc.com

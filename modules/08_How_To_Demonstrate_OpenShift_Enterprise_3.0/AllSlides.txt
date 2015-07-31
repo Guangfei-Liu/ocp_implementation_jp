@@ -1,7 +1,0 @@
-
-include::01_Title.adoc[]
-include::02_Module_Topics.adoc[]
-include::03_Goals_1.adoc[]
-include::04_Goals_2.adoc[]
-include::05_Tips_1.adoc[]
-include::06_Tips_2.adoc[]

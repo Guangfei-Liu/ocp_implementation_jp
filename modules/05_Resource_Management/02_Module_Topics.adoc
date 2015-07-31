@@ -1,0 +1,28 @@
+== Module Topics
+:noaudio:
+:numbered!:
+
+Module 05 : Resource Management
+
+* OpenShift Resources
+* Projects and Users
+* Client tool authentication
+* Resource Quota
+* Services and Routes
+* Deployments
+* Deployment Configuration
+* Replication Controllers
+* Lab: Users, Projects and Quotas
+* Lab: Creating Services and Routes
+* Lab: Deployment Configuration and Replication Controllers
+
+ifdef::showscript[]
+
+=== Transcript
+Welcome to Module 05 of the OpenShift Enterprise Implementation course.
+
+endif::showscript[]
+
+
+
+

@@ -1,0 +1,28 @@
+
+:noaudio:
+:numbered!:
+
+== Module Topics
+
+This module presents the following topics via lab exercises:
+
+* LDAP Authentication
+* Client Tools
+* EAP Example
+* Using Persistent Storage
+* Wordpress
+
+ifdef::showscript[]
+
+=== Transcript
+Welcome to Module 10 of the OpenShift Enterprise Implementation course.
+
+This module presents the following topics via lab exercises:
+
+* LDAP Authentication
+* Client Tools
+* EAP Example
+* Using Persistent Storage
+* Wordpress
+
+endif::showscript[]

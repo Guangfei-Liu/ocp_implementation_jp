@@ -1,0 +1,841 @@
+:noaudio:
+
+ifdef::revealjs_slideshow[]
+
+[#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"]
+== &nbsp;
+
+
+[#cover-h1]
+Red Hat OpenShift Enterprise Implementation
+
+[#cover-h2]
+OpenShift 3.0 Application Lifecycle
+
+[#cover-logo]
+image::{revealjs_cover_image}[]
+
+endif::[]
+
+
+== Module Topics
+:noaudio:
+:numbered!:
+
+  * Deployments
+  * Strategies
+  * Lifecycle Hooks
+  * Build Triggers
+  * Lab: Rollback/Activate and Code Lifecycle
+	* Lab: Using Webhooks
+	* Lab: Customized Build and Run Processes
+	* Lab: Pre and Post Deployment Hooks (Optional)
+
+
+ifdef::showscript[]
+
+=== Transcript
+Welcome to Module 09 of the OpenShift Enterprise Implementation course.
+
+endif::showscript[]
+
+== Deployments
+:noaudio:
+
+.Overview
+
+A deployment in OpenShift is a replication controller based on a user defined
+template called a deployment configuration. Deployments are created manually
+or in response to triggered events.
+
+The deployment system provides:
+
+* A deployment configuration, which is a template for deployments.
+* Triggers that drive automated deployments in response to events.
+* User-customizable strategies to transition from the previous deployment to
+the new deployment.
+* Rollbacks to a previous deployment.
+* Manual replication scaling.
+* The deployment configuration contains a version number that is incremented
+each time a new deployment is created from that configuration. In addition, the cause of the last deployment is added to the configuration.
+
+
+ifdef::showscript[]
+
+endif::showscript[]
+
+== Deployments
+:noaudio:
+
+.Creating a Deployment Configuration
+
+* A deployment configuration consists of the following key parts:
+** A replication controller template which describes the application to be deployed.
+** The default replica count for the deployment.
+** A deployment strategy which will be used to execute the deployment.
+** A set of triggers which cause deployments to be created automatically.
+
+* Deployment configurations are deploymentConfig OpenShift API resources which
+can be managed with the oc command like any other resource.
+
+* The following is an example of a deploymentConfig resource:
++
+[source,json]
+----
+{
+  "kind": "DeploymentConfig",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "frontend"
+  },
+  "spec": {
+    "template": { <1>
+      "metadata": {
+        "labels": {
+          "name": "frontend"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "helloworld",
+            "image": "openshift/origin-ruby-sample",
+            "ports": [
+              {
+                "containerPort": 8080,
+                "protocol": "TCP"
+              }
+            ]
+          }
+        ]
+      }
+    }
+    "replicas": 5, <2>
+    "selector": {
+      "name": "frontend"
+    },
+    "triggers": [
+      {
+        "type": "ConfigChange" <3>
+      },
+      {
+        "type": "ImageChange", <4>
+        "imageChangeParams": {
+          "automatic": true,
+          "containerNames": [
+            "helloworld"
+          ],
+          "from": {
+            "kind": "ImageStreamTag",
+            "name": "origin-ruby-sample:latest"
+          }
+        }
+      }
+    ],
+    "strategy": {
+      "type": "Rolling" <5>
+    }
+  }
+}
+----
+
+<1> The replication controller template named frontend describes a simple Ruby application.
+<2> There will be 5 replicas of frontend by default.
+<3> A configuration change trigger causes a new deployment to be created any time the replication controller template changes.
+<4> An image change trigger trigger causes a new deployment to be created each time a new version of the origin-ruby-sample:latest image repository is available.
+<5> The rolling strategy is the default and may be omitted.
+
+ifdef::showscript[]
+
+endif::showscript[]
+
+
+== Deployments
+
+.Manage Deployments
+
+* To start a new deployment manually:
++
+----
+$ oc deploy <deployment_config> --latest
+----
+** If there’s already a deployment in progress, the command will display a
+message and a new deployment will not be started.
+
+* Viewing a Deployment
+** To get basic information about recent deployments:
++
+----
+$ oc deploy <deployment_config>
+----
+
+** This will show details about the latest and recent deployments, including
+any currently running deployment.
+* For more detailed information about a deployment configuration and the latest
+  deployment:
++
+----
+$ oc describe dc <deployment_config>
+----
+
+
+
+ifdef::showscript[]
+
+endif::showscript[]
+
+
+== Deployments
+
+.Manage Deployments
+
+* Canceling and Retrying a Deployment
+** To cancel a running or *stuck* deployment:
++
+----
+$ oc deploy <deployment_config> --cancel
+----
+** The cancellation is a best-effort operation, and may take some time to
+complete. It’s possible the deployment will partially or totally complete
+before the cancellation is effective.
+
+* Retrying a Deployment
+** To retry the last failed deployment:
++
+----
+$ oc deploy <deployment_config> --retry
+----
+** If the last deployment didn’t fail,
+the command will display a message and the deployment will not be retried.
+** Retrying a deployment restarts the deployment and does not create a new
+deployment version. The restarted deployment will have the same configuration
+it had when it failed.
+
+
+ifdef::showscript[]
+
+endif::showscript[]
+
+== Deployments
+:noaudio:
+
+.Rolling Back a Deployment
+
+* Rollbacks revert an application back to a previous deployment and can be
+performed using the REST API or the CLI.
+** To rollback to a previous deployment:
++
+----
+$ oc rollback <deployment>
+----
+
+** The deployment configuration’s template will be reverted to match the
+deployment specified in the rollback command, and a new deployment will be started.
+
+* Image change triggers on the deployment configuration are disabled as part of
+the rollback to prevent unwanted deployments soon after the rollback is complete.
+** To re-enable the image change triggers:
++
+----
+$ oc deploy <deployment_config> --enable-triggers
+----
+
+ifdef::showscript[]
+
+endif::showscript[]
+
+== Deployments
+:noaudio:
+
+.Triggers
+
+* A deployment configuration can contain triggers, which drive the creation of
+new deployments in response to events, both inside and outside OpenShift.
+
+* If no triggers are defined on a deployment configuration, deployments must be
+started manually.
+* Configuration Change Trigger
+** The ConfigChange trigger results in a new deployment whenever changes are
+detected to the replication controller template of the deployment configuration.
+
+** If a ConfigChange trigger is defined on a deployment configuration,
+the first deployment will be automatically created soon after the deployment
+configuration itself is created.
+
+** The following is an example of a ConfigChange trigger:
++
+[source,json]
+----
+"triggers": [
+  {
+    "type": "ConfigChange"
+  }
+]
+----
+
+== Deployments
+:noaudio:
+
+.Triggers Continued
+
+* Image Change Trigger
+** The ImageChange trigger results in a new deployment whenever the value of an
+image stream tag changes.
+
+** The following is an example of an ImageChange trigger:
++
+----
+"triggers": [
+  {
+    "type": "ImageChange",
+    "imageChangeParams": {
+      "automatic": true,
+      "from": {
+        "kind": "ImageStreamTag",
+        "name": "origin-ruby-sample:latest"
+      },
+      "containerNames": [
+        "helloworld"
+      ]
+    }
+  }
+]
+----
+
+** If the automatic option is set to false, the trigger is disabled.
+** With the above example, when the latest tag value of the origin-ruby-sample
+image stream changes and the new tag value differs from the current image
+specified in the deployment configuration’s helloworld container, a new
+deployment is created using the new tag value for the helloworld container
+
+
+ifdef::showscript[]
+
+endif::showscript[]
+
+
+== Strategies
+:noaudio:
+
+.Strategies Overview
+
+A deployment configuration declares a strategy which is responsible for
+executing the deployment process.
+
+* Each application has different requirements for availability (and
+other considerations) during deployments.
+
+* OpenShift provides out-of-the-box strategies to support a variety of
+deployment scenarios.
+
+* The `rolling strategy` is the default strategy used if no strategy is
+specified on a deployment configuration.
+
+ifdef::showscript[]
+
+endif::showscript[]
+
+== Strategies
+:noaudio:
+
+.Rolling Strategy
+
+The Rolling strategy performs a rolling update and supports lifecycle hooks for
+injecting code into the deployment process.
+
+* The following is an example of the Rolling strategy:
++
+[source,json]
+----
+"strategy": {
+  "type": "Rolling",
+  "rollingParams": {
+    "timeoutSeconds": 120,
+    "pre": {},
+    "post": {}
+  }
+}
+----
+** How long to wait for a scaling event before giving up. Optional;
+the default is 120.
+** pre and post are both lifecycle hooks.
+
+* The Rolling strategy will:
+**  Execute any "pre" lifecycle hook.
+** Scale up the new deployment by one.
+** Scale down the old deployment by one.
+** Repeat this scaling until the new deployment has reached the desired replica
+count and the old deployment has been scaled to zero.
+** Execute any "post" lifecycle hook.
++
+WARNING: During scale up, if the replica count of the deployment is greater than
+  one, the first replica of the deployment will be validated for readiness before
+  fully scaling up the deployment. If the validation of the first replica fails,
+  the deployment will be considered a failure.
++
+WARNING: When executing the "post" lifecycle hook, all failures will be ignored
+regardless of the failure policy specified on the hook.
+
+ifdef::showscript[]
+
+endif::showscript[]
+
+== Strategies
+:noaudio:
+
+.Recreate Strategy
+
+The Recreate strategy has basic rollout behavior and supports lifecycle hooks
+for injecting code into the deployment process.
+
+* The following is an example of the Recreate strategy:
++
+[source,json]
+----
+"strategy": {
+  "type": "Recreate",
+  "recreateParams": { <1>
+    "pre": {}, <2>
+    "post": {}
+  }
+}
+----
+<1> recreateParams are optional.
+<2> pre and post are both lifecycle hooks.
+
+* The Recreate strategy will:
+
+** Execute any "pre" lifecycle hook.
+** Scale down the previous deployment to zero.
+** Scale up the new deployment.
+** Execute any "post" lifecycle hook.
+** During scale up, if the replica count of the deployment is greater than one,
+the first replica of the deployment will be validated for readiness before fully
+scaling up the deployment. If the validation of the first replica fails, the
+deployment will be considered a failure.
+
+** When executing the "post" lifecycle hook, all failures will be ignored
+regardless of the failure policy specified on the hook.
+
+ifdef::showscript[]
+
+endif::showscript[]
+
+== Strategies
+:noaudio:
+
+.Custom Strategy
+
+The Custom strategy allows you to provide your own deployment behavior.
+
+* The following is an example of the Custom strategy:
++
+[source,json]
+----
+"strategy": {
+  "type": "Custom",
+  "customParams": {
+    "image": "organization/strategy",
+    "command": ["command", "arg1"],
+    "environment": [
+      {
+        "name": "ENV_1",
+        "value": "VALUE_1"
+      }
+    ]
+  }
+}
+----
++
+** In the above example, the organization/strategy Docker image provides the
+deployment behavior. The optional command array overrides any CMD directive
+specified in the image’s Dockerfile. The optional environment variables provided
+  are added to the execution environment of the strategy process.
+
+* Additionally, OpenShift provides the following environment variables to the
+strategy process:
+|====
+|Environment Variable|Description
+|OPENSHIFT_DEPLOYMENT_NAME| The name of the new deployment (a replication controller).
+|OPENSHIFT_DEPLOYMENT_NAMESPACE| The namespace of the new deployment.
+|====
+** The replica count of the new deployment will initially be zero. The
+responsibility of the strategy is to make the new deployment active using the logic that best serves the needs of the user.
+
+
+ifdef::showscript[]
+
+endif::showscript[]
+
+== Lifecycle Hooks
+:noaudio:
+
+The Recreate and Rolling strategies support lifecycle hooks, which allow
+behavior to be injected into the deployment process at predefined points within the strategy:
+
+* The following is an example of a "pre" lifecycle hook:
++
+[source,json]
+----
+"pre": {
+  "failurePolicy": "Abort",
+  "execNewPod": {}
+}
+----
+
+** execNewPod is a pod-based lifecycle hook.
+
+
+* Every hook has a failurePolicy, which defines the action the strategy should
+take when a hook failure is encountered:
+
+|====
+|Abort|The deployment should be considered a failure if the hook fails.
+|Retry|The hook execution should be retried until it succeeds.
+|Ignore|Any hook failure should be ignored and the deployment should proceed.
+|====
+
+WARNING: Some hook points for a strategy might support only a subset of failure
+policy
+values. For example, the Recreate and Rolling strategies do not currently
+support the Abort policy for a "post" deployment lifecycle hook. Consult the
+documentation for a given strategy for details on any restrictions regarding
+lifecycle hooks.
+
+* Hooks have a type-specific field that describes how to execute the hook.
+* Currently pod-based hooks are the only supported hook type,
+specified by the execNewPod field
+
+
+ifdef::showscript[]
+
+endif::showscript[]
+
+== Lifecycle Hooks
+:noaudio:
+
+.Pod-based Lifecycle Hook
+
+Pod-based lifecycle hooks execute hook code in a new pod derived from the templa
+te in a deployment configuration.
+
+* The following simplified example deployment configuration uses the Rolling
+strategy. Triggers and some other minor details are omitted for brevity:
+[source,json]
+----
+{
+  "kind": "DeploymentConfig",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "frontend"
+  },
+  "spec": {
+    "template": {
+      "metadata": {
+        "labels": {
+          "name": "frontend"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "helloworld",
+            "image": "openshift/origin-ruby-sample"
+          }
+        ]
+      }
+    }
+    "replicas": 5,
+    "selector": {
+      "name": "frontend"
+    },
+    "strategy": {
+      "type": "Rolling",
+      "rollingParams": {
+        "pre": {
+          "failurePolicy": "Abort",
+          "execNewPod": {
+            "containerName": "helloworld", <1>
+            "command": [  <2>
+              "/usr/bin/command", "arg1", "arg2"
+            ],
+            "env": [ <3>
+              {
+                "name": "CUSTOM_VAR1",
+                "value": "custom_value1"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}
+----
+
+<1> The helloworld name refers to spec.template.spec.containers[0].name.
+<2> This command overrides any ENTRYPOINT defined by the openshift/origin-ruby-sample image.
+<3> env is an optional set of environment variables for the hook container.
+
+* In this example, the "pre" hook will be executed in a new pod using the
+openshift/origin-ruby-sample image from the helloworld container.
+* The hook container command will be /usr/bin/command arg1 arg2, and the hook
+container will have the CUSTOM_VAR1=custom_value1 environment variable.
+* Because the hook failure policy is Abort, the deployment will fail if the hook
+  fails.
+
+ifdef::showscript[]
+
+endif::showscript[]
+
+== Build Triggers
+:noaudio:
+
+* When defining a buildConfig, you can define triggers to control the
+circumstances in which the buildConfig should be run.
+
+* There are two types of triggers available:
+** Webhook
+** Image change
+
+ifdef::showscript[]
+
+endif::showscript[]
+
+== Build Triggers
+:noaudio:
+
+.Webhook Triggers
+
+Webhook triggers allow you to trigger a new build by sending a request to the
+OpenShift API endpoint. You can define these triggers using GitHub webhooks or
+Generic webhooks.
+
+ifdef::showscript[]
+
+endif::showscript[]
+
+.Displaying a BuildConfig’s Webhook URLs
+
+* Use the following command to display the webhook URLs associated with a build
+configuration:
++
+----
+$ oc describe buildConfig <name>
+----
+
+* If the above command does not display any webhook URLs, then no webhook
+trigger is defined for that build configuration.
+
+== Build Triggers
+:noaudio:
+
+.Webhook Triggers - GitHub webhooks
+
+* GitHub webhooks handle the call made by GitHub when a repository is updated.
+* When defining the trigger, you must specify a
+xref:../dev_guide/secrets.adoc#secrets[secret] as part of the URL you supply to
+GitHub when configuring the webhook.
+** The secret ensures that only you and your
+repository can trigger the build. The following example is a trigger definition
+JSON within the buildConfig:
++
+[source,json]
+----
+{
+  "type": "github",
+  "github": {
+    "secret": "secret101"
+  }
+}
+----
+
+** The payload URL is returned as the GitHub Webhook URL by the describe command
+  (see below), and is structured as follows:
++
+----
+http://<openshift_api_host:port>/osapi/v1/namespaces/<namespace>/buildconfigs/<name>/webhooks/<secret>/github
+----
+
+ifdef::showscript[]
+
+endif::showscript[]
+
+== Build Triggers
+:noaudio:
+
+.Webhook Triggers - Generic webooks
+
+Generic webhooks can be invoked from any system capable of making a web request.
+
+* As with a GitHub webhook, you must specify a secret when defining the trigger,
+and the caller must provide this secret to trigger the build. The following is
+an example trigger definition JSON within the buildConfig:
++
+[source,json]
+----
+{
+  "type": "generic",
+  "generic": {
+    "secret": "secret101"
+  }
+}
+----
+* To set up the caller, supply the calling system with the URL of the generic
+webhook endpoint for your build:
++
+----
+http://<openshift_api_host:port>/osapi/v1/namespaces/<namespace>/buildconfigs/<name>/webhooks/<secret>/generic
+----
+
+* The endpoint can accept an optional payload with the following format:
++
+[source,json]
+----
+{
+  type: 'git',
+  git: {
+    uri: '<url to git repository>',
+    ref: '<optional git reference>',
+    commit: '<commit hash identifying a specific git commit>',
+    author: {
+      name: '<author name>',
+      email: '<author e-mail>',
+    },
+    committer: {
+      name: '<committer name>',
+      email: '<committer e-mail>',
+    },
+    message: '<commit message>'
+  }
+}
+----
+
+== Build Triggers
+
+.Displaying a BuildConfig’s Webhook URLs
+
+* Use the following command to display the webhook URLs associated with a build
+configuration:
++
+----
+$ oc describe buildConfig <name>
+----
+
+If the above command does not display any webhook URLs, then no webhook trigger
+is defined for that build configuration.
+
+ifdef::showscript[]
+
+endif::showscript[]
+
+== Build Triggers
+:noaudio:
+
+.Image Change Triggers
+Image change triggers allow your build to be automatically invoked when a new
+  of an upstream image is available. For example, if a build is based on top of
+a RHEL image, then you can trigger that build to run any time the RHEL image
+changes. As a result, the application image is always running on the latest RHEL
+base image.
+
+* Configuring an image change trigger requires the following actions:
+** Define an ImageStream that points to the upstream image you want to trigger on:
++
+[source,json]
+----
+{
+  "kind": "ImageStream",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "ruby-20-rhel7"
+  }
+}
+----
++
+*** This defines the image stream that is tied to a Docker image repository
+located at <system-registry>/<namespace>/ruby-20-rhel7.
+*** The <system-registry> is defined as a service with the name docker-registry running in OpenShift.
+
+== Build Triggers
+:noaudio:
+
+.Image Change Triggers - Continuted
+
+* Define a build with a strategy that consumes the image stream:
++
+[source,json]
+----
+{
+  "strategy": {
+    "type": "Source",
+    "sourceStrategy": {
+      "from": {
+        "kind": "ImageStreamTag",
+        "name": "ruby-20-rhel7:latest"
+      },
+    }
+  }
+}
+----
++
+** In this case, the sourceStrategy definition is consuming the latest tag of
+the ImageStream named ruby-20-rhel7 located within this namespace.
+
+== Build Triggers
+:noaudio:
+
+.Image Change Triggers - Continuted
+
+* Define an image change trigger:
++
+[source,json]
+----
+{
+  "type": "imageChange",
+  "imageChange": {}
+}
+----
++
+*** This defines an image change trigger that monitors the ImageStream and Tag
+as defined by the Strategy’s From field. When a change occurs, a new build is
+triggered and is supplied with an immutable Docker tag that points to the new
+image that was just created. This new image will be used by the Strategy when
+it executes for the build. For example, the resulting build will be:
++
+[source,json]
+----
+{
+  "strategy": {
+    "type": "Source",
+    "sourceStrategy": {
+      "from": {
+        "kind": "DockerImage",
+        "name": "172.30.17.3:5001/mynamespace/ruby-20-centos7:immutableid"
+      }
+    }
+  }
+}
+----
++
+*** This ensures that the triggered build uses the new image that was just
+pushed to the repository, and the build can be re-run any time with the same
+nputs.
+
+NOTE: In addition to setting the image field for all Strategy types, for custom
+builds, the OPENSHIFT_CUSTOM_BUILD_BASE_IMAGE environment variable is checked.
+If it does not exist, then it is created with the immutable image reference.
+If it does exist then it is updated with the immutable image reference.
+
+== Summary
+:noaudio:
+In this module we covered:
+
+	* Deployments
+  * Strategies
+  * Lifecycle Hooks
+  * Build Triggers
+  * Lab: Rollback/Activate and Code Lifecycle
+	* Lab: Using Webhooks
+	* Lab: Customized Build and Run Processes
+	* Lab: Pre and Post Deployment Hooks (Optional)

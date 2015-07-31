@@ -109,7 +109,7 @@ endif::showscript[]
 
 * Requests to the OpenShift API are authenticated using the following methods:
 
-** OAuth Access Tokens::
+** OAuth Access Tokens:
 - Obtained from the OpenShift OAuth server using the `_<master>_/oauth/authorize` and `_<master>_/oauth/token` endpoints.
 - Sent as an `Authorization: Bearer+++...+++` header or an `access_token=+++...+++` query parameter
 
@@ -488,7 +488,7 @@ endif::showscript[]
 :noaudio:
 
 .Overview - Continued
-* The following excerpt from is _viewing policy bindings] shows the above roles
+* The following excerpt of viewing policy bindings shows the above roles
 bound to various users and groups (Using the command: `oc describe clusterPolicy default`):
 +
 [options="nowrap"]
@@ -614,10 +614,10 @@ groups in the _cluster policy_ or the  _local policy_. (Detailed in the next
   immediately listed when using the CLI to _view local bindings_. However, if other default roles are added to users and groups
   within a local policy, they become listed in the CLI output, as well.
 
-  ifdef::showscript[]
-  === Transcript
+ifdef::showscript[]
+=== Transcript
 
-  endif::showscript[]
+endif::showscript[]
 
 == Authorization
 :noaudio:
@@ -654,7 +654,7 @@ project. They cannot view or modify roles or bindings.
 
 |===
 
-TIP: Remember that link:authentication.html#users-and-groups[users
+TIP: Remember that link:https://docs.openshift.com/enterprise/3.0/architecture/additional_concepts/authentication.html#users-and-groups[users
 and groups] can be associated with, or _bound_ to, multiple roles at the same
 time.
 
@@ -701,9 +701,7 @@ actions that a _pod_ can perform and what it has the ability to access.
 order to be accepted into the system. They allow an administrator to control the
 following:
 
-. Running of
-link:https://docs.openshift.com/enterprise/3.0/admin_guide/install/prerequisites.html#security-warning[privileged
-containers].
+. Running of privileged containers.
 . Capabilities a container can request to be added.
 . Use of host directories as volumes.
 . The SELinux context of the container.

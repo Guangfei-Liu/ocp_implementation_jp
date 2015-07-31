@@ -1,0 +1,92 @@
+== Lab: Allow User to run Priviledges container
+
+=== Authenticate to OpenShift Enterprise and Choose Your Project
+
+. Connect to the OpenShift Enterprise master by following the same steps you used previously.
+. Authenticate user `marina` to Openshift Enterprise and create a token in the `.config/openshift/.config` file:
++
+----
+
+[root@master00 ~]# su - marina
+[marina@master00 ~]$ guid=`hostname|cut -f2 -d-|cut -f1 -d.`
+[marina@master00 ~]$ oc login -u marina --insecure-skip-tls-verify --server=https://master00-${guid}.oslab.opentlc.com:8443
+
+----
++
+You will See
++
+----
+Password: (Enter r3dh4t1!)
+Login successful.
+Welcome to OpenShift! See 'oc help' to get started.
+----
+
+. Create a project to work in:
++
+----
+[marina@master00 ~]$ oc new-project managesecurity-lab
+
+----
+== Create the Pod Definition
+
+. Run the following command to create the `hello-pod-priv.json` file:
+. Note the setting : "privileged": true"
+----
+
+[marina@master00 ~]$ cat <<EOF > hello-pod.json
+{
+  "kind": "Pod",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "hello-openshift",
+    "creationTimestamp": null,
+    "labels": {
+      "name": "hello-openshift"
+    }
+  },
+  "spec": {
+    "containers": [
+      {
+        "name": "hello-openshift",
+        "image": "openshift/hello-openshift:v0.4.3",
+        "ports": [
+          {
+            "containerPort": 8080,
+            "protocol": "TCP"
+          }
+        ],
+        "resources": {
+          "limits": {
+            "cpu": "10m",
+            "memory": "16Mi"
+          }
+        },
+        "terminationMessagePath": "/dev/termination-log",
+        "imagePullPolicy": "IfNotPresent",
+        "capabilities": {},
+        "securityContext": {
+          "capabilities": {},
+          "privileged": true
+        },
+        "nodeSelector": {
+          "region": "primary"
+        }
+      }
+    ],
+    "restartPolicy": "Always",
+    "dnsPolicy": "ClusterFirst",
+    "serviceAccount": ""
+  },
+  "status": {}
+}
+
+EOF
+
+----
+
+. Try (and fail) to create the pod from the `hello-pod-priv.json`definition file
++
+----
+[marina@master00-312b ~]$ oc create -f hello-pod-priv.json
+Error from server: Pod "hello-openshift" is forbidden: unable to validate against any security context constraint: [provider restricted: .spec.containers[0].securityContext.privileged: invalid value 'true': Privileged containers are not allowed]
+----

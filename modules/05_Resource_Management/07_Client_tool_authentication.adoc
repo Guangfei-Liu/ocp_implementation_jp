@@ -1,3 +1,6 @@
+
+:scrollbar:
+:data-uri:
 == Client tool authentication
 .Web Console Authentication
 :noaudio:
@@ -8,4 +11,13 @@ you are automatically redirected to a login page.
 * You can provide your login credentials on this page to obtain a token to make
 API calls. After logging in, you can navigate your projects using the web
 console.
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+
+endif::showscript[]
+
 

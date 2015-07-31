@@ -1,3 +1,6 @@
+
+:scrollbar:
+:data-uri:
 == Client tool authentication
 :noaudio:
 
@@ -42,4 +45,14 @@ login` to a HTTPS server that does not provide a valid certificate, and this or
 the `--certificate-authority` flags were not provided, `oc login` will prompt
 for user input to confirm (`y/N` kind of input) about connecting insecurely.
 |===
+
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+
+endif::showscript[]
+
 

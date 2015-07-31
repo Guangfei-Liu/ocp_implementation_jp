@@ -1,3 +1,6 @@
+
+:scrollbar:
+:data-uri:
 == Client tool authentication
 :noaudio:
 
@@ -24,4 +27,13 @@ $ oc login -u system:admin -n openshift
 ----
 NOTE: Notice that we are setting the user name and the *project* (_namespace_)
 to log in to.
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+
+endif::showscript[]
+
 

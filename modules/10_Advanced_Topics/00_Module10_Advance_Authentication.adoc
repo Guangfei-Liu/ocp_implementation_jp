@@ -1,6 +1,7 @@
 
 
 == Configuring Authentication
+:noaudio:
 
 .Identity Providers - LDAP Authentication
 

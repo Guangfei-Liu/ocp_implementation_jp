@@ -90,3 +90,15 @@ EOF
 [marina@master00-312b ~]$ oc create -f hello-pod-priv.json
 Error from server: Pod "hello-openshift" is forbidden: unable to validate against any security context constraint: [provider restricted: .spec.containers[0].securityContext.privileged: invalid value 'true': Privileged containers are not allowed]
 ----
+
+
+
+
+//Create scc_dev
+//Create scc_ops
+
+//add marina to scc ops
+//* Define scc ops to allow privileged containers
+//* Define scc Dev
+
+//add andrew to scc dev

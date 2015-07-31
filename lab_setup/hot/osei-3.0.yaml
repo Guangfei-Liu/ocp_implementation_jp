@@ -162,6 +162,8 @@ resources:
             #!/bin/bash -ex
             systemctl stop NetworkManager
             systemctl disable NetworkManager
+            systemctl restart network
+            systemctl restart network
             hostnamectl set-hostname oselab-__guid__.oslab.opentlc.com
             cat > /etc/resolv.conf <<EOF
             search oslab.opentlc.com
@@ -204,6 +206,7 @@ resources:
             #!/bin/bash -ex
             systemctl stop NetworkManager
             systemctl disable NetworkManager
+            systemctl restart network
             hostnamectl set-hostname master00-__guid__.oslab.opentlc.com
             wc_notify --data-binary '{"status": "SUCCESS"}'
 
@@ -254,6 +257,7 @@ resources:
             #!/bin/bash -ex
             systemctl stop NetworkManager
             systemctl disable NetworkManager
+            systemctl restart network
             hostnamectl set-hostname infranode00-__guid__.oslab.opentlc.com
             wc_notify --data-binary '{"status": "SUCCESS"}'
 
@@ -304,6 +308,7 @@ resources:
             #!/bin/bash -ex
             systemctl stop NetworkManager
             systemctl disable NetworkManager
+            systemctl restart network
             hostnamectl set-hostname node00-__guid__.oslab.opentlc.com
             wc_notify --data-binary '{"status": "SUCCESS"}'
 
@@ -354,6 +359,7 @@ resources:
             #!/bin/bash -ex
             systemctl stop NetworkManager
             systemctl disable NetworkManager
+            systemctl restart network
             hostnamectl set-hostname node01-__guid__.oslab.opentlc.com
             wc_notify --data-binary '{"status": "SUCCESS"}'
 

@@ -27,13 +27,13 @@ Welcome to OpenShift! See 'oc help' to get started.
 [marina@master00 ~]$ oc new-project managesecurity-lab
 
 ----
-== Create the Pod Definition
+=== Create the Privileged Pod Definition
 
 . Run the following command to create the `hello-pod-priv.json` file:
 . Note the setting : "privileged": true"
 ----
 
-[marina@master00 ~]$ cat <<EOF > hello-pod.json
+[marina@master00 ~]$ cat <<EOF > hello-pod-priv.json
 {
   "kind": "Pod",
   "apiVersion": "v1",
@@ -92,6 +92,59 @@ Error from server: Pod "hello-openshift" is forbidden: unable to validate agains
 ----
 
 
+=== Add User to Privileged SCC
+
+. One way to  allow *marina* to deploy "Privileged" Containers is to add her to
+the "privileged" *SCC* :
+.. as *root*, Display the available *SCCs*:
++
+----
+[root@master00 ~]# oc get scc
+NAME         PRIV      CAPS      HOSTDIR   SELINUX     RUNASUSER
+privileged   true      []        true      RunAsAny    RunAsAny
+restricted   false     []        false     MustRunAs   MustRunAsRange
+----
+
+. Edit the *privileged SSC*, to look similar to the example:
+.. Add _- marina_ at the last line of the file. (for clarity: "-<space>marina")
++
+----
+[root@master00 ~]# oc edit scc privileged
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+allowHostDirVolumePlugin: true
+allowPrivilegedContainer: true
+apiVersion: v1
+groups:
+- system:cluster-admins
+- system:nodes
+kind: SecurityContextConstraints
+metadata:
+  creationTimestamp: 2015-07-30T02:46:22Z
+  name: privileged
+  resourceVersion: "5104"
+  selfLink: /api/v1/securitycontextconstraints/privileged
+  uid: 29c38820-3665-11e5-9899-2cc260072896
+runAsUser:
+  type: RunAsAny
+seLinuxContext:
+  type: RunAsAny
+users:
+- system:serviceaccount:openshift-infra:build-controller
+- marina
+----
+
+=== Retry to deploy Pod
+
+. Go back to the *marina* user, and test your new priviliges:
++
+----
+[marina@master00-312b ~]$ oc create -f hello-pod-priv.json
+----
+
+* Did the pod deploy this time? (It should)
 
 
 //Create scc_dev

@@ -1,19 +1,17 @@
 :noaudio:
 
-ifdef::revealjs_slideshow[] 
+ifdef::revealjs_slideshow[]
 
-[#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"] 
+[#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"]
 == &nbsp;
 
-
-[#cover-h1] 
+[#cover-h1]
 Red Hat OpenShift Enterprise Implementation
 
 [#cover-h2] 
 Creating and Deploying Your First Image
 
-[#cover-logo] 
-image::{revealjs_cover_image}[] 
+[#cover-logo]
+image::{revealjs_cover_image}[]
 
 endif::[]
-

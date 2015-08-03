@@ -96,7 +96,7 @@ Error from server: Pod "hello-openshift" is forbidden: unable to validate agains
 
 . One way to  allow *marina* to deploy "Privileged" Containers is to add her to
 the "privileged" *SCC* :
-.. as *root*, Display the available *SCCs*:
+- as *root*, Display the available *SCCs*:
 +
 ----
 [root@master00 ~]# oc get scc
@@ -106,7 +106,7 @@ restricted   false     []        false     MustRunAs   MustRunAsRange
 ----
 
 . Edit the *privileged SSC*, to look similar to the example:
-.. Add _- marina_ at the last line of the file. (for clarity: "-<space>marina")
+- Add _- marina_ at the last line of the file. (for clarity: "-<space>marina")
 +
 ----
 [root@master00 ~]# oc edit scc privileged
@@ -144,14 +144,151 @@ users:
 [marina@master00-312b ~]$ oc create -f hello-pod-priv.json
 ----
 
-* Did the pod deploy this time? (It should)
+* Did the pod deploy this time? (It should have).
+
+. Lets clean up the environment and try another way of granting users permissions.
+- As *marina*, Delete the Pod you created
++
+----
+[marina@master00-312b ~]$ oc delete -f hello-pod-priv.json
+----
+
+. As *root*, remove *marina* from the "privileged" SCC. Remove _- marina_ from
+the last line of the file:
++
+----
+[root@master00 ~]# oc edit scc privileged
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+allowHostDirVolumePlugin: true
+allowPrivilegedContainer: true
+apiVersion: v1
+groups:
+- system:cluster-admins
+- system:nodes
+kind: SecurityContextConstraints
+metadata:
+  creationTimestamp: 2015-07-30T02:46:22Z
+  name: privileged
+  resourceVersion: "5104"
+  selfLink: /api/v1/securitycontextconstraints/privileged
+  uid: 29c38820-3665-11e5-9899-2cc260072896
+runAsUser:
+  type: RunAsAny
+seLinuxContext:
+  type: RunAsAny
+users:
+- system:serviceaccount:openshift-infra:build-controller
+
+----
+
+=== Create SCCs to allocation permissions and capabilities
+
+It's not always desired to add users directly to the very permissive "privileged"
+SCC, In this section we will create a couple of SCCs to control our users
+permissions and capabilities.
+
+. Create the *scc-ops* SCC:
+- We are creating an SCC to allow specific users to run "Privileged" containers.
++
+[source,yaml]
+----
+cat << EOF > ssc-ops.yaml
+kind: SecurityContextConstraints
+apiVersion: v1
+metadata:
+  name: scc-ops
+allowPrivilegedContainer: true
+runAsUser:
+  type: RunAsAny
+seLinuxContext:
+  type: RunAsAny
+users:
+- marina
+
+EOF
+
+----
+
+NOTE: This is different than the "privileged" built-in SCC, it is more restrictive, it
+doesn't allow to mount local host directories with: _allowHostDirVolumePlugin_
+
+. Check your available SCCs:
++
+----
+
+[root@master00 ~]# oc get scc
+NAME         PRIV      CAPS      HOSTDIR   SELINUX     RUNASUSER
+privileged   true      []        true      RunAsAny    RunAsAny
+restricted   false     []        false     MustRunAs   MustRunAsRange
+scc-ops      true      []        false     RunAsAny    RunAsAny
+
+----
 
 
-//Create scc_dev
-//Create scc_ops
+. Create the *scc-dev* SCC:
+- This SCC is for our developer team, it allows them create docker builds that
+use *any user other than root*.
+- We will take another approach to achieving this, we will *oc export* the
+"restricted" built-in SCC and make changed to it.
 
-//add marina to scc ops
-//* Define scc ops to allow privileged containers
-//* Define scc Dev
++
+[source,yaml]
+----
+[root@master00 ~] oc export scc restricted | tee ssc-dev.yaml
+apiVersion: v1
+groups:
+- system:authenticated
+kind: SecurityContextConstraints
+metadata:
+  creationTimestamp: null
+  name: restricted
+runAsUser:
+  type: MustRunAsRange
+seLinuxContext:
+  type: MustRunAs
+----
 
-//add andrew to scc dev
+. Edit the file to look like the following:
+- Delete the _groups_ section.
+- Change _RunAsUser_ Type value to "*MustRunAsNonRoot*".
+- Change the SCC _name_ to "*ssc-dev*".
+- Add the _users_ section, and make sure user *andrew* is on the list
++
+[source,yaml]
+----
+apiVersion: v1
+kind: SecurityContextConstraints
+metadata:
+  creationTimestamp: null
+  name: ssc-dev
+runAsUser:
+  type: MustRunAsNonRoot
+seLinuxContext:
+  type: MustRunAs
+users:
+ - andrew
+----
+
+. Check your available SCCs:
++
+----
+[root@master00-312b ~]# oc get scc
+NAME         PRIV      CAPS      HOSTDIR   SELINUX     RUNASUSER
+privileged   true      []        true      RunAsAny    RunAsAny
+restricted   false     []        false     MustRunAs   MustRunAsRange
+scc-ops      true      []        false     RunAsAny    RunAsAny
+ssc-dev      false     []        false     MustRunAs   MustRunAsNonRoot
+----
+
+=== Test your new SCCs
+
+. Go back to the *marina* user, and test your new priviliges:
++
+----
+[marina@master00-312b ~]$ oc create -f hello-pod-priv.json
+----
+
+* Did the pod deploy this time? (It should have).

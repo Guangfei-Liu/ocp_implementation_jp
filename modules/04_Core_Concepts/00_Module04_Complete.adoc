@@ -411,7 +411,7 @@ example shows the definition of a service for the pod defined above:
    - nodePort: 0
      port: 5000               <4>
      protocol: TCP
-     targetPort: 5000
+     targetPort: 5000 <5>
 ----
 
 <1> The service name *docker-registry* is also used to construct an

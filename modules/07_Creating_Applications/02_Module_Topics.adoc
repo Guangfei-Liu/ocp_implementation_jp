@@ -1,0 +1,26 @@
+
+:scrollbar:
+:data-uri:
+== Module Topics
+:noaudio:
+
+* Creating New Applications
+* Create App from Source Code
+* S2I Applications Expanded
+* S2I Builds
+* Create App from Image
+* Create App from Template
+* Modify Application Environment
+* Advanced Application Creation
+* Using the Web Console
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+Welcome to Module 07 of the OpenShift Enterprise Implementation course.
+
+endif::showscript[]
+
+

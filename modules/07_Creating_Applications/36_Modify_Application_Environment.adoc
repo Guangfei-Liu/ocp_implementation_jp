@@ -1,0 +1,37 @@
+
+:scrollbar:
+:data-uri:
+== Modify Application Environment
+:noaudio:
+
+.Object names and Projects
+
+* Objects created by `new-app` are normally named after the source repository or
+the image used to generate them. You can set the name of the objects produced by
+adding a `--name` flag to the command.
+
+* To Create `new-app` Artifacts with a Different Name:
++
+----
+$ oc new-app https://github.com/openshift/ruby-hello-world --name=myapp
+----
+
+.Object Project or Namespace
+* Normally `new-app` creates objects in the current project. However, you can tell
+it to create objects in a different project that you have access to using the
+`-n|--namespace` argument.
+
+* To Create `new-app` Artifacts in a Different Project:
++
+----
+$ oc new-app https://github.com/openshift/ruby-hello-world -n myproject
+----
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+

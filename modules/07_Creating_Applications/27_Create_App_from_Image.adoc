@@ -1,0 +1,28 @@
+
+:scrollbar:
+:data-uri:
+== Create App from Image
+:noaudio:
+
+.Specifying an Image
+
+* The `new-app` command generates the necessary artifacts to deploy an existing
+image as an application. Images can come from image streams in the OpenShift
+server, images in a specific registry or https://registry.hub.docker.com[Docker
+Hub], or images in the local Docker server.
+
+* The `new-app` command attempts to determine the type of image specified in the
+arguments passed to it. However, you can explicitly tell `new-app` whether the
+image is a Docker image (using the `--docker-image` argument) or an image stream
+(using the `-i|--image` argument).
+
+
+NOTE: If you specify an image from your local Docker repository, you must ensure
+that the same image is available to the OpenShift cluster nodes.
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+

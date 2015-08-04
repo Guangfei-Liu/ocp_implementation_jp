@@ -1,0 +1,27 @@
+
+:scrollbar:
+:data-uri:
+== Create App from Template
+:noaudio:
+
+.Specifying a Template
+
+* The `new-app` command can instantiate a template from a previouly stored
+template or from a template file. To instantiate a previously stored template,
+specify the name of the template as an argument.
+* For example, store a https://github.com/openshift/origin/tree/master/examples/sample-app[sample
+application template] and use it to create an application.
+
+* To Create an Application from a Previously Stored Template:
++
+----
+$ oc create -f examples/sample-app/application-template-stibuild.json
+$ oc new-app ruby-helloworld-sample
+----
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+

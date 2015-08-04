@@ -1,0 +1,27 @@
+
+:scrollbar:
+:data-uri:
+== Using the Web Console
+:noaudio:
+
+* You can also create applications using the web console:
+
+* While in the desired project, click *Create*:
++
+====
+image::images/console_create.["Web Console Create"]
+====
+
+*  Enter the repository URL for the application to build:
+
+====
+image::images/console_enter_source_uri.png["Enter Source Repository"]
+====
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+

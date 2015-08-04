@@ -1,0 +1,35 @@
+
+:scrollbar:
+:data-uri:
+== S2I Builds
+:noaudio:
+
+.Creating the Build File
+
+* To create the instructions/config, use `oc new-app`:
++
+----
+
+$ oc new-app https://github.com/openshift/simple-openshift-sinatra-sti.git -o json | tee ~/simple-sinatra.json
+
+----
+
+* `oc new-app`:
+** Examines directory tree, remote repo, or other sources
+** Attempts to generate JSON configuration so that OpenShift Enterprise can build image to run.
+** Defines a service object for the application
+
+ifdef::showscript[]
+
+=== Transcript
+
+As shown in the code sample, you use the `oc new-app` command to generate a JSON file that defines your build.
+`oc new-app` is a tool that examines a directory tree, a remote repo, or other sources and attempts to generate an appropriate JSON configuration so that,
+after it creates the file, OpenShift can build the resulting image to run.
+
+This also defines a service for the pods, but it does not start the build yet.
+
+You can edit the JSON file before you create the build.
+
+endif::showscript[]
+

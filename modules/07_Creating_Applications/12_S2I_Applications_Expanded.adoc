@@ -1,0 +1,23 @@
+
+:scrollbar:
+:data-uri:
+== S2I Applications Expanded
+:noaudio:
+
+.The Build Process
+
+* *Build* - A build is a process of creating runnable images to be used on OpenShift.
+* There are three build strategies:
+** Docker - Invoke docker build, expect a repository with a Dockerfile and directories required for a Docker build process
+** S2I - Source-to-Image is a tool for building reproducible Docker images from source code and a builder image.
+** Custom - A user defined build process, possibly integrating with an existing CI/CD deployment.
+
+ifdef::showscript[]
+
+=== Transcript
+
+A *build* is a process of transforming input parameters, typically transforming source code into a resulting object, which is typically a run-able image.
+The resulting object depends on the builder used to create the image.
+
+endif::showscript[]
+

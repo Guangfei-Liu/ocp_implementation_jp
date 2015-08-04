@@ -1,0 +1,31 @@
+
+:scrollbar:
+:data-uri:
+== Creating New Applications
+:noaudio:
+
+.Overview
+
+* You can create a new OpenShift application using the web console or by running
+the `oc new-app` command from the CLI.
+* OpenShift creates a new application by specifying source code, images, or
+templates.
+* The `new-app` command looks for images on the local Docker installation (if
+  available), in a Docker registry, or an OpenShift image stream.
+
+* If you specify source code, `new-app` attempts to construct a _build
+configuration_ that builds your source into a new application _image_.
+* It also constructs a *deployment configuration* that deploys that new image,
+and a _service_ to provide load balanced access to the deployment that is
+running your image.
+
+NOTE: If you specify source code, you may need to run a build with `oc
+start-build` after the application is created.
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+

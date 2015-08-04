@@ -1,0 +1,31 @@
+
+:scrollbar:
+:data-uri:
+== S2I Builds
+:noaudio:
+
+.Creating an S2I Build Example
+
+* In this example we will create an image using the S2I process, We will use:
+** Uses Ruby Sinatra gem as application framework
++
+link:https://github.com/openshift/simple-openshift-sinatra-sti[https://github.com/openshift/simple-openshift-sinatra-sti]
+** We will use the `ruby-20-rhel7` builder image
+
+* We will also:
+** Run new image in a pod
+** Create service for the pod
+** Create route for external access
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+This module describes the process of creating an S2I build. It uses Ruby's Sinatra gem, found at the URL shown here, as the application framework to build a simple "Hello World" application.
+It shows how to create an S2I build with a `ruby-20-rhel7` image.
+
+The module also shows the process of running the new image in a pod, including creating a service for the pod and creating a route for external access.
+
+endif::showscript[]
+

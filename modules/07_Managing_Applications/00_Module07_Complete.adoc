@@ -1,31 +1,36 @@
 :noaudio:
 
-ifdef::revealjs_slideshow[] 
+ifdef::revealjs_slideshow[]
 
-[#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"] 
+[#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"]
 == &nbsp;
+:noaudio:
 
-
-[#cover-h1] 
+[#cover-h1]
 Red Hat OpenShift Enterprise Implementation
 
-[#cover-h2] 
-Creating and Deploying Your First Image
+[#cover-h2]
+Creating New Applications
 
-[#cover-logo] 
-image::{revealjs_cover_image}[] 
+[#cover-logo]
+image::{revealjs_cover_image}[]
 
 endif::[]
 
 
 == Module Topics
+:noaudio:
 
-* Concepts
-* Creating an S2I build
-* Deploying an S2I build image
-* Lab: Arbitrary Docker Image (WordPress)
-* Lab: Deploying an S2I build image
-* Lab:  Install the client on your workstation
+* Creating New Applications
+* Create App from Source Code
+* S2I Applications Expanded
+* S2I Builds
+* Create App from Image
+* Create App from Template
+* Modify Application Environment
+* Advanced Application Creation
+* Using the Web Console
+
 
 ifdef::showscript[]
 
@@ -33,16 +38,210 @@ ifdef::showscript[]
 
 Welcome to Module 07 of the OpenShift Enterprise Implementation course.
 
-This module covers the following topics:
+endif::showscript[]
 
-* Concepts such as build and deployment automation; the definition of Source-to-Image, or S2I; the build process; the `BuildConfig` object; and build strategies
-* Creating an S2I build, including creating the build file and understanding the various sections of the build file.
-* Deploying an S2I build image, including creating the build environment, starting the build, and using the web console to create an S2I build
 
+== Creating New Applications
+:noaudio:
+
+.Overview
+
+* You can create a new OpenShift application using the web console or by running
+the `oc new-app` command from the CLI.
+* OpenShift creates a new application by specifying source code, images, or
+templates.
+* The `new-app` command looks for images on the local Docker installation (if
+  available), in a Docker registry, or an OpenShift image stream.
+
+* If you specify source code, `new-app` attempts to construct a _build
+configuration_ that builds your source into a new application _image_.
+* It also constructs a *deployment configuration* that deploys that new image,
+and a _service_ to provide load balanced access to the deployment that is
+running your image.
+
+NOTE: If you specify source code, you may need to run a build with `oc
+start-build` after the application is created.
+
+ifdef::showscript[]
+
+=== Transcript
 
 endif::showscript[]
 
-== Build and Deployment Automation
+
+== Create App from Source Code
+:noaudio:
+
+.Specifying Source Code
+
+* You can create a new application using the `oc new-app` command from the CLI.
+
+* The `new-app` command allows you to create applications using source code from a
+local or remote Git repository. If only a source repository is specified,
+`new-app` tries to automatically determine the type of build strategy to use
+(`Docke*` or `Source`), and in the case of `Source` type
+builds, an appropriate language builder image.
+
+* You can tell `new-app` to use a subdirectory of your source code repository by
+specifying a `--context` flag. Also, when specifying a remote URL, you can
+specify a Git reference to use by appending `#[reference]` to the end of the
+URL.
+
+NOTE: If using a local Git repository, the repository must have an *origin* remote
+that points to a URL accessible by the OpenShift cluster.
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+== Create App from Source Code
+:noaudio:
+
+.Specifying Source Code - Examples
+
+* To Create an Application Using the Git Repository at the Current Directory:
++
+----
+$ oc new-app .
+----
+
+
+* To Create an Application Using a Remote Git Repository and a Context Subdirectory:
++
+----
+$ oc new-app https://github.com/openshift/sti-ruby.git \
+    --context=2.0/test/puma-test-app
+----
+
+* To Create an Application Using a Remote Git Repository with a Specific Branch Reference:
++
+----
+$ oc new-app https://github.com/openshift/ruby-hello-world.git#beta4
+----
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+== Create App from Source Code
+:noaudio:
+
+.Build Strategy Detection
+
+* If `new-app` finds a _Dockerfile_ in the repository, it generates a
+`Docker` build strategy. Otherwise, it generates a `Source` strategy.
+* To use a specific strategy, set the `--strategy` flag to either `source` or `docker`.
+
+* To Force `new-app` to Use the `Docker` Strategy for a Local Source Repository:
++
+----
+$ oc new-app /home/user/code/myapp --strategy=docker
+----
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+== Create App from Source Code
+:noaudio:
+
+.Language Detection
+* If creating a `Source` build, `new-app` attempts to determine which language
+builder to use based on the presence of certain files in the root of the
+repository:
+
+* Languages Detected by `new-app`:
+[cols="4,8",options="header"]
+|===
+
+|Language |Files
+
+a|`ruby`
+a|*_Rakefile_*, *_Gemfile_*, *_config.ru_*
+
+a|`jee`
+a|*_pom.xml_*
+
+a|`nodejs`
+a|*_app.json_*, *_package.json_*
+
+a|`php`
+a|*_index.php_*, *_composer.json_*
+
+a|`python`
+a|*_requirements.txt_*, *_config.py_*
+
+a|`perl`
+a|*_index.pl_*, *_cpanfile_*
+|===
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+== Create App from Source Code
+:noaudio:
+
+.Language Detection - Continued
+
+* After a language is detected, `new-app` searches the OpenShift server for
+image stream tags that have a `supports` annotation matching the detected
+language, or an image stream that matches the name of the detected language.
+* If a match is not found, `new-app` searches the https://registry.hub.docker.com[Docker Hub
+registry] for an image that matches the detected language based on name.
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+== Create App from Source Code
+:noaudio:
+
+.Language Detection - Continued
+
+* To override the image that `new-app` uses as the builder for a particular source
+repository, the image (either an image stream or Docker specification) can be
+specified along with the repository using a `~` as a separator.
+
+* To Use Image Stream *myproject/my-ruby* to Build the Source at a Remote GitHub
+Repository:
++
+----
+$ oc new-app myproject/my-ruby~https://github.com/openshift/ruby-hello-world.git
+----
+
+* To Use Docker Image *openshift/ruby-20-centos7:latest* to Build Source in a Local Repository:
++
+----
+$ oc new-app openshift/ruby-20-centos7:latest~/home/user/code/my-ruby-app
+----
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+== S2I Applications Expanded
+:noaudio:
+
+.Build and Deployment Automation
 
 * Integrated Docker registry and automated image builds
 * Source code deployments leveraging S2I build automation
@@ -57,56 +256,29 @@ The S2I, Source to Image  build is a process in which a developer points to a co
 
 OpenShift Enterprise then creates an image based on the builder image that contains the selected code.
 
-OpenShift Enterprise offers an integrated Docker registry and automated image builds, enabling both source code deployments leveraging S2I build automation 
+OpenShift Enterprise offers an integrated Docker registry and automated image builds, enabling both source code deployments leveraging S2I build automation
 and binary deployments integrated with your existing build and CI infrastructure.
 
 OpenShift Enterprise also offers configurable deployment patterns, which would be covered in future courses.
 
 endif::showscript[]
 
- 
+
+== S2I Applications Expanded
 :noaudio:
 
-== Why S2I?
-* *Image flexibility* - S2I scripts can be written to layer application code onto almost any existing Docker image, taking advantage of the existing ecosystem. Note that, currently, S2I relies on tar to inject application source, so the image needs to be able to process tarred content.
-* *Speed* - With S2I, the assemble process can perform a large number of complex operations without creating a new layer at each step, resulting in a fast process. In addition, S2I scripts can be written to re-use artifacts stored in a previous version of the application image, rather than having to download or build them, each time the build is run.
-* *Patchability* - S2I allows you to rebuild the application consistently if an underlying image needs a patch due to a security issue.
-* *Operational efficiency* - By restricting build operations instead of allowing arbitrary actions, such as in a Dockerfile, the PaaS operator can avoid accidental or intentional abuses of the build system.
-* *Operational security* - Building an arbitrary Dockerfile exposes the host system to root privilege escalation. This can be exploited by a malicious user because the entire docker build process is run as a user with docker privileges. S2I restricts the operations performed as a root user, and can run the scripts as a non-root user.
-* *User efficiency* - S2I prevents developers from performing arbitrary yum install type operations during their application build, which results in slow development iteration.
-* *Ecosystem* - S2I encourages a shared ecosystem of images where you can leverage best practices for your applications. 
+.What Is S2I?
 
-ifdef::showscript[]
-
-=== Transcript
-
-* *Image flexibility* - S2I scripts can be written to layer application code onto almost any existing Docker image, taking advantage of the existing ecosystem. Note that, currently, S2I relies on tar to inject application source, so the image needs to be able to process tarred content.
-* *Speed* - With S2I, the assemble process can perform a large number of complex operations without creating a new layer at each step, resulting in a fast process. In addition, S2I scripts can be written to re-use artifacts stored in a previous version of the application image, rather than having to download or build them, each time the build is run.
-* *Patchability* - S2I allows you to rebuild the application consistently if an underlying image needs a patch due to a security issue.
-* *Operational efficiency* - By restricting build operations instead of allowing arbitrary actions, such as in a Dockerfile, the PaaS operator can avoid accidental or intentional abuses of the build system.
-* *Operational security* - Building an arbitrary Dockerfile exposes the host system to root privilege escalation. This can be exploited by a malicious user because the entire docker build process is run as a user with docker privileges. S2I restricts the operations performed as a root user, and can run the scripts as a non-root user.
-* *User efficiency* - S2I prevents developers from performing arbitrary yum install type operations during their application build, which results in slow development iteration.
-* *Ecosystem* - S2I encourages a shared ecosystem of images where you can leverage best practices for your applications. 
-
-
-endif::showscript[]
-
-
- 
- 
-
-== What Is S2I?
-
-* Source-to-Image (S2I) is a tool for building reproducible Docker images. It produces ready-to-run images by injecting a user source into a docker image and assembling a new docker image. 
-** The new image incorporates the base image (the builder) and built source, and is ready to use with the docker run command. 
-** S2I supports incremental builds, which re-use previously downloaded dependencies, previously built artifacts, etc. 
+* Source-to-Image (S2I) is a tool for building reproducible Docker images. It produces ready-to-run images by injecting a user source into a docker image and assembling a new docker image.
+** The new image incorporates the base image (the builder) and built source, and is ready to use with the docker run command.
+** S2I supports incremental builds, which re-use previously downloaded dependencies, previously built artifacts, etc.
 * Process OpenShift Enterprise uses to build Docker image from base image and application source code
 * Requirements:
 ** Code repository
 ** Base image (i.e `ruby-20-rhel7` or `php-51-centos7`)
 *** Base images are built in--no need to create
 
-* Docker build vs. S2I build: 
+* Docker build vs. S2I build:
 +
 image::images/DockerVsS2IBuilds.png[]
 
@@ -114,37 +286,42 @@ ifdef::showscript[]
 
 === Transcript
 
-*S2I* stands for Source-to-Image. It is the process OpenShift uses to build a Container image from a base image and your application source code.  
+*S2I* stands for Source-to-Image. It is the process OpenShift uses to build a Container image from a base image and your application source code.
 
 To start an S2I build, your code must reside in a supported code repository and you need a base or builder image, for example `ruby-20-rhel7`, on top of which to start building. These base images are available built in  to OpenShift Enterprise--you do not need to create them yourself.
 
 
-This illustration shows the key differences between a Docker build and an S2I build. 
+This illustration shows the key differences between a Docker build and an S2I build.
 
 endif::showscript[]
 
+== S2I Applications Expanded
+:noaudio:
 
-== The Build Process
+.The Build Process
 
-* *Build* - A build is a process of creating runnable images to be used on OpenShift. There are three build strategies: 
+* *Build* - A build is a process of creating runnable images to be used on OpenShift.
+* There are three build strategies:
 ** Docker - Invoke docker build, expect a repository with a Dockerfile and directories required for a Docker build process
-** S2I - Covered later in this training  
+** S2I - Source-to-Image is a tool for building reproducible Docker images from source code and a builder image.
 ** Custom - A user defined build process, possibly integrating with an existing CI/CD deployment.
 
 ifdef::showscript[]
 
 === Transcript
 
-A *build* is a process of transforming input parameters, typically transforming source code into a resulting object, which is typically a run-able image. 
+A *build* is a process of transforming input parameters, typically transforming source code into a resulting object, which is typically a run-able image.
 The resulting object depends on the builder used to create the image.
 
 endif::showscript[]
 
+== S2I Applications Expanded
+:noaudio:
 
-== `BuildConfig`
+.BuildConfig
 
 * A *buildConfig* describes a single build definition and a set of triggers for when a new build should be created.
-* A *buildConfig* is a REST object, which can be used in a POST to the API server to create a new instance. The following example buildConfig results in a new build every time a Docker image tag or the source code changes: 
+* A *buildConfig* is a REST object, which can be used in a POST to the API server to create a new instance. The following example buildConfig results in a new build every time a Docker image tag or the source code changes:
 * *`BuildConfig` object* - Definition of the entire build process consisting of:
 ** *triggers* - Define policies for invoking builds
 *** *GitHub webhooks* - Specify which repository changes invoke a new build; specific to the GitHub API
@@ -159,13 +336,13 @@ ifdef::showscript[]
 
 === Transcript
 
-The `BuildConfig` object is the definition of the entire build process. 
+The `BuildConfig` object is the definition of the entire build process.
 It consists of the following elements: the triggers that define policies used to automatically invoke builds and the parameters that point OpenShift Enterprise to your source code and builder image.
 
 The three trigger types include:
 
 * GitHub-specific webhooks, which specify the repository changes, such as a new commit, that invokes a new build. This trigger is specific to the GitHub API.
-* The second trigger type is generic webhooks. This trigger is similar to GitHub webhooks in that it invokes a new build whenever it receives a notification. 
+* The second trigger type is generic webhooks. This trigger is similar to GitHub webhooks in that it invokes a new build whenever it receives a notification.
 * And lastly, image change is a trigger that is invoked when a new image is available in the specified `ImageRepository` or 'ImageStream'
 
 The three parameter types include:
@@ -176,8 +353,10 @@ The three parameter types include:
 
 endif::showscript[]
 
+== S2I Applications Expanded
+:noaudio:
 
-== Build Strategies
+.Build Strategies
 
 * OpenShift Enterprise build system supports build strategies based on types specified in build API
 * Two strategies supported by default:
@@ -191,8 +370,6 @@ endif::showscript[]
 *** Created image incorporates base image and built source, ready to use with Docker run
 *** Supports incremental builds that reuse downloaded dependencies, built artifacts, etc.
 
-image::images/DockerVsS2IBuilds.png[]
-
 ifdef::showscript[]
 
 === Transcript
@@ -201,7 +378,7 @@ The OpenShift build system provides extensible support for build strategies base
 
 Docker builds invoke the plain `docker build` command, and therefore expect a repository with a `Dockerfile` and all required directories for a Docker build process. This method is suitable for deploying a prebuilt Docker container. With this approach, a developer, provider, or ops team needs to create the Docker image and inject the code into it.
 
-As mentioned earlier, Source-to-Image, or S2I, is a tool for building reproducible Docker images. S2I produces ready-to-run images by injecting a user's source code into an image and assembling a new Docker image. 
+As mentioned earlier, Source-to-Image, or S2I, is a tool for building reproducible Docker images. S2I produces ready-to-run images by injecting a user's source code into an image and assembling a new Docker image.
 The created image incorporates the base image and built source. S2I supports incremental builds that reuse previously downloaded dependencies, previously built artifacts, and so on.
 
 This module focuses on the S2I build strategy.
@@ -209,8 +386,10 @@ This module focuses on the S2I build strategy.
 
 endif::showscript[]
 
+== S2I Builds
+:noaudio:
 
-== Build Strategies
+.Build Strategies
 
 .S2I Build
 * S2I builds replace OpenShift Enterprise 2.x-like developer experience
@@ -223,16 +402,18 @@ ifdef::showscript[]
 
 === Transcript
 
-S2I builds are a replacement for the OpenShift Enterprise Version 2-like developer experience. The developer needs to provide only the repository where the project is located and a builder image, which defines the language and framework used for writing the application. 
+S2I builds are a replacement for the OpenShift Enterprise Version 2-like developer experience. The developer needs to provide only the repository where the project is located and a builder image, which defines the language and framework used for writing the application.
 
-S2I then assembles a new image that runs the application defined by the source using the framework defined by the builder image. You can customize the assembly process to fit different approaches. 
+S2I then assembles a new image that runs the application defined by the source using the framework defined by the builder image. You can customize the assembly process to fit different approaches.
 
 endif::showscript[]
 
+== S2I Builds
+:noaudio:
 
-== Creating an S2I Build Example
+.Creating an S2I Build Example
 
-* In this example we will create an image using the S2I process, We will use: 
+* In this example we will create an image using the S2I process, We will use:
 ** Uses Ruby Sinatra gem as application framework
 +
 link:https://github.com/openshift/simple-openshift-sinatra-sti[https://github.com/openshift/simple-openshift-sinatra-sti]
@@ -248,15 +429,17 @@ ifdef::showscript[]
 
 === Transcript
 
-This module describes the process of creating an S2I build. It uses Ruby's Sinatra gem, found at the URL shown here, as the application framework to build a simple "Hello World" application. 
+This module describes the process of creating an S2I build. It uses Ruby's Sinatra gem, found at the URL shown here, as the application framework to build a simple "Hello World" application.
 It shows how to create an S2I build with a `ruby-20-rhel7` image.
 
 The module also shows the process of running the new image in a pod, including creating a service for the pod and creating a route for external access.
 
 endif::showscript[]
 
+== S2I Builds
+:noaudio:
 
-== Creating the Build File
+.Creating the Build File
 
 * To create the instructions/config, use `oc new-app`:
 +
@@ -268,18 +451,15 @@ $ oc new-app https://github.com/openshift/simple-openshift-sinatra-sti.git -o js
 
 * `oc new-app`:
 ** Examines directory tree, remote repo, or other sources
-** Attempts to generate JSON configuration so that OpenShift Enterprise can build image to run
-** defines a service object for the application
-
-
-
+** Attempts to generate JSON configuration so that OpenShift Enterprise can build image to run.
+** Defines a service object for the application
 
 ifdef::showscript[]
 
 === Transcript
 
-As shown in the code sample, you use the `oc new-app` command to generate a JSON file that defines your build. 
-`oc new-app` is a tool that examines a directory tree, a remote repo, or other sources and attempts to generate an appropriate JSON configuration so that, 
+As shown in the code sample, you use the `oc new-app` command to generate a JSON file that defines your build.
+`oc new-app` is a tool that examines a directory tree, a remote repo, or other sources and attempts to generate an appropriate JSON configuration so that,
 after it creates the file, OpenShift can build the resulting image to run.
 
 This also defines a service for the pods, but it does not start the build yet.
@@ -288,14 +468,15 @@ You can edit the JSON file before you create the build.
 
 endif::showscript[]
 
+== S2I Builds
+:noaudio:
 
-== The Build File
+.The Build File
 
-* Contains some familiar items, some new ones:
-** `BuildConfig`
-** `ImageRepository`
+* The Build file contains some familiar items:
+
 +
-.Generated JSON file
+.Exmple Build JSON file
 [source,json]
 ----
 {
@@ -454,7 +635,6 @@ endif::showscript[]
                         "protocol": "TCP",
                         "port": 8080,
                         "targetPort": 8080,
-                        "nodePort": 0
                     }
                 ],
                 "selector": {
@@ -475,17 +655,18 @@ ifdef::showscript[]
 
 === Transcript
 
-Here you can see the generated JSON file. At this point, it contains some familiar items, and some new ones--specifically, `BuildConfig` and `ImageRepository`. 
+Here you can see the generated JSON file. At this point, it contains some familiar items, and some new ones--specifically, `BuildConfig` and `ImageRepository`.
 Upcoming slides cover each section of the file.
 
 endif::showscript[]
 
+== S2I Builds
+:noaudio:
 
-== The Build File
+.The Build File - Service
 
-.`Service`
-* Describes service to be created to support built application 
-* Notice the `ContainerPort` and `Selector` lines 
+* Describes service to be created to support built application
+* Notice the `ContainerPort` and `Selector` lines
 
 
 [source,json]
@@ -504,7 +685,6 @@ endif::showscript[]
                         "protocol": "TCP",
                         "port": 8080,
                         "targetPort": 8080,
-                        "nodePort": 0
                     }
                 ],
                 "selector": {
@@ -524,15 +704,15 @@ ifdef::showscript[]
 
 === Transcript
 
-The `Service` section describes the service to be created to support your built application. 
-Notice the "ContainerPort" and "Selector" lines. 
+The `Service` section describes the service to be created to support your built application.
+Notice the "ContainerPort" and "Selector" lines.
 
 endif::showscript[]
 
+== S2I Builds
+:noaudio:
 
-== The Build File
-
-.`ImageStream`
+.The Build File - ImageStream
 
 * Describes `ImageStream` resource to be created to support your built application
 * Lets OpenShift "listen" or "poll" for changes in image, such as security patches
@@ -576,10 +756,10 @@ Using `ImageStreams` lets your OpenShift "listen" or "poll" for changes in the i
 
 endif::showscript[]
 
+== S2I Builds
+:noaudio:
 
-== The Build File
-
-.`BuildConfig`
+.The Build File - BuildConfig
 
 * Defines the following:
 ** Triggers that start a rebuild of your application
@@ -653,9 +833,10 @@ In the `BuildConfig` section, you define both the triggers you can use to start 
 endif::showscript[]
 
 
-== The Build File
+== S2I Builds
+:noaudio:
 
-.`DeploymentConfig`
+.The Build File - DeploymentConfig
 
 * Defines more triggers that can start a rebuild of your image
 * Defines How many replica's your application will have.
@@ -708,9 +889,10 @@ In the `DeploymentConfig` section, you define more triggers that can start a "re
 endif::showscript[]
 
 
-== The Build File
+== S2I Builds
+:noaudio:
 
-.`template`
+.The Build File - template
 
 * Defines the container deployment template
 
@@ -751,12 +933,14 @@ ifdef::showscript[]
 
 === Transcript
 
-The `template` section defines different aspects of your application--for example, how many replicas to create for your application. 
+The `template` section defines different aspects of your application--for example, how many replicas to create for your application.
 
 endif::showscript[]
 
+== S2I Builds
+:noaudio:
 
-== Deploying an S2I Build Image
+.Deploying an S2I Build Image
 
 * In basic S2I process, OpenShift Enterprise:
 ** Sets up components to build source code into Docker image
@@ -768,13 +952,15 @@ ifdef::showscript[]
 
 === Transcript
 
-Essentially, the S2I process is as follows: 
+Essentially, the S2I process is as follows:
 OpenShift Enterprise sets up various components such that it can build source code into a Docker image. OpenShift Enterprise then, on command, builds the Docker image with the source code. And finally, OpenShift Enterprise deploys the Docker image as a pod with an associated service.
 
 endif::showscript[]
 
+== S2I Builds
+:noaudio:
 
-== Creating the Build Environment
+.Creating the Build Environment
 
 * To create build environment and *start the build*, use `oc create` on the .json file created earlier:
 +
@@ -788,51 +974,25 @@ $ oc create -f ~/simple-sinatra.json
 ** `DeploymentConfig`
 ** `Service`
 
-* To review what happened:
-+
-----
-$ for i in imagerepository buildconfig deploymentconfig service; do \
-> echo $i; oc get $i; echo -e "\n\n"; done
-imagerepository
-NAME                           DOCKER REPO                                               TAGS
-simple-openshift-sinatra-sti   172.30.17.153:5000/sinatra/simple-openshift-sinatra-sti   
-
-
-
-buildconfig
-NAME                           TYPE      SOURCE
-simple-openshift-sinatra-sti   S2I       https://github.com/openshift/simple-openshift-sinatra-sti.git
-
-
-
-deploymentconfig
-NAME                           TRIGGERS                    LATEST VERSION
-simple-openshift-sinatra-sti   ConfigChange, ImageChange   0
-
-
-
-service
-NAME                       LABELS    SELECTOR                                        IP              PORT(S)
-simple-openshift-sinatra   <none>    deploymentconfig=simple-openshift-sinatra-sti   172.30.17.225   8080/TCP
-
-
-----
-
+NOTE: Most time its recommended to use `oc new-app`, This method is described for
+rare cases and for learning benifits.
 
 ifdef::showscript[]
 
 === Transcript
 
-As shown in the first code sample, you use the `oc create` command to create the build environment and resources. 
-This does not start the build process for your image but creates the required resources discussed previously. 
+As shown in the first code sample, you use the `oc create` command to create the build environment and resources.
+This does not start the build process for your image but creates the required resources discussed previously.
 These include an `ImageRepository` entry, a `BuildConfig`, a `DeploymentConfig`, and a `Service`.
 
 To review what happened, run the command shown in the second code sample.
 
 endif::showscript[]
 
+== S2I Builds
+:noaudio:
 
-== Watching the Build
+.Watching the S2I Build
 
 * To see builds and their status, use `oc get builds`:
 +
@@ -853,94 +1013,469 @@ ifdef::showscript[]
 
 === Transcript
 
-To see the builds and their status, use the `oc get builds` command, as shown in the second code sample. 
+To see the builds and their status, use the `oc get builds` command, as shown in the second code sample.
 
 Finally, to follow the build process by checking the log created for your build, use the `oc build-logs` command, as shown in the third code sample.
 
 endif::showscript[]
 
 
-== Create an S2I Build in Web Console
+== Create App from Image
+:noaudio:
 
-* Select project and click *Create*.
+.Specifying an Image
 
-image::images/GuiSTLDemo01.png[]
+* The `new-app` command generates the necessary artifacts to deploy an existing
+image as an application. Images can come from image streams in the OpenShift
+server, images in a specific registry or https://registry.hub.docker.com[Docker
+Hub], or images in the local Docker server.
 
-ifdef::showscript[]
-
-=== Transcript
-
-To create an S2I build in the web console, first select your project and click *Create*.
-
-endif::showscript[]
+* The `new-app` command attempts to determine the type of image specified in the
+arguments passed to it. However, you can explicitly tell `new-app` whether the
+image is a Docker image (using the `--docker-image` argument) or an image stream
+(using the `-i|--image` argument).
 
 
-== Create an S2I Build in Web Console
-
-.Enter repository
-
-* Enter build Git repository
-
-image::images/GuiSTLDemo02.png[]
-
+NOTE: If you specify an image from your local Docker repository, you must ensure
+that the same image is available to the OpenShift cluster nodes.
 
 ifdef::showscript[]
 
 === Transcript
 
-Next, enter the Git repository for your build.
+endif::showscript[]
+
+== Create App from Image
+:noaudio:
+
+.Specifying an Image - Examples
+
+* To create an application using an image in a private registry, specify the full
+Docker image specification.
+
+
+* To Create an Application from the https://registry.hub.docker.com/_/mysql/[DockerHub MySQL Image]:
++
+----
+$ oc new-app mysql
+----
+
+* To Create an Application from a Local Registry:
+----
+$ oc new-app myregistry:5000/example/myimage
+----
+
+
+NOTE : If the registry that the image comes from is not secured with SSL, cluster
+administrators must ensure that the Docker daemon on the OpenShift nodes is run
+with the `--insecure-registry` flag pointing to that registry. You must also
+tell `new-app` that the image comes from an insecure registry with the
+`--insecure-registry=true` flag.
+
+ifdef::showscript[]
+
+=== Transcript
 
 endif::showscript[]
 
+== Create App from Image
+:noaudio:
 
-== Create an S2I Build in Web Console
+.Specifying an Image - Examples Continued
 
-.Select image
+To create an application from an existing image stream, specify the namespace
+(optional), name, and tag (optional) for the image stream.
 
-* Select build base image
+* To Create an Application from an Existing Image Stream with a Specific Tag:
++
+----
+$ oc new-app my-stream:v1
+----
 
-image::images/GuiSTLDemo03.png[]
-image::images/GuiSTLDemo04.png[]
 
 
 ifdef::showscript[]
 
 === Transcript
 
-* Select the base image for your build.
+endif::showscript[]
+
+== Create App from Template
+:noaudio:
+
+.Specifying a Template
+
+* The `new-app` command can instantiate a template from a previouly stored
+template or from a template file. To instantiate a previously stored template,
+specify the name of the template as an argument.
+* For example, store a https://github.com/openshift/origin/tree/master/examples/sample-app[sample
+application template] and use it to create an application.
+
+* To Create an Application from a Previously Stored Template:
++
+----
+$ oc create -f examples/sample-app/application-template-stibuild.json
+$ oc new-app ruby-helloworld-sample
+----
+
+ifdef::showscript[]
+
+=== Transcript
 
 endif::showscript[]
 
+== Create App from Template
+:noaudio:
 
-== Create an S2I Build in Web Console
+.Specifying a Template - Examples
 
-.Edit and create
+* To use a template in the file system directly, without first storing it in
+OpenShift, use the `-f|--file` argument or simply specify the file name as the
+argument to `new-app`.
 
-* Edit options and create build
-
-image::images/GuiSTLDemo05a.png[]
-image::images/GuiSTLDemo05b.png[]
+* To Create an Application from a Template in a File:
++
+----
+$ oc new-app -f examples/sample-app/application-template-stibuild.json
+----
 
 
 ifdef::showscript[]
 
 === Transcript
 
-Finally, edit your options and click *Create* to create the build.
+endif::showscript[]
+
+== Create App from Template
+:noaudio:
+
+.Template Parameters - Brief
+
+NOTE: We will cover this in more depth in the next module
+
+* When creating an application based on a _template_, use the
+`-p|--param` argument to set parameter values defined by the template.
+
+* To Specify Template Parameters with a Template:
++
+----
+$ oc new-app ruby-helloworld-sample \
+    -p ADMIN_USERNAME=admin,ADMIN_PASSWORD=mypassword
+----
+
+
+
+ifdef::showscript[]
+
+=== Transcript
 
 endif::showscript[]
+
+== Modify Application Environment
+:noaudio:
+
+.Specifying Environment Variables
+
+* When generating applications from _source_ or an _image_, you can use the
+`-e|--env` argument to specify environment to be passed to the application
+container at run time.
+
+* To Set Environment Variables When Creating an Application for a Database Image:
++
+----
+$ oc new-app openshift/postgresql-92-centos7 \
+    -e POSTGRESQL_USER=user \
+    -e POSTGRESQL_DATABASE=db \
+    -e POSTGRESQL_PASSWORD=password
+----
+
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+== Modify Application Environment
+:noaudio:
+
+.Specifying Labels
+
+* When generating applications from source, images, templates, you can use the
+`l|--label` argument to add labels to objects created by `new-app`.
+* This is recommended, as labels make it easy to collectively select,
+manipulate, and delete objects associated with the application.
+
+* To Use the Label Argument to Label Objects Created by `new-app`:
++
+----
+$ oc new-app https://github.com/openshift/ruby-hello-world -l name=hello-world
+----
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+== Modify Application Environment
+:noaudio:
+
+.Command Output
+
+* The `new-app` command generates OpenShift resources that will build, deploy,
+and run the application being created. Normally, these resources are created in
+the current project using names derived from the input source repositories or
+the input images. However, `new-app` allows you to modify this behavior.
+
+* Output Without Creation
+To see a dry-run of what `new-app` will create, you can use the `-o|--output`
+flag with a value of either `yaml` or `json`. You can then use the output to
+preview the resources that will be created, or redirect it to a file that you
+can edit and then use with `oc create` to create the OpenShift resources.
+
+* To Output `new-app` Artifacts to a File, Edit Them, Then Create Them Using `oc create`:
++
+----
+$ oc new-app https://github.com/openshift/ruby-hello-world -o json > myapp.json
+$ vi myapp.json
+$ oc create -f myapp.json
+----
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+== Modify Application Environment
+:noaudio:
+
+.Object names and Projects
+
+* Objects created by `new-app` are normally named after the source repository or
+the image used to generate them. You can set the name of the objects produced by
+adding a `--name` flag to the command.
+
+* To Create `new-app` Artifacts with a Different Name:
++
+----
+$ oc new-app https://github.com/openshift/ruby-hello-world --name=myapp
+----
+
+.Object Project or Namespace
+* Normally `new-app` creates objects in the current project. However, you can tell
+it to create objects in a different project that you have access to using the
+`-n|--namespace` argument.
+
+* To Create `new-app` Artifacts in a Different Project:
++
+----
+$ oc new-app https://github.com/openshift/ruby-hello-world -n myproject
+----
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+== Modify Application Environment
+:noaudio:
+
+.Artifacts Created
+
+* The set of artifacts created by `new-app` depends on the artifacts passed as
+input: source repositories, images, or templates.
+
+.`new-app` Output Resources
+[cols="2,8",options="header"]
+|===
+
+|Artifact |Description
+
+a|`*BuildConfig*`
+a|A `*BuildConfig*` is created for each source repository specified in the
+command line. The `*BuildConfig*` specifies the strategy to use, the source
+location, and the build output location.
+
+a|`*ImageStreams*`
+a|For `*BuildConfig*`, two `*ImageStreams*` are usually created: one to
+represent the input image (the builder image in the case of `*Source*` builds or
+*FROM* image in case of `*Docker*` builds), and another one to represent the
+output image.   If a Docker image was specified as input to `new-app`, then an
+image stream is created for that image as well.
+
+a|`*DeploymentConfig*`
+a|A `*DeploymentConfig*` is created either to deploy the output of a build, or a
+specified image.
+a|`*Service*`
+a|The `new-app` command attempts to detect exposed ports in input images. It
+uses the lowest numeric exposed port to generate a service that exposes that
+port. In order to expose a different port, after `new-app` has completed, simply
+use the `oc expose` command to generate additional services.
+
+a|*Other*
+ |Other resources can be generated when instantiating
+templates.
+
+|===
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+== Advanced Application Creation
+:noaudio:
+
+.Advanced: Multiple Components and Grouping
+
+* The `new-app` command allows creating multiple applications from source, images,
+or templates at once. To do this, simply specify multiple parameters to the
+`new-app` call. Labels specified in the command line apply to all objects
+created by the single call. Environment variables apply to all components
+created from source or images.
+
+* To Create an Application from a Source Repository and a Docker Hub Image:
++
+----
+$ oc new-app https://github.com/openshift/ruby-hello-world mysql
+----
+
+NOTE: If a source code repository and a builder image are specified as separate
+arguments, `new-app` uses the builder image as the builder for the source code
+repository. If this is not the intent, simply specify a specific builder image
+for the source using the `~` separator.
+
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+== Advanced Application Creation
+:noaudio:
+
+.Grouping Images and Source in a Single Pod
+* The `new-app` command allows deploying multiple images together in a single pod.
+In order to specify which images to group together, use the `+` separator.
+* The `--group` command line argument can also be used to specify which images
+should be grouped together.
+* To group the image built from a source repository with other images, specify
+its builder image in the group.
+
+* To Deploy Two Images in a Single Pod:
++
+----
+$ oc new-app nginx+mysql
+----
+
+* To Deploy an Image Built from Source and an External Image Together:
++
+----
+$ oc new-app \
+    ruby~https://github.com/openshift/ruby-hello-world \
+    mysql \
+    --group=ruby+mysql
+----
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+== Using the Web Console
+:noaudio:
+
+* You can also create applications using the web console:
+
+* While in the desired project, click *Create*:
++
+====
+image::images/console_create.["Web Console Create"]
+====
+
+*  Enter the repository URL for the application to build:
+
+====
+image::images/console_enter_source_uri.png["Enter Source Repository"]
+====
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+== Using the Web Console
+:noaudio:
+
+*  Select either a builder image from the list of images in your project, or
+from the global library:
+====
+image::images/console_select_image.png["Select Builder Image"]
+====
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+
+== Using the Web Console
+:noaudio:
+* Modify the settings in the new application screen to configure the resources
+to support your application:
++
+====
+image::images/create_from_image.png["Create from source"]
+====
+<1> The builder image name and description.
+<2> The application name used for the generated OpenShift resources.
+<3> Routing configuration section for making this application publicly accessible.
+<4> Deployment configuration section for customizing deployment triggers and image environment variables.
+<5> Build configuration section for customizing build triggers.
+<6> Replica scaling section for configuring the number of running instances of the application.
+<7> The labels to assign to all items generated for the application. You can add and edit labels for all resources here.
+
 
 
 == Summary
+:noaudio:
 
-* Concepts
-* Creating an S2I build
-* Deploying an S2I build image	
+In this Module we covered:
+
+* Creating New Applications
+* Create App from Source Code
+* S2I Applications Expanded
+* S2I Builds
+* Create App from Image
+* Create App from Template
+* Modify Application Environment
+* Advanced Application Creation
+* Using the Web Console
 
 ifdef::showscript[]
 
 === Transcript
-
+// Transcript needs an update to new version
 This module covered the following topics:
 
 * Concepts such as build and deployment automation; the definition of Source-to-Image, or S2I; the build process; the `BuildConfig` object; and build strategies.
@@ -948,14 +1483,3 @@ This module covered the following topics:
 * Deploying an S2I build image, including creating the build environment, starting the build, and using the web console to create an S2I build.
 
 endif::showscript[]
-
-
-
-
-
-
-
-
-
-
-

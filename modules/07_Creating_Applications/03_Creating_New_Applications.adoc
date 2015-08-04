@@ -1,6 +1,3 @@
-
-:scrollbar:
-:data-uri:
 == Creating New Applications
 :noaudio:
 

@@ -1,6 +1,3 @@
-
-:scrollbar:
-:data-uri:
 == Summary
 :noaudio:
 

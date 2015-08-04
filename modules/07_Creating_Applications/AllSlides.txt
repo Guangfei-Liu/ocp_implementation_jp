@@ -1,4 +1,3 @@
-
 include::01_Title.adoc[]
 
 include::02_Module_Topics.adoc[]
@@ -84,4 +83,3 @@ include::41_Using_the_Web_Console.adoc[]
 include::42_Using_the_Web_Console.adoc[]
 
 include::43_Summary.adoc[]
-

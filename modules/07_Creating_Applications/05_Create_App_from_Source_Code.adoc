@@ -1,6 +1,3 @@
-
-:scrollbar:
-:data-uri:
 == Create App from Source Code
 :noaudio:
 

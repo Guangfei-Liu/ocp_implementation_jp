@@ -9,7 +9,7 @@ ifdef::revealjs_slideshow[]
 Red Hat OpenShift Enterprise Implementation
 
 [#cover-h2]
-Creating Applications
+Creating New Applications
 
 [#cover-logo]
 image::{revealjs_cover_image}[]

@@ -1447,13 +1447,14 @@ to support your application:
 ====
 image::images/create_from_image.png["Create from source"]
 ====
-<1> The builder image name and description.
-<2> The application name used for the generated OpenShift resources.
-<3> Routing configuration section for making this application publicly accessible.
-<4> Deployment configuration section for customizing deployment triggers and image environment variables.
-<5> Build configuration section for customizing build triggers.
-<6> Replica scaling section for configuring the number of running instances of the application.
-<7> The labels to assign to all items generated for the application. You can add and edit labels for all resources here.
+
+. The builder image name and description.
+. The application name used for the generated OpenShift resources.
+. Routing configuration section for making this application publicly accessible.
+. Deployment configuration section for customizing deployment triggers and image environment variables.
+. Build configuration section for customizing build triggers.
+. Replica scaling section for configuring the number of running instances of the application.
+. The labels to assign to all items generated for the application. You can add and edit labels for all resources here.
 
 
 

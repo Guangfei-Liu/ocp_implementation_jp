@@ -4,7 +4,7 @@
 to support your application:
 +
 ====
-image::images/create_from_image.png["Create from source"]
+image::images/create_from_image.png[]
 ====
 
 . The builder image name and description.
@@ -14,6 +14,3 @@ image::images/create_from_image.png["Create from source"]
 . Build configuration section for customizing build triggers.
 . Replica scaling section for configuring the number of running instances of the application.
 . The labels to assign to all items generated for the application. You can add and edit labels for all resources here.
-
-
-

@@ -4,7 +4,7 @@
 *  Select either a builder image from the list of images in your project, or
 from the global library:
 ====
-image::images/console_select_image.png["Select Builder Image"]
+image::images/console_select_image.png[]
 ====
 
 ifdef::showscript[]
@@ -12,5 +12,3 @@ ifdef::showscript[]
 === Transcript
 
 endif::showscript[]
-
-

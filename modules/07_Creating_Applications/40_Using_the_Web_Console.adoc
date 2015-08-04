@@ -6,7 +6,7 @@
 * While in the desired project, click *Create*:
 +
 ====
-image::images/console_create.["Web Console Create"]
+image::images/console_create.png[]
 ====
 
 *  Enter the repository URL for the application to build:
@@ -20,5 +20,3 @@ ifdef::showscript[]
 === Transcript
 
 endif::showscript[]
-
-

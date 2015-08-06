@@ -3,7 +3,7 @@
 === Authenticate to OpenShift Enterprise and Choose Your Project
 
 . Connect to the OpenShift Enterprise master by following the same steps you used previously.
-. Authenticate user `marina` to Openshift Enterprise and create a token in the `.config/openshift/.config` file:
+. Authenticate user `marina` to Openshift Enterprise
 +
 ----
 
@@ -105,7 +105,7 @@ privileged   true      []        true      RunAsAny    RunAsAny
 restricted   false     []        false     MustRunAs   MustRunAsRange
 ----
 
-. Edit the *privileged SSC*, to look similar to the example:
+. Edit the *privileged scc*, to look similar to the example:
 - Add _- marina_ at the last line of the file. (for clarity: "-<space>marina")
 +
 ----
@@ -195,7 +195,7 @@ permissions and capabilities.
 +
 [source,yaml]
 ----
-cat << EOF > ssc-ops.yaml
+cat << EOF > scc-ops.yaml
 kind: SecurityContextConstraints
 apiVersion: v1
 metadata:
@@ -214,6 +214,14 @@ EOF
 
 NOTE: This is different than the "privileged" built-in SCC, it is more restrictive, it
 doesn't allow to mount local host directories with: _allowHostDirVolumePlugin_
+
+. After saving the file, use the *oc create* command to create the scc
++
+----
+[root@master00 ~] oc create -f scc-ops.yaml
+
+----
+
 
 . Check your available SCCs:
 +
@@ -237,7 +245,7 @@ use *any user other than root*.
 +
 [source,yaml]
 ----
-[root@master00 ~] oc export scc restricted | tee ssc-dev.yaml
+[root@master00 ~] oc export scc restricted | tee scc-dev.yaml
 apiVersion: v1
 groups:
 - system:authenticated
@@ -254,7 +262,7 @@ seLinuxContext:
 . Edit the file to look like the following:
 - Delete the _groups_ section.
 - Change _RunAsUser_ Type value to "*MustRunAsNonRoot*".
-- Change the SCC _name_ to "*ssc-dev*".
+- Change the SCC _name_ to "*scc-dev*".
 - Add the _users_ section, and make sure user *andrew* is on the list
 +
 [source,yaml]
@@ -263,13 +271,20 @@ apiVersion: v1
 kind: SecurityContextConstraints
 metadata:
   creationTimestamp: null
-  name: ssc-dev
+  name: scc-dev
 runAsUser:
   type: MustRunAsNonRoot
 seLinuxContext:
   type: MustRunAs
 users:
  - andrew
+----
+
+. After saving the file, use the *oc create* command to create the scc
++
+----
+[root@master00 ~] oc create -f scc-dev.yaml
+
 ----
 
 . Check your available SCCs:
@@ -280,7 +295,7 @@ NAME         PRIV      CAPS      HOSTDIR   SELINUX     RUNASUSER
 privileged   true      []        true      RunAsAny    RunAsAny
 restricted   false     []        false     MustRunAs   MustRunAsRange
 scc-ops      true      []        false     RunAsAny    RunAsAny
-ssc-dev      false     []        false     MustRunAs   MustRunAsNonRoot
+scc-dev      false     []        false     MustRunAs   MustRunAsNonRoot
 ----
 
 === Test your new SCCs

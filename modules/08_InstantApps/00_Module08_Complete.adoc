@@ -155,12 +155,39 @@ endif::showScript[]
 ** Labels are used to manage and organize generated resources, such as pods. The labels specified in the template are applied to every resource that is generated from the template.
 ** Labels are used to organize, group, or select objects and resources.  resources and pods are "tagged" with labels, and then services and replication controllers use labels to indicate the pods they relate to. This makes it possible for services and replication controllers to reference groups of pods, or treat pods with potentially different Docker containers as similar entities.
 
-* Parameters
-** Parameters are used to "share" configuration values between the different items in the template.
-** An easy example would be the database user name, password or port needed by the frontend pods to communicate to our database backend pods.
+ifdef::showScript[]
 
-* Items - Items can be any resources that needs to be created for the template, in our example we will create Pods, Services, Replication controllers and a route for our template.
-** Other items can be BuildConfigs, ImageStreams and more.
+=== Transcript
+
+* Place narrator script here
+
+endif::showScript[]
+
+
+== Template Overview
+:noaudio:
+
+.Components continued - Parameters:
+
+* Parameters are used to "share" configuration values between the different items in the template.
+* An easy example would be the database user name, password or port needed by the frontend pods to communicate to our database backend pods.
+
+ifdef::showScript[]
+
+=== Transcript
+
+* Place narrator script here
+
+endif::showScript[]
+
+
+== Template Overview
+:noaudio:
+
+.Components continued - Items:
+
+* tems can be any resources that needs to be created for the template, in our example we will create Pods, Services, Replication controllers and a route for our template.
+- Other items can be BuildConfigs, ImageStreams and more.
 
 
 ifdef::showScript[]
@@ -175,7 +202,7 @@ endif::showScript[]
 == How to create a Template file
 :noaudio:
 
-. Template example - Metadata
+* Template example - Metadata
 
 [source,json]
 ----
@@ -204,7 +231,7 @@ endif::showScript[]
 == How to create a Template file
 :noaudio:
 
-. Template example - Objects: Service "web"
+* Template example - Objects: Service "web"
 
 [source,json]
 ----
@@ -252,7 +279,7 @@ endif::showScript[]
 == How to create a Template file
 :noaudio:
 
-. Template example - Objects: Service "database"
+* Template example - Objects: Service "database"
 
 [source,json]
 ----
@@ -298,7 +325,7 @@ endif::showScript[]
 == How to create a Template file
 :noaudio:
 
-. Template example - Objects: Route
+* Template example - Objects: Route
 
 [source,json]
 ----
@@ -333,7 +360,7 @@ endif::showScript[]
 == How to create a Template file
 :noaudio:
 
-. Template example - Objects: ImageStreams "ruby-sample" and "ruby-20-rhel7"
+* Template example - Objects: ImageStreams "ruby-sample" and "ruby-20-rhel7"
 
 [source,json]
 ----
@@ -376,7 +403,7 @@ endif::showScript[]
 == How to create a Template file
 :noaudio:
 
-. Template example - Objects: BuildConfig
+* Template example - Objects: BuildConfig
 
 [source,json]
 
@@ -493,7 +520,7 @@ endif::showScript[]
 == How to create a Template file
 :noaudio:
 
-. Template example - Objects: DeploymentConfig "frontend"
+* Template example - Objects: DeploymentConfig "frontend"
 
 [source,json]
 ----
@@ -611,7 +638,7 @@ endif::showScript[]
 == How to create a Template file
 :noaudio:
 
-. Template example - Objects: DeploymentConfig "db"
+* Template example - Objects: DeploymentConfig "db"
 
 [source,json]
 ----
@@ -700,7 +727,7 @@ endif::showScript[]
 == How to create a Template file
 :noaudio:
 
-. Template example - Parameters
+* Template example - Parameters
 
 [source,json]
 ----
@@ -855,15 +882,16 @@ endif::showScript[]
 ** Process the "frontend" template and create the *config* file.
 
 ----
-oc process -f frontend-template.json > frontend-config.json
+
+$ oc process -f frontend-template.json > frontend-config.json
+
 ----
-
-
-
 
 ** create the configuration:
 ----
-oc create -f frontend-config.json
+
+$ oc create -f frontend-config.json
+
 ----
 
 * As soon as you create this, all of the resources will be created and a build will be started for you.
@@ -927,25 +955,30 @@ endif::showScript[]
 * Now that we know the values that were used to create "frontend" we can use them when we process the "db" template
 * In this example we are processing and creating the "db" template while overriding the mysql credentials variables.
 ** Process the "frontend" template and create the *config* file.
-+
+
 ----
-oc process -f db-template.json  -v MYSQL_USER=userMXG,MYSQL_PASSWORD=slDrggRv,MYSQL_DATABASE=root > db-config.json
+
+$ oc process -f db-template.json  -v MYSQL_USER=userMXG,MYSQL_PASSWORD=slDrggRv,MYSQL_DATABASE=root > db-config.json
+
 ----
 
 ** create the configuration:
-+
+
 ----
-oc create -f frontend-config.json
+
+$ oc create -f frontend-config.json
+
 ----
 
 * We can also achieve this in a single step.
 ** The following will process and create the application:
-+
+
 ----
 
 oc process -f db-template.json \
     -v MYSQL_USER=userMXG,MYSQL_PASSWORD=slDrggRv,MYSQL_DATABASE=root \
     | oc create -f -
+
 ----
 
 

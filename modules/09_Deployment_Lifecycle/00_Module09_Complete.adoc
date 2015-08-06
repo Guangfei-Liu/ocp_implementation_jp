@@ -4,6 +4,7 @@ ifdef::revealjs_slideshow[]
 
 [#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"]
 == &nbsp;
+:noaudio:
 
 
 [#cover-h1]
@@ -151,6 +152,7 @@ endif::showscript[]
 
 
 == Deployments
+:noaudio:
 
 .Manage Deployments
 
@@ -186,6 +188,7 @@ endif::showscript[]
 
 
 == Deployments
+:noaudio:
 
 .Manage Deployments
 
@@ -360,6 +363,15 @@ injecting code into the deployment process.
 the default is 120.
 ** pre and post are both lifecycle hooks.
 
+ifdef::showscript[]
+
+endif::showscript[]
+
+== Strategies
+:noaudio:
+
+.Rolling Strategy - Continued
+
 * The Rolling strategy will:
 **  Execute any "pre" lifecycle hook.
 ** Scale up the new deployment by one.
@@ -516,8 +528,8 @@ endif::showscript[]
 
 .Pod-based Lifecycle Hook
 
-Pod-based lifecycle hooks execute hook code in a new pod derived from the templa
-te in a deployment configuration.
+Pod-based lifecycle hooks execute hook code in a new pod derived from the template
+in a deployment configuration.
 
 * The following simplified example deployment configuration uses the Rolling
 strategy. Triggers and some other minor details are omitted for brevity:
@@ -617,8 +629,7 @@ endif::showscript[]
 
 .Displaying a BuildConfig’s Webhook URLs
 
-* Use the following command to display the webhook URLs associated with a build
-configuration:
+* Use the following command to display the webhook URLs associated with a build configuration:
 +
 ----
 $ oc describe buildConfig <name>
@@ -633,9 +644,8 @@ trigger is defined for that build configuration.
 .Webhook Triggers - GitHub webhooks
 
 * GitHub webhooks handle the call made by GitHub when a repository is updated.
-* When defining the trigger, you must specify a
-xref:../dev_guide/secrets.adoc#secrets[secret] as part of the URL you supply to
-GitHub when configuring the webhook.
+* When defining the trigger, you must specify a secret as part of the URL you
+supply to GitHub when configuring the webhook.
 ** The secret ensures that only you and your
 repository can trigger the build. The following example is a trigger definition
 JSON within the buildConfig:
@@ -671,7 +681,7 @@ Generic webhooks can be invoked from any system capable of making a web request.
 * As with a GitHub webhook, you must specify a secret when defining the trigger,
 and the caller must provide this secret to trigger the build. The following is
 an example trigger definition JSON within the buildConfig:
-+
+
 [source,json]
 ----
 {
@@ -711,7 +721,14 @@ http://<openshift_api_host:port>/osapi/v1/namespaces/<namespace>/buildconfigs/<n
 }
 ----
 
+
+ifdef::showscript[]
+
+endif::showscript[]
+
+
 == Build Triggers
+:noaudio:
 
 .Displaying a BuildConfig’s Webhook URLs
 
@@ -722,7 +739,7 @@ configuration:
 $ oc describe buildConfig <name>
 ----
 
-If the above command does not display any webhook URLs, then no webhook trigger
+NOTE: If the above command does not display any webhook URLs, then no webhook trigger
 is defined for that build configuration.
 
 ifdef::showscript[]
@@ -733,6 +750,7 @@ endif::showscript[]
 :noaudio:
 
 .Image Change Triggers
+
 Image change triggers allow your build to be automatically invoked when a new
   of an upstream image is available. For example, if a build is based on top of
 a RHEL image, then you can trigger that build to run any time the RHEL image
@@ -760,7 +778,7 @@ located at <system-registry>/<namespace>/ruby-20-rhel7.
 == Build Triggers
 :noaudio:
 
-.Image Change Triggers - Continuted
+.Image Change Triggers - Continued
 
 * Define a build with a strategy that consumes the image stream:
 +

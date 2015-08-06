@@ -3,11 +3,11 @@
 
 .Pod-based Lifecycle Hook
 
-Pod-based lifecycle hooks execute hook code in a new pod derived from the templa
-te in a deployment configuration.
+Pod-based lifecycle hooks execute hook code in a new pod derived from the template
+in a deployment configuration.
 
-* The following simplified example deployment configuration uses the Rolling str
-ategy. Triggers and some other minor details are omitted for brevity:
+* The following simplified example deployment configuration uses the Rolling
+strategy. Triggers and some other minor details are omitted for brevity:
 [source,json]
 ----
 {

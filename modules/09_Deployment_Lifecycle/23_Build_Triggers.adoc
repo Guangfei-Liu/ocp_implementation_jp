@@ -1,0 +1,25 @@
+== Build Triggers
+:noaudio:
+
+.Image Change Triggers - Continued
+
+* Define a build with a strategy that consumes the image stream:
++
+[source,json]
+----
+{
+  "strategy": {
+    "type": "Source",
+    "sourceStrategy": {
+      "from": {
+        "kind": "ImageStreamTag",
+        "name": "ruby-20-rhel7:latest"
+      },
+    }
+  }
+}
+----
++
+** In this case, the sourceStrategy definition is consuming the latest tag of
+the ImageStream named ruby-20-rhel7 located within this namespace.
+

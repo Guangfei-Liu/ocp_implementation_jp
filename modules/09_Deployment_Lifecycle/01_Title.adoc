@@ -8,8 +8,8 @@ ifdef::revealjs_slideshow[]
 [#cover-h1]
 Red Hat OpenShift Enterprise Implementation
 
-[#cover-h2] 
-OpenShift 3.0 Application Lifecycle
+[#cover-h2]
+OpenShift 3.0 Deployment Lifecycle
 
 [#cover-logo]
 image::{revealjs_cover_image}[]

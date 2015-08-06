@@ -1,4 +1,3 @@
-
 include::01_Title.adoc[]
 
 include::02_Module_Topics.adoc[]
@@ -11,26 +10,41 @@ include::05_Deployments.adoc[]
 
 include::06_Deployments.adoc[]
 
-include::07_Strategies.adoc[]
+include::07_Deployments.adoc[]
 
-include::08_Strategies.adoc[]
+include::08_Deployments.adoc[]
 
-include::09_Strategies.adoc[]
+include::09_Deployments.adoc[]
 
 include::10_Strategies.adoc[]
 
-include::11_Lifecycle_Hooks.adoc[]
+include::11_Strategies.adoc[]
 
-include::12_Lifecycle_Hooks.adoc[]
+include::12_Strategies.adoc[]
 
-include::13_Build_Triggers.adoc[]
+include::13_Strategies.adoc[]
 
-include::14_Build_Triggers.adoc[]
+include::14_Strategies.adoc[]
 
-include::15_Build_Triggers.adoc[]
+include::15_Lifecycle_Hooks.adoc[]
 
-include::16_Build_Triggers.adoc[]
+include::16_Lifecycle_Hooks.adoc[]
 
 include::17_Build_Triggers.adoc[]
 
-include::18_Summary.adoc[]
+include::18_Build_Triggers.adoc[]
+
+include::19_Build_Triggers.adoc[]
+
+include::20_Build_Triggers.adoc[]
+
+include::21_Build_Triggers.adoc[]
+
+include::22_Build_Triggers.adoc[]
+
+include::23_Build_Triggers.adoc[]
+
+include::24_Build_Triggers.adoc[]
+
+include::25_Summary.adoc[]
+

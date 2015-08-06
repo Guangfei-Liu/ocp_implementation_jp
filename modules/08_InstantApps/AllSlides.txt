@@ -10,9 +10,9 @@ include::05_Template_Overview.adoc[]
 
 include::06_Template_Overview.adoc[]
 
-include::07_How_to_create_a_Template_file.adoc[]
+include::07_Template_Overview.adoc[]
 
-include::08_How_to_create_a_Template_file.adoc[]
+include::08_Template_Overview.adoc[]
 
 include::09_How_to_create_a_Template_file.adoc[]
 
@@ -28,16 +28,21 @@ include::14_How_to_create_a_Template_file.adoc[]
 
 include::15_How_to_create_a_Template_file.adoc[]
 
-include::16_Creating_a_Configuration_From_a_Template.adoc[]
+include::16_How_to_create_a_Template_file.adoc[]
 
-include::17_Creating_a_Configuration_From_a_Template.adoc[]
+include::17_How_to_create_a_Template_file.adoc[]
 
-include::18_Wiring_Disparate_Components.adoc[]
+include::18_Creating_a_Configuration_From_a_Template.adoc[]
 
-include::19_Wiring_Disparate_Components.adoc[]
+include::19_Creating_a_Configuration_From_a_Template.adoc[]
 
 include::20_Wiring_Disparate_Components.adoc[]
 
 include::21_Wiring_Disparate_Components.adoc[]
 
-include::22_Summary.adoc[]
+include::22_Wiring_Disparate_Components.adoc[]
+
+include::23_Wiring_Disparate_Components.adoc[]
+
+include::24_Summary.adoc[]
+

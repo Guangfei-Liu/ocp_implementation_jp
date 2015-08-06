@@ -1,108 +1,28 @@
 == How to create a Template file
 :noaudio:
 
-. Template example - Objects: BuildConfig
+* Template example - Objects: Route
 
 [source,json]
-
 ----
- {
-      "kind": "DeploymentConfig",
-      "apiVersion": "v1beta3",
+    {
+      "kind": "Route",
+      "apiVersion": "v1",
       "metadata": {
-        "name": "frontend",
+        "name": "route-edge",
         "creationTimestamp": null
       },
       "spec": {
-        "strategy": {
-          "type": "Recreate"
-        },
-        "triggers": [
-          {
-            "type": "ImageChange",
-            "imageChangeParams": {
-              "automatic": true,
-              "containerNames": [
-                "ruby-helloworld"
-              ],
-              "from": {
-                "kind": "ImageStreamTag",
-                "name": "ruby-sample:latest"
-              },
-              "lastTriggeredImage": ""
-            }
-          },
-          {
-            "type": "ConfigChange"
-          }
-        ],
-        "replicas": 2,
-        "selector": {
+        "host": "integrated.cloudapps.example.com",
+        "to": {
+          "kind": "Service",
           "name": "frontend"
-        },
-        "template": {
-          "metadata": {
-            "creationTimestamp": null,
-            "labels": {
-              "name": "frontend"
-            }
-          },
-          "nodeSelector": {
-            "region": "primary"
-          },
-          "spec": {
-            "containers": [
-              {
-                "name": "ruby-helloworld",
-                "image": "ruby-sample",
-                "ports": [
-                  {
-                    "containerPort": 8080,
-                    "protocol": "TCP"
-                  }
-                ],
-                "env": [
-                  {
-                    "name": "ADMIN_USERNAME",
-                    "value": "${ADMIN_USERNAME}"
-                  },
-                  {
-                    "name": "ADMIN_PASSWORD",
-                    "value": "${ADMIN_PASSWORD}"
-                  },
-                  {
-                    "name": "MYSQL_USER",
-                    "value": "${MYSQL_USER}"
-                  },
-                  {
-                    "name": "MYSQL_PASSWORD",
-                    "value": "${MYSQL_PASSWORD}"
-                  },
-                  {
-                    "name": "MYSQL_DATABASE",
-                    "value": "${MYSQL_DATABASE}"
-                  }
-                ],
-                "resources": {},
-                "terminationMessagePath": "/dev/termination-log",
-                "imagePullPolicy": "IfNotPresent",
-                "capabilities": {},
-                "securityContext": {
-                  "capabilities": {},
-                  "privileged": false
-                }
-              }
-            ],
-            "restartPolicy": "Always",
-            "dnsPolicy": "ClusterFirst",
-            "serviceAccount": ""
-          }
         }
       },
       "status": {}
     },
-    {
 ----
+
 ifdef::showScript[]
 
 === Transcript
@@ -110,8 +30,6 @@ ifdef::showScript[]
 * Place narrator script here
 
 endif::showScript[]
-
-
 
 
 

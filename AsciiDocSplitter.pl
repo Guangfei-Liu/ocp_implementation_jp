@@ -42,10 +42,10 @@ foreach $line (<SOURCEFILE>)
 		$current_file_name="${DEFAULT_OUTPUT_DIR}/${page_counter}_${current_page_name}.adoc";
 		$DEBUG && print "File will be named: $current_file_name\n";
 		open(CURRENTFILE,">>",$current_file_name) or die("could not open: $current_file_name\n");
-		print CURRENTFILE "
-:scrollbar:
-:data-uri:
-";
+#		print CURRENTFILE "
+#:scrollbar:
+#:data-uri:
+#";
 
 	if (-e $current_index_file)
 		{
@@ -56,15 +56,15 @@ foreach $line (<SOURCEFILE>)
 		{
 		print "Creating new IndexFile: $INDEXNAME\n";
 		open(CURRENTINDEXFILE,">>",$current_index_file);
-		print CURRENTINDEXFILE
-"
-:scriptsdir: scormdriver/auto-scripts
-:script: AutoBookmark.js
-:script: AutoCompleteSCO.js
-:script: CourseExit.js
+		#print CURRENTINDEXFILE
+#"
+#:scriptsdir: scormdriver/auto-scripts
+#:script: AutoBookmark.js
+#:script: AutoCompleteSCO.js
+#:script: CourseExit.js
 
 
-";
+#";
 
 		}
 

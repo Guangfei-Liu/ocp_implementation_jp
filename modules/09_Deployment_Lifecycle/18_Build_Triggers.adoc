@@ -13,8 +13,7 @@ endif::showscript[]
 
 .Displaying a BuildConfig’s Webhook URLs
 
-* Use the following command to display the webhook URLs associated with a build
-configuration:
+* Use the following command to display the webhook URLs associated with a build configuration:
 +
 ----
 $ oc describe buildConfig <name>

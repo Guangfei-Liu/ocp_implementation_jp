@@ -4,9 +4,8 @@
 .Webhook Triggers - GitHub webhooks
 
 * GitHub webhooks handle the call made by GitHub when a repository is updated.
-* When defining the trigger, you must specify a
-xref:../dev_guide/secrets.adoc#secrets[secret] as part of the URL you supply to
-GitHub when configuring the webhook.
+* When defining the trigger, you must specify a secret as part of the URL you
+supply to GitHub when configuring the webhook.
 ** The secret ensures that only you and your
 repository can trigger the build. The following example is a trigger definition
 JSON within the buildConfig:
@@ -26,7 +25,6 @@ JSON within the buildConfig:
 +
 ----
 http://<openshift_api_host:port>/osapi/v1/namespaces/<namespace>/buildconfigs/<name>/webhooks/<secret>/github
-Generic Webhooks
 ----
 
 ifdef::showscript[]

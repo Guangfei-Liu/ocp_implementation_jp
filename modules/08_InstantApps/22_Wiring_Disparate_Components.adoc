@@ -1,0 +1,38 @@
+== Wiring Disparate Components
+:noaudio:
+
+.Extract the values from config file
+
+
+* Before creating the "db" template we will review the config file for "frontend"
+** In the config, you will see that a DB password and other parameters have been generated
+----
+grep -A 1 MYSQL_* frontend-config.json
+                                            "name": "MYSQL_USER",
+                                            "key": "MYSQL_USER",
+                                            "value": "userMXG"
+
+                                            "name": "MYSQL_PASSWORD",
+                                            "key": "MYSQL_PASSWORD",
+                                            "value": "slDrggRv"
+
+                                            "name": "MYSQL_DATABASE",
+                                            "key": "MYSQL_DATABASE",
+                                            "value": "root"
+
+----
+
+
+ifdef::showScript[]
+
+=== Transcript
+
+* Place narrator script here
+
+endif::showScript[]
+
+
+
+
+
+

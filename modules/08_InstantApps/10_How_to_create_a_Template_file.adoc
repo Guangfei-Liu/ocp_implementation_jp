@@ -1,26 +1,41 @@
 == How to create a Template file
 :noaudio:
 
-. Template example - Objects: Route
+* Template example - Objects: Service "web"
 
 [source,json]
 ----
+
+"objects": [
     {
-      "kind": "Route",
-      "apiVersion": "v1beta3",
+      "kind": "Service",
+      "apiVersion": "v1",
       "metadata": {
-        "name": "route-edge",
+        "name": "frontend",
         "creationTimestamp": null
       },
       "spec": {
-        "host": "integrated.cloudapps.example.com",
-        "to": {
-          "kind": "Service",
+        "ports": [
+          {
+            "name": "web",
+            "protocol": "TCP",
+            "port": 5432,
+            "targetPort": 8080,
+            "nodePort": 0
+          }
+        ],
+        "selector": {
           "name": "frontend"
-        }
+        },
+        "portalIP": "",
+        "type": "ClusterIP",
+        "sessionAffinity": "None"
       },
-      "status": {}
+      "status": {
+        "loadBalancer": {}
+      }
     },
+
 ----
 
 ifdef::showScript[]
@@ -30,6 +45,4 @@ ifdef::showScript[]
 * Place narrator script here
 
 endif::showScript[]
-
-
 

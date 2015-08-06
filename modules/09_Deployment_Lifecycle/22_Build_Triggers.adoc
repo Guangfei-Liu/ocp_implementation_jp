@@ -1,0 +1,29 @@
+== Build Triggers
+:noaudio:
+
+.Image Change Triggers
+
+Image change triggers allow your build to be automatically invoked when a new
+  of an upstream image is available. For example, if a build is based on top of
+a RHEL image, then you can trigger that build to run any time the RHEL image
+changes. As a result, the application image is always running on the latest RHEL
+base image.
+
+* Configuring an image change trigger requires the following actions:
+** Define an ImageStream that points to the upstream image you want to trigger on:
++
+[source,json]
+----
+{
+  "kind": "ImageStream",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "ruby-20-rhel7"
+  }
+}
+----
++
+*** This defines the image stream that is tied to a Docker image repository
+located at <system-registry>/<namespace>/ruby-20-rhel7.
+*** The <system-registry> is defined as a service with the name docker-registry running in OpenShift.
+

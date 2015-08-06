@@ -1,27 +1,13 @@
 == Wiring Disparate Components
 :noaudio:
 
-.Extract the values from config file
+.Overview
 
-
-* Before creating the "db" template we will review the config file for "frontend"
-** In the config, you will see that a DB password and other parameters have been generated
-----
-grep -A 1 MYSQL_* frontend-config.json
-                                            "name": "MYSQL_USER",
-                                            "key": "MYSQL_USER",
-                                            "value": "userMXG"
-
-                                            "name": "MYSQL_PASSWORD",
-                                            "key": "MYSQL_PASSWORD",
-                                            "value": "slDrggRv"
-
-                                            "name": "MYSQL_DATABASE",
-                                            "key": "MYSQL_DATABASE",
-                                            "value": "root"
-
-----
-
+* Sometimes a developer wants to build up the various components manually.
+* Let's take our example and treat it like two separate "applications" that we want to wire together.
+** Process and create a template for the "frontend"
+** Extract the values of the *mysql* credentials from the config file
+** Process and create a template for the "db" and override the values with the values we extracted from "frontend" config file.
 
 ifdef::showScript[]
 
@@ -30,9 +16,5 @@ ifdef::showScript[]
 * Place narrator script here
 
 endif::showScript[]
-
-
-
-
 
 

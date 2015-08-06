@@ -4,10 +4,11 @@
 .Webhook Triggers - Generic webooks
 
 Generic webhooks can be invoked from any system capable of making a web request.
+
 * As with a GitHub webhook, you must specify a secret when defining the trigger,
 and the caller must provide this secret to trigger the build. The following is
 an example trigger definition JSON within the buildConfig:
-+
+
 [source,json]
 ----
 {
@@ -48,16 +49,8 @@ http://<openshift_api_host:port>/osapi/v1/namespaces/<namespace>/buildconfigs/<n
 ----
 
 
-Displaying a BuildConfig’s Webhook URLs
-
-Use the following command to display the webhook URLs associated with a build
-configuration:
-
-$ oc describe buildConfig <name>
-If the above command does not display any webhook URLs, then no webhook trigger
-is defined for that build configuration.
-
 ifdef::showscript[]
 
 endif::showscript[]
+
 

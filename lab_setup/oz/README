@@ -1,0 +1,87 @@
+How to build a base RHEL 7.1 image for OSE 3.0 labs
+===================================================
+
+The base image suitable for use on OpenStack platform can be build with oz and libguestfs-tools.
+
+1. Prepare a regular virtualization host with kvm and libvirtd. Install following packages:
+
+   - libguestfs-tools
+   - oz
+
+2. Make software repositories and scripts available for download from http://www.opentlc.com. 
+   In a disconnected lab environment, configure local DNS or /etc/hosts to resolve host names 
+   www.opentlc.com, ipa.opentlc.com, ipa2.opentlc.com to a local system with all yum repos 
+   and configuration scripts. This is necessary because we re-use scripts prepared for 
+   building OPENTLC lab images for Travello environment to build images for OpenStack.
+
+   In particular, for the OSE Implementation labs, the following URLs should be available:
+
+   # content of the RHEL 7.1 iso image
+   http://www.opentlc.com/rhel-server-7.1-x86_64
+
+   # reposync copies from CDN
+   http://www.opentlc.com/repos/rhel-7-server-rpms
+   http://www.opentlc.com/repos/rhel-7-server-extras-rpms
+   http://www.opentlc.com/repos/rhel-7-server-optional-rpms
+   http://www.opentlc.com/repos/rhel-7-server-rh-common-rpms
+   http://www.opentlc.com/repos/rhel-7-server-ose-3.0-rpms
+
+   # aliases of the repositories listed above
+   http://www.opentlc.com/repos/rhel-x86_64-server-7
+   http://www.opentlc.com/repos/rhel-x86_64-server-extras-7
+   http://www.opentlc.com/repos/rhel-x86_64-server-optional-7
+   http://www.opentlc.com/repos/rhel-x86_64-server-rh-common-7
+
+   # scripts specific for the OSE Implementation labs
+   http://www.opentlc.com/download/ose_implementation/Basic_Image_Setup.sh
+   http://www.opentlc.com/download/ose_implementation/open-init.sh
+
+   Other OSEI specific scripts are required for the labs but they are not used to build the image.
+
+3. The following command builds the raw image. It may take about 20-40 minutes to finish depending
+   from hardware characteristics and network bandwidth.
+
+   oz-install -p -u -d3 -t 2400 -a osei-3.0-rhel-7.ks otlc-rhel-7.1.tdl
+
+   As a result, you should get a disk image file in the /var/lib/libvirt/images directory. 
+   The name of the file is derived from the /template/name parameter in the TDL file. In this case,
+   the name will be otlc-rhel-7.1-base.dsk
+
+4. Run the following command to sparsify, compress and convert the raw image into qcow2 format:
+
+   virt-sparsify --compress --convert qcow2 otlc-rhel-7.1-base.dsk otlc-rhel-7.1-base.qcow2
+
+   Note: the osei-3.0-rhel-7.ks kickstart file used to build the image downloads and runs the 
+         Basic_Image_Setup.sh script that performs customization and final system cleanup.
+         Normally, you would need to run virt-sysprep command before running virt-sparsify
+         but in this case it is not necessary.
+
+5. When image is ready, make it available from the web server and upload to OpenStack.
+   For example,
+
+   glance image-create --name osei-3.0 --disk-format qcow2 --container-format bare \
+          --copy-from http://www.opentlc.com/guest-images/otlc-rhel-7.1-base.qcow2 --is-public True --progress
+
+   After some short time, the image should become available from the glance service:
+
+   # glance image-show osei-3.0
+   +------------------+--------------------------------------+
+   | Property         | Value                                |
+   +------------------+--------------------------------------+
+   | checksum         | 77b2bd605766c4f2cbcdd8a04a27ee64     |
+   | container_format | bare                                 |
+   | created_at       | 2015-07-29T16:11:55                  |
+   | deleted          | False                                |
+   | disk_format      | qcow2                                |
+   | id               | 4a56af8b-6a13-4c09-8168-09ab072dcf7e |
+   | is_public        | True                                 |
+   | min_disk         | 0                                    |
+   | min_ram          | 0                                    |
+   | name             | osei-3.0                             |
+   | owner            | 1d0e928604214195b3b02b3ee3b1df85     |
+   | protected        | False                                |
+   | size             | 521487872                            |
+   | status           | active                               |
+   | updated_at       | 2015-07-29T16:12:01                  |
+   +------------------+--------------------------------------+
+   

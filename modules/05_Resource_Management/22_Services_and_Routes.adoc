@@ -16,7 +16,9 @@
 +
 [source,json]
 ----
+
 $ oc expose service hello-service --hostname=hello-openshift.cloudapps-$GUID.oslab.opentlc.com
+
 NAME            HOST/PORT                                 PATH      SERVICE         LABELS
 hello-service   hello-openshift-f4fc.oslab.opentlc.com             hello-service
 ----
@@ -25,7 +27,7 @@ hello-service   hello-openshift-f4fc.oslab.opentlc.com             hello-service
 +
 ----
 
-[$ oc get routes
+$ oc get routes
 NAME                    HOST/PORT                                          SERVICE                   LABELS
 hello-openshift-route   hello-openshift.cloudapps-GUID.oslab.opentlc.com   hello-openshift-service
 
@@ -47,4 +49,3 @@ The code sample gives an example of a route JSON definition. You can see it defi
 route points. Note that the route actually routes directly to the pods, not to the service. The route gets the pod connection details from the service.
 
 endif::showscript[]
-

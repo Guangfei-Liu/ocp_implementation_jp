@@ -1422,7 +1422,7 @@ section from the document.
 +
 [source,json]
 ----
-[root@master00-678a ~]# cat << EOF > registry-volume.json
+[root@master00-GUID ~]# cat << EOF > registry-volume.json
     {
       "apiVersion": "v1",
       "kind": "PersistentVolume",
@@ -1448,14 +1448,14 @@ EOF
 . Create the Persistent Volume from definition file:
 +
 ----
-[root@master00-678a ~]# oc create -f registry-volume.json
+[root@master00-GUID ~]# oc create -f registry-volume.json
 persistentvolumes/registry-storage
 ----
 
 . View your create Persistent Volume
 +
 ----
-[root@master00-678a ~]# oc get pv
+[root@master00-GUID ~]# oc get pv
 NAME               LABELS    CAPACITY      ACCESSMODES   STATUS      CLAIM     REASON
 registry-storage   <none>    16106127360   RWX           Available
 ----
@@ -1464,7 +1464,7 @@ registry-storage   <none>    16106127360   RWX           Available
 +
 ----
 
-[root@master00-678a ~]# cat << EOF > registry-volume-claim.json
+[root@master00-GUID ~]# cat << EOF > registry-volume-claim.json
     {
       "apiVersion": "v1",
       "kind": "PersistentVolumeClaim",
@@ -1488,14 +1488,14 @@ EOF
 . Create the Claim from definition file:
 +
 ----
-[root@master00-678a ~]# oc create -f registry-volume-claim.json
+[root@master00-GUID ~]# oc create -f registry-volume-claim.json
 persistentvolumeclaims/registry-claim
 ----
 
 . View your create Persistent Volume, notice that the status is "Bound"
 +
 ----
-[root@master00-678a ~]# oc get pv
+[root@master00-GUID ~]# oc get pv
 NAME               LABELS    CAPACITY      ACCESSMODES   STATUS    CLAIM                    REASON
 registry-storage   <none>    16106127360   RWX           Bound     default/registry-claim
 
@@ -1504,7 +1504,7 @@ registry-storage   <none>    16106127360   RWX           Bound     default/regis
 . View your create Persistent Volume Claims, notice that the status is "Bound"
 +
 ----
-[root@master00-678a ~]# oc get pvc
+[root@master00-GUID ~]# oc get pvc
 NAME             LABELS    STATUS    VOLUME
 registry-claim   map[]     Bound     registry-storage
 ----
@@ -1515,11 +1515,11 @@ registry-claim   map[]     Bound     registry-storage
 DeploymentConfig and attach the volume to the Registry and define the pod as "privileged"
 +
 ----
-[root@master00-678a ~]# oc get dc
+[root@master00-GUID ~]# oc get dc
 NAME              TRIGGERS       LATEST VERSION
 docker-registry   ConfigChange   1
 trainingrouter    ConfigChange   1
-[root@master00-678a ~]# oc edit dc docker-registry -o json
+[root@master00-GUID ~]# oc edit dc docker-registry -o json
 ----
 
 . Add the volume to the Registry's _DeploymentConfiguration_, this will trigger

@@ -75,7 +75,9 @@ and not the openshift project.
 
 . Find the "Quickstart" project, and then click the "Create..." button.
 +
-We've seen this page before, but now it contains something new -- an "instant app(lication)". An instant app is a "special" kind of template (relaly, it just has the "instant-app" tag). The idea behind an
+We’ve seen this page before, but now it contains something new — an "Instant App(lication)".
+An instant app is a "special" kind of template (in reality, it just has the "instant-app" tag). . 
+The idea behind an
 "instant app" is that, when creating an instance of the template, you will have
 a fully functional application. in this example, our "instant" app is just a
 simple key-value storage and retrieval webpage.

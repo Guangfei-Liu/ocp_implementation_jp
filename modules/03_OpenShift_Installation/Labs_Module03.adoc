@@ -612,8 +612,9 @@ DOCKER_STORAGE_OPTIONS=-s devicemapper --storage-opt dm.fs=xfs --storage-opt dm.
 ----
 
 [root@master00-GUID ~]# guid=`hostname|cut -f2 -d-|cut -f1 -d.`
-[root@master00-GUID ~]# ssh node0x-$guid.oslab.opentlc.com
-[root@node0X-GUID ~]# systemctl status docker
+[root@master00-GUID ~]# ssh infranode00-$guid.oslab.opentlc.com "systemctl status docker"
+[root@master00-GUID ~]# ssh node00-$guid.oslab.opentlc.com "systemctl status docker"
+[root@master00-GUID ~]# ssh node01-$guid.oslab.opentlc.com "systemctl status docker"
 
 ----
 +

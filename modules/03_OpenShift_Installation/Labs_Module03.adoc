@@ -478,6 +478,7 @@ CAUTION: Make sure you `do run all the commands on the master host`.
 
 
 . Configure the *Docker* registry on the *master*:
+.. Our local registry will be deployed under this subnet (Thats why we set this value).
 +
 ----
 

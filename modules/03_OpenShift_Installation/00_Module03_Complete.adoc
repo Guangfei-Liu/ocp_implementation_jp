@@ -51,7 +51,7 @@ In this training we will review the install of the following environment
 service* and the *etcd store*. Our master is unschedulable so there is no need to
 label it.
 ** Labels : Region=*NA*, Zone=*NA*, schedulable=`false`
-* InfraNode00 [192.168.0.101] - The InfraNode0 is to be used only to host
+* InfraNode00 [192.168.0.101] - The InfraNode00 is to be used only to host
 "Infrastructure" containers such as the *Registry* and our HAproxy *Router*.
 ** Labels : Region=*Infra*, Zone=*infranode*, schedulable=*true*
 * Node00 [192.168.0.200] - Part of the Primary Region, Will co-host all the

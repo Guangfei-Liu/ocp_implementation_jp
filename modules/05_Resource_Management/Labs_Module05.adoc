@@ -300,7 +300,7 @@ Container       memory          5Mi     750Mi   100Mi
 .Authenticate to OpenShift Enterprise and Choose Your Project
 
 . Connect to the OpenShift Enterprise master by following the same steps you used previously.
-. Authenticate user `andrew` to Openshift Enterprise and create a token in the `.config/openshift/.config` file:
+. Authenticate user `andrew` to Openshift Enterprise and create a token in the `~/.kube/config` file:
 +
 ----
 

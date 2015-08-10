@@ -632,7 +632,7 @@ docker.service - Docker Application Container Engine
 [NOTE]
 Make sure the status shows *enabled* and *active (running)*.
 
-. In order to save time later, we will pre-fetch the docker images to all the nodes in the primary region (Node00 and Node01).
+. In order to save time later, we will pre-fetch the docker images to *all the nodes* in the primary region (*Node00* and *Node01*).
 This process will take about 10 minutes to complete:
 +
 ----
@@ -652,7 +652,7 @@ docker pull openshift/hello-openshift:v0.4.3
 ----
 +
 [NOTE]
-This will take about 10 minutes to complete on each node, you don't have to wait
+This will take about 10 minutes to complete on *each node*, you don't have to wait
 for this to complete, just connect to each node, run the pull and continue with
 other tasks.
 

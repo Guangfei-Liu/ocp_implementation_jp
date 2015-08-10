@@ -32,8 +32,6 @@ include::16_Deploying_the_Registry.adoc[]
 
 include::17_Deploying_the_Registry.adoc[]
 
-include::18_Deploying_the_Registry.adoc[]
-
 include::19_Deploying_the_Registry.adoc[]
 
 include::20_Deploying_the_Default_HAProxy_Router.adoc[]

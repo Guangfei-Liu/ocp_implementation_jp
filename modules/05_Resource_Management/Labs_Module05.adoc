@@ -304,9 +304,9 @@ Container       memory          5Mi     750Mi   100Mi
 +
 ----
 
-[root@master00 ~]# su - andrew
-[andrew@master00 ~]$ guid=`hostname|cut -f2 -d-|cut -f1 -d.`
-[andrew@master00 ~]$ oc login -u andrew --insecure-skip-tls-verify --server=https://master00-${guid}.oslab.opentlc.com:8443
+[root@master00-GUID ~]# su - andrew
+[andrew@master00-GUID ~]$ guid=`hostname|cut -f2 -d-|cut -f1 -d.`
+[andrew@master00-GUID ~]$ oc login -u andrew --insecure-skip-tls-verify --server=https://master00-${guid}.oslab.opentlc.com:8443
 
 ----
 +
@@ -325,7 +325,7 @@ Run the following command to create the `hello-pod.json` file:
 
 ----
 
-[andrew@master00 ~]$ cat <<EOF > hello-pod.json
+[andrew@master00-GUID ~]$ cat <<EOF > hello-pod.json
 {
   "kind": "Pod",
   "apiVersion": "v1",
@@ -385,10 +385,10 @@ We will now create a simple pod without a *route* or a *service*
 +
 ----
 
-[andrew@master00 ~]$ oc create -f hello-pod.json
+[andrew@master00-GUID ~]$ oc create -f hello-pod.json
 pods/hello-openshift
 
-[andrew@master00-3186 ~]$ oc get pods
+[andrew@master00-GUID ~]$ oc get pods
 NAME              READY     REASON    RESTARTS   AGE
 hello-openshift   1/1       Running   0          2m
 
@@ -397,7 +397,7 @@ hello-openshift   1/1       Running   0          2m
 . Run the *oc describe* command to learn about your pod.
 +
 ----
-[andrew@master00-f4fc ~]$  oc describe pod hello-openshift
+[andrew@master00-GUID ~]$  oc describe pod hello-openshift
 Name:                           hello-openshift
 Image(s):                       openshift/hello-openshift:v0.4.3
 Host:                           node01-f4fc.oslab.opentlc.com/192.168.0.201
@@ -424,8 +424,8 @@ Events:
 +
 ----
 
-[andrew@master00 ~]$ ip=`oc describe pod hello-openshift|grep IP:|awk '{print $2}'`
-[andrew@master00 ~]$ curl http://${ip}:8080
+[andrew@master00-GUID ~]$ ip=`oc describe pod hello-openshift|grep IP:|awk '{print $2}'`
+[andrew@master00-GUID ~]$ curl http://${ip}:8080
 
 ----
 +
@@ -439,14 +439,14 @@ Hello OpenShift!
 +
 ----
 
-[andrew@master00 ~]$ oc delete -f hello-pod.json
+[andrew@master00-GUID ~]$ oc delete -f hello-pod.json
 
 ----
 
 . Create a new definition file that launches 4 hello-pods
 +
 ----
-[andrew@master00 ~]$ cat << EOF > hello-many-pods.json
+[andrew@master00-GUID ~]$ cat << EOF > hello-many-pods.json
 {
   "metadata":{
     "name":"quota-pod-deployment-test"
@@ -633,7 +633,7 @@ EOF
 . Create the items in the *hello-many-pods.json* file
 +
 ----
-[andrew@master00 ~]$ oc create -f hello-many-pods.json
+[andrew@master00-GUID ~]$ oc create -f hello-many-pods.json
 pods/hello-openshift-1
 pods/hello-openshift-2
 pods/hello-openshift-3
@@ -645,7 +645,7 @@ NOTE: Because we created a quota, the forth pod will not be created.
 . Lets delete the objects and move on
 +
 ----
-[andrew@master00 ~]$ oc delete  -f hello-many-pods.json
+[andrew@master00-GUID ~]$ oc delete  -f hello-many-pods.json
 ----
 
 . *Optional* - Using what you have learned, create a new project, and set the quota so that the pods value is 10 and run the *hello-many-pods.json* again.
@@ -656,8 +656,8 @@ NOTE: Because we created a quota, the forth pod will not be created.
 +
 ----
 
-[andrew@master00 ~]$ exit
-[root@master00 ~]# oadm new-project svcslab --display-name="Services Lab" \
+[andrew@master00-GUID ~]$ exit
+[root@master00-GUID ~]# oadm new-project svcslab --display-name="Services Lab" \
     --description="This is the project we use to learn about services" \
     --admin=andrew  --node-selector='region=primary'
 ----
@@ -666,11 +666,11 @@ NOTE: Because we created a quota, the forth pod will not be created.
 +
 ----
 
-[root@master00 ~]# su - andrew
-[andrew@master00 ~]$ guid=`hostname|cut -f2 -d-|cut -f1 -d.`
-[andrew@master00 ~]$ oc login -u andrew --insecure-skip-tls-verify --server=https://master00-${guid}.oslab.opentlc.com:8443
+[root@master00-GUID ~]# su - andrew
+[andrew@master00-GUID ~]$ guid=`hostname|cut -f2 -d-|cut -f1 -d.`
+[andrew@master00-GUID ~]$ oc login -u andrew --insecure-skip-tls-verify --server=https://master00-${guid}.oslab.opentlc.com:8443
 ...
-[andrew@master00 ~]$ oc project svcslab
+[andrew@master00-GUID ~]$ oc project svcslab
 Now using project "svcslab" on server "https://master00-GUID.oslab.opentlc.com:8443".
 
 ----
@@ -679,7 +679,7 @@ Now using project "svcslab" on server "https://master00-GUID.oslab.opentlc.com:8
 +
 ----
 
-[andrew@master00 ~]$  cat <<EOF > hello-service.json
+[andrew@master00-GUID ~]$  cat <<EOF > hello-service.json
 {
   "kind": "Service",
   "apiVersion": "v1",
@@ -707,7 +707,7 @@ EOF
 +
 ----
 
-[andrew@master00 ~]$ oc create -f hello-service.json
+[andrew@master00-GUID ~]$ oc create -f hello-service.json
 services/hello-service
 
 ----
@@ -716,7 +716,7 @@ services/hello-service
 +
 ----
 
-[andrew@master00 ~]$ oc get services
+[andrew@master00-GUID ~]$ oc get services
 NAME            LABELS    SELECTOR               IP(S)          PORT(S)
 hello-service   <none>    name=hello-openshift   172.30.xxx.yyy   8888/TCP
 
@@ -727,7 +727,7 @@ hello-service   <none>    name=hello-openshift   172.30.xxx.yyy   8888/TCP
 .. The *Endpoints* line lists all the pods that are currently listed, notice that we have none.
 +
 ----
-[andrew@master00 ~]$ oc describe service hello-service
+[andrew@master00-GUID ~]$ oc describe service hello-service
 Name:                   hello-service
 Labels:                 <none>
 Selector:               name=hello-openshift
@@ -742,7 +742,7 @@ No events.
 . Lets create some pods
 ----
 
-[andrew@master00 ~]$ oc create -f hello-many-pods.json
+[andrew@master00-GUID ~]$ oc create -f hello-many-pods.json
 
 ----
 
@@ -750,11 +750,11 @@ No events.
 +
 ----
 
-[andrew@master00 ~]$ oc get service
+[andrew@master00-GUID ~]$ oc get service
 NAME            LABELS    SELECTOR               IP(S)          PORT(S)
 hello-service   <none>    name=hello-openshift   172.30.5.240   8888/TCP
 
-[andrew@master00 ~]$ oc describe service hello-service
+[andrew@master00-GUID ~]$ oc describe service hello-service
 Name:                   hello-service
 Labels:                 <none>
 Selector:               name=hello-openshift
@@ -771,8 +771,8 @@ No events.
 +
 ----
 
-[andrew@master00 ~]$ ip=`oc describe service hello-service|grep IP:|awk '{print $2}'`
-[andrew@master00 ~]$ curl http://${ip}:8888
+[andrew@master00-GUID ~]$ ip=`oc describe service hello-service|grep IP:|awk '{print $2}'`
+[andrew@master00-GUID ~]$ curl http://${ip}:8888
 Hello OpenShift!
 
 ----
@@ -780,8 +780,8 @@ Hello OpenShift!
 . Create the Route
 +
 ----
-[andrew@master00 ~]$ guid=`hostname|cut -f2 -d-|cut -f1 -d.`
-[andrew@master00 ~]$ oc expose service/hello-service --hostname=hello2-openshift.cloudapps-${guid}.oslab.opentlc.com
+[andrew@master00-GUID ~]$ guid=`hostname|cut -f2 -d-|cut -f1 -d.`
+[andrew@master00-GUID ~]$ oc expose service/hello-service --hostname=hello2-openshift.cloudapps-${guid}.oslab.opentlc.com
 ----
 +
 // NO LONGER NEEDED
@@ -804,7 +804,7 @@ hello-service   hello2-openshift.cloudapps-GUID.oslab.opentlc.com             he
 +
 ----
 
-[andrew@master00 ~]$ curl http://hello2-openshift.cloudapps-${guid}.oslab.opentlc.com
+[andrew@master00-GUID ~]$ curl http://hello2-openshift.cloudapps-${guid}.oslab.opentlc.com
 Hello OpenShift!
 
 ----

@@ -87,7 +87,7 @@ EOF
 . Try (and fail) to create the pod from the `hello-pod-priv.json`definition file
 +
 ----
-[marina@master00-312b ~]$ oc create -f hello-pod-priv.json
+[marina@master00-GUID ~]$ oc create -f hello-pod-priv.json
 Error from server: Pod "hello-openshift" is forbidden: unable to validate against any security context constraint: [provider restricted: .spec.containers[0].securityContext.privileged: invalid value 'true': Privileged containers are not allowed]
 ----
 
@@ -141,7 +141,7 @@ users:
 . Go back to the *marina* user, and test your new priviliges:
 +
 ----
-[marina@master00-312b ~]$ oc create -f hello-pod-priv.json
+[marina@master00-GUID ~]$ oc create -f hello-pod-priv.json
 ----
 
 * Did the pod deploy this time? (It should have).
@@ -150,7 +150,7 @@ users:
 - As *marina*, Delete the Pod you created
 +
 ----
-[marina@master00-312b ~]$ oc delete -f hello-pod-priv.json
+[marina@master00-GUID ~]$ oc delete -f hello-pod-priv.json
 ----
 
 . As *root*, remove *marina* from the "privileged" SCC. Remove _- marina_ from
@@ -290,7 +290,7 @@ users:
 . Check your available SCCs:
 +
 ----
-[root@master00-312b ~]# oc get scc
+[root@master00-GUID ~]# oc get scc
 NAME         PRIV      CAPS      HOSTDIR   SELINUX     RUNASUSER
 privileged   true      []        true      RunAsAny    RunAsAny
 restricted   false     []        false     MustRunAs   MustRunAsRange
@@ -303,7 +303,7 @@ scc-dev      false     []        false     MustRunAs   MustRunAsNonRoot
 . Go back to the *marina* user, and test your new priviliges:
 +
 ----
-[marina@master00-312b ~]$ oc create -f hello-pod-priv.json
+[marina@master00-GUID ~]$ oc create -f hello-pod-priv.json
 ----
 
 * Did the pod deploy this time? (It should have).

@@ -1083,7 +1083,7 @@ You will want to do this on the other nodes, but you won't need the
 . *If you wanted* to set a default NodeSelector, you can do it with the following
 commands (Review Only):
 +
-CAUTION: Do not set a Default NodeSelector in our environment. Skipt this step.
+CAUTION: Do not set a Default NodeSelector in our environment. Skip this step.
 +
 [source,bash]
 ----

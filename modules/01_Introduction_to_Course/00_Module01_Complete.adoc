@@ -22,7 +22,7 @@ endif::[]
 
 * Explain  with the technical architecture of OSE3.0
 * Perform a 20 minute demonstration of the use of OSE3.0
-* Explain how to set up STI build process
+* Explain how to set up S2I build process
 * Explain how to implement Zones and Regions in multi node environments
 * Explain how to deploy a POC like environment of OpenShift 3.0
 * Explain how HA application deployments work in OpenShift 3.0
@@ -52,7 +52,7 @@ endif::showscript[]
 * Module 02 : OpenShift 3.0 Architecture
 * Module 03 : OpenShift 3.0 Installation
 * Module 04 : Resource Management
-* Module 05 : The STI Build Method
+* Module 05 : The S2I Build Method
 * Module 06 : Quickstarts
 * Module 07 : Demonstrating OpenShift 3.0 Capabilities
 

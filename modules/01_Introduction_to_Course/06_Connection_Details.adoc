@@ -7,7 +7,7 @@
 ||Master00|Infranode00
 |*Internal IP*|192.168.0.100|192.168.0.101
 |*External IP*|Provided|Provided
-|*DNS Name*|master00-*GUID*.oslab.rhpds.opentlc.com|infranode00-*GUID*.oslab.opentlc.com
+|*DNS Name*|master00-*GUID*.oslab.opentlc.com|infranode00-*GUID*.oslab.opentlc.com
 |*Credentials*|root / r3dh4t1!|root / r3dh4t1!
 |=======================
 
@@ -20,17 +20,13 @@ ifdef::showscript[]
 === Transcript
 Tables 1, 2, and 3 show the connection details to use when setting up and connecting to the lab environment. This information is repeated in the labs as required.
 
-External IPs are provided by the lab provisioning email that is sent to you after you provision the lab from 'labs.opentlc.com'. 
+External IPs are provided by the lab provisioning email that is sent to you after you provision the lab from 'labs.opentlc.com'.
 
 The text *GUID* shown here is a 4-character generated unique identifier assigned to your lab environment. Your GUID is provided in the provisioning email as well.
 
-When connecting to your evironment use only your OPENTLC credentials and SSH key to connect directly into your administration VM. Do not use root or try to connect directly to the Master or nodes. 
-Your administration VM can be used as a "jump box" to connect via SSH to the other internal lab hosts. 
+When connecting to your evironment use only your OPENTLC credentials and SSH key to connect directly into your administration VM. Do not use root or try to connect directly to the Master or nodes.
+Your administration VM can be used as a "jump box" to connect via SSH to the other internal lab hosts.
 
 
 
 endif::showscript[]
-
-
-
-

@@ -6,12 +6,10 @@
 ||oselab
 |*Internal IP*|192.168.0.200
 |*External IP*|Provided
-|*DNS Name*|oselab-*GUID*.oslab.rhpds.opentlc.com
+|*DNS Name*|oselab-*GUID*.oslab.opentlc.com
 |*Credentials*|OpenTLC Credentials
 |=======================
 
 ifdef::showscript[]
 
 endif::showscript[]
-
-

@@ -637,16 +637,16 @@ This process will take about 10 minutes to complete:
 +
 ----
 
-[root@node0X-GUID ~]# RHN="registry.access.redhat.com";PTH="openshift3"
-[root@node0X-GUID ~]# docker pull $RHN/$PTH/ose-haproxy-router:v3.0.0.1 ; \
-docker pull $RHN/$PTH/ose-deployer:v3.0.0.1 ; \
-docker pull $RHN/$PTH/ose-sti-builder:v3.0.0.1 ; \
-docker pull $RHN/$PTH/ose-sti-image-builder:v3.0.0.1 ; \
-docker pull $RHN/$PTH/ose-docker-builder:v3.0.0.1 ; \
-docker pull $RHN/$PTH/ose-pod:v3.0.0.1 ; \
-docker pull $RHN/$PTH/ose-keepalived-ipfailover:v3.0.0.1 ; \
-docker pull $RHN/$PTH/ruby-20-rhel7 ; \
-docker pull $RHN/$PTH/mysql-55-rhel7 ; \
+[root@node0X-GUID ~]# REGISTRY="registry.access.redhat.com";PTH="openshift3"
+[root@node0X-GUID ~]# docker pull $REGISTRY/$PTH/ose-haproxy-router:v3.0.0.1 ; \
+docker pull $REGISTRY/$PTH/ose-deployer:v3.0.0.1 ; \
+docker pull $REGISTRY/$PTH/ose-sti-builder:v3.0.0.1 ; \
+docker pull $REGISTRY/$PTH/ose-sti-image-builder:v3.0.0.1 ; \
+docker pull $REGISTRY/$PTH/ose-docker-builder:v3.0.0.1 ; \
+docker pull $REGISTRY/$PTH/ose-pod:v3.0.0.1 ; \
+docker pull $REGISTRY/$PTH/ose-keepalived-ipfailover:v3.0.0.1 ; \
+docker pull $REGISTRY/$PTH/ruby-20-rhel7 ; \
+docker pull $REGISTRY/$PTH/mysql-55-rhel7 ; \
 docker pull openshift/hello-openshift:v0.4.3
 
 ----
@@ -659,10 +659,10 @@ other tasks.
 . On the *Infranode00*, Installer pull the *Registry* and *Router* images.
 +
 ----
-[root@infranode00-GUID ~]# RHN="registry.access.redhat.com";PTH="openshift3"
-[root@infranode00-GUID ~]# docker pull $RHN/$PTH/ose-haproxy-router:v3.0.0.1 ; \
-docker pull $RHN/$PTH/ose-deployer:v3.0.0.1 ; \
-docker pull $RHN/$PTH/ose-docker-registry:v3.0.0.1 ;
+[root@infranode00-GUID ~]# REGISTRY="registry.access.redhat.com";PTH="openshift3"
+[root@infranode00-GUID ~]# docker pull $REGISTRY/$PTH/ose-haproxy-router:v3.0.0.1 ; \
+docker pull $REGISTRY/$PTH/ose-deployer:v3.0.0.1 ; \
+docker pull $REGISTRY/$PTH/ose-docker-registry:v3.0.0.1 ;
 
 ----
 

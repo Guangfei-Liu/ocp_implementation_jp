@@ -3,7 +3,7 @@
 == Class Environment
 
 
-* Class related content found at https://www.opentlc.com/classes/ose_implementation.
+* Class related content found at link:https://www.opentlc.com/classes/ose3-implementation[https://www.opentlc.com/classes/ose3-implementation]
 * Class labs and demonstrations require provisioning the following virtual machines:
 ** *Master host* – VM that serves as the Master for the OpenShift Enterprise environment.
 ** *Infranode host* – VM that runs the HA Proxy and Docker Registry
@@ -14,7 +14,7 @@
 
 
 
-ifdef::showscript[] 
+ifdef::showscript[]
 
 === Transcript
 
@@ -26,4 +26,3 @@ After you provision the environment, you should receive connection details via e
 
 
 endif::showscript[]
-

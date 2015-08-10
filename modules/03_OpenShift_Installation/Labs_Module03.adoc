@@ -210,7 +210,7 @@ The OpenShift installer uses SSH to configure hosts.  In this lab we create and 
 +
 ----
 
-[root@oselab00-GUID ~]# ssh master00-$guid
+[root@oselab-GUID ~]# ssh master00-$guid
 ...[output omitted]...
 [root@master00-GUID ~]# ssh-keygen -f /root/.ssh/id_rsa -N ''
 

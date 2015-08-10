@@ -1,6 +1,3 @@
-
-:scrollbar:
-:data-uri:
 == Module Topics
 :noaudio:
 :numbered!:
@@ -26,3 +23,7 @@ ifdef::showscript[]
 Welcome to Module 05 of the OpenShift Enterprise Implementation course.
 
 endif::showscript[]
+
+
+
+

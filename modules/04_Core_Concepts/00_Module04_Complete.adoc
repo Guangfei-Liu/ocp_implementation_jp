@@ -1344,6 +1344,66 @@ ifdef::showscript[]
 === Transcript
 endif::showscript[]
 
+== Routes
+:noaudio:
+
+.Routes Recap:
+
+* *Routes* - Match FQDN-destined traffic requests to services and pods they represent
+* *Services* - Do not route or load balance between pods
+** Services only provide pod information (IP) to router
+** You may consider a service as a list of IPs and ports of the pods that the service represents
+* *Router container* (not *route*) - An `openshift3/ose-haproxy-router` container that is a preconfigured instance of HAProxy
+** An instance of *Router* container watches a route's resource and updates with changes when required
+
+ifdef::showscript[]
+
+=== Transcript
+
+*Routes* allow FQDN-destined traffic to ultimately reach the pods. The services do not route or load balance between the pods--they only provide the pod information (IP) to the router.
+
+You can consider the service as a list of IPs and ports of the pods that the service represents.
+
+In a simplification of the process, the `openshift3/ose-haproxy-router` container is a preconfigured instance of HAProxy.
+
+The OpenShift Enterprise instance running in this container watches a route's resource on the OpenShift Enterprise master.
+
+
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+.Routes Recap:
+
+* Sample route JSON definition:
++
+[source,json]
+----
+$ oc expose service hello-service --hostname=hello-openshift.cloudapps-$GUID.oslab.opentlc.com
+NAME            HOST/PORT                                 PATH      SERVICE         LABELS
+hello-service   hello-openshift-f4fc.oslab.opentlc.com             hello-service
+----
+
+* To display the *routes* in your current project
++
+----
+
+$ oc get routes
+NAME                    HOST/PORT                                          SERVICE                   LABELS
+hello-openshift-route   hello-openshift.cloudapps-GUID.oslab.opentlc.com   hello-openshift-service
+
+----
+
+ifdef::showscript[]
+
+=== Transcript
+
+The code sample gives an example of a route JSON definition. You can see it defines certain aspects of the route: its name, the fully qualified domain name, and the service to which the
+route points. Note that the route actually routes directly to the pods, not to the service. The route gets the pod connection details from the service.
+
+endif::showscript[]
+
 
 == Summary
 :noaudio:

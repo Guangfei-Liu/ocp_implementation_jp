@@ -36,20 +36,13 @@ include::18_Resource_Quota.adoc[]
 
 include::19_Resource_Quota.adoc[]
 
-include::20_Services_and_Routes.adoc[]
+include::20_Deployments.adoc[]
 
-include::21_Services_and_Routes.adoc[]
+include::21_DeploymentConfig.adoc[]
 
-include::22_Services_and_Routes.adoc[]
+include::22_Replication_Controllers.adoc[]
 
-include::23_Services_and_Routes.adoc[]
+include::23_Replication_Controllers.adoc[]
 
-include::24_Deployments.adoc[]
+include::24_Replication_Controllers.adoc[]
 
-include::25_DeploymentConfig.adoc[]
-
-include::26_Replication_Controllers.adoc[]
-
-include::27_Replication_Controllers.adoc[]
-
-include::28_Replication_Controllers.adoc[]

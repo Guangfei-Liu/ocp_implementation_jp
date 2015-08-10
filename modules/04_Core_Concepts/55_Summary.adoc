@@ -1,6 +1,5 @@
 == Summary
 :noaudio:
-
 * Overview
 * Containers and Images
 * Pods and Services

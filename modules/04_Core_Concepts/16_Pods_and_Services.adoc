@@ -37,3 +37,4 @@ example shows the definition of a service for the pod defined above:
 ifdef::showscript[]
 === Transcript
 endif::showscript[]
+

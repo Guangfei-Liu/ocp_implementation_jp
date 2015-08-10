@@ -1,0 +1,71 @@
+This directory contains Heat templates of the OSE 3.0 Implementation labs.
+
+To deploy a lab environment on OpenStack run the following command providing parameters
+for key_name, public_net and guid:
+
+# heat stack-create ose -f osei-3.0.yaml -P "key_name=my-key;public_net=public;guid=1234"
+
+The template creates a stack containing a private network, a router, and 5 instances with 
+block storage volumes.
+
+Note: An OpenStack user creating the stack should have the heat_stack_owner role.
+
+After the stack is ready, you can get public IP addresses of the instances from the output
+parameters of the stack.
+
+# heat stack-show ose
++----------------------+----------------------------------------------------------------------------------------------------------------------+
+| Property             | Value                                                                                                                |
++----------------------+----------------------------------------------------------------------------------------------------------------------+
+| capabilities         | []                                                                                                                   |
+| creation_time        | 2015-07-30T02:54:38Z                                                                                                 |
+| description          | Template of the OSE Implementation lab.                                                                              |
+| disable_rollback     | True                                                                                                                 |
+| id                   | cfb19dbf-da25-4760-810a-bade974a703d                                                                                 |
+| links                | http://192.168.57.12:8004/v1/64fc198d174a498c9467c33fe2c4eb26/stacks/ose/cfb19dbf-da25-4760-810a-bade974a703d (self) |
+| notification_topics  | []                                                                                                                   |
+| outputs              | [                                                                                                                    |
+|                      |   {                                                                                                                  |
+|                      |     "output_value": "192.168.57.118",                                                                                |
+|                      |     "description": "IP address of oselab server in public network.",                                                 |
+|                      |     "output_key": "oselab_public_ip"                                                                                 |
+|                      |   },                                                                                                                 |
+|                      |   {                                                                                                                  |
+|                      |     "output_value": "192.168.57.119",                                                                                |
+|                      |     "description": "IP address of infranode in public network.",                                                     |
+|                      |     "output_key": "infranode_public_ip"                                                                              |
+|                      |   },                                                                                                                 |
+|                      |   {                                                                                                                  |
+|                      |     "output_value": "192.168.57.116",                                                                                |
+|                      |     "description": "IP address of node00 in public network.",                                                        |
+|                      |     "output_key": "node00_public_ip"                                                                                 |
+|                      |   },                                                                                                                 |
+|                      |   {                                                                                                                  |
+|                      |     "output_value": "192.168.57.117",                                                                                |
+|                      |     "description": "IP address of master server in public network.",                                                 |
+|                      |     "output_key": "master00_public_ip"                                                                               |
+|                      |   }                                                                                                                  |
+|                      | ]                                                                                                                    |
+| parameters           | {                                                                                                                    |
+|                      |   "OS::stack_id": "cfb19dbf-da25-4760-810a-bade974a703d",                                                            |
+|                      |   "OS::stack_name": "ose",                                                                                           |
+|                      |   "key_name": "demo-key",                                                                                            |
+|                      |   "image": "osei-3.0",                                                                                               |
+|                      |   "flavor": "p2.small",                                                                                              |
+|                      |   "guid": "0000",                                                                                                    |
+|                      |   "public_net": "home-net"                                                                                           |
+|                      | }                                                                                                                    |
+| parent               | None                                                                                                                 |
+| stack_name           | ose                                                                                                                  |
+| stack_owner          | demo                                                                                                                 |
+| stack_status         | CREATE_COMPLETE                                                                                                      |
+| stack_status_reason  | Stack CREATE completed successfully                                                                                  |
+| template_description | Template of the OSE Implementation lab.                                                                              |
+| timeout_mins         | None                                                                                                                 |
+| updated_time         | None                                                                                                                 |
++----------------------+----------------------------------------------------------------------------------------------------------------------+
+
+To remove the stack and release OpenStack resources, run the following command:
+
+# heat stack-delete ose
+

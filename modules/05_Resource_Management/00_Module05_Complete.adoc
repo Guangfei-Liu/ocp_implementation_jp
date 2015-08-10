@@ -296,10 +296,10 @@ just like a regular user.
 * The username is derived from its project and name:
 *system:serviceaccount:<project>:<name>*
 
-* For example, to add the *view* role to the *robot* service account in the *top-secret* project:
+* For example, to add the *view* role to the *monitor-agent* service account in the *monitored-project* project:
 +
 ----
-$ oc policy add-role-to-user view system:serviceaccount:top-secret:robot
+$ oc policy add-role-to-user view system:serviceaccount:monitored-project:monitor-agent
 ----
 
 ifdef::showscript[]

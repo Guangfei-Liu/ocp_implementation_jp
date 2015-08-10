@@ -4,9 +4,9 @@
 :numbered:
 
 
-== Lab: Deploy an STI Build
+== Lab: Deploy an S2I Build
 
-In this lab, you create a simple STI build. As part of this process, you create a `BuildConfig` object and build an image using the STI build process. You also create the pod, service, and route for your STI build image.
+In this lab, you create a simple S2I build. As part of this process, you create a `BuildConfig` object and build an image using the S2I build process. You also create the pod, service, and route for your S2I build image.
 
 :numbered:
 
@@ -56,7 +56,7 @@ current-context: hello-s2i/master00-GUID-oslab-opentlc-com:8443/andrew
 
 For this activity, you use a prebuilt and preconfigured code repository. This repository is an extremely simple application of the `Hello World` type.
 
-. Go to link:https://github.com/openshift/simple-openshift-sinatra-sti[https://github.com/openshift/simple-openshift-sinatra-sti]. You will use this application's source code.
+. Go to link:https://github.com/openshift/simple-openshift-sinatra-S2I[https://github.com/openshift/simple-openshift-sinatra-S2I]. You will use this application's source code.
 
 . Take a minute to review the repository.
 . To create the instructions and configuration for your image, use the `oc new-app` command as follows:
@@ -64,7 +64,7 @@ For this activity, you use a prebuilt and preconfigured code repository. This re
 +
 ----
 
-[andrew@master00 ~]$ oc new-app https://github.com/openshift/simple-openshift-sinatra-sti.git -o json | tee ~/simple-sinatra.json
+[andrew@master00 ~]$ oc new-app https://github.com/openshift/simple-openshift-sinatra-S2I.git -o json | tee ~/simple-sinatra.json
 ----
 
 . Look at the JSON that you generated.
@@ -98,15 +98,15 @@ For this activity, you use a prebuilt and preconfigured code repository. This re
 +
 ----
 NAME                           TYPE      SOURCE
-simple-openshift-sinatra-sti   Source    https://github.com/openshift/simple-openshift-sinatra-sti.git
+simple-openshift-sinatra-S2I   Source    https://github.com/openshift/simple-openshift-sinatra-S2I.git
 
 deploymentconfig
 NAME                           TRIGGERS                    LATEST VERSION
-simple-openshift-sinatra-sti   ConfigChange, ImageChange   2
+simple-openshift-sinatra-S2I   ConfigChange, ImageChange   2
 
 service
 NAME                       LABELS    SELECTOR                                        IP(S)           PORT(S)
-simple-openshift-sinatra   <none>    deploymentconfig=simple-openshift-sinatra-sti   172.30.64.255   8080/TCP
+simple-openshift-sinatra   <none>    deploymentconfig=simple-openshift-sinatra-S2I   172.30.64.255   8080/TCP
 
 ----
 
@@ -123,7 +123,7 @@ simple-openshift-sinatra   <none>    deploymentconfig=simple-openshift-sinatra-s
 ----
 
 NAME                                   READY     REASON                                                               RESTARTS   AGE
-simple-openshift-sinatra-sti-1-o72am   0/1       Error: image library/simple-openshift-sinatra-sti:latest not found   0          1m
+simple-openshift-sinatra-S2I-1-o72am   0/1       Error: image library/simple-openshift-sinatra-S2I:latest not found   0          1m
 
 ----
 
@@ -132,8 +132,8 @@ simple-openshift-sinatra-sti-1-o72am   0/1       Error: image library/simple-ope
 ----
 
 NAME                                   READY     REASON       RESTARTS   AGE
-simple-openshift-sinatra-sti-1-build   0/1       ExitCode:0   0          2m
-simple-openshift-sinatra-sti-2-cpp9t   1/1       Running      0          7m
+simple-openshift-sinatra-S2I-1-build   0/1       ExitCode:0   0          2m
+simple-openshift-sinatra-S2I-2-cpp9t   1/1       Running      0          7m
 ...
 CTRL+C
 
@@ -149,25 +149,25 @@ NOTE: Don't be alarmed if you see that the pod has failed to deploy, that happen
 
 [andrew@master00 ~]$ oc get builds
 NAME                             TYPE      STATUS     POD
-simple-openshift-sinatra-sti-1   Source    Complete   simple-openshift-sinatra-sti-1-build
+simple-openshift-sinatra-S2I-1   Source    Complete   simple-openshift-sinatra-S2I-1-build
 
 ----
 
 . View the Build log
 +
 ----
-[andrew@master00 ~]$ oc build-logs simple-openshift-sinatra-sti-1
+[andrew@master00 ~]$ oc build-logs simple-openshift-sinatra-S2I-1
 ....
 ....
 ....
-I0702 05:36:50.618747       1 sti.go:246] Successfully built 172.30.133.153:5000/sinatra/simple-openshift-sinatra-sti
-I0702 05:36:50.703511       1 cleanup.go:23] Removing temporary directory /tmp/sti235763477
-I0702 05:36:50.703600       1 fs.go:99] Removing directory '/tmp/sti235763477'
+I0702 05:36:50.618747       1 S2I.go:246] Successfully built 172.30.133.153:5000/sinatra/simple-openshift-sinatra-S2I
+I0702 05:36:50.703511       1 cleanup.go:23] Removing temporary directory /tmp/S2I235763477
+I0702 05:36:50.703600       1 fs.go:99] Removing directory '/tmp/S2I235763477'
 I0702 05:36:50.727475       1 cfg.go:46] PUSH_DOCKERCFG_PATH=/var/run/secrets/openshift.io/push/.dockercfg
 I0702 05:36:50.733088       1 cfg.go:64] Using serviceaccount user for Docker authentication
-I0702 05:36:50.733130       1 sti.go:96] Using provided push secret for pushing 172.30.133.153:5000/sinatra/simple-openshift-sinatra-sti image
-I0702 05:36:50.733157       1 sti.go:99] Pushing 172.30.133.153:5000/sinatra/simple-openshift-sinatra-sti image ...
-I0702 05:39:46.967064       1 sti.go:103] Successfully pushed 172.30.133.153:5000/sinatra/simple-openshift-sinatra-sti
+I0702 05:36:50.733130       1 S2I.go:96] Using provided push secret for pushing 172.30.133.153:5000/sinatra/simple-openshift-sinatra-S2I image
+I0702 05:36:50.733157       1 S2I.go:99] Pushing 172.30.133.153:5000/sinatra/simple-openshift-sinatra-S2I image ...
+I0702 05:39:46.967064       1 S2I.go:103] Successfully pushed 172.30.133.153:5000/sinatra/simple-openshift-sinatra-S2I
 
 
 
@@ -213,4 +213,4 @@ Hello, Sinatra!
 ... Try to explore the *oc edit route* command
 .. Make sure Application has 4 replicas.
 
-NOTE: At this point the web console can create a local route. To create an external route use the *oc expose* command or edit the existing route with *oc edit route*
+NOTE: At this point the web console can create a local route. To create an external route use the *oc expose* command or edit the exiS2Ing route with *oc edit route*

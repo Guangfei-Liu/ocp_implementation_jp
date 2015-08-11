@@ -1286,52 +1286,45 @@ To start, we will need the `htpasswd` binary available in the `httpd-tools` pack
 
 
 
-== Lab: Using Persistent Storage (Optional)
+== Lab: Setting Up Persistent Storage
 
 Having a database for development is nice, but what if you actually want the
 data you store to stick around after the DB pod is redeployed? Pods are
 ephemeral, and so is their storage by default. For shared or persistent
 storage, we need a way to specify that pods should use external volumes.
 
-We can do this a number of ways. [Kubernetes provides methods for directly
-specifying the mounting of several different volume
-types.](https://github.com/GoogleCloudPlatform/kubernetes/blob/master/docs/user-guide/volumes.md)
-This is perfect if you want to use known external resources. But that's
-not very PaaS-y. If I'm using a PaaS, I might really just rather request a
-chunk of storage and not need a side channel to provision that. OpenShift 3
-provides a mechanism for doing just this.
+For the purposes of this training, we will just demonstrate the *oselab* host
+exporting an NFS volume for use as storage by the database.
+
+=== Preparing for NFS Persistent Storage
+
+. As `root` on the master host ensure that nfs-utils is installed on the ALL nodes:
++
+----
+[root@master00-GUID ~]# ]# for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do ssh $node "yum -y install nfs-utils" ; done
+----
 
 === Export an NFS Volume for Persistent Storage
 
-For the purposes of this training, we will just demonstrate the master
-exporting an NFS volume for use as storage by the database. **You would
-almost certainly not want to do this in production.** If you happen
-to have another host with an NFS export handy, feel free to substitute
-that instead of the master.
+. On the **oselab** admin host we will create a directory for each volume that
+we wish to export via NFS:
+. Lets quicky create 100 directory exports to be used as Persistenet Volumes.
++
+----
+[root@oselab-GUID ~]# mkdir -p /var/export/pvs/pv{1..100}
+[root@oselab-GUID ~]# chown -R nfsnobody:nfsnobody /var/export/pvs/
+[root@oselab-GUID ~]# chmod -R 700 /var/export/pvs/
 
-. As `root` on the master host ensure that nfs-utils is installed on the nodes:
+----
+
+. Add a line for each export directory to  `/etc/exports`:
 +
 ----
 
-[root@master00-GUID ~]# ]# for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do ssh $node "yum -y install nfs-utils" ; done
-
-----
-
-. On the **oselab** admin host we will create a directory that we will export via NFS:
-+
-----
-[root@oselab-GUID ~]# export volname=registry-storage
-[root@oselab-GUID ~]# mkdir -p /var/export/${volname}
-[root@oselab-GUID ~]# chown nfsnobody:nfsnobody /var/export/${volname}
-[root@oselab-GUID ~]# chmod 700 /var/export/${volname}
-
-----
-
-. Add the following line to `/etc/exports`:
-+
-----
-
-[root@oselab-GUID ~]# echo "/var/export/${volname} *(rw,sync,all_squash)" >> /etc/exports
+[root@oselab-GUID ~]# for volume in pv{1..100} ; do
+echo Creating export for volume $volume
+echo "/var/export/pvs/${volume} 192.168.0.0/24(rw,sync,all_squash)" >> /etc/exports;
+done;
 
 ----
 
@@ -1341,8 +1334,8 @@ that instead of the master.
 
 [root@oselab-GUID ~]# systemctl enable rpcbind nfs-server
 [root@oselab-GUID ~]# systemctl start rpcbind nfs-server nfs-lock nfs-idmap
-[root@oselab-GUID ~]# systemctl stop iptables firewalld
-[root@oselab-GUID ~]# systemctl disable iptables firewalld
+[root@oselab-GUID ~]# systemctl stop firewalld
+[root@oselab-GUID ~]# systemctl disable firewalld
 
 ----
 +
@@ -1356,7 +1349,151 @@ the `mysql` user, and assumes that it is, which causes problems later.
 Arguably, the container should operate differently. In the long run, we
 probably need to come up with best practices for use of NFS from containers.
 
-=== NFS Firewall (Info only, do not do the steps here!)
+
+=== Allow NFS Access in SELinux Policy
+
+. By default policy, containers are not allowed to write to NFS mounted
+directories.  We want to allow this for some of our pods, so enable that on
+all nodes where the pod could land (i.e. all of them) with:
++
+----
+
+[root@master00-GUID ~]# for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do setsebool -P virt_use_nfs=true ; done
+
+----
++
+[NOTE]
+Once the ansible-based installer does this automatically, we can remove this
+section from the document.
+
+=== Create Definition files for our Volumes
+
+. Lets create a directory to store definistion files for PersistentVolumes (PVs)
+in our environment.
++
+----
+[root@master00-GUID ~]# mkdir /root/pvs
+----
+. Create 25 PersistentVolumes with the size 5Gi (Us pv1 to pv25 for that)
+----
+
+[root@master00-GUID ~]# export volsize="5Gi"
+[root@master00-GUID ~]# for volume in pv{1..25} ; do
+cat << EOF > /root/pvs/${volume}
+{
+  "apiVersion": "v1",
+  "kind": "PersistentVolume",
+  "metadata": {
+    "name": "${volume}"
+  },
+  "spec": {
+    "capacity": {
+        "storage": "${volsize}"
+    },
+    "accessModes": [ "ReadWriteOnce" ],
+    "nfs": {
+        "path": "/var/export/pvs/${volume}",
+        "server": "192.168.0.254"
+    },
+    "persistentVolumeReclaimPolicy": "Recycle"
+  }
+}
+EOF
+echo "Created def file for ${volume}";
+done;
+----
+
+. Create 25 PersistentVolumes with the size 5Gi (Us pv26 to pv50 for that)
+----
+
+[root@master00-GUID ~]# export volsize="10Gi"
+[root@master00-GUID ~]# for volume in pv{26..50} ; do
+cat << EOF > /root/pvs/${volume}
+{
+  "apiVersion": "v1",
+  "kind": "PersistentVolume",
+  "metadata": {
+    "name": "${volume}"
+  },
+  "spec": {
+    "capacity": {
+        "storage": "${volsize}"
+    },
+    "accessModes": [ "ReadWriteOnce" ],
+    "nfs": {
+        "path": "/var/export/pvs/${volume}",
+        "server": "192.168.0.254"
+    },
+    "persistentVolumeReclaimPolicy": "Recycle"
+  }
+}
+EOF
+echo "Created def file for ${volume}";
+done;
+----
+
+. Create 50 PersistentVolumes with the size 1Gi (Us pv50 to pv100 for that)
+----
+
+[root@master00-GUID ~]# export volsize="1Gi"
+[root@master00-GUID ~]# for volume in pv{50..100} ; do
+cat << EOF > /root/pvs/${volume}
+{
+  "apiVersion": "v1",
+  "kind": "PersistentVolume",
+  "metadata": {
+    "name": "${volume}"
+  },
+  "spec": {
+    "capacity": {
+        "storage": "${volsize}"
+    },
+    "accessModes": [ "ReadWriteOnce" ],
+    "nfs": {
+        "path": "/var/export/pvs/${volume}",
+        "server": "192.168.0.254"
+    },
+    "persistentVolumeReclaimPolicy": "Recycle"
+  }
+}
+EOF
+echo "Created def file for ${volume}";
+done;
+----
+
+. Lets say we wanted to allocate 3 volumes, 5Gi each to project "default"
++
+----
+[root@master00-GUID ~]# cd /root/pvs
+[root@master00-GUID ~]# cat pv21 pv22 pv23 | oc create -f - -n default
+----
+
+. Run *oc get pvs* to see that your pvs were added and are available
++
+----
+[root@master00-GUID pvs]# oc get pv
+NAME               LABELS    CAPACITY      ACCESSMODES   STATUS      CLAIM                    REASON
+pv21               <none>    5368709120    RWO           Available
+pv22               <none>    5368709120    RWO           Available
+pv23               <none>    5368709120    RWO           Available
+----
+
+NOTE: Although this process is pretty manual now, it easy to see how one could
+automate this process to create a volume on request.
+
+=== Verify NFS access
+
+. Connect to each of your nodes (Infranode included) and make sure you can
+----
+[root@node0X-GUID ~]# mkdir /tmp/test
+[root@node0X-GUID ~]# mount -v 192.168.0.254:/var/export/pvs/pv98 /tmp/test
+----
+
+NOTE: At this point we created the infrastructure for using Persistent Volumes
+but have not used it. We will use these exports (volumes) in labs coming up.
+
+
+=== NFS Firewall (Info only, DO NOT DO THIS SECTION)
 
 **In our lab environment, the firewall is disabled on the oselab host, so these steps are not necessary.**
 
@@ -1400,134 +1537,3 @@ Then, persist the `sysctl` changes:
 Lastly, restart NFS:
 
     systemctl restart nfs
-
-=== Allow NFS Access in SELinux Policy
-
-. By default policy, containers are not allowed to write to NFS mounted
-directories.  We want to allow this for some of our pods, so enable that on
-all nodes where the pod could land (i.e. all of them) with:
-+
-----
-
-[root@master00-GUID ~]# for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do setsebool -P virt_use_nfs=true ; done
-
-----
-+
-[NOTE]
-Once the ansible-based installer does this automatically, we can remove this
-section from the document.
-
-=== Create a Persistent Volume for the Registry
-
-
-. Create a Persistent volume definition file:
-+
-[source,json]
-----
-[root@master00-GUID ~]# cat << EOF > registry-volume.json
-    {
-      "apiVersion": "v1",
-      "kind": "PersistentVolume",
-      "metadata": {
-        "name": "registry-storage"
-      },
-      "spec": {
-        "capacity": {
-            "storage": "15Gi"
-            },
-        "accessModes": [ "ReadWriteMany" ],
-        "nfs": {
-            "path": "/var/export/registry-storage",
-            "server": "oselab-${GUID}.oslab.opentlc.com"
-        }
-      }
-    }
-
-EOF
-
-----
-
-. Create the Persistent Volume from definition file:
-+
-----
-[root@master00-GUID ~]# oc create -f registry-volume.json
-persistentvolumes/registry-storage
-----
-
-. View your create Persistent Volume
-+
-----
-[root@master00-GUID ~]# oc get pv
-NAME               LABELS    CAPACITY      ACCESSMODES   STATUS      CLAIM     REASON
-registry-storage   <none>    16106127360   RWX           Available
-----
-
-. Create a claim definition file to claim your volume
-+
-----
-
-[root@master00-GUID ~]# cat << EOF > registry-volume-claim.json
-    {
-      "apiVersion": "v1",
-      "kind": "PersistentVolumeClaim",
-      "metadata": {
-        "name": "registry-claim"
-      },
-      "spec": {
-        "accessModes": [ "ReadWriteMany" ],
-        "resources": {
-          "requests": {
-            "storage": "15Gi"
-          }
-        }
-      }
-    }
-
-EOF
-
-----
-
-. Create the Claim from definition file:
-+
-----
-[root@master00-GUID ~]# oc create -f registry-volume-claim.json
-persistentvolumeclaims/registry-claim
-----
-
-. View your create Persistent Volume, notice that the status is "Bound"
-+
-----
-[root@master00-GUID ~]# oc get pv
-NAME               LABELS    CAPACITY      ACCESSMODES   STATUS    CLAIM                    REASON
-registry-storage   <none>    16106127360   RWX           Bound     default/registry-claim
-
-----
-
-. View your create Persistent Volume Claims, notice that the status is "Bound"
-+
-----
-[root@master00-GUID ~]# oc get pvc
-NAME             LABELS    STATUS    VOLUME
-registry-claim   map[]     Bound     registry-storage
-----
-
-=== Attach the Persistent Volume to the Registry
-
-. Assuming that your registry is already running, you can edit the
-DeploymentConfig and attach the volume to the Registry and define the pod as "privileged"
-+
-----
-[root@master00-GUID ~]# oc get dc
-NAME              TRIGGERS       LATEST VERSION
-docker-registry   ConfigChange   1
-trainingrouter    ConfigChange   1
-[root@master00-GUID ~]# oc edit dc docker-registry -o json
-----
-
-. Add the volume to the Registry's _DeploymentConfiguration_, this will trigger
-a redeploymetn of the registry.
-
-----
-oc volume dc/docker-registry --add --overwrite -t persistentVolumeClaim \
---claim-name=registry-claim --name=registry-storage
-----

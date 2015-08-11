@@ -16,33 +16,39 @@ include::08_Client_tool_authentication.adoc[]
 
 include::09_Client_tool_authentication.adoc[]
 
-include::10_Service_Accounts.adoc[]
+include::10_Resource_Quota.adoc[]
 
-include::11_Service_Accounts.adoc[]
+include::11_Resource_Quota.adoc[]
 
-include::12_Service_Accounts.adoc[]
+include::12_Resource_Quota.adoc[]
 
-include::13_Service_Accounts.adoc[]
+include::13_Resource_Quota.adoc[]
 
 include::14_Service_Accounts.adoc[]
 
 include::15_Service_Accounts.adoc[]
 
-include::16_Resource_Quota.adoc[]
+include::16_Service_Accounts.adoc[]
 
-include::17_Resource_Quota.adoc[]
+include::17_Service_Accounts.adoc[]
 
-include::18_Resource_Quota.adoc[]
+include::18_Service_Accounts.adoc[]
 
-include::19_Resource_Quota.adoc[]
+include::19_Service_Accounts.adoc[]
 
-include::20_Deployments.adoc[]
+include::20_Using_Persistent_Volumes.adoc[]
 
-include::21_DeploymentConfig.adoc[]
+include::21_Using_Persistent_Volumes.adoc[]
 
-include::22_Replication_Controllers.adoc[]
+include::22_Using_Persistent_Volumes.adoc[]
 
-include::23_Replication_Controllers.adoc[]
+include::23_Using_Persistent_Volumes.adoc[]
 
-include::24_Replication_Controllers.adoc[]
+include::24_Using_Persistent_Volumes.adoc[]
+
+include::25_Using_Persistent_Volumes.adoc[]
+
+include::26_Using_Persistent_Volumes.adoc[]
+
+include::27_Summary.adoc[]
 

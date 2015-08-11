@@ -39,6 +39,76 @@ ifdef::showscript[]
 Welcome to Module 3 of the OpenShift Enterprise Implementation course.
 
 
+== Lab Environment Architecture and Important Information
+
+The lab environment consists of 4 VMs:
+
+* `oselab-GUID.oslab.opentlc.com` (administration host)
+
+* `master00-GUID.oslab.opentlc.com` (master host, contains Etcd and the management console)
+
+* `infranode00-GUID.oslab.opentlc.com` (infranode host, Will run our infrastructure containers: Registry and Router)
+
+* `node00-GUID.oslab.opentlc.com` (node host, Region: Primary, Zone: East. )
+
+* `node01-GUID.oslab.opentlc.com` (node host, Region: Primary, Zone: West. )
+
+NOTE: As a reminder you will only be allowed to SSH to the administration host
+(oselab)from the outside of the lab environment, all other hosts have external
+SSH blocked.  Once on the administration host, you can SSH to the other hosts
+internally.  As described earlier, you will have to use your private SSH key
+and OPENTLC login to access the system (not root!).
+
+NOTE: Each student lab is assigned a global unique identifier (GUID) that
+consists of 4 characters.  This GUID is provided to you in the provisioning
+email that will be sent to you when you provision your lab environment.
+*Anywhere you see GUID from this point on, you will replace it with your lab's GUID.*
+
+*In each lab step take special care to make sure that you are running the step on the required host.  Each step should contain the name of the host to run the step on and the example code should contain the host name in the shell prompt.*
+
+* Administration host example:
++
+----
+
+[root@oselab-GUID ~]# command
+
+----
+
+* Master host example:
++
+----
+
+[root@master00-GUID ~]# command
+
+----
+
+=== Connect to the Environment
+
+. If not already connected, connect to your administration host `oselab-GUID.oslab.opentlc.com` using your OPENTLC login and private SSH key:
++
+----
+
+yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-GUID.oslab.opentlc.com
+
+----
+
+. SSH to the master host as the `root` user:
++
+----
+
+[yourlogin@oselab-GUID ~]$ ssh root@master00-GUID.oslab.opentlc.com
+
+----
++
+[NOTE]
+If prompted for a password use *r3dh4t1!*
++
+----
+
+root@master00-GUID.oslab.opentlc.com's password: ******** (r3dh4t1!)
+
+----
+
 
 endif::showscript[]
 

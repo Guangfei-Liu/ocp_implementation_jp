@@ -1,0 +1,18 @@
+== Summary
+:noaudio:
+
+In This chapter we covered:
+
+* OpenShift Resources
+* Projects and Users
+* Client tool authentication
+* Resource Quota
+* Service Accounts
+* Persistent Volumes
+
+ifdef::showscript[]
+
+=== Transcript
+
+
+endif::showscript[]

@@ -1,0 +1,46 @@
+== Using Persistent Volumes
+:noaudio:
+
+.Claims as Volumes in Pods
+
+* A `PersistentVolumeClaim` is used by a pod as a volume.
+* OpenShift finds the claim with the given name in the same namespace as the
+pod, then uses the claim to find the corresponding volume to mount.
+
+* Review the example Pod Definition with a Claim:
+[source,json]
+----
+{
+    "apiVersion": "v1",
+    "kind": "Pod",
+    "metadata": {
+        "name": "mypod",
+        "labels": {
+            "name": "frontendhttp"
+        }
+    },
+    "spec": {
+        "containers": [{
+            "name": "myfrontend",
+            "image": "nginx",
+            "ports": [{
+                "containerPort": 80,
+                "name": "http-server"
+            }],
+            "volumeMounts": [{
+                "mountPath": "/var/www/html",
+                "name": "pvol"
+            }]
+        }],
+        "volumes": [{
+            "name": "pvol",
+            "persistentVolumeClaim": {
+                "claimName": "claim1"
+            }
+        }]
+    }
+}
+----
+
+
+

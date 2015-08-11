@@ -4,18 +4,17 @@
 
 Module 05 : Resource Management
 
+In This chapter we covered:
 * OpenShift Resources
 * Projects and Users
 * Client tool authentication
-* Service Accounts
 * Resource Quota
-* Services and Routes
-* Deployments
-* Deployment Configuration
-* Replication Controllers
+* Service Accounts
+* Persistent Volumes
 * Lab: Users, Projects and Quotas
 * Lab: Creating Services and Routes
-* Lab: Deployment Configuration and Replication Controllers
+* Lab: Provisioning and Configuring Persistent Volumes
+
 
 ifdef::showscript[]
 

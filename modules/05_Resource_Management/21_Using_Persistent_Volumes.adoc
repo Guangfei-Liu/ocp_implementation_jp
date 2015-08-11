@@ -1,0 +1,17 @@
+== Using Persistent Volumes
+:noaudio:
+
+.Requesting Storage
+
+* Storage can be made available to you by laying claims to the resource.
+* You can make a request for storage resources using a `PersistentVolumeClaim`
+object;
+**  the claim is paired with a volume that generally matches your request.
+
+ifdef::showscript[]
+
+=== Transcript
+
+
+endif::showscript[]
+

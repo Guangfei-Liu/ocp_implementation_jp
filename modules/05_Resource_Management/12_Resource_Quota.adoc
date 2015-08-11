@@ -41,7 +41,3 @@ ifdef::showscript[]
 endif::showscript[]
 
 
-
-
-
-

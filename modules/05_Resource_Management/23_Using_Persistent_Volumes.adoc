@@ -1,0 +1,38 @@
+== Using Persistent Volumes
+:noaudio:
+
+.Requesting Storage
+* After a *PersistentVolume* has been defined in your project:
+** You can request storage by creating `PersistentVolumeClaim` objects in your
+*projects*:
+
+.Persistent Volume Claim Object Definition
+
+[source,json]
+----
+{
+    "apiVersion": "v1",
+    "kind": "PersistentVolumeClaim",
+    "metadata": {
+        "name": "claim1"
+    },
+    "spec": {
+        "accessModes": [ "ReadWriteOnce" ],
+        "resources": {
+            "requests": {
+                "storage": "5Gi"
+            }
+        }
+    }
+}
+----
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+
+endif::showscript[]
+
+

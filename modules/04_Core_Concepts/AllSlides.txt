@@ -34,71 +34,71 @@ include::17_Pods_and_Services.adoc[]
 
 include::18_Pods_and_Services.adoc[]
 
-include::19_Builds_and_Image_Streams.adoc[]
+include::19_Scheduler.adoc[]
 
-include::20_Builds_and_Image_Streams.adoc[]
+include::20_Scheduler.adoc[]
 
-include::21_Builds_and_Image_Streams.adoc[]
+include::21_Scheduler.adoc[]
 
-include::22_Builds_and_Image_Streams.adoc[]
+include::22_Scheduler.adoc[]
 
-include::23_Builds_and_Image_Streams.adoc[]
+include::23_Scheduler.adoc[]
 
-include::24_Builds_and_Image_Streams.adoc[]
+include::24_Scheduler.adoc[]
 
-include::25_Builds_and_Image_Streams.adoc[]
+include::25_Scheduler.adoc[]
 
-include::26_Builds_and_Image_Streams.adoc[]
+include::26_Scheduler.adoc[]
 
-include::27_Deployments.adoc[]
+include::27_Scheduler.adoc[]
 
-include::28_Deployments.adoc[]
+include::28_Scheduler.adoc[]
 
-include::29_Deployments.adoc[]
+include::29_Scheduler.adoc[]
 
-include::30_Deployments.adoc[]
+include::30_Scheduler.adoc[]
 
-include::31_Deployments.adoc[]
+include::31_Scheduler.adoc[]
 
-include::32_Deployments.adoc[]
+include::32_Scheduler.adoc[]
 
-include::33_Routes.adoc[]
+include::33_Scheduler.adoc[]
 
-include::34_Routes.adoc[]
+include::34_Scheduler.adoc[]
 
-include::35_Routes.adoc[]
+include::35_Scheduler.adoc[]
 
-include::36_Routes.adoc[]
+include::36_Scheduler.adoc[]
 
-include::37_Routes.adoc[]
+include::37_Scheduler.adoc[]
 
-include::38_Routes.adoc[]
+include::38_Builds_and_Image_Streams.adoc[]
 
-include::39_Routes.adoc[]
+include::39_Builds_and_Image_Streams.adoc[]
 
-include::40_Routes.adoc[]
+include::40_Builds_and_Image_Streams.adoc[]
 
-include::41_Routes.adoc[]
+include::41_Builds_and_Image_Streams.adoc[]
 
-include::42_Routes.adoc[]
+include::42_Builds_and_Image_Streams.adoc[]
 
-include::43_Routes.adoc[]
+include::43_Builds_and_Image_Streams.adoc[]
 
-include::44_Routes.adoc[]
+include::44_Builds_and_Image_Streams.adoc[]
 
-include::45_Routes.adoc[]
+include::45_Builds_and_Image_Streams.adoc[]
 
-include::46_Routes.adoc[]
+include::46_Deployments.adoc[]
 
-include::47_Routes.adoc[]
+include::47_Deployments.adoc[]
 
-include::48_Routes.adoc[]
+include::48_Deployments.adoc[]
 
-include::49_Routes.adoc[]
+include::49_Deployments.adoc[]
 
-include::50_Routes.adoc[]
+include::50_Deployments.adoc[]
 
-include::51_Routes.adoc[]
+include::51_Deployments.adoc[]
 
 include::52_Routes.adoc[]
 
@@ -106,5 +106,43 @@ include::53_Routes.adoc[]
 
 include::54_Routes.adoc[]
 
-include::55_Summary.adoc[]
+include::55_Routes.adoc[]
+
+include::56_Routes.adoc[]
+
+include::57_Routes.adoc[]
+
+include::58_Routes.adoc[]
+
+include::59_Routes.adoc[]
+
+include::60_Routes.adoc[]
+
+include::61_Routes.adoc[]
+
+include::62_Routes.adoc[]
+
+include::63_Routes.adoc[]
+
+include::64_Routes.adoc[]
+
+include::65_Routes.adoc[]
+
+include::66_Routes.adoc[]
+
+include::67_Routes.adoc[]
+
+include::68_Routes.adoc[]
+
+include::69_Routes.adoc[]
+
+include::70_Routes.adoc[]
+
+include::71_Routes.adoc[]
+
+include::72_Routes.adoc[]
+
+include::73_Routes.adoc[]
+
+include::74_Summary.adoc[]
 

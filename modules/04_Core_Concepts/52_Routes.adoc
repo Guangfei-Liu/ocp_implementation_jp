@@ -1,29 +1,15 @@
 == Routes
 :noaudio:
+.Overview
 
-.Custom default routing subdomain
+* An OpenShift route is a way to expose a _service_ by giving it an
+externally-reachable hostname like `www.example.com`.
 
-* A cluster administrator can customize the suffix or the default routing
-subdomain for an environment using the OpenShift master configuration.
-* The following example shows how you can set the configured suffix to
-`v3.openshift.test`:
-
-* OpenShift master configuration snippet (master-config.yaml):
-+
-[source,yaml]
-----
-routingConfig:
-  subdomain: v3.openshift.test
-----
-
-
-* With the OpenShift master node(s) running the above configuration, the
-generated hostname for our example of a host added to a namespace
-+
-----
-my-namespace` would be: `no-route-hostname.my-namespace.v3.openshift.test
-----
-
+* A defined route and the endpoints identified by its service can be consumed by
+a router to provide named connectivity that allows external clients to reach
+your applications.
+* Each route consists of a route name, service selector, and (optionally)
+security configuration.
 
 ifdef::showscript[]
 === Transcript

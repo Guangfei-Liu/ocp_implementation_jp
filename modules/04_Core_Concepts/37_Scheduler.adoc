@@ -1,0 +1,32 @@
+== Scheduler
+:noaudio:
+
+.Topology Examples
+
+* Only use nodes with the 'region' label defined and prefer nodes with the
+'zone' label defined
+
+[source,json]
+----
+{
+	"kind" : "Policy",
+	"version" : "v1",
+	"predicates" : [
+		...
+		{"name" : "RequireRegion", "argument" : {"labelsPresence" : {"labels" : ["region"], "presence" : true}}}
+
+	],
+	"priorities" : [
+		...
+		{"name" : "ZonePreferred", "weight" : 1, "argument" : {"labelPreference" : {"label" : "zone", "presence" : true}}}
+	]
+}
+----
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+
+
+

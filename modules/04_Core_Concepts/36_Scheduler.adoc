@@ -1,0 +1,30 @@
+== Scheduler
+:noaudio:
+
+.Topology Examples
+* Example: Three topological levels defined as city, building and room
+** Levels: city (affinity) -> building (anti-affinity) -> room (anti-affinity)
+
+[source,json]
+----
+{
+	"kind" : "Policy",
+	"version" : "v1",
+	"predicates" : [
+		...
+		{"name" : "CityAffinity", "argument" : {"serviceAffinity" : {"labels" : ["city"]}}}
+	],
+	"priorities" : [
+		...
+		{"name" : "BuildingSpread", "weight" : 1, "argument" : {"serviceAntiAffinity" : {"label" : "building"}}},
+		{"name" : "RoomSpread", "weight" : 1, "argument" : {"serviceAntiAffinity" : {"label" : "room"}}}
+	]
+}
+----
+
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+

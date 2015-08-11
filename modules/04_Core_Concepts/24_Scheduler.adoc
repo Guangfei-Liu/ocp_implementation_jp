@@ -1,0 +1,18 @@
+== Scheduler
+:noaudio:
+
+.Configurable Predicates
+* These predicates can be configured by the user to tweak their function.
+** They can be given any user-defined name.
+** The type of the predicate is identified by the argument that they take.
+* Since these are configurable, multiple predicates of the same type (but
+  different configuration parameters) can be combined as long as their
+  user-defined names are different.
+
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+
+

@@ -1,0 +1,16 @@
+== Scheduler
+:noaudio:
+
+.Available Predicates
+* There are several predicates provided out of the box in Kubernetes.
+Some of these predicates can be customized by providing certain parameters.
+* Multiple predicates can be combined to provide additional filtering of nodes.
+
+* In the next few slides we will discuss *Static Predicates* and
+*Configurable Predicates*.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+

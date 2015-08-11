@@ -1,0 +1,17 @@
+== Scheduler
+:noaudio:
+
+.Available Priority Functions
+* A custom set of priority functions can be specified to configure the scheduler.
+** There are several priority functions provided out-of-the-box in Kubernetes.
+* Some of these priority functions can be customized by providing certain parameters.
+* Multiple priority functions can be combined and different weights can be given
+to each in order to impact the prioritization.
+** A weight is required to be specified and cannot be 0 or negative.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+
+

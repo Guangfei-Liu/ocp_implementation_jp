@@ -1,0 +1,36 @@
+== Scheduler
+:noaudio:
+
+.Topology Examples
+
+
+* Example: Three topological levels defined as region, zone and rack
+** Levels: region (affinity) -> zone (affinity) -> rack (anti-affinity)
++
+[source,json]
+----
+{
+	"kind" : "Policy",
+	"version" : "v1",
+	"predicates" : [
+		...
+		{"name" : "RegionZoneAffinity", "argument" : {"serviceAffinity" : {"labels" : ["region", "zone"]}}}
+	],
+	"priorities" : [
+		...
+    {"name" : "RackSpread", "weight" : 1, "argument" : {"serviceAntiAffinity" : {"label" : "rack"}}}
+	]
+}
+----
+
+NOTE: In all of the sample configurations provided, the list of predicates and
+priority functions is truncated to include only the ones that pertain to the use
+case specified. In practice, a complete/meaningful scheduler policy should include most, if
+not all, of the default predicates and priority functions listed above.
+
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+

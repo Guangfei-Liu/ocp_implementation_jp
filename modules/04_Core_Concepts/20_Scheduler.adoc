@@ -1,0 +1,31 @@
+== Scheduler
+:noaudio:
+
+.Scheduler Extensibility
+As is the case with almost everything else in Kubernetes/OpenShift, the
+scheduler is built using a plugin model and the current implementation itself is
+a plugin.  There are two ways to extend the scheduler functionality.
+
+* Enhancements
+** The scheduler functionality can be enhanced by adding new predicates and
+priority functions.  They can either be contributed upstream or maintained
+separately.
+** These predicates and priority functions would need to be registered with the
+scheduler factory and then specified in the scheduler policy file.
+
+* Replacement
+** Since the scheduler is a plugin, it can be replaced in favor of an alternate
+implementation.
+** The scheduler code has a clean separation that watches new pods as they get
+created and identifies the most suitable node to host them.
+** It then creates bindings (pod to node bindings) for the pods using the master
+API.
+
+
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+
+

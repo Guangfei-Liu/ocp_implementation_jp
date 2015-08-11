@@ -19,7 +19,7 @@
 ----
 
 <1> Pods making requests against the OpenShift API is a common enough pattern
- that there is a `*serviceAccount*` field for specifying which _service account_
+ that there is a `serviceAccount` field for specifying which _service account_
   user the pod should authenticate as when making the requests. This enables
   fine-grained access control for custom infrastructure components.
 <2> The pod defines storage volumes that are available to its container(s) to

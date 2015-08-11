@@ -1,0 +1,20 @@
+== Scheduler
+:noaudio:
+
+.Affinity and Anti-Affinity
+
+* Affinity
+** Administrators should be able to configure the scheduler to specify affinity
+at any topological level, or even at multiple levels.
+** Affinity at a particular level indicates that all pods that belong to the
+same service will be scheduled onto nodes that belong to the same level.
+** This handles any latency requirements of applications by allowing
+administrators to ensure that peer pods do not end up being too geographically
+separated.  If no node is available within the same affinity group to host the
+pod, then the pod will not get scheduled.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+

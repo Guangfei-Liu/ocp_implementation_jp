@@ -1,0 +1,27 @@
+== Routes
+:noaudio:
+
+.Routes Recap:
+
+* *Routes* - Match FQDN-destined traffic requests to services and pods they represent
+* *Services* - Do not route or load balance between pods
+** Services only provide pod information (IP) to router
+** You may consider a service as a list of IPs and ports of the pods that the service represents
+* *Router container* (not *route*) - An `openshift3/ose-haproxy-router` container that is a preconfigured instance of HAProxy
+** An instance of *Router* container watches a route's resource and updates with changes when required
+
+ifdef::showscript[]
+
+=== Transcript
+
+*Routes* allow FQDN-destined traffic to ultimately reach the pods. The services do not route or load balance between the pods--they only provide the pod information (IP) to the router.
+
+You can consider the service as a list of IPs and ports of the pods that the service represents.
+
+In a simplification of the process, the `openshift3/ose-haproxy-router` container is a preconfigured instance of HAProxy.
+
+The OpenShift Enterprise instance running in this container watches a route's resource on the OpenShift Enterprise master.
+
+
+endif::showscript[]
+

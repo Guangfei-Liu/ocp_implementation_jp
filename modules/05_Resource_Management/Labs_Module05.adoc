@@ -300,12 +300,12 @@ Container       memory          5Mi     750Mi   100Mi
 .Authenticate to OpenShift Enterprise and Choose Your Project
 
 . Connect to the OpenShift Enterprise master by following the same steps you used previously.
-. Authenticate user `andrew` to Openshift Enterprise and create a token in the `~/.kube/config` file:
+. Authenticate user `andrew` to Openshift Enterprise (Password is: `r3dh4t1!`)
+
 +
 ----
 
 [root@master00-GUID ~]# su - andrew
-[andrew@master00-GUID ~]$ guid=`hostname|cut -f2 -d-|cut -f1 -d.`
 [andrew@master00-GUID ~]$ oc login -u andrew --insecure-skip-tls-verify --server=https://master00-${guid}.oslab.opentlc.com:8443
 
 ----
@@ -667,9 +667,6 @@ NOTE: Because we created a quota, the forth pod will not be created.
 ----
 
 [root@master00-GUID ~]# su - andrew
-[andrew@master00-GUID ~]$ guid=`hostname|cut -f2 -d-|cut -f1 -d.`
-[andrew@master00-GUID ~]$ oc login -u andrew --insecure-skip-tls-verify --server=https://master00-${guid}.oslab.opentlc.com:8443
-...
 [andrew@master00-GUID ~]$ oc project svcslab
 Now using project "svcslab" on server "https://master00-GUID.oslab.opentlc.com:8443".
 
@@ -780,17 +777,9 @@ Hello OpenShift!
 . Create the Route
 +
 ----
-[andrew@master00-GUID ~]$ guid=`hostname|cut -f2 -d-|cut -f1 -d.`
 [andrew@master00-GUID ~]$ oc expose service/hello-service --hostname=hello2-openshift.cloudapps-${guid}.oslab.opentlc.com
 ----
 +
-// NO LONGER NEEDED
-// . Create a *route* for our service
-// +
-// ----
-// [andrew@master00-6b80 ~]$ oc create -f hello-route.json
-// routes/hello-openshift-route
-// ----
 
 . Lets see our routes
 +
@@ -808,3 +797,231 @@ hello-service   hello2-openshift.cloudapps-GUID.oslab.opentlc.com             he
 Hello OpenShift!
 
 ----
+
+== Lab: Taking a tour into a container
+
+We can have a look into the container using the *oc exec* command, In this
+section we will have a look at our *Router* and *Registry*
+
+. As Andrew, Lets run the following commands, We will learn more about this later,
+for now, just enjoy the ride. (Make sure you are in the *svcslab* project)
+----
+[andrew@master00-d9b2 ~]$ oc new-app https://github.com/openshift/simple-openshift-sinatra-STI.git -l "todelete=yes" -o yaml |  sed 's/replicas: 1/replicas: 3/g' | oc create -f -
+imagestreams/simple-openshift-sinatra-sti
+buildconfigs/simple-openshift-sinatra-sti
+deploymentconfigs/simple-openshift-sinatra-sti
+services/simple-openshift-sinatra
+
+[andrew@master00-d9b2 ~]$ oc expose service simple-openshift-sinatra --hostname=whatever.com
+
+----
+
+
+. As *root*, Lets connect to the *Router*, by finding out it's name and running the
+*oc exec* command.
++
+----
+[root@master00-d9b2 ~]# oc get pods
+NAME                      READY     REASON    RESTARTS   AGE
+docker-registry-2-snarn   1/1       Running   0          17h
+trainingrouter-1-jm5zk    1/1       Running   0          18h
+[root@master00-d9b2 ~]# oc exec -ti -p trainingrouter-1-jm5zk /bin/bash
+bash-4.2$
+
+#Another option is:
+[root@master00-d9b2 ~]# oc exec -ti -p `oc get pods |  awk '/route/ { print $1; }'` /bin/bash
+bash-4.2$
+----
+
+. Once you are running *bash* inside the container you can explore
+.. Run the *id* command
+.. Run *pwd* and *ls*, what directory are you in?
+.. Run *cat haproxy.config* to see your empty configuration file.
++
+----
+
+bash-4.2$ id
+uid=1000010000 gid=0(root)
+
+bash-4.2$ pwd
+/var/lib/haproxy/conf
+
+bash-4.2$ ls
+default_pub_keys.pem     os_edge_http_be.map  os_sni_passthrough.map
+haproxy-config.template  os_http_be.map       os_tcp_be.map
+haproxy.config           os_reencrypt.map
+
+bash-4.2$ grep SERVERID *
+haproxy.config:    cookie OPENSHIFT_default-docker-registry_SERVERID insert indirect nocache httponly
+haproxy.config:    cookie OPENSHIFT_resourcemanagement-hello-service_SERVERID insert indirect nocache httponly
+haproxy.config:    cookie OPENSHIFT_svcslab-simple-openshift-sinatra_SERVERID insert indirect nocache httponly
+
+bash-4.2$ cat haproxy.config
+
+----
+
+. You will see output similar to this:
+.. You will see the *route* that was created in the previous lab.
+.. Notice that the *route* points to the endpoints directly
+.. Notice the *svcslab* project route we created exists, but would probably not
+have any end-points until the build is complete
++
+----
+backend be_http_resourcemanagement-hello-service
+
+  mode http
+  balance leastconn
+  timeout check 5000ms
+
+    cookie OPENSHIFT_resourcemanagement-hello-service_SERVERID insert indirect n
+ocache httponly
+
+  server 10.1.2.2:8080 10.1.2.2:8080 check inter 5000ms cookie 10.1.2.2:8080
+  server 10.1.2.3:8080 10.1.2.3:8080 check inter 5000ms cookie 10.1.2.3:8080
+  server 10.1.2.4:8080 10.1.2.4:8080 check inter 5000ms cookie 10.1.2.4:8080
+...
+...
+
+----
+
+. Make changes to your service/route (add or remove pods or create another route)
+and see the changes in the *haproxy.config* file.
+
+. Before we start looking at the *registry* container, lets make sure our build
+(from earlier in this lab) has completed.
+. As Andrew,run this command to see the build (More on this later), this will take a while
+on our hardware, If its not completed, it's good time for a quick break.
++
+----
+[andrew@master00-d9b2 ~]$ oc build-logs simple-openshift-sinatra-sti-1
+...
+...
+...
+I0810 21:50:39.236169       1 sti.go:134] Pushing 172.30.236.109:5000/svcslab/simple-openshift-sinatra-sti image ...
+I0810 21:53:13.659295       1 sti.go:138] Successfully pushed 172.30.236.109:5000/svcslab/simple-openshift-sinatra-sti
+
+----
+
+. Once the build has completed and Successfully pushed the image to the
+registry, we can continue the lab and go have a look inside the registry.
+. As root, run the following commands:
+.
+----
+[root@master00-d9b2 ~]# oc exec -ti -p `oc get pods |  awk '/registry/ { print $1; }'` /bin/bash
+
+----
+
+. Once you are running *bash* inside the container you can explore
+.. Run the *id* command
+.. Run *pwd* and *ls*, what directory are you in?
+.. Run *cat haproxy.config* to see your empty configuration file.
++
+----
+bash-4.2$ id
+uid=1000010000 gid=0(root)
+bash-4.2$ pwd
+/
+bash-4.2$ ls
+bin   config.yml  etc   lib    media  opt   registry  run   srv  tmp  var
+boot  dev         home  lib64  mnt    proc  root      sbin  sys  usr
+bash-4.2$ cat config.yml
+version: 0.1
+log:
+  level: debug
+http:
+  addr: :5000
+storage:
+  cache:
+    layerinfo: inmemory
+  filesystem:
+    rootdirectory: /registry
+auth:
+  openshift:
+    realm: openshift
+middleware:
+  repository:
+    - name: openshift
+
+----
+
+. You can have a look at the repositories and images available using the following:
++
+----
+bash-4.2$ cd /registry/docker/registry/v2/repositories
+bash-4.2$ ls
+svcslab
+bash-4.2$ ls svcslab/
+simple-openshift-sinatra-sti
+bash-4.2$ ls svcslab/simple-openshift-sinatra-sti/
+_layers  _manifests  _uploads
+bash-4.2$ ls svcslab/simple-openshift-sinatra-sti/_layers/
+sha256
+bash-4.2$ ls svcslab/simple-openshift-sinatra-sti/_layers/sha256/
+39886d6f6998b59a31e853bf1fcc642e40a711d67248904b23647afcb2dae085
+c0e305bb0b350a4efcaeb33e1f99efe5235728747d3695b16b111fff7fb40e74
+f1689e5704ab6738da07deea58081b784b9e43675063d1e98402ef3c745cd631
+/var/export/registry-storage/docker/registry/v2/blobs
+----
+. If you want to see the size of the "blobs" that the layers are saves as:
+.. Note that the *blob file* name is the same as your layer *link name*
++
+----
+bash-4.2$ cd /registry/docker/registry/v2/blobs/sha256/
+bash-4.2$ du -sh *
+54M     39
+4.0K    7b
+1.3M    c0
+81M     f1
+bash-4.2$ ls f1
+f1689e5704ab6738da07deea58081b784b9e43675063d1e98402ef3c745cd631
+
+----
+
+NOTE: If you configured Persistent storage for your registry, you could see the
+same in:  */var/export/registry-storage/docker/registry/v2/*
+
+. As Andrew, lets have a look at one of the pods we started earlier in this lab.
++
+----
+[andrew@master00-d9b2 ~]$ oc get pods
+NAME                                   READY     REASON       RESTARTS   AGE
+simple-openshift-sinatra-sti-1-build   0/1       ExitCode:0   0          32m
+simple-openshift-sinatra-sti-2-2ppvr   1/1       Running      0          29m
+simple-openshift-sinatra-sti-2-ehdke   1/1       Running      0          29m
+simple-openshift-sinatra-sti-2-qesjy   1/1       Running      0          29m
+----
+
+. Run the following command to connect to the container
++
+----
+[andrew@master00-d9b2 ~]$  oc exec -ti -p  simple-openshift-sinatra-sti-2-ehdke "/bin/bash"
+bash-4.2$
+----
+
+. Explore the container:
+.. Run the *id* command
+.. Run *pwd* and *ls*, what directory are you in?
+.. Run *ps -ef* to see what processes are running
++
+
++
+----
+
+bash-4.2$ id
+uid=1000040000 gid=0(root)
+
+bash-4.2$ ls
+Gemfile  Gemfile.lock  app.rb  bundle  config.ru
+
+bash-4.2$ pwd
+/opt/openshift/src
+
+bash-4.2$ ps -ef
+UID         PID   PPID  C STIME TTY          TIME CMD
+1000040+      1      0  0 21:53 ?        00:00:01 ruby /opt/openshift/src/bundle
+1000040+     34      0  0 22:21 ?        00:00:00 /bin/bash
+1000040+     62     34  0 22:21 ?        00:00:00 ps -ef
+
+----
+
+NOTE: Your pod names and output will differ slightly.

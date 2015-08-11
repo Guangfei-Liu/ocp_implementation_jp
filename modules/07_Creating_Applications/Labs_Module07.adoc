@@ -64,7 +64,7 @@ For this activity, you use a prebuilt and preconfigured code repository. This re
 +
 ----
 
-[andrew@master00 ~]$ oc new-app https://github.com/openshift/simple-openshift-sinatra-S2I.git -o json | tee ~/simple-sinatra.json
+[andrew@master00 ~]$ oc new-app https://github.com/openshift/simple-openshift-sinatra-STI.git -o json | tee ~/simple-sinatra.json
 ----
 
 . Look at the JSON that you generated.

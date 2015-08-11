@@ -1,5 +1,5 @@
 == Lab: Allow User to run Priviledges container
-
+Lab Scenario - Allow user to run a privileged container
 === Authenticate to OpenShift Enterprise and Choose Your Project
 
 . Connect to the OpenShift Enterprise master by following the same steps you used previously.
@@ -184,11 +184,13 @@ users:
 
 ----
 
-=== Create SCCs to allocation permissions and capabilities
-
-It's not always desired to add users directly to the very permissive "privileged"
+== Lab: Create SCCs to manage permissions
+Lab Scenario - It's not always desired to add users directly to the very permissive "privileged"
 SCC, In this section we will create a couple of SCCs to control our users
 permissions and capabilities.
+
+=== Create SCCs to allocation permissions and capabilities
+
 
 . Create the *scc-ops* SCC:
 - We are creating an SCC to allow specific users to run "Privileged" containers.
@@ -300,10 +302,18 @@ scc-dev      false     []        false     MustRunAs   MustRunAsNonRoot
 
 === Test your new SCCs
 
-. Go back to the *marina* user, and test your new priviliges:
+. Go back to the *marina* user, and test your new privileges:
 +
 ----
 [marina@master00-GUID ~]$ oc create -f hello-pod-priv.json
 ----
 
 * Did the pod deploy this time? (It should have).
+
+== Lab: Manage Project Self-Provisioning
+Lab Scenario - We don't always want to allow all users to create *Projects*, in
+this scenario we will disable Self-Provisioning for all users.
+
+We will then allow specific users to Self-provision projects from a set template.
+
+Uncomplete!

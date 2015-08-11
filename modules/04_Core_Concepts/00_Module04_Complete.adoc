@@ -32,7 +32,7 @@ endif::[]
 ifdef::showscript[]
 
 === Transcript
-Welcome to Module X of the OpenShift Enterprise Implementation course.
+Welcome to Module 04 of the OpenShift Enterprise Implementation course.
 
 endif::showscript[]
 == Overview

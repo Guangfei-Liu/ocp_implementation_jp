@@ -8,7 +8,7 @@ ifdef::revealjs_slideshow[]
 [#cover-h1]
 Red Hat OpenShift Enterprise Implementation
 
-[#cover-h2] 
+[#cover-h2]
 OpenShift 3.0 Installation
 
 [#cover-logo]

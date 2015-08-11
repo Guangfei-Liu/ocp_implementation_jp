@@ -30,7 +30,7 @@ endif::[]
 * Lab : Install OpenShift Using the installer
 * Lab : OpenShift Configuration and Setup
 * Lab : Configuring Authentication
-* Lab : Using Persistent Storage (Optional)
+* Lab : Using Persistent Storage
 
 
 ifdef::showscript[]
@@ -176,9 +176,9 @@ endif::showscript[]
 * To prepare your hosts for OpenShift 3 Enterprise
 ** *Installing Red Hat Enterprise Linux 7.1* - A base installation of `Red Hat Enterprise Linux (RHEL) 7.1` is required for master or node hosts. See the link:https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Installation_Guide/index.html[Red Hat Enterprise Linux 7.1 Installation Guide]
  for more information.
-** *Registering the Hosts with subscription-manager - You will need to register all the hosts to RHEL7.1 and OpenShift Enterprise repositories.
+** *Registering the Hosts with subscription-manager* - You will need to register all the hosts to RHEL7.1 and OpenShift Enterprise repositories.
 ** *Managing Base Packages* - You will need to install some utility packages (i.e git, net-tools, bind-utils, iptables-services
-** *Managing Services - You will need to disable firewalld and enable iptables-services
+** *Managing Services* - You will need to disable firewalld and enable iptables-services
 ** *Install Docker 1.6.x* - Docker version 1.6 or later needs to be installed and storage backend configured for images.
 ** *Host Password-less communication* - You will ensure that the master hosts can issue remove commands on the nodes without requiring a password.
 
@@ -191,9 +191,9 @@ endif::showscript[]
 == Host Preparation
 :noaudio:
 
-. Host Preparation - Password-less communication
+.Host Preparation - Password-less communication
 
-.Ensuring Installer Access to Hosts
+* Ensure Installer has password-less access to all Hosts.
 * Ansible, which is used to run the installation process, requires a user that has access to all hosts. For running the installer as a non-root user, passwordless sudo rights must also be configured on each destination host.
 * For example, you can generate an SSH key on the host where you will invoke the installation process:
 +
@@ -675,3 +675,178 @@ ifdef::showscript[]
 === Transcript
 
 endif::showscript[]
+
+== Configure Persistent Storage Using NFS
+:noaudio:
+
+
+.Overview
+
+* You can provision your OpenShift cluster with persistent storage using NFS.
+* Persistent Volume framework allows administrators to provision a cluster with
+persistent storage and gives users a way to request those resources without
+having any knowledge of the underlying infrastructure.
+* Storage must exist in the underlying infrastructure before it can be mounted
+as a volume in OpenShift.
+* All that is required for NFS is a distinct list of servers and paths and the
+`*PersistentVolume*` API.
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+== Configure Persistent Storage Using NFS
+:noaudio:
+
+.Persistent Volume Object Definition
+
+[source,yaml]
+----
+{
+  "apiVersion": "v1",
+  "kind": "PersistentVolume",
+  "metadata": {
+    "name": "pv0001"
+  },
+  "spec": {
+    "capacity": {
+        "storage": "5Gi"
+    },
+    "accessModes": [ "ReadWriteOnce" ],
+    "nfs": {
+        "path": "/tmp",
+        "server": "172.17.0.2"
+    },
+    "persistentVolumeReclaimPolicy": "Recycle"
+  }
+}
+----
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+== Configure Persistent Storage Using NFS
+:noaudio:
+
+.Enforcing Disk Quotas
+* Use disk partitions to enforce disk quotas and size constraints.
+** Each partition can be its own export.
+** Each export is one persistent volume.
+* Unique names enforces for persistent volumes, but the uniqueness of the NFS
+volume's server and path is up to the administrator.
+
+* Enforcing quotas in this way allows the end user to request persistent storage
+by a specific amount (e.g,, 10Gi) and be matched with a corresponding volume of
+equal or greater capacity.
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+== Configure Persistent Storage Using NFS
+:noaudio:
+
+.Volume Security
+
+* Users request storage with a `PersistentVolumeClaim`.
+** This claim only lives in the user's namespace (project) and can only be referenced by
+a pod within that same namespace.
+* Any attempt to access a persistent volume across a project causes the pod to
+fail.
+* Each NFS volume must be mountable by all nodes in the cluster.
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+
+
+endif::showscript[]
+
+== Configure Persistent Storage Using NFS
+:noaudio:
+
+.Reclaiming Resources
+* OpenShift implements the Kubernetes *Recyclable* plug-in interface.
+** reclamation tasks are based on policies set by the
+"persistentVolumeReclaimPolicy" key in the *persistent volume* object definition.
+* When a volume gets released from their claim (i.e, after the user's *PersistentVolumeClaim* bound
+to the volume is deleted), the volume can be "reclaimed".
+
+* The *persistentVolumeReclaimPolicy* key can be set to *Retain* or *Recycle*:
+** *Retain* is the default setting for this key. Volumes will not be deleted.
+** *Recycle* volumes are scrubbed (i.e., `rm -rf` is run on the volume) after being
+released from their claim
+* Once recycled, the NFS volume can be bound to a new claim.
+
+ifdef::showscript[]
+
+=== Transcript
+By default, persistent volumes are set to *Retain*. NFS volumes which are set to
+*Recycle* are scrubbed (i.e., `rm -rf` is run on the volume) after being
+released from their claim (i.e, after the user's `*PersistentVolumeClaim*` bound
+to the volume is deleted). Once recycled, the NFS volume can be bound to a new
+claim.
+endif::showscript[]
+
+== Configure Persistent Storage Using NFS
+:noaudio:
+
+.Automation
+* As discussed, clusters can be provisioned with persistent storage using NFS in
+the following way:
+- Disk partitions can be used to enforce storage quotas.
+- Security can be enforced by restricting volumes to the
+namespace that has a claim to them.
+- Reclamation of discarded resources can be
+configured for each persistent volume.
+
+NOTE: They are many ways that you can use scripts to automate the above tasks. You review this link:https://github.com/openshift/openshift-ansible/tree/master/roles/kube_nfs_volumes[example
+Ansible playbook] to help you get started.
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+endif::showscript[]
+
+== Configure Persistent Storage Using NFS
+:noaudio:
+
+.SELinux and NFS Export Settings
+
+* By default, SELinux does not allow writing from a pod to a remote NFS server.
+** The NFS volume mounts correctly, but is read-only.
+* To enable writing in SELinux on each node:
+----
+# setsebool -P virt_use_nfs 1
+----
+
+* Additionally, each exported volume on the NFS server itself should conform to
+the following:
+- Each export must be:
+----
+/example_fs *(rw,all_squash)
+----
+- Each export must be owned by *nfsnobody*:
+----
+chown -R nfsnobody:nfsnobody /example_fs
+----
+- Each export must have the following permissions:
+----
+chmod 777
+----
+
+NOTE: The export above allows arbitrary users and clients to mount this volume.
+Exports can be restricted to a range of IP addresses for hosts that will access
+the volume. See `man exports` for more information.

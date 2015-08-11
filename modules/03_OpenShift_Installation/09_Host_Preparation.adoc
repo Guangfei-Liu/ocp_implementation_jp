@@ -1,9 +1,9 @@
 == Host Preparation
 :noaudio:
 
-. Host Preparation - Password-less communication
+.Host Preparation - Password-less communication
 
-.Ensuring Installer Access to Hosts
+* Ensure Installer has password-less access to all Hosts.
 * Ansible, which is used to run the installation process, requires a user that has access to all hosts. For running the installer as a non-root user, passwordless sudo rights must also be configured on each destination host.
 * For example, you can generate an SSH key on the host where you will invoke the installation process:
 +

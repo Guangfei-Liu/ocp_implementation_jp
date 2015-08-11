@@ -1,18 +1,24 @@
 == Populating OpenShift
 :noaudio:
 
-* You can populate your OpenShift installation with a useful set of Red Hat-provided *image streams* and *templates* to make it easy for developers to create new applications.
-** Template: A template describes a set of resources intended to be used together that can be customized and processed to produce a configuration. Each template defines a list of parameters that can be modified for consumption by containers.
-** Image Streams: An image stream is similar to a Docker image repository in that it contains one or more Docker images identified by tags. An image stream presents a single virtual view of related images.
-
-* The core set of image streams define images that can be used to build *Node.js*, *Perl*, *PHP*, *Python*, and *Ruby* applications. It also defines images for databases: *MongoDB*, *MySQL*, and *PostgreSQL*.
-** To create the core set of image streams, that use the Red Hat Enterprise Linux (RHEL) 7 based images:
+* The xPaaS Middleware image streams provide images for *JBoss EAP*, *JBoss EWS*, and *JBoss A-MQ*. They can be used to build applications for those platforms.
+** To create the Image Streams for xPaaS Middleware Images:
 +
 ----
-oc create -f \
-    examples/image-streams/image-streams-rhel7.json \
+$ oc create -f \
+    examples/xpaas-streams/jboss-image-streams.json
     -n openshift
 ----
+* The database service templates make it easy to run a database instance which can be utilized by other components.
+* For each database (*MongoDB*, *MySQL*, and *PostgreSQL*), two templates are provided.
+** To create the core set of database templates:
++
+----
+$ oc create -f \
+    examples/db-templates -n openshift
+----
+
+** After creating the templates, users are able to easily instantiate the various templates, giving them quick access to a database deployment.
 
 
 ifdef::showscript[]
@@ -20,4 +26,7 @@ ifdef::showscript[]
 === Transcript
 
 endif::showscript[]
+
+
+
 

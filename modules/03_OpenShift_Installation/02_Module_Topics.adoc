@@ -12,7 +12,7 @@
 * Lab : Install OpenShift Using the installer
 * Lab : OpenShift Configuration and Setup
 * Lab : Configuring Authentication
-* Lab : Using Persistent Storage (Optional)
+* Lab : Using Persistent Storage
 
 
 ifdef::showscript[]
@@ -23,3 +23,4 @@ Welcome to Module 3 of the OpenShift Enterprise Implementation course.
 
 
 endif::showscript[]
+

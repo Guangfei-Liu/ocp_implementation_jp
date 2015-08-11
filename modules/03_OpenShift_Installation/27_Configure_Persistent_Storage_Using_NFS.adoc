@@ -1,0 +1,26 @@
+== Configure Persistent Storage Using NFS
+:noaudio:
+
+.Reclaiming Resources
+* OpenShift implements the Kubernetes *Recyclable* plug-in interface.
+** reclamation tasks are based on policies set by the
+"persistentVolumeReclaimPolicy" key in the *persistent volume* object definition.
+* When a volume gets released from their claim (i.e, after the user's *PersistentVolumeClaim* bound
+to the volume is deleted), the volume can be "reclaimed".
+
+* The *persistentVolumeReclaimPolicy* key can be set to *Retain* or *Recycle*:
+** *Retain* is the default setting for this key. Volumes will not be deleted.
+** *Recycle* volumes are scrubbed (i.e., `rm -rf` is run on the volume) after being
+released from their claim
+* Once recycled, the NFS volume can be bound to a new claim.
+
+ifdef::showscript[]
+
+=== Transcript
+By default, persistent volumes are set to *Retain*. NFS volumes which are set to
+*Recycle* are scrubbed (i.e., `rm -rf` is run on the volume) after being
+released from their claim (i.e, after the user's `*PersistentVolumeClaim*` bound
+to the volume is deleted). Once recycled, the NFS volume can be bound to a new
+claim.
+endif::showscript[]
+

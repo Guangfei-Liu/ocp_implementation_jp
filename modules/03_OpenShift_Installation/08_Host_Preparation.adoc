@@ -6,9 +6,9 @@
 * To prepare your hosts for OpenShift 3 Enterprise
 ** *Installing Red Hat Enterprise Linux 7.1* - A base installation of `Red Hat Enterprise Linux (RHEL) 7.1` is required for master or node hosts. See the link:https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Installation_Guide/index.html[Red Hat Enterprise Linux 7.1 Installation Guide]
  for more information.
-** *Registering the Hosts with subscription-manager - You will need to register all the hosts to RHEL7.1 and OpenShift Enterprise repositories.
+** *Registering the Hosts with subscription-manager* - You will need to register all the hosts to RHEL7.1 and OpenShift Enterprise repositories.
 ** *Managing Base Packages* - You will need to install some utility packages (i.e git, net-tools, bind-utils, iptables-services
-** *Managing Services - You will need to disable firewalld and enable iptables-services
+** *Managing Services* - You will need to disable firewalld and enable iptables-services
 ** *Install Docker 1.6.x* - Docker version 1.6 or later needs to be installed and storage backend configured for images.
 ** *Host Password-less communication* - You will ensure that the master hosts can issue remove commands on the nodes without requiring a password.
 

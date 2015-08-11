@@ -1,0 +1,21 @@
+== Configure Persistent Storage Using NFS
+:noaudio:
+
+.Volume Security
+
+* Users request storage with a `PersistentVolumeClaim`.
+** This claim only lives in the user's namespace (project) and can only be referenced by
+a pod within that same namespace.
+* Any attempt to access a persistent volume across a project causes the pod to
+fail.
+* Each NFS volume must be mountable by all nodes in the cluster.
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+
+
+endif::showscript[]
+

@@ -1,5 +1,21 @@
-== Lab: Allow User to run Priviledges container
-Lab Scenario - Allow user to run a privileged container
+== Labs Overview
+
+* Lab: Add a user to the "privileged" SCC
+** Lab Scenario - Allow user to run a privileged container
+
+* Lab: Create SCCs to manage permissions
+** Lab Scenario - It's not always desired to add users directly to the very
+permissive "privileged" SCC, In this section we will create a couple of SCCs to
+control our users permissions and capabilities.
+
+* Lab: Manage Project Self-Provisioning
+** Lab Scenario - In this scenario we will disable Self-Provisioning for all
+users then and allow specific users to Self-provision projects from a set template.
+
+== Lab: Allow User to run privileged container
+Lab Scenario - Add a user to the "privileged" SCC to allow the user to run a
+privileged container
+
 === Authenticate to OpenShift Enterprise and Choose Your Project
 
 . Connect to the OpenShift Enterprise master by following the same steps you used previously.
@@ -310,10 +326,253 @@ scc-dev      false     []        false     MustRunAs   MustRunAsNonRoot
 
 * Did the pod deploy this time? (It should have).
 
+
+
+
 == Lab: Manage Project Self-Provisioning
-Lab Scenario - We don't always want to allow all users to create *Projects*, in
-this scenario we will disable Self-Provisioning for all users.
+Lab Scenario - In this scenario we will disable Self-Provisioning for all
+users then and allow specific users to Self-provision projects from a set template.
 
-We will then allow specific users to Self-provision projects from a set template.
+=== Disable Self-Provisioning
 
-Uncomplete!
+. First, Lets disable *Self-Provisioning* for the "`system:authenticated`" group
+.. As root, use the *oc edit* command to edit the `clusterPolicybinding`
++
+----
+ [root@master00-GUID ~]$ oc edit clusterPolicybinding :default
+----
+
+. Your *self-provisioners* binding will have the "`system:authenticated`" group
+listed and will look similar to the output below.
++
+[source,yaml]
+----
+- name: self-provisioners
+  roleBinding:
+    groupNames:
+    - system:authenticated
+    metadata:
+      creationTimestamp: 2015-08-10T06:40:30Z
+      name: self-provisioners
+      resourceVersion: "44"
+      uid: b18cdc05-3f2a-11e5-a361-2cc260072896
+    roleRef:
+      name: self-provisioner
+    userNames: []
+----
+
+. Remove the line with the  "`system:authenticated`" group, after your change,
+the self-provisioners binding should look like this:
++
+[source,yaml]
+----
+- name: self-provisioners
+  roleBinding:
+    groupNames:
+    metadata:
+      creationTimestamp: 2015-08-10T06:40:30Z
+      name: self-provisioners
+      resourceVersion: "44"
+      uid: b18cdc05-3f2a-11e5-a361-2cc260072896
+    roleRef:
+      name: self-provisioner
+    userNames: []
+----
+
+. To create a message for users trying to provision projects, edit the master's
+config file `/etc/openshift/master/master-config.yaml`, and change the
+*projectRequestMessage* key to your own message:
++
+----
+  projectRequestMessage: "Please create project using the portal http://portal.example.com/provision or Contact Mike"
+----
+
+. Restart OpenShift master daemon
++
+----
+[root@master00-GUID ~]$ systemctl restart openshift-master
+----
+
+=== Allow specific users Self-Provisioning from project template
+
+. Lets create a user for our new hire *mike*, this user will be used to create
+projects for all the users in the environment.
++
+----
+[root@master00-GUID ~]# useradd mike
+[root@master00-GUID ~]# htpasswd -b /etc/openshift/openshift-passwd mike r3dh4t1!
+----
+
+. Lets add the "Self-Provisioner" role to Mike
+----
+[root@master00-GUID ~]# oadm policy add-cluster-role-to-user self-provisioner mike
+----
+
+. Log in as *marina* and see if you can create a project (you can't)
++
+----
+[root@master00-GUID ~]# su - marina
+Last login: Wed Aug 12 02:19:02 EDT 2015 on pts/1
+[marina@master00-GUID ~]$ oc new-project notgoingtowork
+Error from server: Please create project using the portal http://portal.example.com/provision
+
+
+----
+. Log in as *mike*, login to openshift and see if you can create a project and allocate marina as the administrator.
++
+----
+[root@master00-GUID ~]# su - mike
+Last login: Wed Aug 12 02:20:02 EDT 2015 on pts/1
+[mike@master00-d9b2 ~]$ oc new-project thiswillwork
+Now using project "thiswillwork" on server "https://localhost:8443"
+----
+
+NOTE: If you already logged in with a user, you might have to use the *oc login*
+command to refresh the token.
+
+. Have a look at the project that *mike* created
+.. Note that the Node Selector isn't defined, we'll have to do something about that.
++
+----
+[mike@master00-GUID ~]$ oc describe project thiswillwork
+Name:           thiswillwork
+Created:        8 minutes ago
+Labels:         <none>
+Annotations:    openshift.io/description=
+                openshift.io/display-name=
+                openshift.io/sa.scc.mcs=s0:c8,c7
+                openshift.io/sa.scc.uid-range=1000070000/10000
+Display Name:   <none>
+Description:    <none>
+Status:         Active
+Node Selector:  <none>
+
+Quota:  <none>
+
+Resource limits:        <none>
+
+----
+
+. We want to limit all users (including mike, but excluding cluster
+  administrators) to be able to deploy projects only in the "primary" region.
+. As root, Create a project template definition file:
+- Note we have set the desired *node-selector*
++
+[source,yaml]
+----
+[root@master00-GUID ~]# echo '
+apiVersion: v1
+kind: Template
+metadata:
+  name: project-request
+  namespace: openshift
+objects:
+- apiVersion: v1
+  displayName: ${PROJECT_DISPLAYNAME}
+  kind: Project
+  metadata:
+    annotations:
+      description: ${PROJECT_DESCRIPTION}
+      displayName: ${PROJECT_DISPLAYNAME}
+      openshift.io/node-selector: region=primary
+    creationTimestamp: null
+    name: ${PROJECT_NAME}
+  spec: {}
+  status: {}
+- apiVersion: v1
+  groupNames: []
+  kind: RoleBinding
+  metadata:
+    creationTimestamp: null
+    name: admins
+    namespace: ${PROJECT_NAME}
+  roleRef:
+    name: admin
+  userNames:
+  - ${PROJECT_ADMIN_USER}
+parameters:
+- name: PROJECT_NAME
+- name: PROJECT_DISPLAYNAME
+- name: PROJECT_DESCRIPTION
+- name: PROJECT_ADMIN_USER
+' > project-request.yaml
+----
+
+
+. As root, load the template into the "openshift" project.
++
+----
+[root@master00-GUID ~]# oc create -f project-request.yaml --namespace=openshift
+----
+
+. To set the default template, edit the master's config file:
+`/etc/openshift/master/master-config.yaml`, and change the
+projectRequestTemplate key value to "*openshift/project-request*"
++
+----
+[root@master00-GUID ~]# vi /etc/openshift/master/master-config.yaml
+or
+[root@master00-GUID ~]# sed -i 's/projectRequestTemplate: ""/projectRequestTemplate: "openshift\/project-request"/g' /etc/openshift/master/master-config.yaml
+----
+
+. The line should look something like this:
++
+----
+  projectRequestTemplate: "openshift/project-request"
+----
+
+. Restart the master daemon:
++
+----
+[root@master00-GUID ~]# systemctl restart openshift-master
+----
+
+
+. As *mike*, try to create another project
++
+----
+[mike@master00-GUID ~]$ oc new-project thiswillworkbetter
+Now using project "thiswillworkbetter" on server "https://localhost:8443".
+----
+
+. Lets look if the *Node Selector* was defined by the project template
++
+----
+[mike@master00-GUID ~]$ oc describe project thiswillworkbetter
+Name:           thiswillworkbetter
+Created:        8 seconds ago
+Labels:         <none>
+Annotations:    displayName=
+                openshift.io/display-name=
+                openshift.io/node-selector=region=primary
+                openshift.io/sa.scc.mcs=s0:c10,c0
+                openshift.io/sa.scc.uid-range=1000090000/10000
+Display Name:   <none>
+Description:    <none>
+Status:         Active
+Node Selector:  region=primary
+
+Quota:  <none>
+
+Resource limits:        <none>
+----
+
+. In order to make marina the *admin* on the project, we need to bind the *admin*
+role to her.
++
+----
+[mike@master00-GUID ~]$ oc policy add-role-to-user admin marina -n thiswillworkbetter
+----
+
+. As *marina*, check that you have access to the "thiswillworkbetter" project
++
+----
+
+[root@master00-GUID ~]# su - marina
+Last login: Wed Aug 12 02:29:14 EDT 2015 on pts/1
+[marina@master00-GUID ~]$ oc get project
+NAME                 DISPLAY NAME   STATUS
+thiswillworkbetter                  Active
+
+
+----

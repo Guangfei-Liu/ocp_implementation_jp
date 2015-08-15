@@ -2,6 +2,7 @@
 :noaudio:
 == Class Environment
 
+//ISSUE: Class Environment, This slide doesn't fit screen properly
 
 * Class related content found at link:https://www.opentlc.com/classes/ose3-implementation[https://www.opentlc.com/classes/ose3-implementation]
 * Class labs and demonstrations require provisioning the following virtual machines:

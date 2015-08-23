@@ -5,6 +5,7 @@
 Module 05 : Resource Management
 
 In This chapter we covered:
+
 * OpenShift Resources
 * Projects and Users
 * Client tool authentication
@@ -22,7 +23,3 @@ ifdef::showscript[]
 Welcome to Module 05 of the OpenShift Enterprise Implementation course.
 
 endif::showscript[]
-
-
-
-

@@ -974,7 +974,7 @@ the deploymentConfiguration and redeploy the Registry.
 . Add the following line to `/etc/exports`:
 +
 ----
-[root@oselab-GUID ~]# echo "/var/export/${volname} *(rw,sync,all_squash)" >> /etc/exports
+[root@oselab-GUID ~]# echo "/var/export/pvs/${volname} *(rw,sync,all_squash)" >> /etc/exports
 ----
 
 . Restart NFS services:

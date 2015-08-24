@@ -1,0 +1,23 @@
+== Containerization Standards
+:noaudio:
+
+.Orchestration with Kubernetes
+* Orchestrate containers at scale
+* Define application topologies
+* Handle container networking
+* Manage container state
+* Schedule across hosts
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+* Orchestration with Kubernetes - Kubernetes orchestrates containers at scale;
+it defines application topologies, handles part of the container networking,
+manages container state, and it also schedules across hosts.
+
+
+endif::showscript[]
+
+

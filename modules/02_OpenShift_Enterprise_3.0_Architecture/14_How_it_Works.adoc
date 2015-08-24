@@ -1,20 +1,22 @@
-
-:noaudio:
 == How it Works
+:noaudio:
 
-.Scheduler
-* Essentially the OpenShift Enterprise master 
-* Determines where to create new pods
-
+.Store
+* Holds current state, desired state, and configuration information of the
+environment
 +
-image::images/05Scheduler.png[]
+image::images/03Store.png[]
 
 ifdef::showscript[]
 
 === Transcript
 
-The scheduler is essentially the OpenShift Enterprise master. Any time a pod needs to be created somewhere, the master determines where to do this. This is called "scheduling". 
+The store layer holds the current state, the desired state, and configuration
+information about the environment.
+
 
 endif::showscript[]
+
+
 
 

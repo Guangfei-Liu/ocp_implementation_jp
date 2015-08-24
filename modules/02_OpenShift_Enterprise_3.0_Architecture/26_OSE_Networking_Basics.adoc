@@ -1,0 +1,27 @@
+== OSE Networking Basics
+:noaudio:
+
+* To understand the networking workflow in OSE3.0 we need to get familiar with
+the following components:
+** The `SDN Network` - Every host in the OSE3.0 environment/cluster is a member
+of the *SDN Network*.
+- Each `Pod` will have it's own IP that is routable from any member of the SDN
+(By default: 10.x.x.x)
+- Each `Service`, which represents one or more `pods` will have it's own IP
+(By default: 172.30.x.x)
+
+ifdef::showscript[]
+
+=== Transcript
+
+All hosts in the OSE environemnt, or cluster, are members of the same SDN
+overlay network.
+
+Each pod gets it's very own IP that is routable from any member of the SDN
+network.
+Pods come and go, so we use a *service* to represent them and provide a stable
+and permanent IP for a group of pods.
+
+endif::showscript[]
+
+

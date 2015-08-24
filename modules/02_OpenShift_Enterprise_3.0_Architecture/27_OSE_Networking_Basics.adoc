@@ -1,0 +1,32 @@
+== OSE Networking Basics
+:noaudio:
+
+* On one or more of the OSE nodes will host the `Default Router`:
+** The `Default Router` - A container an HA-Proxy instance used to route
+(Actually "proxy") between the outside world and pods in the OSE environment.
+- the *Router* binds a hostname fqdn (i.e: myapp.mydomain.org) to an
+address/addresses in the OSE environment.
+- The *Router* routinely gets the Pod's IPs from the *service* which represents
+them.
+- The *Router* routes/proxies directly to the *pods* and not through the
+*service*.
+* We will configure our DNS server to resolve a *wildcard* DNS entry to the node
+ that hosts the `Default Router` (*Infranode00* host in our labs later on)
+
+ifdef::showscript[]
+
+=== Transcript
+
+A container running an instance of HA-Proxy will be hosted on one or more of the
+nodes in the OSE environment, this instance is referred to as the "Default
+Router"
+
+The Router's function is to resolve fqdn hostname requests and proxy the
+connection directly to any of the pods represented by the *Service*.
+
+A DNS entry will need to be configured in the client's DNS server, a wildcard
+entry such as "*.cloudapps.companynameexample.com"
+
+endif::showscript[]
+
+

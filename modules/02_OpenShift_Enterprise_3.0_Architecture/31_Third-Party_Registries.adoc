@@ -1,5 +1,5 @@
-:noaudio:
 == Third-Party Registries
+:noaudio:
 
 
 * Provide builder images, complete application images, and more
@@ -13,12 +13,17 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise can use third-party registries to obtain builder images, complete application images, and more. 
-Supportability of these images and registries falls to their respective creators.
+OpenShift Enterprise can use third-party registries to obtain builder images,
+complete application images, and more.
 
-OpenShift Enterprise can poll the other registries for changes to image repositories.
+Supportability of these images and registries falls to their respective
+creators.
+
+OpenShift Enterprise can poll the other registries for changes to image
+repositories.
 
 
 endif::showscript[]
+
 
 

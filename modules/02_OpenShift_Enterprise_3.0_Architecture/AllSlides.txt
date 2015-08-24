@@ -1,27 +1,24 @@
-
 include::01_Title.adoc[]
 
 include::02_Module_Topics.adoc[]
 
 include::03_What_is_OpenShift.adoc[]
 
-include::04a_OpenShift_Enterprise_v3_Stack.adoc[]
-
-include::04b_OpenShift_Enterprise_v3_Stack.adoc[]
+include::04_OpenShift_Enterprise_v3.adoc[]
 
 include::05_How_OpenShift_Works.adoc[]
 
 include::06_Containerization_Standards.adoc[]
 
-include::07_Important_Projects_Used_in_OpenShift.adoc[]
+include::07_Containerization_Standards.adoc[]
 
-include::08_OpenShift_Model.adoc[]
+include::08_Containerization_Standards.adoc[]
 
-include::09_OpenShift_Workflow.adoc[]
+include::09_Important_Projects_in_OpenShift.adoc[]
 
-include::10_How_it_Works.adoc[]
+include::10_OpenShift_Model.adoc[]
 
-include::11_How_it_Works.adoc[]
+include::11_OpenShift_Workflow.adoc[]
 
 include::12_How_it_Works.adoc[]
 
@@ -29,34 +26,43 @@ include::13_How_it_Works.adoc[]
 
 include::14_How_it_Works.adoc[]
 
-include::15_What_is_Docker.adoc[]
+include::15_How_it_Works.adoc[]
 
-include::16_How_is_a_Container_Different_From_a_VM.adoc[]
+include::16_How_it_Works.adoc[]
 
-include::17_Docker_Components.adoc[]
+include::17_What_is_Docker.adoc[]
 
-include::18_Docker_Capabilities.adoc[]
+include::18_How_Containers_Differ_From_VMs.adoc[]
 
-include::19_How_Does_a_Docker_Image_Work.adoc[]
+include::19_Docker_Components.adoc[]
 
-include::20_What_is_Kubernetes.adoc[]
+include::20_Docker_Capabilities.adoc[]
 
-include::21_Kubernetes_Concepts.adoc[]
+include::21_How_Does_a_Docker_Image_Work.adoc[]
 
-include::22_Pods.adoc[]
+include::22_What_is_Kubernetes.adoc[]
 
-include::23_OpenShift_Enterprise_Networking.adoc[]
+include::23_Kubernetes_Concepts.adoc[]
 
-include::24_Networking_Workflow.adoc[]
+include::24_Pods.adoc[]
 
-include::25_Container_Registry.adoc[]
+include::25_OpenShift_Enterprise_Networking.adoc[]
 
-include::26_Integrated_Registry.adoc[]
+include::26_OSE_Networking_Basics.adoc[]
 
-include::27_Third-Party_Registries.adoc[]
+include::27_OSE_Networking_Basics.adoc[]
 
-include::28_What_is_an_S2I_Build.adoc[]
+include::28_Networking_Workflow.adoc[]
 
-include::29_Why_Use_S2I_Builds.adoc[]
+include::29_Container_Registry.adoc[]
 
-include::30_Summary.adoc[]
+include::30_Integrated_Registry.adoc[]
+
+include::31_Third-Party_Registries.adoc[]
+
+include::32_What_is_an_S2I_Build.adoc[]
+
+include::33_Why_Use_S2I_Builds.adoc[]
+
+include::34_Summary.adoc[]
+

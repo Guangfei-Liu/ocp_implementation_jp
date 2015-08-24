@@ -1,19 +1,25 @@
-
-:noaudio:
 == How it Works
+:noaudio:
 
-.Replication
-* Ensures number of instances/pods defined in store layer actually exist
-
+.Authentication
+* Provides framework for collaboration and quota management
+* Supports a number of mechanisms for authentication
 +
-image::images/04Replication.png[]
+image::images/02Authentication.png[]
+
 
 ifdef::showscript[]
 
 === Transcript
 
-The replication layer and replication controller's role is to make sure that the number of instances/pods defined in the store layer actually exist.
-The replication controller instantiates (creates) or kills pods according to the desired state definition.
+The authentication layer provides a framework for collaboration and quota
+management.
+OpenShift Enterprise v3 supports a number of mechanisms for authentication.
+The simplest use case for testing purposes is `htpasswd`-based authentication.
 
 endif::showscript[]
+
+
+
+
 

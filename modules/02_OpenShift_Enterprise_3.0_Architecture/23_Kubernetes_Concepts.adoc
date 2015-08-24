@@ -1,0 +1,34 @@
+== Kubernetes Concepts
+:noaudio:
+
+* *Nodes* - Compute resources on top of which containers are built
+* *Pods*  - Colocated group of containers.
+* *Replication controllers* - Manage lifecycle of pods, starting and killing
+pods as required.
+* *Services* - Provide a single, stable name and address for a set of pods
+* *Labels* - Organize and select groups of objects based on key-value pairs
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+Nodes are the compute resources on top of which your containers are built.
+
+Pods, used in the same context as "a pod of whales" or "peas in a pod", are a
+co-located group of containers, possibly sharing persistent storage volumes.
+Pods are the smallest deployable units that can be created, scheduled, and
+managed with Kubernetes.
+
+Replication controllers manage the lifecycle of pods. They ensure that a
+specified number of pods are running at any given time by creating or killing
+pods as required.
+
+Services provide a single, stable name and address for a set of pods. As pods
+can "come and go" the *Service* provides a "frontend" for the pods it represents.
+
+Labels are used to organize and select groups of objects based on key-value pairs.
+
+endif::showscript[]
+
+

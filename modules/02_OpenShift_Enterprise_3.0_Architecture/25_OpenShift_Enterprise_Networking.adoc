@@ -1,0 +1,21 @@
+== OpenShift Enterprise Networking
+:noaudio:
+
+* Container networking based on integrated Open vSwitch
+* Platform-wide routing tier
+* Ability to plug in third-party software-defined network solutions
+* Integrated with DNS and existing routing and load-balancing
+
+ifdef::showscript[]
+
+=== Transcript
+
+OpenShift Enterprise provides many networking capabilities based on the
+integrated Open vSwitch technologies in Red Hat Enterprise Linux.
+It provides a platform-wide routing tier to route traffic to applications.
+You can also integrate OpenShift Enterprise with third-party SDN solutions and
+your existing DNS, routing, and load-balancing methods.
+
+endif::showscript[]
+
+

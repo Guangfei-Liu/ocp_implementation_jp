@@ -1,0 +1,20 @@
+== Containerization Standards
+:noaudio:
+
+.Registry and container discovery
+* Find and consume trusted container images
+* Federate consumption libraries
+* Promote consistency and reuse
+
+ifdef::showscript[]
+
+=== Transcript
+
+* Registry and container discovery - Red Hat promotes standards to easily find
+and consume trusted container images, to federate consumption libraries, and
+to promote consistency and reuse.
+
+endif::showscript[]
+
+
+

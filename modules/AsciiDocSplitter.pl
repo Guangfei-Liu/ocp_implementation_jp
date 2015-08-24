@@ -36,17 +36,24 @@ foreach $line (<SOURCEFILE>)
 
 		$line =~ /^== (.*)$/;
 		$pretty_current_page_name = $current_page_name=$1;
-		if ($current_page_name =~ /nbsp/) {$pretty_current_page_name = $current_page_name = "Title" ; }
+		if ($current_page_name =~ /nbsp/)
+		{$pretty_current_page_name = $current_page_name = "Title" ; }
 		$current_page_name =~ tr/ /_/; # we substitute spaces with _
 		$DEBUG && print "Found Page $page_counter: $line \n";
 		$current_file_name="${DEFAULT_OUTPUT_DIR}/${page_counter}_${current_page_name}.adoc";
 		$DEBUG && print "File will be named: $current_file_name\n";
 		open(CURRENTFILE,">>",$current_file_name) or die("could not open: $current_file_name\n");
-#		print CURRENTFILE "
-#:scrollbar:
-#:data-uri:
-#";
+	if ($current_page_name =~ /Title/)
+	{
+		print CURRENTFILE '
+:noaudio:
 
+ifdef::revealjs_slideshow[]
+
+[#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"]
+
+';
+	}
 	if (-e $current_index_file)
 		{
 		$DEBUG && print "Index file already exists\n";

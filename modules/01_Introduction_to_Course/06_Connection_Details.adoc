@@ -1,4 +1,7 @@
 == Connection Details
+:noaudio:
+
+
 .Master and Infranode Hosts
 [options="header",width="65"]
 |=======================
@@ -34,7 +37,3 @@ will use it only for infrastructure related applications (such as the router and
 
 
 endif::showscript[]
-
-
-
-

@@ -1,4 +1,5 @@
 == Connection Details
+:noaudio:
 
 .Node Hosts
 [options="header",width="65"]
@@ -17,6 +18,3 @@ The Node servers are used to run user's "pods" and "applications", note that the
 nodes are completely blocked (firewalled) from external access.
 
 endif::showscript[]
-
-
-

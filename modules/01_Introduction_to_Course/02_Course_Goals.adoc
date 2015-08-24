@@ -1,4 +1,5 @@
 == Course Goals
+:noaudio:
 
 * Review the OSE3.0 Architecture
 * Describe and Review the different components of OSE3.0
@@ -22,5 +23,3 @@ and Authentication to the OSE3.0 environment.
 security restrictions and permissions can be applied.
 
 endif::showscript[]
-
-

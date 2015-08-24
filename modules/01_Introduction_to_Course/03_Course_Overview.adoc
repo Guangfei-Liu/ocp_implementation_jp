@@ -1,4 +1,5 @@
 == Course Overview
+:noaudio:
 
 * Module 01 : Introduction to Course and Learning Environment
 * Module 02 : OpenShift Enterprise 3.0 Architecture
@@ -19,6 +20,3 @@ During the course you will learn the following modules, each module will
 introduce you to new topics and review, in depth, previously described topics.
 
 endif::showscript[]
-
-
-

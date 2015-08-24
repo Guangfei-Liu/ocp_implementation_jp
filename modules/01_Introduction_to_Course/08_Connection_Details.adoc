@@ -1,4 +1,6 @@
 == Connection Details
+:noaudio:
+
 .Administration and Support Host
 [options="header",cols ="1,4",width="65"]
 |=======================

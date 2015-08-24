@@ -1,4 +1,5 @@
 == Class Environment
+:noaudio:
 
 * An HTML version of this content is available:
 https://www.opentlc.com/classes/ose3-implementation.
@@ -29,5 +30,3 @@ the email within 10 minutes of environment provisioning request.
 
 
 endif::showscript[]
-
-

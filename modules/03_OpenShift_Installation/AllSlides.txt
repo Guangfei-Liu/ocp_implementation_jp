@@ -20,33 +20,33 @@ include::10_Host_Preparation.adoc[]
 
 include::11_Host_Preparation.adoc[]
 
-include::12_Docker_Install.adoc[]
+include::12_Host_Preparation.adoc[]
 
 include::13_Docker_Install.adoc[]
 
-include::14_Installing_OpenShift.adoc[]
+include::14_Docker_Install.adoc[]
 
-include::15_Regions_and_Zones.adoc[]
+include::15_Docker_Install.adoc[]
 
-include::16_Deploying_the_Registry.adoc[]
+include::16_Docker_Install.adoc[]
 
-include::17_Deploying_the_Registry.adoc[]
+include::17_Installing_OpenShift.adoc[]
 
-include::18_Deploying_the_Registry.adoc[]
+include::18_Regions_and_Zones.adoc[]
 
-include::19_Deploying_the_Default_HAProxy_Router.adoc[]
+include::19_Deploying_the_Registry.adoc[]
 
-include::20_Populating_OpenShift.adoc[]
+include::20_Deploying_the_Registry.adoc[]
 
-include::21_Populating_OpenShift.adoc[]
+include::21_Deploying_the_Registry.adoc[]
 
-include::22_Populating_OpenShift.adoc[]
+include::22_Deploying_the_Default_HAProxy_Router.adoc[]
 
-include::23_Configure_Persistent_Storage_Using_NFS.adoc[]
+include::23_Populating_OpenShift.adoc[]
 
-include::24_Configure_Persistent_Storage_Using_NFS.adoc[]
+include::24_Populating_OpenShift.adoc[]
 
-include::25_Configure_Persistent_Storage_Using_NFS.adoc[]
+include::25_Populating_OpenShift.adoc[]
 
 include::26_Configure_Persistent_Storage_Using_NFS.adoc[]
 
@@ -55,4 +55,10 @@ include::27_Configure_Persistent_Storage_Using_NFS.adoc[]
 include::28_Configure_Persistent_Storage_Using_NFS.adoc[]
 
 include::29_Configure_Persistent_Storage_Using_NFS.adoc[]
+
+include::30_Configure_Persistent_Storage_Using_NFS.adoc[]
+
+include::31_Configure_Persistent_Storage_Using_NFS.adoc[]
+
+include::32_Configure_Persistent_Storage_Using_NFS.adoc[]
 

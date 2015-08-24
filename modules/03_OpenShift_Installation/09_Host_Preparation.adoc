@@ -9,25 +9,22 @@
 +
 ----
 # ssh-keygen
+# ssh-copy-id root@node00.example.com
 ----
 
-NOTE: Do not use a password.
+NOTE: Do not use a password when generating the key.
 
-** An easy way to distribute your SSH keys is by using a bash loop:
-+
-----
-# for host in ose3-master.example.com \
-    ose3-node1.example.com \
-    ose3-node2.example.com; \
-    do ssh-copy-id -i ~/.ssh/id_rsa.pub $host; \
-    done
-----
-
-NOTE: Modify the host names in the above command according to your configuration.
+* An easy way to distribute your SSH keys is by using a bash loop:
 
 ifdef::showscript[]
 
 === Transcript
+For the installation to be successful the installer will need to be able to run
+commands on each on of the members in the OSE environment without a user typing
+in the password every time.
+
+Do achieve this we will generate a key and copy it to the root user's id on each
+member of the OSE cluster.
 
 endif::showscript[]
 

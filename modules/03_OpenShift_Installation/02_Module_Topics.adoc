@@ -17,10 +17,13 @@
 
 ifdef::showscript[]
 
+
 === Transcript
-Welcome to Module 3 of the OpenShift Enterprise Implementation course.
+Welcome to Module 03 of the OpenShift Enterprise Implementation course.
 
-
+In this module we will review the installation process and learn how to
+configure the Scheduler, Registry and Router containers and set-up persistent
+storage
 
 endif::showscript[]
 

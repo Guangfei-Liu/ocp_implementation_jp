@@ -1,30 +1,27 @@
 == Configure Persistent Storage Using NFS
 :noaudio:
 
-.SELinux and NFS Export Settings
+.Volume Security
 
-* By default, SELinux does not allow writing from a pod to a remote NFS server.
-** The NFS volume mounts correctly, but is read-only.
-* To enable writing in SELinux on each node:
-----
-# setsebool -P virt_use_nfs 1
-----
+* `PersistentVolume` Objects are created in the context of a specific *project*
+* Users request storage with a `PersistentVolumeClaim` object in the same
+*project*.
+** This claim only lives in the user's namespace (project) and can only be
+referenced by a pod within that same namespace.
+* Any attempt to access a persistent volume across a project causes the pod to
+fail.
+* Each NFS volume must be mountable by all nodes in the cluster.
 
-* Additionally, each exported volume on the NFS server itself should conform to
-the following:
-- Each export must be:
-----
-/example_fs *(rw,all_squash)
-----
-- Each export must be owned by *nfsnobody*:
-----
-chown -R nfsnobody:nfsnobody /example_fs
-----
-- Each export must have the following permissions:
-----
-chmod 777
-----
+ifdef::showscript[]
 
-NOTE: The export above allows arbitrary users and clients to mount this volume.
-Exports can be restricted to a range of IP addresses for hosts that will access
-the volume. See `man exports` for more information.
+=== Transcript
+`PersistentVolume` Objects are created in the context of a specific *project*,
+A user can request storage with a `PersistentVolumeClaim` object in the same
+*project*, the claim only lives in the user's namespace (project) and can only be
+referenced by a pod within that same namespace.
+
+Any attempt to access a persistent volume across a project causes the pod to
+fail.
+
+endif::showscript[]
+

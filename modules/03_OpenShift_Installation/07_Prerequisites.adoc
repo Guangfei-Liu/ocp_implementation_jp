@@ -3,20 +3,27 @@
 
 .DNS Setup
 
-* A wildcard for a DNS zone must ultimately resolve to the IP address of the OpenShift router.
-* For example, create a wildcard DNS entry for cloudapps, or something similar, that has a low TTL and points to the public IP address of the host where the router will be deployed:
+* A wildcard for a DNS zone must ultimately resolve to the IP address of the
+OpenShift router.
+* For example, create a wildcard DNS entry for cloudapps in your DNS Server, or
+something similar, that has a low TTL and points to the public IP address of the
+host where the router will be deployed:
 +
 ----
-*.cloudapps.example.com. 300 IN  A 192.168.133.2
+*.cloudapps.example.com. 300 IN  A 85.1.3.5
 ----
-
-* In almost all cases, when referencing VMs you must use host names, and the host names that you use must match the output of the hostname -f command on each node.
-
-
 
 ifdef::showscript[]
 
 === Transcript
+
+In order for our OSE environment to be accessible externally we will create a
+wildcard DNS entry that points to the *node* that is hosting our *Default Router
+Container*
+
+In our lab and examples this is the *infranode00 server*, if your environments
+uses multiple *routers* (HA-Proxy instances), which is likely, you will use an
+external load balancer or round-robin setting to use them.
 
 endif::showscript[]
 

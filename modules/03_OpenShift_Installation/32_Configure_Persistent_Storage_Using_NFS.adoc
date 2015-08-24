@@ -1,0 +1,34 @@
+== Configure Persistent Storage Using NFS
+:noaudio:
+
+.SELinux and NFS Export Settings
+
+* By default, SELinux does not allow writing from a pod to a remote NFS server.
+** The NFS volume mounts correctly, but is read-only.
+* To enable writing in SELinux on each node:
+----
+# setsebool -P virt_use_nfs 1
+----
+
+* Additionally, each exported volume on the NFS server itself should conform to
+the following:
+- Each export options must be set like the following in the */etc/exports* file:
+----
+/example_fs *(rw,all_squash)
+----
+- Each export must be owned by *nfsnobody* and have the following permissions:
+----
+# chown -R nfsnobody:nfsnobody /example_fs
+# chmod 777
+----
+
+ifdef::showscript[]
+
+=== Transcript
+To configure SElinux to allow the nodes to use NFS in the way required for OSE
+`Persistent Volumes`, use the *setsebool* command as displayed on EACH node.
+
+Also, you will need to configure your NFS server exports as described in this
+slide.
+
+endif::showscript[]

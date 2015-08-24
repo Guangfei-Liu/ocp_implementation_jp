@@ -2,24 +2,30 @@
 :noaudio:
 
 * Prerequisites
-
-** System Requirements
-** DNS Setup
-** Host Preparation
-
+- System Requirements
+- DNS Setup
+- Host Preparation
 * OpenShift Installation
-
-** Downloading and Running the Installation Utility
-
+- Downloading and Running the Installation Utility
 * Post-Install tasks
-
-** Deploy an integrated Docker registry.
-** Deploy an HAProxy router.
-** Populate your OpenShift installation with image streams and templates.
-** Configure authentication and create project for your users.
+- Deploy an integrated Docker registry.
+- Deploy an HAProxy router.
+- Populate your OpenShift installation with image streams and templates.
+- Configure authentication and create project for your users.
+- Set-up and configure NFS Server for use with `Persistent Volumes`
 
 ifdef::showscript[]
 === Transcript
+
+We will now review the OSE Installation workflow, first we will need to assess
+if the System Prerequisites have been met, these include the basic requirements
+for a viable OSE environment, these include setting up the DNS requirements, and
+preparing the hosts for OpenShift deployment.
+
+Next, we install the OpenShift software using the CLI installation utility.
+Finally, we will deploy some containerized infrastructure components such as the
+Default Router and the integrated Docker Registry. We will also configure
+authentication and set-up an NFS Server to serve our persistent volume requests.
 
 endif::showscript[]
 

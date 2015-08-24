@@ -1,0 +1,41 @@
+== Docker Install
+:noaudio:
+
+* To Configure `docker-storage-setup` script for your environment. There are a
+few options available based on your storage configuration:
+
+* Before you start the `docker-storage-setup` script, re-initialize docker
++
+----
+# systemctl stop docker
+# rm -rf /var/lib/docker/*
+----
+
+.Storage Options
+* Create a thin-pool volume from the remaining free space in the volume group
+where your root filesystem resides; this requires no configuration:
++
+----
+# docker-storage-setup
+----
+
+* Use an existing volume group, in this example docker-vg, to create a thin-pool:
++
+----
+
+# cat /etc/sysconfig/docker-storage-setup
+VG=docker-vg
+SETUP_LVM_THIN_POOL=yes
+# docker-storage-setup
+----
+
+ifdef::showscript[]
+
+=== Transcript
+
+You must edit the */etc/sysconfig/docker-storage-setup* file to work as an
+answer file for *docker-storage-setup*
+
+endif::showscript[]
+
+

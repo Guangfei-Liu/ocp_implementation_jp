@@ -21,10 +21,14 @@
 ** Minimum 8 GB RAM
 ** Minimum 15 GB hard disk space
 
-* In our learning environment the servers are not configured with the recommended settings to lower costs.
+* In our learning environment the servers are not configured with the
+recommended settings to lower costs.
 
 
 ifdef::showscript[]
 === Transcript
+
+In this slide you can see the minimal requirements for a viable OSE environment.
+
 
 endif::showscript[]

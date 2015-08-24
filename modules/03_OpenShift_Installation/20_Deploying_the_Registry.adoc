@@ -1,0 +1,44 @@
+== Deploying the Registry
+:noaudio:
+
+* In our environment, we created a region called *infra* and dedicated the
+*infranode00* host for it.
+** This is a good practice for a highly scalable environment, perhaps we will
+use better performing servers for these nodes or place them in the DMZ so only
+they can be accessed from the external network.
+
+.Deploying Registry
+* To deploy a registry "anywhere" in the environment.
++
+----
+$ oadm registry --config=admin.kubeconfig \
+    --credentials=openshift-registry.kubeconfig
+----
+
+
+* This will make sure that the *registry* pod will only be hosted in the
+"*infra*" region.
++
+----
+$ oadm registry --config=admin.kubeconfig \
+    --credentials=openshift-registry.kubeconfig \
+	   --selector='region=infra'
+----
+
+ifdef::showscript[]
+
+=== Transcript
+
+The *Registry container* can be deployed anywhere in the OSE environment, In our
+ environment, we created a region called *infra* and dedicated the *infranode00*
+  host for it.
+
+This is a good practice for a highly scalable environment, perhaps we will use
+better performing servers for these nodes or place them in the DMZ so only they
+can be accessed from the external network.
+
+endif::showscript[]
+
+
+
+

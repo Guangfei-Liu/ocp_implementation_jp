@@ -1,0 +1,43 @@
+== Installing OpenShift
+:noaudio:
+
+* The quick installer is provided at:
+link:https://install.openshift.com[https://install.openshift.com]. Visit that
+page for the latest information.
+
+* Run the installation utility by executing the following commands on a host
+that has SSH access to your intended master and nodes:
++
+----
+$ curl -o oo-install-ose.tgz \
+    https://install.openshift.com/portable/oo-install-ose.tgz
+$ tar -zxf oo-install-ose.tgz
+$ ./oo-install-ose
+----
+
+* Follow the on-screen instructions to install a new OpenShift instance.
+* The installer will ask you for Internal and Public IPs of your Masters and
+Nodes and will configure them accordingly.
+
+* If you want, you can just use the following command to download and run
+the script in a single command:
++
+----
+$ sh <(curl -s https://install.openshift.com/ose/)
+----
+
+ifdef::showscript[]
+
+=== Transcript
+The latest installer is available in the link shown in this slide, download the
+latest installer, unzip and run the installer CLI utility to install OSE3.0.
+
+For stability's sake, and if you are intending to add more nodes down the line,
+consider saving the installer script you used and using it for all future nodes
+as well.
+
+endif::showscript[]
+
+
+
+

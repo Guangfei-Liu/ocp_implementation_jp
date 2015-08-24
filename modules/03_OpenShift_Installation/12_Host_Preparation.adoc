@@ -1,0 +1,29 @@
+== Host Preparation
+:noaudio:
+
+.Host Preparation - Networking and misc
+
+* You would need to install the following software packages
++
+----
+# yum install wget git net-tools iptables-services python-virtualenv gcc
+----
+
+*  Update your software before installation
++
+----
+# yum update -y
+----
+
+ifdef::showscript[]
+
+=== Transcript
+
+You will need to install the following software packages  and run a "yum update"
+ on your master before using the installer and installing OSE3.0.
+
+endif::showscript[]
+
+
+
+

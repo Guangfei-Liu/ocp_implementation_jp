@@ -16,5 +16,17 @@ ifdef::showscript[]
 
 === Transcript
 
+We will cover some of the basic steps that are required to prepare the hosts.
+
+To prepare the hosts to be used with OpenShift its best to consult the
+documentation as it would always have the most up-to-date information.
+
+In case you want to create a scalable environment you will probably create a
+image template for the node (depending on your infrastructure provider) and spin
+up a new instance/VM in which these steps have already been performed (to save
+  time) and then run the installer script to add the new node to the OSE
+  environment/cluster.
+
+
 endif::showscript[]
 

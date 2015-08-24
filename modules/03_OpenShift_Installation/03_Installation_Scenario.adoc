@@ -22,6 +22,21 @@ and NFS backend.
 ifdef::showscript[]
 
 === Transcript
+In our lab we will be using the following hosts to simulate a regular
+environment.
+
+Our *master* host will be used to host some of the management components of
+OpenShift Enterprise, Components such as the Web Console, *The API service* and
+the *etcd store*
+
+*Infranode* is a regular node like the others but by changing the labels applied
+to the node we are going to dedicate it to be used only for "Infrastructure
+containers". This is a design choice and not a mandatory constraint.
+
+the *nodes*, nodes are hosts that are used to run containers (Pods) in the OSE
+environment, we label the two nodes to be in the same region but different
+zones. This is to simulate a use-case of an environment in a single region and
+possibly two cloud availability zones
 
 endif::showscript[]
 

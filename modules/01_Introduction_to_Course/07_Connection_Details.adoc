@@ -1,4 +1,3 @@
-:noaudio:
 == Connection Details
 
 .Node Hosts
@@ -13,4 +12,11 @@
 
 ifdef::showscript[]
 
+=== Transcript
+The Node servers are used to run user's "pods" and "applications", note that the
+nodes are completely blocked (firewalled) from external access.
+
 endif::showscript[]
+
+
+

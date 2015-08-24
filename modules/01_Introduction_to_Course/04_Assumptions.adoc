@@ -1,5 +1,3 @@
-
-:noaudio:
 == Assumptions
 
 * You want to learn how to use OpenShift Enterprise 3.0.
@@ -7,18 +5,20 @@
 * You can read and modify some form of code.
 * You have a workstation you can use for this training.
 * You have an SSH client installed on your workstation.
-* You have completed OpenShift 3.x FASTRAX training and all its labs.
+* You have completed OpenShift 3.x FASTRAX training and all it's labs.
 
 
-ifdef::showscript[] 
+ifdef::showscript[]
 
 === Transcript
 
-
-If you are taking this course, the assumption is that you want to learn how to use OpenShift Enterprise and that you have completed OpenShift 3 FASTRAX training and all it's labs. 
-It is also assumed that you can write some form of code, and that you have a workstation with an SSH client installed.
-
+If you are taking this course, the assumption is that you want to learn how to
+use OpenShift Enterprise and that you have completed OpenShift 3 FASTRAX
+training and all it's labs.
+It is also assumed that you can write some form of code, and that you have a
+workstation with an SSH client installed.
 
 endif::showscript[]
+
 
 

@@ -1,29 +1,33 @@
-
-:noaudio:
 == Class Environment
 
-//ISSUE: Class Environment, This slide doesn't fit screen properly
+* An HTML version of this content is available:
+https://www.opentlc.com/classes/ose3-implementation.
 
-* Class related content found at link:https://www.opentlc.com/classes/ose3-implementation[https://www.opentlc.com/classes/ose3-implementation]
 * Class labs and demonstrations require provisioning the following virtual machines:
-** *Master host* – VM that serves as the Master for the OpenShift Enterprise environment.
-** *Infranode host* – VM that runs the HA Proxy and Docker Registry
-** *Node hosts* – VMs that serve as the nodes of the OpenShift Enterprise environment.
-** *Admin aka oselab host* – VM for repositories, files, SSH "Jumpbox," and other services.
+** *Master host* – 1 VM that serves as the Master for the OpenShift Enterprise environment.
+** *Node hosts* – 3 VMs that serve as the nodes of the OpenShift Enterprise environment.
+** *oselab host* – 1 VM for admin purposes such as: DNS Server, NFS Server,
+SSH "Jumpbox" and more.
 * Red Hat Enterprise Linux 7.1 is preinstalled and configured for deployment.
 * Connection details arrive via email after you provision the environment.
-
 
 
 ifdef::showscript[]
 
 === Transcript
 
-This class uses a cloud-based environment. You will provision the following hosts for your OpenShift Enterprise environment: A single Master host, two Node hosts, and an admin host for repositories, files, and other services.
+This class uses a cloud-based environment. You will provision the following
+hosts for your OpenShift Enterprise environment: A single Master host, three
+Node hosts (One will be dedicated for Infrastructure components), and an admin
+host to act as our DNS Server, NFS Server and SSH "Jumpback"
 
 Red Hat Enterprise Linux is preinstalled and configured for deployment.
 
-After you provision the environment, you should receive connection details via email.
+After you provision the environment, you should receive connection details via
+email. This can take a few minutes, check your spam folder if you do not receive
+the email within 10 minutes of environment provisioning request.
 
 
 endif::showscript[]
+
+

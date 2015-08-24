@@ -1,8 +1,16 @@
 include::01_Title.adoc[]
+
 include::02_Course_Goals.adoc[]
+
 include::03_Course_Overview.adoc[]
+
 include::04_Assumptions.adoc[]
+
 include::05_Class_Environment.adoc[]
+
 include::06_Connection_Details.adoc[]
+
 include::07_Connection_Details.adoc[]
+
 include::08_Connection_Details.adoc[]
+

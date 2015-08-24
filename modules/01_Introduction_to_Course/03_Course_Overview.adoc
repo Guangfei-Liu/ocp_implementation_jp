@@ -1,19 +1,24 @@
-
-:noaudio:
 == Course Overview
 
 * Module 01 : Introduction to Course and Learning Environment
-* Module 02 : OpenShift 3.0 Architecture
-* Module 03 : OpenShift 3.0 Installation
-* Module 04 : Resource Management
-* Module 05 : The S2I Build Method
-* Module 06 : Quickstarts
-* Module 07 : Demonstrating OpenShift 3.0 Capabilities
+* Module 02 : OpenShift Enterprise 3.0 Architecture
+* Module 03 : OpenShift Enterprise 3.0 Installation
+* Module 04 : Core Concepts
+* Module 05 : Resource Management
+* Module 06 : Creating Applications
+* Module 07 : Tempaltes
+* Module 08 : Deployment Lifecycle
+* Module 09 : Managing Security
 
 
 ifdef::showscript[]
 
 === Transcript
 
+During the course you will learn the following modules, each module will
+introduce you to new topics and review, in depth, previously described topics.
 
 endif::showscript[]
+
+
+

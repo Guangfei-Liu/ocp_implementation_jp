@@ -1,28 +1,26 @@
-
-:noaudio:
 == Course Goals
 
-* Explain  with the technical architecture of OSE3.0
-* Perform a 20 minute demonstration of the use of OSE3.0
-* Explain how to set up S2I build process 
-* Explain how to implement Zones and Regions in multi node environments
-* Explain how to deploy a POC like environment of OpenShift 3.0
-* Explain how HA application deployments work in OpenShift 3.0
-* Explain how to Manage the life cycle of applications in OpenShift 3.0
+* Review the OSE3.0 Architecture
+* Describe and Review the different components of OSE3.0
+* Describe OpenShift Enterprise installation and configuration process.
+** Including: Scheduling (Placement), Persistent Storage and Authentication
+* Describe and review an Application's lifecycle (Deployment lifecycle)
+* Review Management of security restrictions and capabilities in OSE3.0
+
 
 ifdef::showscript[]
 
 === Transcript
 
-
 Welcome to the OpenShift Enterprise Implementation course.
 
-The goal of this course is to show you how to set up and configure various aspects of the OpenShift 3.0 Enterprise environment, including the following:
-* The Installation process
-* The Source to Image process
-* Configuring the Scheduler to implement Zones and Regions in a multi node environment
-* Create and maintain InstantApps (Templates) in OpenShift.
-* Manage life cycle of an application
-
+The goal of this course is to show you how to set up and configure various
+aspects of the OpenShift 3.0 Enterprise environment, including the following:
+* The Installation process, Scheduling (Placement of pods), Persistent Storage
+and Authentication to the OSE3.0 environment.
+* We will also review how applications and deployments are managed and how
+security restrictions and permissions can be applied.
 
 endif::showscript[]
+
+

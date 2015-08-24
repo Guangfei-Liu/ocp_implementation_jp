@@ -1,4 +1,3 @@
-:noaudio:
 == Connection Details
 .Administration and Support Host
 [options="header",cols ="1,4",width="65"]
@@ -11,5 +10,11 @@
 |=======================
 
 ifdef::showscript[]
+
+When connecting to your environment use only your OPENTLC credentials and SSH
+key to connect directly into your administration VM. Do not use root or try to
+connect directly to the Master or nodes.
+Your administration VM (oselab) can be used as a "jump box" to connect via SSH
+to the other internal lab hosts.
 
 endif::showscript[]

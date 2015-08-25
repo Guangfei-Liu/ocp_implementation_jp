@@ -1,0 +1,28 @@
+== Routes
+:noaudio:
+.Overview
+
+* An OpenShift route is a way to expose a _service_ by giving it an
+externally-reachable hostname like `www.example.com`.
+
+* A defined route and the endpoints identified by its service can be consumed by
+a router to provide named connectivity that allows external clients to reach
+your applications.
+* Each route consists of a route name, service selector, and (optionally)
+security configuration.
+
+ifdef::showscript[]
+=== Transcript
+
+An OpenShift route is a way to expose a _service_ by giving it an
+externally-reachable hostname like `www.example.com`.
+
+* A defined route and the endpoints identified by its service can be consumed by
+a router to provide named connectivity that allows external clients to reach
+your applications.
+* Each route consists of a route name, service selector, and (optionally)
+security configuration.
+
+endif::showscript[]
+
+

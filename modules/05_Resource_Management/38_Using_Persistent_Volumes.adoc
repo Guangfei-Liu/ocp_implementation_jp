@@ -1,0 +1,30 @@
+== Using Persistent Volumes
+:noaudio:
+
+.Overview
+* A `PersistentVolume` object is a storage resource in an OpenShift cluster.
+* Storage is provisioned by an administrator by creating `PersistentVolume`
+objects from sources such as:
+- NFS mounts - Supported method
+- GCE Persistent Disks (Google Compute)
+- EBS Volumes (Amazon Elastic Block Stores)
+* When `PersistentVolume` is defined it must be associated with a `project`.
+
+NOTE: Persistent volume plug-ins other than the supported NFS plug-in, such as
+AWS Elastic Block Stores (EBS), GCE Persistent Disks, GlusterFS, iSCSI, and
+RADOS (Ceph), are currently in *Technology Preview*.
+
+
+ifdef::showscript[]
+
+=== Transcript
+A `PersistentVolume` object is a storage resource in an OpenShift cluster.
+* Storage is provisioned by an administrator by creating `PersistentVolume`
+objects from sources such as:
+- NFS mounts - Supported method
+- GCE Persistent Disks (Google Compute)
+- EBS Volumes (Amazon Elastic Block Stores)
+
+endif::showscript[]
+
+

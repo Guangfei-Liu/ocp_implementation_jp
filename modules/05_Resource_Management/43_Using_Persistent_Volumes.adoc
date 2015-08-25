@@ -18,7 +18,7 @@ pv0001              map[]               5368709120          RWO                 
 ifdef::showscript[]
 
 === Transcript
-
+You can tell whether a claim or volume is bound by querying using the CLI.
 
 endif::showscript[]
 

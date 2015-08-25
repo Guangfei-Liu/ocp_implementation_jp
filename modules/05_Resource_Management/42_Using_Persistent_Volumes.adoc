@@ -14,7 +14,14 @@ and binds them together.
 ifdef::showscript[]
 
 === Transcript
+A `PersistentVolume` is a specific resource but a `PersistentVolumeClaim` is a
+request for a resource with specific attributes, such as storage size.
 
+In between the two is a process that matches a claim to an available volume and
+binds them together.
+
+This allows the claim to be used as a volume in a pod.
+OpenShift finds the volume backing the claim and mounts it into the pod.
 
 endif::showscript[]
 

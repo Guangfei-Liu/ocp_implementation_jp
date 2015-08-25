@@ -2,7 +2,8 @@
 :noaudio:
 
 * There are a number of different resource types in OpenShift 3.
-* When creating/destroying apps, scaling, building and etc, we are manipulating OpenShift and Kubernetes resources under the covers.
+* When creating/destroying apps, scaling, building and etc, we are manipulating
+OpenShift and Kubernetes resources under the covers.
 * Resources can have quotas enforced against them.
 * OpenShift Enterprise 3.0 includes different resource types
 ** Resources in this context can refer to:
@@ -13,16 +14,16 @@
 ifdef::showscript[]
 
 === Transcript
+
+
 OpenShift Enterprise 3.0 includes a number of different resource types.
+"Resources" in this context can refer not only to memory, CPU, and other
+"platform" resources, but mostly to `pods`, `services`, and
+`replication controllers`.
 
-Actions such as creating and destroying apps, scaling, building, and so on all result in  manipulating OpenShift Enterprise and Kubernetes resources in the background.
-
-You can enforce quotas against resources. The quota defines limits for multiple resources--for example, in the code sample shown here, the quota called `test-quota` defines limits for several resources.
-
-Within a project, users cannot run actions that result in exceeding these resource limits. Because the quota is enforced at the project level, it is up to the users to allocate resources--specifically, memory and CPU--to their pods and containers.
-
-Resources in this context can refer not only to memory, CPU, and other "platform" resources, but also to pods, services, and replication controllers.
-
+Actions such as creating and destroying apps, scaling, building, and so on all
+result in  manipulating OpenShift Enterprise resources in the
+background.
 endif::showscript[]
 
 

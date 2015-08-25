@@ -2,19 +2,17 @@
 :noaudio:
 
 .CLI Authentication
-
-* You can authenticate from the command line using the CLI command `oc login`.
+* You can download the client from
+link:https://access.redhat.com/downloads/content/290/ver=3.0.0.0/rhel---7/3.0.1.0/x86_64/product-downloads[Red Hat Product Downloads]
+* Once you extracted the software, you can authenticate from the command line
+using the CLI command `oc login`.
 +
 ----
-$ oc login
+$ oc login -u andrew --server="https://master09-c4po.oslab.opentlc.com:8443"
 ----
 
 * The command's interactive flow helps you establish a session to an OpenShift
 server with the provided credentials.
-
-* All configuration options for the `oc login` command, listed in the `oc login
---help` command output, are optional. The following example shows usage with
-some common options:
 
 * Here is a handy example, lets say we wanted to authenticate as the Openshift
 Cluster Administrator (Usually root User), we could use the following:
@@ -29,7 +27,10 @@ to log in to.
 ifdef::showscript[]
 
 === Transcript
+You can download the client from Red Hat Product Downloads.
 
+Once you extracted the software you can authenticate from the command line using
+ the CLI command "oc login".
 
 endif::showscript[]
 

@@ -1,0 +1,33 @@
+== Routes
+:noaudio:
+
+.Secured TLS termination types - Passthrough Termination
+
+* A Secured Route definition using Passthrough Termination
++
+[source,yaml]
+----
+apiVersion: v1
+kind: Route
+metadata:
+  name: route-passthrough-secured
+spec:
+  host: www.example.com
+  to:
+    kind: Service
+    name: service-name
+  tls:
+    termination: passthrough     <1>
+----
+
+<1> The `*termination*` field is set to `passthrough`. No other encryption
+fields are needed.
+
+
+ifdef::showscript[]
+=== Transcript
+Here is an example of a "Secured TLS termination types - Passthrough
+Termination".
+
+endif::showscript[]
+

@@ -11,6 +11,7 @@ In This chapter we covered:
 * Client tool authentication
 * Resource Quota
 * Service Accounts
+* Routes
 * Persistent Volumes
 * Lab: Users, Projects and Quotas
 * Lab: Creating Services and Routes
@@ -21,5 +22,12 @@ ifdef::showscript[]
 
 === Transcript
 Welcome to Module 05 of the OpenShift Enterprise Implementation course.
+In this module we will discuss different OpenShift "Resources" and how to use
+them to configure and manage your environment.
+
 
 endif::showscript[]
+
+
+
+

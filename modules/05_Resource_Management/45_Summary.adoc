@@ -8,11 +8,14 @@ In This chapter we covered:
 * Client tool authentication
 * Resource Quota
 * Service Accounts
+* Routes
 * Persistent Volumes
 
 ifdef::showscript[]
 
 === Transcript
+In this module we discussed many of the resources that you will encounter in
+OpenShift Enterprise 3.0
 
 
 endif::showscript[]

@@ -1,0 +1,34 @@
+== Resource Quota
+:noaudio:
+
+.Quota enforcement - Continued
+
+* Once a quota is created and usage statistics are up-to-date, the project
+accepts the creation of new content.
+* When you create resources, your quota usage is incremented immediately upon
+the request to create or modify the resource.
+* When you delete a resource, your quota use is decremented during the
+next full recalculation of quota statistics for the project.
+
+NOTE: It may take a moment for your quota usage statistics to be reduced to
+their  current observed system value when you delete resources.
+
+
+ifdef::showscript[]
+
+=== Transcript
+After a quota is first created in a project, the project restricts the ability
+to create any new resources that may violate a quota constraint until it has
+calculated updated usage statistics.
+
+When you create resources, your quota usage is incremented immediately upon
+the request to create or modify the resource, *but* when you *delete a resource*,
+your quota use is *decremented during the next full recalculation* of quota
+statistics for the project.
+Because of this, it may take a moment for your quota usage statistics to be
+reduced to their current observed system value when you delete resources.
+
+endif::showscript[]
+
+
+

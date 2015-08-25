@@ -1,0 +1,23 @@
+== Routes
+:noaudio:
+
+.Route Types
+* Routes can be either secured or unsecured.
+* Secure routes provide the ability to use several types of TLS termination to
+serve certificates to the client.
+* The "Default Router" supports: edge, passthrough, and re-encryption
+termination.
+
+
+ifdef::showscript[]
+=== Transcript
+Routes can be either secured or unsecured, in the following slides we will learn
+ how to define different types of routes.
+
+Secure routes provide the ability to use several types of TLS termination to
+serve certificates to the client.
+
+The "Default Router" supports: edge, passthrough, and re-encryption termination.
+
+endif::showscript[]
+

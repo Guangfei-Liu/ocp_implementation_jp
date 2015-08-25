@@ -1,24 +1,27 @@
 == Projects and Users
 :noaudio:
 
-.What are Projects?
-* A project is a Kubernetes namespace with additional annotations, and is the central vehicle by which access to resources for regular users is managed.
-* A project allows a community of users to organize and manage their content in isolation from other communities.
-* Users must be given access to projects by administrators, or if allowed to create projects, automatically have access to their own projects.
+.Users and User Types
 
-* Each project scopes its own set of:
-** *Objects:* Pods, services, replication controllers, etc.
-** *Policies:* Rules for which users can or cannot perform actions on objects.
-** *Constraints:* Quotas for each kind of object that can be limited.
-** *Service accounts:* Service accounts act automatically with designated access to objects in the project.
-
-* Cluster administrators can create projects and delegate administrative rights for the project to any member of the user community. Cluster administrators can also allow developers to create their own projects.
+* *Service accounts* - These are special system users associated with projects;
+* When a `pod` requires access to make an API call to the OSE master, a
+`ServiceAccount` is created to represents the pod's credentials.
+* some *Service Accounts* are created automatically when the project is first
+created
+* users can create more for the purpose of defining access to the contents of
+each project or to make API calls to the OSE master.
+*** Service accounts are represented with the `ServiceAccount` object.
+*** For example : _system:serviceaccount:default:deployer_ and  _system:serviceaccount:foo:builder_
 
 
 ifdef::showscript[]
 
 === Transcript
+Service accounts are special system users associated with projects, they allow
+Pods (in the project) to make queries/API calls to the OpenShift Master.
 
+We will discuss Service Accounts later in this module.
 
 endif::showscript[]
+
 

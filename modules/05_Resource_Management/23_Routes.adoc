@@ -1,0 +1,39 @@
+== Routes
+:noaudio:
+
+.Creating routes with the command line
+
+* `Routes` can be a create using an API call or a Object Defenition File
+(YAML,JSON) or they can be created by the CLI tool.
+
+* Here is an example of how we can create a route, with a hostname that is
+exposing a service called "hello-service" using the CLI:
++
+[source,bash]
+----
+$ oc expose service hello-service --hostname=hello-openshift.cloudapps-r2d2.oslab.opentlc.com
+NAME            HOST/PORT                                 PATH      SERVICE         LABELS
+hello-service   hello-openshift-r2d2.oslab.opentlc.com             hello-service
+----
+
+* To display the *routes* in your current project
++
+----
+
+$ oc get routes
+NAME                    HOST/PORT                                          SERVICE                   LABELS
+hello-openshift-route   hello-openshift.cloudapps-r2d2.oslab.opentlc.com   hello-openshift-service
+
+----
+
+ifdef::showscript[]
+
+=== Transcript
+
+As you can see,  we can use the *oc expose* command to create a `route` for
+external access to our `service` Note that the route actually routes directly to
+ the pods, not to the `service`. The route gets the pod connection details from
+ the service.
+
+endif::showscript[]
+

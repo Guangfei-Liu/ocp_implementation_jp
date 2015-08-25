@@ -33,6 +33,14 @@ ifdef::showscript[]
 
 === Transcript
 
+For a user to be able to *claim* a volume (`PersistentVolumeClaim`), a
+Persistent Volume (`PersistentVolume`) needs to be created.
+
+A *cluster admin* needs to define and "created" the *pv* in the project it
+belongs to.
+
+Review the `PersistentVolume` definition file example.
+
 endif::showscript[]
 
 

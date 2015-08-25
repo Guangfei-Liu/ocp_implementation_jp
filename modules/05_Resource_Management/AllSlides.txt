@@ -4,31 +4,31 @@ include::02_Module_Topics.adoc[]
 
 include::03_OpenShift_Resources.adoc[]
 
-include::04_Projects_and_Users.adoc[]
+include::04_OpenShift_Resources.adoc[]
 
 include::05_Projects_and_Users.adoc[]
 
 include::06_Projects_and_Users.adoc[]
 
-include::07_Client_tool_authentication.adoc[]
+include::07_Projects_and_Users.adoc[]
 
-include::08_Client_tool_authentication.adoc[]
+include::08_Projects_and_Users.adoc[]
 
 include::09_Client_tool_authentication.adoc[]
 
-include::10_Resource_Quota.adoc[]
+include::10_Client_tool_authentication.adoc[]
 
-include::11_Resource_Quota.adoc[]
+include::11_Client_tool_authentication.adoc[]
 
 include::12_Resource_Quota.adoc[]
 
 include::13_Resource_Quota.adoc[]
 
-include::14_Service_Accounts.adoc[]
+include::14_Resource_Quota.adoc[]
 
-include::15_Service_Accounts.adoc[]
+include::15_Resource_Quota.adoc[]
 
-include::16_Service_Accounts.adoc[]
+include::16_Resource_Quota.adoc[]
 
 include::17_Service_Accounts.adoc[]
 
@@ -36,19 +36,55 @@ include::18_Service_Accounts.adoc[]
 
 include::19_Service_Accounts.adoc[]
 
-include::20_Using_Persistent_Volumes.adoc[]
+include::20_Service_Accounts.adoc[]
 
-include::21_Using_Persistent_Volumes.adoc[]
+include::21_Service_Accounts.adoc[]
 
-include::22_Using_Persistent_Volumes.adoc[]
+include::22_Routes.adoc[]
 
-include::23_Using_Persistent_Volumes.adoc[]
+include::23_Routes.adoc[]
 
-include::24_Using_Persistent_Volumes.adoc[]
+include::24_Routes.adoc[]
 
-include::25_Using_Persistent_Volumes.adoc[]
+include::25_Routes.adoc[]
 
-include::26_Using_Persistent_Volumes.adoc[]
+include::26_Routes.adoc[]
 
-include::27_Summary.adoc[]
+include::27_Routes.adoc[]
+
+include::28_Routes.adoc[]
+
+include::29_Routes.adoc[]
+
+include::30_Routes.adoc[]
+
+include::31_Routes.adoc[]
+
+include::32_Routes.adoc[]
+
+include::33_Routes.adoc[]
+
+include::34_Routes.adoc[]
+
+include::35_Routes.adoc[]
+
+include::36_Routes.adoc[]
+
+include::37_Routes.adoc[]
+
+include::38_Using_Persistent_Volumes.adoc[]
+
+include::39_Using_Persistent_Volumes.adoc[]
+
+include::40_Using_Persistent_Volumes.adoc[]
+
+include::41_Using_Persistent_Volumes.adoc[]
+
+include::42_Using_Persistent_Volumes.adoc[]
+
+include::43_Using_Persistent_Volumes.adoc[]
+
+include::44_Using_Persistent_Volumes.adoc[]
+
+include::45_Summary.adoc[]
 

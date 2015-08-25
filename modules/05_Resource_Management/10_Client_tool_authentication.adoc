@@ -1,0 +1,53 @@
+== Client tool authentication
+:noaudio:
+
+.CLI Authentication - Continued
+
+* Here is a an syntax brief:
+[options="nowrap"]
+----
+$ oc login [--username=<username>]  [--password=<password>] [--server=<server>] [--certificate-authority=</path/to/file.crt>|--insecure-skip-tls-verify]
+----
+
+
+* The following table describes these common options for `oc login`:
+
+.Common CLI Configuration Options
+[cols="4,8",options="header"]
+|===
+
+|Option |Description
+|`-s, --server`
+|Specifies the host name of the OpenShift server. If a
+server is provided through this flag, the command does not ask for it
+interactively.
+
+|`-u, --username` and `-p, --password`
+|Allows you to specify the credentials to log in to the OpenShift
+server. If user name or password are provided through these flags, the command
+does not ask for it interactively.
+
+|`--certificate-authority`
+|Correctly and securely authenticates with an OpenShift
+server that uses HTTPS. The path to a certificate authority file must be
+provided.
+
+|`--insecure-skip-tls-verify`
+|Allows interaction with an HTTPS server bypassing the server
+certificate checks; however, note that it is not secure. If you try to `oc
+login` to a HTTPS server that does not provide a valid certificate, and this or
+the `--certificate-authority` flags were not provided.
+|===
+
+
+
+ifdef::showscript[]
+
+=== Transcript
+Review the following options for the *oc login* command, take special attention
+to the "insecure-skip-tls-verify" flag as you would probably need to use it when
+ attempting to access the OSE Master before securing the master with TLS
+ certificates.
+
+endif::showscript[]
+

@@ -42,5 +42,18 @@ pod, then uses the claim to find the corresponding volume to mount.
 }
 ----
 
+ifdef::showscript[]
+
+=== Transcript
+
+A `PersistentVolumeClaim` is used by a pod as a volume.
+
+OpenShift finds the claim with the given name in the same namespace as the
+pod, then uses the claim to find the corresponding volume to mount.
+
+Review the example Pod Definition with a Claim.
+
+endif::showscript[]
+
 
 

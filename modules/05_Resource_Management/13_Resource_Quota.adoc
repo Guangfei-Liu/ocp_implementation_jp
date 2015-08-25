@@ -1,20 +1,22 @@
 == Resource Quota
 :noaudio:
 
-.Creating and applying a quota to a project
+.Quota enforcement
+* After a quota is first created in a project, the project restricts the ability
+to create any new resources that may violate a quota constraint until it has
+calculated updated usage statistics.
 
-* Apply a quota to a Project
-+
-----
-
-$ oc create -f create_quota_def_file.json --namespace=your_project_name
-
-----
+* If your modification to a project would exceed a quota usage limit, the action
+ is denied by the server, and an appropriate error message is returned to the
+ end-user. The error explains what quota constraint was violated, and what their
+  currently observed usage stats are in the system.
 
 ifdef::showscript[]
 
 === Transcript
-
+After a quota is first created in a project, the project restricts the ability
+  to create any new resources that may violate a quota constraint until it has
+  calculated updated usage statistics.
 
 endif::showscript[]
 

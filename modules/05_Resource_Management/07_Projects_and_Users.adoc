@@ -1,0 +1,29 @@
+== Projects and Users
+:noaudio:
+
+."Namespace" (Or, "Project")
+* A Kubernetes namespace provides a mechanism to scope resources in a cluster.
+In OpenShift, a project is a Kubernetes namespace with additional annotations.
+* Namespaces provide a unique scope for:
+** Named resources to avoid basic naming collisions.
+** Delegated management authority to trusted users.
+** The ability to limit community resource consumption.
+* Most objects in the system are scoped by namespace, but some are excepted and
+have no namespace, including nodes and users.
+
+
+
+ifdef::showscript[]
+
+=== Transcript
+A Kubernetes namespace provides a mechanism to scope resources in a cluster.
+In OpenShift, a project is a Kubernetes namespace with additional annotations.
+
+Namespaces provide a unique scope for: Named resources to avoid basic naming
+collisions, delegated management authority to trusted users and the ability to
+limit community resource consumption.
+
+endif::showscript[]
+
+
+

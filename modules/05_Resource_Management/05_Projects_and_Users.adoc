@@ -1,22 +1,38 @@
 == Projects and Users
 :noaudio:
 
-.Concept: "Namespace"
-* A Kubernetes namespace provides a mechanism to scope resources in a cluster. In OpenShift, a project is a Kubernetes namespace with additional annotations.
-* Namespaces provide a unique scope for:
-** Named resources to avoid basic naming collisions.
-** Delegated management authority to trusted users.
-** The ability to limit community resource consumption.
-* Most objects in the system are scoped by namespace, but some are excepted and have no namespace, including nodes and users.
+.Users and User Types
 
+* Users : Interaction with OpenShift is associated with a user.
+* An OpenShift user object represents an "actor" which may be granted
+permissions in the system by adding roles to them or to their groups.
+* Several types of users can exist:
+** *Regular users* - This is the way most interactive OpenShift users will be
+represented.
+*** Regular users are created automatically in the system upon first login, or
+can be created via the API.
+*** Regular users are represented with the User object.
+** *System users* - Many of these are created automatically when the
+infrastructure is defined, mainly for the purpose of enabling the infrastructure
+ to interact with the API securely.
+*** They include a cluster administrator (with access to everything), a per-node
+ user, users for use by routers and registries, and various others.
+*** There is also an anonymous system user that is used by default for
+unauthenticated requests.
+*** For example : _system:admin_ , _system:openshift-registry_ and
+_system:node:node1.example.com_
 
 
 ifdef::showscript[]
-
 === Transcript
 
+An OpenShift user object represents an "actor" which may be granted permissions
+in the system by adding roles to them or to their groups.
+
+Regular users are the way most interactive OpenShift users will be represented.
+Most System Users are created automatically when the infrastructure is defined,
+mainly for the purpose of enabling the infrastructure to interact with the API
+securely.
 
 endif::showscript[]
-
-
 

@@ -4,7 +4,7 @@
 .Requesting Storage
 * After a *PersistentVolume* has been defined in your project:
 ** You can request storage by creating `PersistentVolumeClaim` objects in your
-*projects*:
+*project*:
 
 .Persistent Volume Claim Object Definition
 
@@ -31,7 +31,10 @@
 ifdef::showscript[]
 
 === Transcript
+After a *PersistentVolume* has been defined in your project, you can claim
+the volume by creating `PersistentVolumeClaim` objects in your *project*.
 
+Review the `PersistentVolumeClaim` definition file example.
 
 endif::showscript[]
 

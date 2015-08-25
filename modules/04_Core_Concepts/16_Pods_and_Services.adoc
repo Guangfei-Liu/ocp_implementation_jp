@@ -1,6 +1,7 @@
 == Pods and Services
 
 .Services
+:noaudio:
 
 * A Kubernetes _service_ serves as an *internal* load balancer.
  It identifies a set of replicated _pods_ in order to proxy the connections it
@@ -39,4 +40,3 @@ balancing. We only use the _Service_ to find out which _Pods_ are represented by
  The Service and load balancing use done by the "_Router_"
 
 endif::showscript[]
-

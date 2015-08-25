@@ -504,6 +504,7 @@ You can learn more about using "secrets" in the developer guide documentation.
 endif::showscript[]
 
 == Pods and Services
+:noaudio:
 
 .Services
 
@@ -1837,8 +1838,6 @@ This can be used for more advanced configuration such as implementing
 stick-tables that synchronize between a set of peers.
 
 endif::showscript[]
-
-
 
 
 == Summary

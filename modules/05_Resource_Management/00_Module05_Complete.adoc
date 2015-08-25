@@ -28,6 +28,7 @@ In This chapter we covered:
 * Client tool authentication
 * Resource Quota
 * Service Accounts
+* Routes
 * Persistent Volumes
 * Lab: Users, Projects and Quotas
 * Lab: Creating Services and Routes
@@ -573,6 +574,484 @@ ifdef::showscript[]
 endif::showscript[]
 
 
+== Routes
+:noaudio:
+.Overview
+
+* An OpenShift route is a way to expose a _service_ by giving it an
+externally-reachable hostname like `www.example.com`.
+
+* A defined route and the endpoints identified by its service can be consumed by
+a router to provide named connectivity that allows external clients to reach
+your applications.
+* Each route consists of a route name, service selector, and (optionally)
+security configuration.
+
+ifdef::showscript[]
+=== Transcript
+
+An OpenShift route is a way to expose a _service_ by giving it an
+externally-reachable hostname like `www.example.com`.
+
+* A defined route and the endpoints identified by its service can be consumed by
+a router to provide named connectivity that allows external clients to reach
+your applications.
+* Each route consists of a route name, service selector, and (optionally)
+security configuration.
+endif::showscript[]
+
+
+== Routes
+:noaudio:
+
+.Route Types
+* Routes can be either secured or unsecured.
+* Secure routes provide the ability to use several types of TLS termination to
+serve certificates to the client.
+* Routers support  edge, passthrough, and re-encryption termination.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+.Route Types - Unsecured Route Object YAML Definition
+
+[source,yaml]
+----
+apiVersion: v1
+kind: Route
+metadata:
+  name: route-unsecured
+spec:
+  host: www.example.com
+  to:
+    kind: Service
+    name: service-name
+----
+
+* Unsecured routes are simplest to configure, as they require no key
+or certificates, but secured routes offer security for connections to
+remain private.
+
+* A secured route is one that specifies the TLS termination of the route.
+The available types of termination described below.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+.Route Types - Path Based Routes
+
+* Path based routes specify a path component that can be compared against
+a URL (which requires that the traffic for the route be HTTP based) such
+that multiple routes can be served using the same hostname, each with a
+different path.
+* Routers should match routes based on the most specific
+path to the least; however, this depends on the router implementation. The
+following table shows example routes and their accessibility:
+
+.Route Availability
+[cols="3*", options="header"]
+|===
+|Route |When Compared to |Accessible
+
+.2+|_www.example.com/test_ |_www.example.com/test_ |Yes
+
+|_www.example.com_ |No
+
+.2+|_www.example.com/test_ and _www.example.com_ |_www.example.com/test_ |Yes
+
+|_www.example.com_ |Yes
+
+.2+|_www.example.com_ |_www.example.com/test_ |Yes (Matched by the host, not the
+  route)
+
+|_www.example.com_ |Yes
+|===
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+.Route Types - An Unsecured Route with a Path:
+
+[source,yaml]
+----
+apiVersion: v1
+kind: Route
+metadata:
+  name: route-unsecured
+spec:
+  host: www.example.com
+  path: "/test"   <1>
+  to:
+    kind: Service
+    name: service-name
+----
+
+<1> The path is the only added attribute for a path-based route.
+
+[NOTE]
+====
+Path-based routing is not available when using passthrough TLS, as
+the router does not terminate TLS in that case and cannot read the contents
+of the request.
+====
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+.Route Types - Secured Routes
+
+* Secured routes specify the TLS termination of the route and, optionally,
+provide a key and certificate(s).
+
+NOTE: TLS termination in OpenShift relies on
+link:https://en.wikipedia.org/wiki/Server_Name_Indication[SNI] for serving
+custom certificates. Any non-SNI traffic received on port 443 is handled with TLS
+termination and a default certificate (which may not match the requested hostname,
+resulting in validation errors).
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+.Secured TLS termination types
+
+* Secured routes can use any of the following three types of secure TLS
+termination.
+
+*Edge Termination*
+
+* With edge termination, TLS termination occurs at the
+router, prior to proxying traffic to its destination.
+* TLS certificates are served by the front end of the router,
+so they *must be configured into the route*, otherwise the
+router's default certificate will be used for TLS termination.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+.Secured TLS termination types - Edge Termination
+
+* A Secured Route definition using Edge Termination:
+
+[source,yaml]
+----
+apiVersion: v1
+kind: Route
+metadata:
+  name: route-edge-secured
+spec:
+  host: www.example.com
+  to:
+    kind: Service
+    name: service-name
+  tls:
+    termination: edge            <1>
+    key: |-                      <2>
+      BEGIN PRIVATE KEY
+      [...]
+      END PRIVATE KEY
+    certificate: |-              <3>
+      BEGIN CERTIFICATE
+      [...]
+      END CERTIFICATE
+    caCertificate: |-            <4>
+      BEGIN CERTIFICATE
+      [...]
+      END
+----
+
+<1> The `*termination*` field is `edge` for edge termination.
+<2> The `*certificate*` field is the contents of the PEM format certificate file.
+<3> The `*key*` field is the contents of the PEM format key file.
+<4> An optional CA certificate may be required to establish a certificate chain for validation.
+
+NOTE: Because TLS is terminated at the router, connections from the router to
+the endpoints over the internal network are not encrypted.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+.Secured TLS termination types - Passthrough Termination
+
+*Passthrough Termination*
+
+* With passthrough termination, encrypted traffic is sent straight to the
+destination without the router providing TLS termination. Therefore no
+key or certificate is required.
+
+* The destination pod is responsible for serving certificates for the
+traffic at the endpoint.
+
+* This is currently the only method that can support requiring client
+certificates (also known as two-way authentication).
+
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+.Secured TLS termination types - Passthrough Termination
+
+* A Secured Route definition using Passthrough Termination
++
+[source,yaml]
+----
+apiVersion: v1
+kind: Route
+metadata:
+  name: route-passthrough-secured
+spec:
+  host: www.example.com
+  to:
+    kind: Service
+    name: service-name
+  tls:
+    termination: passthrough     <1>
+----
+
+<1> The `*termination*` field is set to `passthrough`. No other encryption fields are needed.
+
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+.Secured TLS termination types Re-encryption Termination
+
+*Re-encryption Termination*
+
+* Re-encryption is a variation on edge termination where the router terminates
+TLS with a certificate, then re-encrypts its connection to the endpoint which
+may have a different certificate.
+* Therefore the full path of the connection is encrypted, even over the internal
+network. The router uses health checks to determine the authenticity of the host.
+
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+.Secured TLS termination types Re-encryption Termination
+
+* A Secured Route definition using Re-Encrypt Termination
++
+[source,yaml]
+----
+apiVersion: v1
+kind: Route
+metadata:
+  name: route-pt-secured
+spec:
+  host: www.example.com
+  to:
+    kind: Service
+    name: service-name
+  tls:
+    termination: reencrypt        <1>
+    key: [as in edge termination]
+    certificate: [as in edge termination]
+    caCertificate: [as in edge termination]
+    destinationCaCertificate: |-  <2>
+      BEGIN CERTIFICATE
+      [...]
+      END CERTIFICATE
+----
+
+<1> The `*termination*` field is set to `reencrypt`. Other fields are as in edge termination.
+<2> The `*destinationCaCertificate*` field optionally specifies a CA
+certificate to validate the endpoint certificate, securing the connection
+from the router to the destination.
+
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+.Routes with Hostnames
+
+* In order for services to be exposed externally, an OpenShift route allows
+you to associate a service with an externally-reachable hostname.
+* This edge hostname is then used to route traffic to the service.
+
+* A Route with a specified host:
++
+[source,yaml]
+----
+apiVersion: v1
+kind: Route
+metadata:
+  name: host-route
+spec:
+  host: www.example.com  <1>
+  to:
+    kind: Service
+    name: service-name
+----
+
+<1> Specifies the externally-reachable hostname used to expose a service.
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+.Routes without Hostnames
+
+* If a hostname is *not* provided as part of the route specification, then
+OpenShift will automatically generate one for you.
+* The generated hostname is of the form `$routename[.$namespace].$suffix`.
+* A Route definition without a host:
+
+[source,yaml]
+----
+apiVersion: v1
+kind: Route
+metadata:
+  name: no-route-hostname
+spec:
+  to:
+    kind: Service
+    name: service-name
+----
+
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+.Custom default routing subdomain
+
+* A cluster administrator can customize the suffix or the default routing
+subdomain for an environment using the OpenShift master configuration.
+* The following example shows how you can set the configured suffix to
+`v3.openshift.test`:
+
+* OpenShift master configuration snippet (master-config.yaml):
++
+[source,yaml]
+----
+routingConfig:
+  subdomain: v3.openshift.test
+----
+
+
+* With the OpenShift master node(s) running the above configuration, the
+generated hostname for our example of a host added to a namespace
++
+----
+my-namespace` would be: `no-route-hostname.my-namespace.v3.openshift.test
+----
+
+
+ifdef::showscript[]
+=== Transcript
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+.Routes Recap:
+
+* *Routes* - Match FQDN-destined traffic requests to services and pods they represent
+* *Services* - Do not route or load balance between pods
+** Services only provide pod information (IP) to router
+** You may consider a service as a list of IPs and ports of the pods that the service represents
+* *Router container* (not *route*) - An `openshift3/ose-haproxy-router` container that is a preconfigured instance of HAProxy
+** An instance of *Router* container watches a route's resource and updates with changes when required
+
+ifdef::showscript[]
+
+=== Transcript
+
+*Routes* allow FQDN-destined traffic to ultimately reach the pods. The services do not route or load balance between the pods--they only provide the pod information (IP) to the router.
+
+You can consider the service as a list of IPs and ports of the pods that the service represents.
+
+In a simplification of the process, the `openshift3/ose-haproxy-router` container is a preconfigured instance of HAProxy.
+
+The OpenShift Enterprise instance running in this container watches a route's resource on the OpenShift Enterprise master.
+
+
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+.Routes Recap:
+
+* Sample route JSON definition:
++
+[source,json]
+----
+$ oc expose service hello-service --hostname=hello-openshift.cloudapps-$GUID.oslab.opentlc.com
+NAME            HOST/PORT                                 PATH      SERVICE         LABELS
+hello-service   hello-openshift-f4fc.oslab.opentlc.com             hello-service
+----
+
+* To display the *routes* in your current project
++
+----
+
+$ oc get routes
+NAME                    HOST/PORT                                          SERVICE                   LABELS
+hello-openshift-route   hello-openshift.cloudapps-GUID.oslab.opentlc.com   hello-openshift-service
+
+----
+
+ifdef::showscript[]
+
+=== Transcript
+
+The code sample gives an example of a route JSON definition. You can see it defines certain aspects of the route: its name, the fully qualified domain name, and the service to which the
+route points. Note that the route actually routes directly to the pods, not to the service. The route gets the pod connection details from the service.
+
+endif::showscript[]
+
+
 == Using Persistent Volumes
 :noaudio:
 
@@ -793,6 +1272,7 @@ In This chapter we covered:
 * Client tool authentication
 * Resource Quota
 * Service Accounts
+* Routes
 * Persistent Volumes
 
 ifdef::showscript[]

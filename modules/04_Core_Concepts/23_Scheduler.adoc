@@ -1,28 +1,31 @@
 == Scheduler
 :noaudio:
 
-.Static Predicates
-These predicates do not take any configuration parameters or inputs from the
-user. These are specified in the scheduler configuration using their exact name.
+.Scheduler Policy
+* The selection of the predicate and priority functions defines the policy for
+the scheduler.
+* Administrators can provide a JSON file that specifies the predicates and
+priority functions to configure the scheduler.
+** The path to the  scheduler policy file can be specified in the master
+configuration file.
+* In the absence of the scheduler policy file, the default configuration gets
+applied.
 
-* *_PodFitsPorts_* deems a node to be fit for hosting a pod based on the absence
-of port conflicts.
+NOTE: That the predicates and priority functions defined in the scheduler
+configuration file will completely override the default scheduler policy.
+If any of the default predicates and priority functions are required,
+they have to be explicitly specified in the scheduler configuration file.
 
-* *_PodFitsResources_* determines a fit based on resource availability.
-The nodes can declare their resource capacities and then pods can specify what
-resources they require.  Fit is based on requested, rather than used resources.
-
-* *_NoDiskConflict_* determines fit based on non-conflicting disk volumes.
-It evaluates if a pod can fit due to the volumes it requests, and those that
-are already mounted.
-* *_MatchNodeSelector_* determines fit based on node selector query that is
-defined in the pod.
-
-* *_HostName_* determines fit based on the presence of the Host parameter and a
-string match with the name of the host.
 
 ifdef::showscript[]
 === Transcript
+
+The selection of the predicate and priority functions defines the policy for
+the scheduler.
+Administrators can provide a JSON file that specifies the predicates and
+priority functions to configure the scheduler, the path to the scheduler policy
+file can be specified in the master configuration file.
+
 endif::showscript[]
 
 

@@ -1,30 +1,29 @@
 == Scheduler
 :noaudio:
 
-.Sample Policy Configurations
-The configuration below specifies the default scheduler configuration, if it
-were to be specified via the scheduler policy file.
-----
-{
-	"kind" : "Policy",
-	"version" : "v1",
-	"predicates" : [
-		{"name" : "PodFitsPorts"},
-		{"name" : "PodFitsResources"},
-		{"name" : "NoDiskConflict"},
-		{"name" : "MatchNodeSelector"},
-		{"name" : "HostName"}
-	],
-	"priorities" : [
-		{"name" : "LeastRequestedPriority", "weight" : 1},
-		{"name" : "BalancedResourceAllocation", "weight" : 1},
-		{"name" : "ServiceSpreadingPriority", "weight" : 1}
-	]
-}
-----
+.Affinity and Anti-Affinity
+
+* Anti Affinity
+** Administrators should be able to configure the scheduler to specify
+anti-affinity at any topological level, or even at multiple levels.
+** Anti-Affinity (or 'spread') at a particular level indicates that all pods
+that belong to the same service will be spread across nodes that belong to that
+level.
+** This ensures that the application is well spread for high availability
+purposes.
+** The scheduler will try to balance the service pods across all applicable nodes
+as evenly as possible.
+
 
 ifdef::showscript[]
 === Transcript
+
+Anti-Affinity (or 'spread') at a particular level indicates that all pods
+that belong to the same service will be spread across nodes that belong to that
+level.
+
+This is useful when trying to create an highly available _service_ that is
+spread between availability zones or Racks.
 endif::showscript[]
 
 

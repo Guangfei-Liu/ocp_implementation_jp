@@ -1,0 +1,39 @@
+== Routers
+:noaudio:
+.Routers and Routes
+
+* A `route` object (NOT *router*) is an object that describes a `service` to
+expose and a host FQDN, for example, A `route` could specify a hostname of
+"myapp.mysubdomain.company.com" and the `service` "MyappFrontend".
+* To allow an external web client to access an application (Pod/Pods) on OSE
+using a DNS name a developer would create a `route` object for his application.
+
+* A router uses the service selector to find the service and the endpoints
+backing the service.
+* *Service-provided load balancing is bypassed* and replaced with the router's own
+ load balancing.
+* Routers watch the cluster API and automatically update their own configuration
+ according to any relevant changes in the API objects.
+ * Routers may be containerized or virtual.
+ ** Custom routers can be deployed to communicate modifications of API objects
+ to another system, such as an *F5*.
+
+ifdef::showscript[]
+=== Transcript
+A `route` object (NOT *router*) is an object that describes a `service` to
+expose and a host FQDN, for example, A `route` could specify a hostname of
+"myapp.mysubdomain.company.com" and the `service` "MyappFrontend".
+
+To allow an external web client to access an application (Pod/Pods) on OSE
+using a DNS name a developer would create a `route` object for his application.
+
+A router uses the service selector to find the service and the endpoints
+backing the `service` defined in the `route`, The *Service-provided load
+balancing is bypassed* and replaced with the router's own
+ load balancing.
+
+Custom routers can be deployed to communicate modifications of API objects to
+another system, such as an *F5*.
+
+endif::showscript[]
+

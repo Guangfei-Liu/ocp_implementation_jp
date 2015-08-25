@@ -21,7 +21,21 @@ tag), `rhel:rhel7`, or `fd44297e2ddb`.
 
 ifdef::showscript[]
 
- === Transcript
+=== Transcript
+
+ You can use Docker directly to build images, but OpenShift also supplies
+ builders that assist with creating an image by adding your code or
+ configuration to existing images.
+
+ Since applications develop over time, a single image name can actually
+ refer to many different versions of the "same" image, Each different image is
+ referred to uniquely by its hash which is usually shortened to 12
+characters.
+
+Rather than version numbers, Docker allows applying tags (such as `v1`, `v2.1`
+  , `GA`, or the default `latest`)
+
+
 
 endif::showscript[]
 

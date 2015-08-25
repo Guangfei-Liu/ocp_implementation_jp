@@ -1,28 +1,24 @@
 == Scheduler
 :noaudio:
 
-.Configurable Predicates - Continued
-* *_ServiceAffinity_* filters out nodes that do not belong to the specified
-topological level defined by the provided labels.
-** This predicate takes in a list of labels and ensures affinity within the nodes
-(that have the same label values) for pods belonging to the same service.
-** If the pod specifies a value for the labels in its NodeSelector, then the
-nodes matching those labels are the ones where the pod is scheduled.
+.Available Predicates
+* There are several predicates provided out of the box in Kubernetes.
+Some of these predicates can be customized by providing certain parameters.
+* Multiple predicates can be combined to provide additional filtering of nodes.
 
-----
-{"name" : "Zone", "argument" : {"serviceAffinity" : {"labels" : ["zone"]}}}
-----
-**_LabelsPresence_** checks whether a particular node has a certain label defined
-or not, regardless of its value.
-----
-{"name" : "ZoneRequired", "argument" : {"labels" : ["retiring"], "presence" : false}}
-----
+* In the next few slides we will discuss *Static Predicates* and
+*Configurable Predicates*.
 
 ifdef::showscript[]
 === Transcript
-** If the pod does not specify the labels in its NodeSelector, then the first
-pod can be placed on any node based on availability and all subsequent pods of
-the service will be scheduled on nodes that have the same label values.
+
+There are several predicates provided out of the box in Kubernetes.
+Some of these predicates can be customized by providing certain parameters.
+
+In the next few slides we will discuss *Static Predicates* and
+*Configurable Predicates*.
+
+
 endif::showscript[]
 
 

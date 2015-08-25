@@ -1,28 +1,38 @@
 == Builds and Image Streams
 :noaudio:
 
-.S2I Advantages - Continued
+.S2I Advantages
 
 [horizontal]
-Operational efficiency:: By restricting build operations instead of allowing
-arbitrary actions, such as in a *_Dockerfile_*, the PaaS operator can avoid
-accidental or intentional abuses of the build system.
+Image flexibility:: S2I scripts can be written to layer application code onto
+almost any existing Docker image, taking advantage of the existing ecosystem.
+Note that, currently, S2I relies on `tar` to inject application
+source, so the image needs to be able to process tarred content.
 
-Operational security:: Building an arbitrary *_Dockerfile_* exposes the host
-system to root privilege escalation. This can be exploited by a malicious user
-because the entire docker build process is run as a user with docker privileges.
-S2I restricts the operations performed as a root user, and can run the scripts
-as a non-root user.
+Speed:: With S2I, the assemble process can perform a large number of complex
+operations without creating a new layer at each step, resulting in a fast
+process. In addition, S2I scripts can be written to re-use artifacts stored in a
+previous version of the application image, rather than having to download or
+build them, each time the build is run.
 
-User efficiency:: S2I prevents developers from performing arbitrary `yum
-install` type operations during their application build, which results in slow
-development iteration.
-
-Ecosystem:: S2I encourages a shared ecosystem of images where you can leverage
-best practices for your applications.
+Patchability:: S2I allows you to rebuild the application consistently if an
+underlying image needs a patch due to a security issue.
 
 ifdef::showscript[]
 === Transcript
+Image flexibility, Speed and Patchability are only some of the advantages that
+Using S2I provides, S2I scripts can be written to layer application code onto
+almost any existing Docker image, this means you can switch your builder image
+from Centos to RHEL of from RHEL7.1 to RHEL7.2 without issues, simply rebuild
+ the image and start using it.
+
+S2I's assemble process can perform a large number of complex
+operations without creating a new layer at each step, resulting in a fast
+process.
+
+An image could be rebuilt quickly in case the base image requires a patch, for
+example if there is a new security patch.
+
 endif::showscript[]
 
 

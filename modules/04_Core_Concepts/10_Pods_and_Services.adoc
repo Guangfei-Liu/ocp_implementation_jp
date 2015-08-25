@@ -14,6 +14,14 @@ than directly by users.
 
 ifdef::showscript[]
 === Transcript
+OpenShift treats pods as largely "static"; changes cannot be made to
+a pod definition while it is running, when we want to change a pod we will
+"Recreate" it rather than "modify" it.
+
+Therefore pods should usually be managed by higher-level _controllers_, such as
+"Deployment Configurations" and "Replication controllers" rather
+than directly by users.
+
 endif::showscript[]
 
 

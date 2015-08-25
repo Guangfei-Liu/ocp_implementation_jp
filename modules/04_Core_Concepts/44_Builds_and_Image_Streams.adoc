@@ -1,26 +1,25 @@
 == Builds and Image Streams
 :noaudio:
 
-.Image Streams
+.Custom Build
 
-* An _image stream_ is similar to a Docker image repository in that it contains
-one or more _Docker images_ identified by tags.
-** An image stream presents a single virtual view of related images, as it may
-contain images from:
+* The Custom build strategy allows developers to define a specific builder image,
+responsible for the entire build process. Using your own builder image allows
+you to customize your build process.
 
-. Its own image repository in OpenShift's integrated Docker Registry
-. Other image streams
-. Docker image repositories from external registries
-
-* OpenShift stores complete metadata about each image (e.g., command, entrypoint,
-environment variables, etc.). Images in OpenShift are immutable.
-
-* OpenShift components such as builds and deployments can watch an image stream
-and receive notifications when new images are added, reacting by performing a
-build or a deployment, for example.
+* The builder could call out to an external system, such as Jenkins or any other
+ automation agent to create the image and push it into our registry.
 
 ifdef::showscript[]
+
 === Transcript
+The Custom build strategy allows developers to define a specific builder image,
+responsible for the entire build process. Using your own builder image allows
+you to customize your build process.
+
+The builder could call out to an external system, such as Jenkins or any other
+ automation agent to create the image and push it into our registry.
+
 endif::showscript[]
 
 

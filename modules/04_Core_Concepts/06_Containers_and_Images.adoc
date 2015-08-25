@@ -15,7 +15,14 @@ for a service packaged into an image.
 
 ifdef::showscript[]
 
- === Transcript
+=== Transcript
+A "running" instance of a Docker Image is referred to as a "Container", A Docker
+ image is a binary that includes all of the requirements for running a single
+ Docker container, as well as metadata describing its needs and capabilities.
+
+By deploying the same image in multiple containers across multiple hosts and
+load balancing between them, OpenShift can provide redundancy and horizontal
+scaling for a service packaged into an image.
 
 endif::showscript[]
 

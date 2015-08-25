@@ -1,4 +1,4 @@
-== Routes
+== Routers
 :noaudio:
 
 .Sticky Sessions
@@ -17,5 +17,19 @@ directory of the router container.
 
 ifdef::showscript[]
 === Transcript
+Implementing sticky sessions is up to the underlying router configuration.
+
+The default HAProxy template implements sticky sessions using the
+*balance source* directive which balances based on the source IP.
+
+In addition, the template router plug-in provides the service name and
+namespace to the underlying implementation.
+
+This can be used for more advanced configuration such as implementing
+stick-tables that synchronize between a set of peers.
+
 endif::showscript[]
+
+
+
 

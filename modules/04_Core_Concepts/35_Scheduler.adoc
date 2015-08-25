@@ -1,36 +1,34 @@
 == Scheduler
 :noaudio:
 
-.Topology Examples
-
-
-* Example: Three topological levels defined as region, zone and rack
-** Levels: region (affinity) -> zone (affinity) -> rack (anti-affinity)
-+
-[source,json]
+.Sample Policy Configurations
+The configuration below specifies the default scheduler configuration, if it
+were to be specified via the scheduler policy file.
 ----
 {
 	"kind" : "Policy",
 	"version" : "v1",
 	"predicates" : [
-		...
-		{"name" : "RegionZoneAffinity", "argument" : {"serviceAffinity" : {"labels" : ["region", "zone"]}}}
+		{"name" : "PodFitsPorts"},
+		{"name" : "PodFitsResources"},
+		{"name" : "NoDiskConflict"},
+		{"name" : "MatchNodeSelector"},
+		{"name" : "HostName"}
 	],
 	"priorities" : [
-		...
-    {"name" : "RackSpread", "weight" : 1, "argument" : {"serviceAntiAffinity" : {"label" : "rack"}}}
+		{"name" : "LeastRequestedPriority", "weight" : 1},
+		{"name" : "BalancedResourceAllocation", "weight" : 1},
+		{"name" : "ServiceSpreadingPriority", "weight" : 1}
 	]
 }
 ----
 
-NOTE: In all of the sample configurations provided, the list of predicates and
-priority functions is truncated to include only the ones that pertain to the use
-case specified. In practice, a complete/meaningful scheduler policy should include most, if
-not all, of the default predicates and priority functions listed above.
-
-
 ifdef::showscript[]
 === Transcript
+
+The configuration below specifies the default scheduler configuration, if it
+were to be specified via the scheduler policy file.
+
 endif::showscript[]
 
 

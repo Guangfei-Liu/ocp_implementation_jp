@@ -1,28 +1,34 @@
 == Scheduler
 :noaudio:
 
-.Configurable Priority Functions
-* These priority functions can be configured by the user by providing certain
-parameters.
-** They can be given any user-defined name.
-* The type of the priority function is identified by the argument that they take.
-** Since these are configurable, multiple priority functions of the same type
-(but different configuration parameters) can be combined as long as their
-user-defined names are different.
+.Configurable Predicates - Continued
+* *_ServiceAffinity_* filters out nodes that do not belong to the specified
+topological level defined by the provided labels.
+** This predicate takes in a list of labels and ensures affinity within the nodes
+(that have the same label values) for pods belonging to the same service.
+** If the pod specifies a value for the labels in its NodeSelector, then the
+nodes matching those labels are the ones where the pod is scheduled.
 
-* *_ServiceAntiAffinity_* takes a label and ensures a good spread of the pods
-belonging to the same service across the group of nodes based on the label
-values.  It gives the same score to all nodes that have the same value for the
-specified label.  It gives a highter score to nodes within a group with the
-least concentration of pods.
-
-* *_LabelsPreference_* prefers nodes that have a particular label defined or
-not, regardless of its value.
-
-
+----
+{"name" : "Zone", "argument" : {"serviceAffinity" : {"labels" : ["zone"]}}}
+----
+* *_LabelsPresence_* checks whether a particular node has a certain label defined
+or not, regardless of its value.
+----
+{"name" : "ZoneRequired", "argument" : {"labels" : ["retiring"], "presence" : false}}
+----
 
 ifdef::showscript[]
 === Transcript
+
+*_ServiceAffinity_* filters out nodes that do not belong to the specified
+topological level defined by the provided labels, This predicate takes in a list
+ of labels and ensures affinity within the nodes (that have the same label
+   values) for pods belonging to the same service.
+
+If the pod specifies a value for the labels in its NodeSelector, then ONLY
+nodes matching those labels are the ones where the pod can be scheduled.
+
 endif::showscript[]
 
 

@@ -15,7 +15,18 @@ without visibility into each others' processes, files, network, and so on.
 
 ifdef::showscript[]
 
- === Transcript
+=== Transcript
+The basic units of OpenShift applications are called containers, Containers are
+lightweight mechanisms for isolating running processes so that they are limited
+to interacting with only their designated resources.
+
+With the use of containers, many application instances can be running in
+containers on a single host without visibility into each others' processes,
+files, network, and so on.
+
+Typically, each container provides a single service (often called a
+  "micro-service"), such as a web server or a database, though containers can
+  be used for arbitrary workloads.
 
 endif::showscript[]
 

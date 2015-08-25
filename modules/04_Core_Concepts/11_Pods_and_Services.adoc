@@ -11,5 +11,10 @@ be retained in order to enable access to the logs of their containers.
 
 ifdef::showscript[]
 === Transcript
+
+Pods have a lifecycle they are; *defined*, then they are *assigned*, by the
+"Scheduler" to run on a specific node, then they *run* until their container(s)
+exit or they are removed for some other reason.
+
 endif::showscript[]
 

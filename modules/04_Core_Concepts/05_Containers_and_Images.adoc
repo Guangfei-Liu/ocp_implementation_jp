@@ -17,7 +17,13 @@ applications function inside of containers.
 
 ifdef::showscript[]
 
- === Transcript
+=== Transcript
+ he Linux kernel has been incorporating capabilities for container technologies
+ for years. Recently the Docker project has developed a convenient management
+ interface for Linux containers on a host.
+
+ OpenShift and Kubernetes add the ability to orchestrate Docker containers
+ across multi-host installations.
 
 endif::showscript[]
 

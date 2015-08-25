@@ -34,7 +34,7 @@ include::17_Pods_and_Services.adoc[]
 
 include::18_Pods_and_Services.adoc[]
 
-include::19_Scheduler.adoc[]
+include::19_Pods_and_Services.adoc[]
 
 include::20_Scheduler.adoc[]
 
@@ -72,7 +72,7 @@ include::36_Scheduler.adoc[]
 
 include::37_Scheduler.adoc[]
 
-include::38_Builds_and_Image_Streams.adoc[]
+include::38_Scheduler.adoc[]
 
 include::39_Builds_and_Image_Streams.adoc[]
 
@@ -88,61 +88,23 @@ include::44_Builds_and_Image_Streams.adoc[]
 
 include::45_Builds_and_Image_Streams.adoc[]
 
-include::46_Deployments.adoc[]
+include::46_Builds_and_Image_Streams.adoc[]
 
-include::47_Deployments.adoc[]
+include::47_Replication_Controllers.adoc[]
 
-include::48_Deployments.adoc[]
+include::48_Replication_Controllers.adoc[]
 
-include::49_Deployments.adoc[]
+include::49_Replication_Controllers.adoc[]
 
-include::50_Deployments.adoc[]
+include::50_Routers.adoc[]
 
-include::51_Deployments.adoc[]
+include::51_Routers.adoc[]
 
-include::52_Routes.adoc[]
+include::52_Routers.adoc[]
 
-include::53_Routes.adoc[]
+include::53_Routers.adoc[]
 
-include::54_Routes.adoc[]
+include::54_Routers.adoc[]
 
-include::55_Routes.adoc[]
-
-include::56_Routes.adoc[]
-
-include::57_Routes.adoc[]
-
-include::58_Routes.adoc[]
-
-include::59_Routes.adoc[]
-
-include::60_Routes.adoc[]
-
-include::61_Routes.adoc[]
-
-include::62_Routes.adoc[]
-
-include::63_Routes.adoc[]
-
-include::64_Routes.adoc[]
-
-include::65_Routes.adoc[]
-
-include::66_Routes.adoc[]
-
-include::67_Routes.adoc[]
-
-include::68_Routes.adoc[]
-
-include::69_Routes.adoc[]
-
-include::70_Routes.adoc[]
-
-include::71_Routes.adoc[]
-
-include::72_Routes.adoc[]
-
-include::73_Routes.adoc[]
-
-include::74_Summary.adoc[]
+include::55_Summary.adoc[]
 

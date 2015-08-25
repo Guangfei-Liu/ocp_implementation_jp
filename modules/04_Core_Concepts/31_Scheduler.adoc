@@ -1,26 +1,29 @@
 == Scheduler
 :noaudio:
 
-.Use Cases
+.Configurable Priority Functions
+* These priority functions can be configured by the user by providing certain
+parameters.
+** They can be given any user-defined name.
+* The type of the priority function is identified by the argument that they take.
 
-* One of the important use cases for scheduling within OpenShift is to support
-flexible affinity and anti-affinity policies.
+* *_ServiceAntiAffinity_* takes a label and ensures a good spread of the pods
+belonging to the same service across the group of nodes based on the label
+values.  It gives the same score to all nodes that have the same value for the
+specified label.  It gives a highter score to nodes within a group with the
+least concentration of pods.
 
-* OpenShift can implement multiple Infrastructure Topological Levels
-** Administrators can define multiple topological levels for their infrastructure
-(nodes).
-** This is done by specifying labels on nodes
-(eg: region = r1, zone = z1, rack = s1).
-** These label names have no particular meaning and administrators are free to
-name their infrastructure levels anything (eg, city/building/room).
-** Administrators can define any number  of levels for their infrastructure
-topology, with three levels usually being
-adequate (eg. regions --> zones --> racks).
-Administrators can specify affinity and anti-affinity rules at each of these
-levels in any combination.
+* *_LabelsPreference_* prefers nodes that have a particular label defined or
+not, regardless of its value.
+
+
 
 ifdef::showscript[]
 === Transcript
+
+Configurable Priority Functions can be configured by the user by providing
+certain parameters.
 endif::showscript[]
+
 
 

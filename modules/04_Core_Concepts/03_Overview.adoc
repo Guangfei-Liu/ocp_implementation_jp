@@ -27,5 +27,23 @@ ifdef::showscript[]
 
 === Transcript
 
+The following module provide high-level, architectural information on core
+concepts and objects you will encounter when using OpenShift.
+
+Many of these objects come from Kubernetes, which is extended by OpenShift to provide
+a more feature-rich development lifecycle platform.
+
+We will learn about:
+Containers and images, that are the building blocks
+for deploying your applications. About, Pods and services that allow for
+containers to communicate with each other and proxy connections.
+
+We will also cover Projects and users that provide the space and means
+for communities to organize and manage their content together.
+
+Builds and image streams that allow you to build working images and react to new
+ images. Deployments add expanded support for the software development and
+ deployment lifecycle.
+
 endif::showscript[]
 

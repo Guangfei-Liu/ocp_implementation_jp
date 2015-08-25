@@ -1,17 +1,38 @@
 == Builds and Image Streams
 :noaudio:
 
-.Custom Build
+.S2I Advantages - Continued
 
-* The Custom build strategy allows developers to define a specific builder image,
-responsible for the entire build process. Using your own builder image allows
-you to customize your build process.
+[horizontal]
+Operational efficiency:: By restricting build operations instead of allowing
+arbitrary actions, such as in a *_Dockerfile_*, the PaaS operator can avoid
+accidental or intentional abuses of the build system.
 
-* Custom builder imageis a plain Docker image with embedded build process logic,
- such as building RPMs or building base Docker images.
+Operational security:: Building an arbitrary *_Dockerfile_* exposes the host
+system to root privilege escalation. This can be exploited by a malicious user
+because the entire docker build process is run as a user with docker privileges.
+S2I restricts the operations performed as a root user, and can run the scripts
+as a non-root user.
+
+User efficiency:: S2I prevents developers from performing arbitrary `yum
+install` type operations during their application build, which results in slow
+development iteration.
+
+Ecosystem:: S2I encourages a shared ecosystem of images where you can leverage
+best practices for your applications.
 
 ifdef::showscript[]
 === Transcript
+A few more advantages of the S2I process are the efficiencies it provides and
+the operational security advantages.
+
+By restricting build operations instead of allowing
+arbitrary actions, such as in a *_Dockerfile_*, the PaaS operator can avoid
+accidental or intentional abuses of the build system. S2I prevents developers
+from performing arbitrary `yum install` type operations during their application
+ build, which results in slow development iteration.
+
+
 endif::showscript[]
 
 

@@ -6,13 +6,18 @@
 * Pods and Services
 * Projects and Users
 * Builds and ImageStreams
-* Deployments
-* Routes
-* Templates
+* Replication Controllers
+* Routers
 
 ifdef::showscript[]
 
 === Transcript
-Welcome to Module X of the OpenShift Enterprise Implementation course.
+Welcome to Module 04 of the OpenShift Enterprise Implementation course.
+In this module we will learn about some of the core concepts in OSE3.0, We will
+discuss Containers and Images, Pods and Services who represent them, Projects
+and the users who use them and review Builds, ImageStreams, deployments, routes
+and Templates.
+
+We will dive deeper into most of these topics later in the training as well.
 
 endif::showscript[]

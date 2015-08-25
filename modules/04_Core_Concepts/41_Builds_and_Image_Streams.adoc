@@ -1,25 +1,39 @@
 == Builds and Image Streams
 :noaudio:
 
-.S2I Advantages
+.Docker Build
 
-[horizontal]
-Image flexibility:: S2I scripts can be written to layer application code onto
-almost any existing Docker image, taking advantage of the existing ecosystem.
-Note that, currently, S2I relies on `tar` to inject application
-source, so the image needs to be able to process tarred content.
+* The Docker build strategy invokes the plain _docker build_ command,
+and therefore expects a repository with a *_Dockerfile_* and all required
+artifacts in it to produce a runnable image.
 
-Speed:: With S2I, the assemble process can perform a large number of complex
-operations without creating a new layer at each step, resulting in a fast
-process. In addition, S2I scripts can be written to re-use artifacts stored in a
-previous version of the application image, rather than having to download or
-build them, each time the build is run.
 
-Patchability:: S2I allows you to rebuild the application consistently if an
-underlying image needs a patch due to a security issue.
+.Source-to-Image (S2I) Build
+* Source-to-Image (S2I)] is a tool for building reproducible Docker images.
+* It produces ready-to-run images by injecting a user source into a docker image
+ and assembling a new docker image.
+* The new image incorporates the base image (the builder) and built source, and
+is ready to use with the `docker run` command.
+* S2I supports incremental builds, which re-use previously downloaded
+dependencies, previously built artifacts, etc.
 
 ifdef::showscript[]
 === Transcript
+
+The Docker build strategy invokes the plain _docker build_ command,
+and therefore expects a repository with a *_Dockerfile_* and all required
+artifacts in it to produce a runnable image.
+
+The Source-to-Image (S2I) is a tool for building reproducible Docker images, it
+produces ready-to-run images by injecting a user source into a docker image
+ and assembling a new docker image.
+
+The new image incorporates the base image (the builder) and built source, and
+is ready to use within the OSE environment or with `docker run`
+
+S2I supports incremental builds, which re-use previously downloaded
+dependencies, previously built artifacts, etc.
+
 endif::showscript[]
 
 

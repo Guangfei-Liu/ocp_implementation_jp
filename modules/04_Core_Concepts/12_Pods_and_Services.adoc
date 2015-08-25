@@ -23,7 +23,7 @@ topics and thus only briefly mentioned here.
    generateName: docker-registry-1-       <2>
 
 ----
-<1> Pods can be "tagged" with one or more link:#labels[labels], which can then
+<1> Pods can be "tagged" with one or more *labels*, which can then
  be used to select and manage groups of pods in a single operation. The labels
  are stored in key/value format in the *metadata* hash. One label in this
  example is *docker-registry=default*.
@@ -33,5 +33,16 @@ characters will be added automatically to generate a unique name.
 
 ifdef::showscript[]
 === Transcript
+Below is an example definition of a pod that provides a long-running
+service, which is actually a part of the OpenShift infrastructure.
+
+Pods can be "tagged" with one or more *labels*, which can then
+ be used to select and manage groups of pods in a single operation.
+
+ Pods must have a unique name within their _namespace_. A pod definition may
+ specify the basis of a name with the *generateName* attribute, and random
+ characters will be added automatically to generate a unique name.
+
+
 endif::showscript[]
 

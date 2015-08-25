@@ -3,20 +3,24 @@
 
 .Affinity and Anti-Affinity
 
-* Anti Affinity
-** Administrators should be able to configure the scheduler to specify
-anti-affinity at any topological level, or even at multiple levels.
-** Anti-Affinity (or 'spread') at a particular level indicates that all pods
-that belong to the same service will be spread across nodes that belong to that
-level.
-** This ensures that the application is well spread for high availability
-purposes.
-** The scheduler will try to balance the service pods across all applicable nodes
-as evenly as possible.
-
+* Affinity
+** Administrators should be able to configure the scheduler to specify affinity
+at any topological level, or even at multiple levels.
+** Affinity at a particular level indicates that all pods that belong to the
+same service will be scheduled onto nodes that belong to the same level.
+** This handles any latency requirements of applications by allowing
+administrators to ensure that peer pods do not end up being too geographically
+separated.  If no node is available within the same affinity group to host the
+pod, then the pod will not get scheduled.
 
 ifdef::showscript[]
 === Transcript
+
+Functions based on Affinity and Anti-Affinity are a good place to start when
+looking into the possibilities of use for the Scheduler.
+
+Affinity function makes sense when you want all components of a _service_ (By
+  This we mean all the pods) to be located in the same "Zone"/"Region"/"Node".
 endif::showscript[]
 
 

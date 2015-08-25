@@ -26,5 +26,12 @@
 
 ifdef::showscript[]
 === Transcript
+*containers* specifies an array of container definitions; in this case (as
+with most), just one.
+
+Environment variables can be specified to pass necessary values to each
+ container. (For example, these can be credentials and database connection details)
+
+
 endif::showscript[]
 

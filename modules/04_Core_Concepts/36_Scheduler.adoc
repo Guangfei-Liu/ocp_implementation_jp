@@ -2,9 +2,11 @@
 :noaudio:
 
 .Topology Examples
-* Example: Three topological levels defined as city, building and room
-** Levels: city (affinity) -> building (anti-affinity) -> room (anti-affinity)
 
+
+* Example: Three topological levels defined as region, zone and rack
+** Levels: region (affinity) -> zone (affinity) -> rack (anti-affinity)
++
 [source,json]
 ----
 {
@@ -12,19 +14,32 @@
 	"version" : "v1",
 	"predicates" : [
 		...
-		{"name" : "CityAffinity", "argument" : {"serviceAffinity" : {"labels" : ["city"]}}}
+		{"name" : "RegionZoneAffinity", "argument" : {"serviceAffinity" : {"labels" : ["region", "zone"]}}}
 	],
 	"priorities" : [
 		...
-		{"name" : "BuildingSpread", "weight" : 1, "argument" : {"serviceAntiAffinity" : {"label" : "building"}}},
-		{"name" : "RoomSpread", "weight" : 1, "argument" : {"serviceAntiAffinity" : {"label" : "room"}}}
+    {"name" : "RackSpread", "weight" : 1, "argument" : {"serviceAntiAffinity" : {"label" : "rack"}}}
 	]
 }
 ----
 
+NOTE: In all of the sample configurations provided, the list of predicates and
+priority functions is truncated to include only the ones that pertain to the use
+case specified. In practice, a complete/meaningful scheduler policy should
+include most, if not all, of the default predicates and priority functions
+listed above.
+
 
 ifdef::showscript[]
 === Transcript
+
+We can use as little or as many topological levels as we like in the
+_Scheduler_.
+Here is an example of three topological levels defined as region, zone and rack
+
+This policy will create a scheduling process that will put pods in the same
+Region and Zone but spread the pods between the Racks within the zone.
+
 endif::showscript[]
 
 

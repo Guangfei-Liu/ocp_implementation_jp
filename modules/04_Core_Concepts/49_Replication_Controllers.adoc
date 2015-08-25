@@ -1,4 +1,4 @@
-== Deployments
+== Replication Controllers
 :noaudio:
 
 .Replication Controllers  Definition file/Manifest
@@ -38,5 +38,11 @@ spec:
 
 ifdef::showscript[]
 === Transcript
+
+Replication controllers are a core Kubernetes object, _ReplicationController_.
+
+Here is an example _ReplicationController_ definition with some omissions
+and callouts.
+
 endif::showscript[]
 

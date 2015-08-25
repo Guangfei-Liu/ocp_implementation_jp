@@ -1,34 +1,41 @@
 == Scheduler
 :noaudio:
 
-.Generic Scheduler
+.Scheduler Extensibility
+As is the case with almost everything else in Kubernetes/OpenShift, the
+scheduler is built using a plugin model and the current implementation itself is
+a plugin.  There are two ways to extend the scheduler functionality:
 
-* The existing generic scheduler is the default platform-provided scheduler
-"engine" that selects a node to host the pod in a 3-step operation:
+* Enhancements
+** The scheduler functionality can be enhanced by adding new predicates and
+priority functions.  They can either be contributed upstream or maintained
+separately.
+** These predicates and priority functions would need to be registered with the
+scheduler factory and then specified in the scheduler policy file.
 
-- Step 1: Filter the nodes
-The available nodes are filtered based on the constraints or requirements
-specified. This is done by running each of the nodes through the list of filter
-functions called 'predicates'.
+* Replacement
+** Since the scheduler is a plugin, it can be replaced in favor of an alternate
+implementation.
+** The scheduler code has a clean separation that watches new pods as they get
+created and identifies the most suitable node to host them.
+** It then creates bindings (pod to node bindings) for the pods using the master
+API.
 
-- Step 2: Prioritize the filtered list of nodes
-This is achieved by passing each node through a series of 'priority' functions
-that assign it a score between 0 - 10, with 0 indicating a bad fit and 10
-indicating a good fit to host the pod.
 
-- Step 3: Select the best fit node
-The nodes are sorted based on their scores and the node with the highest score
-is selected to host the pod. If multiple nodes have the same high score, then
-one of them is selected at random.
 
 ifdef::showscript[]
 === Transcript
-The scheduler configuration can also take
-in a simple "weight" (positive numeric value) for each priority function. The
-node score provided by each priority function is multiplied by the "weight"
-(default weight is 1) and then combined by just adding the scores for each node
-provided by all the priority functions. This weight attribute can be used by
-administrators to give higher importance to some priority functions.
+
+As is the case with almost everything else in Kubernetes/OpenShift, the
+scheduler is built using a plugin model and the current implementation itself is
+a plugin.
+
+ There are two ways to extend the scheduler functionality, enhancements and
+ replacement, you can either enhance the scheduler functionality by adding new
+ predicates and priority functions (These would be covered in the next few
+   slides) or you can completely replace the scheduler plugin with your own
+   implementation.
+
 endif::showscript[]
 
 

@@ -1,0 +1,23 @@
+== Summary
+:noaudio:
+* Overview
+* Containers and Images
+* Pods and Services
+* Projects and Users
+* Builds and ImageStreams
+* Replication Controllers
+* Routers
+
+
+ifdef::showscript[]
+=== Transcript
+In this modules we discussed OSE's Core concepts,
+* Containers and Images
+* Pods and Services
+* Projects and Users
+* Builds and ImageStreams
+* Replication Controllers
+* Routers
+
+
+endif::showscript[]

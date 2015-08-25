@@ -1,22 +1,55 @@
 == Pods and Services
 :noaudio:
 
-.Labels
+.Service Definition file/Manifest
 
-* Labels are used to organize, group, or select API objects.
-**  For example, _pods_ are "tagged" with labels, and then
- _services_ use label selectors to identify the pods they
- proxy to.
-** This makes it possible for services to reference groups of pods, even
-treating pods with potentially different docker containers as related entities.
+* Like pods, services are REST objects. The following
+example shows the definition of a service for the pod defined above:
++
+[source,yaml]
+----
+ apiVersion: v1
+ kind: Service
+ metadata:
+   name: docker-registry      <1>
+ spec:
+   selector:                  <2>
+     docker-registry: default
+   portalIP: 172.30.136.123   <3>
+   ports:
+   - nodePort: 0
+     port: 5000               <4>
+     protocol: TCP
+     targetPort: 5000 <5>
+----
 
-* Most objects can include labels in their metadata. So labels can  be used to
-group arbitrarily-related objects; for example, all of the _pods_, _services_,
- _replication controllers_, and _deployment configurations_ of a particular
- application can be grouped.
+<1> The service name *docker-registry* is also used to construct an
+ environment variable with the service IP that is inserted into other
+ pods in the same namespace.
+<2> The label selector identifies all pods with the
+ *docker-registry=default* label attached as its backing pods.
+<3> Virtual IP of the service, allocated automatically at creation from a pool
+ of internal IPs.
+<4> Port the service listens on.
+<5> Port on the backing pods to which the service forwards connections.
 
 
 ifdef::showscript[]
 === Transcript
+
+Like pods, services are REST objects, you will see this method being used a lot
+in this training.
+The following example shows the definition of a service for the pod defined
+above.
+
+The service name *docker-registry* is also used to construct an
+environment variable with the service IP that is inserted into other
+pods in the same namespace (or Project).
+
+The label selector identifies all pods with the *docker-registry=default* label
+attached as its backing pods.
+
+The _PortalIP_ represents the IP the service will be listening on, when we
+define a new _service_ we will leave this blank to get assigned a random IP.
 endif::showscript[]
 

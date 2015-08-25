@@ -2,9 +2,8 @@
 :noaudio:
 
 .Topology Examples
-
-* Only use nodes with the 'region' label defined and prefer nodes with the
-'zone' label defined
+* Example: Three topological levels defined as city, building and room
+** Levels: city (affinity) -> building (anti-affinity) -> room (anti-affinity)
 
 [source,json]
 ----
@@ -13,20 +12,24 @@
 	"version" : "v1",
 	"predicates" : [
 		...
-		{"name" : "RequireRegion", "argument" : {"labelsPresence" : {"labels" : ["region"], "presence" : true}}}
-
+		{"name" : "CityAffinity", "argument" : {"serviceAffinity" : {"labels" : ["city"]}}}
 	],
 	"priorities" : [
 		...
-		{"name" : "ZonePreferred", "weight" : 1, "argument" : {"labelPreference" : {"label" : "zone", "presence" : true}}}
+		{"name" : "BuildingSpread", "weight" : 1, "argument" : {"serviceAntiAffinity" : {"label" : "building"}}},
+		{"name" : "RoomSpread", "weight" : 1, "argument" : {"serviceAntiAffinity" : {"label" : "room"}}}
 	]
 }
 ----
 
+
 ifdef::showscript[]
 === Transcript
+
+Here is another 3 level topology example, this time we try to keep the Pods in
+the same *City* and spread them between the *buildings* and between the *rooms*
+in each building.
+
 endif::showscript[]
-
-
 
 

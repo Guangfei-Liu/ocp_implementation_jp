@@ -1,7 +1,7 @@
-== Deployments
+== Replication Controllers
 :noaudio:
 
-.Replication Controllers
+.Replication Controllers Overview - Continued
 
 * The definition of a replication controller consists mainly of:
 - The number of replicas desired (which can be adjusted at runtime).
@@ -11,14 +11,30 @@
 * The selector is just a set of labels that all of the pods managed by the
 replication controller should have. So that set of labels is included
 in the pod definition that the replication controller instantiates.
+
 * This selector is used by the replication controller to determine how many
 instances of the pod are already running in order to adjust as needed.
 
-* It is *not the job of the replication controller* to perform `auto-scaling`
+NOTE: It is *not the job of the replication controller* to perform `auto-scaling`
 based on load or traffic, as it does not track either; rather, this
 would require its replica count to be adjusted by an external auto-scaler.
 
+
+
 ifdef::showscript[]
 === Transcript
+The definition of a replication controller consists mainly of:
+- The number of replicas desired (which can be adjusted at runtime).
+- A pod definition for creating a replicated pod.
+- A selector for identifying managed pods.
+
+The selector, that is essentially a set of labels, is used by the replication
+controller to determine how many instances of the pod are already running in
+order to adjust as needed.
+
+It is *not the job of the replication controller* to perform `auto-scaling`
+based on load or traffic, as it does not track either; rather, this
+would require its replica count to be adjusted by an external auto-scaler.
+
 endif::showscript[]
 

@@ -1,25 +1,34 @@
 == Scheduler
 :noaudio:
 
-.Default Scheduler Policy
-* The default scheduler policy includes the following predicates.
+.Static Priority Functions
+These priority functions do not take any configuration parameters or inputs from
+the user.  These are specified in the scheduler configuration using their exact
+name as well as the weight.
 
-1. PodFitsPorts
-1. PodFitsResources
-1. NoDiskConflict
-1. MatchNodeSelector
-1. HostName
+* *_LeastRequestedPriority_* favors nodes with fewer requested resources.
+It calculates the percentage of memory and CPU requested by pods scheduled on
+the node, and prioritizes nodes that have the highest available/remaining capacity.
 
-* The default scheduler policy includes the following priority functions.
-** Each of the priority function has a weight of '1' applied to it.
+* *_BalancedResourceAllocation_* favors nodes with balanced resource usage rate.
+It calculates the difference between the consumed CPU and memory as a fraction
+of capacity, and prioritizes the nodes based on how close the two metrics are
+to each other.  This should always be used together with _LeastRequestedPriority_.
 
-1. LeastRequestedPriority
-1. BalancedResourceAllocation
-1. ServiceSpreadingPriority
+* *_ServiceSpreadingPriority_* spreads pods by minimizing the number of pods
+belonging to the same service onto the same machine
+
+* *_EqualPriority_* gives an equal weight of one to all nodes and is not
+required/recommended outside of testing.
 
 
 ifdef::showscript[]
 === Transcript
+
+Static Priority Functions do not take any configuration parameters or inputs
+from the user.  These are specified in the scheduler configuration using their
+exact name as well as the weight.
+
 endif::showscript[]
 
 

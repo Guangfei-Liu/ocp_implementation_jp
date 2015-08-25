@@ -16,6 +16,16 @@ images.
 
 ifdef::showscript[]
 === Transcript
+A Docker registry is a service for storing and retrieving Docker images, a user
+can "pull" and "push" images from and to the registry.
+
+Red Hat provides a Docker registry, with certified images  at
+`registry.access.redhat.com` for subscribers.
+
+In OSE3.0 we will usually create our own registry, referred to as the
+"Integrated Registry" and use it to push our S2I created images.
+
+
 endif::showscript[]
 
 

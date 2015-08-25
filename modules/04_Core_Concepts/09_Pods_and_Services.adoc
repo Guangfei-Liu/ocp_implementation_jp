@@ -3,7 +3,7 @@
 
 .Pods Overview
 
-* OpenShift leverages the Kubernetes concept of a `*pod*`, which is one or more
+* OpenShift leverages the Kubernetes concept of a `pod`, which is one or more
 containers deployed together on one host, and the smallest compute unit that can
 be defined, deployed, and managed.
 
@@ -15,5 +15,14 @@ networking.
 
 ifdef::showscript[]
 === Transcript
+OpenShift leverages the Kubernetes concept of a `pod`, which is one or more
+containers deployed together on one host, and the smallest compute unit that can
+be defined, deployed, and managed.
+
+Each pod is allocated its own internal IP address, therefore owning its
+entire port space, and containers within pods can share their local storage and
+networking.
+
+
 endif::showscript[]
 

@@ -1,7 +1,7 @@
-== Routes
+== Routers
 :noaudio:
 
-.Routes
+.Routers and Routes - Continued
 
 * In order to reach a router in the first place, requests for hostnames
 must resolve via DNS to a router or set of routers.
@@ -12,5 +12,14 @@ individually. Other approaches may be feasible.
 
 ifdef::showscript[]
 === Transcript
+In order to reach a router in the first place, requests for hostnames
+must resolve via DNS to a router or set of routers.
+
+The suggested method is to define a cloud domain with a wildcard DNS entry
+pointing to a virtual IP backed by multiple router instances on designated nodes.
+
+DNS for addresses outside the cloud domain would need to be configured
+individually. Other approaches may be feasible.
+
 endif::showscript[]
 

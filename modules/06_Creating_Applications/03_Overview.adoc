@@ -1,4 +1,5 @@
 == Overview
+:noaudio:
 
 * You can create a new OpenShift application using the web console or by running
 the `oc new-app` command from the CLI.
@@ -32,4 +33,3 @@ of these objects and then cover the, much simpler, *oc new-app* method.
 
 
 endif::showscript[]
-

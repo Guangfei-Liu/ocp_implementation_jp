@@ -1,0 +1,51 @@
+== Source To Image Builds
+:noaudio:
+
+.The Build File - ImageStream
+
+* Describes `ImageStream` resource to be created to support your built
+application
+* Lets OpenShift "listen" or "poll" for changes in image, such as security
+patches
+** OpenShift rebuilds when a change like this occurs
++
+[source,json]
+----
+        {
+            "kind": "ImageStream",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "simple-openshift-sinatra-sti",
+                "creationTimestamp": null
+            },
+            "spec": {
+                "tags": [
+                    {
+                        "name": "latest",
+                        "from": {
+                            "kind": "DockerImage",
+                            "name": "simple-openshift-sinatra-sti:latest"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "dockerImageRepository": ""
+            }
+        },
+
+----
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+The `ImageStream` section describes the `ImageStream` resource to be created to
+support your built application.
+
+Using `ImageStreams` lets your OpenShift "listen" or "poll" for changes in the
+image, such as security patches, and rebuild when a change like this occurs.
+
+endif::showscript[]
+

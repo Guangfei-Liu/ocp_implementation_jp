@@ -1,0 +1,29 @@
+== Create App from Template
+:noaudio:
+
+.Template Parameters - Brief
+
+NOTE: We will cover this in more depth in the next module
+
+* When creating an application based on a _template_, use the
+`-p|--param` argument to set parameter values defined by the template.
+
+* To Specify Template Parameters with a Template:
++
+----
+$ oc new-app ruby-helloworld-sample \
+    -p ADMIN_USERNAME=admin,ADMIN_PASSWORD=mypassword
+----
+
+
+
+ifdef::showscript[]
+
+=== Transcript
+When creating an application based on a _template_, use the
+`-p|--param` argument to set parameter values defined by the template.
+
+We will cover this in more depth in the next module.
+
+endif::showscript[]
+

@@ -1,49 +1,29 @@
 == Modify Application Environment
 :noaudio:
 
-.Artifacts Created
+.Specifying Labels
 
-* The set of artifacts created by `new-app` depends on the artifacts passed as
-input: source repositories, images, or templates.
+* When generating applications from source, images, templates, you can use the
+`l|--label` argument to add labels to objects created by `new-app`.
+* This is recommended, as labels make it easy to collectively select,
+manipulate, and delete objects associated with the application.
 
-.`new-app` Output Resources
-[cols="2,8",options="header"]
-|===
-
-|Artifact |Description
-
-a|`*BuildConfig*`
-a|A `*BuildConfig*` is created for each source repository specified in the
-command line. The `*BuildConfig*` specifies the strategy to use, the source
-location, and the build output location.
-
-a|`*ImageStreams*`
-a|For `*BuildConfig*`, two `*ImageStreams*` are usually created: one to
-represent the input image (the builder image in the case of `*Source*` builds or
-*FROM* image in case of `*Docker*` builds), and another one to represent the
-output image.   If a Docker image was specified as input to `new-app`, then an
-image stream is created for that image as well.
-
-a|`*DeploymentConfig*`
-a|A `*DeploymentConfig*` is created either to deploy the output of a build, or a
-specified image.
-a|`*Service*`
-a|The `new-app` command attempts to detect exposed ports in input images. It
-uses the lowest numeric exposed port to generate a service that exposes that
-port. In order to expose a different port, after `new-app` has completed, simply
-use the `oc expose` command to generate additional services.
-
-a|*Other*
- |Other resources can be generated when instantiating
-templates.
-
-|===
+* To Use the Label Argument to Label Objects Created by `new-app`:
++
+----
+$ oc new-app https://github.com/openshift/ruby-hello-world -l name=hello-world
+----
 
 
 ifdef::showscript[]
 
 === Transcript
 
-endif::showscript[]
+When generating applications from source, images, templates, you can use the
+`l|--label` argument to add labels to objects created by `new-app`.
 
+This is recommended, as labels make it easy to collectively select,
+manipulate, and delete objects associated with the application.
+
+endif::showscript[]
 

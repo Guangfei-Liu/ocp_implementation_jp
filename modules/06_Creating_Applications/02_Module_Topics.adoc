@@ -1,12 +1,14 @@
 == Module Topics
 :noaudio:
 
+
+* Overview
+* Source To Image
+* Source To Image Builds
 * Creating New Applications
-* Create App from Source Code
-* S2I Applications Expanded
-* S2I Builds
-* Create App from Image
-* Create App from Template
+- Create App from Source Code
+- Create App from Image
+- Create App from Template
 * Modify Application Environment
 * Advanced Application Creation
 * Using the Web Console
@@ -16,8 +18,7 @@ ifdef::showscript[]
 
 === Transcript
 
-Welcome to Module 07 of the OpenShift Enterprise Implementation course.
+Welcome to Module 06 of the OpenShift Enterprise Implementation course.
 
 endif::showscript[]
-
 

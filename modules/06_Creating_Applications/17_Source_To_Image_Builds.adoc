@@ -1,0 +1,79 @@
+== Source To Image Builds
+:noaudio:
+
+.The Build File - BuildConfig
+
+* Defines the following:
+** Triggers that start a rebuild of your application
+** Parameters that define the repository and builder image for the build process
++
+[source,json]
+----
+ {
+            "kind": "BuildConfig",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "simple-openshift-sinatra-sti",
+                "creationTimestamp": null
+            },
+            "spec": {
+                "triggers": [
+                    {
+                        "type": "GitHub",
+                        "github": {
+                            "secret": "egsfGzfgMcKPPCfL88oz"
+                        }
+                    },
+                    {
+                        "type": "Generic",
+                        "generic": {
+                            "secret": "8fcmnyr0RbkzLPCPY9Sv"
+                        }
+                    },
+                    {
+                        "type": "ImageChange",
+                        "imageChange": {}
+                    }
+                ],
+                "source": {
+                    "type": "Git",
+                    "git": {
+                        "uri": "https://github.com/openshift/simple-openshift-sinatra-sti.git"
+                    }
+                },
+                "strategy": {
+                    "type": "Source",
+                    "sourceStrategy": {
+                        "from": {
+                            "kind": "ImageStreamTag",
+                            "namespace": "openshift",
+                            "name": "ruby:latest"
+                        }
+                    }
+                },
+                "output": {
+                    "to": {
+                        "kind": "ImageStreamTag",
+                        "name": "simple-openshift-sinatra-sti:latest"
+                    }
+                },
+                "resources": {}
+            },
+            "status": {
+                "lastVersion": 0
+            }
+        },
+----
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+In the `BuildConfig` section, you define both the triggers you can use to start
+a "rebuild" of your application and the parameters that define the repository
+and the builder image that the build process uses.
+
+endif::showscript[]
+
+

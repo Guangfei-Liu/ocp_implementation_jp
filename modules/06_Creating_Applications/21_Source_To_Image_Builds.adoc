@@ -1,0 +1,36 @@
+== Source To Image Builds
+:noaudio:
+
+.Creating the Build Environment
+
+* To create build environment and start the build, use *oc create* on the
+.json file created earlier:
++
+----
+$ oc create -f ~/simple-sinatra.json
+----
+
+* This creates:
+** `ImageRepository` entry
+** `BuildConfig`
+** `DeploymentConfig`
+** `Service`
+
+NOTE: Most time its recommended to use `oc new-app`, This method is described for
+rare cases and for learning benifits.
+
+ifdef::showscript[]
+
+=== Transcript
+
+As shown in the first code sample, you use the `oc create` command to create
+the build environment and resources.
+This does not start the build process for your image but creates the required
+resources discussed previously.
+These include an `ImageRepository` entry, a `BuildConfig`, a `DeploymentConfig`,
+ and a `Service`.
+
+To review what happened, run the command shown in the second code sample.
+
+endif::showscript[]
+

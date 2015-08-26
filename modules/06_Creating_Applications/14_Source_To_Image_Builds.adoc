@@ -1,0 +1,194 @@
+== Source To Image Builds
+:noaudio:
+
+.The Build File
+
+* The Build file contains some familiar items:
+- In the next few slides we will look at different sections of this file
++
+.Exmple Build JSON file
+[source,json]
+----
+{
+    "kind": "List",
+    "apiVersion": "v1",
+    "metadata": {},
+    "items": [
+        {
+            "kind": "ImageStream",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "simple-openshift-sinatra-sti",
+                "creationTimestamp": null
+            },
+            "spec": {
+                "tags": [
+                    {
+                        "name": "latest",
+                        "from": {
+                            "kind": "DockerImage",
+                            "name": "simple-openshift-sinatra-sti:latest"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "dockerImageRepository": ""
+            }
+        },
+        {
+            "kind": "BuildConfig",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "simple-openshift-sinatra-sti",
+                "creationTimestamp": null
+            },
+            "spec": {
+                "triggers": [
+                    {
+                        "type": "GitHub",
+                        "github": {
+                            "secret": "egsfGzfgMcKPPCfL88oz"
+                        }
+                    },
+                    {
+                        "type": "Generic",
+                        "generic": {
+                            "secret": "8fcmnyr0RbkzLPCPY9Sv"
+                        }
+                    },
+                    {
+                        "type": "ImageChange",
+                        "imageChange": {}
+                    }
+                ],
+                "source": {
+                    "type": "Git",
+                    "git": {
+                        "uri": "https://github.com/openshift/simple-openshift-sinatra-sti.git"
+                    }
+                },
+                "strategy": {
+                    "type": "Source",
+                    "sourceStrategy": {
+                        "from": {
+                            "kind": "ImageStreamTag",
+                            "namespace": "openshift",
+                            "name": "ruby:latest"
+                        }
+                    }
+                },
+                "output": {
+                    "to": {
+                        "kind": "ImageStreamTag",
+                        "name": "simple-openshift-sinatra-sti:latest"
+                    }
+                },
+                "resources": {}
+            },
+            "status": {
+                "lastVersion": 0
+            }
+        },
+        {
+            "kind": "DeploymentConfig",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "simple-openshift-sinatra-sti",
+                "creationTimestamp": null
+            },
+            "spec": {
+                "strategy": {
+                    "type": "Recreate",
+                    "resources": {}
+                },
+                "triggers": [
+                    {
+                        "type": "ConfigChange"
+                    },
+                    {
+                        "type": "ImageChange",
+                        "imageChangeParams": {
+                            "automatic": true,
+                            "containerNames": [
+                                "simple-openshift-sinatra-sti"
+                            ],
+                            "from": {
+                                "kind": "ImageStreamTag",
+                                "name": "simple-openshift-sinatra-sti:latest"
+                            }
+                        }
+                    }
+                ],
+                "replicas": 1,
+                "selector": {
+                    "deploymentconfig": "simple-openshift-sinatra-sti"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "deploymentconfig": "simple-openshift-sinatra-sti"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "simple-openshift-sinatra-sti",
+                                "image": "simple-openshift-sinatra-sti:latest",
+                                "ports": [
+                                    {
+                                        "name": "simple-openshift-sinatra-sti-tcp-8080",
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {}
+                            }
+                        ]
+                    }
+                }
+            },
+            "status": {}
+        },
+        {
+            "kind": "Service",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "simple-openshift-sinatra",
+                "creationTimestamp": null
+            },
+            "spec": {
+                "ports": [
+                    {
+                        "name": "simple-openshift-sinatra-sti-tcp-8080",
+                        "protocol": "TCP",
+                        "port": 8080,
+                        "targetPort": 8080,
+                    }
+                ],
+                "selector": {
+                    "deploymentconfig": "simple-openshift-sinatra-sti"
+                },
+                "portalIP": ""
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        }
+    ]
+}
+----
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+Here you can see the generated JSON file. At this point, it contains some
+familiar items, and some new ones--specifically, `BuildConfig` and
+`ImageRepository`.
+Upcoming slides cover each section of the file.
+
+endif::showscript[]
+

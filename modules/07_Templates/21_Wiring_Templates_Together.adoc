@@ -1,11 +1,14 @@
-== Wiring Disparate Components
+== Wiring Templates Together
 :noaudio:
 
 .Extract the values from config file
 
-
 * Before creating the "db" template we will review the config file for "frontend"
-** In the config, you will see that a DB password and other parameters have been generated
+** In the config, you will see that a DB password and other parameters have been
+ generated.
+
+NOTE: For an existing deployment you can extract these values with the `oc env`
+command.
 ----
 grep -A 1 MYSQL_* frontend-config.json
                                             "name": "MYSQL_USER",
@@ -27,7 +30,12 @@ ifdef::showScript[]
 
 === Transcript
 
-* Place narrator script here
+Before creating the "db" template we will review the config file for "frontend"
+In the config, you will see that a DB password and other parameters have been
+generated.
+
+For an existing deployment you can extract these values with the `oc env`
+command.
 
 endif::showScript[]
 

@@ -1,10 +1,9 @@
 == How to create a Template file
 :noaudio:
 
-* Template example - Objects: BuildConfig
+* Template example - Objects: DeploymentConfig "frontend"
 
 [source,json]
-
 ----
  {
       "kind": "DeploymentConfig",
@@ -101,17 +100,19 @@
       },
       "status": {}
     },
-    {
 ----
+
 ifdef::showScript[]
 
 === Transcript
 
-* Place narrator script here
+In this slide we can see the "frontend" `DeploymentConfig` object.
+
+
+Notice that the "env" parameters for MySQL access are set, you will see them
+ again in the next part of the template.
 
 endif::showScript[]
-
-
 
 
 

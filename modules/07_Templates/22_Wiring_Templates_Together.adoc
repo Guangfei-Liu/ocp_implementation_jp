@@ -1,10 +1,12 @@
-== Wiring Disparate Components
+== Wiring Templates Together
 :noaudio:
 
 .Process "db"
 
-* Now that we know the values that were used to create "frontend" we can use them when we process the "db" template
-* In this example we are processing and creating the "db" template while overriding the mysql credentials variables.
+* Now that we know the values that were used to create "frontend" we can use
+them when we process the "db" template
+* In this example we are processing and creating the "db" template while
+overriding the mysql credentials variables.
 ** Process the "frontend" template and create the *config* file.
 
 ----
@@ -37,7 +39,10 @@ ifdef::showScript[]
 
 === Transcript
 
-* Place narrator script here
+Now that we know the values that were used to create "frontend" we can use
+them when we process the "db" template
+* In this example we are processing and creating the "db" template while
+overriding the mysql credentials variables.
 
 endif::showScript[]
 

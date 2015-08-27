@@ -1,21 +1,27 @@
-== Summary
+== Module Topics
 :noaudio:
+
 
 * Templates Overview
 * How to create a Template file
 * Creating a Configuration From a Template
-* Wiring Disparate Components
+* Wiring Templates Together
 * Using Templates from the Web Management Console
 * Lab	: Installing a Template
 * Lab	: Wiring Templates together
-
-
 
 
 ifdef::showScript[]
 
 === Transcript
 
-* Place narrator script here
+In this Module we will discuss the following topics:
+- Templates Overview
+- Templates Structure
+- Wiring Templates together
+- Using Templates from the Web Management Console
 
 endif::showScript[]
+
+
+

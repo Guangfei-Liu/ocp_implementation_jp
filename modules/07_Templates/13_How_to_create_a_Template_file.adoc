@@ -2,6 +2,9 @@
 :noaudio:
 
 * Template example - Objects: ImageStreams "ruby-sample" and "ruby-20-rhel7"
+NOTE: that we have 2 `imagestream` objects in this template, one for the
+*Builder Image* (ruby-20-rhel7) and one for our S2I image (ruby-sample) that
+will be created for this deployment.
 
 [source,json]
 ----
@@ -25,7 +28,7 @@
         "creationTimestamp": null
       },
       "spec": {
-        "dockerImageRepository": "registry.access.redhat.com/openshift3_beta/ruby-20-rhel7"
+        "dockerImageRepository": "registry.access.redhat.com/openshift3/ruby-20-rhel7"
       },
       "status": {
         "dockerImageRepository": ""
@@ -37,7 +40,12 @@ ifdef::showScript[]
 
 === Transcript
 
-* Place narrator script here
+In this slide we can see the "ruby-sample" and "ruby-20-rhel7" `ImageStream`
+Objects.
+
+Note that we have 2 `imagestream` objects in this template, one for the
+*Builder Image* (ruby-20-rhel7) and one for our S2I image (ruby-sample) that
+will be created for this deployment.
 
 endif::showScript[]
 

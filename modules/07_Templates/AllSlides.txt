@@ -30,19 +30,17 @@ include::15_How_to_create_a_Template_file.adoc[]
 
 include::16_How_to_create_a_Template_file.adoc[]
 
-include::17_How_to_create_a_Template_file.adoc[]
+include::17_Creating_a_Configuration_From_a_Template.adoc[]
 
 include::18_Creating_a_Configuration_From_a_Template.adoc[]
 
-include::19_Creating_a_Configuration_From_a_Template.adoc[]
+include::19_Wiring_Templates_Together.adoc[]
 
-include::20_Wiring_Disparate_Components.adoc[]
+include::20_Wiring_Templates_Together.adoc[]
 
-include::21_Wiring_Disparate_Components.adoc[]
+include::21_Wiring_Templates_Together.adoc[]
 
-include::22_Wiring_Disparate_Components.adoc[]
+include::22_Wiring_Templates_Together.adoc[]
 
-include::23_Wiring_Disparate_Components.adoc[]
-
-include::24_Summary.adoc[]
+include::23_Summary.adoc[]
 

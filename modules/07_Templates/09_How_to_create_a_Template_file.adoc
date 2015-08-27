@@ -22,7 +22,8 @@
 ifdef::showScript[]
 
 === Transcript
-
+In the next few slides we will review the different sections of a template
+example, In this slide we can see the 'Metadata' Section of the template.
 
 
 endif::showScript[]

@@ -1,0 +1,32 @@
+== Template Overview
+:noaudio:
+
+.Template Labels:
+
+* Labels are used to manage and organize generated resources, such as pods. The
+ labels specified in the template are applied to *every resource that is
+ generated from the template*.
+* Labels are used to organize, group, or select objects and resources.
+- resources and pods are "tagged" with labels, and then services and
+replication controllers use labels to indicate the pods they relate to.
+- This makes it possible for services and replication controllers to reference
+groups of pods, or treat pods with potentially different Docker containers as
+similar entities.
+
+ifdef::showScript[]
+
+=== Transcript
+
+* Labels are used to manage and organize generated resources, such as pods. The
+ labels specified in the template are applied to *every resource that is
+ generated from the template*.
+* Labels are used to organize, group, or select objects and resources.
+- resources and pods are "tagged" with labels, and then services and
+replication controllers use labels to indicate the pods they relate to.
+- This makes it possible for services and replication controllers to reference
+groups of pods, or treat pods with potentially different Docker containers as
+similar entities.
+
+endif::showScript[]
+
+

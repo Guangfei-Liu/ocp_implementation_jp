@@ -1,4 +1,4 @@
-== Wiring Disparate Components
+== Wiring Templates Together
 :noaudio:
 
 .Process "frontend"
@@ -27,7 +27,8 @@ ifdef::showScript[]
 
 === Transcript
 
-* Place narrator script here
+The first step will be to stand up the frontend of our application. and process
+the "frontend" template to create the *config* file.
 
 endif::showScript[]
 

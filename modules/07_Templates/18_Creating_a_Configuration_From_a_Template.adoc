@@ -1,0 +1,57 @@
+== Creating a Configuration From a Template
+:noaudio:
+
+.Generating a Configuration
+
+* Generate a configuration with the following command:
+** *oc process* will examine a template, generate any desired parameters,
+and output a JSON configuration that can be created with oc.
+
+----
+
+$ oc process -f <filename>
+
+----
+
+** Alternatively, you can create from a template without uploading it to the
+template library by processing the template and creating from the same template
+by piping both commands:
+
+----
+
+$ oc process -f <filename.json> | sed s/oldvalue/newvalue/g |oc create -f -
+
+----
+
+** You can override any parameters defined in the JSON file by adding the -v
+option and any desired parameters. For example, you can override the
+ADMIN_USERNAME and MYSQL_DATABASE parameters to create a configuration with
+customized environment variables:
+
+----
+
+$ oc process -f examples/sample-app/application-template-dockerbuild.json -v ADMIN_USERNAME=root,MYSQL_DATABASE=admin
+
+----
+
+
+ifdef::showScript[]
+
+=== Transcript
+
+you can generate a configuration with the *oc process* command, it will examine
+a template, generate any desired parameters, and output a JSON configuration
+that can be created with *oc create*.
+
+Alternatively, you can create from a template without uploading it to the
+template library by processing the template and creating from the same template
+by piping both commands together.
+
+We can also override any parameters defined in the JSON file by adding the -v
+option and any desired parameters. For example, you can override the
+ADMIN_USERNAME and MYSQL_DATABASE parameters to create a configuration with
+customized environment variables.
+
+endif::showScript[]
+
+

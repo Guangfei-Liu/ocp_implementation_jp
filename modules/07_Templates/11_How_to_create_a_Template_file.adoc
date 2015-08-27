@@ -1,31 +1,29 @@
 == How to create a Template file
 :noaudio:
 
-* Template example - Objects: Service "web"
+* Template example - Objects: Service "database"
 
 [source,json]
 ----
-
-"objects": [
-    {
+  {
       "kind": "Service",
       "apiVersion": "v1",
       "metadata": {
-        "name": "frontend",
+        "name": "database",
         "creationTimestamp": null
       },
       "spec": {
         "ports": [
           {
-            "name": "web",
+            "name": "db",
             "protocol": "TCP",
-            "port": 5432,
-            "targetPort": 8080,
+            "port": 5434,
+            "targetPort": 3306,
             "nodePort": 0
           }
         ],
         "selector": {
-          "name": "frontend"
+          "name": "database"
         },
         "portalIP": "",
         "type": "ClusterIP",
@@ -35,14 +33,13 @@
         "loadBalancer": {}
       }
     },
-
 ----
 
 ifdef::showScript[]
 
 === Transcript
 
-* Place narrator script here
-
+In this slide we can see the "database" `Service` Object
 endif::showScript[]
+
 

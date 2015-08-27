@@ -27,7 +27,7 @@ ifdef::showScript[]
 
 === Transcript
 
-* Place narrator script here
+In this slide we can see the "frontend" `route` Object and the hostname defined.
 
 endif::showScript[]
 

@@ -42,16 +42,26 @@
 * Notice the following elements:
 ** *"name":* - The name of the template
 ** *"description":* - Optional description for the template
-** *"parameters":* - A list of parameters for the template (Parameters like Username, Passwords and others)
+** *"parameters":* - A list of parameters for the template (Parameters like
+  Username, Passwords and others)
 ** *"labels":* - A list of labels to apply to resources
-** *"objects":* - list of resources to create (Resources like *Pods*, *Services* and *Routes*)
+** *"objects":* - A list of resources to create (Resources like *Pods*,
+  *Services* and *Routes*)
 
 
 ifdef::showScript[]
 
 === Transcript
 
-* Place narrator script here
+Review the following sample template file, take note of the following elements:
+Notice the following elements:
+The *"name":* Element, The name of the template
+The *"description":* Element, Optional description for the template
+The *"parameters":* Element, A list of parameters for the template (Parameters
+  like Username, Passwords and others)
+The *"labels":* Element, A list of labels to apply to resources
+The *"objects":* Element, A list of resources to create (Resources like *Pods*,
+  *Services* and *Routes*)
 
 endif::showScript[]
 

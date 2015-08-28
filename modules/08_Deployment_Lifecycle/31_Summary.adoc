@@ -14,5 +14,12 @@ In this module we covered:
 
   ifdef::showscript[]
   === Transcript
+	In this Module we learned about the The value of `Deployments` to the
+  developer and operational workflows, we discussed the different *Strategies*
+  that we can use to deploy a new version of our application.
 
+  We covered Lifecycle hooks and how to use them as Build Triggers, finally we
+  learned some practical commands to manage a re-deployment or rollback.
+
+  
   endif::showscript[]

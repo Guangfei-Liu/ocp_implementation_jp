@@ -1,0 +1,30 @@
+== Security Context Constraints
+:noaudio:
+
+.Admission
+
+* In order to have control over the creation of resources and actions  based on
+ the capabilities granted to a user or a pod _Admission control_ is used.
+
+* Doing so ensures the pod is authorized to make requests about its operating
+environment or to generate a set of constraints to apply to the pod.
+
+* The set of SCCs that _admission_ uses to authorize a pod are determined by the
+ user identity and groups that the user belongs to.
+** Additionally, if the pod specifies a service account, the set of allowable
+SCCs includes any constraints accessible to the service account.
+
+ifdef::showscript[]
+=== Transcript
+* In order to have control over the creation of resources and actions  based on
+ the capabilities granted to a user or a pod _Admission control_ is used.
+
+* Doing so ensures the pod is authorized to make requests about its operating
+environment or to generate a set of constraints to apply to the pod.
+
+* The set of SCCs that _admission_ uses to authorize a pod are determined by the
+ user identity and groups that the user belongs to.
+** Additionally, if the pod specifies a service account, the set of allowable
+SCCs includes any constraints accessible to the service account.
+endif::showscript[]
+

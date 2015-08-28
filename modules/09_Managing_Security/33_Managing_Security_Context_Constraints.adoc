@@ -1,28 +1,19 @@
 == Managing Security Context Constraints
 :noaudio:
 
-.Deleting Security Context Constraints
+.Listing Security Context Constraints
 
-* To delete an SCC:
+* To get a current list of SCCs:
 +
 ----
-$ oc delete scc <scc_name>
-----
-
-NOTE: If you delete the default SCCs, they will not be regenerated upon restart,
-unless you delete all SCCs. If any constraint already exists within the system,
-no regeneration will take place.
-
-.Updating Security Context Constraints
-
-* To update an existing SCC:
-+
-----
-$ oc edit scc <scc_name>
+$ oc get scc
+NAME         PRIV      CAPS      HOSTDIR   SELINUX     RUNASUSER
+privileged   true      []        true      RunAsAny    RunAsAny
+restricted   false     []        false     MustRunAs   MustRunAsRange
 ----
 
 ifdef::showscript[]
 === Transcript
-
+ To get a current list of SCCs, use the *oc get scc* command.
 endif::showscript[]
 

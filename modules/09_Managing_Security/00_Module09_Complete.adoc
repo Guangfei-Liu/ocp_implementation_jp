@@ -32,7 +32,7 @@ endif::[]
 ifdef::showscript[]
 
 === Transcript
-Welcome to Module 06 of the OpenShift Enterprise Implementation course.
+Welcome to Module 09 of the OpenShift Enterprise Implementation course.
 endif::showscript[]
 
 
@@ -49,12 +49,21 @@ using a link:https://docs.openshift.com/enterprise/3.0/admin_guide/master_node_c
 configuration file].
 
 * In this section we will review:
-** Users and Groups
-** API Authentication
-** OAuth
+- Users and Groups
+- API Authentication
+- OAuth
 
 ifdef::showscript[]
 === Transcript
+The authentication layer identifies the user associated with requests to the
+OpenShift API. The authorization layer then uses information about the
+requesting user to determine if the request should be allowed.
+
+
+* In this section we will review:
+- Users and Groups
+- API Authentication
+- OAuth
 
 endif::showscript[]
 
@@ -77,12 +86,21 @@ access to link:https://docs.openshift.com/enterprise/3.0/architecture/core_conce
 link:https://docs.openshift.com/enterprise/3.0/architecture/core_concepts/projects_and_users.html#projects[project], versus granting
 them to users individually.
 
-NOTE: Support for developers and administrators to define their own custom groups is
-currently under active development. At this time, the only groups that exist are
-system groups, or _virtual groups_, that are automatically provisioned by
-OpenShift. These can be seen when
-link:https://docs.openshift.com/enterprise/3.0/admin_guide/manage_authorization_policy.html#viewing-cluster-bindings[viewing
-cluster bindings].
+
+ifdef::showscript[]
+=== Transcript
+* A _user_ in OpenShift is an entity that can make requests to the OpenShift API.
+Typically, this represents the account of a developer or administrator that is
+interacting with OpenShift.
+
+* A user can be assigned to one or more _groups_, each of which represent a
+certain set of users.
+endif::showscript[]
+
+== Authentication
+:noaudio:
+
+.Users and Groups
 
 In the default set of virtual groups, note the following in
 particular:
@@ -97,8 +115,23 @@ particular:
 
 |===
 
+NOTE: Support for developers and administrators to define their own custom groups is
+currently under active development. At this time, the only groups that exist are
+system groups, or _virtual groups_, that are automatically provisioned by
+OpenShift. These can be seen when
+link:https://docs.openshift.com/enterprise/3.0/admin_guide/manage_authorization_policy.html#viewing-cluster-bindings[viewing
+cluster bindings].
+
+
 ifdef::showscript[]
 === Transcript
+In the default set of virtual groups, note the following groups in particular.
+
+Support for developers and administrators to define their own custom groups is
+currently under active development. At this time, the only groups that exist are
+system groups, or _virtual groups_, that are automatically provisioned by
+OpenShift.
+
 
 endif::showscript[]
 
@@ -110,8 +143,10 @@ endif::showscript[]
 * Requests to the OpenShift API are authenticated using the following methods:
 
 ** OAuth Access Tokens:
-- Obtained from the OpenShift OAuth server using the `_<master>_/oauth/authorize` and `_<master>_/oauth/token` endpoints.
-- Sent as an `Authorization: Bearer+++...+++` header or an `access_token=+++...+++` query parameter
+- Obtained from the OpenShift OAuth server using the
+`_<master>_/oauth/authorize` and `_<master>_/oauth/token` endpoints.
+- Sent as an `Authorization: Bearer+++...+++` header or an
+`access_token=+++...+++` query parameter
 
 ** X.509 Client Certificates:
 *** Requires a HTTPS connection to the API server.
@@ -121,13 +156,13 @@ endif::showscript[]
 NOTE: Any request with an invalid access token or an invalid certificate is rejected
 by the authentication layer with a 401 error.
 
-NOTE: If no access token or certificate is presented, the authentication layer assigns
-the `system:anonymous` virtual user and the `system:unauthenticated` virtual
-group to the request. This allows the authorization layer to determine which
-requests, if any, an anonymous user is allowed to make.
-
 ifdef::showscript[]
 === Transcript
+Requests to the OpenShift API are authenticated using the following methods:
+Oauth Access Tokens and X.509 Client Certificates.
+
+Any request with an invalid access token or an invalid certificate is rejected
+by the authentication layer with a 401 error.
 
 endif::showscript[]
 
@@ -142,11 +177,25 @@ access tokens to authenticate themselves to the API.
 link:https://docs.openshift.com/enterprise/3.0/admin_guide/configuring_authentication.html[identity
 provider] to determine the identity of the person making the request.
 
-** It then determines what user that identity maps to, creates an access token for
+- It then determines what user that identity maps to, creates an access token for
 that user, and returns the token for use.
+
+
+NOTE: If no access token or certificate is presented, the authentication layer assigns
+the `system:anonymous` virtual user and the `system:unauthenticated` virtual
+group to the request. This allows the authorization layer to determine which
+requests, if any, an anonymous user is allowed to make.
 
 ifdef::showscript[]
 === Transcript
+The OpenShift master includes a built-in OAuth server. Users obtain OAuth
+access tokens to authenticate themselves to the API.
+
+* When a person requests a new OAuth token, the OAuth server uses the configured
+identity provider to determine the identity of the person making the request.
+
+- It then determines what user that identity maps to, creates an access token for
+that user, and returns the token for use.
 
 endif::showscript[]
 
@@ -178,6 +227,13 @@ when starting the OpenShift API:
 
 ifdef::showscript[]
 === Transcript
+Every request for an OAuth token must specify the OAuth client that will
+receive and use the token.
+* The following OAuth clients are automatically created
+when starting the OpenShift API:
+- openshift-web-console
+- openshift-browser-client
+- openshift-challenging-client
 
 endif::showscript[]
 
@@ -204,6 +260,22 @@ useful for testing purposes.
 
 ifdef::showscript[]
 === Transcript
+The OpenShift _master_ includes a built-in OAuth Server.
+* Developers and administrators obtain _OAuth access tokens_ to authenticate
+themselves to the API.
+
+* As an administrator, you can configure _OAuth_ using a
+_master configuration file_ to specify an _identity provider_.
+
+* The _Deny All_ identity provider is used by default, which denies access for
+all user names and passwords. To allow access, you must choose a different
+identity provider and configure the master
+configuration file appropriately (located at
+*_/etc/openshift/master/master-config.yaml_* by default).
+
+* When running a master without a configuration file, the _Allow All_ identity
+provider is used by default, which allows any non-empty user name and password
+to log in. This is useful for testing purposes.
 
 endif::showscript[]
 
@@ -213,9 +285,7 @@ endif::showscript[]
 .Identity Providers
 
 * You can configure the master for authentication using your desired identity
-provider by modifying the _master configuration file_. The following sections
-detail the identity providers
-supported by OpenShift.
+provider by modifying the _master configuration file_.
 
 * There are three parameters common to all identity providers:
 +
@@ -242,6 +312,13 @@ Not supported by all identity providers.
 
 ifdef::showscript[]
 === Transcript
+You can configure the master for authentication using your desired identity
+provider by modifying the _master configuration file_.
+
+* There are three parameters common to all identity providers: Name, Challange
+and Login.
+
+In the next few slides we will review the different Identity Providers.
 
 endif::showscript[]
 
@@ -278,7 +355,8 @@ console) are redirected to a login page backed by this provider.
 
 ifdef::showscript[]
 === Transcript
-
+The "Allow All" identity provider is the default identity provider when running
+OpenShift without a _master configuration file_.
 endif::showscript[]
 
 == Configuring Authentication
@@ -313,82 +391,8 @@ console) are redirected to a login page backed by this provider.
 
 ifdef::showscript[]
 === Transcript
-
-endif::showscript[]
-
-== Configuring Authentication
-:noaudio:
-
-.Identity Providers - HTPasswd
-
-* Set _HTPasswdPasswordIdentityProvider_ in the `identityProviders` stanza to
-validate user names and passwords against a flat file generated using
-http://httpd.apache.org/docs/2.4/programs/htpasswd.html[`htpasswd`].
-
-* Only MD5 and SHA encryption types are supported. MD5 encryption is recommended,
-and is the default for `htpasswd`.
-** Plaintext, crypt, and bcrypt hashes are not currently supported.
-
-* The flat file is re-read if its modification time changes, without requiring a
-server restart.
-
-* Master Configuration Using *HTPasswdPasswordIdentityProvider*:
-+
-[source,yaml]
-----
-oauthConfig:
-
-  identityProviders:
-  - name: my_htpasswd_provider <1>
-    challenge: true <2>
-    login: true <3>
-    provider:
-      apiVersion: v1
-      kind: HTPasswdPasswordIdentityProvider
-      file: /path/to/users.htpasswd <4>
-----
-
-<1> This provider name is prefixed to provider user names to form an identity
-name.
-<2> When *true*, unauthenticated token requests from non-web clients (like the
-CLI) are sent a `WWW-Authenticate` challenge header for this provider.
-<3> When *true*, unauthenticated token requests from web clients (like the web
-console) are redirected to a login page backed by this provider.
-<4> File generated using
-http://httpd.apache.org/docs/2.4/programs/htpasswd.html[`htpasswd`].
-
-ifdef::showscript[]
-=== Transcript
-
-endif::showscript[]
-
-== Configuring Authentication
-:noaudio:
-
-.Identity Providers - HTPasswd Continued
-
-* To create the file, run:
-+
-----
-$ htpasswd -c </path/to/users.htpasswd> <user_name>
-----
-
-* To add or update a login to the file, run:
-+
-----
-$ htpasswd </path/to/users.htpasswd> <user_name>
-----
-
-* To remove a login from the file, run:
-+
-----
-$ htpasswd </path/to/users.htpasswd> -D <user_name>
-----
-
-
-
-ifdef::showscript[]
-=== Transcript
+The "Deny All" is the default identity provider when running
+OpenShift *with* a _master configuration file_.
 
 endif::showscript[]
 
@@ -423,7 +427,114 @@ as the identity, email address, display name, and preferred user name.
 ifdef::showscript[]
 === Transcript
 
+* Set _LDAPPasswordIdentityProvider_ in the `identityProviders` stanza to
+validate user names and passwords against an LDAPv3 server, using simple bind
+authentication.
+
+* During authentication, the LDAP directory is searched for an entry that matches
+the provided user name. If a single unique match is found, a simple bind is
+attempted using the distinguished name (DN) of the entry plus the provided
+password.
+
 endif::showscript[]
+
+== Configuring Authentication
+:noaudio:
+
+.Identity Providers - HTPasswd
+
+* Set _HTPasswdPasswordIdentityProvider_ in the `identityProviders` stanza to
+validate user names and passwords against a flat file generated using
+http://httpd.apache.org/docs/2.4/programs/htpasswd.html[`htpasswd`].
+
+* Only MD5 and SHA encryption types are supported. MD5 encryption is recommended,
+and is the default for `htpasswd`.
+** Plaintext, crypt, and bcrypt hashes are not currently supported.
+
+* The flat file is re-read if its modification time changes, without requiring a
+server restart.
+
+ifdef::showscript[]
+=== Transcript
+
+* The htpasswd identity provider validates user names and passwords against a
+flat file generated using *htpasswd* command.
+* The flat file is re-read if its modification time changes, without requiring a
+server restart.
+
+endif::showscript[]
+
+== Configuring Authentication
+:noaudio:
+
+.Identity Providers - HTPasswd Continued
+
+* Master Configuration Using *HTPasswdPasswordIdentityProvider*:
++
+[source,yaml]
+----
+oauthConfig:
+
+  identityProviders:
+  - name: my_htpasswd_provider <1>
+    challenge: true <2>
+    login: true <3>
+    provider:
+      apiVersion: v1
+      kind: HTPasswdPasswordIdentityProvider
+      file: /path/to/users.htpasswd <4>
+----
+
+<1> This provider name is prefixed to provider user names to form an identity
+name.
+<2> When *true*, unauthenticated token requests from non-web clients (like the
+CLI) are sent a `WWW-Authenticate` challenge header for this provider.
+<3> When *true*, unauthenticated token requests from web clients (like the web
+console) are redirected to a login page backed by this provider.
+<4> File generated using
+http://httpd.apache.org/docs/2.4/programs/htpasswd.html[`htpasswd`].
+
+ifdef::showscript[]
+=== Transcript
+Here is an example of the `oauthConfig` section of the master config file that
+defines the use of `HTPasswdPasswordIdentityProvider` with the file:
+/path/to/users.htpasswd
+
+endif::showscript[]
+
+== Configuring Authentication
+:noaudio:
+
+.Identity Providers - HTPasswd Continued
+
+* To create the file, run:
++
+----
+$ htpasswd -c </path/to/users.htpasswd> <user_name>
+----
+
+* To add or update a login to the file, run:
++
+----
+$ htpasswd </path/to/users.htpasswd> <user_name>
+----
+
+* To remove a login from the file, run:
++
+----
+$ htpasswd </path/to/users.htpasswd> -D <user_name>
+----
+
+
+
+ifdef::showscript[]
+=== Transcript
+You can use the following commands to create the password file and create/remove
+user logins.
+
+endif::showscript[]
+
+
 
 == Authorization
 :noaudio:
@@ -441,6 +552,13 @@ about determining the identity of who is taking the action.
 
 ifdef::showscript[]
 === Transcript
+* Authorization policies determine whether a user is allowed to perform a given
+_action_ within a project.
+* This allows platform administrators to use the _cluster policy_ to control
+who has various access levels to the OpenShift platform itself and all projects.
+* It also allows developers to use _local policy_ to control who has access to
+their _projects_.
+
 
 endif::showscript[]
 
@@ -462,6 +580,21 @@ with, or _bound_ to, multiple _roles_ at the same time.
 |*Bindings* |Associations between users and/or groups with a _role_
 |===
 
+ifdef::showscript[]
+=== Transcript
+Authorization is managed using Rules, Roles and Bindings.
+* *rules* are sets of permitted verbs on a set of objects. For example, whether
+something can create [verb] pods [object].
+* *Roles* are collections of *rules*. Users and groups can be associated with,
+or bound to, multiple roles at the same time.
+* *Bindings* are associations between users and/or groups with a role.
+
+endif::showscript[]
+
+== Authorization
+:noaudio:
+
+.Overview - Continued
 * Rules, roles, and bindings can be visualized using the CLI. For example,
 consider the following excerpt showing rule sets for the *admin* and
 *basic-user* (Using the command `oc describe clusterPolicy default`):
@@ -479,15 +612,7 @@ basic-user		Verbs					Resources															Resource Names	Extension
 ----
 
 
-ifdef::showscript[]
-=== Transcript
 
-endif::showscript[]
-
-== Authorization
-:noaudio:
-
-.Overview - Continued
 * The following excerpt of viewing policy bindings shows the above roles
 bound to various users and groups (Using the command: `oc describe clusterPolicy default`):
 +
@@ -506,7 +631,13 @@ RoleBinding[basic-user]:
 
 ifdef::showscript[]
 === Transcript
+Rules, roles, and bindings can be visualized using the CLI. For example,
+consider the following excerpt showing rule sets for the *admin* and
+*basic-user* (Using the command `oc describe clusterPolicy default`)
 
+The second excerpt of viewing policy bindings shows the above roles bound to
+various users and groups (Using the command:
+  `oc describe clusterPolicy default`):
 endif::showscript[]
 
 == Authorization
@@ -536,8 +667,13 @@ Resource Name:: The API endpoint being accessed.
 
 ifdef::showscript[]
 === Transcript
+* Several factors are combined to make the decision when OpenShift evaluates
+authorization: Identity, Action and Bindings.
+
+In the next slide we will review the workflow descriving an authorization event.
 
 endif::showscript[]
+
 
 == Authorization
 :noaudio:
@@ -555,6 +691,14 @@ apply to the user or their groups.
 
 ifdef::showscript[]
 === Transcript
+* OpenShift evaluates authorizations using the following steps:
+
+. The identity and the project-scoped action is used to find all bindings that
+apply to the user or their groups.
+. Bindings are used to locate all the roles that apply.
+. Roles are used to find all the rules that apply.
+. The action is checked against each rule to find a match.
+. If no matching rule is found, the action is then denied by default.
 
 endif::showscript[]
 
@@ -563,7 +707,7 @@ endif::showscript[]
 
 .Cluster Policy and Local Policy
 
-* There are two levels of authorization policy:
+* There are two levels of authorization policies:
 
 [cols="1,4"]
 |===
@@ -593,6 +737,15 @@ For example:
 ifdef::showscript[]
 === Transcript
 
+There are two levels of authorization policies: "Cluster policy" and "Local
+policy".
+* Cluster policy - Roles and bindings that are applicable across all projects.
+- Roles that exist in the cluster policy are considered cluster roles.
+- Cluster bindings can only reference cluster roles.
+*  Local policy - Roles and bindings that are scoped to a given project.
+- Roles that exist only in a local policy are considered local roles.
+- Local bindings can reference both cluster and local roles.
+
 endif::showscript[]
 
 == Authorization
@@ -610,12 +763,19 @@ groups in the _cluster policy_ or the  _local policy_. (Detailed in the next
   _system_ roles are listed as well, which are used for various OpenShift
   system and component operations.
 
-* By default in a local policy, only the binding for the _admin_ role is
-  immediately listed when using the CLI to _view local bindings_. However, if other default roles are added to users and groups
-  within a local policy, they become listed in the CLI output, as well.
+NOTE: By default in a local policy, only the binding for the _admin_ role is
+  immediately listed when using the CLI to _view local bindings_. However, if
+  other default roles are added to users and groups within a local policy,
+  they become listed in the CLI output, as well.
 
 ifdef::showscript[]
 === Transcript
+* Roles are collections of policy _rules_, which are sets of
+permitted verbs that can be performed on a set of resources.
+* OpenShift includes a set of default roles that can be added to users and
+groups in the _cluster policy_ or the  _local policy_. (Detailed in the next
+  slide)
+
 
 endif::showscript[]
 
@@ -632,9 +792,7 @@ groups in the _cluster policy_ or the  _local policy_.
 
 |*admin* |A project manager. If used in a _local binding_, an *admin* user will
 have rights to view any resource in the project and modify any resource in the
-project except for role creation and quota. If the *cluster-admin* wants to
-allow an *admin* to modify roles, the *cluster-admin* must create a
-project-scoped _Policy_ object using JSON. (We will cover this later)
+project except for role creation and quota.
 
 |*basic-user* |A user that can get basic information about projects and users.
 
@@ -660,6 +818,23 @@ time.
 
 ifdef::showscript[]
 === Transcript
+OpenShift includes a set of default roles that can be added to users and
+groups in the _cluster policy_ or the  _local policy_.
+
+The "admin" user is a *project* manager. If used in a _local binding_, an
+*admin* user will have rights to view any resource in the project and modify
+any resource in the project except for role creation and quota.
+
+The *basic-user* is a user that can get basic information about projects and
+users the he/she is part of.
+
+The *cluster-admin* is a super-user that can perform any action in any project.
+When granted to a user *within a local policy*, they have full control over quota
+and roles and every action on every resource *in the project*.
+
+A *self-provisioner*  is a user that can create their own projects, All users
+are granted this role by default.
+
 
 endif::showscript[]
 
@@ -685,7 +860,11 @@ You may either take this output, modify, and apply it yourself or you may run
 
 ifdef::showscript[]
 === Transcript
-
+* If you find that these roles do not suit you, a *cluster-admin* user can create
+a `policyBinding` object named `_<projectname>_:default` with the CLI using a
+JSON file.
+** This allows the project *admin* to bind users to roles that are
+defined only in the `_<projectname>_` local policy.
 endif::showscript[]
 
 == Security Context Constraints
@@ -709,13 +888,25 @@ following:
 
 ifdef::showscript[]
 === Transcript
+In addition to _authorization policies_ that control what a user
+can do, OpenShift provides _security context constraints_ (SCC) that control the
+actions that a _pod_ can perform and what it has the ability to access.
 
+* SCCs are objects that define a set of conditions that a pod must run with in
+order to be accepted into the system. They allow an administrator to control the
+following:
+
+. Running of privileged containers.
+. Capabilities a container can request to be added.
+. Use of host directories as volumes.
+. The SELinux context of the container.
+. The user ID. (within the container)
 endif::showscript[]
 
 == Security Context Constraints
 :noaudio:
 
-.Overview - Continued
+.Privileged and Restricted SCCs
 
 * Two SCCs are added to the cluster by default, _privileged_ and _restricted_,
 which are viewable by cluster administrators using the CLI:
@@ -725,7 +916,47 @@ $ oc get scc
 NAME         PRIV      CAPS      HOSTDIR   SELINUX     RUNASUSER
 privileged   true      []        true      RunAsAny    RunAsAny
 restricted   false     []        false     MustRunAs   MustRunAsRange
+
 ----
+
+* The privileged SCC:
+** allows privileged pods.
+**  allows host directories to be mounted as volumes.
+**  allows a pod to run as any user.
+**  allows a pod to run with any MCS label.
+
+* The restricted SCC:
+** ensures pods cannot run as privileged.
+** ensures pods cannot use host directory volumes.
+** requires that a pod run as a user in a pre-allocated range of UIDs.
+** requires that a pod run with a pre-allocated MCS label.
+
+
+ifdef::showscript[]
+=== Transcript
+Two SCCs are added to the cluster by default, _privileged_ and _restricted_,
+which are viewable by cluster administrators using the CLI:
+
+* The privileged SCC allows privileged pods, allows host directories to be
+mounted as volumes, allows a pod to run as any user and allows a pod to run
+with any MCS label.
+
+
+* The restricted SCC ensures pods cannot run as privileged, ensures pods cannot
+use host directory volumes, requires that a pod run as a user in a pre-allocated
+ range of UIDs and requires that a pod run with a pre-allocated MCS label.
+
+endif::showscript[]
+
+== Security Context Constraints
+:noaudio:
+
+.Privileged and Restricted SCCs
+
+* The _users_ and _groups_ fields on the SCC control which SCCs can be used.
+By default, cluster administrators, nodes, and the build controller are granted
+access to the privileged SCC.
+* All authenticated users are granted access to the restricted SCC.
 
 * The definition for each SCC is also viewable by cluster administrators using the
 CLI. For example, for the privileged SCC:
@@ -758,33 +989,13 @@ users: <4>
 ifdef::showscript[]
 === Transcript
 
-endif::showscript[]
-
-== Security Context Constraints
-:noaudio:
-
-.Privileged and Restricted SCCs
-
 * The _users_ and _groups_ fields on the SCC control which SCCs can be used.
 By default, cluster administrators, nodes, and the build controller are granted
 access to the privileged SCC.
 * All authenticated users are granted access to the restricted SCC.
 
-* The privileged SCC:
-** allows privileged pods.
-**  allows host directories to be mounted as volumes.
-**  allows a pod to run as any user.
-**  allows a pod to run with any MCS label.
-
-* The restricted SCC:
-** ensures pods cannot run as privileged.
-** ensures pods cannot use host directory volumes.
-** requires that a pod run as a user in a pre-allocated range of UIDs.
-** requires that a pod run with a pre-allocated MCS label.
-
-ifdef::showscript[]
-=== Transcript
-
+* The definition for each SCC is also viewable by cluster administrators using
+the CLI.
 endif::showscript[]
 
 == Security Context Constraints
@@ -792,8 +1003,8 @@ endif::showscript[]
 
 .Privileged and Restricted SCCs - Continued
 
-* SCCs are comprised of settings and strategies that control the security features
-a pod has access to. These settings fall into three categories:
+* SCCs are comprised of settings and strategies that control the security
+features a pod has access to. These settings fall into three categories:
 
 [cols="1,4"]
 |===
@@ -817,7 +1028,10 @@ values.
 
 ifdef::showscript[]
 === Transcript
-
+SCCs are comprised of settings and strategies that control the security
+features a pod has access to. These settings fall into three categories:
+"Controlled by a boolean", "Controlled by an allowable set" and "Controlled by a
+strategy".
 endif::showscript[]
 
 == Security Context Constraints
@@ -825,32 +1039,49 @@ endif::showscript[]
 
 .Admission
 
-* _Admission control_ with SCCs allows for control over the creation of resources
-based on the capabilities granted to a user.
+* In order to have control over the creation of resources and actions  based on
+ the capabilities granted to a user or a pod _Admission control_ is used.
 
-* In terms of the SCCs, this means that an admission controller can inspect the
-user information made available in the context to retrieve an appropriate set of
-SCCs.
-** Doing so ensures the pod is authorized to make requests about its operating
+* Doing so ensures the pod is authorized to make requests about its operating
 environment or to generate a set of constraints to apply to the pod.
 
-* The set of SCCs that admission uses to authorize a pod are determined by the
-user identity and groups that the user belongs to.
+* The set of SCCs that _admission_ uses to authorize a pod are determined by the
+ user identity and groups that the user belongs to.
 ** Additionally, if the pod specifies a service account, the set of allowable
 SCCs includes any constraints accessible to the service account.
 
 ifdef::showscript[]
 === Transcript
+* In order to have control over the creation of resources and actions  based on
+ the capabilities granted to a user or a pod _Admission control_ is used.
 
+* Doing so ensures the pod is authorized to make requests about its operating
+environment or to generate a set of constraints to apply to the pod.
+
+* The set of SCCs that _admission_ uses to authorize a pod are determined by the
+ user identity and groups that the user belongs to.
+** Additionally, if the pod specifies a service account, the set of allowable
+SCCs includes any constraints accessible to the service account.
 endif::showscript[]
 
 == Security Context Constraints
 :noaudio:
 
 .Admission - Continued
-* Admission uses the following approach to create the final security context for
-the pod:
+* _Admission_ uses the following approach to create the final security context
+for the pod:
+. Retrieve all SCCs available for use.
+. Generate field values for any security context setting that was not specified
+on the request.
+. Validate the final settings against the available constraints.
 
+* If a matching set of constraints is found, then the pod is accepted. If the
+request cannot be matched to an SCC, the pod is rejected.
+
+ifdef::showscript[]
+=== Transcript
+* _Admission_ uses the following approach to create the final security context
+for the pod:
 . Retrieve all SCCs available for use.
 . Generate field values for any security context setting that was not specified
 on the request.
@@ -858,9 +1089,6 @@ on the request.
 
 If a matching set of constraints is found, then the pod is accepted. If the
 request cannot be matched to an SCC, the pod is rejected.
-
-ifdef::showscript[]
-=== Transcript
 
 endif::showscript[]
 
@@ -873,11 +1101,10 @@ API _objects_ using the CLI.
 
 NOTE: You must have _cluster-admin_ privileges to manage SCCs.
 
-
-
 ifdef::showscript[]
 === Transcript
-
+You can manage _security context constraints_ (SCCs) in your instance as normal
+API _objects_ using the CLI, to manage SCCs you must be a _cluster-admin_
 endif::showscript[]
 
 == Managing Security Context Constraints
@@ -896,13 +1123,13 @@ restricted   false     []        false     MustRunAs   MustRunAsRange
 
 ifdef::showscript[]
 === Transcript
-
+ To get a current list of SCCs, use the *oc get scc* command.
 endif::showscript[]
 
 == Managing Security Context Constraints
 :noaudio:
 
-.Creating New Security Context Constraints
+.Creating New Security Context Constraints - Part 1/2
 
 * To create a new SCC, first define the SCC in a JSON or YAML file:
 * Security Context Constraint Object Definition:
@@ -919,11 +1146,20 @@ seLinuxContext:
   type: RunAsAny
 users:
 - my-admin-user
-groups:
-- my-admin-group
 ----
 
-* Then, run `oc create` passing the file to create it:
+ifdef::showscript[]
+=== Transcript
+To create a new SCC, first define the SCC in a JSON or YAML file similar to the
+example before you.
+endif::showscript[]
+
+== Managing Security Context Constraints
+:noaudio:
+
+.Creating New Security Context Constraints - Part 2/2
+
+* Then, run *oc create* passing the file to create it:
 +
 ----
 $ oc create -f scc_admin.yaml
@@ -938,7 +1174,8 @@ scc-admin    true      []        false     RunAsAny    RunAsAny
 
 ifdef::showscript[]
 === Transcript
-
+Then, run *oc create* passing the file to create it.
+you can see your new scc with the *oc get scc* command.
 endif::showscript[]
 
 == Managing Security Context Constraints
@@ -966,7 +1203,8 @@ $ oc edit scc <scc_name>
 
 ifdef::showscript[]
 === Transcript
-
+To delete an SCC use the *oc delete* command and to update an existing SCC use
+the *oc edit* command.
 endif::showscript[]
 
 == Managing Security Context Constraints
@@ -977,15 +1215,10 @@ endif::showscript[]
 * In some cases, an administrator might want to allow users or groups outside
 the administrator group access to create more privileged pods. To do so, you can:
 
-. Determine the user or group you would like to have access to the SCC.
-+
-----
-$ oc edit scc <name>
-----
-
-. Add the user or group to the *users* or *groups* field of the SCC.
-.. For example, to allow the *e2e-user* access to the *privileged* SCC, add
-their user:
+* To do that Add the user or group to the users or groups field of the SCC by
+using the *oc edit* command.
+- For example, to allow the *e2e-user* access to the *privileged* SCC, add
+the user name to the users list:
 +
 [source,yaml]
 ----
@@ -1019,7 +1252,13 @@ users:
 
 ifdef::showscript[]
 === Transcript
+* In some cases, an administrator might want to allow users or groups outside
+the administrator group access to create more privileged pods. To do so, you can:
 
+* To do that Add the user or group to the users or groups field of the SCC by
+using the *oc edit* command.
+In this example, We added *e2e-user* to the users list of the privileged SCC to
+allow the *e2e-user* to create privileged pods.
 endif::showscript[]
 
 == Managing Security Context Constraints
@@ -1044,44 +1283,9 @@ in the _Dockerfile_.
 
 ifdef::showscript[]
 === Transcript
-
-endif::showscript[]
-
-== Managing Security Context Constraints
-:noaudio:
-
-.Modify Cluster Default Behavior
-
-* To modify your cluster so that it does not pre-allocate UIDs, allows containers
-to run as any user, and prevents privileged containers:
-
-. Edit the *restricted* SCC:
-+
-----
- $ oc edit scc restricted
-----
-
-. Change `*runAsUser.Type*` to *RunAsAny*.
-
-. Ensure `*allowPrivilegedContainer*` is set to false.
-
-. Save the changes.
-
-* To modify your cluster so that it does not pre-allocate UIDs and does not allow
-containers to run as root:
-
-. Edit the *restricted* SCC:
-+
-----
- $ oc edit scc restricted
-----
-
-. Change `*runAsUser.Type*` to *MustRunAsNonRoot*.
-
-. Save the changes.
-
-ifdef::showscript[]
-=== Transcript
+To relax the security in your cluster so that images are not forced to run as
+a pre-allocated UID, without granting everyone access to the *privileged* SCC,
+you can edit the _Restricted_ SCC and change the RunAsUser type.
 
 endif::showscript[]
 
@@ -1105,6 +1309,10 @@ $ oc edit scc restricted
 
 ifdef::showscript[]
 === Transcript
+To relax the security in your cluster so that pods are allowed to use the `hostPath`
+volume plug-in without granting everyone access to the *privileged* SCC,
+you can edit the _Restricted_ SCC and add the "allowHostDirVolumePlugin: true"
+flag.
 
 endif::showscript[]
 
@@ -1121,10 +1329,12 @@ endif::showscript[]
 * Lab : Manage Security Constraints
 
 
-
-
-
 ifdef::showscript[]
 === Transcript
+In this Module we learned about the different Authentication providors that 
+OpenShift 3.0 can support, we learned how to configure httpasswd authentication
+and how the Authorization mechanism operates.
 
+We covered SCCs and how they effect capabilities of Users and Pods, finally we
+reviewed common SCC management tasks.
 endif::showscript[]

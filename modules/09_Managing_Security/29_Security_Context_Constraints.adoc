@@ -1,20 +1,36 @@
 == Security Context Constraints
 :noaudio:
 
-.Admission - Continued
-* Admission uses the following approach to create the final security context for
-the pod:
+.Privileged and Restricted SCCs - Continued
 
-. Retrieve all SCCs available for use.
-. Generate field values for any security context setting that was not specified
-on the request.
-. Validate the final settings against the available constraints.
+* SCCs are comprised of settings and strategies that control the security
+features a pod has access to. These settings fall into three categories:
 
-If a matching set of constraints is found, then the pod is accepted. If the
-request cannot be matched to an SCC, the pod is rejected.
+[cols="1,4"]
+|===
+
+|*Controlled by a boolean*
+|Fields of this type default to the most restrictive value. For example,
+`AllowPrivilegedContainer` is always set to *false* if unspecified.
+
+|*Controlled by an allowable set*
+|Fields of this type are checked against the set to ensure their value is
+allowed.
+
+|*Controlled by a strategy*
+a|Items that have a strategy to generate a value provide:
+
+* A mechanism to generate the value, and
+* A mechanism to ensure that a specified value falls into the set of allowable
+values.
+
+|===
 
 ifdef::showscript[]
 === Transcript
-
+SCCs are comprised of settings and strategies that control the security
+features a pod has access to. These settings fall into three categories:
+"Controlled by a boolean", "Controlled by an allowable set" and "Controlled by a
+strategy".
 endif::showscript[]
 

@@ -11,12 +11,21 @@ using a link:https://docs.openshift.com/enterprise/3.0/admin_guide/master_node_c
 configuration file].
 
 * In this section we will review:
-** Users and Groups
-** API Authentication
-** OAuth
+- Users and Groups
+- API Authentication
+- OAuth
 
 ifdef::showscript[]
 === Transcript
+The authentication layer identifies the user associated with requests to the
+OpenShift API. The authorization layer then uses information about the
+requesting user to determine if the request should be allowed.
+
+
+* In this section we will review:
+- Users and Groups
+- API Authentication
+- OAuth
 
 endif::showscript[]
 

@@ -1,0 +1,28 @@
+== Managing Security Context Constraints
+:noaudio:
+
+.Enable Images to Run with USER in the Dockerfile
+
+* To relax the security in your cluster so that images are not forced to run as
+a pre-allocated UID, without granting everyone access to the *privileged* SCC:
+
+. Edit the *restricted* SCC:
++
+----
+$ oc edit scc restricted
+----
+
+. Change the `*runAsUser.Type*` strategy to *RunAsAny*.
+
+IMPORTANT: This allows images to run as the root UID if no _USER_ is specified
+in the _Dockerfile_.
+
+
+ifdef::showscript[]
+=== Transcript
+To relax the security in your cluster so that images are not forced to run as
+a pre-allocated UID, without granting everyone access to the *privileged* SCC,
+you can edit the _Restricted_ SCC and change the RunAsUser type.
+
+endif::showscript[]
+

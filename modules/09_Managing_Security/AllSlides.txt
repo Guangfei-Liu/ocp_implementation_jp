@@ -12,7 +12,7 @@ include::06_Authentication.adoc[]
 
 include::07_Authentication.adoc[]
 
-include::08_Configuring_Authentication.adoc[]
+include::08_Authentication.adoc[]
 
 include::09_Configuring_Authentication.adoc[]
 
@@ -26,9 +26,9 @@ include::13_Configuring_Authentication.adoc[]
 
 include::14_Configuring_Authentication.adoc[]
 
-include::15_Authorization.adoc[]
+include::15_Configuring_Authentication.adoc[]
 
-include::16_Authorization.adoc[]
+include::16_Configuring_Authentication.adoc[]
 
 include::17_Authorization.adoc[]
 
@@ -44,9 +44,9 @@ include::22_Authorization.adoc[]
 
 include::23_Authorization.adoc[]
 
-include::24_Security_Context_Constraints.adoc[]
+include::24_Authorization.adoc[]
 
-include::25_Security_Context_Constraints.adoc[]
+include::25_Authorization.adoc[]
 
 include::26_Security_Context_Constraints.adoc[]
 
@@ -56,9 +56,9 @@ include::28_Security_Context_Constraints.adoc[]
 
 include::29_Security_Context_Constraints.adoc[]
 
-include::30_Managing_Security_Context_Constraints.adoc[]
+include::30_Security_Context_Constraints.adoc[]
 
-include::31_Managing_Security_Context_Constraints.adoc[]
+include::31_Security_Context_Constraints.adoc[]
 
 include::32_Managing_Security_Context_Constraints.adoc[]
 
@@ -72,4 +72,9 @@ include::36_Managing_Security_Context_Constraints.adoc[]
 
 include::37_Managing_Security_Context_Constraints.adoc[]
 
-include::38_Summary.adoc[]
+include::38_Managing_Security_Context_Constraints.adoc[]
+
+include::39_Managing_Security_Context_Constraints.adoc[]
+
+include::40_Summary.adoc[]
+

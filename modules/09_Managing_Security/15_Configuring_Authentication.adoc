@@ -1,37 +1,38 @@
 == Configuring Authentication
 :noaudio:
 
-.Identity Providers - Deny All
+.Identity Providers - HTPasswd Continued
 
-* Set _DenyAllPasswordIdentityProvider_ in the `identityProviders` stanza to
-deny access for all user names and passwords.
-
-* Master Configuration Using *DenyAllPasswordIdentityProvider*:
+* Master Configuration Using *HTPasswdPasswordIdentityProvider*:
 +
 [source,yaml]
 ----
 oauthConfig:
-  ...
+
   identityProviders:
-  - name: my_deny_provider <1>
+  - name: my_htpasswd_provider <1>
     challenge: true <2>
     login: true <3>
     provider:
       apiVersion: v1
-      kind: DenyAllPasswordIdentityProvider
+      kind: HTPasswdPasswordIdentityProvider
+      file: /path/to/users.htpasswd <4>
 ----
+
 <1> This provider name is prefixed to provider user names to form an identity
 name.
 <2> When *true*, unauthenticated token requests from non-web clients (like the
 CLI) are sent a `WWW-Authenticate` challenge header for this provider.
 <3> When *true*, unauthenticated token requests from web clients (like the web
 console) are redirected to a login page backed by this provider.
-
+<4> File generated using
+http://httpd.apache.org/docs/2.4/programs/htpasswd.html[`htpasswd`].
 
 ifdef::showscript[]
 === Transcript
-The "Deny All" is the default identity provider when running
-OpenShift *with* a _master configuration file_.
+Here is an example of the `oauthConfig` section of the master config file that
+defines the use of `HTPasswdPasswordIdentityProvider` with the file:
+/path/to/users.htpasswd
 
 endif::showscript[]
 

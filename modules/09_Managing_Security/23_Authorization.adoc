@@ -1,25 +1,31 @@
 == Authorization
 :noaudio:
 
-.Roles - Continued
+.Roles
+* Roles are collections of policy _rules_, which are sets of
+permitted verbs that can be performed on a set of resources.
+* OpenShift includes a set of default roles that can be added to users and
+groups in the _cluster policy_ or the  _local policy_. (Detailed in the next
+  slide)
 
-* If you find that these roles do not suit you, a *cluster-admin* user can create
-a `policyBinding` object named `_<projectname>_:default` with the CLI using a
-JSON file.
-** This allows the project *admin* to bind users to roles that are
-defined only in the `_<projectname>_` local policy.
+* These roles, including a matrix of the verbs and resources each are associated
+  with, can be visualized in the cluster policy by using the CLI. Additional
+  _system_ roles are listed as well, which are used for various OpenShift
+  system and component operations.
 
-
-NOTE: After a product update, the recommended default roles may be updated.  To check
-if an update is recommended for your environment, you can run `oadm policy reconcile-cluster-roles`.
-This command will output a list of roles that are out of date and their new values.
-You may either take this output, modify, and apply it yourself or you may run
-`oadm policy reconcile-cluster-roles --confirm` and automatically apply the changes.
-
-
+NOTE: By default in a local policy, only the binding for the _admin_ role is
+  immediately listed when using the CLI to _view local bindings_. However, if
+  other default roles are added to users and groups within a local policy,
+  they become listed in the CLI output, as well.
 
 ifdef::showscript[]
 === Transcript
+* Roles are collections of policy _rules_, which are sets of
+permitted verbs that can be performed on a set of resources.
+* OpenShift includes a set of default roles that can be added to users and
+groups in the _cluster policy_ or the  _local policy_. (Detailed in the next
+  slide)
+
 
 endif::showscript[]
 

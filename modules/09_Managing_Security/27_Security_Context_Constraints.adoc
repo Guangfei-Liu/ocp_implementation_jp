@@ -1,33 +1,45 @@
 == Security Context Constraints
 :noaudio:
 
-.Privileged and Restricted SCCs - Continued
+.Privileged and Restricted SCCs
 
-* SCCs are comprised of settings and strategies that control the security features
-a pod has access to. These settings fall into three categories:
+* Two SCCs are added to the cluster by default, _privileged_ and _restricted_,
+which are viewable by cluster administrators using the CLI:
++
+----
+$ oc get scc
+NAME         PRIV      CAPS      HOSTDIR   SELINUX     RUNASUSER
+privileged   true      []        true      RunAsAny    RunAsAny
+restricted   false     []        false     MustRunAs   MustRunAsRange
 
-[cols="1,4"]
-|===
+----
 
-|*Controlled by a boolean*
-|Fields of this type default to the most restrictive value. For example,
-`AllowPrivilegedContainer` is always set to *false* if unspecified.
+* The privileged SCC:
+** allows privileged pods.
+**  allows host directories to be mounted as volumes.
+**  allows a pod to run as any user.
+**  allows a pod to run with any MCS label.
 
-|*Controlled by an allowable set*
-|Fields of this type are checked against the set to ensure their value is
-allowed.
+* The restricted SCC:
+** ensures pods cannot run as privileged.
+** ensures pods cannot use host directory volumes.
+** requires that a pod run as a user in a pre-allocated range of UIDs.
+** requires that a pod run with a pre-allocated MCS label.
 
-|*Controlled by a strategy*
-a|Items that have a strategy to generate a value provide:
-
-* A mechanism to generate the value, and
-* A mechanism to ensure that a specified value falls into the set of allowable
-values.
-
-|===
 
 ifdef::showscript[]
 === Transcript
+Two SCCs are added to the cluster by default, _privileged_ and _restricted_,
+which are viewable by cluster administrators using the CLI:
+
+* The privileged SCC allows privileged pods, allows host directories to be
+mounted as volumes, allows a pod to run as any user and allows a pod to run
+with any MCS label.
+
+
+* The restricted SCC ensures pods cannot run as privileged, ensures pods cannot
+use host directory volumes, requires that a pod run as a user in a pre-allocated
+ range of UIDs and requires that a pod run with a pre-allocated MCS label.
 
 endif::showscript[]
 

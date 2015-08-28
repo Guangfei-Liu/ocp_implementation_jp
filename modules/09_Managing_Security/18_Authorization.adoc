@@ -1,30 +1,29 @@
 == Authorization
 :noaudio:
 
-.Evaluating Authorization
+.Overview - Continued
 
-* Several factors are combined to make the decision when OpenShift evaluates
-authorization:
+* Authorization is managed using:
 
 [cols="1,7"]
 |===
 
-|*Identity* |In the context of authorization, both the user name and
-list of groups the user belongs to.
-
-|*Action* a|The action being performed. In most cases, this consists of:
-
-[horizontal]
-Project:: The _project_ being accessed.
-Verb:: Can be `get`, `list`, `create`, `update`, or others.
-Resource Name:: The API endpoint being accessed.
-
-|*Bindings* |The full list of link:https://docs.openshift.com/enterprise/3.0/architecture/additional_concepts/authorization.html#bindings[bindings].
-
+|*Rules* |Sets of permitted _verbs_ on a set of _objects_.
+For example, whether something can
+`create` [verb] `pods` [object].
+|*Roles* |Collections of rules. _Users and groups_ can be associated
+with, or _bound_ to, multiple _roles_ at the same time.
+|*Bindings* |Associations between users and/or groups with a _role_
 |===
 
 ifdef::showscript[]
 === Transcript
+Authorization is managed using Rules, Roles and Bindings.
+* *rules* are sets of permitted verbs on a set of objects. For example, whether
+something can create [verb] pods [object].
+* *Roles* are collections of *rules*. Users and groups can be associated with,
+or bound to, multiple roles at the same time.
+* *Bindings* are associations between users and/or groups with a role.
 
 endif::showscript[]
 

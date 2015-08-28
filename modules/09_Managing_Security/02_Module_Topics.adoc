@@ -14,7 +14,7 @@
 ifdef::showscript[]
 
 === Transcript
-Welcome to Module 06 of the OpenShift Enterprise Implementation course.
+Welcome to Module 09 of the OpenShift Enterprise Implementation course.
 endif::showscript[]
 
 

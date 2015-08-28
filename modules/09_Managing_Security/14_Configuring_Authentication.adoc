@@ -1,33 +1,26 @@
 == Configuring Authentication
 :noaudio:
 
-.Identity Providers - LDAP Authentication
+.Identity Providers - HTPasswd
 
-* Set _LDAPPasswordIdentityProvider_ in the `identityProviders` stanza to
-validate user names and passwords against an LDAPv3 server, using simple bind
-authentication.
+* Set _HTPasswdPasswordIdentityProvider_ in the `identityProviders` stanza to
+validate user names and passwords against a flat file generated using
+http://httpd.apache.org/docs/2.4/programs/htpasswd.html[`htpasswd`].
 
-* During authentication, the LDAP directory is searched for an entry that matches
-the provided user name. If a single unique match is found, a simple bind is
-attempted using the distinguished name (DN) of the entry plus the provided
-password.
-* Here are the steps taken:
+* Only MD5 and SHA encryption types are supported. MD5 encryption is recommended,
+and is the default for `htpasswd`.
+** Plaintext, crypt, and bcrypt hashes are not currently supported.
 
-. Generate a search filter by combining the attribute and filter in the
-configured `*url*` with the user-provided user name.
-. Search the directory using the generated filter. If the search does not return
-exactly one entry, deny access.
-. Attempt to bind to the LDAP server using the DN of the entry retrieved from
-the search, and the user-provided password.
-. If the bind is unsuccessful, deny access.
-. If the bind is successful, build an identity using the configured attributes
-as the identity, email address, display name, and preferred user name.
-
-
-
+* The flat file is re-read if its modification time changes, without requiring a
+server restart.
 
 ifdef::showscript[]
 === Transcript
+
+* The htpasswd identity provider validates user names and passwords against a
+flat file generated using *htpasswd* command.
+* The flat file is re-read if its modification time changes, without requiring a
+server restart.
 
 endif::showscript[]
 

@@ -1,30 +1,42 @@
 == Configuring Authentication
 :noaudio:
 
-.Identity Providers - HTPasswd Continued
+.Identity Providers - LDAP Authentication
 
-* To create the file, run:
-+
-----
-$ htpasswd -c </path/to/users.htpasswd> <user_name>
-----
+* Set _LDAPPasswordIdentityProvider_ in the `identityProviders` stanza to
+validate user names and passwords against an LDAPv3 server, using simple bind
+authentication.
 
-* To add or update a login to the file, run:
-+
-----
-$ htpasswd </path/to/users.htpasswd> <user_name>
-----
+* During authentication, the LDAP directory is searched for an entry that matches
+the provided user name. If a single unique match is found, a simple bind is
+attempted using the distinguished name (DN) of the entry plus the provided
+password.
+* Here are the steps taken:
 
-* To remove a login from the file, run:
-+
-----
-$ htpasswd </path/to/users.htpasswd> -D <user_name>
-----
+. Generate a search filter by combining the attribute and filter in the
+configured `*url*` with the user-provided user name.
+. Search the directory using the generated filter. If the search does not return
+exactly one entry, deny access.
+. Attempt to bind to the LDAP server using the DN of the entry retrieved from
+the search, and the user-provided password.
+. If the bind is unsuccessful, deny access.
+. If the bind is successful, build an identity using the configured attributes
+as the identity, email address, display name, and preferred user name.
+
 
 
 
 ifdef::showscript[]
 === Transcript
+
+* Set _LDAPPasswordIdentityProvider_ in the `identityProviders` stanza to
+validate user names and passwords against an LDAPv3 server, using simple bind
+authentication.
+
+* During authentication, the LDAP directory is searched for an entry that matches
+the provided user name. If a single unique match is found, a simple bind is
+attempted using the distinguished name (DN) of the entry plus the provided
+password.
 
 endif::showscript[]
 

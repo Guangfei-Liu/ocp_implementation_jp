@@ -1,38 +1,29 @@
 == Managing Security Context Constraints
 :noaudio:
 
-.Modify Cluster Default Behavior
+.Deleting Security Context Constraints
 
-* To modify your cluster so that it does not pre-allocate UIDs, allows containers
-to run as any user, and prevents privileged containers:
-
-. Edit the *restricted* SCC:
+* To delete an SCC:
 +
 ----
- $ oc edit scc restricted
+$ oc delete scc <scc_name>
 ----
 
-. Change `*runAsUser.Type*` to *RunAsAny*.
+NOTE: If you delete the default SCCs, they will not be regenerated upon restart,
+unless you delete all SCCs. If any constraint already exists within the system,
+no regeneration will take place.
 
-. Ensure `*allowPrivilegedContainer*` is set to false.
+.Updating Security Context Constraints
 
-. Save the changes.
-
-* To modify your cluster so that it does not pre-allocate UIDs and does not allow
-containers to run as root:
-
-. Edit the *restricted* SCC:
+* To update an existing SCC:
 +
 ----
- $ oc edit scc restricted
+$ oc edit scc <scc_name>
 ----
-
-. Change `*runAsUser.Type*` to *MustRunAsNonRoot*.
-
-. Save the changes.
 
 ifdef::showscript[]
 === Transcript
-
+To delete an SCC use the *oc delete* command and to update an existing SCC use
+the *oc edit* command.
 endif::showscript[]
 

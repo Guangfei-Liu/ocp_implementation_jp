@@ -1,24 +1,50 @@
 == Security Context Constraints
 :noaudio:
 
-.Admission
+.Privileged and Restricted SCCs
 
-* _Admission control_ with SCCs allows for control over the creation of resources
-based on the capabilities granted to a user.
+* The _users_ and _groups_ fields on the SCC control which SCCs can be used.
+By default, cluster administrators, nodes, and the build controller are granted
+access to the privileged SCC.
+* All authenticated users are granted access to the restricted SCC.
 
-* In terms of the SCCs, this means that an admission controller can inspect the
-user information made available in the context to retrieve an appropriate set of
-SCCs.
-** Doing so ensures the pod is authorized to make requests about its operating
-environment or to generate a set of constraints to apply to the pod.
+* The definition for each SCC is also viewable by cluster administrators using the
+CLI. For example, for the privileged SCC:
++
+----
+# oc export scc/privileged
+allowHostDirVolumePlugin: true
+allowPrivilegedContainer: true
+apiVersion: v1
+groups: <1>
+- system:cluster-admins
+- system:nodes
+kind: SecurityContextConstraints
+metadata:
+  creationTimestamp: null
+  name: privileged
+runAsUser:
+  type: RunAsAny <2>
+seLinuxContext:
+  type: RunAsAny <3>
+users: <4>
+- system:serviceaccount:openshift-infra:build-controller
+----
 
-* The set of SCCs that admission uses to authorize a pod are determined by the
-user identity and groups that the user belongs to.
-** Additionally, if the pod specifies a service account, the set of allowable
-SCCs includes any constraints accessible to the service account.
+<1> The groups that have access to this SCC
+<2> The run as user strategy type which dictates the allowable values for the Security Context
+<3> The SELinux context strategy type which dictates the allowable values for the Security Context
+<4> The users who have access to this SCC
 
 ifdef::showscript[]
 === Transcript
 
+* The _users_ and _groups_ fields on the SCC control which SCCs can be used.
+By default, cluster administrators, nodes, and the build controller are granted
+access to the privileged SCC.
+* All authenticated users are granted access to the restricted SCC.
+
+* The definition for each SCC is also viewable by cluster administrators using
+the CLI.
 endif::showscript[]
 

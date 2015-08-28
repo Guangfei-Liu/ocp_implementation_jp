@@ -1,19 +1,49 @@
 == Authorization
 :noaudio:
 
-.Evaluating Authorization - Continued
+.Overview - Continued
+* Rules, roles, and bindings can be visualized using the CLI. For example,
+consider the following excerpt showing rule sets for the *admin* and
+*basic-user* (Using the command `oc describe clusterPolicy default`):
++
+[options="nowrap"]
+----
+admin			Verbs					Resources															Resource Names	Extension
+			[create delete get list update watch]	[projects resourcegroup:exposedkube resourcegroup:exposedopenshift resourcegroup:granter secrets]				[]
+			[get list watch]			[resourcegroup:allkube resourcegroup:allkube-status resourcegroup:allopenshift-status resourcegroup:policy]			[]
+basic-user		Verbs					Resources															Resource Names	Extension
+			[get]					[users]																[~]
+			[list]					[projectrequests]														[]
+			[list]					[projects]															[]
+			[create]				[subjectaccessreviews]														[]		IsPersonalSubjectAccessReview
+----
 
-* OpenShift evaluates authorizations using the following steps:
 
-. The identity and the project-scoped action is used to find all bindings that
-apply to the user or their groups.
-. Bindings are used to locate all the roles that apply.
-. Roles are used to find all the rules that apply.
-. The action is checked against each rule to find a match.
-. If no matching rule is found, the action is then denied by default.
+
+* The following excerpt of viewing policy bindings shows the above roles
+bound to various users and groups (Using the command: `oc describe clusterPolicy default`):
++
+[options="nowrap"]
+----
+RoleBinding[admins]:
+				Role:	admin
+				Users:	[alice system:admin]
+				Groups:	[]
+RoleBinding[basic-user]:
+				Role:	basic-user
+				Users:	[joe]
+				Groups:	[devel]
+----
+
 
 ifdef::showscript[]
 === Transcript
+Rules, roles, and bindings can be visualized using the CLI. For example,
+consider the following excerpt showing rule sets for the *admin* and
+*basic-user* (Using the command `oc describe clusterPolicy default`)
 
+The second excerpt of viewing policy bindings shows the above roles bound to
+various users and groups (Using the command:
+  `oc describe clusterPolicy default`):
 endif::showscript[]
 

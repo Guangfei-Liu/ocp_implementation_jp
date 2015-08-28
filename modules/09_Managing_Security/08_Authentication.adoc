@@ -1,0 +1,38 @@
+== Authentication
+:noaudio:
+
+.OAuth Clients
+
+* Every request for an OAuth token must specify the OAuth client that will
+receive and use the token.
+* The following OAuth clients are automatically created
+when starting the OpenShift API:
++
+[options="header"]
+|===
+
+|OAuth Client |Usage
+
+|*openshift-web-console*
+|Requests tokens for the web console.
+
+|*openshift-browser-client*
+|Requests tokens at `_<master>_/oauth/token/request` with a user-agent that can handle interactive logins.
+
+|*openshift-challenging-client*
+|Requests tokens with a user-agent that can handle `WWW-Authenticate` challenges.
+
+|===
+
+ifdef::showscript[]
+=== Transcript
+Every request for an OAuth token must specify the OAuth client that will
+receive and use the token.
+* The following OAuth clients are automatically created
+when starting the OpenShift API:
+- openshift-web-console
+- openshift-browser-client
+- openshift-challenging-client
+
+endif::showscript[]
+

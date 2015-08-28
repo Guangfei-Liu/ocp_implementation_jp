@@ -94,8 +94,6 @@ endif::showscript[]
 
 == Class Environment
 :noaudio:
-* An HTML version of this content is available:
-https://www.opentlc.com/classes/ose3-implementation.
 
 * Class labs and demonstrations require provisioning the following virtual machines:
 ** *Master host* – 1 VM that serves as the Master for the OpenShift Enterprise environment.

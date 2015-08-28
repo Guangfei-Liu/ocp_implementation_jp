@@ -25,31 +25,14 @@ webhook endpoint for your build:
 http://<openshift_api_host:port>/osapi/v1/namespaces/<namespace>/buildconfigs/<name>/webhooks/<secret>/generic
 ----
 
-* The endpoint can accept an optional payload with the following format:
-+
-[source,json]
-----
-{
-  type: 'git',
-  git: {
-    uri: '<url to git repository>',
-    ref: '<optional git reference>',
-    commit: '<commit hash identifying a specific git commit>',
-    author: {
-      name: '<author name>',
-      email: '<author e-mail>',
-    },
-    committer: {
-      name: '<committer name>',
-      email: '<committer e-mail>',
-    },
-    message: '<commit message>'
-  }
-}
-----
-
-
 ifdef::showscript[]
+=== Transcript
+Generic webhooks can be invoked from any system capable of making a web request.
+
+* As with a GitHub webhook, you must specify a secret when defining the trigger,
+and the caller must provide this secret to trigger the build. The first example
+is a trigger definition JSON within the buildConfig and the second is a generic
+webhook URL Example.
 
 endif::showscript[]
 

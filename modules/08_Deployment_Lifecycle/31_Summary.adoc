@@ -10,3 +10,9 @@ In this module we covered:
 	* Lab: Using Webhooks
 	* Lab: Customized Build and Run Processes
 	* Lab: Pre and Post Deployment Hooks (Optional)
+
+
+  ifdef::showscript[]
+  === Transcript
+
+  endif::showscript[]

@@ -1,36 +1,41 @@
 == Deployments
 :noaudio:
 
-.Manage Deployments
+.Deployments and Deployment Configurations - Continued
 
-* To start a new deployment manually:
-+
-----
-$ oc deploy <deployment_config> --latest
-----
-** If there’s already a deployment in progress, the command will display a
-message and a new deployment will not be started.
+The OpenShift `DeploymentConfig` object defines the following details of a
+deployment:
 
-* Viewing a Deployment
-** To get basic information about recent deployments:
-+
-----
-$ oc deploy <deployment_config>
-----
+1. The elements of a _ReplicationController_ definition.
+2. Triggers for creating a new deployment automatically.
+3. The strategy for transitioning between deployments.
+4. Life cycle hooks.
 
-** This will show details about the latest and recent deployments, including
-any currently running deployment.
-* For more detailed information about a deployment configuration and the latest
-  deployment:
-+
-----
-$ oc describe dc <deployment_config>
-----
-
-
+* Each time a deployment is triggered, whether manually or automatically,
+a deployer pod manages the deployment (including scaling down the old
+replication controller, scaling up the new one, and running hooks).
+* The deployment pod remains for an indefinite amount of time after it
+completes the deployment in order to retain its logs of the deployment.
+* When a deployment is superseded by another, the previous replication
+controller is retained to enable easy rollback if needed.
 
 ifdef::showscript[]
+=== Transcript
+The OpenShift `DeploymentConfig` object defines the following details of a
+deployment:
+
+1. The elements of a _ReplicationController_ definition.
+2. Triggers for creating a new deployment automatically.
+3. The strategy for transitioning between deployments.
+4. Life cycle hooks.
+
+* Each time a deployment is triggered, whether manually or automatically,
+a deployer pod manages the deployment (including scaling down the old
+replication controller, scaling up the new one, and running hooks).
+* The deployment pod remains for an indefinite amount of time after it
+completes the deployment in order to retain its logs of the deployment.
+* When a deployment is superseded by another, the previous replication
+controller is retained to enable easy rollback if needed.
 
 endif::showscript[]
-
 

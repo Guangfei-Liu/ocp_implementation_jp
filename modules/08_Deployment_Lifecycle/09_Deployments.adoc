@@ -1,41 +1,48 @@
 == Deployments
 :noaudio:
 
-.Triggers Continued
+.Manage Deployments
 
-* Image Change Trigger
-** The ImageChange trigger results in a new deployment whenever the value of an
-image stream tag changes.
-
-** The following is an example of an ImageChange trigger:
+* Canceling and Retrying a Deployment
+- To cancel a running or *stuck* deployment:
 +
 ----
-"triggers": [
-  {
-    "type": "ImageChange",
-    "imageChangeParams": {
-      "automatic": true,
-      "from": {
-        "kind": "ImageStreamTag",
-        "name": "origin-ruby-sample:latest"
-      },
-      "containerNames": [
-        "helloworld"
-      ]
-    }
-  }
-]
+$ oc deploy <deployment_config> --cancel
 ----
+- The cancellation is a best-effort operation, and may take some time to
+complete. It’s possible the deployment will partially or totally complete
+before the cancellation is effective.
 
-** If the automatic option is set to false, the trigger is disabled.
-** With the above example, when the latest tag value of the origin-ruby-sample
-image stream changes and the new tag value differs from the current image
-specified in the deployment configuration’s helloworld container, a new
-deployment is created using the new tag value for the helloworld container
+* Retrying a Deployment
+- To retry the last failed deployment:
++
+----
+$ oc deploy <deployment_config> --retry
+----
+- If the last deployment didn’t fail,
+the command will display a message and the deployment will not be retried.
+** Retrying a deployment restarts the deployment and does not create a new
+deployment version. The restarted deployment will have the same configuration
+it had when it failed.
 
 
 ifdef::showscript[]
+=== Transcript
+Here are a few more examples of how to manage a deployment.
+You can cancel a running deployment that is stuck or failing using the --cancel
+flag,  cancellation is a best-effort operation, and may take some time to
+complete. It’s possible the deployment will partially or totally complete
+before the cancellation is effective.
+
+The --retry flag creates a re-run of a prevoiusly failed deployment, note that
+if the last deployment didn’t fail, the command will display a message and the
+deployment will not be retried.
+
+Retrying a deployment restarts the deployment and does not create a new
+deployment version. The restarted deployment will have the same configuration
+it had when it failed.
+
+
 
 endif::showscript[]
-
 

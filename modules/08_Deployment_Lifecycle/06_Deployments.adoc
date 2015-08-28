@@ -1,32 +1,57 @@
 == Deployments
 :noaudio:
 
-.Manage Deployments
+.Deployment Configuration  Definition file/Manifest
 
-* Canceling and Retrying a Deployment
-** To cancel a running or *stuck* deployment:
+* Here is an example _DeploymentConfiguration_ definition with some
+omissions and callouts:
 +
+[source,yaml]
 ----
-$ oc deploy <deployment_config> --cancel
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  name: frontend
+spec:
+  replicas: 5
+  selector:
+    name: frontend
+  template: { ... }
+  triggers:
+  - type: ConfigChange <1>
+  - imageChangeParams:
+      automatic: true
+      containerNames:
+      - helloworld
+      from:
+        kind: ImageStreamTag
+        name: hello-openshift:latest
+    type: ImageChange  <2>
+  strategy:
+    type: Rolling      <3>
 ----
-** The cancellation is a best-effort operation, and may take some time to
-complete. It’s possible the deployment will partially or totally complete
-before the cancellation is effective.
 
-* Retrying a Deployment
-** To retry the last failed deployment:
-+
-----
-$ oc deploy <deployment_config> --retry
-----
-** If the last deployment didn’t fail,
-the command will display a message and the deployment will not be retried.
-** Retrying a deployment restarts the deployment and does not create a new
-deployment version. The restarted deployment will have the same configuration
-it had when it failed.
+<1> A `ConfigChange` trigger causes a new deployment to be created any time the
+replication controller template changes.
+<2> An `ImageChange` trigger causes a new deployment to be created each time a
+new version of the backing image is available in the named image stream.
+<3> The default `Rolling` strategy makes a downtime-free transition between
+deployments.
 
+NOTE: We will discuss *Deployment Strategies* in more depth later in the
+training.
 
 ifdef::showscript[]
+=== Transcript
+Here is an example _DeploymentConfiguration_ definition with some omissions and
+callouts:
+
+The `ConfigChange` trigger causes a new deployment to be created any time the
+replication controller template changes.
+The  `ImageChange` trigger causes a new deployment to be created each time a
+new version of the backing image is available in the named image stream.
+And The default `Rolling` strategy makes a downtime-free transition between
+deployments.
 
 endif::showscript[]
 

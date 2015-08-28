@@ -1,0 +1,28 @@
+== Strategies
+:noaudio:
+
+.Custom Strategy - Continued
+
+* OpenShift provides the following environment variables to the
+strategy process:
+|====
+|Environment Variable|Description
+|OPENSHIFT_DEPLOYMENT_NAME| The name of the new deployment (a replication controller).
+|OPENSHIFT_DEPLOYMENT_NAMESPACE| The namespace of the new deployment.
+|====
+** The replica count of the new deployment will initially be zero. The
+responsibility of the strategy is to make the new deployment active using the
+logic that best serves the needs of the user.
+
+
+ifdef::showscript[]
+=== Transcript
+OpenShift provides the following environment variables to the
+strategy process:
+
+The replica count of the new deployment will initially be zero. The
+responsibility of the strategy is to make the new deployment active using the
+logic that best serves the needs of the user.
+
+endif::showscript[]
+

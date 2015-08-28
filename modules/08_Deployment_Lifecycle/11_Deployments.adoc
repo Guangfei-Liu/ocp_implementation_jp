@@ -1,0 +1,45 @@
+== Deployments
+:noaudio:
+
+.Triggers
+
+* A deployment configuration can contain triggers, which drive the creation of
+new deployments in response to events, both inside and outside OpenShift.
+
+* If no triggers are defined on a deployment configuration, deployments must be
+started manually.
+* Configuration Change Trigger
+- The ConfigChange trigger results in a new deployment whenever changes are
+detected to the replication controller template of the deployment configuration.
+
+- If a ConfigChange trigger is defined on a deployment configuration,
+the first deployment will be automatically created soon after the deployment
+configuration itself is created.
+
+** The following is an example of a ConfigChange trigger:
++
+[source,json]
+----
+"triggers": [
+  {
+    "type": "ConfigChange"
+  }
+]
+----
+
+ifdef::showscript[]
+=== Transcript
+* A deployment configuration can contain triggers, which drive the creation of
+new deployments in response to events, both inside and outside OpenShift.
+
+* If no triggers are defined on a deployment configuration, deployments must be
+started manually.
+* Configuration Change Trigger
+- The ConfigChange trigger results in a new deployment whenever changes are
+detected to the replication controller template of the deployment configuration.
+
+- If a ConfigChange trigger is defined on a deployment configuration,
+the first deployment will be automatically created soon after the deployment
+configuration itself is created.
+endif::showscript[]
+

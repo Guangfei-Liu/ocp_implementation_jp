@@ -1,0 +1,29 @@
+== Lifecycle Hooks
+:noaudio:
+
+.Lifecycle Hooks - FailurePolicy
+
+* As discussed, Every hook has a failurePolicy, which defines the action the strategy should
+take when a hook failure is encountered:
+
+|====
+|Abort|The deployment should be considered a failure if the hook fails.
+|Retry|The hook execution should be retried until it succeeds.
+|Ignore|Any hook failure should be ignored and the deployment should proceed.
+|====
+
+WARNING: Some hook points for a strategy might support only a subset of failure
+policy values. For example, the Recreate and Rolling strategies do not currently
+support the Abort policy for a "post" deployment lifecycle hook.
+
+
+ifdef::showscript[]
+=== Transcript
+As discussed, Every hook has a failurePolicy, which defines the action the
+strategy should take when a hook failure is encountered.
+
+Note that some hook points for a strategy might support only a subset of failure
+policy values. For example, the Recreate and Rolling strategies do not currently
+support the Abort policy for a "post" deployment lifecycle hook.
+endif::showscript[]
+

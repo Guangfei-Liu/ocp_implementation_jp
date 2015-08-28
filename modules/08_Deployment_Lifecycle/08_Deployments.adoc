@@ -1,29 +1,43 @@
 == Deployments
 :noaudio:
 
-.Triggers
+.Manage Deployments
 
-* A deployment configuration can contain triggers, which drive the creation of
-new deployments in response to events, both inside and outside OpenShift.
-
-* If no triggers are defined on a deployment configuration, deployments must be
-started manually.
-* Configuration Change Trigger
-** The ConfigChange trigger results in a new deployment whenever changes are
-detected to the replication controller template of the deployment configuration.
-
-** If a ConfigChange trigger is defined on a deployment configuration,
-the first deployment will be automatically created soon after the deployment
-configuration itself is created.
-
-** The following is an example of a ConfigChange trigger:
+* To start a new deployment manually:
 +
-[source,json]
 ----
-"triggers": [
-  {
-    "type": "ConfigChange"
-  }
-]
+$ oc deploy <deployment_config> --latest
 ----
+** If there’s already a deployment in progress, the command will display a
+message and a new deployment will not be started.
+
+* Viewing a Deployment
+** To get basic information about recent deployments:
++
+----
+$ oc deploy <deployment_config>
+----
+
+** This will show details about the latest and recent deployments, including
+any currently running deployment.
+* For more detailed information about a deployment configuration and the latest
+  deployment:
++
+----
+$ oc describe dc <deployment_config>
+----
+
+
+
+ifdef::showscript[]
+=== Transcript
+Here are a few examples of how to manage a deployment.
+When trying to deploy the latest deployment version, using the --latest flag,
+the new deployment will only start of no other deployment is in progress.
+
+For more detailed information about a deployment configuration and the latest
+  deployment use the *oc describe* command.
+
+endif::showscript[]
+
 

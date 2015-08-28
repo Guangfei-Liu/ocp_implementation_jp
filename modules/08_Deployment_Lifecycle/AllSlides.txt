@@ -16,35 +16,47 @@ include::08_Deployments.adoc[]
 
 include::09_Deployments.adoc[]
 
-include::10_Strategies.adoc[]
+include::10_Deployments.adoc[]
 
-include::11_Strategies.adoc[]
+include::11_Deployments.adoc[]
 
-include::12_Strategies.adoc[]
+include::12_Deployments.adoc[]
 
 include::13_Strategies.adoc[]
 
 include::14_Strategies.adoc[]
 
-include::15_Lifecycle_Hooks.adoc[]
+include::15_Strategies.adoc[]
 
-include::16_Lifecycle_Hooks.adoc[]
+include::16_Strategies.adoc[]
 
-include::17_Build_Triggers.adoc[]
+include::17_Strategies.adoc[]
 
-include::18_Build_Triggers.adoc[]
+include::18_Strategies.adoc[]
 
-include::19_Build_Triggers.adoc[]
+include::19_Strategies.adoc[]
 
-include::20_Build_Triggers.adoc[]
+include::20_Lifecycle_Hooks.adoc[]
 
-include::21_Build_Triggers.adoc[]
+include::21_Lifecycle_Hooks.adoc[]
 
-include::22_Build_Triggers.adoc[]
+include::22_Lifecycle_Hooks.adoc[]
 
-include::23_Build_Triggers.adoc[]
+include::23_Lifecycle_Hooks.adoc[]
 
 include::24_Build_Triggers.adoc[]
 
-include::25_Summary.adoc[]
+include::25_Build_Triggers.adoc[]
+
+include::26_Build_Triggers.adoc[]
+
+include::27_Build_Triggers.adoc[]
+
+include::28_Build_Triggers.adoc[]
+
+include::29_Build_Triggers.adoc[]
+
+include::30_Build_Triggers.adoc[]
+
+include::31_Summary.adoc[]
 

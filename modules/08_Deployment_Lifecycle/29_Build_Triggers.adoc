@@ -1,7 +1,7 @@
 == Build Triggers
 :noaudio:
 
-.Image Change Triggers - Continued
+.Image Change Triggers - Examples
 
 * Define a build with a strategy that consumes the image stream:
 +
@@ -22,4 +22,14 @@
 +
 ** In this case, the sourceStrategy definition is consuming the latest tag of
 the ImageStream named ruby-20-rhel7 located within this namespace.
+
+
+ifdef::showscript[]
+=== Transcript
+Here is an example of how to define a build with a strategy that consumes the
+image stream "ruby-20-rhel7", in this case, the `sourceStrategy` definition is
+consuming the latest tag of the ImageStream named ruby-20-rhel7 located within
+this namespace.
+
+endif::showscript[]
 

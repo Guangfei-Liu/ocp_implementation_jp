@@ -3,11 +3,16 @@
 
 .Pod-based Lifecycle Hook
 
-Pod-based lifecycle hooks execute hook code in a new pod derived from the template
-in a deployment configuration.
-
 * The following simplified example deployment configuration uses the Rolling
 strategy. Triggers and some other minor details are omitted for brevity:
+* In this example, the "pre" hook will be executed in a new pod using the
+"openshift/origin-ruby-sample" image from the "helloworld "container.
+* The hook container command will be /usr/bin/command arg1 arg2, and the hook
+container will have the "CUSTOM_VAR1=custom_value1" environment variable.
+* Because the hook failure policy is Abort, the deployment will fail if the hook
+  fails.
+
+
 [source,json]
 ----
 {
@@ -64,14 +69,18 @@ strategy. Triggers and some other minor details are omitted for brevity:
 <2> This command overrides any ENTRYPOINT defined by the openshift/origin-ruby-sample image.
 <3> env is an optional set of environment variables for the hook container.
 
-* In this example, the "pre" hook will be executed in a new pod using the
-openshift/origin-ruby-sample image from the helloworld container.
-* The hook container command will be /usr/bin/command arg1 arg2, and the hook
-container will have the CUSTOM_VAR1=custom_value1 environment variable.
-* Because the hook failure policy is Abort, the deployment will fail if the hook
-  fails.
+
 
 ifdef::showscript[]
+=== Transcript
+* The following simplified example deployment configuration uses the Rolling
+strategy. Triggers and some other minor details are omitted for brevity:
+* In this example, the "pre" hook will be executed in a new pod using the
+"openshift/origin-ruby-sample" image from the "helloworld "container.
+* The hook container command will be /usr/bin/command arg1 arg2, and the hook
+container will have the "CUSTOM_VAR1=custom_value1" environment variable.
+* Because the hook failure policy is Abort, the deployment will fail if the hook
+  fails.
 
 endif::showscript[]
 

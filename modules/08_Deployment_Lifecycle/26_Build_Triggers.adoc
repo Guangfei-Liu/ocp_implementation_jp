@@ -28,6 +28,14 @@ http://<openshift_api_host:port>/osapi/v1/namespaces/<namespace>/buildconfigs/<n
 ----
 
 ifdef::showscript[]
+=== Transcript
+GitHub webhooks handle the call made by GitHub when a repository is updated.
+* When defining the trigger, you must specify a secret as part of the URL you
+supply to GitHub when configuring the webhook.
+** The secret ensures that only you and your
+repository can trigger the build.
 
+The first example is a trigger definition JSON within the buildConfig and the
+second is a GitHub Webhook URL example.
 endif::showscript[]
 

@@ -1,0 +1,33 @@
+== Strategies
+:noaudio:
+
+.Recreate Strategy
+
+The Recreate strategy has basic rollout behavior and supports lifecycle hooks
+for injecting code into the deployment process.
+
+* The following is an example of the Recreate strategy:
++
+[source,json]
+----
+"strategy": {
+  "type": "Recreate",
+  "recreateParams": { <1>
+    "pre": {}, <2>
+    "post": {}
+  }
+}
+----
+<1> recreateParams are optional.
+<2> pre and post are both lifecycle hooks.
+
+ifdef::showscript[]
+=== Transcript
+The Recreate strategy has basic rollout behavior and supports lifecycle hooks
+for injecting code into the deployment process.
+
+* The following is an example of the Recreate strategy:
+
+endif::showscript[]
+
+

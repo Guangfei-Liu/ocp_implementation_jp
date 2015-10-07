@@ -1,0 +1,36 @@
+== OpenShift Enterprise Population
+:noaudio:
+
+.Database Service Templates
+
+* Database service templates make it easy to run database instance
+** Other components can use
+* Two templates provided for each database
+** To create core set of database templates:
++
+----
+$ oc create -f \
+    examples/db-templates -n openshift
+----
+
+** Can easily instantiate templates after creating them
+** Gives quick access to database deployment
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+You can also deploy database templates that make it easy to run a database instance that other components can use.
+
+For each database--MongoDB, MySQL, and PostgreSQL--two templates are provided.
+
+Use the second code sample shown here to create the core set of database templates.
+
+After you create the templates, you can easily instantiate them. This gives the templates quick access to a database deployment.
+
+endif::showscript[]
+
+
+
+

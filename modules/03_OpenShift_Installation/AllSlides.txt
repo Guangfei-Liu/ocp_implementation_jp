@@ -22,43 +22,49 @@ include::11_Host_Preparation.adoc[]
 
 include::12_Host_Preparation.adoc[]
 
-include::13_Docker_Install.adoc[]
+include::13_Docker_Installation.adoc[]
 
-include::14_Docker_Install.adoc[]
+include::14_Docker_Installation.adoc[]
 
-include::15_Docker_Install.adoc[]
+include::15_Docker_Installation.adoc[]
 
-include::16_Docker_Install.adoc[]
+include::16_Docker_Installation.adoc[]
 
-include::17_Installing_OpenShift.adoc[]
+include::17_OpenShift_Enterprise_Installation.adoc[]
 
 include::18_Regions_and_Zones.adoc[]
 
-include::19_Deploying_the_Registry.adoc[]
+include::19_Registry_Deployment.adoc[]
 
-include::20_Deploying_the_Registry.adoc[]
+include::20_Registry_Deployment.adoc[]
 
-include::21_Deploying_the_Registry.adoc[]
+include::21_Registry_Deployment.adoc[]
 
-include::22_Deploying_the_Default_HAProxy_Router.adoc[]
+include::22_Default_HAProxy_Router_Deployment.adoc[]
 
-include::23_Populating_OpenShift.adoc[]
+include::23_OpenShift_Enterprise_Population.adoc[]
 
-include::24_Populating_OpenShift.adoc[]
+include::24_OpenShift_Enterprise_Population.adoc[]
 
-include::25_Populating_OpenShift.adoc[]
+include::25_OpenShift_Enterprise_Population.adoc[]
 
-include::26_Configure_Persistent_Storage_Using_NFS.adoc[]
+include::26_OpenShift_Enterprise_Population.adoc[]
 
-include::27_Configure_Persistent_Storage_Using_NFS.adoc[]
+include::27_OpenShift_Enterprise_Population.adoc[]
 
-include::28_Configure_Persistent_Storage_Using_NFS.adoc[]
+include::28_Persistent_Storage_Using_NFS.adoc[]
 
-include::29_Configure_Persistent_Storage_Using_NFS.adoc[]
+include::29_Persistent_Storage_Using_NFS.adoc[]
 
-include::30_Configure_Persistent_Storage_Using_NFS.adoc[]
+include::30_Persistent_Storage_Using_NFS.adoc[]
 
-include::31_Configure_Persistent_Storage_Using_NFS.adoc[]
+include::31_Persistent_Storage_Using_NFS.adoc[]
 
-include::32_Configure_Persistent_Storage_Using_NFS.adoc[]
+include::32_Persistent_Storage_Using_NFS.adoc[]
+
+include::33_Persistent_Storage_Using_NFS.adoc[]
+
+include::34_Persistent_Storage_Using_NFS.adoc[]
+
+include::35_Summary.adoc[]
 

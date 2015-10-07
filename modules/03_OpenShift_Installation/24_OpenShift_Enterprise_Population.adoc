@@ -1,0 +1,33 @@
+== OpenShift Enterprise Population
+:noaudio:
+
+* Core set of image streams define images you can use to build applications:
+** Node.js
+** Perl
+** PHP
+** Python
+** Ruby
+
+* Defines images for databases: 
+** MongoDB
+** MySQL
+** PostgreSQL
+
+* To create core set of image streams that use Red Hat Enterprise Linux 7-based images:
++
+----
+oc create -f \
+    examples/image-streams/image-streams-rhel7.json \
+    -n openshift
+----
+
+ifdef::showscript[]
+
+=== Transcript
+
+The core set of image streams define images that can be used to build Node.js, Perl, PHP, Python, and Ruby applications. It also defines images for MongoDB, MySQL, and PostgreSQL databases.
+
+Use the code shown here to create the core set of image streams that use the Red Hat Enterprise Linux 7-based images.
+
+endif::showscript[]
+

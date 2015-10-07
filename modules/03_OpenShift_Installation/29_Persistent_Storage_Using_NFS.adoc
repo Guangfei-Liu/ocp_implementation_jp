@@ -1,4 +1,4 @@
-== Configure Persistent Storage Using NFS
+== Persistent Storage Using NFS
 :noaudio:
 
 .Persistent Volume Object Definition
@@ -28,9 +28,10 @@
 ifdef::showscript[]
 
 === Transcript
-Have a look at the provided "Persistent Volume Object Definition"
-Notice that we will need to specify the storage capacity, access mode and the
-details of our NFS host.
+
+Here is the definition of the `Persistent Volume` object.
+
+You must specify the storage capacity, access mode, and details of your NFS host.
 
 endif::showscript[]
 

@@ -1,31 +1,39 @@
 == Host Preparation
 :noaudio:
 
-.Host Preparation - overview
+.Overview
 
-* To prepare your hosts for OpenShift 3 Enterprise
-** *Installing Red Hat Enterprise Linux 7.1* - A base installation of `Red Hat Enterprise Linux (RHEL) 7.1` is required for master or node hosts. See the link:https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Installation_Guide/index.html[Red Hat Enterprise Linux 7.1 Installation Guide]
- for more information.
-** *Registering the Hosts with subscription-manager* - You will need to register all the hosts to RHEL7.1 and OpenShift Enterprise repositories.
-** *Managing Base Packages* - You will need to install some utility packages (i.e git, net-tools, bind-utils, iptables-services
-** *Managing Services* - You will need to disable firewalld and enable iptables-services
-** *Install Docker 1.6.x* - Docker version 1.6 or later needs to be installed and storage backend configured for images.
-** *Host Password-less communication* - You will ensure that the master hosts can issue remove commands on the nodes without requiring a password.
+* To prepare your hosts for OpenShift Enterprise 3.0:
+** Install Red Hat Enterprise Linux 7.1
+*** See https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Installation_Guide/index.html
+** Register hosts with `subscription-manager`
+** Manage base packages:
+*** `git`
+*** `net-tools`
+*** `bind-utils`
+*** `iptables-services`
+** Manage services:
+*** Disable `firewalld`
+*** Enable `iptables-services`
+** Install Docker 1.6.x
+** Host password-less communication
 
 ifdef::showscript[]
 
 === Transcript
 
-We will cover some of the basic steps that are required to prepare the hosts.
+To prepare the hosts to use with OpenShift Enterprise, consult the documentation. This ensures you always have the most up-to-date information.
 
-To prepare the hosts to be used with OpenShift its best to consult the
-documentation as it would always have the most up-to-date information.
+The basic steps for preparing hosts are as follows:
 
-In case you want to create a scalable environment you will probably create a
-image template for the node (depending on your infrastructure provider) and spin
-up a new instance/VM in which these steps have already been performed (to save
-  time) and then run the installer script to add the new node to the OSE
-  environment/cluster.
+* Perform a base installation of Red Hat Enterprise Linux 7.1 for master or node hosts. See the Red Hat Enterprise Linux 7.1 Installation Guide for more information.
+* Use `subscription-manager` to register all the hosts to Red Hat Enterprise Linux 7.1 and OpenShift Enterprise repositories.
+* Install some utility packages, including `git`, `net-tools`, `bind-utils`, and `iptables-services`.
+* Disable `firewalld` and enable `iptables-services`.
+* Install Docker 1.6 or later and configure the storage back end for images.
+* Make sure that the master hosts can issue `remove` commands on the nodes without requiring a password.
+
+If you want to create a scalable environment, you should create an image template for the node--depending on your infrastructure provider--and then, to save time, spin up a new instance or VM in which these steps have already been performed. You should then run the installer script to add the new node to the OpenShift Enterprise environment/cluster.
 
 
 endif::showscript[]

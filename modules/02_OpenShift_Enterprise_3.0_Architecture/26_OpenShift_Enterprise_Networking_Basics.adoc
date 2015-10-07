@@ -1,0 +1,30 @@
+== OpenShift Enterprise Networking Basics
+:noaudio:
+
+* Understanding OpenShift Enterprise 3.0 networking workflow requires knowledge of components:
+** Every host in OpenShift Enterprise 3.0 environment/cluster is member of SDN network
+** Each `pod` has own IP routable from any SDN member
+*** Default: `10.x.x.x`
+** Each `service` represents one or more `pods`, has own IP
+*** Default: `172.30.x.x`
+
+ifdef::showscript[]
+
+=== Transcript
+
+To understand the networking workflow in OpenShift Enterprise 3.0, you must be familiar with its various components.
+
+All hosts in the OpenShift Enterprise 3.0 environment, or cluster, are members of the same SDN
+overlay network.
+
+Each pod gets its own IP that is routable from any member of the SDN
+network.
+
+Pods come and go, so you use a service to represent them and provide a stable
+and permanent IP for a group of pods.
+
+The default IPs for pods and services are shown here.
+
+endif::showscript[]
+
+

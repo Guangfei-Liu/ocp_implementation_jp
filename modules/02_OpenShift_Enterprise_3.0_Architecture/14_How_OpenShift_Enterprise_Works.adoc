@@ -1,9 +1,8 @@
-== How it Works
+== How OpenShift Enterprise Works
 :noaudio:
 
-.Store
-* Holds current state, desired state, and configuration information of the
-environment
+.Store Layer
+* Holds current state, desired state, and configuration information of environment
 +
 image::images/03Store.png[]
 
@@ -14,9 +13,5 @@ ifdef::showscript[]
 The store layer holds the current state, the desired state, and configuration
 information about the environment.
 
-
 endif::showscript[]
-
-
-
 

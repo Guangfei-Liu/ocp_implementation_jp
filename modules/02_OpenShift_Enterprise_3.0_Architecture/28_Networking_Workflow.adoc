@@ -1,12 +1,12 @@
 == Networking Workflow
 :noaudio:
 
-.Scenario: Client points browser to `myApp.MyDomain.org:80`
-* DNS resolves to the *host* running the *Default Router* container (This will
-  be *infranode00* in our lab)
+.Scenario: Client Points Browser to `myApp.MyDomain.org:80`
+* DNS resolves to the `host` running the `Default Router` container
+** `infranode00` in the lab
 * Using `openshift-sdn` overlay network:
-** *Default Router* is configured with
-** Proxies request to internal pod IP:port (10.1.2.3:8080 )
+** `Default Router` is configured with this network
+** Proxies request to internal pod `IP:port` (`10.1.2.3:8080`)
 +
 image::images/NetworkScenario01.png[]
 
@@ -14,16 +14,16 @@ ifdef::showscript[]
 
 === Transcript
 
-Let's review the following scenario:
-When a user requests a page, by pointing his or her browser to
-http://Myapp.MyDomain, DNS resolves that request to the IP address of one of
+Consider this following scenario:
+A user requests a page by pointing his or her browser to
+http://Myapp.MyDomain. DNS resolves that request to the IP address of one of
 the nodes that hosts the routing layer.
 
 You would usually create a wildcard Cname record in your DNS server and point
 it to the node or nodes that host the router container.
 
-The routing layer, in this case the Router Container, then determines which pod
-should get the request and acts as a proxy for the pod.
+The routing layer, in this case the `Router Container`, then selects the pod
+that gets the request and acts as a proxy for the pod.
 
 endif::showscript[]
 

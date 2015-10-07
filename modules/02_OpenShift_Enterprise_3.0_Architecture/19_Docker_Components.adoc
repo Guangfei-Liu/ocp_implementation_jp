@@ -1,21 +1,20 @@
 == Docker Components
 :noaudio:
 
-* *Docker daemon* - Runs on a host machine
-* *Docker client* - Primary user interface to Docker
-* *Docker images* - Read-only template
-* *Docker registries* - Hold images
-* *Docker containers* - Hold everything needed for application to run
-
+* *Docker daemon*: Runs on host machine
+* *Docker client*: Primary user interface to Docker
+* *Docker images*: Read-only template
+* *Docker registries*: Hold images
+* *Docker containers*: Hold everything needed for application to run
 
 ifdef::showscript[]
 
 === Transcript
 
-The Docker daemon runs on a host machine. You do not directly interact with the
-daemon. Instead, you interact through the Docker client.
+The Docker daemon runs on a host machine. You do not interact directly with the
+daemon.
 
-The Docker client is the primary user interface to Docker. It accepts commands
+The Docker client is the primary user interface. It accepts commands
 from the user and communicates back and forth with a Docker daemon.
 
 A Docker image is a read-only template. For example, an image could contain a
@@ -26,9 +25,7 @@ Docker registries hold images. Registries are public or private stores from
 which you upload or download images.
 
 Docker containers hold everything that is needed for an application to run.
-Each container is created from a Docker image. Docker containers can be run,
-started,
- stopped, moved, and deleted.
+Each container is created from a Docker image. You can start, run, stop, move, and delete Docker containers.
 
 
 

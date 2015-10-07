@@ -1,13 +1,12 @@
 == Class Environment
 :noaudio:
 
-* Class labs and demonstrations require provisioning the following virtual machines:
-** *Master host* – 1 VM that serves as the Master for the OpenShift Enterprise environment.
-** *Node hosts* – 3 VMs that serve as the nodes of the OpenShift Enterprise environment.
-** *oselab host* – 1 VM for admin purposes such as: DNS Server, NFS Server,
-SSH "Jumpbox" and more.
-* Red Hat Enterprise Linux 7.1 is preinstalled and configured for deployment.
-* Connection details arrive via email after you provision the environment.
+* Class labs and demonstrations require provisioning virtual machines (VMs):
+** *Master host*: One VM serves as OpenShift Enterprise environment master
+** *Node hosts*: Three VMs serve as OpenShift Enterprise environment node
+** *`oselab` host*: One VM for admin purposes (DNS server, NFS server, SSH jump box, more)
+* Red Hat Enterprise Linux 7.1 preinstalled and configured for deployment
+* Connection details arrive via email after provisioning environment
 
 
 ifdef::showscript[]
@@ -15,15 +14,19 @@ ifdef::showscript[]
 === Transcript
 
 This class uses a cloud-based environment. You will provision the following
-hosts for your OpenShift Enterprise environment: A single Master host, three
-Node hosts (One will be dedicated for Infrastructure components), and an admin
-host to act as our DNS Server, NFS Server and SSH "Jumpback"
+virtual machine hosts for your OpenShift Enterprise environment: 
 
-Red Hat Enterprise Linux is preinstalled and configured for deployment.
+* A single master host
+* Three node hosts, one of which is dedicated for infrastructure components
+* One admin host, `oselab`, to act as your DNS server, NFS server, and SSH jump box
+
+Red Hat Enterprise Linux 7.1 is preinstalled and configured for deployment.
 
 After you provision the environment, you should receive connection details via
-email. This can take a few minutes, check your spam folder if you do not receive
-the email within 10 minutes of environment provisioning request.
+email. This can take a few minutes. If you do not receive
+the email within 10 minutes of making the environment provisioning request, check your spam folder.
 
 
 endif::showscript[]
+
+

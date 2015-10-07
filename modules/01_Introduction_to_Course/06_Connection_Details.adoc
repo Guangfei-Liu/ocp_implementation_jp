@@ -1,39 +1,38 @@
 == Connection Details
 :noaudio:
 
-
 .Master and Infranode Hosts
-[options="header",width="65"]
+
+* Details for master and infranode hosts
++
+[cols="3",width="65%"]
 |=======================
 ||Master00|InfraNode00
-|*Internal IP*|192.168.0.100|192.168.0.101
+|*Internal IP*|`192.168.0.100`|`192.168.0.101`
 |*External IP*|Provided|Provided
-|*DNS Name*|master00-*GUID*.oslab.opentlc.com|infranode00-*GUID*.oslab.opentlc.com
-|*Credentials*|root / r3dh4t1!|root / r3dh4t1!
+|*DNS Name*|+master00-**GUID**.oslab.opentlc.com+|+infranode00-**GUID**.oslab.opentlc.com+
+|*Credentials*|`root`/`r3dh4t1!`|`root`/`r3dh4t1!`
 |=======================
 
 ifdef::showscript[]
 
 === Transcript
-Tables 1, 2, and 3 show the connection details to use when setting up and
+
+The tables on the next three slides show the connection details to use when setting up and
 connecting to the lab environment. This information is repeated in the labs as
 required.
 
-External IPs are provided by the lab provisioning email that is sent to you
-after you provision the lab from 'labs.opentlc.com'.
+The lab provisioning email you receive after you provision the lab from `labs.opentlc.com` provides the external IPs.
 
-The text *GUID* shown here is a 4-character generated unique identifier assigned
-to your lab environment. Your GUID is provided in the provisioning email as well.
+You use the master host to manage the state of the OpenShift cluster/environment. It hosts the web console and the API endpoint.
 
-The *Master* host is used to manage the state of the OpenShift cluster/environment, it
-hosts the web console and the API endpoint.
+The infranode host is a regular node to host _pods_ and _containers_. You use it only for infrastructure-related applications such as the router and Docker registry.
 
-The *InfraNode* host is a regular node to host "pods" and "containers" but we
-will use it only for infrastructure related applications (such as the router and
-  Docker registry)
-
-
-
+The `GUID` is a four-character generated unique identifier assigned to your lab environment. The provisioning email also provides your GUID.
 
 
 endif::showscript[]
+
+
+
+

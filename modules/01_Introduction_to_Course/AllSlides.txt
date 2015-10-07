@@ -4,7 +4,7 @@ include::02_Course_Goals.adoc[]
 
 include::03_Course_Overview.adoc[]
 
-include::04_Assumptions.adoc[]
+include::04_Prerequisites.adoc[]
 
 include::05_Class_Environment.adoc[]
 

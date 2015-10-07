@@ -20,73 +20,71 @@ endif::[]
 
 == Course Goals
 :noaudio:
-* Review the OSE3.0 Architecture
-* Describe and Review the different components of OSE3.0
-* Describe OpenShift Enterprise installation and configuration process.
-** Including: Scheduling (Placement), Persistent Storage and Authentication
-* Describe and review an Application's lifecycle (Deployment lifecycle)
-* Review Management of security restrictions and capabilities in OSE3.0
+* Review OpenShift Enterprise by Red Hat version 3.0 architecture
+* Describe/review OpenShift Enterprise 3.0 components
+* Describe OpenShift Enterprise installation and configuration process
+** Scheduling (placement)
+** Persistent storage
+** Authentication
+* Describe/review application lifecycle (deployment lifecycle)
+* Review management of OpenShift Enterprise 3.0 security restrictions/capabilities
 
 
 ifdef::showscript[]
 
 === Transcript
 
-Welcome to the OpenShift Enterprise Implementation course.
+Welcome to the OpenShift Enterprise by Red Hat Implementation course.
 
-The goal of this course is to show you how to set up and configure various
-aspects of the OpenShift 3.0 Enterprise environment, including the following:
-* The Installation process, Scheduling (Placement of pods), Persistent Storage
-and Authentication to the OSE3.0 environment.
-* We will also review how applications and deployments are managed and how
-security restrictions and permissions can be applied.
+This course shows you how to set up and configure various aspects of the OpenShift Enterprise 3.0 environment, including the following:
+
+* The installation process
+* Scheduling, or placement of pods
+* Persistent storage
+* And authentication to the OpenShift Enterprise 3.0 environment.
+
+This course also reviews how to manage applications and deployments and how to apply security restrictions and permissions.
 
 endif::showscript[]
 
 
 == Course Overview
 :noaudio:
-* Module 01 : Introduction to Course and Learning Environment
-* Module 02 : OpenShift Enterprise 3.0 Architecture
-* Module 03 : OpenShift Enterprise 3.0 Installation
-* Module 04 : Core Concepts
-* Module 05 : Resource Management
-* Module 06 : Creating Applications
-* Module 07 : Tempaltes
-* Module 08 : Deployment Lifecycle
-* Module 09 : Managing Security
-
+* Module 01: Introduction to Course and Learning Environment
+* Module 02: OpenShift Enterprise 3.0 Architecture
+* Module 03: OpenShift Enterprise 3.0 Installation
+* Module 04: Core Concepts
+* Module 05: Resource Management
+* Module 06: Creating Applications
+* Module 07: Templates
+* Module 08: Deployment Lifecycle
+* Module 09: Managing Security
 
 ifdef::showscript[]
 
 === Transcript
 
-During the course you will learn the following modules, each module will
-introduce you to new topics and review, in depth, previously described topics.
+The course includes the modules listed here.
+Each module introduces you to new topics and provides an in-depth review of previous topics.
 
 endif::showscript[]
 
 
 
-== Assumptions
+== Prerequisites
 :noaudio:
-* You want to learn how to use OpenShift Enterprise 3.0.
-* You know how to use Red Hat Enterprise Linux 7.
-* You can read and modify some form of code.
-* You have a workstation you can use for this training.
-* You have an SSH client installed on your workstation.
-* You have completed OpenShift 3.x FASTRAX training and all it's labs.
+
+* Knowledge of Red Hat Enterprise Linux 7
+* Completion of OpenShift 3.x FASTRAX training with labs
+* Ability to read and modify code
+* Workstation with SSH client installed available for training
 
 
 ifdef::showscript[]
 
 === Transcript
 
-If you are taking this course, the assumption is that you want to learn how to
-use OpenShift Enterprise and that you have completed OpenShift 3 FASTRAX
-training and all it's labs.
-It is also assumed that you can write some form of code, and that you have a
-workstation with an SSH client installed.
+Students taking this course should know Red Hat Enterprise Linux 7, have completed OpenShift 3 FASTRAX training and all its labs, and be able to read and modify some form of code. They also must have a workstation with an SSH client installed.
 
 endif::showscript[]
 
@@ -95,13 +93,12 @@ endif::showscript[]
 == Class Environment
 :noaudio:
 
-* Class labs and demonstrations require provisioning the following virtual machines:
-** *Master host* – 1 VM that serves as the Master for the OpenShift Enterprise environment.
-** *Node hosts* – 3 VMs that serve as the nodes of the OpenShift Enterprise environment.
-** *oselab host* – 1 VM for admin purposes such as: DNS Server, NFS Server,
-SSH "Jumpbox" and more.
-* Red Hat Enterprise Linux 7.1 is preinstalled and configured for deployment.
-* Connection details arrive via email after you provision the environment.
+* Class labs and demonstrations require provisioning virtual machines (VMs):
+** *Master host*: One VM serves as OpenShift Enterprise environment master
+** *Node hosts*: Three VMs serve as OpenShift Enterprise environment node
+** *`oselab` host*: One VM for admin purposes (DNS server, NFS server, SSH jump box, more)
+* Red Hat Enterprise Linux 7.1 preinstalled and configured for deployment
+* Connection details arrive via email after provisioning environment
 
 
 ifdef::showscript[]
@@ -109,15 +106,17 @@ ifdef::showscript[]
 === Transcript
 
 This class uses a cloud-based environment. You will provision the following
-hosts for your OpenShift Enterprise environment: A single Master host, three
-Node hosts (One will be dedicated for Infrastructure components), and an admin
-host to act as our DNS Server, NFS Server and SSH "Jumpback"
+virtual machine hosts for your OpenShift Enterprise environment: 
 
-Red Hat Enterprise Linux is preinstalled and configured for deployment.
+* A single master host
+* Three node hosts, one of which is dedicated for infrastructure components
+* One admin host, `oselab`, to act as your DNS server, NFS server, and SSH jump box
+
+Red Hat Enterprise Linux 7.1 is preinstalled and configured for deployment.
 
 After you provision the environment, you should receive connection details via
-email. This can take a few minutes, check your spam folder if you do not receive
-the email within 10 minutes of environment provisioning request.
+email. This can take a few minutes. If you do not receive
+the email within 10 minutes of making the environment provisioning request, check your spam folder.
 
 
 endif::showscript[]
@@ -127,37 +126,33 @@ endif::showscript[]
 :noaudio:
 
 .Master and Infranode Hosts
-[options="header",width="65"]
+
+* Details for master and infranode hosts
++
+[cols="3",width="65%"]
 |=======================
 ||Master00|InfraNode00
-|*Internal IP*|192.168.0.100|192.168.0.101
+|*Internal IP*|`192.168.0.100`|`192.168.0.101`
 |*External IP*|Provided|Provided
-|*DNS Name*|master00-*GUID*.oslab.opentlc.com|infranode00-*GUID*.oslab.opentlc.com
-|*Credentials*|root / r3dh4t1!|root / r3dh4t1!
+|*DNS Name*|+master00-**GUID**.oslab.opentlc.com+|+infranode00-**GUID**.oslab.opentlc.com+
+|*Credentials*|`root`/`r3dh4t1!`|`root`/`r3dh4t1!`
 |=======================
 
 ifdef::showscript[]
 
 === Transcript
-Tables 1, 2, and 3 show the connection details to use when setting up and
+
+The tables on the next three slides show the connection details to use when setting up and
 connecting to the lab environment. This information is repeated in the labs as
 required.
 
-External IPs are provided by the lab provisioning email that is sent to you
-after you provision the lab from 'labs.opentlc.com'.
+The lab provisioning email you receive after you provision the lab from `labs.opentlc.com` provides the external IPs.
 
-The text *GUID* shown here is a 4-character generated unique identifier assigned
-to your lab environment. Your GUID is provided in the provisioning email as well.
+You use the master host to manage the state of the OpenShift cluster/environment. It hosts the web console and the API endpoint.
 
-The *Master* host is used to manage the state of the OpenShift cluster/environment, it
-hosts the web console and the API endpoint.
+The infranode host is a regular node to host _pods_ and _containers_. You use it only for infrastructure-related applications such as the router and Docker registry.
 
-The *InfraNode* host is a regular node to host "pods" and "containers" but we
-will use it only for infrastructure related applications (such as the router and
-  Docker registry)
-
-
-
+The `GUID` is a four-character generated unique identifier assigned to your lab environment. The provisioning email also provides your GUID.
 
 
 endif::showscript[]
@@ -169,20 +164,23 @@ endif::showscript[]
 :noaudio:
 
 .Node Hosts
-[options="header",width="65"]
+
+* Details for node hosts
++
+[cols="3",width="65%"]
 |=======================
 ||Node00|Node01
-|*Internal IP*|192.168.0.200|192.168.0.201
+|*Internal IP*|`192.168.0.200`|`192.168.0.201`
 |*External IP*|Provided|Provided
-|*DNS Name*|node00-*GUID*.oslab.opentlc.com|node01-*GUID*.oslab.opentlc.com
-|*Credentials*|root / r3dh4t1!|root / r3dh4t1!
+|*DNS Name*|+node00-**GUID**.oslab.opentlc.com+|+node01-**GUID**.oslab.opentlc.com+
+|*Credentials*|`root`/`r3dh4t1!`|`root`/`r3dh4t1!`
 |=======================
 
 ifdef::showscript[]
 
 === Transcript
-The Node servers are used to run user's "pods" and "applications", note that the
-nodes are completely blocked (firewalled) from external access.
+
+You use the node servers to run your _pods_ and _applications_. The nodes are firewalled, or completely blocked, from external access.
 
 endif::showscript[]
 
@@ -192,21 +190,24 @@ endif::showscript[]
 :noaudio:
 
 .Administration and Support Host
-[options="header",cols ="1,4",width="65"]
+
+* Details for the administration/support host
++
+[cols ="1,4",width="65%"]
 |=======================
-||oselab
-|*Internal IP*|192.168.0.200
+||`oselab`
+|*Internal IP*|`192.168.0.200`
 |*External IP*|Provided
-|*DNS Name*|oselab-*GUID*.oslab.opentlc.com
-|*Credentials*|OpenTLC Credentials
+|*DNS Name*|+oselab-**GUID**.oslab.opentlc.com+
+|*Credentials*|OPENTLC Credentials
 |=======================
 
 ifdef::showscript[]
 
-When connecting to your environment use only your OPENTLC credentials and SSH
-key to connect directly into your administration VM. Do not use root or try to
-connect directly to the Master or nodes.
-Your administration VM (oselab) can be used as a "jump box" to connect via SSH
-to the other internal lab hosts.
+=== Transcript
+
+When you connect to your environment, use only your OPENTLC credentials and SSH key to connect directly into your administration VM. Do not use root or try to connect directly to the master or nodes.
+
+You can use your `oselab` administration VM as a jump box to connect to the other internal lab hosts via SSH.
 
 endif::showscript[]

@@ -1,22 +1,23 @@
 == Course Overview
 :noaudio:
-
-* Module 01 : Introduction to Course and Learning Environment
-* Module 02 : OpenShift Enterprise 3.0 Architecture
-* Module 03 : OpenShift Enterprise 3.0 Installation
-* Module 04 : Core Concepts
-* Module 05 : Resource Management
-* Module 06 : Creating Applications
-* Module 07 : Tempaltes
-* Module 08 : Deployment Lifecycle
-* Module 09 : Managing Security
-
+* Module 01: Introduction to Course and Learning Environment
+* Module 02: OpenShift Enterprise 3.0 Architecture
+* Module 03: OpenShift Enterprise 3.0 Installation
+* Module 04: Core Concepts
+* Module 05: Resource Management
+* Module 06: Creating Applications
+* Module 07: Templates
+* Module 08: Deployment Lifecycle
+* Module 09: Managing Security
 
 ifdef::showscript[]
 
 === Transcript
 
-During the course you will learn the following modules, each module will
-introduce you to new topics and review, in depth, previously described topics.
+The course includes the modules listed here.
+Each module introduces you to new topics and provides an in-depth review of previous topics.
 
 endif::showscript[]
+
+
+

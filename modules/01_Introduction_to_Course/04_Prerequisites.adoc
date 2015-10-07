@@ -1,0 +1,19 @@
+== Prerequisites
+:noaudio:
+
+* Knowledge of Red Hat Enterprise Linux 7
+* Completion of OpenShift 3.x FASTRAX training with labs
+* Ability to read and modify code
+* Workstation with SSH client installed available for training
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+Students taking this course should know Red Hat Enterprise Linux 7, have completed OpenShift 3 FASTRAX training and all its labs, and be able to read and modify some form of code. They also must have a workstation with an SSH client installed.
+
+endif::showscript[]
+
+
+

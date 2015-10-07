@@ -1,25 +1,30 @@
 == Course Goals
 :noaudio:
-
-* Review the OSE3.0 Architecture
-* Describe and Review the different components of OSE3.0
-* Describe OpenShift Enterprise installation and configuration process.
-** Including: Scheduling (Placement), Persistent Storage and Authentication
-* Describe and review an Application's lifecycle (Deployment lifecycle)
-* Review Management of security restrictions and capabilities in OSE3.0
+* Review OpenShift Enterprise by Red Hat version 3.0 architecture
+* Describe/review OpenShift Enterprise 3.0 components
+* Describe OpenShift Enterprise installation and configuration process
+** Scheduling (placement)
+** Persistent storage
+** Authentication
+* Describe/review application lifecycle (deployment lifecycle)
+* Review management of OpenShift Enterprise 3.0 security restrictions/capabilities
 
 
 ifdef::showscript[]
 
 === Transcript
 
-Welcome to the OpenShift Enterprise Implementation course.
+Welcome to the OpenShift Enterprise by Red Hat Implementation course.
 
-The goal of this course is to show you how to set up and configure various
-aspects of the OpenShift 3.0 Enterprise environment, including the following:
-* The Installation process, Scheduling (Placement of pods), Persistent Storage
-and Authentication to the OSE3.0 environment.
-* We will also review how applications and deployments are managed and how
-security restrictions and permissions can be applied.
+This course shows you how to set up and configure various aspects of the OpenShift Enterprise 3.0 environment, including the following:
+
+* The installation process
+* Scheduling, or placement of pods
+* Persistent storage
+* And authentication to the OpenShift Enterprise 3.0 environment.
+
+This course also reviews how to manage applications and deployments and how to apply security restrictions and permissions.
 
 endif::showscript[]
+
+

@@ -2,19 +2,25 @@
 :noaudio:
 
 .Node Hosts
-[options="header",width="65"]
+
+* Details for node hosts
++
+[cols="3",width="65%"]
 |=======================
 ||Node00|Node01
-|*Internal IP*|192.168.0.200|192.168.0.201
+|*Internal IP*|`192.168.0.200`|`192.168.0.201`
 |*External IP*|Provided|Provided
-|*DNS Name*|node00-*GUID*.oslab.opentlc.com|node01-*GUID*.oslab.opentlc.com
-|*Credentials*|root / r3dh4t1!|root / r3dh4t1!
+|*DNS Name*|+node00-**GUID**.oslab.opentlc.com+|+node01-**GUID**.oslab.opentlc.com+
+|*Credentials*|`root`/`r3dh4t1!`|`root`/`r3dh4t1!`
 |=======================
 
 ifdef::showscript[]
 
 === Transcript
-The Node servers are used to run user's "pods" and "applications", note that the
-nodes are completely blocked (firewalled) from external access.
+
+You use the node servers to run your _pods_ and _applications_. The nodes are firewalled, or completely blocked, from external access.
 
 endif::showscript[]
+
+
+

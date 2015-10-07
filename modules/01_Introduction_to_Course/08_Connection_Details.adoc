@@ -2,21 +2,24 @@
 :noaudio:
 
 .Administration and Support Host
-[options="header",cols ="1,4",width="65"]
+
+* Details for the administration/support host
++
+[cols ="1,4",width="65%"]
 |=======================
-||oselab
-|*Internal IP*|192.168.0.200
+||`oselab`
+|*Internal IP*|`192.168.0.200`
 |*External IP*|Provided
-|*DNS Name*|oselab-*GUID*.oslab.opentlc.com
-|*Credentials*|OpenTLC Credentials
+|*DNS Name*|+oselab-**GUID**.oslab.opentlc.com+
+|*Credentials*|OPENTLC Credentials
 |=======================
 
 ifdef::showscript[]
 
-When connecting to your environment use only your OPENTLC credentials and SSH
-key to connect directly into your administration VM. Do not use root or try to
-connect directly to the Master or nodes.
-Your administration VM (oselab) can be used as a "jump box" to connect via SSH
-to the other internal lab hosts.
+=== Transcript
+
+When you connect to your environment, use only your OPENTLC credentials and SSH key to connect directly into your administration VM. Do not use root or try to connect directly to the master or nodes.
+
+You can use your `oselab` administration VM as a jump box to connect to the other internal lab hosts via SSH.
 
 endif::showscript[]

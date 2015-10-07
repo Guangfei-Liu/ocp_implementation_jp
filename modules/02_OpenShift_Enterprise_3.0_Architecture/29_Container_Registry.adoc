@@ -9,7 +9,7 @@
 * Image source can be any server implementing Docker registry API:
 ** Canonical Docker Hub
 ** Private registries run by third parties
-** Integrated OpenShift Enterprise registry
+** OpenShift Enterprise Integrated registry
 
 
 ifdef::showscript[]
@@ -30,5 +30,3 @@ third parties, and the integrated OpenShift Enterprise registry.
 
 
 endif::showscript[]
-
-

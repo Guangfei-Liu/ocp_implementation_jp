@@ -36,5 +36,3 @@ the runtime environment in the Docker image helps you migrate your code:
 Linux.
 
 endif::showscript[]
-
-

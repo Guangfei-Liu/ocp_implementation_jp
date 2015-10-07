@@ -3,9 +3,10 @@
 
 * *Nodes*: Compute resources on top of which containers are built
 * *Pods*: Colocated group of containers
-* *Replication controllers*: Manage pod lifecycle
+* *Replication controllers*: Manage pod lifecycle, starting and killing pods as
+ required.
 * *Services*: Provide single, stable name and address for pod set
-* *Labels*: Organize and select object groups based on key-value pairs
+* *Labels*: Organize and select groups of objects based on key-value pairs
 
 
 ifdef::showscript[]
@@ -28,5 +29,3 @@ can come and go, the service provides a _front end_ for the pods it represents.
 You use labels to organize and select groups of objects based on key-value pairs.
 
 endif::showscript[]
-
-

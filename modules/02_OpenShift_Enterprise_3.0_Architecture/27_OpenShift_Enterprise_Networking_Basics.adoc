@@ -1,15 +1,18 @@
 == OpenShift Enterprise Networking Basics
 :noaudio:
 
-* One or more OpenShift Enterprise nodes hosts `Default Router`:
-** `Default Router`: An HA-Proxy instance running inside container to route
-(_proxy_) between outside world and pods in OpenShift Enterprise environment
-** `Router`:
-*** Binds hostname `fqdn` (e.g., `myapp.mydomain.org`) to OpenShift Enterprise environment address/addresses
-*** Routinely gets pods' IPs from service representing them
-*** Routes/proxies to pods directly, not through service
-* Configure DNS server to resolve `wildcard` DNS entry to node that hosts `Default Router` 
-** `Infranode00` host used in labs
+* One or more OpenShift Enterprise nodes host the `Default Router`:
+** `Default Router`: An HA-Proxy instance running inside a container to "route"
+(but actually _proxy_) between the outside world and pods in OpenShift Enterprise
+environment
+** The `Default Router`:
+*** Binds an `fqdn` (e.g., `myapp.mydomain.org`) to OpenShift Enterprise
+environment address/addresses
+*** Routinely gets Pod's IPs from the `service` representing them
+*** Routes/proxies to pods directly, not through the `service`
+* Configure DNS server to resolve `wildcard` DNS entry to the node that hosts
+ `Default Router`
+
 
 ifdef::showscript[]
 
@@ -26,5 +29,3 @@ You need to configure a DNS entry in the client's DNS server to resolve a wildca
 entry such as `*.cloudapps.companynameexample.com`.
 
 endif::showscript[]
-
-

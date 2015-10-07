@@ -21,6 +21,3 @@ Enterprise then creates an image based on the builder image containing the
 selected code.
 
 endif::showscript[]
-
-
-

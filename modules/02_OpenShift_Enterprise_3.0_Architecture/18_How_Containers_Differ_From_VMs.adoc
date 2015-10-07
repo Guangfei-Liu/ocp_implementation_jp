@@ -3,7 +3,7 @@
 
 * *Virtual machine (VM)*: Each virtualized machine includes application, binaries, libraries, guest operating system
 
-* *Container (Docker)*: Contains application and dependencies only
+* *Container (Docker)*: Contains application, binaries and libraries only
 +
 image::images/VMvsContainer.png[]
 
@@ -25,4 +25,3 @@ sharing the kernel with other containers. As a result, it enjoys the resource is
 and allocation benefits of VMs, but is much more portable and efficient.
 
 endif::showscript[]
-

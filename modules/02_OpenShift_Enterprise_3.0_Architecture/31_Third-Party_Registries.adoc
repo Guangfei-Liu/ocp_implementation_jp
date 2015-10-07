@@ -1,7 +1,6 @@
 == Third-Party Registries
 :noaudio:
 
-
 * Provide builder images, complete application images, more
 * Supportability falls on creators
 * Can be polled for changes to image repositories
@@ -23,6 +22,3 @@ OpenShift Enterprise id designed to poll the other registries for changes to ima
 repositories. However, polling is not currently implemented.
 
 endif::showscript[]
-
-
-

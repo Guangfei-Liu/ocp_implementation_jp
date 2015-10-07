@@ -12,7 +12,7 @@ ifdef::showscript[]
 === Transcript
 
 The Docker daemon runs on a host machine. You do not interact directly with the
-daemon.
+daemon when using OpenShift Enterprise.
 
 The Docker client is the primary user interface. It accepts commands
 from the user and communicates back and forth with a Docker daemon.
@@ -30,6 +30,3 @@ Each container is created from a Docker image. You can start, run, stop, move, a
 
 
 endif::showscript[]
-
-
-

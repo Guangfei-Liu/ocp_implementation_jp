@@ -2,7 +2,6 @@
 :noaudio:
 
 * Correspond to colocated group of applications running with shared context
-** May have cgroup isolations applied
 * Model application-specific logical hosts in containerized environment
 ** May contain tightly coupled applications
 ** Example: Web server and _file puller/syncer_
@@ -30,4 +29,3 @@ In terms of Docker constructs, a pod consists of a colocated group of Docker
 containers.
 
 endif::showscript[]
-

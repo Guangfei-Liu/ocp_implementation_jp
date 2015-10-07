@@ -22,117 +22,122 @@ endif::[]
 :numbered!:
 
 == Module Topics
+
 :noaudio:
 
-* Overview and design concepts in OpenShift Enterprise v3
+* Overview and design concepts in OpenShift Enterprise by Red Hat version 3.0
 * Introduction to Docker
 * Introduction to Kubernetes infrastructure
-* Networking in OpenShift Enterprise v3
+* Networking in OpenShift Enterprise 3.0
 * Image registry
-* Builds and OpenShift S2I images
+* Builds and OpenShift Enterprise S2I images
 
 
 ifdef::showscript[]
 
 === Transcript
-Welcome to Module 2 of the OpenShift Implementation course.
 
-This module presents the following topics:
+Welcome to module two of the OpenShift Enterprise Implementation course.
 
-* Overview and design concepts in OpenShift Enterprise v3, including the
+This module covers the following topics:
+
+* Overview and design concepts in OpenShift Enterprise by Red Hat version 3.0, including the
 OpenShift stack, how OpenShift works, standards, important projects, and how the
-various components work together.
+various components work together
 
 * An introduction to Docker, including the difference between containers and
-VMs and Docker components and capabilities.
+VMs and Docker components and capabilities
 
 * An introduction to Kubernetes infrastructure, covering features and concepts
-with an emphasis on pods.
+with an emphasis on pods
 
-* An Overview of Networking in OpenShift Enterprise v3,
+* An overview of networking in OpenShift Enterprise 3.0
 
-* The Image registry is described, including the integrated OpenShift
-Enterprise registry and third-party registries.
+* A description of the image registry, including the integrated OpenShift
+Enterprise registry and third-party registries
 
-* And the module ends with a discussion of Builds and OpenShift S2I images,
-which explains what an S2I build is and why to use it.
+* A discussion of builds and OpenShift Enterprise S2I images, including what an S2I build is and reasons to use it
 
 endif::showscript[]
 
 
 
-== What is OpenShift
+== What Is OpenShift Enterprise?
 :noaudio:
 
-* OpenShift is a Platform-as-a-Service (PaaS)
-* Provides development environments on demand (self service)
+* Platform-as-a-Service (PaaS)
+* Uses industry standards
+* Provides development environments on demand (self-service)
 * Provides languages, frameworks, runtimes, and databases (polyglot)
 * Automates application lifecycle management (build, deploy, retire)
 * Enables collaboration between developers on projects and components
-* Uses industry standards
+
 
 
 ifdef::showscript[]
 
 === Transcript
 
-We begin this module with an overview of OpenShift Enterprise design concepts.
+This module begins with an overview of OpenShift Enterprise design concepts.
 
-OpenShift is a Platform-as-a-Service, or PaaS, which is based on industry
-standards. OpenShift provides development environments on-demand, it offers a
-range of languages, frameworks, runtimes and databases, and automates
-application lifecycle management.
+OpenShift Enterprise is a Platform-as-a-Service, or PaaS, that is based on industry
+standards. OpenShift Enterprise is a self-service platform, meaning that it provides development environments on demand. As a polyglot offering, it includes a
+range of languages, frameworks, runtimes, and databases. It also automates
+management of the entire application lifecycle: build, deploy, and retire.
 
-OpenShift enables collaboration between developers on projects and components.
+OpenShift Enterprise enables collaboration between developers on projects and components.
 
 
 endif::showscript[]
 
 
 
-== OpenShift Enterprise v3
+== OpenShift Enterprise Version 3.0
 :noaudio:
 
-* Standard containers API
+
+[.noredheader,cols="<,^"]
+|======
+a|* Standard containers API
 * Container-optimized OS
 * Web-scale orchestration
 * Expanded services choices
 * Enhanced user experience
 * Community-driven innovation
 * Industry-standard PaaS stack
-+
-image::images/OpenShiftStack.png[]
-
+|image:images/OpenShiftStack.png[width=100%]
+|======
 
 ifdef::showscript[]
 
 === Transcript
 
-The OpenShift v3  stack, features the following:
+The OpenShift Enterprise version 3.0 stack features the following:
 
-* Standard containers API
-* Container-optimized OS
+* A standard containers API
+* A container-optimized OS
 * Web-scale orchestration
-* Expanded choice of services
-* Enhanced user experience
+* An expanded choice of services
+* An enhanced user experience
 * Community-driven innovation
-* And uses an industry-standard PaaS stack.
+* And an industry-standard PaaS stack
 
 
 endif::showscript[]
 
 
 
-== How OpenShift Works
+== How OpenShift Enterprise Works
 :noaudio:
 
-* *Containers* - Run languages/framework middleware, database, and other runtimes
-* *Pods* - Object to define one or more *Containers* to be co-located on the
-same host
-* *Nodes* - Linux container hosts; run *Pods* assigned by master
-* *Master* - Provides API, service orchestration, scheduling and placement,
-maintains state, and manages *pods* and *services*.
-+
+* *Containers*: Run languages/framework, middleware, database, and other runtimes
+* *Pods*: Define one or more containers colocated on same host
+* *Nodes*: Linux container hosts; run pods assigned by master
+* *Master*: 
+** Provides API, service orchestration, scheduling, placement
+** Maintains state
+** Manages pods and services
+
 image::images/OpenShiftV3Arch.png[]
 
 
@@ -140,13 +145,17 @@ ifdef::showscript[]
 
 === Transcript
 
-Here is a simplified explanation of some of the components of OpenShift v3:
+Here is a simplified explanation of some of the components of OpenShift Enterprise 3.0.
+
 Containers run languages and frameworks, middleware components, databases, and
-other runtimes. Pods run one or more containers as a single unit.
-Each pod has an IP and  can be assigned persistent storage volumes.
+other runtimes. 
+
+Pods run one or more containers as a single unit, to be colocated on the same host.
+Each pod has an IP address and can be assigned persistent storage volumes.
 
 Nodes are Linux container hosts that run pods assigned by the master.
-The master provides API, service orchestration, scheduling and placement. It also maintains state and manages pods and services.
+
+The master provides API, service orchestration, scheduling, and placement. It also maintains state and manages pods and services.
 
 
 endif::showscript[]
@@ -157,24 +166,25 @@ endif::showscript[]
 == Containerization Standards
 :noaudio:
 
-.Isolation with Linux containers
-* Isolate applications on host operating system
-* Security
-* Portability across host systems
+.Isolation With Linux Containers
+* Isolates applications on host operating system
+* Provides: 
+** Security
+** Portability across host systems
 
-.Container format with Docker
+.Docker Format for Containers
 * Interface for communications, configuration, data persistence, provisioning
-* Content agnostic
-* Infrastructure agnostic
+* Content-agnostic
+* Infrastructure-agnostic
 
 ifdef::showscript[]
 
 === Transcript
-Red Hat works with the open source community to drive standards for containerization. The main areas are:
+Red Hat works with the open source community to drive standards for containerization. The main areas are isolation with Linux containers, container format with Docker, orchestration with Kubernetes, and registry and container discovery.
 
-* Isolation with Linux containers - Isolating applications on the host operating system, security, and portability across host systems.
+Isolation with Linux containers isolates applications on the host operating system. This provides security and portability across host systems.
 
-* Container format with Docker - Docker is the interface for communications, configuration, data persistence, and provisioning. It is content and infrastructure agnostic.
+In Docker-formatted containers, Docker is the interface for communications, configuration, data persistence, and provisioning. Docker containers are content- and infrastructure-agnostic; that is, they can handle any kind of content and are not tied to any particular infrastructure.
 
 endif::showscript[]
 
@@ -182,21 +192,20 @@ endif::showscript[]
 == Containerization Standards
 :noaudio:
 
-.Orchestration with Kubernetes
-* Orchestrate containers at scale
-* Define application topologies
-* Handle container networking
-* Manage container state
-* Schedule across hosts
+.Orchestration With Kubernetes
+* Orchestrates containers at scale
+* Defines application topologies
+* Handles container networking
+* Manages container state
+* Schedules across hosts
 
 
 ifdef::showscript[]
 
 === Transcript
 
-* Orchestration with Kubernetes - Kubernetes orchestrates containers at scale;
-it defines application topologies, handles part of the container networking,
-manages container state, and it also schedules across hosts.
+Kubernetes manages containers in a cluster environment. It orchestrates containers at scale, defines application topologies, handles part of the container networking,
+manages container state, and schedules across hosts.
 
 
 endif::showscript[]
@@ -205,31 +214,30 @@ endif::showscript[]
 == Containerization Standards
 :noaudio:
 
-.Registry and container discovery
-* Find and consume trusted container images
-* Federate consumption libraries
-* Promote consistency and reuse
+.Registry and Container Discovery
+* Finds and consumes trusted container images
+* Federates consumption libraries
+* Promotes consistency and reuse
 
 ifdef::showscript[]
 
 === Transcript
 
-* Registry and container discovery - Red Hat promotes standards to easily find
-and consume trusted container images, to federate consumption libraries, and
-to promote consistency and reuse.
+Red Hat promotes registry and container discovery standards to easily find
+and consume trusted container images and federate consumption libraries. This promotes consistency and reuse.
 
 endif::showscript[]
 
 
 
-== Important Projects in OpenShift
+== Important Projects in OpenShift Enterprise
 :noaudio:
 
-* *Kubernetes* - link:http://kubernetes.io/[http://kubernetes.io/]
+* *Kubernetes*: http://kubernetes.io/
 
-* *Docker* - http://docker.com or https://github.com/docker/docker
+* *Docker*: http://docker.com or https://github.com/docker/docker
 
-* *Etcd* - link:https://github.com/coreos/etcd[https://github.com/coreos/etcd]
+* *Etcd*: https://github.com/coreos/etcd
 
 +
 image::images/ImportantProjects.png[]
@@ -239,41 +247,39 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise v3 comprises several key open source projects, most notable
-are Kubernetes, Docker, and EtcD.
+OpenShift Enterprise 3.0 consists of several key open source projects, most notably Kubernetes, Docker, and EtcD.
+
 Kubernetes orchestrates containers at massive scale and manages and orchestrates
 Docker containers across clusters of nodes.
 
-Docker is an open source project that automates the deployment of applications
+Docker automates the deployment of applications
 inside software containers by providing an additional layer of abstraction and
-automation of operating-system-level virtualization.
-
-Docker provides the abstraction for packaging and creating lightweight
+automation of operating system-level virtualization. It also provides the abstraction for packaging and creating lightweight
 containers.
 
 EtcD is a highly available key-value store for shared configuration and service
-discovery. EtcD is the persistent data store for information about the OpenShift
+discovery. EtcD is the persistent data store for information about the OpenShift Enterprise
 environment.
 
-OpenShift helps manage large developer organizations. OpenShift adds source code
-management, builds and deployments for developers; manages and promotes images
-at scale as they flow through the system, manages applications at scale, and
+OpenShift Enterprise helps manage large developer organizations. It adds source code
+management, builds, and deployments for developers; manages and promotes images
+at scale as they flow through the system; manages applications at scale; and
 tracks teams and users.
 
 endif::showscript[]
 
 
 
-== OpenShift Model
+== OpenShift Enterprise Model
 :noaudio:
 
-* *Masters* - Responsible for managing system state
+* *Masters*: Responsible for managing system state
 
-* *Nodes* - Act as agents to control containers, based on desired state defined by master
-
-NOTE: All members of the OpenShift environment/cluster are also members of a SDN
-based overlay network.
-
+* *Nodes*: Act as agents to control containers, based on desired state defined by master
++
+[NOTE]
+All members of OpenShift Enterprise environment/cluster are also members of overlay network based on software-defined network (SDN).
++
 image::images/OpenShiftV3ArchFull.png[]
 
 
@@ -281,86 +287,88 @@ ifdef::showscript[]
 
 === Transcript
 
-In OpenShift, hosts are classified into two separate yet equally important
+OpenShift Enterprise classifies hosts into two separate yet equally important
 groups: masters and nodes.
 
 Masters manage the state of the system, ensuring that all containers that should
-be running are running, and that other requests are serviced.
+be running are running and that other requests are serviced.
 
-OpenShift provides a REST endpoint for interacting with the system. All tools
-speak directly to the REST APIs - CLI, web console, IDE plug-ins, etc.
+OpenShift Enterprise provides a REST endpoint for interacting with the system. All tools
+speak directly to the REST APIs: CLI, web console, IDE plug-ins, etc.
 Multiple masters work together to provide high availability at the management
 layer.
 
 Nodes act as agents to control containers based on the desired state defined by
-the master. Nodes provide an API endpoint and they handle management and
+the master. Nodes provide an API endpoint and handle management and
 synchronization between the components.
 
-Deployments may have several nodes. Nodes may be organized into many different
+Deployments may have several nodes. You can organize nodes into many different
 topologies to suit the availability requirements of the workloads.
 
-All members of the OpenShift environment/cluster are also members of a SDN
-based overlay network.
+All members of the OpenShift Enterprise environment/cluster are also members of an overlay network based on a software-defined network, or SDN.
 
 
 endif::showscript[]
 
 
 
-== OpenShift Workflow
+== OpenShift Enterprise Workflow
 :noaudio:
 
 
-.Example Scenario
-* An application needs to be scaled up due to increased traffic or a known
-upcoming peak.
-* This could be a manual API call or initiated by an external monitoring agent.
+.Scenario
+* Application needs to be scaled up to accommodate overall increase or upcoming spike in traffic
+* Request could be:
+** Manual API call
+** Initiated by external monitoring agent
 
-* OpenShift Workflow:
-. API Call actioned (CLI, REST API, automation process)
-. Data store gets new information (desired scale = 6)
-. OpenShift's Replication Controllers see mismatch between current scale (3) and
-desired scale (6).
-. OpenShift Enterprise schedules and deploys 3 instances (pods).
+* OpenShift Enterprise workflow:
+. API call made (CLI, REST API, automation process)
+. Data store gets new information (desired scale = 6 pods)
+. Replication controllers see mismatch between current scale (3 pods) and
+desired scale (6 pods)
+. OpenShift Enterprise schedules and deploys 3 instances (pods)
 
 
 ifdef::showscript[]
 
 === Transcript
 
-A simplified way of looking at the OpenShift Enterprise workflow would be:
+Put simply, OpenShift Enterprise manages its workflow as follows:
 
-. Users or Automation make calls to the REST API (using the Web Console, Command
-  line, any other method) to change the state of the system.
-. OpenShift Enterprise periodically reads the user's desired state
-. OpenShift Enterprise then tries to bring the other parts of the system into
+. Users or automation make calls to the REST API (using the web console, command line, or any other method) to change the state of the system.
+. OpenShift Enterprise periodically checks to see what system state the call wants.
+. OpenShift Enterprise then works to bring the other parts of the system into
 sync with the desired state.
 
-For example, consider this scenario: An OpenShift Enterprise v3 user is predicting a spike in traffic before a holiday or major sports event.
+For example: Say an OpenShift Enterprise 3.0 user predicts a spike in traffic before a holiday or major sports event.
 The user wants to spin up more pods of a specific service/application to accommodate the additional traffic.
 
-Lets assume the application is currently configured with 3 running pods and the user wants to change that to 6 running pods as a pre-emptive measure.
-The user then makes a call using the web console, CLI, or any other method to state that "this app should have 6 instances."
+The application has three pods running, and the user wants to double that number, to six running pods, as a pre-emptive measure.
 
-At this point the data store gets updated with the new information indicating that the desired scale is 6 running pods.
-On the next sync loop, the Replication Controllers, which will be explained later, determine that the current scale of 3 running pods does not match the desired scale of 6 running pods.
-This causes OpenShift Enterprise to schedule 3 more instances and place them for deployment.
+The user uses the web console, CLI, or other method to make a call stating that the application should have six instances.
+
+The system updates the data store with the new information that the desired scale is six running pods.
+
+On the next sync loop, the replication controllers determine that the current scale of three running pods does not match the desired scale of six running pods.
+
+OpenShift Enterprise then schedules three more instances and places them for deployment.
 
 As you can see, the OpenShift Enterprise controllers are performing the "business logic" of the system by taking user actions and transforming them into reality.
-You can customize how builds are run and launched independently of how images are managed, or how deployments happen.
+
+You can customize the launching and running of builds independently of how images are managed or how deployments happen.
 
 endif::showscript[]
 
 
-
-
-== How it Works
+== How OpenShift Enterprise Works
 :noaudio:
 
-.Service and Routing
-* Takes care of internal and external requests from the applications running on
-OpenShift
+//This section would be a candidate for Bob to do an animation with the various layers moving out as they're explained.
 
+.Service and Routing Layer
+* Takes care of internal and external requests from the applications running on
+OpenShift Enterprise
 +
 image::images/01ServiceRouting.png[]
 
@@ -369,20 +377,21 @@ ifdef::showscript[]
 
 === Transcript
 
-The service and routing layer takes care of internal and external requests from
-and to the applications running on OpenShift.
-A service provides a list of IPs for the pods it represents. The routing layer
+The service and routing layer takes care of internal and external requests to
+and from the applications running on OpenShift Enterprise.
+
+The service part provides a list of IPs for the pods it represents. The routing part
 directs traffic from the outside world to the correct pod's IP and port.
 
 endif::showscript[]
 
 
-== How it Works
+== How OpenShift Enterprise Works
 :noaudio:
 
-.Authentication
+.Authentication Layer
 * Provides framework for collaboration and quota management
-* Supports a number of mechanisms for authentication
+* Supports multiple mechanisms for authentication
 +
 image::images/02Authentication.png[]
 
@@ -393,21 +402,16 @@ ifdef::showscript[]
 
 The authentication layer provides a framework for collaboration and quota
 management.
-OpenShift Enterprise v3 supports a number of mechanisms for authentication.
+OpenShift Enterprise 3.0 supports a number of mechanisms for authentication.
 The simplest use case for testing purposes is `htpasswd`-based authentication.
 
 endif::showscript[]
 
-
-
-
-
-== How it Works
+== How OpenShift Enterprise Works
 :noaudio:
 
-.Store
-* Holds current state, desired state, and configuration information of the
-environment
+.Store Layer
+* Holds current state, desired state, and configuration information of environment
 +
 image::images/03Store.png[]
 
@@ -418,16 +422,12 @@ ifdef::showscript[]
 The store layer holds the current state, the desired state, and configuration
 information about the environment.
 
-
 endif::showscript[]
 
-
-
-
-== How it Works
+== How OpenShift Enterprise Works
 :noaudio:
 
-.Replication
+.Replication Layer
 * Ensures number of instances/pods defined in store layer actually exist
 
 +
@@ -437,7 +437,7 @@ ifdef::showscript[]
 
 === Transcript
 
-The replication layer and replication controller's role is to make sure that the
+The replication layer contains the replication controller, whose role is to make sure that the
 number of instances/pods defined in the store layer actually exist.
 The replication controller instantiates (creates) or kills pods according to
 the desired state definition.
@@ -445,12 +445,12 @@ the desired state definition.
 endif::showscript[]
 
 
-== How it Works
+== How OpenShift Enterprise Works
 :noaudio:
 
-.Scheduler
+.Scheduler Layer
 * Determines where to create new pods
-* Priorities and rules for scheduler "logic" are configurable.
+* Can configure priorities and rules for scheduler logic
 
 +
 image::images/05Scheduler.png[]
@@ -460,60 +460,52 @@ ifdef::showscript[]
 === Transcript
 
 The scheduler is essentially the OpenShift Enterprise master.
-Any time a pod needs to be created somewhere, the master determines where to do
-this. This is called "scheduling".
+Whenever a user decides to create a pod, the master determines where to do
+this. This is called _scheduling_.
+
+You can configure the priorities and rules for the scheduler logic.
 
 endif::showscript[]
 
-
-
-== What is Docker
+== What Is Docker?
 :noaudio:
 
-* *Docker* - Open platform for developers and admins to build, ship, and run
-distributed applications.
+* Open platform for developers and administrators to build, ship, and run
+distributed applications
 
 * Main support components:
-** Docker Engine, a portable, lightweight runtime and packaging tool
-** Docker Hub, a cloud service for sharing applications and automating workflows
+** *Docker Engine*: Portable, lightweight runtime and packaging tool
+** *Docker Hub*: Cloud service for sharing applications and automating workflows
 * Benefits:
 ** Multi-version packaging format and isolation
-** Simplified container API (Docker libcontainer)
-** Easy to create (Dockerfile)
+** Simplified container API (Docker `libcontainer`)
+** Easy creation (Dockerfile)
 ** Atomic deployment (Docker images)
 ** Large ecosystem (Docker Hub)
-
 
 
 ifdef::showscript[]
 
 === Transcript
 
-This next portion of the module provides an introduction to Docker.
 Docker is an open platform for developers and system administrators to build,
-ship, and run distributed applications. The main components are the Docker
- Engine and the Docker hub.
-Docker Engine is a portable, lightweight runtime and packaging tool. Docker Hub
+ship, and run distributed applications. The main components are the Docker Engine and the Docker Hub.
+
+The Docker Engine is a portable, lightweight runtime and packaging tool. The Docker Hub
 is a cloud service for sharing applications and automating workflows.
 
 Docker has a number of benefits, as shown here. Docker images are described in
 detail later.
 
-
-
 endif::showscript[]
-
-
-
 
 
 == How Containers Differ From VMs
 :noaudio:
 
-* *Virtual machine* - Each virtualized application includes the application, binaries, libraries, and entire guest operating system
+* *Virtual machine (VM)*: Each virtualized machine includes application, binaries, libraries, guest operating system
 
-* *Container (Docker)* - Contains just the application and its dependencies
-
+* *Container (Docker)*: Contains application and dependencies only
 +
 image::images/VMvsContainer.png[]
 
@@ -522,40 +514,37 @@ ifdef::showscript[]
 
 === Transcript
 
-There are differences between virtual machines and containers. Many people like
-to bundle them together, but there are important differences.
+Many people like
+to bundle the concepts of virtual machines, or VMs, together with containers, but there are important differences between them.
 
-Each virtualized application includes not only the application and the necessary
-binaries and libraries, which may only require 10s of MBs,  but also an entire
-guest operating system, which may weigh 10s of GBs.
+A virtualized machine includes not only the application and the necessary
+binaries and libraries--which may require only tens of megabytes--but also an entire
+guest operating system, which may be tens of gigabytes in size.
 
-The Docker Engine container comprises just the application and its dependencies.
+The Docker container does away with the guest operating system and contains only the application and its dependencies.
 It runs as an isolated process in user space on the host operating system,
-sharing the kernel with other containers. Thus, it enjoys the resource isolation
+sharing the kernel with other containers. As a result, it enjoys the resource isolation
 and allocation benefits of VMs, but is much more portable and efficient.
 
 endif::showscript[]
 
-
-
 == Docker Components
 :noaudio:
 
-* *Docker daemon* - Runs on a host machine
-* *Docker client* - Primary user interface to Docker
-* *Docker images* - Read-only template
-* *Docker registries* - Hold images
-* *Docker containers* - Hold everything needed for application to run
-
+* *Docker daemon*: Runs on host machine
+* *Docker client*: Primary user interface to Docker
+* *Docker images*: Read-only template
+* *Docker registries*: Hold images
+* *Docker containers*: Hold everything needed for application to run
 
 ifdef::showscript[]
 
 === Transcript
 
-The Docker daemon runs on a host machine. You do not directly interact with the
-daemon. Instead, you interact through the Docker client.
+The Docker daemon runs on a host machine. You do not interact directly with the
+daemon.
 
-The Docker client is the primary user interface to Docker. It accepts commands
+The Docker client is the primary user interface. It accepts commands
 from the user and communicates back and forth with a Docker daemon.
 
 A Docker image is a read-only template. For example, an image could contain a
@@ -566,9 +555,7 @@ Docker registries hold images. Registries are public or private stores from
 which you upload or download images.
 
 Docker containers hold everything that is needed for an application to run.
-Each container is created from a Docker image. Docker containers can be run,
-started,
- stopped, moved, and deleted.
+Each container is created from a Docker image. You can start, run, stop, move, and delete Docker containers.
 
 
 
@@ -581,34 +568,37 @@ endif::showscript[]
 
 * Build Docker images that hold applications
 * Create containers from images to run applications
-* Share and reuse images via Docker Hub or your own registry
-NOTE: In OSE3.0 we create our own "Integrated registry" to store and distribute
+* Share and reuse images via Docker Hub or own registry
++
+[NOTE]
+OpenShift Enterprise 3.0 includes _integrated registry_ to store and distribute
 images created locally.
 
 ifdef::showscript[]
 
 === Transcript
 
-With Docker you can build Docker images that hold your applications and create
+With Docker, you can build Docker images that hold your applications and create
 Docker containers from those Docker images to run your applications.
 You can share and reuse those Docker images via Docker Hub or your own registry.
 
-In OSE3.0 we create our own "Integrated registry" to store and distribute
+In OpenShift Enterprise 3.0, we create our own _integrated registry_ to store and distribute
 images created locally.
 
 endif::showscript[]
 
 
-== How Does a Docker Image Work
+== How Does a Docker Image Work?
+
 :noaudio:
 
-
-* Read-only templates from which containers are launched
-* Each image consists of a series of layers
+* Containers launched from read-only templates
+* Image consists of series of layers
 * Uses union file system
 ** Combines layers into single image
 ** Allows branches to form single file system
-* When you change a Docker image, a new layer gets built
+* Changing Docker image builds new layer
+** Only update need be distributed, not entire image
 
 ifdef::showscript[]
 
@@ -616,86 +606,76 @@ ifdef::showscript[]
 
 Docker images are read-only templates from which Docker containers are launched.
 Each image consists of a series of layers.
-Docker makes use of union file systems to combine these layers into a single
+Docker uses union file systems to combine these layers into a single
 image.
 
-Union file systems also allow files and directories of separate file systems,
-known as branches, to be transparently overlaid to form a single coherent file
+Union file systems let you transparently overlay files and directories of separate file systems,
+known as branches, to form a single coherent file
 system.
 
-When you change a Docker image,for example: when you update an application to a
-new version, a new layer gets built. You do not need to distribute a whole new
-image, just the update.
+When you change a Docker image--for example, you update an application to a
+new version--a new layer gets built. You only need to distribute the update, not a whole new image.
 
 
 endif::showscript[]
 
-
-
-== What is Kubernetes
+== What Is Kubernetes?
 :noaudio:
 
-* *Kubernetes* - Open source system for managing containerized applications
+* Open source system for managing containerized applications
 across multiple hosts
 
-* Provides basic mechanisms for deployment, maintenance, and scaling of
-applications
-** *Lean* - Lightweight, simple, accessible
-** *Portable* - Public, private, hybrid, multi-cloud
-** *Extensible* - Modular, pluggable, hookable, composable
-** *Self-healing* - Autoplacement, autorestart, autoreplication
+* Provides mechanisms for application deployment, maintenance, scaling
+** *Lean*: Lightweight, simple, accessible
+** *Portable*: Public, private, hybrid, multi-cloud
+** *Extensible*: Modular, pluggable, hookable, composable
+** *Self-healing*: Auto-placement, auto-restart, auto-replication
 
-* Builds on over 1.5 decades of experience at Google
+* Builds on more than 15 years of experience at Google
 +
-link:https://github.com/googlecloudplatform/kubernetes[https://github.com/googlecloudplatform/kubernetes]
+https://github.com/googlecloudplatform/kubernetes
 
 ifdef::showscript[]
 
 === Transcript
 
-Next we take a look at the Kubernetes infrastructure.
 Kubernetes is an open source system for managing containerized applications
 across multiple hosts. It provides basic mechanisms for deployment, maintenance,
 and scaling of applications.
 
 Kubernetes is lean, portable, extensible, and self-healing. Kubernetes builds
-upon a decade and a half of experience at Google.
+upon more than 15 years of experience at Google.
 
 endif::showscript[]
-
-
-
 
 == Kubernetes Concepts
 :noaudio:
 
-* *Nodes* - Compute resources on top of which containers are built
-* *Pods*  - Colocated group of containers.
-* *Replication controllers* - Manage lifecycle of pods, starting and killing
-pods as required.
-* *Services* - Provide a single, stable name and address for a set of pods
-* *Labels* - Organize and select groups of objects based on key-value pairs
+* *Nodes*: Compute resources on top of which containers are built
+* *Pods*: Colocated group of containers
+* *Replication controllers*: Manage pod lifecycle
+* *Services*: Provide single, stable name and address for pod set
+* *Labels*: Organize and select object groups based on key-value pairs
 
 
 ifdef::showscript[]
 
 === Transcript
 
-Nodes are the compute resources on top of which your containers are built.
+Nodes are the compute resources on top of which you build your containers.
 
-Pods, used in the same context as "a pod of whales" or "peas in a pod", are a
-co-located group of containers, possibly sharing persistent storage volumes.
-Pods are the smallest deployable units that can be created, scheduled, and
-managed with Kubernetes.
+Pods, used in the same context as "a pod of whales" or "peas in a pod," are colocated groups of containers that may share persistent storage volumes.
+Pods are the smallest deployable units that you can create, schedule, and
+manage with Kubernetes.
 
 Replication controllers manage the lifecycle of pods. They ensure that a
 specified number of pods are running at any given time by creating or killing
 pods as required.
 
 Services provide a single, stable name and address for a set of pods. As pods
-can "come and go" the *Service* provides a "frontend" for the pods it represents.
+can come and go, the service provides a _front end_ for the pods it represents.
 
-Labels are used to organize and select groups of objects based on key-value pairs.
+You use labels to organize and select groups of objects based on key-value pairs.
 
 endif::showscript[]
 
@@ -704,11 +684,11 @@ endif::showscript[]
 :noaudio:
 
 * Correspond to colocated group of applications running with shared context
-** May have individual cgroup isolations applied
-* Models an application-specific logical host in a containerized environment
-** May contain one or more applications that are relatively tightly coupled
-** Example: Web server and a “file puller/syncer”
-* Smallest deployable units that can be created, scheduled, and managed
+** May have cgroup isolations applied
+* Model application-specific logical hosts in containerized environment
+** May contain tightly coupled applications
+** Example: Web server and _file puller/syncer_
+* Smallest deployable units that can be created, scheduled, managed
 * Consist of colocated group of Docker containers with shared volumes
 
 
@@ -720,28 +700,26 @@ A pod corresponds to a colocated group of applications running with a shared
 context.  Within that context, the applications may also have individual cgroup
 isolations applied. A pod models an application-specific logical host in a
 containerized environment.
-A pod may contain one or more applications that are relatively tightly coupled.
-For example, a Pod could contain a web server and a “file puller/syncer.” In a
-pre-container world, they would have executed on the same physical or virtual
-host.
 
-In Kubernetes, rather than individual application containers, pods are the
-smallest deployable units that can be created, scheduled, and managed.
+A pod may contain one or more tightly coupled applications that in a
+pre-container world would have executed on the same physical or virtual
+host.
+For example, a pod could contain a web server and a _file puller/syncer_. .
+
+In Kubernetes, pods, not individual application containers, are the
+smallest deployable units that you can create, schedule, and manage.
 In terms of Docker constructs, a pod consists of a colocated group of Docker
 containers.
 
-
 endif::showscript[]
 
-
-
-== OpenShift Enterprise Networking
+== OpenShift Enterprise Networking Basics
 :noaudio:
 
 * Container networking based on integrated Open vSwitch
 * Platform-wide routing tier
-* Ability to plug in third-party software-defined network solutions
-* Integrated with DNS and existing routing and load-balancing
+* Ability to plug in third-party SDN solutions
+* Integrated with DNS, routing, load-balancing
 
 ifdef::showscript[]
 
@@ -750,67 +728,68 @@ ifdef::showscript[]
 OpenShift Enterprise provides many networking capabilities based on the
 integrated Open vSwitch technologies in Red Hat Enterprise Linux.
 It provides a platform-wide routing tier to route traffic to applications.
-You can also integrate OpenShift Enterprise with third-party SDN solutions and
+You can also integrate OpenShift Enterprise with third-party SDN solutions, as well as
 your existing DNS, routing, and load-balancing methods.
 
 endif::showscript[]
 
 
-== OSE Networking Basics
+== OpenShift Enterprise Networking Basics
 :noaudio:
 
-* To understand the networking workflow in OSE3.0 we need to get familiar with
-the following components:
-** The `SDN Network` - Every host in the OSE3.0 environment/cluster is a member
-of the *SDN Network*.
-- Each `Pod` will have it's own IP that is routable from any member of the SDN
-(By default: 10.x.x.x)
-- Each `Service`, which represents one or more `pods` will have it's own IP
-(By default: 172.30.x.x)
+* Understanding OpenShift Enterprise 3.0 networking workflow requires knowledge of components:
+** Every host in OpenShift Enterprise 3.0 environment/cluster is member of SDN network
+** Each `pod` has own IP routable from any SDN member
+*** Default: `10.x.x.x`
+** Each `service` represents one or more `pods`, has own IP
+*** Default: `172.30.x.x`
 
 ifdef::showscript[]
 
 === Transcript
 
-All hosts in the OSE environemnt, or cluster, are members of the same SDN
+To understand the networking workflow in OpenShift Enterprise 3.0, you must be familiar with its various components.
+
+All hosts in the OpenShift Enterprise 3.0 environment, or cluster, are members of the same SDN
 overlay network.
 
-Each pod gets it's very own IP that is routable from any member of the SDN
+Each pod gets its own IP that is routable from any member of the SDN
 network.
-Pods come and go, so we use a *service* to represent them and provide a stable
+
+Pods come and go, so you use a service to represent them and provide a stable
 and permanent IP for a group of pods.
+
+The default IPs for pods and services are shown here.
 
 endif::showscript[]
 
 
-== OSE Networking Basics
+== OpenShift Enterprise Networking Basics
 :noaudio:
 
-* On one or more of the OSE nodes will host the `Default Router`:
-** The `Default Router` - A container an HA-Proxy instance used to route
-(Actually "proxy") between the outside world and pods in the OSE environment.
-- the *Router* binds a hostname fqdn (i.e: myapp.mydomain.org) to an
-address/addresses in the OSE environment.
-- The *Router* routinely gets the Pod's IPs from the *service* which represents
-them.
-- The *Router* routes/proxies directly to the *pods* and not through the
-*service*.
-* We will configure our DNS server to resolve a *wildcard* DNS entry to the node
- that hosts the `Default Router` (*Infranode00* host in our labs later on)
+* One or more OpenShift Enterprise nodes hosts `Default Router`:
+** `Default Router`: An HA-Proxy instance running inside container to route
+(_proxy_) between outside world and pods in OpenShift Enterprise environment
+** `Router`:
+*** Binds hostname `fqdn` (e.g., `myapp.mydomain.org`) to OpenShift Enterprise environment address/addresses
+*** Routinely gets pods' IPs from service representing them
+*** Routes/proxies to pods directly, not through service
+* Configure DNS server to resolve `wildcard` DNS entry to node that hosts `Default Router` 
+** `Infranode00` host used in labs
 
 ifdef::showscript[]
 
 === Transcript
 
-A container running an instance of HA-Proxy will be hosted on one or more of the
-nodes in the OSE environment, this instance is referred to as the "Default
-Router"
+A container running an instance of HA-Proxy is hosted on one or more of the
+nodes in the OpenShift Enterprise environment. We call this instance the _Default
+Router_.
 
-The Router's function is to resolve fqdn hostname requests and proxy the
-connection directly to any of the pods represented by the *Service*.
+The router's function is to resolve `fqdn` hostname requests and proxy the
+connection directly to any of the pods represented by the service.
 
-A DNS entry will need to be configured in the client's DNS server, a wildcard
-entry such as "*.cloudapps.companynameexample.com"
+You need to configure a DNS entry in the client's DNS server to resolve a wildcard
+entry such as `*.cloudapps.companynameexample.com`.
 
 endif::showscript[]
 
@@ -818,12 +797,12 @@ endif::showscript[]
 == Networking Workflow
 :noaudio:
 
-.Scenario: Client points browser to `myApp.MyDomain.org:80`
-* DNS resolves to the *host* running the *Default Router* container (This will
-  be *infranode00* in our lab)
+.Scenario: Client Points Browser to `myApp.MyDomain.org:80`
+* DNS resolves to the `host` running the `Default Router` container
+** `infranode00` in the lab
 * Using `openshift-sdn` overlay network:
-** *Default Router* is configured with
-** Proxies request to internal pod IP:port (10.1.2.3:8080 )
+** `Default Router` is configured with this network
+** Proxies request to internal pod `IP:port` (`10.1.2.3:8080`)
 +
 image::images/NetworkScenario01.png[]
 
@@ -831,16 +810,16 @@ ifdef::showscript[]
 
 === Transcript
 
-Let's review the following scenario:
-When a user requests a page, by pointing his or her browser to
-http://Myapp.MyDomain, DNS resolves that request to the IP address of one of
+Consider this following scenario:
+A user requests a page by pointing his or her browser to
+http://Myapp.MyDomain. DNS resolves that request to the IP address of one of
 the nodes that hosts the routing layer.
 
 You would usually create a wildcard Cname record in your DNS server and point
 it to the node or nodes that host the router container.
 
-The routing layer, in this case the Router Container, then determines which pod
-should get the request and acts as a proxy for the pod.
+The routing layer, in this case the `Router Container`, then selects the pod
+that gets the request and acts as a proxy for the pod.
 
 endif::showscript[]
 
@@ -854,7 +833,7 @@ endif::showscript[]
 * Integrates with Red Hat Satellite Server container registry
 * Integrates with Docker Hub and other registries
 
-* Image source any server implementing Docker registry API:
+* Image source can be any server implementing Docker registry API:
 ** Canonical Docker Hub
 ** Private registries run by third parties
 ** Integrated OpenShift Enterprise registry
@@ -864,13 +843,12 @@ ifdef::showscript[]
 
 === Transcript
 
-The next section of this module looks at the Image repository.
 
 The image registry is a fully integrated Docker v2 registry.
 It provides authentication and access control to images and can be integrated
 into the Red Hat Satellite Server container registry.
 
-You can also integrate the registry with third-party providers to leverage
+You can also integrate the registry with third-party providers such as Docker Hub to leverage
 innovation from the community and ISVs.
 
 OpenShift Enterprise uses any server implementing the Docker registry API as a
@@ -887,17 +865,26 @@ endif::showscript[]
 * Provides an integrated Docker registry
 * Provides place for builds to push images
 
+* When new image is pushed to integrated registry:
+** OpenShift Enterprise notified about image
+** Image information passed along:
+*** Namespace
+*** Name
+*** Image metadata
+
+* OpenShift Enterprise reacts to images by creating builds and deployments
+
 ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise provides an integrated Docker registry. This allows users
-to automatically have a place to which their builds can push the resulting
+OpenShift Enterprise provides an integrated Docker registry. This 
+automatically provides users with a place to which their builds can push the resulting
 images.
 
 Whenever a new image is pushed to the integrated registry, the registry notifies
 OpenShift Enterprise about the new image and passes along image information,
-such as the namespace, the name, and the image metadata.
+such as the namespace, name, and image metadata.
 
 Various pieces of OpenShift Enterprise react to the new images by creating new
 builds and deployments.
@@ -911,8 +898,8 @@ endif::showscript[]
 :noaudio:
 
 
-* Provide builder images, complete application images, and more
-* Supportability falls on their respective creators
+* Provide builder images, complete application images, more
+* Supportability falls on creators
 * Can be polled for changes to image repositories
 +
 [NOTE]
@@ -928,55 +915,53 @@ complete application images, and more.
 Supportability of these images and registries falls to their respective
 creators.
 
-OpenShift Enterprise can poll the other registries for changes to image
-repositories.
-
+OpenShift Enterprise id designed to poll the other registries for changes to image
+repositories. However, polling is not currently implemented.
 
 endif::showscript[]
 
 
 
-== What is an S2I Build
+== What Is an S2I Build?
 :noaudio:
 
-* Integrated Docker registry and automated image builds
-* Source code deployments leverage *source-to-image (S2I)* build automation
+[.noredheader,cols="<2,^3"]
+|======
+a|* Integrated Docker registry and automated image builds
+* Source code deployments leverage _source-to-image (S2I)_ build automation
 * Binary deployments integrate with existing build and CI infrastructure
 * Configurable deployment patterns (rolling, etc.)
-+
-image::images/DockerVsS2IBuilds.png[]
-
+|image:images/DockerVsS2IBuilds.png[width=100%]
+|======
 
 ifdef::showscript[]
 
 === Transcript
 
-In the final portion of this module, we look at builds and OpenShift S2I images.
-
-The S2I build process is a process in which a developer points to a code
-repository in any of the supported frameworks and selects a builder image that
-would contain the operating system and framework to support the code. OpenShift
-Enterprise then creates an image based on the builder image that contains the
+In the S2I build process, a developer points to a code
+repository in any supported framework and selects a builder image that
+contains the operating system and framework to support the code. OpenShift
+Enterprise then creates an image based on the builder image containing the
 selected code.
 
 endif::showscript[]
 
 
 
-== Why Use S2I Builds
+== Why Use S2I Builds?
 :noaudio:
 
 
 * Provides a developer-centric flow
 ** Focuses on turning source code into running application
-** S2I project aims to combine source code with image containing a build and
+** S2I project aims to combine source code with image containing build and
 runtime environment
 
 * Strong separation between source code and runtime environment in Docker image
-helps migrate code between:
+helps migrate code:
 
-** Runtime environments
-** Across major versions of a runtime
+** Between runtime environments
+** Across major runtime versions
 ** Across operating system versions
 
 
@@ -984,19 +969,19 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise v3 provides a developer-centric flow that focuses on
-turning developer's source code into a running application as simply as possible.
+OpenShift Enterprise 3.0 provides a developer-centric flow that focuses on
+turning the developer's source code into a running application as simply as possible.
 
-The Source-to-Image project was started to make it easy for developers to take
-source code and combine it with an image, called a builder image.
-The builder image contains both a build and runtime environment for that source
+The S2I project was started to make it easy for developers to take
+source code and combine it with an image, called a _builder_ image.
+The _builder_ image contains both a build and runtime environment for that source
  code.
 
 Having a strong separation between source code, or even binary artifacts, and
-the runtime environment in the Docker image helps you migrate your code between:
+the runtime environment in the Docker image helps you migrate your code:
 
-* Runtime environments like Tomcat and other JEE servers,
-* Across major versions of a runtime like Ruby 1.9 and Ruby 2.0,
+* Between runtime environments like Tomcat and other Java Enterprise Edition (Java EE) servers
+* Across major versions of a runtime like Ruby 1.9 and Ruby 2.0
 * And even across operating system versions like CentOS and Red Hat Enterprise
 Linux.
 
@@ -1006,35 +991,31 @@ endif::showscript[]
 == Summary
 :noaudio:
 
-* Overview and design concepts in OpenShift Enterprise v3
+* Overview and design concepts in OpenShift Enterprise 3.0
 * Introduction to Docker
 * Introduction to Kubernetes infrastructure
-* Networking in OpenShift Enterprise v3
+* Networking in OpenShift Enterprise 3.0
 * Image registry
-* Builds and OpenShift S2I images
+* Builds and OpenShift Enterprise S2I images
 
 
 ifdef::showscript[]
 
 === Transcript
 
-This module presented the following topics:
-
-* Overview and design concepts in OpenShift Enterprise v3, including the
-OpenShift stack, how OpenShift works, standards, important projects, workflows,
+This module presented an overview of and design concepts in OpenShift Enterprise 3.0, including the
+OpenShift Enterprise stack, how OpenShift Enterprise works, standards, important projects, workflows,
 and how the various components work.
 
-* It introduced Docker, including the difference between containers and VMs,
-and Docker components and capabilities.
+It introduced Docker, noted the difference between containers and VMs,
+and described Docker components and capabilities.
 
-* Next it covered Kubernetes features and concepts with an emphasis on pods.
+It covered Kubernetes features and concepts, with an emphasis on pods, followed by an overview of networking in OpenShift Enterprise 3.0.
 
-* It covered an Overview of Networking in OpenShift Enterprise v3,
-
-* The Image registry section described the integrated OpenShift registry and
+The Image registry section described the integrated OpenShift Enterprise registry and
 third-party registries.
 
-* And Builds and OpenShift S2I images were explained briefly covering what an
-S2I build is and why to use it.
+The module concluded by briefly explaning builds and OpenShift Enterprise S2I images, including what an
+S2I build is and reasons to use it.
 
 endif::showscript[]

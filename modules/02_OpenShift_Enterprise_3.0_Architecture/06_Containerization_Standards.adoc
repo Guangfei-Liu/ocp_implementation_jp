@@ -1,24 +1,25 @@
 == Containerization Standards
 :noaudio:
 
-.Isolation with Linux containers
-* Isolate applications on host operating system
-* Security
-* Portability across host systems
+.Isolation With Linux Containers
+* Isolates applications on host operating system
+* Provides: 
+** Security
+** Portability across host systems
 
-.Container format with Docker
+.Docker Format for Containers
 * Interface for communications, configuration, data persistence, provisioning
-* Content agnostic
-* Infrastructure agnostic
+* Content-agnostic
+* Infrastructure-agnostic
 
 ifdef::showscript[]
 
 === Transcript
-Red Hat works with the open source community to drive standards for containerization. The main areas are:
+Red Hat works with the open source community to drive standards for containerization. The main areas are isolation with Linux containers, container format with Docker, orchestration with Kubernetes, and registry and container discovery.
 
-* Isolation with Linux containers - Isolating applications on the host operating system, security, and portability across host systems.
+Isolation with Linux containers isolates applications on the host operating system. This provides security and portability across host systems.
 
-* Container format with Docker - Docker is the interface for communications, configuration, data persistence, and provisioning. It is content and infrastructure agnostic.
+In Docker-formatted containers, Docker is the interface for communications, configuration, data persistence, and provisioning. Docker containers are content- and infrastructure-agnostic; that is, they can handle any kind of content and are not tied to any particular infrastructure.
 
 endif::showscript[]
 

@@ -1,0 +1,35 @@
+== OpenShift Enterprise Version 3.0
+:noaudio:
+
+
+[.noredheader,cols="<,^"]
+|======
+a|* Standard containers API
+* Container-optimized OS
+* Web-scale orchestration
+* Expanded services choices
+* Enhanced user experience
+* Community-driven innovation
+* Industry-standard PaaS stack
+|image:images/OpenShiftStack.png[width=100%]
+|======
+
+ifdef::showscript[]
+
+=== Transcript
+
+The OpenShift Enterprise version 3.0 stack features the following:
+
+* A standard containers API
+* A container-optimized OS
+* Web-scale orchestration
+* An expanded choice of services
+* An enhanced user experience
+* Community-driven innovation
+* And an industry-standard PaaS stack
+
+
+endif::showscript[]
+
+
+

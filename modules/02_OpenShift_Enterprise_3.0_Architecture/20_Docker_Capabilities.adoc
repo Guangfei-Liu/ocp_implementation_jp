@@ -3,21 +3,21 @@
 
 * Build Docker images that hold applications
 * Create containers from images to run applications
-* Share and reuse images via Docker Hub or your own registry
-NOTE: In OSE3.0 we create our own "Integrated registry" to store and distribute
+* Share and reuse images via Docker Hub or own registry
++
+[NOTE]
+OpenShift Enterprise 3.0 an _integrated registry_ to store and distribute
 images created locally.
 
 ifdef::showscript[]
 
 === Transcript
 
-With Docker you can build Docker images that hold your applications and create
+With Docker, you can build Docker images that hold your applications and create
 Docker containers from those Docker images to run your applications.
 You can share and reuse those Docker images via Docker Hub or your own registry.
 
-In OSE3.0 we create our own "Integrated registry" to store and distribute
+In OpenShift Enterprise 3.0, we create our own _integrated registry_ to store and distribute
 images created locally.
 
 endif::showscript[]
-
-

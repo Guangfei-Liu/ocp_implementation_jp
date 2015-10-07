@@ -1,9 +1,8 @@
 == Third-Party Registries
 :noaudio:
 
-
-* Provide builder images, complete application images, and more
-* Supportability falls on their respective creators
+* Provide builder images, complete application images, more
+* Supportability falls on creators
 * Can be polled for changes to image repositories
 +
 [NOTE]
@@ -19,11 +18,7 @@ complete application images, and more.
 Supportability of these images and registries falls to their respective
 creators.
 
-OpenShift Enterprise can poll the other registries for changes to image
-repositories.
-
+OpenShift Enterprise id designed to poll the other registries for changes to image
+repositories. However, polling is not currently implemented.
 
 endif::showscript[]
-
-
-

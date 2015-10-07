@@ -1,0 +1,29 @@
+== What Is Kubernetes?
+:noaudio:
+
+* Open source system for managing containerized applications
+across multiple hosts
+
+* Provides mechanisms for application deployment, maintenance, scaling
+** *Lean*: Lightweight, simple, accessible
+** *Portable*: Public, private, hybrid, multi-cloud
+** *Extensible*: Modular, pluggable, hookable, composable
+** *Self-healing*: Auto-placement, auto-restart, auto-replication
+
+* Builds on more than 15 years of experience at Google
++
+https://github.com/googlecloudplatform/kubernetes
+
+ifdef::showscript[]
+
+=== Transcript
+
+Kubernetes is an open source system for managing containerized applications
+across multiple hosts. It provides basic mechanisms for deployment, maintenance,
+and scaling of applications.
+
+Kubernetes is lean, portable, extensible, and self-healing. Kubernetes builds
+upon more than 15 years of experience at Google.
+
+endif::showscript[]
+

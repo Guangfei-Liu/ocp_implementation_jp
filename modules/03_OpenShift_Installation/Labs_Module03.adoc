@@ -1095,7 +1095,7 @@ CAUTION: Do not set a Default NodeSelector in our environment. Skip this step.
 +
 [source,bash]
 ----
-[root@master00-GUID ~]# sed -i 's/defaultNodeSelector: ""/defaultNodeSelector: "region=primary"' /etc/openshift/master/master-config.yaml
+[root@master00-GUID ~]# sed -i 's/defaultNodeSelector: ""/defaultNodeSelector: "region=primary"/' /etc/openshift/master/master-config.yaml
 [root@master00-GUID ~]# systemctl restart openshift-master
 ----
 

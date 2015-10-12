@@ -495,14 +495,20 @@ CAUTION: Make sure you `do run all the commands on the master host`.
 
 === Configure Docker Storage
 
-In this lab we configure the Docker storage pool.
+NOTE: In this section, we will run commands manually on the *infranode* and then
+ run the same commands on all the other nodes using a for loop executed on the *master*.
+ This is just a learning exercise and could all be run with a single for loop on
+  all the nodes (including the *infranode*)
 
-. The default Docker storage configuration uses loopback devices and is not appropriate for production. Red Hat considers the dm.thinpooldev storage option to be the only appropriate configuration for production use.
+. The default Docker storage configuration uses loopback devices and is not
+appropriate for production. Red Hat considers the dm.thinpooldev storage option
+ to be the only appropriate configuration for production use.
+
 . Stop the Docker daemon and remove the out of the box loopback docker storage from the host:
 +
 ----
-
-[root@master00-GUID ~]# rm -rf /var/lib/docker/*
+[root@infranode00-GUID ~]# systemctl stop docker
+[root@infranode00-GUID ~]# rm -rf /var/lib/docker/*
 
 ----
 
@@ -513,10 +519,13 @@ In this lab we configure the Docker storage pool.
 [root@master00-GUID ~]# for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do ssh $node "rm -rf /var/lib/docker/*"  ; done
 
 ----
-
++
+NOTE: The rest of the commands in this section don't need to be run on the
+*master* because the *master* will not be running any pods.
++
 . In order to use `dm.thinpooldev` you must have space for an LVM thinpool
 available, the `docker-storage-setup` package will assist you in configuring LVM.
-Run `docker-storage-setup` on the infranode host to create logical volumes for Docker:
+Run `docker-storage-setup` on the *infranode* host to create logical volumes for Docker:
 +
 ----
 
@@ -541,13 +550,19 @@ Run `docker-storage-setup` on the infranode host to create logical volumes for D
 ----
 +
 [NOTE]
-Be careful with `docker-storage-setup` as it will, by default, find any unused extents in the volume group that contains your root filesystem to create the pool.  You can also specify a specific volume group or block device.  This can be a destructive process to the specified VG or block device!  Consult the OpenShift documentation for more information.
+In a real environment, be careful with `docker-storage-setup` as it will, by default, find any unused
+extents in the volume group that contains your root filesystem to create the
+pool.  You can also specify a specific volume group or block device.  This can
+be a destructive process to the specified VG or block device!  Consult the
+OpenShift documentation for more information.
 
-. You can use the ssh command to do this from the master host quickly for all hosts
+. You can use the ssh command to do this from the master host quickly for all
+hosts ( the command only includes *node00* and *node01* as you would have run
+these commands on *infranode* already)
 +
 ----
 
-[root@master00-GUID ~]# for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com
+[root@master00-GUID ~]# for node in node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com
 do
   ssh $node "pvcreate /dev/vdb ; vgextend `vgs | grep rhel | awk '{print $1}'` /dev/vdb; docker-storage-setup ; "
   ssh $node "systemctl enable docker; reboot "
@@ -555,11 +570,11 @@ done
 
 ----
 
-. On the master host examine the newly created logical volume `docker-pool`:
+. On the *infranode* host examine the newly created logical volume `docker-pool`:
 +
 ----
 
-[root@master00-GUID ~]# lvs /dev/rhel_host2cc260760b15/docker-pool
+[root@infranode00-GUID ~]# lvs /dev/rhel_host2cc260760b15/docker-pool
 
 ----
 +
@@ -572,11 +587,11 @@ You should see the following:
 
 ----
 
-. On the master host, examine the docker storage configuration:
+. On the *infranode* host, examine the docker storage configuration:
 +
 ----
 
-[root@master00-GUID ~]# cat /etc/sysconfig/docker-storage
+[root@infranode00-GUID ~]# cat /etc/sysconfig/docker-storage
 
 ----
 +
@@ -588,19 +603,19 @@ DOCKER_STORAGE_OPTIONS=-s devicemapper --storage-opt dm.fs=xfs --storage-opt dm.
 
 ----
 
-. Enable, start, and get status for the *Docker* service on the master host:
+. Enable, start, and get status for the *Docker* service on the *infranode* host:
 +
 ----
 
-[root@master00-GUID ~]# systemctl enable docker
+[root@infranode00-GUID ~]# systemctl enable docker
 
 ----
 
-. Reboot the master host
+. Reboot the *infranode* host
 +
 -----
 
-[root@master00-GUID ~]# reboot
+[root@infranode00-GUID ~]# reboot
 
 -----
 
@@ -1116,12 +1131,12 @@ master00-GUID.oslab.opentlc.com   kubernetes.io/hostname=master00-GUID.oslab.ope
 .. You can look at the status of your pod using the following commands, This can take a few minutes the first time around as the images are being pulled from the registry:
 +
 ----
-
+[root@master00-GUID ~]# oc get pods
 NAME                       READY     REASON    RESTARTS   AGE
 docker-registry-1-deploy   0/1       Running   0          6s
 
 ... Wait a few seconds ...
-
+[root@master00-GUID ~]# oc get pods
 NAME                      READY     REASON    RESTARTS   AGE
 docker-registry-1-j6hdu   1/1       Running   0          59s
 

@@ -981,13 +981,6 @@ The installation was successful!
 
 ----
 
-. Add the Default route to the OpenShift master configuration file
-+
-----
-echo "configuration:
-  subdomain: cloudapps-$GUID.oslab.opentlc.com" >> /etc/openshift/master/master-config.yaml
-----
-
 .. Take a second to varify that your *master-config.yaml* file was updated correctly.
 +
 NOTE: Remember, *yaml* files are space-sensitive

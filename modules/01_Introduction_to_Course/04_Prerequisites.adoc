@@ -11,9 +11,9 @@ ifdef::showscript[]
 
 === Transcript
 
-Students taking this course should know Red Hat Enterprise Linux 7, have completed OpenShift 3 FASTRAX training and all its labs, and be able to read and modify some form of code. They also must have a workstation with an SSH client installed.
+Students taking this course should be familiar with Red Hat Enterprise Linux 7,
+have completed OpenShift 3 FASTRAX training and all it's labs, and be able to
+read and modify some form of code.
+They also must have a workstation with an SSH client installed.
 
 endif::showscript[]
-
-
-

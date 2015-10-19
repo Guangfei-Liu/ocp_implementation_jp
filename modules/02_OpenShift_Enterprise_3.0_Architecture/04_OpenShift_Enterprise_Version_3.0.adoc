@@ -30,6 +30,3 @@ The OpenShift Enterprise version 3.0 stack features the following:
 
 
 endif::showscript[]
-
-
-

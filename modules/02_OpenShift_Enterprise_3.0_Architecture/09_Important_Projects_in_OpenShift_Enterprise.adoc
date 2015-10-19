@@ -35,6 +35,3 @@ at scale as they flow through the system; manages applications at scale; and
 tracks teams and users.
 
 endif::showscript[]
-
-
-

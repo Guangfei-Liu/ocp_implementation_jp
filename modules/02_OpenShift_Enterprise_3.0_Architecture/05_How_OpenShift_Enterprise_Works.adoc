@@ -4,7 +4,7 @@
 * *Containers*: Run languages/framework, middleware, database, and other runtimes
 * *Pods*: Define one or more containers colocated on same host
 * *Nodes*: Linux container hosts; run pods assigned by master
-* *Master*: 
+* *Master*:
 ** Provides API, service orchestration, scheduling, placement
 ** Maintains state
 ** Manages pods and services
@@ -16,21 +16,20 @@ ifdef::showscript[]
 
 === Transcript
 
-Here is a simplified explanation of some of the components of OpenShift Enterprise 3.0.
+Here is a simplified explanation of some of the components of OpenShift
+Enterprise 3.0.
 
 Containers run languages and frameworks, middleware components, databases, and
-other runtimes. 
+other runtimes.
 
-Pods run one or more containers as a single unit, to be colocated on the same host.
+Pods run one or more containers as a single unit, to be colocated on the same
+host.
 Each pod has an IP address and can be assigned persistent storage volumes.
 
 Nodes are Linux container hosts that run pods assigned by the master.
 
-The master provides API, service orchestration, scheduling, and placement. It also maintains state and manages pods and services.
+The master provides an API, service orchestration, scheduling, and placement.
+It also maintains state and manages pods and services.
 
 
 endif::showscript[]
-
-
-
-

@@ -25,8 +25,7 @@ various components work together
 * An introduction to Docker, including the difference between containers and
 VMs and Docker components and capabilities
 
-* An introduction to Kubernetes infrastructure, covering features and concepts
-with an emphasis on pods
+* An introduction to Kubernetes infrastructure, covering features and concepts.
 
 * An overview of networking in OpenShift Enterprise 3.0
 
@@ -36,6 +35,3 @@ Enterprise registry and third-party registries
 * A discussion of builds and OpenShift Enterprise S2I images, including what an S2I build is and reasons to use it
 
 endif::showscript[]
-
-
-

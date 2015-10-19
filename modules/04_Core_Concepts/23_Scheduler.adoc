@@ -2,25 +2,28 @@
 :noaudio:
 
 .Scheduler Policy
-* Selection of predicates and priority functions defines scheduler _policy_ 
+* Selection of predicates and priority functions defines scheduler _policy_
 * Administrators can provide JSON file that specifies predicates and priority functions to configure scheduler
 ** Overrides default scheduler policy
 ** If default predicates or priority functions required, must specify them in file
 ** Can specify path to scheduler policy file in master configuration file
-* Default configuration applied if no scheduler policy file
+* Default configuration applied if no scheduler policy file exists
 
 ifdef::showscript[]
 
 === Transcript
 
-The selection of the predicate and priority functions defines the policy for the scheduler. Administrators can provide a JSON file that specifies the predicates and priority functions to configure the scheduler. 
+The selection of the predicate and priority functions defines the policy for
+ the scheduler. Administrators can provide a JSON file that specifies the
+  predicates and priority functions to configure the scheduler.
 
-The predicates and priority functions defined in the scheduler configuration file completely override the default scheduler policy. If you need any of the default predicates and priority functions, you must explicitly specify them
+The predicates and priority functions defined in the scheduler configuration
+ file completely override the default scheduler policy. If you need any of the
+  default predicates and priority functions, you must explicitly specify them
 
-Administrators can specify the path to the scheduler policy file in the master configuration file.
+Administrators can specify the path to the scheduler policy file in the master
+ configuration file.
 
 In the absence of the scheduler policy file, the default configuration is applied.
 
 endif::showscript[]
-
-

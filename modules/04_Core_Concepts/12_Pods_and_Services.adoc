@@ -3,7 +3,7 @@
 
 .Pods Definition File/Manifest
 
-* Example definition of pod that provides long-running service
+* Example definition of pod:
 ** Part of OpenShift Enterprise infrastructure: _Private Docker integrated registry_
 ** Demonstrates many pod features
 +
@@ -25,16 +25,22 @@ ifdef::showscript[]
 
 === Transcript
 
-Here is an example definition of a pod that provides a long-running service. This is actually a part of the OpenShift Enterprise infrastructure, the _private Docker integrated registry_.
+Here is an example definition of a pod that provides a long-running service.
+ This is actually a part of the OpenShift Enterprise infrastructure, the
+  _private Docker integrated registry_.
 
-The sample demonstrates many features of pods. The next few slides examine the file in smaller chunks to make it easier to follow.
+The sample demonstrates many features of pods. The next few slides examine the
+ file in smaller chunks to make it easier to follow.
 
 Note the following:
 
-. You can _tag_ pods with one or more _labels_. You can then use the labels to select and manage groups of pods in a single operation.
+. You can _tag_ pods with one or more _labels_. You can then use the labels to
+ select and manage groups of pods in a single operation.
 
-. Pods must have a unique name within their _namespace_. In the pod definition, you can specify a base name and use the `generateName` attribute to automatically add random characters at the end of the base name, thus generating a unique name.
+. Pods must have a unique name within their _namespace_. In the pod definition,
+ you can specify a base name and use the `generateName` attribute to
+  automatically add random characters at the end of the base name,
+   thus generating a unique name.
 
 
 endif::showscript[]
-

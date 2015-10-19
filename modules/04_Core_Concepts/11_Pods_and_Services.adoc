@@ -8,17 +8,12 @@
 ** _Assigned_ to run on node
 ** _Runs_ until containers exit or pods are removed
 
-* After exiting, pods may be:
-** Removed
-** Retained to enable access to container logs
-
 ifdef::showscript[]
 
 === Transcript
 
-Pods have the following lifecycle: They are _defined_, then they are _assigned_ by the scheduler to run on a specific node. They then _run_ until their container(s) exit or they are removed for some other reason.
-
-Depending on policy and exit code, pods may be removed after exiting, or they may be retained to enable access to their containers' logs.
+Pods have the following lifecycle: They are _defined_, then they are _assigned_
+ by the scheduler to run on a specific node. They then _run_ until their
+  container(s) exit or they are removed for some other reason.
 
 endif::showscript[]
-

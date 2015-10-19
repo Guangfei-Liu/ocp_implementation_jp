@@ -7,7 +7,7 @@
 * *Pod*: One or more containers deployed together on host
 ** Smallest compute unit you can define, deploy, manage
 
-* Pods equivalent of OpenShift Enterprise 2.0 _gears_
+* Pods are the rough equivalent of OpenShift Enterprise 2.0 _gears_
 * Containers equivalent of OpenShift Enterprise 2.0 _cartridge instances_
 
 * Each pod allocated own internal IP address, owns entire port space
@@ -17,12 +17,16 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise leverages the Kubernetes concept of a _pod_, which is one or more containers deployed together on one host. A pod is the smallest compute unit that you can define, deploy, and manage.
+OpenShift Enterprise leverages the Kubernetes concept of a _pod_, which is one
+ or more containers deployed together on one host. A pod is the smallest compute
+  unit that you can define, deploy, and manage.
 
-Pods are the rough equivalent of OpenShift Enterprise 2.0 _gears_, while containers are the rough equivalent of OpenShift Enterprise 2.0 _cartridge instances_.
+Pods are the rough equivalent of OpenShift Enterprise 2.0 _gears_, while
+ containers are the rough equivalent of OpenShift Enterprise 2.0
+  _cartridge instances_.
 
-Each pod is allocated its own internal IP address, thus owning its entire port space. Containers within pods can share their local storage and networking.
+Each pod is allocated its own internal IP address, thus owning its entire port
+ space. Containers within pods can share their local storage and networking.
 
 
 endif::showscript[]
-

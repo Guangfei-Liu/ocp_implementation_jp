@@ -17,11 +17,15 @@ ifdef::showscript[]
 
 === Transcript
 
-Containers are the basic units of OpenShift Enterprise applications. Containers are lightweight mechanisms for isolating running processes so that these processes interact only with their designated resources.
+Containers are the basic units of OpenShift Enterprise applications. Containers
+ are lightweight mechanisms for isolating running processes so that these
+  processes interact only with their designated resources.
 
-You can run many application instances in containers on a single host without visibility into each others' processes, files, network, and so on.
+You can run many application instances in containers on a single host without
+ visibility into each others' processes, files, network, and so on.
 
-Typically, each container provides a single service (often called a _microservice_), such as a web server or a database. However, you can also use containers for arbitrary workloads.
+Typically, each container provides a single service (often called a
+   _microservice_), such as a web server or a database. However, you can also
+    use containers for arbitrary workloads.
 
 endif::showscript[]
-

@@ -1,14 +1,14 @@
 == Overview
 :noaudio:
 
-//Shachar, consider combining this slide with the Module Topics slide. In either case, it seems like the items in the left column should map to the topic titles in this module. For example, should "Projects and users" be "Scheduler" and should "Deployments" be "Replication Controllers?" If you want to combine the slides, then lose the table and add the descriptions to the script.
-
 [cols="2,3"]
 |===================================================================
 |Concept/Object |Description
 |*Containers and images* |Building blocks for deploying applications
-|*Pods and services* |Let containers communicate with each other and with proxy connections
-|*Projects and users* |Provide means for communities to organize and manage content together
+|*Pods and services* |Let containers communicate with each other and with proxy
+ connections
+|*Projects and users* |Provide means for communities to organize and manage
+ content together
 |*Builds and image streams* |Let you build working images and react to new images
 |*Deployments* |Add support for software development and deployment lifecycle
 |*Routes* |Announce service to the world
@@ -19,25 +19,32 @@ ifdef::showscript[]
 
 === Transcript
 
-This module provides high-level architectural information on core concepts and objects you will encounter when using OpenShift Enterprise.
+This module provides high-level architectural information on core concepts and
+ objects you will encounter when using OpenShift Enterprise.
 
-Many of these objects come from Kubernetes. OpenShift Enterprise expands Kubernetes to provide a more feature-rich development lifecycle platform.
+Many of these objects come from Kubernetes. OpenShift Enterprise expands
+ Kubernetes to provide a more feature-rich development lifecycle platform.
 
 This module discusses the following:
 
-* Containers and images, which are the building blocks for deploying your applications
+* Containers and images, which are the building blocks for deploying your
+ applications
 
-* Pods and services, which let containers communicate with each other and with proxy connections
+* Pods and services, which let containers communicate with each other and with
+ proxy connections
 
-* Projects and users, which provide the space and means for communities to organize and manage their content together
+* Projects and users, which provide the space and means for communities to
+ organize and manage their content together
 
-* Builds and image streams, which let you build working images and react to new images
- 
-* Deployments, which add expanded support for the software development and deployment lifecycle
+* Builds and image streams, which let you build working images and react to
+ new images
+
+* Deployments, which add expanded support for the software development and
+ deployment lifecycle
 
 * Routes, which announce your service to the world
 
-* Templates, which let you create many objects at once based on customized parameters
+* Templates, which let you create many objects at once based on customized
+ parameters
 
 endif::showscript[]
-

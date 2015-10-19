@@ -15,9 +15,10 @@ ifdef::showscript[]
 
 Welcome to module four of the OpenShift Enterprise Implementation course.
 
-This module presents some of the core concepts in OpenShift Enterprise 3.0. It discusses containers and images, pods and the services that represent them, and projects and the users who use them. 
+This module presents some of the core concepts in OpenShift Enterprise 3.
+It discusses containers and images, pods and the services that represent them,
+and projects and the users who use them.
 
 It also reviews builds, image streams, deployments, routes, and templates.
 
 endif::showscript[]
-

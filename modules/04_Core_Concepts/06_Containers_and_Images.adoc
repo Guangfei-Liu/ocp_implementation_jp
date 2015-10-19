@@ -5,13 +5,15 @@
 
 * Docker containers based on Docker images
 * *Docker image*: Binary that includes:
-** Requirements for running single Docker container
+** All requirements for running single Docker container
 ** Metadata describing needs and capabilities
-** Similar to packaging technology
-* Docker containers can access only resources defined in image
+* Docker can be considered a packaging technology for containers.
+* Docker containers can access only resources defined in it's image
 ** Unless you give container additional access when creating it
-* Can deploy image in multiple containers across multiple hosts and load-balance among them
-** Lets OpenShift Enterprise provide redundancy and horizontal scaling for service packaged into image
+* Can deploy image in multiple containers across multiple hosts and
+ load-balance among them
+** Lets OpenShift Enterprise provide redundancy and horizontal scaling for
+ service packaged into image
 
 ifdef::showscript[]
 
@@ -19,13 +21,17 @@ ifdef::showscript[]
 
 A running instance of a Docker image is referred to as a container.
 
-A Docker image is a binary that includes all of the requirements for running a single Docker container, as well as metadata describing its needs and capabilities.
+A Docker image is a binary that includes all of the requirements for running a
+ single Docker container, as well as metadata describing its needs and
+  capabilities.
 
 You can think of it as a packaging technology.
 
-Docker containers have access only to resources defined in the image, unless you give the container additional access when you create it.
+Docker containers have access only to resources defined in the image, unless
+ you give the container additional access when you create it.
 
-By deploying the same image in multiple containers across multiple hosts and load-balancing among them, OpenShift Enterprise can provide redundancy and horizontal scaling for a service packaged into an image.
+By deploying the same image in multiple containers across multiple hosts and
+ load-balancing among them, OpenShift Enterprise can provide redundancy and
+  horizontal scaling for a service packaged into an image.
 
 endif::showscript[]
-

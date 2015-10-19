@@ -3,23 +3,30 @@
 
 .Containers: Docker
 
-* Historically, Linux kernel incorporated capabilities for container technologies
-* More recently, Docker project developed management interface for Linux containers on host
+* Linux kernel incorporated capabilities for container technologies for years.
+* More recently, Docker project developed management interface for Linux
+containers
 ** Learn more: https://www.docker.com/whatisdocker/
-* OpenShift Enterprise and Kubernetes let you orchestrate Docker containers across multi-host installations
+* OpenShift Enterprise and Kubernetes let you orchestrate Docker containers
+ across multi-host installations
 
 
 ifdef::showscript[]
 
 === Transcript
 
-The Linux kernel has been incorporating capabilities for container technologies for years. 
+The Linux kernel has been incorporating capabilities for container technologies
+ for years.
 
-Recently, the Docker project has developed a convenient management interface for Linux containers on a host.
+Recently, the Docker project has developed a convenient management interface for
+ Linux containers on a host.
 
-OpenShift Enterprise and Kubernetes add the ability to orchestrate Docker containers across multi-host installations.
+OpenShift Enterprise and Kubernetes add the ability to orchestrate Docker
+ containers across multi-host installations.
 
-Note that although you do not directly interact with Docker tools when using OpenShift Enterprise, you should know about Docker's capabilities and terminology to understand its role in OpenShift Enterprise and how your applications function inside containers.
+Note that although you do not directly interact with Docker tools when using
+ OpenShift Enterprise, you should know about Docker's capabilities and
+  terminology to understand its role in OpenShift Enterprise and how your
+   applications function inside containers.
 
 endif::showscript[]
-

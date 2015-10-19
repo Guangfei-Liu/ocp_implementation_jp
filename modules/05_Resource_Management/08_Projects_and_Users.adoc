@@ -1,38 +1,33 @@
 == Projects and Users
 :noaudio:
 
-.Projects (Formerly: Namespace)
-* A project is a Kubernetes namespace with additional annotations, and is the
-central vehicle by which access to resources for regular users is managed.
-* A project allows a community of users to organize and manage their content in
-isolation from other communities.
-* Users must be given access to projects by administrators, or if allowed to
-create projects, automatically have access to their own projects.
+.Projects
+* *Project*: Kubernetes namespace with additional annotations
+** Central vehicle for managing resource access for regular users
+** Lets community of users organize and manage content in isolation from other communities
+* Users either:
+** Receive access to projects from administrators
+** Have access to own projects if allowed to create them
 
-* Each project scopes its own set of:
+* Each project scopes own:
 ** *Objects:* Pods, services, replication controllers, etc.
-** *Policies:* Rules for which users can or cannot perform actions on objects.
-** *Constraints:* Quotas for each kind of object that can be limited.
-** *Service accounts:* Service accounts act automatically with designated access to objects in the project.
+** *Policies:* Rules for which users can or cannot perform actions on objects
+** *Constraints:* Quotas for objects that can be limited
+** *Service accounts:* Users that act automatically with access to project objects
 
 
 
 ifdef::showscript[]
 
 === Transcript
-A project is a Kubernetes namespace with additional annotations, and is the
-central vehicle by which access to resources for regular users is managed.
 
-Cluster administrators can create projects and delegate administrative rights
-for the project to any member of the user community.
-Cluster administrators can also allow developers to create their own projects.
+A project, as mentioned earlier is a Kubernetes namespace with additional annotations. It is the central vehicle for managing access to resources for regular users.
 
-* Each project scopes its own set of:
-** *Objects:* Pods, services, replication controllers, etc.
-** *Policies:* Rules for which users can or cannot perform actions on objects.
-** *Constraints:* Quotas for each kind of object that can be limited.
-** *Service accounts:* Service accounts act automatically with designated access
-to objects in the project.
+A project lets a community of users organize and manage their content in isolation from other communities.
+
+Users must receive access to projects from administrators. But cluster administrators can allow developers to create their own projects. In that case, users automatically have access to their own projects.
+
+Each project scopes its own set of objects, policies, constraints, and service accounts. Objects, include pods, services, replication controllers, etc. Policies are rules for which users can or cannot perform actions on objects. Constraints are quotas for each kind of object that can be limited. Service accounts are users that act automatically with designated access to objects in the project.
 
 
 endif::showscript[]

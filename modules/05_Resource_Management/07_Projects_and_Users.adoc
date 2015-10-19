@@ -1,27 +1,30 @@
 == Projects and Users
 :noaudio:
 
-."Namespace" (Or, "Project")
-* A Kubernetes namespace provides a mechanism to scope resources in a cluster.
-In OpenShift, a project is a Kubernetes namespace with additional annotations.
-* Namespaces provide a unique scope for:
-** Named resources to avoid basic naming collisions.
-** Delegated management authority to trusted users.
-** The ability to limit community resource consumption.
-* Most objects in the system are scoped by namespace, but some are excepted and
-have no namespace, including nodes and users.
+.Namespaces
+
+* *Kubernetes namespace*: Provides mechanism to scope cluster resources
+** In OpenShift Enterprise, _project_ is Kubernetes namespace with additional annotations
+* Namespaces provide scope for:
+** Named resources to avoid naming collisions
+** Delegated management authority to trusted users
+** Ability to limit community resource consumption
+* Most objects in system scoped by namespace
+** Some excepted and have no namespace
+** Examples: Nodes and users
 
 
 
 ifdef::showscript[]
 
 === Transcript
-A Kubernetes namespace provides a mechanism to scope resources in a cluster.
-In OpenShift, a project is a Kubernetes namespace with additional annotations.
 
-Namespaces provide a unique scope for: Named resources to avoid basic naming
-collisions, delegated management authority to trusted users and the ability to
-limit community resource consumption.
+A Kubernetes namespace provides a mechanism to scope resources in a cluster.
+In OpenShift Enterprise, a project is a Kubernetes namespace with additional annotations.
+
+Namespaces provide a unique scope for named resources to avoid basic naming collisions, delegated management authority to trusted users, and the ability to limit community resource consumption.
+
+Most objects in the system are scoped by namespace, but some are excepted and have no namespace. Examples of excepted objects include nodes and users.
 
 endif::showscript[]
 

@@ -1,4 +1,4 @@
-== Module Topics
+== Summary
 :noaudio:
 
 * Resource Types
@@ -10,18 +10,11 @@
 * Routes
 * Persistent Volumes
 
-
 ifdef::showscript[]
 
 === Transcript
 
-Welcome to module five of the OpenShift Enterprise Implementation course.
-
-This module discusses various OpenShift Enterprise resources and how to use them to configure and manage your environment.
+This module discussed various OpenShift Enterprise resources and how to use them to configure and manage your environment.
 
 
 endif::showscript[]
-
-
-
-

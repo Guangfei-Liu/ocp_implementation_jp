@@ -1,0 +1,39 @@
+== Client Tool Authentication
+:noaudio:
+
+.CLI Authentication
+* Download client from Red Hat Product Downloads:
+https://access.redhat.com/downloads/content/290/ver=3.0.0.0/rhel---7/3.0.1.0/x86_64/product-downloads
+* After extracting software, use `oc login` to authenticate from command line:
++
+----
+$ oc login -u andrew --server="https://master09-c4po.oslab.opentlc.com:8443"
+----
+
+* Command's interactive flow helps establish session to OpenShift Enterprise server with provided credentials
+
+* Example: Authenticate as OpenShift Enterprise cluster administrator (usually `root` user):
++
+----
+$ oc login -u system:admin -n openshift
+----
++
+** You set username and _project_ (_namespace_) to log in to
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+You can download the CLI authentication client from Red Hat Product Downloads.
+
+After you extract the software, you can authenticate from the command line using the CLI command `oc login`.
+
+The command's interactive flow helps you establish a session to an OpenShift Enterprise server with the provided credentials.
+
+Say, for example, you want to authenticate as the OpenShift Enterprise cluster administrator (usually the `root` user). Use the command shown here.
+
+Note that you set the user name and the _project_ (_namespace_) to log in to.
+
+endif::showscript[]
+

@@ -1,0 +1,40 @@
+== Routes
+:noaudio:
+
+.Custom Default Routing Subdomain
+
+* Cluster administrator can use OpenShift Enterprise master configuration to customize environment's:
+** Suffix
+** Default routing subdomain
+
+* Example: Set configured suffix to `v3.openshift.test`:
+** OpenShift Enterprise master configuration snippet (`master-config.yaml`):
++
+[source,yaml]
+----
+routingConfig:
+  subdomain: v3.openshift.test
+----
+
+
+* With master node(s) running above configuration, generated hostname for host added to `my-namespace` would be:
++
+----
+no-route-hostname.my-namespace.v3.openshift.test
+----
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+A cluster administrator can customize the suffix or the default routing subdomain for an environment using the OpenShift Enterprise master configuration.
+
+The example shows here how you can set the configured suffix to `v3.openshift.test`.
+
+Using the definition from the preceding slide, with your new default subdomain, you can see that the hostname associated with your route is `no-route-hostname.my-namespace.v3.openshift.test`.
+
+
+endif::showscript[]
+
+

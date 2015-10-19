@@ -1,47 +1,25 @@
 == Routes
 :noaudio:
 
-.Secured TLS termination types - Edge Termination
+.Secured TLS Termination Types: Edge Termination
 
-* A Secured Route definition using Edge Termination:
+* Three types of TLS termination for secured routes
 
-[source,yaml]
-----
-apiVersion: v1
-kind: Route
-metadata:
-  name: route-edge-secured
-spec:
-  host: www.example.com
-  to:
-    kind: Service
-    name: service-name
-  tls:
-    termination: edge            <1>
-    key: |-                      <2>
-      BEGIN PRIVATE KEY
-      [...]
-      END PRIVATE KEY
-    certificate: |-              <3>
-      BEGIN CERTIFICATE
-      [...]
-      END CERTIFICATE
-    caCertificate: |-            <4>
-      BEGIN CERTIFICATE
-      [...]
-      END
-----
-
-<1> The `*termination*` field is `edge` for edge termination.
-<2> The `*certificate*` field is the contents of the PEM format certificate file.
-<3> The `*key*` field is the contents of the PEM format key file.
-<4> An optional CA certificate may be required to establish a certificate chain for validation.
-
-NOTE: Because TLS is terminated at the router, connections from the router to
-the endpoints over the internal network are not encrypted.
+* With _edge termination_, TLS termination occurs at router
+** Prior to proxying traffic to destination
+* Front end of router serves TLS certificates
+** Must be configured into route
+** Otherwise router's default certificate used for TLS termination
 
 ifdef::showscript[]
+
 === Transcript
-Here is an example of a "Secured Route definition using Edge Termination".
+
+Secured routes can use three types of secure TLS termination.
+
+_Edge termination_ is a type TLS termination that occurs at the router, prior to proxying traffic to its destination.
+
+The front end of the router serves the TLS certificates, so they must be configured into the route. Otherwise, the router's default certificate is used for TLS termination.
+
 endif::showscript[]
 

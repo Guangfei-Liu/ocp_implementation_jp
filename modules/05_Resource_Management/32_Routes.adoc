@@ -1,33 +1,27 @@
 == Routes
 :noaudio:
 
-.Secured TLS termination types - Passthrough Termination
+.Secured TLS Termination Types: Passthrough Termination
 
-* A Secured Route definition using Passthrough Termination
-+
-[source,yaml]
-----
-apiVersion: v1
-kind: Route
-metadata:
-  name: route-passthrough-secured
-spec:
-  host: www.example.com
-  to:
-    kind: Service
-    name: service-name
-  tls:
-    termination: passthrough     <1>
-----
+* With _passthrough termination_, encrypted traffic sent straight to destination
+** Router does not provide TLS termination
+** No key or certificate required on router
 
-<1> The `*termination*` field is set to `passthrough`. No other encryption
-fields are needed.
+* Destination pod responsible for serving certificates for traffic at endpoint
+
+* Currently only method that supports requiring client certificates
+** AKA _two-way authentication_
 
 
 ifdef::showscript[]
+
 === Transcript
-Here is an example of a "Secured TLS termination types - Passthrough
-Termination".
+
+With passthrough termination, encrypted traffic is sent straight to the destination without the router providing TLS termination. Therefore no key or certificate is required on the router.
+
+The destination pod is responsible for serving certificates for the traffic at the endpoint.
+
+This is currently the only method that can support requiring client certificates, also known as _two-way authentication_.
 
 endif::showscript[]
 

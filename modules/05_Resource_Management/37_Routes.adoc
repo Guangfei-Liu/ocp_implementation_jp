@@ -1,45 +1,34 @@
 == Routes
 :noaudio:
 
-.Custom default routing subdomain
+.Routes Without Hostnames
 
-* A cluster administrator can customize the suffix or the default routing
-subdomain for an environment using the OpenShift master configuration.
-* The following example shows how you can set the configured suffix to
-`v3.openshift.test`:
-
-* OpenShift master configuration snippet (master-config.yaml):
+* If hostname _not_ provided in route specification, OpenShift Enterprise generates one
+* Form: `$routename[.$namespace].$suffix`
+* Example: Route definition without host:
 +
 [source,yaml]
 ----
-routingConfig:
-  subdomain: v3.openshift.test
-----
-
-
-* With the OpenShift master node(s) running the above configuration, the
-generated hostname for our example of a host added to a namespace "my-namespace"
- would be:
-+
-----
-no-route-hostname.my-namespace.v3.openshift.test
+apiVersion: v1
+kind: Route
+metadata:
+  name: no-route-hostname
+spec:
+  to:
+    kind: Service
+    name: service-name
 ----
 
 
 ifdef::showscript[]
+
 === Transcript
 
-A cluster administrator can customize the suffix or the default routing
-subdomain for an environment using the OpenShift master configuration.
+If a hostname is _not_ provided as part of the route specification, OpenShift Enterprise automatically generates one for you.
 
-The following example shows how you can set the configured suffix to
-`v3.openshift.test`.
+The generated hostname is of the form of `$routename[.$namespace].$suffix`.
 
-Finally, using the definition from the previous slide, with our new default
-sub-domain, we can see the hostname associated with our route is:
-no-route-hostname.my-namespace.v3.openshift.test
-
+The example here shows a route definition without a host.
 
 endif::showscript[]
-
 

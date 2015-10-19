@@ -1,0 +1,29 @@
+== Resource Types
+:noaudio:
+
+
+* Working with applications means manipulating OpenShift Environment and Kubernetes resources in background:
+** Create
+** Destroy
+** Scale
+** Build
+* Can reinforce quotas against resources
+* OpenShift Enterprise 3.0 includes different resource types
+* Can refer to:
+** *Hardware resources*: Memory, CPU, other _platform_ resources
+** *OpenShift Enterprise resources*: Pods, services, replication controllers
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+When you work with applications--creating, building, scaling, destroying, and so on--you manipulate OpenShift Enterprise and Kubernetes resources in the background.
+
+You can enforce quotas against resources. 
+
+OpenShift Enterprise 3.0 includes different resource types. In this context, the term _resources_ can refer to hardware resources, such as memory, CPU, and other _platform_ resources, or to OpenShift Enterprise resources, such as pods, services, and replication controllers.
+
+endif::showscript[]
+
+

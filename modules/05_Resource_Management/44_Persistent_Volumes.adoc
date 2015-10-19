@@ -1,10 +1,10 @@
-== Using Persistent Volumes
+== Persistent Volumes
 :noaudio:
 
-.Volume and Claim Binding
+.Volume and Claim Binding: Status
 
-* You can tell whether a claim or volume is bound by querying using the CLI:
-
+* To tell whether claim or volume is bound:
++
 ----
 $ oc get pvc
 NAME        LABELS    STATUS    VOLUME
@@ -18,7 +18,8 @@ pv0001              map[]               5368709120          RWO                 
 ifdef::showscript[]
 
 === Transcript
-You can tell whether a claim or volume is bound by querying using the CLI.
+
+As shown in the example here, you can tell whether a claim or volume is bound by using the CLI to submit a query.
 
 endif::showscript[]
 

@@ -1,0 +1,28 @@
+== New App From Image
+:noaudio:
+
+
+* To create application from existing image stream, specify:
+**  Namespace (optional)
+** Name
+** Tag (optional)
+
+* To create application from existing image stream with specific tag:
++
+----
+$ oc new-app my-stream:v1
+----
+
+
+
+ifdef::showscript[]
+
+=== Transcript
+To create an application from an existing image stream, specify the namespace (optional), name, and tag (optional) for the image stream.
+
+The example shows creating an application from an image stream with a specific tag.
+
+
+
+endif::showscript[]
+

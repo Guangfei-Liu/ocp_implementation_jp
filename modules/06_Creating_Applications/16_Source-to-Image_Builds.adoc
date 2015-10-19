@@ -1,0 +1,47 @@
+== Source-to-Image Builds
+:noaudio:
+
+.JSON Build File - `Service`
+
+* Describes _service_ to be created to support application
+* Note the `selector` line
++
+[subs="verbatim,macros"]
+----
+ {
+            "kind": "Service",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "simple-openshift-sinatra",
+                "creationTimestamp": null
+            },
+            "spec": {
+                "ports": [
+                    {
+                        "name": "simple-openshift-sinatra-sti-tcp-8080",
+                        "protocol": "TCP",
+                        "port": 8080,
+                        "targetPort": 8080,
+                    }
+                ],
+                pass:quotes[*"selector": {*]
+                    "deploymentconfig": "simple-openshift-sinatra-sti"
+                },
+                "portalIP": ""
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        }
+----
+
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+The `Service` section describes the service to be created to support the built application. Note the `selector` line.
+
+endif::showscript[]
+

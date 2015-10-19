@@ -1,0 +1,30 @@
+== Source-to-Image Builds
+:noaudio:
+
+.Creating the Build Environment
+
+* To create build environment and start the build, use `oc create` on `.json` file:
++
+----
+$ oc create -f ~/simple-sinatra.json
+----
+
+* Creates entries for:
+** `ImageRepository`
+** `BuildConfig`
+** `DeploymentConfig`
+** `Service`
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+As shown in the code sample, the `oc create` command creates the build environment and resources. It does not start the build process for your image; it creates the required resources. These include entries for  `ImageRepository`, `BuildConfig`, `DeploymentConfig`, and `Service`.
+
+To review what happens, run the command shown in the code sample.
+
+Most of the time Red Hat recommends using `oc new-app`. This `oc create` method is described for rare cases and educational purposes.
+
+endif::showscript[]
+

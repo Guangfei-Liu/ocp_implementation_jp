@@ -1,0 +1,21 @@
+== Source-to-Image
+:noaudio:
+
+.`BuildConfig` Object
+
+* Defines single build and set of triggers that start the build
+** REST object
+** Can be used in `POST` to API server to create new instance
+* Consists of:
+** Triggers
+** Parameters
+
+ifdef::showscript[]
+
+=== Transcript
+
+The `BuildConfig` object is the definition of the entire build process. It consists of triggers that define policies used to automatically invoke builds, and parameters that point OpenShift Enterprise to the source code and builder image.
+
+
+endif::showscript[]
+

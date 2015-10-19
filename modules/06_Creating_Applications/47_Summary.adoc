@@ -1,6 +1,5 @@
-== Module Topics
+== Summary
 :noaudio:
-
 
 * Overview
 * Source-to-Image
@@ -18,9 +17,7 @@ ifdef::showscript[]
 
 === Transcript
 
-Welcome to Module 6 of the OpenShift Enterprise Implementation course.
-
-This module covers the following topics:
+This module covered the following topics:
 
 * Concepts such as build and deployment automation; the definition of Source-to-Image, or S2I; the build process; the `BuildConfig` object; and build strategies.
 
@@ -28,7 +25,6 @@ This module covers the following topics:
 
 * Deploying an S2I build image, including creating the build environment, starting the build, and using the web console to create an S2I build.
 
-* How to deploy applications from source or image using the `oc new-app` CLI tool or the web console, and information about templates and advanced application creation.
+* You also learned how to deploy applications from source or image using the `oc new-app` CLI tool or the web console, and you learned a little about templates and advanced application creation.
 
 endif::showscript[]
-

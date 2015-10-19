@@ -1,0 +1,35 @@
+== New App From Image
+:noaudio:
+
+.Specifying an Image - Examples
+
+* To create application using image in private registry, use full Docker image specification
+
+* To create application from MySQL image in Docker Hub:
++
+----
+$ oc new-app mysql
+----
+
+* To create application from local registry:
+----
+$ oc new-app myregistry:5000/example/myimage
+----
+
+
+NOTE: If the registry that the image comes from is not secured with SSL, cluster administrators must ensure that the Docker daemon on the OpenShift Enterprise nodes is run with the `--insecure-registry` flag pointing to that registry. You must also use the `--insecure-registry=true` flag to tell `new-app` that the image comes from an insecure registry.
+
+ifdef::showscript[]
+
+=== Transcript
+
+To create an application using an image in a private registry, use the full Docker image specification.
+
+The first example shows creating an application from a MySQL image in Docker Hub.
+
+The second example shows creating an application from a local registry.
+
+If the registry that the image comes from is not secured with SSL, cluster administrators must ensure that the Docker daemon on the OpenShift Enterprise nodes is run with the `--insecure-registry` flag pointing to that registry. You must also use the `--insecure-registry=true` flag to tell `new-app` that the image comes from an insecure registry.
+
+endif::showscript[]
+

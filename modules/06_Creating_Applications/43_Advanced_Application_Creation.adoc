@@ -1,0 +1,37 @@
+== Advanced Application Creation
+:noaudio:
+
+.Grouping Images and Source in Single Pod
+* `new-app` can deploy multiple images in single _pod_
+
+* To indicate images to group, use `+` separator
+
+* Can also use `--group` argument to specify images to group
+
+* To group image built from source repository with other images, specify its _builder image_ in group
+
+* To deploy two images in single pod:
++
+----
+$ oc new-app nginx+mysql
+----
+
+* To deploy together image built from source and external image:
++
+----
+$ oc new-app \
+    ruby~https://github.com/openshift/ruby-hello-world \
+    mysql \
+    --group=ruby+mysql
+----
+
+ifdef::showscript[]
+
+=== Transcript
+The `new-app` command allows deploying multiple images together in a single pod. To specify which images to group together, use the `+` separator, shown in the first example. The `--group` command line argument can also be used to specify the images to be grouped together. This is shown in the second example.
+
+To group the image built from a source repository with other images, specify its builder image in the group.
+
+endif::showscript[]
+
+

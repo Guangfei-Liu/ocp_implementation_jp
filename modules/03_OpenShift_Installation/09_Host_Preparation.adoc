@@ -1,30 +1,33 @@
 == Host Preparation
 :noaudio:
 
-.Host Preparation - Password-less communication
+.Password-Less Communication
 
-* Ensure Installer has password-less access to all Hosts.
-* Ansible, which is used to run the installation process, requires a user that has access to all hosts. For running the installer as a non-root user, passwordless sudo rights must also be configured on each destination host.
-* For example, you can generate an SSH key on the host where you will invoke the installation process:
+* Ensure installer has password-less access to hosts
+** Ansible requires user with access to all hosts
+** To run installer as non-root user, configure password-less `sudo` rights on each destination host
+* Example: To generate SSH key on host where you invoke installation process:
 +
 ----
 # ssh-keygen
 # ssh-copy-id root@node00.example.com
 ----
++
+[NOTE]
+Do not use password when generating key.
 
-NOTE: Do not use a password when generating the key.
-
-* An easy way to distribute your SSH keys is by using a bash loop:
+* To easily distribute SSH keys, use bash loop
 
 ifdef::showscript[]
 
 === Transcript
-For the installation to be successful the installer will need to be able to run
-commands on each on of the members in the OSE environment without a user typing
-in the password every time.
+For the installation to succeed, the installer needs to run commands on each member in the OpenShift Enterprise environment without requiring a password every time.
 
-Do achieve this we will generate a key and copy it to the root user's id on each
-member of the OSE cluster.
+Ansible, which is used to run the installation process, requires a user that has access to all hosts. For running the installer as a non-root user, you must configure password-less `sudo` rights on each destination host.
+
+To achieve this, you generate a key and copy it to the root user's ID on each member of the OpenShift Enterprise cluster. Do not use a password when generating the key.
+
+An easy way to distribute your SSH keys is by using a bash loop.
 
 endif::showscript[]
 

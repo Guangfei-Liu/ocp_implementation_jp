@@ -3,7 +3,7 @@
 
 .Isolation With Linux Containers
 * Isolates applications on host operating system
-* Provides: 
+* Provides:
 ** Security
 ** Portability across host systems
 
@@ -15,12 +15,17 @@
 ifdef::showscript[]
 
 === Transcript
-Red Hat works with the open source community to drive standards for containerization. The main areas are isolation with Linux containers, container format with Docker, orchestration with Kubernetes, and registry and container discovery.
+Red Hat works with the open source community to drive standards for
+containerization. The main areas are isolation with Linux containers, container
+ format with Docker, orchestration with Kubernetes, and registry and container
+  discovery.
 
-Isolation with Linux containers isolates applications on the host operating system. This provides security and portability across host systems.
+Isolation with Linux containers isolates applications on the host operating
+ system. This provides security and portability across host systems.
 
-In Docker-formatted containers, Docker is the interface for communications, configuration, data persistence, and provisioning. Docker containers are content- and infrastructure-agnostic; that is, they can handle any kind of content and are not tied to any particular infrastructure.
+In Docker-formatted containers, Docker is the interface for communications,
+ configuration, data persistence, and provisioning. Docker containers are
+  content- and infrastructure-agnostic; They can handle any kind
+   of content and are not tied to any particular infrastructure.
 
 endif::showscript[]
-
-

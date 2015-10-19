@@ -1,29 +1,30 @@
 == Installation Methods
 :noaudio:
 
-* Currently, There are two types of install methods you can use:
-** *Quick Install* - The quick installation method allows you to use an
-interactive CLI utility to install OpenShift across a set of hosts. The utility
-is a self-contained wrapper intended for usage on a Red Hat Enterprise Linux 7
-host, available at
-link:https://install.openshift.com[https://install.openshift.com].
-** *Advanced Install* - For more complex environments where deeper
-customization of installation and maintenance is required, an installation
-process using Ansible playbooks is available. Familiarity with Ansible is
-assumed.
+.Quick Install
+** Lets you use interactive CLI utility to install OpenShift across set of hosts
+** Utility is self-contained wrapper for use on Red Hat Enterprise Linux 7
+host
+** https://install.openshift.com
 
-* In this training we will focus on the Quick Install Method.
+.Advanced Install
+** For complex environments requiring deeper customization of installation and maintenance
+** Uses Ansible playbooks
+** Assumes familiarity with Ansible
+
+
 
 ifdef::showscript[]
 
 === Transcript
 
-There are two ways to install OSE3.0, the *Quick Install* method uses an
-interactive CLI utility to install OpenShift, and the *Advanced Install* method
-who uses the Ansible installer to configure and install OSE3.0
+There are two ways to install OpenShift Enterprise 3.0. The Quick Install method uses an interactive CLI utility to install OpenShift across a set of hosts. The utility is a self-contained wrapper intended for usage on a Red Hat Enterprise Linux 7 host. It is available at the web address shown here.
 
-The *Quick install* also uses the Ansible install under the covers of the
-interactive CLI utiliy.
+For more complex environments where deeper customization of installation and maintenance is required, an Advanced Install method using Ansible playbooks is available. This method assumes familiarity with Ansible,
+
+This module focuses on the Quick Install method.
+
+Note that the Quick Install method uses Ansible in the background of the interactive CLI utility.
 
 endif::showscript[]
 

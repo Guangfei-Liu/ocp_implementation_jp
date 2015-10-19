@@ -3,27 +3,33 @@
 
 .DNS Setup
 
-* A wildcard for a DNS zone must ultimately resolve to the IP address of the
-OpenShift router.
-* For example, create a wildcard DNS entry for cloudapps in your DNS Server, or
-something similar, that has a low TTL and points to the public IP address of the
-host where the router will be deployed:
+* To make environment accessible externally, create wildcard DNS entry
+** Points to _node_ hosting _Default Router Container_
+** Resolves to OpenShift router IP address
+* In lab and examples, this is `infranode00` server
+** If environment uses multiple _routers_ (HAProxy instances), use external load balancer or round-robin setting
+* Example: Create wildcard DNS entry for `cloudapps` in DNS server
+** Has low TTL
+** Points to public IP address of host where the router is deployed:
 +
 ----
 *.cloudapps.example.com. 300 IN  A 85.1.3.5
 ----
 
+
 ifdef::showscript[]
 
 === Transcript
 
-In order for our OSE environment to be accessible externally we will create a
-wildcard DNS entry that points to the *node* that is hosting our *Default Router
-Container*
 
-In our lab and examples this is the *infranode00 server*, if your environments
-uses multiple *routers* (HA-Proxy instances), which is likely, you will use an
-external load balancer or round-robin setting to use them.
+
+To make the OpenShift Enterprise environment accessible externally, you create a wildcard DNS entry that points to the _node_ that is hosting the _Default Router Container_.
+
+In this lab and examples this is the `infranode00` server. If your environment uses multiple _routers_ (HAProxy instances), which is likely, you use an external load balancer or round-robin setting to use them.
+
+The wildcard for a DNS zone must resolve ultimately to the IP address of the OpenShift Enterprise router.
+
+For example, you can use the code shown here to create a wildcard DNS entry for `cloudapps` in your DNS Server, or something similar. The entry has a low TTL and points to the public IP address of the host where the router will be deployed.
 
 endif::showscript[]
 

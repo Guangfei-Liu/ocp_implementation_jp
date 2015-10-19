@@ -5,7 +5,7 @@
 .Scenario
 * Application needs to be scaled up to accommodate overall increase or upcoming spike in traffic
 * Request could be:
-** Manual API call
+** Manual API call/Command Line 
 ** Initiated by external monitoring agent
 
 * OpenShift Enterprise workflow:
@@ -45,5 +45,3 @@ As you can see, the OpenShift Enterprise controllers are performing the "busines
 You can customize the launching and running of builds independently of how images are managed or how deployments happen.
 
 endif::showscript[]
-
-

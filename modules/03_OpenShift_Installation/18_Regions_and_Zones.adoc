@@ -1,20 +1,17 @@
 == Regions and Zones
 :noaudio:
 
-* In OpenShift 2, we introduced the specific concepts of "regions" and "zones"
-to enable organizations to provide some topologies for application resiliency.
-** Apps would be spread throughout the zones within a region and, depending on
-the way you configured OpenShift, you could make different regions accessible
-to users.
-* OpenShift 3 doesn’t actually care about your topology or is "topology
-agnostic".
-* OpenShift 3 provides advanced controls for implementing whatever topologies
-you can dream up.
-** For the purposes of a simple example, we’ll be sticking with the "regions"
-and "zones" theme. (There are many other options you can use, "Prod and Dev",
-"Secure and Insecure", "Rack and Power")
-* The assignments of "regions" and "zones" at the node-level are handled by
-labels on the nodes.
+* After installation, need to label nodes
+** Lets scheduler use _logic_ defined in `scheduler.json` when provisioning pods
+* OpenShift Enterprise 2.0 introduced _regions_ and _zones_
+** Let organizations provide topologies for application resiliency
+** Apps spread throughout zones within region
+** Can make different regions accessible to users
+* OpenShift Enterprise 3.0 _topology-agnostic_
+** Provides advanced controls for implementing any topologies
+** Example: Use _regions_ and _zones_
+*** Other options: _Prod_ and _Dev_, _Secure_ and _Insecure_, _Rack_ and _Power_
+** Labels on nodes handle assignments of _regions_ and _zones_ at node level
 +
 ----
 # oc label node master00-$guid.oslab.opentlc.com region="infra" zone="na"
@@ -27,15 +24,19 @@ ifdef::showscript[]
 
 === Transcript
 
-After we install OpenShift, we need to label the nodes, labeling the nodes
-allows the scheduler to use "logic" defined in the *scheduler.json* file when
-trying to provision pods in our environment.
+After you install OpenShift Enterprise, you need to label the nodes. Labeling the nodes lets the scheduler use _logic_ defined in the `scheduler.json` file when it provisions pods in your environment.
 
-In this example we use "Regions" and "Zones", but many other types of topologies
-can be used, we will discuss this more later in the training.
+OpenShift Enterprise 2.0 introduced the specific concepts of _regions_ and _zones_ to let organizations provide some topologies for application resiliency. Applications are spread throughout the zones within a region and, depending on the way you configure OpenShift Enterprise, you can make different regions accessible to users.
+
+OpenShift Enterprise 3.0 is not based on your topology. It is _topology-agnostic_. OpenShift Enterprise 3.0 provides advanced controls for implementing whatever topologies you create.
+
+The example shown here uses the concept the _regions_ and _zones_. 
+
+Other options you can use include _Prod_ and _Dev_,
+_Secure_ and _Insecure_, or _Rack and Power_.
+
+The labels on the nodes handle the assignments of _regions_ and _zones_ at the node level.
 
 endif::showscript[]
-
-
 
 

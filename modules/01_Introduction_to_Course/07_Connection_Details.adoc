@@ -18,9 +18,6 @@ ifdef::showscript[]
 
 === Transcript
 
-You use the node servers to run your _pods_ and _applications_. The nodes are firewalled, or completely blocked, from external access.
+You use the node servers to run your _pods_. The nodes are firewalled, and are completely blocked, from external access.
 
 endif::showscript[]
-
-
-

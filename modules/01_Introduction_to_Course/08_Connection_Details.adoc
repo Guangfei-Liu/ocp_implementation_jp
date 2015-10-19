@@ -18,8 +18,12 @@ ifdef::showscript[]
 
 === Transcript
 
-When you connect to your environment, use only your OPENTLC credentials and SSH key to connect directly into your administration VM. Do not use root or try to connect directly to the master or nodes.
+You can use your `oselab` administration VM as a jump box to connect to the
+other internal lab hosts via SSH.
 
-You can use your `oselab` administration VM as a jump box to connect to the other internal lab hosts via SSH.
+When you connect to your environment, use only your OPENTLC credentials and SSH
+ key to connect directly into your administration VM.
+
+
 
 endif::showscript[]

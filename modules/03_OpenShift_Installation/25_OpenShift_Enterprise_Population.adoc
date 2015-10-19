@@ -1,0 +1,33 @@
+== OpenShift Enterprise Population
+:noaudio:
+
+.Image Streams
+
+* xPaaS middleware image streams provide images for:
+** Red Hat JBoss Enterprise Application Platform
+** Red Hat JBoss Web Server
+** Red Hat JBoss A-MQ
+
+* Can use images to build applications for those platforms
+
+** To create image streams for xPaaS middleware images:
++
+----
+$ oc create -f \
+    examples/xpaas-streams/jboss-image-streams.json
+    -n openshift
+----
+
+ifdef::showscript[]
+
+=== Transcript
+
+Red Hat provides xPaas middleware image streams for  Red Hat JBoss Enterprise Application Platform, Red Hat JBoss Web Server, and Red Hat JBoss A-MQ.
+
+You can use the image streams to build application for these platforms.
+
+Use the first code sample shown here to create the image streams for xPaaS middleware images.
+
+
+endif::showscript[]
+

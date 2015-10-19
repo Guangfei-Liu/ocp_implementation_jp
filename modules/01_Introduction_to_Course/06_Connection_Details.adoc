@@ -18,21 +18,21 @@ ifdef::showscript[]
 
 === Transcript
 
-The tables on the next three slides show the connection details to use when setting up and
-connecting to the lab environment. This information is repeated in the labs as
-required.
+The tables on the next three slides show the connection details to use when
+setting up and connecting to the lab environment. This information is repeated
+in the labs as required.
 
-The lab provisioning email you receive after you provision the lab from `labs.opentlc.com` provides the external IPs.
+External IPs are provided by the lab provisioning email you receive after you
+provision the lab from `labs.opentlc.com`.
 
-You use the master host to manage the state of the OpenShift cluster/environment. It hosts the web console and the API endpoint.
+You use the master host to manage the state of the OpenShift cluster/environment.
+ It hosts the web console and the API endpoint.
 
-The infranode host is a regular node to host _pods_ and _containers_. You use it only for infrastructure-related applications such as the router and Docker registry.
+The infranode host is a regular node to host _pods_ and _containers_.
+In this training it is used for infrastructure-related applications such as the
+ router and Docker registry.
 
 The `GUID` is a four-character generated unique identifier assigned to your lab environment. The provisioning email also provides your GUID.
 
 
 endif::showscript[]
-
-
-
-

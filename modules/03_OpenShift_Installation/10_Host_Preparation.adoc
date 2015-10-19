@@ -1,46 +1,39 @@
 == Host Preparation
 :noaudio:
 
-.Host Preparation - Firewalls
-OpenShift relies heavily on iptables under the covers. As such, it must be
-running, and various ports will need to be opened to allow communication between
- OpenShift components.
+.Firewalls: Component Communication
 
-* Node-To-Node
-- 4789 : required between nodes for SDN communication between pods on separate
- hosts
+* OpenShift Enterprise relies on `iptables` 
+* Must be running, and following ports must be open
+* Allows communication between components
 
-* Nodes-To-Master
-- 53: DNS services within the environment (This is not the DNS for extarnal
-  access)
-- 4789 : required between nodes for SDN communication between pods on separate
+[cols="2,1,5"]
+|=======================================================================
+|Communication |Port |Description
+|*Node to Node* |`4789` |Required between nodes for SDN communication between pods on separate
  hosts
-- 8443 : Access to the API
+|*Node to Master* |`53` |Provides DNS services within the environment (not DNS for external access)
+| |`4789` |Required between nodes for SDN communication between pods on separate
+ hosts
+| |`8443` |Provides access to the API
+|*Master to Node* |`10250` |Endpoint for master communication with nodes
+| |`4789` |Required between nodes for SDN communication between pods on separate
+ hosts
+|*Master to Master*  |`4789` |Required between nodes for SDN communication between pods on separate
+ hosts
+|=======================================================================
 
-* Master-To-Node
-- 10250 : endpoint for master communication with nodes
-- 4789 : required between nodes for SDN communication between pods on separate
- hosts
-
-* Master to Master
-- 4789 : required between nodes for SDN communication between pods on separate
- hosts
 
 ifdef::showscript[]
 
 === Transcript
 
-The following ports need to be allowed between the different components of the
-environment, note that port 4789 is required to be accessiable from any to any
-host in the cluster as it is required for the SDN overlay.
+OpenShift Enterprise relies heavily on `iptables` in the background. So `iptables` must be running, and various ports must be open to allow communication between OpenShift Enterprise components.
+ 
+This table shows the ports you need to open. Note that port `4789` must be accessible on any host in the cluster, because it is required for the SDN overlay.
 
-The master is running a local DNS Server, do not confuse this server with the
-DNS server that holds the wildcard DNS entry. This is a DNS server (SkyDNS) that
-is used to resolve local resources, for example, each *service* we define in OSE
-will have a dns entry that can be resolved locally.
+Also note that the master is running a local DNS server. Do not confuse this server with the DNS server that holds the wildcard DNS entry. This is a DNS server (`SkyDNS`) used to resolve local resources--for example, each _service_ you define in OpenShift Enterprise has a `dns` entry that you can resolve locally.
 
 endif::showscript[]
-
-
 
 

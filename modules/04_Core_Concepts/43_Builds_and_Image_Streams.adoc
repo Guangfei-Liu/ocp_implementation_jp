@@ -1,36 +1,41 @@
 == Builds and Image Streams
 :noaudio:
 
-.S2I Advantages - Continued
-
 [horizontal]
-Operational efficiency:: By restricting build operations instead of allowing
-arbitrary actions, such as in a *_Dockerfile_*, the PaaS operator can avoid
-accidental or intentional abuses of the build system.
+Operational efficiency:: 
 
-Operational security:: Building an arbitrary *_Dockerfile_* exposes the host
-system to root privilege escalation. This can be exploited by a malicious user
-because the entire docker build process is run as a user with docker privileges.
-S2I restricts the operations performed as a root user, and can run the scripts
-as a non-root user.
+* PaaS operator restricts build operations instead of allowing arbitrary actions, such as in `Dockerfile`
+* Can avoid accidental or intentional abuses of build system
 
-User efficiency:: S2I prevents developers from performing arbitrary `yum
-install` type operations during their application build, which results in slow
-development iteration.
+Operational security:: 
 
-Ecosystem:: S2I encourages a shared ecosystem of images where you can leverage
-best practices for your applications.
+* Building arbitrary `Dockerfile` exposes host system to root privilege escalation
+* Malicious user can exploit this because Docker build process is run as user with Docker privileges
+* S2I restricts operations performed as root user and can run scripts as non-root user
+
+User efficiency:: 
+
+* S2I prevents developers from performing arbitrary `yum install` type operations during application build
+* Results in slow development iteration
+
+Ecosystem efficiency:: 
+
+* S2I encourages shared ecosystem of images
+* Can leverage best practices for applications
 
 ifdef::showscript[]
-=== Transcript
-A few more advantages of the S2I process are the efficiencies it provides and
-the operational security advantages.
 
-By restricting build operations instead of allowing
-arbitrary actions, such as in a *_Dockerfile_*, the PaaS operator can avoid
-accidental or intentional abuses of the build system. S2I prevents developers
-from performing arbitrary `yum install` type operations during their application
- build, which results in slow development iteration.
+=== Transcript
+
+A few more advantages of the S2I process are the operational efficiencies it provides and its operational security advantages.
+
+With regard to operational efficiencies, the PaaS operator can use S2I to restrict build operations and not allow arbitrary actions, such as in a `Dockerfile`, and thus avoid accidental or intentional abuses of the build system. 
+
+With regard to operational security, building an arbitrary `Dockerfile` exposes the host system to root privilege escalation. A malicious user can exploit this because the entire Docker build process is run as a user with Docker privileges. S2I automatically restricts the operations performed as a root user, and can run the scripts as a non-root user.
+
+With regard to user efficiency, S2I prevents developers from performing arbitrary `yum install`-type operations during their application build. Performing these types of operations results in slow development iteration. 
+
+With regard to ecosystem efficiency, S2I encourages a shared ecosystem of images where you can leverage best practices for your applications.
 
 
 endif::showscript[]

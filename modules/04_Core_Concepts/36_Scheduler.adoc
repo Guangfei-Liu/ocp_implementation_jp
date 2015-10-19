@@ -1,11 +1,11 @@
 == Scheduler
 :noaudio:
 
-.Topology Examples
+.Topology Example 1
 
 
-* Example: Three topological levels defined as region, zone and rack
-** Levels: region (affinity) -> zone (affinity) -> rack (anti-affinity)
+* Example: Three topological levels
+** Levels: `region` (affinity) -> `zone` (affinity) -> `rack` (anti-affinity)
 +
 [source,json]
 ----
@@ -23,22 +23,18 @@
 }
 ----
 
-NOTE: In all of the sample configurations provided, the list of predicates and
-priority functions is truncated to include only the ones that pertain to the use
-case specified. In practice, a complete/meaningful scheduler policy should
-include most, if not all, of the default predicates and priority functions
-listed above.
-
 
 ifdef::showscript[]
+
 === Transcript
 
-We can use as little or as many topological levels as we like in the
-_Scheduler_.
-Here is an example of three topological levels defined as region, zone and rack
+You can use as many or as few topological levels as you like in the scheduler.
 
-This policy will create a scheduling process that will put pods in the same
-Region and Zone but spread the pods between the Racks within the zone.
+The example shown here defines three topological levels: `region`, `zone`, and `rack`.
+
+This policy creates a scheduling process that puts pods in the same `region` and `zone` but spreads the pods among the `racks` within each zone.
+
+Note that in all of the sample configurations provided, the list of predicates and priority functions is truncated to include only the ones that pertain to the specified use case. In practice, a complete and meaningful scheduler policy should include most, if not all, of the default predicates and priority functions described earlier in this module.
 
 endif::showscript[]
 

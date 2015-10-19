@@ -1,32 +1,26 @@
 == Routers
 :noaudio:
 
-.Routers - Overview
+.Routers: Overview
 
-* An OpenShift administrator can deploy *routers* (like the HA-Proxy, "Default
-Router") in an OpenShift cluster.
-* These enable `route` resources created by developers to be used by external
-clients.
+* Administrators can deploy _routers_ (like HAProxy `Default Router`) in OpenShift Enterprise cluster
+* Let external clients use `route` resources created by developers
 
-* OpenShift *routers* provide external hostname mapping and load balancing
-to applications over protocols that pass distinguishing information directly to
-the router.
+* Routers provide external hostname mapping and load-balancing to applications over protocols that pass distinguishing information directly to router
 
-* Currently (OSEv3.0.0.0) OpenShift's *Default Router* only support the
-following protocols:
-- HTTP
-- HTTPS
+* In OpenShift Enterprise 3.0.0.0, `Default Router` supports following protocols only:
+** HTTP
+** HTTPS
 
 ifdef::showscript[]
+
 === Transcript
 
-An OpenShift administrator can deploy *routers* (like the HA-Proxy, "Default
-Router") in an OpenShift cluster. These enable routes created by developers to
-be used by external clients.
+An OpenShift Enterprise administrator can deploy _routers_ (like the HAProxy `Default Router`) in an OpenShift Enterprise cluster. These enable external clients to use `route` resources created by developers.
 
-OpenShift routers provide external hostname mapping and load balancing to
-applications over protocols that pass distinguishing information directly to
-the router.
+OpenShift Enterprise routers provide external hostname mapping and load-balancing to applications over protocols that pass distinguishing information directly to the router.
+
+Currently, in OpenShift Enterprise 3.0.0.0, OpenShift Enterprise's `Default Router` supports only HTTP and HTTPS.
 
 endif::showscript[]
 

@@ -1,39 +1,32 @@
 == Routers
 :noaudio:
+
 .Routers and Routes
 
-* A `route` object (NOT *router*) is an object that describes a `service` to
-expose and a host FQDN, for example, A `route` could specify a hostname of
-"myapp.mysubdomain.company.com" and the `service` "MyappFrontend".
-* To allow an external web client to access an application (Pod/Pods) on OSE
-using a DNS name a developer would create a `route` object for his application.
+* `route` object describes `service` to expose and host FQDN
+** Example: `route` could specify hostname `myapp.mysubdomain.company.com` and `service` `MyappFrontend`
+** _Not_ `router`
+* Creating `route` object for application lets external web client access application on OpenShift Enterprise using DNS name
 
-* A router uses the service selector to find the service and the endpoints
-backing the service.
-* *Service-provided load balancing is bypassed* and replaced with the router's own
- load balancing.
-* Routers watch the cluster API and automatically update their own configuration
- according to any relevant changes in the API objects.
- * Routers may be containerized or virtual.
- ** Custom routers can be deployed to communicate modifications of API objects
- to another system, such as an *F5*.
+* Router uses service selector to find service and endpoints backing service
+** Bypasses service-provided load balancing and replaces with router's load balancing
+* Routers watch cluster API and update own configuration based on changes in API objects
+* Routers may be containerized or virtual
+** Can deploy custom routers to communicate API object modifications to another system, such as `F5`
 
 ifdef::showscript[]
+
 === Transcript
-A `route` object (NOT *router*) is an object that describes a `service` to
-expose and a host FQDN, for example, A `route` could specify a hostname of
-"myapp.mysubdomain.company.com" and the `service` "MyappFrontend".
 
-To allow an external web client to access an application (Pod/Pods) on OSE
-using a DNS name a developer would create a `route` object for his application.
+A `route` object is an object that describes a `service` to expose and a host FQDN. For example, a `route` could specify a hostname of `myapp.mysubdomain.company.com` and the `service` `MyappFrontend`. Do not confuse with `router`.
 
-A router uses the service selector to find the service and the endpoints
-backing the `service` defined in the `route`, The *Service-provided load
-balancing is bypassed* and replaced with the router's own
- load balancing.
+To allow an external web client to access an application--the pod or pods--on OpenShift Enterprise using a DNS name, create a `route` object for your application.
 
-Custom routers can be deployed to communicate modifications of API objects to
-another system, such as an *F5*.
+A router uses the service selector to find the service and the endpoints backing the `service` defined in the `route`. This bypasses the service-provided load balancing and replaces it with the router's own load balancing.
+
+Routers watch the cluster API and automatically update their own configuration according to any relevant changes in the API objects. Routers may be containerized or virtual.
+ 
+You can deploy custom routers to communicate modifications of API objects to another system, such as an `F5`.
 
 endif::showscript[]
 

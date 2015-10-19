@@ -1,12 +1,8 @@
 == Replication Controllers
 :noaudio:
 
-.Replication Controllers  Definition file/Manifest
+.Replication Controllers Definition File/Manifest
 
-* Replication controllers are a core Kubernetes object, _ReplicationController_.
-* Here is an example _ReplicationController_ definition with some omissions
-and callouts:
-+
 [source,yaml]
 ----
 apiVersion: v1
@@ -31,18 +27,19 @@ spec:
       restartPolicy: Always
 ----
 
-<1> The number of copies of the pod to run.
-<2> The label selector of the pod to run.
-<3> A template for the pod the controller creates.
-<4> Labels on the pod should include those from the label selector.
 
 ifdef::showscript[]
+
 === Transcript
 
-Replication controllers are a core Kubernetes object, _ReplicationController_.
+Replication controllers are a core Kubernetes object, `ReplicationController`.
 
-Here is an example _ReplicationController_ definition with some omissions
-and callouts.
+Here is a sample `ReplicationController` definition with some omissions and callouts.
+
+. The number of copies of the pod to run.
+. The label selector of the pod to run.
+. A template for the pod the controller creates.
+. Labels on the pod should include those from the label selector.
 
 endif::showscript[]
 

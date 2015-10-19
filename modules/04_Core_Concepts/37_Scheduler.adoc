@@ -1,10 +1,10 @@
 == Scheduler
 :noaudio:
 
-.Topology Examples
-* Example: Three topological levels defined as city, building and room
-** Levels: city (affinity) -> building (anti-affinity) -> room (anti-affinity)
-
+.Topology Example 2
+* Example: Three topological levels
+** Levels: `city` (affinity) -> `building` (anti-affinity) -> `room` (anti-affinity)
++
 [source,json]
 ----
 {
@@ -24,11 +24,10 @@
 
 
 ifdef::showscript[]
+
 === Transcript
 
-Here is another 3 level topology example, this time we try to keep the Pods in
-the same *City* and spread them between the *buildings* and between the *rooms*
-in each building.
+This three-level topology example keeps the pods in the same `city` and spreads them between the `buildings` and the `rooms` in each building.
 
 endif::showscript[]
 

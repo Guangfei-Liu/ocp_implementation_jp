@@ -1,10 +1,10 @@
 == Pods and Services
 :noaudio:
 
-.Service Definition file/Manifest
+.Service Definition File/Manifest
 
-* Like pods, services are REST objects. The following
-example shows the definition of a service for the pod defined above:
+* Like pods, services are REST objects
+* Example: Definition of service for pod defined above:
 +
 [source,yaml]
 ----
@@ -20,36 +20,21 @@ example shows the definition of a service for the pod defined above:
    - nodePort: 0
      port: 5000               <4>
      protocol: TCP
-     targetPort: 5000 <5>
+     targetPort: 5000         <5>
 ----
-
-<1> The service name *docker-registry* is also used to construct an
- environment variable with the service IP that is inserted into other
- pods in the same namespace.
-<2> The label selector identifies all pods with the
- *docker-registry=default* label attached as its backing pods.
-<3> Virtual IP of the service, allocated automatically at creation from a pool
- of internal IPs.
-<4> Port the service listens on.
-<5> Port on the backing pods to which the service forwards connections.
 
 
 ifdef::showscript[]
+
 === Transcript
 
-Like pods, services are REST objects, you will see this method being used a lot
-in this training.
-The following example shows the definition of a service for the pod defined
-above.
+Like pods, services are REST objects. The example shown here provides the definition of a service for the pod defined above.
 
-The service name *docker-registry* is also used to construct an
-environment variable with the service IP that is inserted into other
-pods in the same namespace (or Project).
+. You use the `docker-registry` service name to construct an environment variable with the service IP that is inserted into other pods in the same namespace or project.
+. The label selector identifies all pods with the `docker-registry=default` label attached as the selector's backing pods.
+. When the service is created, it automatically receives a virtual IP, `PortalIP`, chosen from a pool of internal IPs.
+. The `PortalIP` is the port on which the service listens. When you define a new service, you leave this blank to get assigned a random IP.
+. The service uses the `targetPort` to forward connections to the backing pods.
 
-The label selector identifies all pods with the *docker-registry=default* label
-attached as its backing pods.
-
-The _PortalIP_ represents the IP the service will be listening on, when we
-define a new _service_ we will leave this blank to get assigned a random IP.
 endif::showscript[]
 

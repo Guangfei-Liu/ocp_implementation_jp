@@ -1,11 +1,11 @@
 == Scheduler
 :noaudio:
 
-.Topology Examples
+.Topology Example 3
 
-* Only use nodes with the 'region' label defined and prefer nodes with the
-'zone' label defined
-
+* Only use nodes with `region` label defined
+* Prefer nodes with `zone` label defined
++
 [source,json]
 ----
 {
@@ -24,13 +24,11 @@
 ----
 
 ifdef::showscript[]
+
 === Transcript
 
-One last simple example, This policy will mean: a *node* MUST have a *region*
-label, and we will prefer to use a *node* that also has a *zone* label defined.
+In this example, the policy means that a _node_ must have a _region_ label, and that you prefer to use a _node_ that also has a _zone_ label defined.
 
 endif::showscript[]
-
-
 
 

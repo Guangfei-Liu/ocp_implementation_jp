@@ -23,69 +23,63 @@ endif::[]
 * Overview
 * Containers and Images
 * Pods and Services
-* Projects and Users
-* Builds and ImageStreams
+* Scheduler
+* Builds and Image Streams
 * Replication Controllers
 * Routers
 
 ifdef::showscript[]
 
 === Transcript
-Welcome to Module 04 of the OpenShift Enterprise Implementation course.
-In this module we will learn about some of the core concepts in OSE3.0, We will
-discuss Containers and Images, Pods and Services who represent them, Projects
-and the users who use them and review Builds, ImageStreams, deployments, routes
-and Templates.
 
-We will dive deeper into most of these topics later in the training as well.
+Welcome to module four of the OpenShift Enterprise Implementation course.
+
+This module presents some of the core concepts in OpenShift Enterprise 3.0. It discusses containers and images, pods and the services that represent them, and projects and the users who use them. 
+
+It also reviews builds, image streams, deployments, routes, and templates.
 
 endif::showscript[]
+
 == Overview
 :noaudio:
 
-The following module provide high-level, architectural information on core
-concepts and objects you will encounter when using OpenShift.
+//Shachar, consider combining this slide with the Module Topics slide. In either case, it seems like the items in the left column should map to the topic titles in this module. For example, should "Projects and users" be "Scheduler" and should "Deployments" be "Replication Controllers?" If you want to combine the slides, then lose the table and add the descriptions to the script.
 
-Many of these objects come from Kubernetes, which is extended by OpenShift to provide
-a more feature-rich development lifecycle platform.
-
-We will learn about:
-
-* *Containers and images* that are the building blocks
-for deploying your applications.
-* *Pods and services* that allow for containers to
-communicate with each other and proxy connections.
-* *Projects and users* that provide the space and means
-for communities to organize and manage their content together.
-* *Builds and image streams* that allow you to
-build working images and react to new images.
-* *Deployments* add expanded support for the software
-development and deployment lifecycle.
-* *Routes* announce your service to the world.
-* *Templates* allow for many objects to be created at once
-based on customized parameters.
+[cols="2,3"]
+|===================================================================
+|Concept/Object |Description
+|*Containers and images* |Building blocks for deploying applications
+|*Pods and services* |Let containers communicate with each other and with proxy connections
+|*Projects and users* |Provide means for communities to organize and manage content together
+|*Builds and image streams* |Let you build working images and react to new images
+|*Deployments* |Add support for software development and deployment lifecycle
+|*Routes* |Announce service to the world
+|*Templates* |Let you create many objects at once based on parameters
+|===================================================================
 
 ifdef::showscript[]
 
 === Transcript
 
-The following module provide high-level, architectural information on core
-concepts and objects you will encounter when using OpenShift.
+This module provides high-level architectural information on core concepts and objects you will encounter when using OpenShift Enterprise.
 
-Many of these objects come from Kubernetes, which is extended by OpenShift to provide
-a more feature-rich development lifecycle platform.
+Many of these objects come from Kubernetes. OpenShift Enterprise expands Kubernetes to provide a more feature-rich development lifecycle platform.
 
-We will learn about:
-Containers and images, that are the building blocks
-for deploying your applications. About, Pods and services that allow for
-containers to communicate with each other and proxy connections.
+This module discusses the following:
 
-We will also cover Projects and users that provide the space and means
-for communities to organize and manage their content together.
+* Containers and images, which are the building blocks for deploying your applications
 
-Builds and image streams that allow you to build working images and react to new
- images. Deployments add expanded support for the software development and
- deployment lifecycle.
+* Pods and services, which let containers communicate with each other and with proxy connections
+
+* Projects and users, which provide the space and means for communities to organize and manage their content together
+
+* Builds and image streams, which let you build working images and react to new images
+ 
+* Deployments, which add expanded support for the software development and deployment lifecycle
+
+* Routes, which announce your service to the world
+
+* Templates, which let you create many objects at once based on customized parameters
 
 endif::showscript[]
 
@@ -94,59 +88,50 @@ endif::showscript[]
 
 .Containers
 
-* The basic units of OpenShift applications are called containers.
-* link:https://access.redhat.com/articles/1353593[Linux container technologies]
-are lightweight mechanisms for isolating running processes so that they are
-limited to interacting with only their designated resources.
-* Many application instances can be running in containers on a single host
-without visibility into each others' processes, files, network, and so on.
-* Typically, each container provides a single service (often called a
-  "micro-service"), such as a web server or a database, though containers can
-  be used for arbitrary workloads.
+* Basic units of OpenShift Enterprise applications
+* Lightweight mechanisms for isolating running processes
+** Limits processes to interacting with designated resources only
+* Can run many application instances in containers on single host
+** No visibility into other processes, files, network, etc.
+* Container typically provides single service (_microservice_)
+** Web server or database
+* Can use containers for arbitrary workloads
+* More info on Linux container technologies: https://access.redhat.com/articles/1353593
 
 ifdef::showscript[]
 
 === Transcript
-The basic units of OpenShift applications are called containers, Containers are
-lightweight mechanisms for isolating running processes so that they are limited
-to interacting with only their designated resources.
 
-With the use of containers, many application instances can be running in
-containers on a single host without visibility into each others' processes,
-files, network, and so on.
+Containers are the basic units of OpenShift Enterprise applications. Containers are lightweight mechanisms for isolating running processes so that these processes interact only with their designated resources.
 
-Typically, each container provides a single service (often called a
-  "micro-service"), such as a web server or a database, though containers can
-  be used for arbitrary workloads.
+You can run many application instances in containers on a single host without visibility into each others' processes, files, network, and so on.
+
+Typically, each container provides a single service (often called a _microservice_), such as a web server or a database. However, you can also use containers for arbitrary workloads.
 
 endif::showscript[]
 
 == Containers and Images
 :noaudio:
 
-.Containers Continued
+.Containers: Docker
 
-* The Linux kernel has been incorporating capabilities for container technologies
-for years.
-* More recently the link:https://www.docker.com/whatisdocker/[Docker project]
-has developed a convenient management interface for Linux containers on a host.
-* OpenShift and Kubernetes add the ability to orchestrate Docker containers across
-multi-host installations.
+* Historically, Linux kernel incorporated capabilities for container technologies
+* More recently, Docker project developed management interface for Linux containers on host
+** Learn more: https://www.docker.com/whatisdocker/
+* OpenShift Enterprise and Kubernetes let you orchestrate Docker containers across multi-host installations
 
-NOTE: Though you do not directly interact with Docker tools when using
-OpenShift, understanding Docker's capabilities and terminology is
-important for understanding its role in OpenShift and how your
-applications function inside of containers.
 
 ifdef::showscript[]
 
 === Transcript
- he Linux kernel has been incorporating capabilities for container technologies
- for years. Recently the Docker project has developed a convenient management
- interface for Linux containers on a host.
 
- OpenShift and Kubernetes add the ability to orchestrate Docker containers
- across multi-host installations.
+The Linux kernel has been incorporating capabilities for container technologies for years. 
+
+Recently, the Docker project has developed a convenient management interface for Linux containers on a host.
+
+OpenShift Enterprise and Kubernetes add the ability to orchestrate Docker containers across multi-host installations.
+
+Note that although you do not directly interact with Docker tools when using OpenShift Enterprise, you should know about Docker's capabilities and terminology to understand its role in OpenShift Enterprise and how your applications function inside containers.
 
 endif::showscript[]
 
@@ -155,96 +140,87 @@ endif::showscript[]
 
 .Docker Images
 
-* Docker containers are based on Docker images.
-** A Docker image is a binary that includes all of the requirements for running a single Docker
-container, as well as metadata describing its needs and capabilities.
-* You can think of it as a packaging technology.
-* Docker containers only have access to resources defined in the image, unless
-you give the container additional access when creating it.
-* By deploying the same image in multiple containers across multiple hosts and
-load balancing between them, OpenShift can provide redundancy and horizontal scaling
-for a service packaged into an image.
+* Docker containers based on Docker images
+* *Docker image*: Binary that includes:
+** Requirements for running single Docker container
+** Metadata describing needs and capabilities
+** Similar to packaging technology
+* Docker containers can access only resources defined in image
+** Unless you give container additional access when creating it
+* Can deploy image in multiple containers across multiple hosts and load-balance among them
+** Lets OpenShift Enterprise provide redundancy and horizontal scaling for service packaged into image
 
 ifdef::showscript[]
 
 === Transcript
-A "running" instance of a Docker Image is referred to as a "Container", A Docker
- image is a binary that includes all of the requirements for running a single
- Docker container, as well as metadata describing its needs and capabilities.
 
-By deploying the same image in multiple containers across multiple hosts and
-load balancing between them, OpenShift can provide redundancy and horizontal
-scaling for a service packaged into an image.
+A running instance of a Docker image is referred to as a container.
+
+A Docker image is a binary that includes all of the requirements for running a single Docker container, as well as metadata describing its needs and capabilities.
+
+You can think of it as a packaging technology.
+
+Docker containers have access only to resources defined in the image, unless you give the container additional access when you create it.
+
+By deploying the same image in multiple containers across multiple hosts and load-balancing among them, OpenShift Enterprise can provide redundancy and horizontal scaling for a service packaged into an image.
 
 endif::showscript[]
 
 == Containers and Images
 :noaudio:
 
-.Docker Images
+.Building and Naming Images
 
-* You can use Docker directly to build images, but OpenShift also supplies
-builders that assist with creating an image by adding your code or
-configuration to existing images.
+* Can build images directly with Docker tools
+* OpenShift Enterprise supplies builders to help create new image by adding code or configuration to existing images
 
-* Since applications develop over time, a single image name can actually
-refer to many different versions of the "same" image.
-** Each different image is referred to uniquely by its hash (a long hexadecimal
-  number e.g. `fd44297e2ddb050ec4f...`) which is usually shortened to 12
-characters (e.g. `fd44297e2ddb`).
-** Rather than version numbers, Docker allows applying tags (such as `v1`, `v2.1`
-  , `GA`, or the default `latest`)
-** in addition to the image name to further specify the image desired, so
-you may see the same image referred to as `rhel` (implying the `latest`
-tag), `rhel:rhel7`, or `fd44297e2ddb`.
-
+* Single image name can refer to different versions of same image
+* Every image version identified by unique long hexadecimal number, or _hash_
+** Example: `fd44297e2ddb050ec4f...`
+** Usually shortened to 12 digits
+*** Example: `fd44297e2ddb`
+* Can apply tags instead of version numbers
+** Examples: `v1`, `v2.1`, `GA`, `latest` (default)
+** May see same image referred to as `rhel` (implies `latest` tag), `rhel:rhel7`, `fd44297e2ddb`
 
 ifdef::showscript[]
 
 === Transcript
 
- You can use Docker directly to build images, but OpenShift also supplies
- builders that assist with creating an image by adding your code or
- configuration to existing images.
+You can use Docker to build images directly, but OpenShift Enterprise also supplies builders that assist with creating an image by adding your code or configuration to existing images.
 
- Since applications develop over time, a single image name can actually
- refer to many different versions of the "same" image, Each different image is
- referred to uniquely by its hash which is usually shortened to 12
-characters.
+Because applications develop over time, a single image name can actually refer to many different versions of the same image. Every version of every image is identified by a unique hash, a long hexademical number that is usually shortened to 12 digits.
 
-Rather than version numbers, Docker allows applying tags (such as `v1`, `v2.1`
-  , `GA`, or the default `latest`)
-
-
+Rather than version numbers, Docker lets you apply tags to the image name to more precisely specify the image desired. So, for example, you might see the same image identified by the `rhel` tag (which implies the `latest` tag), the `rhel:rhel7` tag, or the `fd44297e2ddb` hash.
 
 endif::showscript[]
 
 == Containers and Images
 :noaudio:
 
-.Docker Registries
+.Docker Registry
 
-* A Docker registry is a service for storing and retrieving Docker images.
-* A registry contains a collection of one or more Docker image repositories.
-* Each image repository contains one or more tagged images.
-* Docker provides its own registry, the
-link:https://registry.hub.docker.com/[Docker Hub], but you may
-also use private or third-party registries.
-* Red Hat provides a Docker registry at `registry.access.redhat.com` for
-subscribers.
-* OpenShift can also supply its own internal registry for managing custom Docker
-images.
+* Service for storing and retrieving Docker images
+* Contains one or more Docker image repositories
+** Repository contains one or more tagged images
+* Docker provides own registry, Docker Hub
+** Learn more:
+https://registry.hub.docker.com/
+** Can also use private or third-party registries
+* Red Hat provides Docker registry at `registry.access.redhat.com` for subscribers
+* OpenShift Enterprise can supply internal registry for managing Docker images
 
 ifdef::showscript[]
+
 === Transcript
-A Docker registry is a service for storing and retrieving Docker images, a user
-can "pull" and "push" images from and to the registry.
 
-Red Hat provides a Docker registry, with certified images  at
-`registry.access.redhat.com` for subscribers.
+A Docker registry is a service for storing and retrieving Docker images. A registry contains a collection of one or more Docker image repositories. Each image repository in turn contains one or more tagged images. A user can _pull_ and _push_ images from and to the registry.
 
-In OSE3.0 we will usually create our own registry, referred to as the
-"Integrated Registry" and use it to push our S2I created images.
+Docker provides its own registry, the Docker hub, but you can also use private or third-party registries.
+
+Red Hat provides a Docker registry with certified images at `registry.access.redhat.com` for subscribers.
+
+In OpenShift Enterprise 3.0, you usually create your own registry, referred to as the `Integrated Registry`, and use it to push your S2I-created images.
 
 
 endif::showscript[]
@@ -255,25 +231,25 @@ endif::showscript[]
 
 .Pods Overview
 
-* OpenShift leverages the Kubernetes concept of a `pod`, which is one or more
-containers deployed together on one host, and the smallest compute unit that can
-be defined, deployed, and managed.
+* OpenShift Enterprise leverages Kubernetes concept of _pod_
+* *Pod*: One or more containers deployed together on host
+** Smallest compute unit you can define, deploy, manage
 
-* Pods are the rough equivalent of OpenShift v2 gears, with containers
-the rough equivalent of v2 cartridge instances.
-** Each pod is allocated its own internal IP address, therefore owning its
-entire port space, and containers within pods can share their local storage and
-networking.
+* Pods equivalent of OpenShift Enterprise 2.0 _gears_
+* Containers equivalent of OpenShift Enterprise 2.0 _cartridge instances_
+
+* Each pod allocated own internal IP address, owns entire port space
+* Containers within pods can share local storage and networking
 
 ifdef::showscript[]
-=== Transcript
-OpenShift leverages the Kubernetes concept of a `pod`, which is one or more
-containers deployed together on one host, and the smallest compute unit that can
-be defined, deployed, and managed.
 
-Each pod is allocated its own internal IP address, therefore owning its
-entire port space, and containers within pods can share their local storage and
-networking.
+=== Transcript
+
+OpenShift Enterprise leverages the Kubernetes concept of a _pod_, which is one or more containers deployed together on one host. A pod is the smallest compute unit that you can define, deploy, and manage.
+
+Pods are the rough equivalent of OpenShift Enterprise 2.0 _gears_, while containers are the rough equivalent of OpenShift Enterprise 2.0 _cartridge instances_.
+
+Each pod is allocated its own internal IP address, thus owning its entire port space. Containers within pods can share their local storage and networking.
 
 
 endif::showscript[]
@@ -281,26 +257,31 @@ endif::showscript[]
 == Pods and Services
 :noaudio:
 
-.Pods Overview - Continued
+.Pod Changes and Management
 
-* OpenShift treats pods as largely "static"; changes cannot be made to
-a pod definition while it is running.
+* OpenShift Enterprise treats pods as _static_
+** Cannot change pod definition while running
 
-* OpenShift implements changes by terminating an existing pod and recreating it
-with modified configuration, base image(s), or both.
-* Pods are also treated as expendable, and *do not maintain state* when recreated.
-* Therefore pods should usually be managed by higher-level _controllers_ rather
-than directly by users.
+* To implement changes, OpenShift Enterprise:
+** Terminates existing pod
+** Recreates it with modified configuration, base image(s), or both
+
+* Pods are expendable, do not maintain state when recreated
+* Should use higher-level _controllers_ to manage pods
+** Not direct management by users
 
 ifdef::showscript[]
-=== Transcript
-OpenShift treats pods as largely "static"; changes cannot be made to
-a pod definition while it is running, when we want to change a pod we will
-"Recreate" it rather than "modify" it.
 
-Therefore pods should usually be managed by higher-level _controllers_, such as
-"Deployment Configurations" and "Replication controllers" rather
-than directly by users.
+=== Transcript
+
+OpenShift Enterprise treats pods as largely _static_. You cannot change a pod definition while it is running. When you want to change a pod, you _recreate_ rather than _modify_ it.
+
+OpenShift Enterprise implements changes by terminating an existing pod and recreating it with a modified configuration, base image(s), or both.
+
+OpenShift also treats pods as expendable. Pods do not maintain state when recreated.
+
+Because of this, you use higher-level _controllers_, such as _deployment configurations_ and _replication controllers_, to manage pods, rather than allow users to manage pods directly.
+
 
 endif::showscript[]
 
@@ -310,32 +291,33 @@ endif::showscript[]
 
 .Pods Lifecycle
 
-* Pods have a lifecycle they are; *defined*, then they are *assigned* to run on
-a node, then they *run* until their container(s) exit or they are removed
-for some other reason.
-* Pods, depending on policy and exit code, may be removed after exiting, or may
-be retained in order to enable access to the logs of their containers.
+* Lifecycle:
+** Pod is _defined_
+** _Assigned_ to run on node
+** _Runs_ until containers exit or pods are removed
+
+* After exiting, pods may be:
+** Removed
+** Retained to enable access to container logs
 
 ifdef::showscript[]
+
 === Transcript
 
-Pods have a lifecycle they are; *defined*, then they are *assigned*, by the
-"Scheduler" to run on a specific node, then they *run* until their container(s)
-exit or they are removed for some other reason.
+Pods have the following lifecycle: They are _defined_, then they are _assigned_ by the scheduler to run on a specific node. They then _run_ until their container(s) exit or they are removed for some other reason.
+
+Depending on policy and exit code, pods may be removed after exiting, or they may be retained to enable access to their containers' logs.
 
 endif::showscript[]
 
 == Pods and Services
 :noaudio:
 
-.Pods Definition file/Manifest
+.Pods Definition File/Manifest
 
-* Below is an example definition of a pod that provides a long-running
-service, which is actually a part of the OpenShift infrastructure: the
-*private Docker integrated registry*.
-* It demonstrates many features of pods, most of which are discussed in other
-topics and thus only briefly mentioned here.
-* We'll break the file into a few slides to make it easier to follow:
+* Example definition of pod that provides long-running service
+** Part of OpenShift Enterprise infrastructure: _Private Docker integrated registry_
+** Demonstrates many pod features
 +
 [source,yaml]
 ----
@@ -343,32 +325,27 @@ topics and thus only briefly mentioned here.
  kind: Pod
  metadata:
    annotations: { ... }
-   labels:                                <1>
+   labels:                               // <1>
      deployment: docker-registry-1
      deploymentconfig: docker-registry
      docker-registry: default
-   generateName: docker-registry-1-       <2>
+   generateName: docker-registry-1-     //  <2>
 
 ----
-<1> Pods can be "tagged" with one or more *labels*, which can then
- be used to select and manage groups of pods in a single operation. The labels
- are stored in key/value format in the *metadata* hash. One label in this
- example is *docker-registry=default*.
-<2> Pods must have a unique name within their _namespace_. A pod definition may
-specify the basis of a name with the *generateName* attribute, and random
-characters will be added automatically to generate a unique name.
 
 ifdef::showscript[]
+
 === Transcript
-Below is an example definition of a pod that provides a long-running
-service, which is actually a part of the OpenShift infrastructure.
 
-Pods can be "tagged" with one or more *labels*, which can then
- be used to select and manage groups of pods in a single operation.
+Here is an example definition of a pod that provides a long-running service. This is actually a part of the OpenShift Enterprise infrastructure, the _private Docker integrated registry_.
 
- Pods must have a unique name within their _namespace_. A pod definition may
- specify the basis of a name with the *generateName* attribute, and random
- characters will be added automatically to generate a unique name.
+The sample demonstrates many features of pods. The next few slides examine the file in smaller chunks to make it easier to follow.
+
+Note the following:
+
+. You can _tag_ pods with one or more _labels_. You can then use the labels to select and manage groups of pods in a single operation.
+
+. Pods must have a unique name within their _namespace_. In the pod definition, you can specify a base name and use the `generateName` attribute to automatically add random characters at the end of the base name, thus generating a unique name.
 
 
 endif::showscript[]
@@ -376,7 +353,7 @@ endif::showscript[]
 == Pods and Services
 :noaudio:
 
-.Pods Definition file/Manifest - Continued
+.Pods Definition File/Manifest: `containers` and `env`
 
 [source,yaml]
 ----
@@ -394,26 +371,23 @@ endif::showscript[]
      - name: OPENSHIFT_MASTER
        value: https://master.example.com:8443
 ----
-<1> *containers* specifies an array of container definitions; in this case (as
- with most), just one.
-<2> Environment variables can be specified to pass necessary values to each
- container. (For example, these can be credentials and database connection details)
+
 
 ifdef::showscript[]
+
 === Transcript
-*containers* specifies an array of container definitions; in this case (as
-with most), just one.
 
-Environment variables can be specified to pass necessary values to each
- container. (For example, these can be credentials and database connection details)
+This example illustrates the `containers` and `env` commands:
 
+. `containers` specifies an array of container definitions--in this case (as with most), just one.
+. You can specify variables (`env`) to pass necessary values to each container. For example, these can be credentials and database connection details.
 
 endif::showscript[]
 
 == Pods and Services
 :noaudio:
 
-.Pods Definition file/Manifest - Continued
+.Pods Definition File/Manifest: Container
 [source,yaml]
 ----
      image: openshift3/docker-registry:v0.6.2 <1>
@@ -432,37 +406,24 @@ endif::showscript[]
        readOnly: true
 ----
 
-<1> Each container in the pod is instantiated from its own _Docker image_.
-<2> The container can bind to ports which will be made available on the pod's IP.
-<3> OpenShift defines a _security context_ for containers which specifies
-whether they are allowed to run as privileged containers, run as a user of their
-choice, and more. The default context is very restrictive but administrators can
- modify this as needed.
-<4> The container specifies where external storage volumes should be mounted
-within the container. In this case, there is a volume for storing the registry's
- data, and one for access to credentials the registry needs for making requests
- against the OpenShift API.
 
 ifdef::showscript[]
+
 === Transcript
-Each container in the pod is instantiated from its own _Docker image_, The
-container can bind to ports which will be made available on the pod's IP.
 
-OpenShift defines a _security context_ for containers which specifies
-whether they are allowed to run as privileged containers, run as a user of their
-choice, and more. The default context is very restrictive but administrators can
- modify this as needed.
+Here you see a container definition:
 
- The container specifies where external storage volumes should be mounted
- within the container. The second volume in this example is used to provide a
- "secret" value for the Pod to use.
+. Each container in the pod is instantiated from its own Docker image.
+. The container can bind to ports, which are available on the pod's IP.
+. OpenShift Enterprise defines a _security context_ for containers that specifies whether they can run as privileged containers, run as a user of their choice, and more. The default context is highly restrictive, but administrators can modify this as needed.
+. The container specifies where external storage volumes should be mounted within the container. In this case, one volume stores the registry's data, another provides access to credentials the registry needs to make requests against the OpenShift Enterprise API.
 
 endif::showscript[]
 
 == Pods and Services
 :noaudio:
 
-.Pods Definition file/Manifest - Continued
+.Pods Definition File/Manifest: Requests and Storage Volumes
 
 [source,yaml]
 ----
@@ -479,27 +440,17 @@ endif::showscript[]
        secretName: default-token-br6yz
 ----
 
-<1> Pods making requests against the OpenShift API is a common enough pattern
- that there is a `serviceAccount` field for specifying which _service account_
-  user the pod should authenticate as when making the requests. This enables
-  fine-grained access control for custom infrastructure components.
-<2> The pod defines storage volumes that are available to its container(s) to
- use. In this case, it provides an ephemeral volume for the registry storage and
- a *secret* volume containing the service account credentials.
-
 
 ifdef::showscript[]
+
 === Transcript
 
-Pods making requests against the OpenShift API is a common enough pattern
-  that there is a `serviceAccount` field for specifying which _service account_
-   user the pod should authenticate as when making the requests.
+In this example, you see how pods make requests and define storage volumes:
 
-The pod defines storage volumes that are available to its container(s) to use.
-In this case, it provides an ephemeral volume for the registry storage and a
-*secret* volume containing the service account credentials.
+. Pods commonly make requests against the OpenShift Enterprise API and need authentication to do so. The `serviceAccount` field specifies the _service account_ user that the pod should use to authenticate when making requests. This enables fine-grained access control for custom infrastructure components.
+. The pod defines storage volumes that its container(s) can use. In this case, it provides an ephemeral volume for the registry storage and a `secret` volume containing the service account credentials.
 
-You can learn more about using "secrets" in the developer guide documentation.
+You can learn more about using _secrets_ in the developer guide documentation.
 
 endif::showscript[]
 
@@ -508,51 +459,41 @@ endif::showscript[]
 
 .Services
 
-* A Kubernetes _service_ serves as an *internal* load balancer.
- It identifies a set of replicated _pods_ in order to proxy the connections it
- receives to them.
-* Backing pods can be added to or removed from a service arbitrarily while the
- _service_ remains consistently available, enabling anything that depends on the
- _service_ to refer to it at a consistent internal address.
+* Kubernetes service serves as internal load-balancer
+** Identifies set of replicated pods
+** Proxy connections it receives to identified pods
+* Can add or remove backing pods to or from service while service remains consistently available
+** Lets anything depending on service refer to it at consistent internal address
 
-* Services are assigned an IP address and port pair that, when accessed,
- proxy to an appropriate backing pod.
-* A service uses a label selector to find  all the containers running that
- provide a certain network service on a certain port.
-* A server can be accessed by its IP address and a local DNS name created and
-resolved by the local DNS server on the master.
-
-NOTE: When we use the "_Default Router_" (HA-Proxy) we bypass the _Service_ load
-balancing. We only use the _Service_ to find out which _Pods_ are represented by
- The Service and load balancing use done by the "_Router_"
+* Assign services IP address and port pair
+** Proxy to appropriate backing pod when accessed
+* Service uses label selector to find running containers that provide certain network service on certain port
+* Can access server by IP address and DNS name
+** Name created and resolved by local DNS server on master
 
 ifdef::showscript[]
+
 === Transcript
 
-A Kubernetes _service_ serves as an *internal* load balancer.
-It identifies a set of replicated _pods_ in order to proxy the connections it
-receives to them. A service uses a label selector to find  all the containers
-running that provide a certain network service on a certain port.
+A Kubernetes _service_ serves as an internal load-balancer. It identifies a set of replicated _pods_ and then proxies the connections it receives to those pods. 
 
-Services are assigned an IP address and port pair that, when accessed,
-proxy to an appropriate backing pod. Backing pods can be added to or removed
-from a service arbitrarily while the _service_ remains consistently available,
-enabling anything that depends on the _service_ to refer to it at a consistent
-internal address.
+You can add or remove backing pods to or from a service arbitrarily while the service remains consistently available. This lets anything that depends on the service refer to it at a consistent internal address.
 
-When we use the "_Default Router_" (HA-Proxy) we bypass the _Service_ load
-balancing. We only use the _Service_ to find out which _Pods_ are represented by
- The Service and load balancing use done by the "_Router_"
+You assign services an IP address and port pair that, when accessed, proxy to an appropriate backing pod. 
 
+A service uses a label selector to find all the running containers that provide a certain network service on a certain port.
+
+Note that when you use the `Default Router` (HAProxy), you bypass the service load-balancing. You use the service only to find out which pods the service represents. The `Default Router` does the load-balancing.
+ 
 endif::showscript[]
 
 == Pods and Services
 :noaudio:
 
-.Service Definition file/Manifest
+.Service Definition File/Manifest
 
-* Like pods, services are REST objects. The following
-example shows the definition of a service for the pod defined above:
+* Like pods, services are REST objects
+* Example: Definition of service for pod defined above:
 +
 [source,yaml]
 ----
@@ -568,37 +509,22 @@ example shows the definition of a service for the pod defined above:
    - nodePort: 0
      port: 5000               <4>
      protocol: TCP
-     targetPort: 5000 <5>
+     targetPort: 5000         <5>
 ----
-
-<1> The service name *docker-registry* is also used to construct an
- environment variable with the service IP that is inserted into other
- pods in the same namespace.
-<2> The label selector identifies all pods with the
- *docker-registry=default* label attached as its backing pods.
-<3> Virtual IP of the service, allocated automatically at creation from a pool
- of internal IPs.
-<4> Port the service listens on.
-<5> Port on the backing pods to which the service forwards connections.
 
 
 ifdef::showscript[]
+
 === Transcript
 
-Like pods, services are REST objects, you will see this method being used a lot
-in this training.
-The following example shows the definition of a service for the pod defined
-above.
+Like pods, services are REST objects. The example shown here provides the definition of a service for the pod defined above.
 
-The service name *docker-registry* is also used to construct an
-environment variable with the service IP that is inserted into other
-pods in the same namespace (or Project).
+. You use the `docker-registry` service name to construct an environment variable with the service IP that is inserted into other pods in the same namespace or project.
+. The label selector identifies all pods with the `docker-registry=default` label attached as the selector's backing pods.
+. When the service is created, it automatically receives a virtual IP, `PortalIP`, chosen from a pool of internal IPs.
+. The `PortalIP` is the port on which the service listens. When you define a new service, you leave this blank to get assigned a random IP.
+. The service uses the `targetPort` to forward connections to the backing pods.
 
-The label selector identifies all pods with the *docker-registry=default* label
-attached as its backing pods.
-
-The _PortalIP_ represents the IP the service will be listening on, when we
-define a new _service_ we will leave this blank to get assigned a random IP.
 endif::showscript[]
 
 == Pods and Services
@@ -606,39 +532,36 @@ endif::showscript[]
 
 .Labels
 
-* Labels are used to organize, group, or select API objects.
-**  For example, _pods_ are "tagged" with labels, and then
- _services_ use label selectors to identify the pods they
- proxy to.
-** This makes it possible for services to reference groups of pods, even
-treating pods with potentially different docker containers as related entities.
+* Use labels to organize, group, choose API objects
+**  Example: Tag _pods_ with labels so services can use label selectors to identify pods to which they proxy
+** Lets services reference groups of pods
+*** Can treat pods with different Docker containers as related entities
 
-* Most objects can include labels in their metadata. So labels can  be used to
-group arbitrarily-related objects; for example, all of the _pods_, _services_,
- _replication controllers_, and _deployment configurations_ of a particular
- application can be grouped.
+* Most objects can include labels in metadata
+* Can use labels to group arbitrarily related objects
+** Example: Can group application's _pods_, _services_, _replication controllers_, and _deployment configurations_
 
 
 ifdef::showscript[]
+
 === Transcript
 
-Labels are used to organize, group, or select API objects.
-For example, _pods_ are "tagged" with labels, and then _services_ use label
-selectors to identify the pods in their scope.
+You use labels to organize, group, or choose API objects.
 
-Most objects can include labels in their metadata. So labels can  be used to
-group arbitrarily-related objects; for example, all of the _pods_, _services_,
- _replication controllers_, and _deployment configurations_ of a particular
- application can be grouped.
+For example, if you tag _pods_ with labels, _services_ can use label selectors to identify the pods to which they proxy.
+
+Labels allow services to reference groups of pods, even treating pods with potentially different Docker containers as related entities.
+
+Most objects can include labels in their metadata, so you can use labels to group arbitrarily related objects. For example, you can group all of a particular application's _pods_, _services_, _replication controllers_, and _deployment configurations_.
 
 endif::showscript[]
 
 == Pods and Services
 :noaudio:
 
-.Labels - Continued
+.Labels: Examples
 
-* Labels are simple key/value pairs, as in the following example:
+* Labels = Simple key/value pairs:
 +
 [source,yaml]
 ----
@@ -647,29 +570,28 @@ endif::showscript[]
    key2: value2
 ----
 
-* Consider:
- ** A pod consisting of an *nginx* docker container, with the label
- *role=webserver*.
- ** A pod consisting of an *Apache httpd* docker container, with the same label
- *role=webserver*.
- ** A service or replication controller that is defined to use pods with the
- *role=webserver* label treats both of these pods as part of the same group.
+* Scenario:
+** Pod consisting of `nginx` Docker container, with `role=webserver` label
+** Pod consisting of `Apache httpd` Docker container, also with `role=webserver` label
+** Service or replication controller defined to use pods with `role=webserver` label treats both pods as part of same group
 
-* Here is an example how you would remove all the components with the same label
-*app=mytest*.
+* Example: To remove all components with the label `app=mytest`:
 +
 ----
 # oc delete all -l app=mytest
 ----
 
 ifdef::showscript[]
+
 === Transcript
 
-Labels are simple key/value pairs that can be used in almost every type of
-object in OSE.
+Labels are simple key/value pairs that you can use in almost every type of object in OpenShift Enterprise.
 
-Labels are handy to manage groups of resources easily, without them you will be
-required to delete/manage each item independently.
+Labels provide an easy way to manage resources as groups, rather than individually.
+
+For example, say you have two separate pods. One is a `nginx` Docker container, and the other is an `Apache httpd` Docker container. If both are tagged with a `role=webserver` label, the service or replication controller defined to use pods with the `role=webserver` label treats both pods as part of the same group.
+
+The second example here shows how labeing a group of components with `app=mytest` let you delete all of them in one command rather than having to locate and delete each component manually.
 
 endif::showscript[]
 
@@ -679,26 +601,21 @@ endif::showscript[]
 
 .Overview
 
-* The Kubernetes pod scheduler is responsible for determining placement of new
-pods onto nodes within the OSE cluster.
-* It reads data from the pod and tries to find a node that is a good fit based
-on configured policies.
-* It is completely independent and exists as a standalone/pluggable solution.
-* It does not modify the pod and just creates a binding for the pod that ties
-the pod to the particular node.
+* Kubernetes pod scheduler:
+** Determines placement of new pods onto nodes within OpenShift Enterprise cluster
+** Reads pod data and tries to find node that is good fit
+** Is independent, standalone, pluggable solution
+** Does not modify pod, merely creates binding that ties pod to node
 
 ifdef::showscript[]
+
 === Transcript
 
-The Kubernetes pod scheduler is responsible for determining placement of new
-pods onto nodes within the OSE cluster. It reads data from the pod and tries to
-find a node that is a good fit based on configured policies.
+The Kubernetes pod scheduler is responsible for determining placement of new pods onto nodes within the OpenShift Enterprise cluster. It reads data from the pod and tries to find a node that is a good fit based on configured policies.
 
-The _Scheduler_ is completely independent and exists as a standalone/pluggable
-solution.
+The scheduler is completely independent and exists as a standalone, pluggable solution.
 
-It does not modify the pod and just creates a binding for the pod that ties
-the pod to the particular node.
+It does not modify the pod. It simply creates a binding that ties the pod to the selected node.
 
 endif::showscript[]
 
@@ -706,39 +623,35 @@ endif::showscript[]
 :noaudio:
 
 .Scheduler Extensibility
-As is the case with almost everything else in Kubernetes/OpenShift, the
-scheduler is built using a plugin model and the current implementation itself is
-a plugin.  There are two ways to extend the scheduler functionality:
 
-* Enhancements
-** The scheduler functionality can be enhanced by adding new predicates and
-priority functions.  They can either be contributed upstream or maintained
-separately.
-** These predicates and priority functions would need to be registered with the
-scheduler factory and then specified in the scheduler policy file.
+* Scheduler built using plug-in model
+* Current implementation is plug-in
+* Two ways to extend scheduler functionality:
 
-* Replacement
-** Since the scheduler is a plugin, it can be replaced in favor of an alternate
-implementation.
-** The scheduler code has a clean separation that watches new pods as they get
-created and identifies the most suitable node to host them.
-** It then creates bindings (pod to node bindings) for the pods using the master
-API.
+** Enhancements
+*** Add predicates and priority functions
+*** Can be contributed upstream or maintained separately
+*** Need to be registered with scheduler factory and specified in scheduler policy file
+
+** Replacement
+*** Replace scheduler with alternate implementation
+** Scheduler code watches pods as they are created and identifies most suitable node to host them
+*** Uses master API to create pod-to-node bindings for pods
 
 
 
 ifdef::showscript[]
+
 === Transcript
 
-As is the case with almost everything else in Kubernetes/OpenShift, the
-scheduler is built using a plugin model and the current implementation itself is
-a plugin.
+As is the case with almost everything in Kubernetes/OpenShift Enterprise, the scheduler is built using a plug-in model, and the current implementation itself is a plug-in.
 
- There are two ways to extend the scheduler functionality, enhancements and
- replacement, you can either enhance the scheduler functionality by adding new
- predicates and priority functions (These would be covered in the next few
-   slides) or you can completely replace the scheduler plugin with your own
-   implementation.
+You can extend the scheduler functionality in two ways: enhancements and replacement. You can enhance the scheduler functionality by adding new predicates and priority functions. You can either contribute these upstream or maintain them separately. You need to register new predicates and priority functions with the scheduler factory and then specify them in the scheduler policy file.
+
+ 
+Alternatively, because the scheduler is a plug-in, you can replace it with a different implementation. 
+
+The scheduler code has a clean separation that watches new pods as they get created and identifies the most suitable node to host them. It then creates pod-to-node bindings for the pods using the master API.
 
 endif::showscript[]
 
@@ -749,48 +662,40 @@ endif::showscript[]
 
 .Generic Scheduler
 
-* The existing generic scheduler is the default OSE-provided scheduler
-"engine" that selects a node to host the pod in a 3-step operation:
+* OpenShift Enterprise provides generic scheduler
+** Default scheduling _engine_
+** Selects node to host pod in three-step operation:
 
-- Step 1: Filter the nodes
-The available nodes are filtered based on the constraints or requirements
-specified. This is done by running each of the nodes through the list of filter
-functions called 'predicates'.
+. Filter nodes based on specified constraints/requirements
 
-- Step 2: Prioritize the filtered list of nodes
-This is achieved by passing each node through a series of 'priority' functions
-that assign it a score between 0 - 10, with 0 indicating a bad fit and 10
-indicating a good fit to host the pod.
+- Runs nodes through list of filter functions called _predicates_
 
-- Step 3: Select the best fit node
-The nodes are sorted based on their scores and the node with the highest score
-is selected to host the pod. If multiple nodes have the same high score, then
-one of them is selected at random.
+. Prioritize qualifying nodes 
 
-NOTE:  The node score provided by each priority
-function is multiplied by the "weight" and then combined by just adding the
-scores for each node provided by all the priority functions.
+- Pass each node through series of _priority_ functions
+- Assign node score between 0 - 10
+- 0 indicates bad fit, 10 indicates good fit
+
+. Select the best fit node
+
+- Sort nodes based on scores
+- Select node with highest score to host pod
+- If multiple nodes have same high score, select one at random
+- Priority functions equally weighted by default; more important priorities can receive higher weight
 
 ifdef::showscript[]
+
 === Transcript
 
-The existing generic scheduler is the default OSE provided scheduler
-"engine" that selects a node to host the pod in a 3-step operation:
-- Step 1: Filter the nodes, in this step we disqualify any nodes that do not fit
- our requirements.
+OpenShift Enterprise provides a default generic scheduler. It is a scheduling _engine_ that selects a node to host the pod in a three-step operation:
 
-- Step 2: Prioritize the filtered list of nodes, between the nodes that were NOT
- disqualified in the last step, the _Scheduler_ prioritizes the nodes using the
- _Priority_ functions (more on this in the next slides)
+. The scheduler filters all of the available nodes based on specified constraints and requirements by running them through a list of filter functions called _predicates_, and disqualifies the nodes that do not meet the criteria. 
 
-The scheduler configuration can also take in a simple "weight" (positive numeric
-  value) for each priority function. The node score provided by each priority
-  function is multiplied by the "weight" (default weight is 1) and then combined
-   by just adding the scores for each node provided by all the priority
-   functions.
+. It then prioritizes the qualifying nodes that remain by passing them through a series of _priority_ functions that assign each node a score between 0 and 10, where 0 indicates the worst possible fit and 10 the best possible fit to host the pod. 
 
-This weight attribute can be used by administrators to give higher importance to
- some priority functions.
+. The scheduler sorts the nodes by scores and selects the node with the highest score to host the pod. If multiple nodes have the same high score, the scheduler selects one of them at random.
+
+By default, the scheduler considers every priority function to be equally important and gives each one a weight, or positive numeric value, of 1. Administrators can reconfigure the scheduler to give some priority functions more importance by increasing their weight.
 
 endif::showscript[]
 
@@ -798,29 +703,24 @@ endif::showscript[]
 :noaudio:
 
 .Scheduler Policy
-* The selection of the predicate and priority functions defines the policy for
-the scheduler.
-* Administrators can provide a JSON file that specifies the predicates and
-priority functions to configure the scheduler.
-** The path to the  scheduler policy file can be specified in the master
-configuration file.
-* In the absence of the scheduler policy file, the default configuration gets
-applied.
-
-NOTE: That the predicates and priority functions defined in the scheduler
-configuration file will completely override the default scheduler policy.
-If any of the default predicates and priority functions are required,
-they have to be explicitly specified in the scheduler configuration file.
-
+* Selection of predicates and priority functions defines scheduler _policy_ 
+* Administrators can provide JSON file that specifies predicates and priority functions to configure scheduler
+** Overrides default scheduler policy
+** If default predicates or priority functions required, must specify them in file
+** Can specify path to scheduler policy file in master configuration file
+* Default configuration applied if no scheduler policy file
 
 ifdef::showscript[]
+
 === Transcript
 
-The selection of the predicate and priority functions defines the policy for
-the scheduler.
-Administrators can provide a JSON file that specifies the predicates and
-priority functions to configure the scheduler, the path to the scheduler policy
-file can be specified in the master configuration file.
+The selection of the predicate and priority functions defines the policy for the scheduler. Administrators can provide a JSON file that specifies the predicates and priority functions to configure the scheduler. 
+
+The predicates and priority functions defined in the scheduler configuration file completely override the default scheduler policy. If you need any of the default predicates and priority functions, you must explicitly specify them
+
+Administrators can specify the path to the scheduler policy file in the master configuration file.
+
+In the absence of the scheduler policy file, the default configuration is applied.
 
 endif::showscript[]
 
@@ -829,29 +729,28 @@ endif::showscript[]
 :noaudio:
 
 .Default Scheduler Policy
-* The default scheduler policy includes the following predicates.
 
-1. PodFitsPorts
-1. PodFitsResources
-1. NoDiskConflict
-1. MatchNodeSelector
-1. HostName
+* Includes following predicates:
 
-* The default scheduler policy includes the following priority functions.
-** Each of the priority function has a weight of '1' applied to it.
+** `PodFitsPorts`
+** `PodFitsResources`
+** `NoDiskConflict`
+** `MatchNodeSelector`
+** `HostName`
 
-1. LeastRequestedPriority
-1. BalancedResourceAllocation
-1. ServiceSpreadingPriority
+* Includes following priority functions:
+
+** `LeastRequestedPriority`
+** `BalancedResourceAllocation`
+** `ServiceSpreadingPriority`
+*** Each has weight of *1* applied
 
 
 ifdef::showscript[]
+
 === Transcript
 
-The default scheduler policy includes the following "predicates" and "priority
-functions", After nodes gets disqualified (or "opted-out") by the "predicates"
-the "Priority functions" and their _weight_ are used to define the best fit for
-our new pod.
+The default scheduler policy includes the _predicates_ and _priority functions_ shown here. After the predicates disqualify (or _opt-out_) nodes, the priority functions and their _weight_ define the best fit for the new pod.
 
 endif::showscript[]
 
@@ -861,22 +760,22 @@ endif::showscript[]
 :noaudio:
 
 .Available Predicates
-* There are several predicates provided out of the box in Kubernetes.
-Some of these predicates can be customized by providing certain parameters.
-* Multiple predicates can be combined to provide additional filtering of nodes.
 
-* In the next few slides we will discuss *Static Predicates* and
-*Configurable Predicates*.
+* Kubernetes provides predicates out of the box
+* Can customize by by providing parameters
+* Can combine to provide additional node filtering
+
+* Two kinds of predicates: _static_  and _configurable_
 
 ifdef::showscript[]
+
 === Transcript
 
-There are several predicates provided out of the box in Kubernetes.
-Some of these predicates can be customized by providing certain parameters.
+Kubernetes provides several predicates out of the box.
 
-In the next few slides we will discuss *Static Predicates* and
-*Configurable Predicates*.
+You can customize some of these predicates by providing certain parameters. You also can combine multiple predicates to provide additional filtering of nodes.
 
+There are two kinds of predicates, _static_ and _configurable_. The next few slides discuss them.
 
 endif::showscript[]
 
@@ -885,30 +784,30 @@ endif::showscript[]
 :noaudio:
 
 .Static Predicates
-These predicates do not take any configuration parameters or inputs from the
-user. These are specified in the scheduler configuration using their exact name.
 
-* *_PodFitsPorts_* deems a node to be fit for hosting a pod based on the absence
-of port conflicts.
+* Fixed names and configuration parameters that users cannot change
+* Kubernetes provides following out of box:
 
-* *_PodFitsResources_* determines a fit based on resource availability.
-The nodes can declare their resource capacities and then pods can specify what
-resources they require.  Fit is based on requested, rather than used resources.
-
-* *_NoDiskConflict_* determines fit based on non-conflicting disk volumes.
-It evaluates if a pod can fit due to the volumes it requests, and those that
-are already mounted.
-* *_MatchNodeSelector_* determines fit based on node selector query that is
-defined in the pod.
-
-* *_HostName_* determines fit based on the presence of the Host parameter and a
-string match with the name of the host.
+[cols="1,4"]
+|===================================================================
+|Static Predicate |Description
+|`PodFitsPorts` |Deems node fit for hosting pod based on absence of port conflicts
+|`PodFitsResources` a|* Determines fit based on resource availability
+* Nodes declare resource capacities, pods specify what resources they require
+* Fit based on requested, rather than used, resources
+|`NoDiskConflict` a|* Determines fit based on nonconflicting disk volumes
+* Evaluates if pod can fit based on volumes requested and those already mounted 
+|`MatchNodeSelector` |Determines fit based on node selector query defined in pod
+|`HostName` |Determines fit based on presence of host parameter and string match with host name
+|===================================================================
 
 ifdef::showscript[]
+
 === Transcript
 
-Static Predicates do not take any configuration parameters or inputs from the
-user. These are specified in the scheduler configuration using their exact name.
+Static predicates have fixed names and configuration parameters that users cannot change. 
+
+Kubernetes provides the static predicates shown here out of the box.
 
 endif::showscript[]
 
@@ -917,59 +816,57 @@ endif::showscript[]
 :noaudio:
 
 .Configurable Predicates
-* These predicates can be configured by the user to tweak their function.
-** They can be given any user-defined name.
-** The type of the predicate is identified by the argument that they take.
-* Since these are configurable, multiple predicates of the same type (but
-  different configuration parameters) can be combined as long as their
-  user-defined names are different.
+
+* User can configure to tweak function
+** Can give them user-defined names
+** Identified by arguments they take
+* Can:
+** Configure predicates of same type with different parameters
+** Combine them by applying different user-defined names
 
 
 ifdef::showscript[]
+
 === Transcript
 
-Configurable Predicates can be configured by the user to tweak their function.
-They can be given any user-defined name, the type of the predicate is identified
- by the argument that they take.
+A user can configure configurable predicates to tweak their function.
 
-Since these are configurable, multiple predicates of the same type (but
-  different configuration parameters) can be combined as long as their
-  user-defined names are different.
+A user can give a configurable predicate any user-defined name. The predicate type is identified by the argument that it takes.
+
+A user working with configurable predicates can configure multiple predicates of the same type but with different parameters as long as the predicates have different user-defined names.
 
 endif::showscript[]
-
 
 
 == Scheduler
 :noaudio:
 
-.Configurable Predicates - Continued
-* *_ServiceAffinity_* filters out nodes that do not belong to the specified
-topological level defined by the provided labels.
-** This predicate takes in a list of labels and ensures affinity within the nodes
-(that have the same label values) for pods belonging to the same service.
-** If the pod specifies a value for the labels in its NodeSelector, then the
-nodes matching those labels are the ones where the pod is scheduled.
+.Configurable Predicates: `ServiceAffinity` and `LabelsPresence`
 
+* `ServiceAffinity`: Filters out nodes that do not belong to topological level defined by provided labels
+** Takes in list of labels
+** Ensures affinity within nodes with same label values for pods belonging to same service
+*** If pod specifies label value in `NodeSelector`:
+*** Pod scheduled on nodes matching labels only
++
 ----
 {"name" : "Zone", "argument" : {"serviceAffinity" : {"labels" : ["zone"]}}}
 ----
-* *_LabelsPresence_* checks whether a particular node has a certain label defined
-or not, regardless of its value.
+* `LabelsPresence`: Checks whether node has certain label defined, regardless of value
++
 ----
 {"name" : "ZoneRequired", "argument" : {"labels" : ["retiring"], "presence" : false}}
 ----
 
 ifdef::showscript[]
+
 === Transcript
 
-*_ServiceAffinity_* filters out nodes that do not belong to the specified
-topological level defined by the provided labels, This predicate takes in a list
- of labels and ensures affinity within the nodes (that have the same label
-   values) for pods belonging to the same service.
+`ServiceAffinity` filters out nodes that do not belong to the specified topological level defined by the provided labels. This predicate takes in a list of labels and ensures affinity within the nodes that have the same label values for pods belonging to the same service.
 
-If the pod specifies a value for the labels in its NodeSelector, then ONLY
-nodes matching those labels are the ones where the pod can be scheduled.
+If the pod specifies a value for the labels in its `NodeSelector`, then the scheduler can schedule pods on only the nodes matching those labels.
+
+`LabelsPresence` checks whether a particular node has a certain label defined, regardless of its value.
 
 endif::showscript[]
 
@@ -978,58 +875,57 @@ endif::showscript[]
 :noaudio:
 
 .Available Priority Functions
-* A custom set of priority functions can be specified to configure the scheduler.
-** There are several priority functions provided out-of-the-box in OSE.
-* Some of these priority functions can be customized by providing certain parameters.
-* Multiple priority functions can be combined and different weights can be given
-to each in order to impact the prioritization.
-** A weight is required to be specified and cannot be 0 or negative.
+
+* Can specify custom set of priority functions to configure scheduler
+** OpenShift Enterprise provides several priority functions out of the box
+* Can customize some priority functions by providing parameters
+* Can combine priority functions and give different weights to influence prioritization results
+** Weight required, must be greater than 0
 
 ifdef::showscript[]
 
 === Transcript
 
-A custom set of priority functions can be specified to configure the scheduler.
-There are several priority functions provided out-of-the-box in OSE, some of
-these priority functions can be customized by providing certain parameters.
+You can configure the scheduler by specifying a custom set of priority functions.
 
-Multiple priority functions can be combined and different weights can be given
-to each in order to impact the prioritization, A weight is required to be
-specified and cannot be 0 or negative.
+OpenShift Enterprise provides several priority functions out of the box. You can customize some of them by providing certain parameters.
+
+You can also combine multiple priority functions and give them different weights to influence the results of the prioritization process. You must specify a weight, which must be a number greater than 0.
+
 endif::showscript[]
-
 
 
 == Scheduler
 :noaudio:
 
 .Static Priority Functions
-These priority functions do not take any configuration parameters or inputs from
-the user.  These are specified in the scheduler configuration using their exact
-name as well as the weight.
 
-* *_LeastRequestedPriority_* favors nodes with fewer requested resources.
-It calculates the percentage of memory and CPU requested by pods scheduled on
-the node, and prioritizes nodes that have the highest available/remaining capacity.
+* Do not take configuration parameters or inputs from user
+* Specified in scheduler configuration using predefined names and weight calculations
 
-* *_BalancedResourceAllocation_* favors nodes with balanced resource usage rate.
-It calculates the difference between the consumed CPU and memory as a fraction
-of capacity, and prioritizes the nodes based on how close the two metrics are
-to each other.  This should always be used together with _LeastRequestedPriority_.
-
-* *_ServiceSpreadingPriority_* spreads pods by minimizing the number of pods
-belonging to the same service onto the same machine
-
-* *_EqualPriority_* gives an equal weight of one to all nodes and is not
-required/recommended outside of testing.
+[cols="1,4"]
+|===================================================================
+|Static Predicate |Description
+|`LeastRequestedPriority` a|* Favors nodes with fewer requested resources
+* Calculates percentage of memory and CPU requested by pods scheduled on node
+* Prioritizes nodes with highest available or remaining capacity
+|`BalancedResourceAllocation` a|* Favors nodes with balanced resource usage rate
+* Calculates difference between consumed CPU and memory as fraction of capacity
+* Prioritizes nodes with smallest difference
+* Should always use with `LeastRequestedPriority`
+|`ServiceSpreadingPriority` |Spreads pods by minimizing number of pods belonging to same service onto same machine
+|`EqualPriority` a|* Gives equal weight of *1* to all nodes
+* Not required/recommended outside of testing.
+|===================================================================
 
 
 ifdef::showscript[]
+
 === Transcript
 
-Static Priority Functions do not take any configuration parameters or inputs
-from the user.  These are specified in the scheduler configuration using their
-exact name as well as the weight.
+Static priority functions do not take any configuration parameters or inputs from the user. The scheduler configuration file specifies these priority functions using their predefined names and weight calculations.
+
+The available static priority functions are shown here.
 
 endif::showscript[]
 
@@ -1038,27 +934,33 @@ endif::showscript[]
 :noaudio:
 
 .Configurable Priority Functions
-* These priority functions can be configured by the user by providing certain
-parameters.
-** They can be given any user-defined name.
-* The type of the priority function is identified by the argument that they take.
 
-* *_ServiceAntiAffinity_* takes a label and ensures a good spread of the pods
-belonging to the same service across the group of nodes based on the label
-values.  It gives the same score to all nodes that have the same value for the
-specified label.  It gives a highter score to nodes within a group with the
-least concentration of pods.
+* User can configure by providing certain parameters.
+** Can give them user-defined name
+** Identified by the argument they take
 
-* *_LabelsPreference_* prefers nodes that have a particular label defined or
-not, regardless of its value.
+* `ServiceAntiAffinity`: Takes label
+** Ensures spread of pods belonging to same service across group of nodes based on label values
+** Gives same score to all nodes with same value for specified label
+** Gives higher score to nodes within group with least concentration of pods
+
+* `LabelsPreference`: Prefers either nodes that have particular label defined or those that do not, regardless of value
 
 
 
 ifdef::showscript[]
+
 === Transcript
 
-Configurable Priority Functions can be configured by the user by providing
-certain parameters.
+A user can configure configurable priority functions by providing certain parameters.
+
+A user can give a configurable priority function any user-defined name. The function type is identified by the argument that it takes.
+
+`ServiceAntiAffinity` takes a label and ensures a spread of pods belonging to the same service across a group of nodes based on label values. It gives the same score to all nodes with the same value for a specified label, and gives a higher score to nodes within the group with the least concentration of pods.
+
+`LabelsPreference` prefers either nodes that have a particular label defined or those that do not have a particular label defined, regardless of value.
+
+ 
 endif::showscript[]
 
 
@@ -1068,32 +970,30 @@ endif::showscript[]
 
 .Use Cases
 
-* One of the important use cases for scheduling within OpenShift is to support
-flexible affinity and anti-affinity policies.
+* Important use case for scheduling within OpenShift Enterprise: Support affinity and anti-affinity policies
 
-* OpenShift can implement multiple Infrastructure Topological Levels
-** Administrators can define multiple topological levels for their infrastructure
-(nodes).
-** This is done by specifying labels on nodes
-(eg: region = r1, zone = z1, rack = s1).
-** These label names have no particular meaning and administrators are free to
-name their infrastructure levels anything (eg, city/building/room).
-** Administrators can define any number  of levels for their infrastructure
-topology, with three levels usually being
-adequate (eg. regions --> zones --> racks).
-Administrators can specify affinity and anti-affinity rules at each of these
-levels in any combination.
+* OpenShift Enterprise can implement multiple infrastructure topological levels
+* Administrators can define multiple topological levels for infrastructure (nodes)
+** To do this, specify labels on nodes
+*** Example: `region` = `r1`, `zone` = `z1`, `rack` = `s1`
+** Label names have no particular meaning
+** Administrators can name infrastructure levels anything
+*** Examples: City, building, room
+** Administrators can define any number of levels for infrastructure topology
+*** Three levels usually adequate
+*** Example: `regions` -> `zones` -> `racks`
+** Administrators can specify combination of affinity/anti-affinity rules at each level
 
 ifdef::showscript[]
+
 === Transcript
 
-One of the important use cases for scheduling within OpenShift is to support
-flexible affinity and anti-affinity policies, By specifiyng labels on the nodes
-administrators can define multiple topological levels for their infrastructure.
+One important use case for scheduling within OpenShift Enterprise is to support flexible affinity and anti-affinity policies. OpenShift Enterprise can implement multiple infrastructure topological levels. By specifying labels on the nodes, administrators can define multiple topological levels for their infrastructure.
 
-Look at a few of the examples here, although we are using the "Region" and
-"Zones" example in this training, you can use any kind of topology that makes
-sense in your environment.
+Label names have no particular meaning, and administrators can name infrastructure levels anything. Administrators can also define any number of levels for their infrastructure topology, although three levels are usually adequate. Finally, administrators can specify any combination of affinity and anti-affinity rules at each level.
+
+The examples shown here use `region`, `zone`, and `rack`. However, you can use any kind of topology that makes sense in your environment.
+
 
 endif::showscript[]
 
@@ -1101,64 +1001,58 @@ endif::showscript[]
 == Scheduler
 :noaudio:
 
-.Affinity and Anti-Affinity
+.Affinity
 
-* Affinity
-** Administrators should be able to configure the scheduler to specify affinity
-at any topological level, or even at multiple levels.
-** Affinity at a particular level indicates that all pods that belong to the
-same service will be scheduled onto nodes that belong to the same level.
-** This handles any latency requirements of applications by allowing
-administrators to ensure that peer pods do not end up being too geographically
-separated.  If no node is available within the same affinity group to host the
-pod, then the pod will not get scheduled.
+* Administrators can configure scheduler to specify affinity at any topological level or multiple levels
+* Affinity indicates all pods belonging to same service are scheduled onto nodes belonging to same level
+* Handles application latency requirements by letting administrators ensure peer pods do not end up being too geographically separated
+* If no node available within same affinity group to host pod, pod not scheduled
 
 ifdef::showscript[]
+
 === Transcript
 
-Functions based on Affinity and Anti-Affinity are a good place to start when
-looking into the possibilities of use for the Scheduler.
+Use the affinity function when you want all components of a service--that is, all the pods--to be located in the same _zone_, _region_, or _node_.
+  
+Administrators can configure the scheduler to specify affinity at any topological level, or even at multiple levels.
 
-Affinity function makes sense when you want all components of a _service_ (By
-  This we mean all the pods) to be located in the same "Zone"/"Region"/"Node".
+Affinity at a particular level indicates that all pods that belong to the same service are scheduled onto nodes that belong to the same level.
+
+This handles any latency requirements of applications by letting administrators ensure that peer pods do not end up being too geographically separated. If no node is available within the same affinity group to host the pod, the pod is not scheduled.
+
 endif::showscript[]
 
 
 == Scheduler
 :noaudio:
 
-.Affinity and Anti-Affinity
+.Anti-Affinity
 
-* Anti Affinity
-** Administrators should be able to configure the scheduler to specify
-anti-affinity at any topological level, or even at multiple levels.
-** Anti-Affinity (or 'spread') at a particular level indicates that all pods
-that belong to the same service will be spread across nodes that belong to that
-level.
-** This ensures that the application is well spread for high availability
-purposes.
-** The scheduler will try to balance the service pods across all applicable nodes
-as evenly as possible.
-
+* Administrators can configure scheduler to specify anti-affinity at any topological level or multiple levels
+* Anti-affinity (or _spread_) indicates that all pods belonging to same service are spread across nodes belonging to that level
+* Ensures that application is well spread for high availability
+* Scheduler tries to balance service pods evenly across applicable nodes
 
 ifdef::showscript[]
+
 === Transcript
 
-Anti-Affinity (or 'spread') at a particular level indicates that all pods
-that belong to the same service will be spread across nodes that belong to that
-level.
+Administrators can configure the scheduler to specify anti-affinity at any topological level, or even at multiple levels.
 
-This is useful when trying to create an highly available _service_ that is
-spread between availability zones or Racks.
+Anti-affinity, or _spread_, at a particular level indicates that all pods that belong to the same service are spread across nodes that belong to that level.
+
+This is useful when trying to create an highly available service that is spread between availability zones or racks. It ensures that the application is well spread for high availability purposes.
+
+The scheduler tries to balance the service pods across all applicable nodes as evenly as possible.
+
 endif::showscript[]
 
 
 == Scheduler
 :noaudio:
 
-.Sample Policy Configurations
-The configuration below specifies the default scheduler configuration, if it
-were to be specified via the scheduler policy file.
+.Sample Policy Configuration
+
 ----
 {
 	"kind" : "Policy",
@@ -1179,10 +1073,10 @@ were to be specified via the scheduler policy file.
 ----
 
 ifdef::showscript[]
+
 === Transcript
 
-The configuration below specifies the default scheduler configuration, if it
-were to be specified via the scheduler policy file.
+The configuration shown here specifies the default scheduler configuration, as it might be specified via the scheduler policy file.
 
 endif::showscript[]
 
@@ -1190,11 +1084,11 @@ endif::showscript[]
 == Scheduler
 :noaudio:
 
-.Topology Examples
+.Topology Example 1
 
 
-* Example: Three topological levels defined as region, zone and rack
-** Levels: region (affinity) -> zone (affinity) -> rack (anti-affinity)
+* Example: Three topological levels
+** Levels: `region` (affinity) -> `zone` (affinity) -> `rack` (anti-affinity)
 +
 [source,json]
 ----
@@ -1212,22 +1106,18 @@ endif::showscript[]
 }
 ----
 
-NOTE: In all of the sample configurations provided, the list of predicates and
-priority functions is truncated to include only the ones that pertain to the use
-case specified. In practice, a complete/meaningful scheduler policy should
-include most, if not all, of the default predicates and priority functions
-listed above.
-
 
 ifdef::showscript[]
+
 === Transcript
 
-We can use as little or as many topological levels as we like in the
-_Scheduler_.
-Here is an example of three topological levels defined as region, zone and rack
+You can use as many or as few topological levels as you like in the scheduler.
 
-This policy will create a scheduling process that will put pods in the same
-Region and Zone but spread the pods between the Racks within the zone.
+The example shown here defines three topological levels: `region`, `zone`, and `rack`.
+
+This policy creates a scheduling process that puts pods in the same `region` and `zone` but spreads the pods among the `racks` within each zone.
+
+Note that in all of the sample configurations provided, the list of predicates and priority functions is truncated to include only the ones that pertain to the specified use case. In practice, a complete and meaningful scheduler policy should include most, if not all, of the default predicates and priority functions described earlier in this module.
 
 endif::showscript[]
 
@@ -1235,10 +1125,10 @@ endif::showscript[]
 == Scheduler
 :noaudio:
 
-.Topology Examples
-* Example: Three topological levels defined as city, building and room
-** Levels: city (affinity) -> building (anti-affinity) -> room (anti-affinity)
-
+.Topology Example 2
+* Example: Three topological levels
+** Levels: `city` (affinity) -> `building` (anti-affinity) -> `room` (anti-affinity)
++
 [source,json]
 ----
 {
@@ -1258,11 +1148,10 @@ endif::showscript[]
 
 
 ifdef::showscript[]
+
 === Transcript
 
-Here is another 3 level topology example, this time we try to keep the Pods in
-the same *City* and spread them between the *buildings* and between the *rooms*
-in each building.
+This three-level topology example keeps the pods in the same `city` and spreads them between the `buildings` and the `rooms` in each building.
 
 endif::showscript[]
 
@@ -1270,11 +1159,11 @@ endif::showscript[]
 == Scheduler
 :noaudio:
 
-.Topology Examples
+.Topology Example 3
 
-* Only use nodes with the 'region' label defined and prefer nodes with the
-'zone' label defined
-
+* Only use nodes with `region` label defined
+* Prefer nodes with `zone` label defined
++
 [source,json]
 ----
 {
@@ -1293,14 +1182,12 @@ endif::showscript[]
 ----
 
 ifdef::showscript[]
+
 === Transcript
 
-One last simple example, This policy will mean: a *node* MUST have a *region*
-label, and we will prefer to use a *node* that also has a *zone* label defined.
+In this example, the policy means that a _node_ must have a _region_ label, and that you prefer to use a _node_ that also has a _zone_ label defined.
 
 endif::showscript[]
-
-
 
 
 == Builds and Image Streams
@@ -1308,34 +1195,32 @@ endif::showscript[]
 
 .Builds Overview
 
-* A _build_ is the process of transforming input parameters into a resulting object.
-- Most often, the process is used to transform source code into a runnable image.
-- A _BuildConfig_ object is the definition of the entire build process.
+* *Build*: Process of transforming input parameters into resulting object
+** Most often used to transform source code into runnable image
+* `BuildConfig` object: Definition of entire build process
 
-* The OpenShift build system provides extensible support for _build strategies_
-that are based on selectable types specified in the build API. There are three
-build strategies available:
-- Docker build
-- Source-to-Image (S2I) build
-- Custom build
+* OpenShift Enterprise build system provides extensible support for _build strategies_
+** Based on selectable types specified in build API
+* Three build strategies available:
+** Docker build
+** S2I build
+** Custom build
 
-By default, Docker builds and S2I builds are supported.
+* Docker and S2I builds supported by default
 
 ifdef::showscript[]
+
 === Transcript
 
-A _build_ is the process of transforming input parameters into a resulting object.
-A _BuildConfig_ object is the definition of the entire build process.
+A _build_ is the process of transforming input parameters into a resulting object. Most often, you use the process to transform source code into a runnable image. A _BuildConfig_ object is the definition of the entire build process.
 
-The OpenShift build system provides extensible support for _build strategies_
-that are based on selectable types specified in the build API. There are three
-build strategies available:
+The OpenShift Enterprise build system provides extensible support for _build strategies_ that are based on selectable types specified in the build API. Three build strategies are available:
 
-- Docker build - A build based on a _Dockerfile_
-- Source-to-Image (S2I) build - OpenShift's built-in builder, builds an image
-based on a base image and source code provided as a Git repository
-- Custom build - This can be any process a user can define, an easy example
-would be a Jenkins server that builds a Docker Image outside of the OSE environment.
+* *Docker build*: A build based on a _Dockerfile_.
+*  *S2I build*: OpenShift Enterprise's built-in builder. It builds an image from a base image and source code provided as a Git repository.
+*  *Custom build*: Can be any process a user can define. One example is a Jenkins server that builds a Docker image outside of the OpenShift Enterprise environment.
+
+OpenShift Enterprise supports Docker and S2I builds by default.
 
 endif::showscript[]
 
@@ -1343,21 +1228,27 @@ endif::showscript[]
 == Builds and Image Streams
 :noaudio:
 
-.Builds Overview - Continued
+.Builds Overview: Resulting Objects
 
-* The resulting object of a build depends on the builder used to create it.
-* For Docker and S2I builds, the resulting objects are runnable images.
-* For Custom builds, the resulting objects are whatever the builder image author
- has specified.
+* Resulting object of build depends on type of builder used
+** *Docker and S2I builds*: Resulting objects are runnable images
+** *Custom builds*: Resulting objects are whatever author of builder image specifies
 
-* For a list of build commands, see the :
-link:https://docs.openshift.org/latest/dev_guide/builds.html[Developer's Guide].
+* For list of build commands, see Developer's Guide:
+https://docs.openshift.org/latest/dev_guide/builds.html
 
 ifdef::showscript[]
+
 === Transcript
 
-The resulting object of a build depends on the builder used to create it, for
-Docker and S2I builds, the resulting objects are runnable images.
+The resulting object of a build depends on the type of builder used to create it. 
+
+For Docker and S2I builds, the resulting objects are runnable images.
+
+For custom builds, the resulting objects are whatever the author of the builder image specifies.
+
+For a list of build commands, see the Developer's Guide at the web address shown here.
+
 
 endif::showscript[]
 
@@ -1367,36 +1258,26 @@ endif::showscript[]
 
 .Docker Build
 
-* The Docker build strategy invokes the plain _docker build_ command,
-and therefore expects a repository with a *_Dockerfile_* and all required
-artifacts in it to produce a runnable image.
+* Docker build strategy invokes plain `docker build` command
+* Expects repository with `Dockerfile` and required artifacts to produce runnable image
 
 
-.Source-to-Image (S2I) Build
-* Source-to-Image (S2I)] is a tool for building reproducible Docker images.
-* It produces ready-to-run images by injecting a user source into a docker image
- and assembling a new docker image.
-* The new image incorporates the base image (the builder) and built source, and
-is ready to use with the `docker run` command.
-* S2I supports incremental builds, which re-use previously downloaded
-dependencies, previously built artifacts, etc.
+.S2I Build
+* *S2I*: Tool for building reproducible Docker images
+* Produces ready-to-run images by injecting user source into base Docker image (_source_) and assembling new Docker image
+** Ready to use with `docker run`
+* S2I supports incremental builds
+** Reuse previously downloaded dependencies, previously built artifacts, etc.
 
 ifdef::showscript[]
+
 === Transcript
 
-The Docker build strategy invokes the plain _docker build_ command,
-and therefore expects a repository with a *_Dockerfile_* and all required
-artifacts in it to produce a runnable image.
+The Docker build strategy invokes the plain _docker build_ command. It expects a repository with a `Dockerfile` and all required artifacts in it to produce a runnable image.
 
-The Source-to-Image (S2I) is a tool for building reproducible Docker images, it
-produces ready-to-run images by injecting a user source into a docker image
- and assembling a new docker image.
+S2I is a tool for building reproducible Docker images. It produces ready-to-run images by injecting a user source into a base Docker image (the _builder_) and assembling a new Docker image that is ready to use within the OpenShift Enterprise environment or with the `docker run` command.
 
-The new image incorporates the base image (the builder) and built source, and
-is ready to use within the OSE environment or with `docker run`
-
-S2I supports incremental builds, which re-use previously downloaded
-dependencies, previously built artifacts, etc.
+S2I supports incremental builds, which reuse previously downloaded dependencies, previously built artifacts, and so on.
 
 endif::showscript[]
 
@@ -1407,34 +1288,34 @@ endif::showscript[]
 .S2I Advantages
 
 [horizontal]
-Image flexibility:: S2I scripts can be written to layer application code onto
-almost any existing Docker image, taking advantage of the existing ecosystem.
-Note that, currently, S2I relies on `tar` to inject application
-source, so the image needs to be able to process tarred content.
+Image flexibility:: 
 
-Speed:: With S2I, the assemble process can perform a large number of complex
-operations without creating a new layer at each step, resulting in a fast
-process. In addition, S2I scripts can be written to re-use artifacts stored in a
-previous version of the application image, rather than having to download or
-build them, each time the build is run.
+* Can write S2I scripts to layer application code onto almost any existing Docker image
+* Takes advantage of existing ecosystem
+* Currently, S2I relies on `tar` to inject application source, so image must be able to process tarred content
 
-Patchability:: S2I allows you to rebuild the application consistently if an
-underlying image needs a patch due to a security issue.
+Speed:: 
+
+* S2I assembly process can perform large number of complex operations without creating new layer at each step
+* Results in faster process
+* Can write S2I scripts to reuse artifacts stored in previous version of application image
+* Eliminates need to download or build image each time build is run
+
+Patchability:: 
+
+* S2I lets you rebuild application consistently if underlying image needs patch because of a security issue
 
 ifdef::showscript[]
+
 === Transcript
-Image flexibility, Speed and Patchability are only some of the advantages that
-Using S2I provides, S2I scripts can be written to layer application code onto
-almost any existing Docker image, this means you can switch your builder image
-from Centos to RHEL of from RHEL7.1 to RHEL7.2 without issues, simply rebuild
- the image and start using it.
 
-S2I's assemble process can perform a large number of complex
-operations without creating a new layer at each step, resulting in a fast
-process.
+Among the advantages S2I provides are image flexibility, speed, and patchability. 
 
-An image could be rebuilt quickly in case the base image requires a patch, for
-example if there is a new security patch.
+With regard to image flexibility, you can write S2I scripts to layer application code onto almost any existing Docker image, taking advantage of the existing ecosystem. This means that you can, for example, switch your builder image from Centos to Red Hat Enterprise Linux or from  Red Hat Enterprise Linux 7.1 to 7.2 without any issues. You simply rebuild the image and start using it. Note that S2I currently relies on `tar` to inject the application source, so the image must be able to process tarred content.
+
+With regard to speed, S2I's assembly process can perform a large number of complex operations without creating a new layer at each step, resulting in a faster process. You can write S2I scripts to reuse artifacts stored in a previous version of the application image, which eliminates the need to download or build the image each time a build is run.
+
+With regard to patchability, S2I lets you rebuild an image quickly if the base image requires a patch, for example, if there is a new security patch.
 
 endif::showscript[]
 
@@ -1442,36 +1323,41 @@ endif::showscript[]
 == Builds and Image Streams
 :noaudio:
 
-.S2I Advantages - Continued
-
 [horizontal]
-Operational efficiency:: By restricting build operations instead of allowing
-arbitrary actions, such as in a *_Dockerfile_*, the PaaS operator can avoid
-accidental or intentional abuses of the build system.
+Operational efficiency:: 
 
-Operational security:: Building an arbitrary *_Dockerfile_* exposes the host
-system to root privilege escalation. This can be exploited by a malicious user
-because the entire docker build process is run as a user with docker privileges.
-S2I restricts the operations performed as a root user, and can run the scripts
-as a non-root user.
+* PaaS operator restricts build operations instead of allowing arbitrary actions, such as in `Dockerfile`
+* Can avoid accidental or intentional abuses of build system
 
-User efficiency:: S2I prevents developers from performing arbitrary `yum
-install` type operations during their application build, which results in slow
-development iteration.
+Operational security:: 
 
-Ecosystem:: S2I encourages a shared ecosystem of images where you can leverage
-best practices for your applications.
+* Building arbitrary `Dockerfile` exposes host system to root privilege escalation
+* Malicious user can exploit this because Docker build process is run as user with Docker privileges
+* S2I restricts operations performed as root user and can run scripts as non-root user
+
+User efficiency:: 
+
+* S2I prevents developers from performing arbitrary `yum install` type operations during application build
+* Results in slow development iteration
+
+Ecosystem efficiency:: 
+
+* S2I encourages shared ecosystem of images
+* Can leverage best practices for applications
 
 ifdef::showscript[]
-=== Transcript
-A few more advantages of the S2I process are the efficiencies it provides and
-the operational security advantages.
 
-By restricting build operations instead of allowing
-arbitrary actions, such as in a *_Dockerfile_*, the PaaS operator can avoid
-accidental or intentional abuses of the build system. S2I prevents developers
-from performing arbitrary `yum install` type operations during their application
- build, which results in slow development iteration.
+=== Transcript
+
+A few more advantages of the S2I process are the operational efficiencies it provides and its operational security advantages.
+
+With regard to operational efficiencies, the PaaS operator can use S2I to restrict build operations and not allow arbitrary actions, such as in a `Dockerfile`, and thus avoid accidental or intentional abuses of the build system. 
+
+With regard to operational security, building an arbitrary `Dockerfile` exposes the host system to root privilege escalation. A malicious user can exploit this because the entire Docker build process is run as a user with Docker privileges. S2I automatically restricts the operations performed as a root user, and can run the scripts as a non-root user.
+
+With regard to user efficiency, S2I prevents developers from performing arbitrary `yum install`-type operations during their application build. Performing these types of operations results in slow development iteration. 
+
+With regard to ecosystem efficiency, S2I encourages a shared ecosystem of images where you can leverage best practices for your applications.
 
 
 endif::showscript[]
@@ -1482,22 +1368,21 @@ endif::showscript[]
 
 .Custom Build
 
-* The Custom build strategy allows developers to define a specific builder image,
-responsible for the entire build process. Using your own builder image allows
-you to customize your build process.
+* Custom build strategy lets you define builder image
+** Responsible for entire build process
+* Using own builder image lets you customize build process
 
-* The builder could call out to an external system, such as Jenkins or any other
- automation agent to create the image and push it into our registry.
+* Builder can call out to external system
+** Example: Jenkins or other automation agent
+** Creates image and pushes it into registry
 
 ifdef::showscript[]
 
 === Transcript
-The Custom build strategy allows developers to define a specific builder image,
-responsible for the entire build process. Using your own builder image allows
-you to customize your build process.
 
-The builder could call out to an external system, such as Jenkins or any other
- automation agent to create the image and push it into our registry.
+The custom build strategy lets you define a specific builder image that is responsible for the entire build process. Using your own builder image lets you customize your build process.
+
+The builder can call out to an external system, such as Jenkins or any other automation agent, to create the image and push it into the registry.
 
 endif::showscript[]
 
@@ -1507,33 +1392,37 @@ endif::showscript[]
 
 .Image Streams
 
-* An _image stream_ is similar to a Docker image repository in that it contains
-one or more _Docker images_ identified by tags.
-** An image stream presents a single virtual view of related images, it may
-contain images from:
+* _Image stream_ similar to Docker image repository
+** Contains _Docker images_ identified by tags
+** Presents single virtual view of related images
+** May contain images from:
+*** Own image repository in OpenShift Enterprise's integrated Docker Registry
+*** Other image streams
+*** Docker image repositories from external registries
 
-. Its own image repository in OpenShift's integrated Docker Registry
-. Other image streams
-. Docker image repositories from external registries
+* OpenShift Enterprise stores complete metadata about each image
+** Examples: command, entrypoint, environment variables, etc.
 
-* OpenShift stores complete metadata about each image (e.g., command, entrypoint,
-environment variables, etc.). Images in OpenShift are immutable.
+* OpenShift Enterprise images immutable
 
-* OpenShift components such as builds and deployments can watch an image stream
-and receive notifications when new images are added, reacting by performing a
-build or a deployment, for example.
+* OpenShift Enterprise components can:
+** Watch image stream
+** Receive notifications when new images added
+** React by performing build or deployment
 
 ifdef::showscript[]
+
 === Transcript
-An image stream presents a single virtual view of related images, an
-_image stream_ is similar to a Docker image repository in that it contains one
-or more _Docker images_ identified by tags.
 
-OpenShift components such as builds and deployments can watch an image stream
-and receive notifications when new images are added, reacting by performing a
-build or a deployment, for example.
+An _image stream_ is similar to a Docker image repository in that it contains one or more _Docker images_ identified by tags. An image stream presents a single virtual view of related images. The stream may contain images from any of the following:
 
+* Its own image repository in OpenShift Enterprise's integrated Docker Registry
+* Other image streams
+* Docker image repositories from external registries
 
+OpenShift Enterprise stores complete metadata about each image--for example, command, entrypoint, environment variables, and so on. Images in OpenShift Enterprise are immutable.
+
+OpenShift Enterprise components such as builds and deployments can watch an image stream, receive notifications when new images are added, and react by performing a build or a deployment, among other functions.
 
 endif::showscript[]
 
@@ -1543,35 +1432,35 @@ endif::showscript[]
 
 .Image Pull Policy
 
-* Each container in a pod has a Docker image. Once you have created an image and
-pushed it to a registry, you can then refer to it in the pod.
+* Each container in pod has Docker image
+** Can refer to image in pod after creating it and pushing it to registry
 
-* When OpenShift creates containers, it uses the container's `imagePullPolicy`
-to determine if the image should be pulled prior to starting the container.
+* When OpenShift Enterprise creates containers, uses `imagePullPolicy` to determine whether to pull image prior to starting container
 
-* There are three possible values for `imagePullPolicy`:
+* Three values for `imagePullPolicy`:
 
-- `Always` - always pull the image.
-- `IfNotPresent` - only pull the image if it does not already exist on the node.
-- `Never` - never pull the image.
+** `Always`: Always pull image
+** `IfNotPresent`: Pull image only if it does not already exist on node
+** `Never`: Never pull image
 
-NOTE: If a container's `imagePullPolicy` parameter is not specified, OpenShift
-sets it based on the image's tag, if the tag is: *latest*, OpenShift defaults
-`imagePullPolicy` to *Always*.
+* If not specified, OpenShift Enterprise sets container's `imagePullPolicy` parameter based on image's tag
+** If tag is `latest`, OpenShift Enterprise defaults `imagePullPolicy` to `Always`
 
 ifdef::showscript[]
+
 === Transcript
 
-Each container in a pod has a Docker image. Once you have created an image and
-pushed it to a registry, you can then refer to it in the pod.
+Each container in a pod has a Docker image. After you create an image and push it to a registry, you can then refer to it in the pod.
 
-When OpenShift creates containers, it uses the container's `imagePullPolicy`
-to determine if the image should be pulled prior to starting the container.
+When OpenShift Enterprise creates containers, it uses the container's `imagePullPolicy` to determine whether to pull the image prior to starting the container.
 
 There are three possible values for `imagePullPolicy`:
-- `Always` - always pull the image.
-- `IfNotPresent` - only pull the image if it does not already exist on the node.
-- `Never` - never pull the image.
+
+* `Always`: Always pull the image
+* `IfNotPresent`: Pull the image only if it does not already exist on the node
+* `Never`: Never pull the image
+
+If a container's `imagePullPolicy` parameter is not specified, OpenShift Enterprise sets it based on the image's tag. If the tag is `latest`, OpenShift Enterprise defaults `imagePullPolicy` to `Always`.
 
 
 endif::showscript[]
@@ -1581,24 +1470,20 @@ endif::showscript[]
 
 .Replication Controllers Overview
 
-* A replication controller ensures that a specified number of replicas of a pod
-are running at all times.
-* If pods exit or are deleted, the replica controller acts to instantiate more
-up to the desired number.
-* Likewise, if there are more running than desired, it deletes as many as necessary to match the number.
+* Replication controller ensures specified number of pod replicas running at all times
+* If pods exit or are deleted, replication controller instantiates more
+* If more pods running than desired, replication controller deletes as many as necessary
 
 
 ifdef::showscript[]
+
 === Transcript
 
-A replication controller job is to ensure that a specified number of replicas of
- a pod are running at all times.
+The job of a replication controller is to ensure that a specified number of replicas of a pod are running at all times.
 
-If pods exit or are deleted, the replica controller acts to instantiate more up
-to the desired number.
+If pods exit or are deleted, the replication controller acts to instantiate more pods up to the desired number.
 
-Likewise, if there are more running than desired, it deletes as many as
-necessary to match the number.
+By the same token, if there are more pods running than desired, the replication controller deletes as many pods as necessary to match the specified number.
 
 
 endif::showscript[]
@@ -1606,52 +1491,46 @@ endif::showscript[]
 == Replication Controllers
 :noaudio:
 
-.Replication Controllers Overview - Continued
+.Replication Controllers Definition
 
-* The definition of a replication controller consists mainly of:
-- The number of replicas desired (which can be adjusted at runtime).
-- A pod definition for creating a replicated pod.
-- A selector for identifying managed pods.
+* Replication controller definition includes:
+** Number of replicas desired (can adjust at runtime)
+** Pod definition for creating replicated pod
+** Selector for identifying managed pods
 
-* The selector is just a set of labels that all of the pods managed by the
-replication controller should have. So that set of labels is included
-in the pod definition that the replication controller instantiates.
+* *Selector*: Set of labels all pods managed by replication controller should have
+** Included in pod definition that replication controller instantiates
+** Used by replication controller to determine how many pod instances are running, to adjust as needed
 
-* This selector is used by the replication controller to determine how many
-instances of the pod are already running in order to adjust as needed.
-
-NOTE: It is *not the job of the replication controller* to perform `auto-scaling`
-based on load or traffic, as it does not track either; rather, this
-would require its replica count to be adjusted by an external auto-scaler.
+* Not replication controller's job to perform auto-scaling based on load or traffic
+** Does not track either
+** Requires external auto-scaler to adjust replica count
 
 
 
 ifdef::showscript[]
+
 === Transcript
-The definition of a replication controller consists mainly of:
-- The number of replicas desired (which can be adjusted at runtime).
-- A pod definition for creating a replicated pod.
-- A selector for identifying managed pods.
 
-The selector, that is essentially a set of labels, is used by the replication
-controller to determine how many instances of the pod are already running in
-order to adjust as needed.
+The definition of a replication controller consists mainly of the following:
 
-It is *not the job of the replication controller* to perform `auto-scaling`
-based on load or traffic, as it does not track either; rather, this
-would require its replica count to be adjusted by an external auto-scaler.
+* The number of replicas desired, which you can adjust at runtime
+* A pod definition for creating a replicated pod
+* A selector for identifying managed pods
+
+The selector is just a set of labels that all of the pods managed by the replication controller should have. The set of labels is included in the pod definition that the replication controller instantiates.
+
+The replication controller uses this selector to determine how many instances of the pod are already running, to adjust as needed.
+
+It is _not_ the replication controller's job to perform auto-scaling based on load or traffic, as it does not track either. That requires an external auto-scaler.
 
 endif::showscript[]
 
 == Replication Controllers
 :noaudio:
 
-.Replication Controllers  Definition file/Manifest
+.Replication Controllers Definition File/Manifest
 
-* Replication controllers are a core Kubernetes object, _ReplicationController_.
-* Here is an example _ReplicationController_ definition with some omissions
-and callouts:
-+
 [source,yaml]
 ----
 apiVersion: v1
@@ -1676,134 +1555,119 @@ spec:
       restartPolicy: Always
 ----
 
-<1> The number of copies of the pod to run.
-<2> The label selector of the pod to run.
-<3> A template for the pod the controller creates.
-<4> Labels on the pod should include those from the label selector.
 
 ifdef::showscript[]
+
 === Transcript
 
-Replication controllers are a core Kubernetes object, _ReplicationController_.
+Replication controllers are a core Kubernetes object, `ReplicationController`.
 
-Here is an example _ReplicationController_ definition with some omissions
-and callouts.
+Here is a sample `ReplicationController` definition with some omissions and callouts.
+
+. The number of copies of the pod to run.
+. The label selector of the pod to run.
+. A template for the pod the controller creates.
+. Labels on the pod should include those from the label selector.
 
 endif::showscript[]
 
 == Routers
 :noaudio:
 
-.Routers - Overview
+.Routers: Overview
 
-* An OpenShift administrator can deploy *routers* (like the HA-Proxy, "Default
-Router") in an OpenShift cluster.
-* These enable `route` resources created by developers to be used by external
-clients.
+* Administrators can deploy _routers_ (like HAProxy `Default Router`) in OpenShift Enterprise cluster
+* Let external clients use `route` resources created by developers
 
-* OpenShift *routers* provide external hostname mapping and load balancing
-to applications over protocols that pass distinguishing information directly to
-the router.
+* Routers provide external hostname mapping and load-balancing to applications over protocols that pass distinguishing information directly to router
 
-* Currently (OSEv3.0.0.0) OpenShift's *Default Router* only support the
-following protocols:
-- HTTP
-- HTTPS
+* In OpenShift Enterprise 3.0.0.0, `Default Router` supports following protocols only:
+** HTTP
+** HTTPS
 
 ifdef::showscript[]
+
 === Transcript
 
-An OpenShift administrator can deploy *routers* (like the HA-Proxy, "Default
-Router") in an OpenShift cluster. These enable routes created by developers to
-be used by external clients.
+An OpenShift Enterprise administrator can deploy _routers_ (like the HAProxy `Default Router`) in an OpenShift Enterprise cluster. These enable external clients to use `route` resources created by developers.
 
-OpenShift routers provide external hostname mapping and load balancing to
-applications over protocols that pass distinguishing information directly to
-the router.
+OpenShift Enterprise routers provide external hostname mapping and load-balancing to applications over protocols that pass distinguishing information directly to the router.
+
+Currently, in OpenShift Enterprise 3.0.0.0, OpenShift Enterprise's `Default Router` supports only HTTP and HTTPS.
 
 endif::showscript[]
 
 == Routers
 :noaudio:
 
-.HAProxy default Router
+.HAProxy Default Router
 
-* The HAProxy default router implementation is the reference implementation for
-a template router plug-in. It uses the *openshift3/ose-haproxy-router*
-image to run an HAProxy instance alongside the template router plug-in.
+* HAProxy default router implementation: Reference implementation for template router plug-in
+* Uses `openshift3/OpenShift Enterprise-haproxy-router` image to run HAProxy instance alongside template router plug-in
 
 
 ifdef::showscript[]
+
 === Transcript
 
-The HAProxy default router implementation is the reference implementation for
-a template router plug-in. It uses the *openshift3/ose-haproxy-router*
-image to run an HAProxy instance alongside the template router plug-in.
+The HAProxy default router implementation is the reference implementation for a template router plug-in. It uses the `openshift3/OpenShift Enterprise-haproxy-router` image to run an HAProxy instance alongside the template router plug-in.
 
 endif::showscript[]
 
 
 == Routers
 :noaudio:
+
 .Routers and Routes
 
-* A `route` object (NOT *router*) is an object that describes a `service` to
-expose and a host FQDN, for example, A `route` could specify a hostname of
-"myapp.mysubdomain.company.com" and the `service` "MyappFrontend".
-* To allow an external web client to access an application (Pod/Pods) on OSE
-using a DNS name a developer would create a `route` object for his application.
+* `route` object describes `service` to expose and host FQDN
+** Example: `route` could specify hostname `myapp.mysubdomain.company.com` and `service` `MyappFrontend`
+** _Not_ `router`
+* Creating `route` object for application lets external web client access application on OpenShift Enterprise using DNS name
 
-* A router uses the service selector to find the service and the endpoints
-backing the service.
-* *Service-provided load balancing is bypassed* and replaced with the router's own
- load balancing.
-* Routers watch the cluster API and automatically update their own configuration
- according to any relevant changes in the API objects.
- * Routers may be containerized or virtual.
- ** Custom routers can be deployed to communicate modifications of API objects
- to another system, such as an *F5*.
+* Router uses service selector to find service and endpoints backing service
+** Bypasses service-provided load balancing and replaces with router's load balancing
+* Routers watch cluster API and update own configuration based on changes in API objects
+* Routers may be containerized or virtual
+** Can deploy custom routers to communicate API object modifications to another system, such as `F5`
 
 ifdef::showscript[]
+
 === Transcript
-A `route` object (NOT *router*) is an object that describes a `service` to
-expose and a host FQDN, for example, A `route` could specify a hostname of
-"myapp.mysubdomain.company.com" and the `service` "MyappFrontend".
 
-To allow an external web client to access an application (Pod/Pods) on OSE
-using a DNS name a developer would create a `route` object for his application.
+A `route` object is an object that describes a `service` to expose and a host FQDN. For example, a `route` could specify a hostname of `myapp.mysubdomain.company.com` and the `service` `MyappFrontend`. Do not confuse with `router`.
 
-A router uses the service selector to find the service and the endpoints
-backing the `service` defined in the `route`, The *Service-provided load
-balancing is bypassed* and replaced with the router's own
- load balancing.
+To allow an external web client to access an application--the pod or pods--on OpenShift Enterprise using a DNS name, create a `route` object for your application.
 
-Custom routers can be deployed to communicate modifications of API objects to
-another system, such as an *F5*.
+A router uses the service selector to find the service and the endpoints backing the `service` defined in the `route`. This bypasses the service-provided load balancing and replaces it with the router's own load balancing.
+
+Routers watch the cluster API and automatically update their own configuration according to any relevant changes in the API objects. Routers may be containerized or virtual.
+ 
+You can deploy custom routers to communicate modifications of API objects to another system, such as an `F5`.
 
 endif::showscript[]
 
 == Routers
 :noaudio:
 
-.Routers and Routes - Continued
+.Routers and Routes: Requests
 
-* In order to reach a router in the first place, requests for hostnames
-must resolve via DNS to a router or set of routers.
-* The suggested method is to define a cloud domain with a wildcard DNS entry
-pointing to a virtual IP backed by multiple router instances on designated nodes.
-* DNS for addresses outside the cloud domain would need to be configured
-individually. Other approaches may be feasible.
+* To reach router, requests for hostnames must resolve via DNS to router or set of routers
+* Recommended router setup: 
+** Define cloud domain with wildcard DNS entry pointing to virtual IP
+** Back virtual IP with multiple router instances on designated nodes
+** Need to configure DNS for addresses outside cloud domain individually
+* Other approaches possible
 
 ifdef::showscript[]
+
 === Transcript
-In order to reach a router in the first place, requests for hostnames
-must resolve via DNS to a router or set of routers.
 
-The suggested method is to define a cloud domain with a wildcard DNS entry
-pointing to a virtual IP backed by multiple router instances on designated nodes.
+To reach a router in the first place, requests for hostnames must resolve via DNS to a router or set of routers.
 
-DNS for addresses outside the cloud domain would need to be configured
-individually. Other approaches may be feasible.
+We recommend defining a cloud domain with a wildcard DNS entry pointing to a virtual IP backed by multiple router instances on designated nodes.
+
+In this approach, you need to configure the DNS for each address outside the cloud domain individually. Other approaches may be feasible.
 
 endif::showscript[]
 
@@ -1812,54 +1676,49 @@ endif::showscript[]
 
 .Sticky Sessions
 
-* Implementing sticky sessions is up to the underlying router configuration.
-* The default HAProxy template implements sticky sessions using the
-*balance source* directive which balances based on the source IP.
-* In addition, the template router plug-in provides the service name and
-namespace to the underlying implementation.
-** This can be used for more advanced configuration such as implementing
-stick-tables that synchronize between a set of peers.
+* Underlying router configuration determines sticky session implementation
+* Default HAProxy template implements sticky sessions using _balance source_ directive
+** Balances based on source IP
+* Template router plug-in provides service name and namespace to underlying implementation
+** Can use for advanced configuration such as implementing stick-tables that synchronize between set of peers
 
-NOTE: Specific configuration for this router implementation is stored in the
-*_haproxy-config.template_* file located in the *_/var/lib/haproxy/conf_*
-directory of the router container.
+* Specific configuration for router implementation stored in `haproxy-config.template`, located in `/var/lib/haproxy/conf` directory of router container
 
 ifdef::showscript[]
+
 === Transcript
-Implementing sticky sessions is up to the underlying router configuration.
 
-The default HAProxy template implements sticky sessions using the
-*balance source* directive which balances based on the source IP.
+The underlying router configuration determines implementation of sticky sessions.
 
-In addition, the template router plug-in provides the service name and
-namespace to the underlying implementation.
+The default HAProxy template implements sticky sessions using the _balance source_ directive, which balances based on the source IP.
 
-This can be used for more advanced configuration such as implementing
-stick-tables that synchronize between a set of peers.
+In addition, the template router plug-in provides the service name and namespace to the underlying implementation.
+
+You can use this for more advanced configuration such as implementing stick-tables that synchronize between a set of peers.
+
+The specific configuration for this router implementation is stored in the `haproxy-config.template` file, located in the `/var/lib/haproxy/conf` directory of the router container.
 
 endif::showscript[]
 
 
 == Summary
 :noaudio:
+
 * Overview
 * Containers and Images
 * Pods and Services
-* Projects and Users
-* Builds and ImageStreams
+* Scheduler
+* Builds and Image Streams
 * Replication Controllers
 * Routers
 
 
 ifdef::showscript[]
-=== Transcript
-In this modules we discussed OSE's Core concepts,
-* Containers and Images
-* Pods and Services
-* Projects and Users
-* Builds and ImageStreams
-* Replication Controllers
-* Routers
 
+=== Transcript
+
+This module presented some of the core concepts in OpenShift Enterprise 3.0. It discussed containers and images, pods and the services that represent them, and projects and the users who use them. 
+
+It also reviewed builds, image streams, deployments, routes, and templates.
 
 endif::showscript[]

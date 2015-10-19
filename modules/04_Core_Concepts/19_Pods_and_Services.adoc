@@ -1,9 +1,9 @@
 == Pods and Services
 :noaudio:
 
-.Labels - Continued
+.Labels: Examples
 
-* Labels are simple key/value pairs, as in the following example:
+* Labels = Simple key/value pairs:
 +
 [source,yaml]
 ----
@@ -12,29 +12,28 @@
    key2: value2
 ----
 
-* Consider:
- ** A pod consisting of an *nginx* docker container, with the label
- *role=webserver*.
- ** A pod consisting of an *Apache httpd* docker container, with the same label
- *role=webserver*.
- ** A service or replication controller that is defined to use pods with the
- *role=webserver* label treats both of these pods as part of the same group.
+* Scenario:
+** Pod consisting of `nginx` Docker container, with `role=webserver` label
+** Pod consisting of `Apache httpd` Docker container, also with `role=webserver` label
+** Service or replication controller defined to use pods with `role=webserver` label treats both pods as part of same group
 
-* Here is an example how you would remove all the components with the same label
-*app=mytest*.
+* Example: To remove all components with the label `app=mytest`:
 +
 ----
 # oc delete all -l app=mytest
 ----
 
 ifdef::showscript[]
+
 === Transcript
 
-Labels are simple key/value pairs that can be used in almost every type of
-object in OSE.
+Labels are simple key/value pairs that you can use in almost every type of object in OpenShift Enterprise.
 
-Labels are handy to manage groups of resources easily, without them you will be
-required to delete/manage each item independently.
+Labels provide an easy way to manage resources as groups, rather than individually.
+
+For example, say you have two separate pods. One is a `nginx` Docker container, and the other is an `Apache httpd` Docker container. If both are tagged with a `role=webserver` label, the service or replication controller defined to use pods with the `role=webserver` label treats both pods as part of the same group.
+
+The second example here shows how labeing a group of components with `app=mytest` let you delete all of them in one command rather than having to locate and delete each component manually.
 
 endif::showscript[]
 

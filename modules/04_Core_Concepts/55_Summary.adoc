@@ -1,23 +1,21 @@
 == Summary
 :noaudio:
+
 * Overview
 * Containers and Images
 * Pods and Services
-* Projects and Users
-* Builds and ImageStreams
+* Scheduler
+* Builds and Image Streams
 * Replication Controllers
 * Routers
 
 
 ifdef::showscript[]
-=== Transcript
-In this modules we discussed OSE's Core concepts,
-* Containers and Images
-* Pods and Services
-* Projects and Users
-* Builds and ImageStreams
-* Replication Controllers
-* Routers
 
+=== Transcript
+
+This module presented some of the core concepts in OpenShift Enterprise 3.0. It discussed containers and images, pods and the services that represent them, and projects and the users who use them. 
+
+It also reviewed builds, image streams, deployments, routes, and templates.
 
 endif::showscript[]

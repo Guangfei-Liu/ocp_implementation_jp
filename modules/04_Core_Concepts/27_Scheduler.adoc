@@ -2,26 +2,25 @@
 :noaudio:
 
 .Configurable Predicates
-* These predicates can be configured by the user to tweak their function.
-** They can be given any user-defined name.
-** The type of the predicate is identified by the argument that they take.
-* Since these are configurable, multiple predicates of the same type (but
-  different configuration parameters) can be combined as long as their
-  user-defined names are different.
+
+* User can configure to tweak function
+** Can give them user-defined names
+** Identified by arguments they take
+* Can:
+** Configure predicates of same type with different parameters
+** Combine them by applying different user-defined names
 
 
 ifdef::showscript[]
+
 === Transcript
 
-Configurable Predicates can be configured by the user to tweak their function.
-They can be given any user-defined name, the type of the predicate is identified
- by the argument that they take.
+A user can configure configurable predicates to tweak their function.
 
-Since these are configurable, multiple predicates of the same type (but
-  different configuration parameters) can be combined as long as their
-  user-defined names are different.
+A user can give a configurable predicate any user-defined name. The predicate type is identified by the argument that it takes.
+
+A user working with configurable predicates can configure multiple predicates of the same type but with different parameters as long as the predicates have different user-defined names.
 
 endif::showscript[]
-
 
 

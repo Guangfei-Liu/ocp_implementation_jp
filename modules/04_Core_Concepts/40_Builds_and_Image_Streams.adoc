@@ -1,21 +1,27 @@
 == Builds and Image Streams
 :noaudio:
 
-.Builds Overview - Continued
+.Builds Overview: Resulting Objects
 
-* The resulting object of a build depends on the builder used to create it.
-* For Docker and S2I builds, the resulting objects are runnable images.
-* For Custom builds, the resulting objects are whatever the builder image author
- has specified.
+* Resulting object of build depends on type of builder used
+** *Docker and S2I builds*: Resulting objects are runnable images
+** *Custom builds*: Resulting objects are whatever author of builder image specifies
 
-* For a list of build commands, see the :
-link:https://docs.openshift.org/latest/dev_guide/builds.html[Developer's Guide].
+* For list of build commands, see Developer's Guide:
+https://docs.openshift.org/latest/dev_guide/builds.html
 
 ifdef::showscript[]
+
 === Transcript
 
-The resulting object of a build depends on the builder used to create it, for
-Docker and S2I builds, the resulting objects are runnable images.
+The resulting object of a build depends on the type of builder used to create it. 
+
+For Docker and S2I builds, the resulting objects are runnable images.
+
+For custom builds, the resulting objects are whatever the author of the builder image specifies.
+
+For a list of build commands, see the Developer's Guide at the web address shown here.
+
 
 endif::showscript[]
 

@@ -1,27 +1,37 @@
 == Pods and Services
 :noaudio:
 
-.Pods Overview - Continued
+.Pod Changes and Management
 
-* OpenShift treats pods as largely "static"; changes cannot be made to
-a pod definition while it is running.
+* OpenShift Enterprise treats pods as _static_ objects
+** Cannot change pod definition while running
 
-* OpenShift implements changes by terminating an existing pod and recreating it
-with modified configuration, base image(s), or both.
-* Pods are also treated as expendable, and *do not maintain state* when recreated.
-* Therefore pods should usually be managed by higher-level _controllers_ rather
-than directly by users.
+* To implement changes, OpenShift Enterprise:
+** Terminates existing pod
+** Recreates it with modified configuration, base image(s), or both
+
+* Pods are expendable, do not maintain state when recreated
+* Should use higher-level _controllers_ to manage pods
+** Pods should usually be managed by higher-level controllers rather than
+ directly by users.
 
 ifdef::showscript[]
-=== Transcript
-OpenShift treats pods as largely "static"; changes cannot be made to
-a pod definition while it is running, when we want to change a pod we will
-"Recreate" it rather than "modify" it.
 
-Therefore pods should usually be managed by higher-level _controllers_, such as
-"Deployment Configurations" and "Replication controllers" rather
-than directly by users.
+=== Transcript
+
+OpenShift Enterprise treats pods as largely _static_. You cannot change a pod
+ definition while it is running. When you want to change a pod, you _recreate_
+  rather than _modify_ it.
+
+OpenShift Enterprise implements changes by terminating an existing pod and
+ recreating it with a modified configuration, base image(s), or both.
+
+OpenShift also treats pods as expendable. Pods do not maintain state when
+ recreated.
+
+Because of this, you use higher-level _controllers_, such as
+ _deployment configurations_ and _replication controllers_, to manage pods,
+  rather than allow users to manage pods directly.
+
 
 endif::showscript[]
-
-

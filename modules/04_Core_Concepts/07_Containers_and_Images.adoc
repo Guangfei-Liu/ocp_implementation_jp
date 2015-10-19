@@ -1,41 +1,29 @@
 == Containers and Images
 :noaudio:
 
-.Docker Images
+.Building and Naming Images
 
 * You can use Docker directly to build images, but OpenShift also supplies
 builders that assist with creating an image by adding your code or
 configuration to existing images.
 
-* Since applications develop over time, a single image name can actually
-refer to many different versions of the "same" image.
-** Each different image is referred to uniquely by its hash (a long hexadecimal
-  number e.g. `fd44297e2ddb050ec4f...`) which is usually shortened to 12
-characters (e.g. `fd44297e2ddb`).
-** Rather than version numbers, Docker allows applying tags (such as `v1`, `v2.1`
-  , `GA`, or the default `latest`)
-** in addition to the image name to further specify the image desired, so
-you may see the same image referred to as `rhel` (implying the `latest`
-tag), `rhel:rhel7`, or `fd44297e2ddb`.
-
+* Single image name can refer to different versions of same image
+* Every image version identified by unique long hexadecimal number, or _hash_
+** Example: `fd44297e2ddb050ec4f...`
+** Usually shortened to 12 digits
+*** Example: `fd44297e2ddb`
+* Can apply tags instead of version numbers
+** Examples: `v1`, `v2.1`, `GA`, `latest` (default)
+** May see same image referred to as `rhel` (implies `latest` tag), `rhel:rhel7`, `fd44297e2ddb`
 
 ifdef::showscript[]
 
 === Transcript
 
- You can use Docker directly to build images, but OpenShift also supplies
- builders that assist with creating an image by adding your code or
- configuration to existing images.
+You can use Docker to build images directly, but OpenShift Enterprise also supplies builders that assist with creating an image by adding your code or configuration to existing images.
 
- Since applications develop over time, a single image name can actually
- refer to many different versions of the "same" image, Each different image is
- referred to uniquely by its hash which is usually shortened to 12
-characters.
+Because applications develop over time, a single image name can actually refer to many different versions of the same image. Every version of every image is identified by a unique hash, a long hexademical number that is usually shortened to 12 digits.
 
-Rather than version numbers, Docker allows applying tags (such as `v1`, `v2.1`
-  , `GA`, or the default `latest`)
-
-
+Rather than version numbers, Docker lets you apply tags to the image name to more precisely specify the image desired. So, for example, you might see the same image identified by the `rhel` tag (which implies the `latest` tag), the `rhel:rhel7` tag, or the `fd44297e2ddb` hash.
 
 endif::showscript[]
-

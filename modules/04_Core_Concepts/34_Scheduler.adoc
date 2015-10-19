@@ -1,29 +1,25 @@
 == Scheduler
 :noaudio:
 
-.Affinity and Anti-Affinity
+.Anti-Affinity
 
-* Anti Affinity
-** Administrators should be able to configure the scheduler to specify
-anti-affinity at any topological level, or even at multiple levels.
-** Anti-Affinity (or 'spread') at a particular level indicates that all pods
-that belong to the same service will be spread across nodes that belong to that
-level.
-** This ensures that the application is well spread for high availability
-purposes.
-** The scheduler will try to balance the service pods across all applicable nodes
-as evenly as possible.
-
+* Administrators can configure scheduler to specify anti-affinity at any topological level or multiple levels
+* Anti-affinity (or _spread_) indicates that all pods belonging to same service are spread across nodes belonging to that level
+* Ensures that application is well spread for high availability
+* Scheduler tries to balance service pods evenly across applicable nodes
 
 ifdef::showscript[]
+
 === Transcript
 
-Anti-Affinity (or 'spread') at a particular level indicates that all pods
-that belong to the same service will be spread across nodes that belong to that
-level.
+Administrators can configure the scheduler to specify anti-affinity at any topological level, or even at multiple levels.
 
-This is useful when trying to create an highly available _service_ that is
-spread between availability zones or Racks.
+Anti-affinity, or _spread_, at a particular level indicates that all pods that belong to the same service are spread across nodes that belong to that level.
+
+This is useful when trying to create an highly available service that is spread between availability zones or racks. It ensures that the application is well spread for high availability purposes.
+
+The scheduler tries to balance the service pods across all applicable nodes as evenly as possible.
+
 endif::showscript[]
 
 

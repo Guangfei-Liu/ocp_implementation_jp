@@ -1,0 +1,43 @@
+== Persistent Volumes
+:noaudio:
+
+.Requesting Storage: Prerequisite
+* For user to _claim_ a volume (`PersistentVolumeClaim`), a `PersistentVolume`
+ needs to be created
+** Cluster administrator needs to define and _create_ `pv` in project:
++
+[source,yaml]
+----
+{
+  "apiVersion": "v1",
+  "kind": "PersistentVolume",
+  "metadata": {
+    "name": "pv0001"
+  },
+  "spec": {
+    "capacity": {
+        "storage": "5Gi"
+    },
+    "accessModes": [ "ReadWriteOnce" ],
+    "nfs": {
+        "path": "/exports/ose_shares/share154",
+        "server": "172.17.0.2"
+    },
+    "persistentVolumeReclaimPolicy": "Recycle"
+  }
+}
+----
+
+ifdef::showscript[]
+
+=== Transcript
+
+For a user to _claim_ a volume (`PersistentVolumeClaim`),
+ a `PersistentVolume` needs to be created.
+
+A cluster administrator needs to define and _create_ the `pv` in the project to
+ which it belongs.
+
+This example shows a `PersistentVolume` definition file.
+
+endif::showscript[]

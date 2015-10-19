@@ -1,33 +1,36 @@
 == Resource Quota
 :noaudio:
 
-.What is ResourceQuota
-* OpenShift can limit both the number of objects created in a Project , and the
-total amount of resources requested across objects in a namespace/Project.
-* This facilitates sharing of a single OpenShift cluster by several teams, each
-in a Project of their own, as a mechanism of preventing one team from starving
-another team of cluster resources.
-* A ResourceQuota object enumerates hard resource usage limits *per project.*
-** It can limit the total number of a particular type of object that may be
-created in a project, and the total amount of compute resources that may be
-consumed by resources in that project.
+.What Is `ResourceQuota`?
+* OpenShift Enterprise can limit:
+** Number of objects created in project
+** Amount of compute/memory/storage resources requested across objects in
+ namespace/project
+* Several teams can share single OpenShift Enterprise cluster
+** Each team in own project
+** Prevents teams from starving each other of cluster resources
+* *`ResourceQuota` object*: Enumerates hard resource usage limits _per project_
+* Can limit:
+** Total number of particular type of object created in project
+** Total amount of compute resources consumed in project
 
 
 ifdef::showscript[]
 
 === Transcript
-You can enforce quotas against resources. The quota defines limits for multiple
-resource.
 
-Within a project, users cannot run actions that result in exceeding these
-resource limits. Because the quota is enforced at the project level, it is up
-to the users to allocate resources--specifically, memory and CPU--to their pods
-and containers.
+OpenShift Enterprise can limit both the number of objects created in a project
+ and the total amount of resources requested across objects in a namespace or
+  project.
 
-Notice that some of the resources are "Hardware resources" and others are
-"OpenShift Resources"
+This lets several teams, each with its own project, share a single OpenShift
+ Enterprise cluster. It provides a mechanism for preventing one team from
+  starving another team of cluster resources.
+
+A `ResourceQuota` object enumerates hard resource usage limits _per project_.
+ It can limit the total number of a particular type of object that may be
+  created in a project, as well as the total amount of compute resources that
+   resources may consume in that project.
+
 
 endif::showscript[]
-
-
-

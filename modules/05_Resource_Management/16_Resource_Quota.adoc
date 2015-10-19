@@ -1,10 +1,8 @@
 == Resource Quota
 :noaudio:
 
-.Creating and applying a quota to a project
+.Applying a Quota to a Project
 
-* Apply a quota to a Project
-+
 ----
 
 $ oc create -f create_quota_def_file.json --namespace=your_project_name
@@ -14,9 +12,7 @@ $ oc create -f create_quota_def_file.json --namespace=your_project_name
 ifdef::showscript[]
 
 === Transcript
-To create a `quota` and apply it to a  `project` use the *oc create* command and
- specify the --namespace or -n flag with the project name.
+To create a quota and apply it to a project, use the `oc create` command and
+ specify the `--namespace` or `-n` flag with the project name.
 
 endif::showscript[]
-
-

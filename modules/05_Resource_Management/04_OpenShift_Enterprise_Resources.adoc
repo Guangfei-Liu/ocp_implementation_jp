@@ -1,0 +1,13 @@
+== OpenShift Enterprise Resources
+:noaudio:
+* Can define most OpenShift Enterprise resources with .JSON or .YAML file
+* Can construct API call to make request from OpenShift Enterprise master
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+You can define most OpenShift Enterprise resources with a .JSON or .YAML file. In the same manner, you can construct an API call to make a request from the OpenShift Enterprise master.
+
+endif::showscript[]

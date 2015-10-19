@@ -1,27 +1,25 @@
 == Routes
 :noaudio:
 
-.Secured TLS termination types
+.Route Types: Secured Routes
 
-* Secured routes can use any of the following three types of secure TLS
-termination.
+* *Secured routes*: Specify TLS termination of route
+** Key and certificate(s) also option
 
-*Edge Termination*
-
-* With edge termination, TLS termination occurs at the
-router, prior to proxying traffic to its destination.
-* TLS certificates are served by the front end of the router,
-so they *must be configured into the route*, otherwise the
-router's default certificate will be used for TLS termination.
+* TLS termination in OpenShift Enterprise relies on SNI 
+** Serves custom certificates
+** Non-SNI traffic received on port 443 handled with TLS termination and default certificate
+** Might not match requested hostname, causing errors
+** Learn more: https://en.wikipedia.org/wiki/Server_Name_Indication
 
 ifdef::showscript[]
-=== Transcript
-"Edge Termination" is a type TLS termination that occurs at the
-*router*, prior to proxying traffic to its destination.
 
-TLS certificates are served by the front-end of the *router*,
-so they *must be configured into the route*, otherwise the
-router's default certificate will be used for TLS termination.
+=== Transcript
+
+Secured routes specify the TLS termination of the route. They also have the option to provide a key and certificate(s).
+
+TLS termination in OpenShift Enterprise relies on SNI for serving custom certificates. Any non-SNI traffic received on port 443 is handled with TLS termination and a default certificate. These might not match the requested hostname, resulting in validation errors.
 
 endif::showscript[]
+
 

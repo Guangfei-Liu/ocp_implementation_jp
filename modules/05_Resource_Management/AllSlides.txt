@@ -2,9 +2,9 @@ include::01_Title.adoc[]
 
 include::02_Module_Topics.adoc[]
 
-include::03_OpenShift_Resources.adoc[]
+include::03_Resource_Types.adoc[]
 
-include::04_OpenShift_Resources.adoc[]
+include::04_OpenShift_Enterprise_Resources.adoc[]
 
 include::05_Projects_and_Users.adoc[]
 
@@ -14,11 +14,11 @@ include::07_Projects_and_Users.adoc[]
 
 include::08_Projects_and_Users.adoc[]
 
-include::09_Client_tool_authentication.adoc[]
+include::09_Client_Tool_Authentication.adoc[]
 
-include::10_Client_tool_authentication.adoc[]
+include::10_Client_Tool_Authentication.adoc[]
 
-include::11_Client_tool_authentication.adoc[]
+include::11_Client_Tool_Authentication.adoc[]
 
 include::12_Resource_Quota.adoc[]
 
@@ -72,19 +72,21 @@ include::36_Routes.adoc[]
 
 include::37_Routes.adoc[]
 
-include::38_Using_Persistent_Volumes.adoc[]
+include::38_Routes.adoc[]
 
-include::39_Using_Persistent_Volumes.adoc[]
+include::39_Persistent_Volumes.adoc[]
 
-include::40_Using_Persistent_Volumes.adoc[]
+include::40_Persistent_Volumes.adoc[]
 
-include::41_Using_Persistent_Volumes.adoc[]
+include::41_Persistent_Volumes.adoc[]
 
-include::42_Using_Persistent_Volumes.adoc[]
+include::42_Persistent_Volumes.adoc[]
 
-include::43_Using_Persistent_Volumes.adoc[]
+include::43_Persistent_Volumes.adoc[]
 
-include::44_Using_Persistent_Volumes.adoc[]
+include::44_Persistent_Volumes.adoc[]
 
-include::45_Summary.adoc[]
+include::45_Persistent_Volumes.adoc[]
+
+include::46_Summary.adoc[]
 

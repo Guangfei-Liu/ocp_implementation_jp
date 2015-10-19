@@ -1,35 +1,41 @@
 == Routes
 :noaudio:
 
-.Routes with Hostnames
+.Secured TLS Termination Types: Re-encryption Termination Route Definition
 
-* In order for services to be exposed externally, an OpenShift route allows
-you to associate a service with an externally-reachable hostname.
-* This edge hostname is then used to route traffic to the service.
-
-* A Route with a specified host:
-+
 [source,yaml]
 ----
 apiVersion: v1
 kind: Route
 metadata:
-  name: host-route
+  name: route-pt-secured
 spec:
-  host: www.example.com  <1>
+  host: www.example.com
   to:
     kind: Service
     name: service-name
+  tls:
+    termination: reencrypt        <1>
+    key: [as in edge termination]
+    certificate: [as in edge termination]
+    caCertificate: [as in edge termination]
+    destinationCaCertificate: |-  <2>
+      BEGIN CERTIFICATE
+      [...]
+      END CERTIFICATE
 ----
 
-<1> Specifies the externally-reachable hostname used to expose a service.
 
 ifdef::showscript[]
-=== Transcript
-In order for services to be exposed externally, an OpenShift route allows
-you to associate a service with an externally-reachable hostname.
 
-This edge hostname is then used to route traffic to the service.
+=== Transcript
+
+Here is an example of a secured route definition using re-encryption termination.
+
+Note the following:
+
+. The `termination` field is set to `reencrypt`. Other fields are the same as in edge termination.
+. Optionally, the `destinationCaCertificate` field specifies a CA certificate to validate the endpoint certificate, securing the connection from the router to the destination.
 
 endif::showscript[]
 

@@ -1,31 +1,23 @@
 == Routes
 :noaudio:
 
-.Route Types - An Unsecured Route with a Path:
 
-[source,yaml]
-----
-apiVersion: v1
-kind: Route
-metadata:
-  name: route-unsecured
-spec:
-  host: www.example.com
-  path: "/test"   <1>
-  to:
-    kind: Service
-    name: service-name
-----
-
-<1> The path is the only added attribute for a path-based route.
-
-NOTE: Path-based routing is not available when using passthrough TLS, as
-the router does not terminate TLS in that case and cannot read the contents
-of the request.
+[cols="3*", options="header"]
+|===
+|Route |When Compared to |Accessible
+.2+|`www.example.com/test` |`www.example.com/test` |Yes
+|`www.example.com` |No
+.2+|`www.example.com/test` and `www.example.com` |`www.example.com/test` |Yes
+|`www.example.com` |Yes
+.2+|`www.example.com` |`www.example.com/test` |Yes (matched by host, not route)
+|`www.example.com` |Yes
+|===
 
 ifdef::showscript[]
+
 === Transcript
-Before you is an example of a unsecured route using a path:
- http://www.example.com/path
+
+The table shown here provides example routes and their accessibility.
+
 endif::showscript[]
 

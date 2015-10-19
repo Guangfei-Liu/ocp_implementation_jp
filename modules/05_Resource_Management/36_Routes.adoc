@@ -1,32 +1,39 @@
 == Routes
 :noaudio:
 
-.Routes without Hostnames
+.Routes With Hostnames
 
-* If a hostname is *not* provided as part of the route specification, then
-OpenShift will automatically generate one for you.
-* The generated hostname is of the form `$routename[.$namespace].$suffix`.
-* A Route definition without a host:
+* To expose services externally:
+** Route lets you associate service with externally reachable hostname
+* Edge hostname routes traffic to service
 
+* Example: Route with specified host:
++
 [source,yaml]
 ----
 apiVersion: v1
 kind: Route
 metadata:
-  name: no-route-hostname
+  name: host-route
 spec:
+  host: www.example.com  <1>
   to:
     kind: Service
     name: service-name
 ----
 
-
 ifdef::showscript[]
-=== Transcript
-If a hostname is *not* provided as part of the route specification, then
-OpenShift will automatically generate one for you.
 
-The generated hostname is of the form of `routename.projectname.defaultsubnet`
+=== Transcript
+
+To expose services externally, an OpenShift Enterprise route lets you associate a service with an externally reachable hostname.
+
+This edge hostname then routes traffic to the service.
+
+The example here shows a route with a specified host. Note the following:
+
+. This specifies the externally reachable hostname used to expose a service.
+
 
 endif::showscript[]
 

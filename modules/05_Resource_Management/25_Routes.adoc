@@ -1,7 +1,7 @@
 == Routes
 :noaudio:
 
-.Route Types - Unsecured Route Object YAML Definition
+.Route Types: Unsecured Route Object YAML Definition
 
 [source,yaml]
 ----
@@ -16,16 +16,12 @@ spec:
     name: service-name
 ----
 
-* Unsecured routes are simplest to configure, as they require no key
-or certificates, but secured routes offer security for connections to
-remain private.
 
 ifdef::showscript[]
 
 === Transcript
-Unsecured routes are simplest to configure, as they require no key
-or certificates, but secured routes offer security for connections to
-remain private.
+
+This example shows an unsecured route object YAML definition.
 
 endif::showscript[]
 

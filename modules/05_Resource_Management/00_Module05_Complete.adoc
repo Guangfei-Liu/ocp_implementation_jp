@@ -17,30 +17,24 @@ endif::[]
 
 == Module Topics
 :noaudio:
-:numbered!:
 
-Module 05 : Resource Management
-
-In This chapter we covered:
-
-* OpenShift Resources
+* Resource Types
+* OpenShift Enterprise Resources
 * Projects and Users
-* Client tool authentication
+* Client Tool Authentication
 * Resource Quota
 * Service Accounts
 * Routes
 * Persistent Volumes
-* Lab: Users, Projects and Quotas
-* Lab: Creating Services and Routes
-* Lab: Provisioning and Configuring Persistent Volumes
 
 
 ifdef::showscript[]
 
 === Transcript
-Welcome to Module 05 of the OpenShift Enterprise Implementation course.
-In this module we will discuss different OpenShift "Resources" and how to use
-them to configure and manage your environment.
+
+Welcome to module five of the OpenShift Enterprise Implementation course.
+
+This module discusses various OpenShift Enterprise resources and how to use them to configure and manage your environment.
 
 
 endif::showscript[]
@@ -48,49 +42,47 @@ endif::showscript[]
 
 
 
-== OpenShift Resources
+== Resource Types
 :noaudio:
 
-* There are a number of different resource types in OpenShift 3.
-* When creating/destroying apps, scaling, building and etc, we are manipulating
-OpenShift and Kubernetes resources under the covers.
-* Resources can have quotas enforced against them.
+
+* Working with applications means manipulating OpenShift Environment and Kubernetes resources in background:
+** Create
+** Destroy
+** Scale
+** Build
+* Can reinforce quotas against resources
 * OpenShift Enterprise 3.0 includes different resource types
-** Resources in this context can refer to:
-*** Hardware Resources: Memory, CPU, other "platform" resources
-*** OpenShift Resources: Pods, services, replication controllers
+* Can refer to:
+** *Hardware resources*: Memory, CPU, other _platform_ resources
+** *OpenShift Enterprise resources*: Pods, services, replication controllers
 
 
 ifdef::showscript[]
 
 === Transcript
 
+When you work with applications--creating, building, scaling, destroying, and so on--you manipulate OpenShift Enterprise and Kubernetes resources in the background.
 
-OpenShift Enterprise 3.0 includes a number of different resource types.
-"Resources" in this context can refer not only to memory, CPU, and other
-"platform" resources, but mostly to `pods`, `services`, and
-`replication controllers`.
+You can enforce quotas against resources. 
 
-Actions such as creating and destroying apps, scaling, building, and so on all
-result in  manipulating OpenShift Enterprise resources in the
-background.
+OpenShift Enterprise 3.0 includes different resource types. In this context, the term _resources_ can refer to hardware resources, such as memory, CPU, and other _platform_ resources, or to OpenShift Enterprise resources, such as pods, services, and replication controllers.
+
 endif::showscript[]
 
 
-== OpenShift Resources
+== OpenShift Enterprise Resources
 :noaudio:
-* Most OpenShift Resources can be defined by a .JSON or .YAML file.
-* In the same manner an API call could be constructed to make a request from the
- OpenShift Master.
+* Can define most OpenShift Enterprise resources with .JSON or .YAML file
+* Can construct API call to make request from OpenShift Enterprise master
 
-//ISSUE:Need to add a side by side json and yaml compare, will do next time in shell
+//ISSUE: Need to add a side-by-side json and yaml compare, will do next time in shell
 
 ifdef::showscript[]
 
 === Transcript
-Most OpenShift Resources can be defined by a .JSON or .YAML file, in the same
-manner an API call could be constructed to make a request from the OpenShift
-Master.
+
+You can define most OpenShift Enterprise resources with a .JSON or .YAML file. In the same manner, you can construct an API call to make a request from the OpenShift Enterprise master.
 
 endif::showscript[]
 
@@ -99,62 +91,79 @@ endif::showscript[]
 
 .Users and User Types
 
-* Users : Interaction with OpenShift is associated with a user.
-* An OpenShift user object represents an "actor" which may be granted
-permissions in the system by adding roles to them or to their groups.
-* Several types of users can exist:
-** *Regular users* - This is the way most interactive OpenShift users will be
-represented.
-*** Regular users are created automatically in the system upon first login, or
-can be created via the API.
-*** Regular users are represented with the User object.
-** *System users* - Many of these are created automatically when the
-infrastructure is defined, mainly for the purpose of enabling the infrastructure
- to interact with the API securely.
-*** They include a cluster administrator (with access to everything), a per-node
- user, users for use by routers and registries, and various others.
-*** There is also an anonymous system user that is used by default for
-unauthenticated requests.
-*** For example : _system:admin_ , _system:openshift-registry_ and
-_system:node:node1.example.com_
+* Interaction with OpenShift Enterprise associated with _user_
+* OpenShift Enterprise user object represents _actor_
+** May grant system permissions by adding roles to actors or groups
+* User types:
 
+[.noredheader,cols="2,3"]
+|===================================================================
+a|.Regular Users
+* Way most interactive OpenShift Enterprise users are represented
+* Created automatically in system upon first login, or via API
+* Represented with `User` object
+a|.System Users
+* Many created automatically when infrastructure defined
+* Let infrastructure interact with API securely
+* Include:
+** Cluster administrator with access to everything
+** Per-node user
+** Users for use by routers and registries
+** Various others
+** Anonymous system user
+*** Used by default for
+unauthenticated requests
+*** Examples: `system:admin`, `system:openshift-registry`, `system:node:node1.example.com`
+|===================================================================
 
 ifdef::showscript[]
+
 === Transcript
 
-An OpenShift user object represents an "actor" which may be granted permissions
-in the system by adding roles to them or to their groups.
+Interaction with OpenShift Enterprise is associated with a _user_.
 
-Regular users are the way most interactive OpenShift users will be represented.
-Most System Users are created automatically when the infrastructure is defined,
-mainly for the purpose of enabling the infrastructure to interact with the API
-securely.
+An OpenShift Enterprise user object represents an _actor_. You can grant permissions to actors in the system by adding roles to them or to their groups.
+
+Among the user types that can exist are regular users and system users.
+
+Regular users are how most interactive OpenShift Enterprise users are represented. Regular users are created automatically in the system upon first login, or you can create them via the API. Regular users are represented with the `User` object.
+
+Most system users are created automatically when the infrastructure is defined, mainly for the purpose of enabling the infrastructure to interact with the API securely.
+
+System users include a cluster administrator, who has access to everything; a per-node user; users for use by routers and registries; and various others.
+
+There is also an anonymous system user that is used by default for unauthenticated requests. Examples include `system:admin`, `system:openshift-registry`, and `system:node:node1.example.com`.
 
 endif::showscript[]
 
 == Projects and Users
 :noaudio:
 
-.Users and User Types
+.Users and User Types: Service Accounts
 
-* *Service accounts* - These are special system users associated with projects;
-* When a `pod` requires access to make an API call to the OSE master, a
-`ServiceAccount` is created to represents the pod's credentials.
-* some *Service Accounts* are created automatically when the project is first
-created
-* users can create more for the purpose of defining access to the contents of
-each project or to make API calls to the OSE master.
-*** Service accounts are represented with the `ServiceAccount` object.
-*** For example : _system:serviceaccount:default:deployer_ and  _system:serviceaccount:foo:builder_
+* *Service accounts*: Special system users associated with project
+* When pod requires access to make API call to OpenShift Enterprise master:
+** `ServiceAccount` created to represent pod's credentials
+* Some service accounts created automatically when project created
+* Can create more to:
+** Define access to project contents
+** Make API calls to OpenShift Enterprise master
+* Service accounts are represented with the `ServiceAccount` object.
+** Examples: `system:serviceaccount:default:deployer`, `system:serviceaccount:foo:builder`
 
 
 ifdef::showscript[]
 
 === Transcript
-Service accounts are special system users associated with projects, they allow
-Pods (in the project) to make queries/API calls to the OpenShift Master.
 
-We will discuss Service Accounts later in this module.
+Service accounts are special system users associated with a project.
+
+When a pod requires access to make an API call to the OpenShift Enterprise master, a `ServiceAccount` is created to represent the pod's credentials.
+
+Some service accounts are created automatically when the project is first created. Users can create more service accounts to define access to the project's contents or to make API calls to the OpenShift Enterprise master.
+
+Service accounts are represented with the `ServiceAccount` object. Examples include `system:serviceaccount:default:deployer` and  `system:serviceaccount:foo:builder`.
+
 
 endif::showscript[]
 
@@ -162,27 +171,30 @@ endif::showscript[]
 == Projects and Users
 :noaudio:
 
-."Namespace" (Or, "Project")
-* A Kubernetes namespace provides a mechanism to scope resources in a cluster.
-In OpenShift, a project is a Kubernetes namespace with additional annotations.
-* Namespaces provide a unique scope for:
-** Named resources to avoid basic naming collisions.
-** Delegated management authority to trusted users.
-** The ability to limit community resource consumption.
-* Most objects in the system are scoped by namespace, but some are excepted and
-have no namespace, including nodes and users.
+.Namespaces
+
+* *Kubernetes namespace*: Provides mechanism to scope cluster resources
+** In OpenShift Enterprise, _project_ is Kubernetes namespace with additional annotations
+* Namespaces provide scope for:
+** Named resources to avoid naming collisions
+** Delegated management authority to trusted users
+** Ability to limit community resource consumption
+* Most objects in system scoped by namespace
+** Some excepted and have no namespace
+** Examples: Nodes and users
 
 
 
 ifdef::showscript[]
 
 === Transcript
+
 A Kubernetes namespace provides a mechanism to scope resources in a cluster.
-In OpenShift, a project is a Kubernetes namespace with additional annotations.
+In OpenShift Enterprise, a project is a Kubernetes namespace with additional annotations.
 
-Namespaces provide a unique scope for: Named resources to avoid basic naming
-collisions, delegated management authority to trusted users and the ability to
-limit community resource consumption.
+Namespaces provide a unique scope for named resources to avoid basic naming collisions, delegated management authority to trusted users, and the ability to limit community resource consumption.
+
+Most objects in the system are scoped by namespace, but some are excepted and have no namespace. Examples of excepted objects include nodes and users.
 
 endif::showscript[]
 
@@ -191,115 +203,140 @@ endif::showscript[]
 == Projects and Users
 :noaudio:
 
-.Projects (Formerly: Namespace)
-* A project is a Kubernetes namespace with additional annotations, and is the
-central vehicle by which access to resources for regular users is managed.
-* A project allows a community of users to organize and manage their content in
-isolation from other communities.
-* Users must be given access to projects by administrators, or if allowed to
-create projects, automatically have access to their own projects.
+.Projects
+* *Project*: Kubernetes namespace with additional annotations
+** Central vehicle for managing resource access for regular users
+** Lets community of users organize and manage content in isolation from other communities
+* Users either:
+** Receive access to projects from administrators
+** Have access to own projects if allowed to create them
 
-* Each project scopes its own set of:
+* Each project scopes own:
 ** *Objects:* Pods, services, replication controllers, etc.
-** *Policies:* Rules for which users can or cannot perform actions on objects.
-** *Constraints:* Quotas for each kind of object that can be limited.
-** *Service accounts:* Service accounts act automatically with designated access to objects in the project.
+** *Policies:* Rules for which users can or cannot perform actions on objects
+** *Constraints:* Quotas for objects that can be limited
+** *Service accounts:* Users that act automatically with access to project objects
 
 
 
 ifdef::showscript[]
 
 === Transcript
-A project is a Kubernetes namespace with additional annotations, and is the
-central vehicle by which access to resources for regular users is managed.
 
-Cluster administrators can create projects and delegate administrative rights
-for the project to any member of the user community.
-Cluster administrators can also allow developers to create their own projects.
+A project, as mentioned earlier is a Kubernetes namespace with additional annotations. It is the central vehicle for managing access to resources for regular users.
 
-* Each project scopes its own set of:
-** *Objects:* Pods, services, replication controllers, etc.
-** *Policies:* Rules for which users can or cannot perform actions on objects.
-** *Constraints:* Quotas for each kind of object that can be limited.
-** *Service accounts:* Service accounts act automatically with designated access
-to objects in the project.
+A project lets a community of users organize and manage their content in isolation from other communities.
+
+Users must receive access to projects from administrators. But cluster administrators can allow developers to create their own projects. In that case, users automatically have access to their own projects.
+
+Each project scopes its own set of objects, policies, constraints, and service accounts. Objects, include pods, services, replication controllers, etc. Policies are rules for which users can or cannot perform actions on objects. Constraints are quotas for each kind of object that can be limited. Service accounts are users that act automatically with designated access to objects in the project.
 
 
 endif::showscript[]
 
-== Client tool authentication
+== Client Tool Authentication
 :noaudio:
 
-* Every user must authenticate in some way in order to access OpenShift.
-API requests with no authentication or invalid authentication are authenticated
-as requests by the anonymous system user. Once authenticated, policy determines
-what the user is authorized to do.
+* Every user must authenticate to access OpenShift Enterprise
+* Requests lacking valid authentication authenticated as anonymous system user
+* Policy determines what user is authorized to do
 
 .Web Console Authentication
 
-* When accessing the web console from a browser at `_<master-public-addr>_:8443`,
-you are automatically redirected to a login page.
-
-* You can provide your login credentials on this page to obtain a token to make
-API calls. After logging in, you can navigate your projects using the web
-console.
+* Access web console at `_<master-public-addr>_:8443`
+* Automatically redirected to login page
+* Provide login credentials to obtain token to make API calls
+* Use web console to navigate projects
 
 
 ifdef::showscript[]
 
 === Transcript
-Every user must authenticate in some way in order to access OpenShift.
-API requests with no authentication or invalid authentication are authenticated
-as requests by the anonymous system user. Once authenticated, policy determines
-what the user is authorized to do.
 
-You can access the Web Console on the OSE Master's public IP on port 8443.
+Every user must authenticate in some way to access OpenShift Enterprise. API requests that lack valid authentication are authenticated as requests by an anonymous system user. Once you authenticate, policy determines what you are authorized to do.
 
-You can provide your login credentials on to obtain a token to make
-API calls. After logging in, you can navigate your projects using the web
-console.
+You access the web console on the OpenShift Enterprise master's public IP on port 8443. The system automatically redirects you to the login page.
+
+You provide your login credentials to obtain a token to make API calls. After you log in, you use the web console to navigate your projects.
 
 endif::showscript[]
 
-== Client tool authentication
+== Client Tool Authentication
 :noaudio:
 
-.CLI Authentication - Continued
+.CLI Authentication
+* Download client from Red Hat Product Downloads:
+https://access.redhat.com/downloads/content/290/ver=3.0.0.0/rhel---7/3.0.1.0/x86_64/product-downloads
+* After extracting software, use `oc login` to authenticate from command line:
++
+----
+$ oc login -u andrew --server="https://master09-c4po.oslab.opentlc.com:8443"
+----
 
-* Here is a an syntax brief:
+* Command's interactive flow helps establish session to OpenShift Enterprise server with provided credentials
+
+* Example: Authenticate as OpenShift Enterprise cluster administrator (usually `root` user):
++
+----
+$ oc login -u system:admin -n openshift
+----
++
+** You set username and _project_ (_namespace_) to log in to
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+You can download the CLI authentication client from Red Hat Product Downloads.
+
+After you extract the software, you can authenticate from the command line using the CLI command `oc login`.
+
+The command's interactive flow helps you establish a session to an OpenShift Enterprise server with the provided credentials.
+
+Say, for example, you want to authenticate as the OpenShift Enterprise cluster administrator (usually the `root` user). Use the command shown here.
+
+Note that you set the user name and the _project_ (_namespace_) to log in to.
+
+endif::showscript[]
+
+== Client Tool Authentication
+:noaudio:
+
+.CLI Authentication: `oc login` Options
+
 [options="nowrap"]
 ----
 $ oc login [--username=<username>]  [--password=<password>] [--server=<server>] [--certificate-authority=</path/to/file.crt>|--insecure-skip-tls-verify]
 ----
 
 
-* The following table describes these common options for `oc login`:
+* Common options for `oc login`:
 
-.Common CLI Configuration Options
-[cols="4,8",options="header"]
+[cols="4,8"]
 |===
-
 |Option |Description
 |`-s, --server`
-|Specifies the host name of the OpenShift server. If a
-server is provided through this flag, the command does not ask for it
-interactively.
-
+a|* Specifies host name of OpenShift Enterprise server
+* If flag provides
+server, command does not ask for it
+interactively
 |`-u, --username` and `-p, --password`
-|Allows you to specify the credentials to log in to the OpenShift
-server. If user name or password are provided through these flags, the command
-does not ask for it interactively.
-
+a|* Lets you specify credentials to log in to OpenShift Enterprise
+server
+* If flags provide username or password, command
+does not ask for it interactively
 |`--certificate-authority`
-|Correctly and securely authenticates with an OpenShift
-server that uses HTTPS. The path to a certificate authority file must be
-provided.
-
+a|* Correctly and securely authenticates with OpenShift Enterprise
+server that uses HTTPS 
+* Must provide path to certificate authority file
 |`--insecure-skip-tls-verify`
-|Allows interaction with an HTTPS server bypassing the server
-certificate checks; however, note that it is not secure. If you try to `oc
-login` to a HTTPS server that does not provide a valid certificate, and this or
-the `--certificate-authority` flags were not provided.
+a|* Allows interaction with HTTPS server while bypassing server
+certificate checks
+* Not secure if 
+** You `oc
+login` to HTTPS server that does not provide valid certificate
+** This or `--certificate-authority` not provided
 |===
 
 
@@ -307,78 +344,10 @@ the `--certificate-authority` flags were not provided.
 ifdef::showscript[]
 
 === Transcript
-Review the following options for the *oc login* command, take special attention
-to the "insecure-skip-tls-verify" flag as you would probably need to use it when
- attempting to access the OSE Master before securing the master with TLS
- certificates.
 
-endif::showscript[]
+The code example here shows brief syntax for CLI authentication.
 
-== Client tool authentication
-:noaudio:
-
-.CLI Authentication
-* You can download the client from
-link:https://access.redhat.com/downloads/content/290/ver=3.0.0.0/rhel---7/3.0.1.0/x86_64/product-downloads[Red Hat Product Downloads]
-* Once you extracted the software, you can authenticate from the command line
-using the CLI command `oc login`.
-+
-----
-$ oc login -u andrew --server="https://master09-c4po.oslab.opentlc.com:8443"
-----
-
-* The command's interactive flow helps you establish a session to an OpenShift
-server with the provided credentials.
-
-* Here is a handy example, lets say we wanted to authenticate as the Openshift
-Cluster Administrator (Usually root User), we could use the following:
-+
-----
-$ oc login -u system:admin -n openshift
-----
-NOTE: Notice that we are setting the user name and the *project* (_namespace_)
-to log in to.
-
-
-ifdef::showscript[]
-
-=== Transcript
-You can download the client from Red Hat Product Downloads.
-
-Once you extracted the software you can authenticate from the command line using
- the CLI command "oc login".
-
-endif::showscript[]
-
-
-== Resource Quota
-:noaudio:
-
-.What is ResourceQuota
-* OpenShift can limit both the number of objects created in a Project , and the
-total amount of resources requested across objects in a namespace/Project.
-* This facilitates sharing of a single OpenShift cluster by several teams, each
-in a Project of their own, as a mechanism of preventing one team from starving
-another team of cluster resources.
-* A ResourceQuota object enumerates hard resource usage limits *per project.*
-** It can limit the total number of a particular type of object that may be
-created in a project, and the total amount of compute resources that may be
-consumed by resources in that project.
-
-
-ifdef::showscript[]
-
-=== Transcript
-You can enforce quotas against resources. The quota defines limits for multiple
-resource.
-
-Within a project, users cannot run actions that result in exceeding these
-resource limits. Because the quota is enforced at the project level, it is up
-to the users to allocate resources--specifically, memory and CPU--to their pods
-and containers.
-
-Notice that some of the resources are "Hardware resources" and others are
-"OpenShift Resources"
+Review the options for the `oc login` command shown in the table. Pay special attention to the `insecure-skip-tls-verify` flag. You will probably need to use it when attempting to access the OpenShift Enterprise master before securing the master with TLS certificates.
 
 endif::showscript[]
 
@@ -387,55 +356,29 @@ endif::showscript[]
 == Resource Quota
 :noaudio:
 
-.Quota enforcement
-* After a quota is first created in a project, the project restricts the ability
-to create any new resources that may violate a quota constraint until it has
-calculated updated usage statistics.
-
-* If your modification to a project would exceed a quota usage limit, the action
- is denied by the server, and an appropriate error message is returned to the
- end-user. The error explains what quota constraint was violated, and what their
-  currently observed usage stats are in the system.
-
-ifdef::showscript[]
-
-=== Transcript
-After a quota is first created in a project, the project restricts the ability
-  to create any new resources that may violate a quota constraint until it has
-  calculated updated usage statistics.
-
-endif::showscript[]
-
-
-== Resource Quota
-:noaudio:
-
-.Quota enforcement - Continued
-
-* Once a quota is created and usage statistics are up-to-date, the project
-accepts the creation of new content.
-* When you create resources, your quota usage is incremented immediately upon
-the request to create or modify the resource.
-* When you delete a resource, your quota use is decremented during the
-next full recalculation of quota statistics for the project.
-
-NOTE: It may take a moment for your quota usage statistics to be reduced to
-their  current observed system value when you delete resources.
+.What Is `ResourceQuota`?
+* OpenShift Enterprise can limit:
+** Number of objects created in project
+** Amount of resources requested across objects in namespace/project
+* Several teams can share single OpenShift Enterprise cluster
+** Each team in own project
+** Prevents teams from starving each other of cluster resources
+* *`ResourceQuota` object*: Enumerates hard resource usage limits _per project_
+* Can limit:
+** Total number of particular type of object created in project
+** Total amount of compute resources consumed in project
 
 
 ifdef::showscript[]
 
 === Transcript
-After a quota is first created in a project, the project restricts the ability
-to create any new resources that may violate a quota constraint until it has
-calculated updated usage statistics.
 
-When you create resources, your quota usage is incremented immediately upon
-the request to create or modify the resource, *but* when you *delete a resource*,
-your quota use is *decremented during the next full recalculation* of quota
-statistics for the project.
-Because of this, it may take a moment for your quota usage statistics to be
-reduced to their current observed system value when you delete resources.
+OpenShift Enterprise can limit both the number of objects created in a project and the total amount of resources requested across objects in a namespace or project.
+
+This lets several teams, each with its own project, share a single OpenShift Enterprise cluster. It provides a mechanism for preventing one team from starving another team of cluster resources.
+
+A `ResourceQuota` object enumerates hard resource usage limits _per project_. It can limit the total number of a particular type of object that may be created in a project, as well as the total amount of compute resources that resources may consume in that project.
+
 
 endif::showscript[]
 
@@ -444,11 +387,60 @@ endif::showscript[]
 == Resource Quota
 :noaudio:
 
-.Creating and applying a quota to a project
+.Quota Enforcement
+* After quota created in project:
+** Project restricts ability to create resources that may violate quota constraint
+** Until it calculated usage statistics
 
-* Sample quota definition file
+* If project modification will exceed quota:
+** Server denies action
+** Returns error message
+** Includes:
+*** Quota constraint violated
+*** Current system usage stats
 
-+
+ifdef::showscript[]
+
+=== Transcript
+
+After you first create a quota in a project, the project restricts your ability to create any new resources that may violate a quota constraint until it has calculated updated usage statistics.
+
+If your modification to the project exceeds a quota usage limit, the server denies the action and returns an appropriate error message. The error includes the quota constraint that was violated and the system's currently observed usage statistics.
+
+endif::showscript[]
+
+
+== Resource Quota
+:noaudio:
+
+.Quota Enforcement: Usage Changes
+
+* After quota created and usage statistics are up-to-date:
+** Project accepts content creation 
+* When you create resources:
+** Quota usage incremented immediately upon request
+* When you delete resources:
+** Quota use decremented during next full recalculation of project quota statistics
+** May take moment to reduce quota usage statistics to their current observed system value
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+After you create a quota and usage statistics are up-to-date, the project accepts the creation of new content.
+
+When you create resources, your quota usage is incremented immediately upon the request to create or modify the resource. However, when you delete a resource, your quota use is decremented during the next full recalculation of quota statistics for the project. Because of this, it may take a moment for your quota usage statistics to be reduced to their current observed system value when you delete resources.
+
+endif::showscript[]
+
+
+
+== Resource Quota
+:noaudio:
+
+.Sample Quota Definition File
+
 ----
 {
   "apiVersion": "v1",
@@ -468,18 +460,21 @@ endif::showscript[]
   }
 }
 ----
-<1>  The name of this quota document
-<2>  The total amount of memory consumed across all containers may not exceed 1Gi.
-<3>  The total number of cpu usage consumed across all containers may not exceed 20 Kubernetes compute units.
-<4>  The total number of pods in the project
-<5>  The total number of services in the project
-<6>  The total number of replication controllers in the project
-<7>  The total number of resource quota documents in the project
 
 ifdef::showscript[]
 
 === Transcript
-Here is an example of a Quota definition file.
+
+Here is an example of a quota definition file. Note the following:
+
+. This is the name of this quota document
+. This is the total amount of memory consumed across all containers. It cannot exceed 1 GB.
+. This is the total amount of CPU usage consumed across all containers. It cannot exceed 20 Kubernetes compute units.
+. This is the total number of pods in the project.
+. This is the total number of services in the project.
+. This is the total number of replication controllers in the project.
+. This is the total number of resource quota documents in the project.
+
 
 endif::showscript[]
 
@@ -487,10 +482,8 @@ endif::showscript[]
 == Resource Quota
 :noaudio:
 
-.Creating and applying a quota to a project
+.Applying a Quota to a Project
 
-* Apply a quota to a Project
-+
 ----
 
 $ oc create -f create_quota_def_file.json --namespace=your_project_name
@@ -500,8 +493,7 @@ $ oc create -f create_quota_def_file.json --namespace=your_project_name
 ifdef::showscript[]
 
 === Transcript
-To create a `quota` and apply it to a  `project` use the *oc create* command and
- specify the --namespace or -n flag with the project name.
+To create a quota and apply it to a project, use the `oc create` command and specify the `--namespace` or `-n` flag with the project name.
 
 endif::showscript[]
 
@@ -511,50 +503,41 @@ endif::showscript[]
 
 .Overview
 
-* When a person uses the command line or web console, their API token
-authenticates them to the OpenShift API.
-* However, when a regular user's
-credentials are not available, it is common for components to make API calls
-independently. For example:
+* When using CLI or web console, user's API token authenticates to OpenShift Enterprise API.
+* When regular user's credentials not available, components can make API calls independently
+* Examples:
 
-- Replication controllers make API calls to create or delete pods
-- Applications inside containers can make API calls for discovery purposes
-- External applications can make API calls for monitoring or integration
-purposes
+** Replication controllers make API calls to create/delete pods
+** Applications inside containers make API calls for discovery
+** External applications make API calls for monitoring/integration
 
-* Service accounts provide a flexible way to control API access without sharing
-a regular user's credentials.
+* Service accounts provide flexible way to control API access without sharing user credentials
 
 
 ifdef::showscript[]
 
 === Transcript
 
-When a person uses the command line or web console, their API token
-authenticates them to the OpenShift API, however, when a regular user's
-credentials are not available, it is common for components to make API calls
-independently. For example:
+When a person uses the command line or web console, that user's API token authenticates him or her to the OpenShift Enterprise API. However, when a regular user's credentials are not available, it is common for components to make API calls independently. For example:
 
-- Replication controllers make API calls to create or delete pods
-- Applications inside containers can make API calls for discovery purposes
-- External applications can make API calls for monitoring or integration
-purposes
+* Replication controllers can make API calls to create or delete pods.
+* Applications inside containers can make API calls for discovery purposes.
+* External applications can make API calls for monitoring or integration purposes.
 
- Service accounts provide a flexible way to control API access without sharing
- a regular user's credentials.
+Service accounts provide a flexible way to control API access without sharing a regular user's credentials.
+
 endif::showscript[]
 
 == Service Accounts
 :noaudio:
 
-.Usernames and groups
+.Usernames and Groups
 
-* Every service account has an associated username that can be granted roles,
-just like a regular user.
-* The `ServiceAccount` username is derived from its project and name:
-*system:serviceaccount:<project>:<name>*
+* Every service account has associated username
+** Can be granted roles like regular user
+* `ServiceAccount` username derived from project and name: `system:serviceaccount:<project>:<name>`
 
-* For example, to add the *view* role to the *monitor-agent* service account in the *monitored-project* project:
+* Example: To add `view` role to `monitor-agent` service account in `monitored-project`:
 +
 ----
 $ oc policy add-role-to-user view system:serviceaccount:monitored-project:monitor-agent
@@ -563,34 +546,31 @@ $ oc policy add-role-to-user view system:serviceaccount:monitored-project:monito
 ifdef::showscript[]
 
 === Transcript
-Every service account has an associated username that can be granted roles,
-just like a regular user. The ServiceAccount's username is derived from its
-project and name.
 
+Every service account has an associated username that can be granted roles, just like a regular user. The `ServiceAccount` username is derived from its project and name.
 
+This example shows how to add the `view` role to the `monitor-agent` service account in the `monitored-project` project.
 
 endif::showscript[]
 
 == Service Accounts
 :noaudio:
 
-.Usernames and groups - Continued
+.Usernames and Groups: Service Account Groups
 
-* Every service account is also a member of two groups:
+* Every service account member of two groups:
 
-- *system:serviceaccounts*, which includes all service accounts in the system
-- *system:serviceaccounts:<project>*, which includes all service accounts in
-the specified project
+** `system:serviceaccounts`: Includes all service accounts in system
+** `system:serviceaccounts:<project>`: Includes all service accounts in specified project
 
-* For example, to allow all service accounts in all projects to view resources
-in the *monitored-project* project:
+* Examples: 
+** To allow all service accounts in all projects to view resources in `monitored-project`:
 +
 ----
 $ oc policy add-role-to-group view system:serviceaccounts -n monitored-project
 ----
 
-* To allow all service accounts in the "monitor project" to edit resources in
-the *monitored-project* project:
+** To allow all service accounts in `monitor project` to edit resources in `monitored-project`:
 +
 ----
 $ oc policy add-role-to-group edit system:serviceaccounts:monitor -n monitored-project
@@ -599,25 +579,29 @@ $ oc policy add-role-to-group edit system:serviceaccounts:monitor -n monitored-p
 ifdef::showscript[]
 
 === Transcript
- Every service account is also a member of two groups:
- - *system:serviceaccounts*, which includes all service accounts in the system
- - *system:serviceaccounts:<project>*, which includes all service accounts in
- the specified project.
+
+Every service account is also a member of two groups:
+
+* `system:serviceaccounts`, which includes all service accounts in the system
+* `system:serviceaccounts:<project>`, which includes all service accounts in the specified project.
+
+The first example shows how to allow all service accounts in all projects to view resources in the `monitored-project` project.
+
+The second example shows how to allow all service accounts in the `monitor project` to edit resources in the `monitored-project` project.
 
 endif::showscript[]
 
 == Service Accounts
 :noaudio:
 
-.Enable service account authentication
+.Enable Service Account Authentication
 
-* Service accounts authenticate to the API using tokens signed by a private RSA key.
-* The authentication layer verifies the signature using a matching public RSA key.
+* Service accounts authenticate to API using tokens signed by private RSA key
+* Authentication layer verifies signature using matching public RSA key
 
-* To enable service account token generation, update the
-master configuration file `serviceAccountConfig` stanza to specify a
-`privateKeyFile` (for signing), and a matching public key file in the
-`publicKeyFiles` list:
+* To enable service account token generation, update `serviceAccountConfig` stanza to specify:
+** `privateKeyFile` for signing
+** Matching public key file in `publicKeyFiles` list
 +
 ----
 serviceAccountConfig:
@@ -629,37 +613,32 @@ serviceAccountConfig:
   - ...
 ----
 
-<1> CA file used to validate the API server's serving certificate
-<2> Private RSA key file (for token signing)
-<3> Public RSA key files (for token verification). If private key files are
-provided, then the public key component is used. Multiple public key files can
-be specified, and a token will be accepted if it can be validated by one of
-the public keys. This allows rotation of the signing key, while still
-accepting tokens generated by the previous signer.
-
-
 ifdef::showscript[]
 
 === Transcript
-Service accounts authenticate to the API using tokens signed by a private RSA
-key.
+
+Service accounts authenticate to the API using tokens signed by a private RSA key.
 The authentication layer verifies the signature using a matching public RSA key.
 
-To enable service account token generation, update the master configuration file
- `serviceAccountConfig` stanza to specify a `privateKeyFile` (for signing), and
- a matching public key file in the `publicKeyFiles` list.
+To enable service account token generation, update the master configuration file's `serviceAccountConfig` stanza to specify a `privateKeyFile` for signing, and  a matching public key file in the `publicKeyFiles` list.
+
+Note the following in the example shown here:
+
+. This is the CA file used to validate the API server's serving certificate
+. This is the private RSA key file for token signing.
+. These are the public RSA key files for token verification. If the code provides private key files, then you use the public key component. You can specify multiple public key files, and a token will be accepted if one of the public keys can validate it. This allows you to rotate the signing key, while still accepting tokens generated by the previous signer.
+
 
 endif::showscript[]
 
 == Service Accounts
 :noaudio:
 
-.Managed service accounts
+.Managed Service Accounts
 
-* Service accounts are required in each project to run builds, deployments, and
-other pods.
-* The `managedNames` setting in the master configuration file controls which
-service accounts are automatically created in every project:
+* Service accounts required in each project
+** Run builds, deployments, other pods
+* `managedNames` setting in master configuration file determines service accounts automatically created in project:
 +
 ----
 serviceAccountConfig:
@@ -670,59 +649,56 @@ serviceAccountConfig:
   - default <4>
   - ...
 ----
-<1> List of service accounts to automatically create in every project
-<2> A *builder* service account in each project is required by build pods, and
-is given the *system:image-builder* role, which allows pushing images to any
-image stream in the project using the internal docker registry.
-<3> A *deployer* service account in each project is required by deployment pods,
- and is given the *system:deployer* role, which allows viewing and modifying
- replication controllers and pods in the project.
-<4> A *default* service account is used by all other pods unless they specify a
-different service account.
 
+* All service accounts in project given `system:image-puller` role
+** Allows pulling images from any image stream in project using internal Docker registry.
 
-* All service accounts in a project are given the *system:image-puller* role,
-which allows pulling images from any image stream in the project using the internal docker registry.
 
 ifdef::showscript[]
 
 === Transcript
-Service accounts are required in each project to run builds, deployments, and
-other pods.
 
-The "Builder", "Deployer" and "Default" service accounts are created for each
-project automatically and given permissions to do their role.
+Service accounts are required in each project to run builds, deployments, and other pods.
 
- The `managedNames` setting in the master configuration file controls which
-service accounts are automatically created in every project:
+The `managedNames` setting in the master configuration file controls which service accounts are automatically created in every project. The `builder`, `deployer`, and `default` service accounts are created for each project automatically and given permissions to do their roles.
+
+Note the following regarding the example shown here:
+
+. This is the list of service accounts to automatically create in every project.
+. Build pods require a `builder` service account. This service account is given the `system:image-builder` role, which allows pushing images to any image stream in the project using the internal Docker registry.
+. Deployment pods require a `deployer` service account in each project. This service account is given the `system:deployer` role, which allows viewing and modifying replication controllers and pods in the project.
+. All other pods use a `default` service account unless they specify a different service account.
+
+All service accounts in a project are given the `system:image-puller` role, which allows pulling images from any image stream in the project using the internal Docker registry.
+
 
 endif::showscript[]
 
 
 == Routes
 :noaudio:
+
 .Overview
 
-* An OpenShift route is a way to expose a _service_ by giving it an
-externally-reachable hostname like `www.example.com`.
+* *OpenShift Enterprise route*: Exposes _service_ by giving it externally reachable hostname
 
-* A defined route and the endpoints identified by its service can be consumed by
-a router to provide named connectivity that allows external clients to reach
-your applications.
-* Each route consists of a route name, service selector, and (optionally)
-security configuration.
+* Router can consume defined route and endpoints identified by service
+** Provides named connectivity
+** Lets external clients reach applications
+* Route consists of:
+** Route name
+** Service selector
+** Security configuration (optional)
 
 ifdef::showscript[]
+
 === Transcript
 
-An OpenShift route is a way to expose a _service_ by giving it an
-externally-reachable hostname like `www.example.com`.
+An OpenShift Enterprise route is a way to expose a service by giving it an externally reachable hostname such as `www.example.com`.
 
-* A defined route and the endpoints identified by its service can be consumed by
-a router to provide named connectivity that allows external clients to reach
-your applications.
-* Each route consists of a route name, service selector, and (optionally)
-security configuration.
+A router can consume a defined route and the endpoints identified by its service to provide named connectivity that lets external clients reach your applications.
+
+Each route consists of a route name, a service selector, and, optionally, a security configuration.
 
 endif::showscript[]
 
@@ -730,13 +706,14 @@ endif::showscript[]
 == Routes
 :noaudio:
 
-.Creating routes with the command line
+.Creating Routes With the Command Line
 
-* `Routes` can be a create using an API call or a Object Defenition File
-(YAML,JSON) or they can be created by the CLI tool.
+* Can create routes using:
+** API call
+** Object definition file (YAML, JSON)
+** CLI tool
 
-* Here is an example of how we can create a route, with a hostname that is
-exposing a service called "hello-service" using the CLI:
+* Example: Use CLI to create route with hostname exposing service `hello-service`:
 +
 [source,bash]
 ----
@@ -745,7 +722,7 @@ NAME            HOST/PORT                                 PATH      SERVICE     
 hello-service   hello-openshift-r2d2.oslab.opentlc.com             hello-service
 ----
 
-* To display the *routes* in your current project
+* To display `routes` in current project:
 +
 ----
 
@@ -759,10 +736,13 @@ ifdef::showscript[]
 
 === Transcript
 
-As you can see,  we can use the *oc expose* command to create a `route` for
-external access to our `service` Note that the route actually routes directly to
- the pods, not to the `service`. The route gets the pod connection details from
- the service.
+You can create `routes` using an API call, an object definition file such as YAM or JSON, or the CLI tool.
+
+The first example shows how you can use the CLI to create a route with a hostname that exposes a service called `hello-service`.
+
+As you can see,  you use the `oc expose` command to create a `route` for external access to your `service` Note that the route routes directly to the pods, not to the `service`. The route gets the pod connection details from the service.
+
+The second example shows how to display the `routes` in your current project.
 
 endif::showscript[]
 
@@ -770,29 +750,36 @@ endif::showscript[]
 :noaudio:
 
 .Route Types
-* Routes can be either secured or unsecured.
-* Secure routes provide the ability to use several types of TLS termination to
-serve certificates to the client.
-* The "Default Router" supports: edge, passthrough, and re-encryption
-termination.
+* Routes can be secured or unsecured
+* Unsecured routes simplest to configure
+** Require no key or certificates
+* Secured routes offer security
+** Connections remain private
+** Let you use several types of TLS termination to serve certificates to client
+* `Default Router` supports: 
+** Edge
+** Passthrough
+** Re-encryption termination
 
 
 ifdef::showscript[]
+
 === Transcript
-Routes can be either secured or unsecured, in the following slides we will learn
- how to define different types of routes.
 
-Secure routes provide the ability to use several types of TLS termination to
-serve certificates to the client.
+Routes can be either secured or unsecured.
 
-The "Default Router" supports: edge, passthrough, and re-encryption termination.
+Unsecured routes are simplest to configure, as they require no key or certificates. However, secured routes offer security for connections to remain private.
+
+Secure routes let you use several types of TLS termination to serve certificates to the client.
+
+The `Default Router` supports edge, passthrough, and re-encryption termination.
 
 endif::showscript[]
 
 == Routes
 :noaudio:
 
-.Route Types - Unsecured Route Object YAML Definition
+.Route Types: Unsecured Route Object YAML Definition
 
 [source,yaml]
 ----
@@ -807,65 +794,63 @@ spec:
     name: service-name
 ----
 
-* Unsecured routes are simplest to configure, as they require no key
-or certificates, but secured routes offer security for connections to
-remain private.
 
 ifdef::showscript[]
 
 === Transcript
-Unsecured routes are simplest to configure, as they require no key
-or certificates, but secured routes offer security for connections to
-remain private.
+
+This example shows an unsecured route object YAML definition.
 
 endif::showscript[]
 
 == Routes
 :noaudio:
 
-.Route Types - Path Based Routes
+.Route Types: Path-Based Routes
 
-* Path based routes specify a path component that can be compared against
-a URL (which requires that the traffic for the route be HTTP based) such
-that multiple routes can be served using the same hostname, each with a
-different path.
-* The following table shows example routes and their accessibility:
+* *Path-based routes*: Specify path component
+** Can compare against URL
+** Allows using same hostname to serve multiple routes
+** Each route with different path
+** Requires HTTP-based route traffic
 
-.Route Availability
+ifdef::showscript[]
+
+=== Transcript
+
+Path-based routes specify a path component that can be compared against a URL so that you can serve multiple routes, each with a different path, using the same hostname.
+
+This requires that the traffic for the route be HTTP-based.
+
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+
 [cols="3*", options="header"]
 |===
 |Route |When Compared to |Accessible
-
-.2+|_www.example.com/test_ |_www.example.com/test_ |Yes
-
-|_www.example.com_ |No
-
-.2+|_www.example.com/test_ and _www.example.com_ |_www.example.com/test_ |Yes
-
-|_www.example.com_ |Yes
-
-.2+|_www.example.com_ |_www.example.com/test_ |Yes (Matched by the host, not the
-  route)
-
-|_www.example.com_ |Yes
+.2+|`www.example.com/test` |`www.example.com/test` |Yes
+|`www.example.com` |No
+.2+|`www.example.com/test` and `www.example.com` |`www.example.com/test` |Yes
+|`www.example.com` |Yes
+.2+|`www.example.com` |`www.example.com/test` |Yes (matched by host, not route)
+|`www.example.com` |Yes
 |===
 
 ifdef::showscript[]
+
 === Transcript
 
-Path based routes specify a path component that can be compared against
-a URL (which requires that the traffic for the route be HTTP based) such
-that multiple routes can be served using the same hostname, each with a
-different path.
-
-The following table shows example routes and their accessibility.
+The table shown here provides example routes and their accessibility.
 
 endif::showscript[]
 
 == Routes
 :noaudio:
 
-.Route Types - An Unsecured Route with a Path:
+.Route Types: An Unsecured Route With a Path
 
 [source,yaml]
 ----
@@ -881,41 +866,45 @@ spec:
     name: service-name
 ----
 
-<1> The path is the only added attribute for a path-based route.
-
-NOTE: Path-based routing is not available when using passthrough TLS, as
-the router does not terminate TLS in that case and cannot read the contents
-of the request.
+* Path-based routing not available with passthrough TLS
+** Router does not terminate TLS
+** Cannot read request contents
 
 ifdef::showscript[]
+
 === Transcript
-Before you is an example of a unsecured route using a path:
- http://www.example.com/path
+
+Here is an example of a unsecured route using a path: http://www.example.com/path.
+
+Note the following:
+
+. The path is the only added attribute for a path-based route.
+
+Path-based routing is not available when using passthrough TLS, as the router does not terminate TLS in that case and cannot read the contents of the request.
+ 
 endif::showscript[]
 
 == Routes
 :noaudio:
 
-.Route Types - Secured Routes
+.Route Types: Secured Routes
 
-* Secured routes specify the TLS termination of the route and, optionally,
-provide a key and certificate(s).
+* *Secured routes*: Specify TLS termination of route
+** Key and certificate(s) also option
 
-NOTE: TLS termination in OpenShift relies on
-link:https://en.wikipedia.org/wiki/Server_Name_Indication[SNI] for serving
-custom certificates. Any non-SNI traffic received on port 443 is handled with TLS
-termination and a default certificate (which may not match the requested hostname,
-resulting in validation errors).
+* TLS termination in OpenShift Enterprise relies on SNI 
+** Serves custom certificates
+** Non-SNI traffic received on port 443 handled with TLS termination and default certificate
+** Might not match requested hostname, causing errors
+** Learn more: https://en.wikipedia.org/wiki/Server_Name_Indication
 
 ifdef::showscript[]
-=== Transcript
-Secured routes specify the TLS termination of the route and, optionally,
-provide a key and certificate(s).
 
-TLS termination in OpenShift relies on SNI (Server Name Indication) for serving
-custom certificates. Any non-SNI traffic received on port 443 is handled with
-TLS termination and a default certificate (which may not match the requested
-  hostname, resulting in validation errors).
+=== Transcript
+
+Secured routes specify the TLS termination of the route. They also have the option to provide a key and certificate(s).
+
+TLS termination in OpenShift Enterprise relies on SNI for serving custom certificates. Any non-SNI traffic received on port 443 is handled with TLS termination and a default certificate. These might not match the requested hostname, resulting in validation errors.
 
 endif::showscript[]
 
@@ -923,36 +912,32 @@ endif::showscript[]
 == Routes
 :noaudio:
 
-.Secured TLS termination types
+.Secured TLS Termination Types: Edge Termination
 
-* Secured routes can use any of the following three types of secure TLS
-termination.
+* Three types of TLS termination for secured routes
 
-*Edge Termination*
-
-* With edge termination, TLS termination occurs at the
-router, prior to proxying traffic to its destination.
-* TLS certificates are served by the front end of the router,
-so they *must be configured into the route*, otherwise the
-router's default certificate will be used for TLS termination.
+* With _edge termination_, TLS termination occurs at router
+** Prior to proxying traffic to destination
+* Front end of router serves TLS certificates
+** Must be configured into route
+** Otherwise router's default certificate used for TLS termination
 
 ifdef::showscript[]
-=== Transcript
-"Edge Termination" is a type TLS termination that occurs at the
-*router*, prior to proxying traffic to its destination.
 
-TLS certificates are served by the front-end of the *router*,
-so they *must be configured into the route*, otherwise the
-router's default certificate will be used for TLS termination.
+=== Transcript
+
+Secured routes can use three types of secure TLS termination.
+
+_Edge termination_ is a type TLS termination that occurs at the router, prior to proxying traffic to its destination.
+
+The front end of the router serves the TLS certificates, so they must be configured into the route. Otherwise, the router's default certificate is used for TLS termination.
 
 endif::showscript[]
 
 == Routes
 :noaudio:
 
-.Secured TLS termination types - Edge Termination
-
-* A Secured Route definition using Edge Termination:
+.Secured TLS Termination Types: Edge Termination Route Definition
 
 [source,yaml]
 ----
@@ -981,57 +966,56 @@ spec:
       END
 ----
 
-<1> The `*termination*` field is `edge` for edge termination.
-<2> The `*certificate*` field is the contents of the PEM format certificate file.
-<3> The `*key*` field is the contents of the PEM format key file.
-<4> An optional CA certificate may be required to establish a certificate chain for validation.
-
-NOTE: Because TLS is terminated at the router, connections from the router to
-the endpoints over the internal network are not encrypted.
 
 ifdef::showscript[]
+
 === Transcript
-Here is an example of a "Secured Route definition using Edge Termination".
-endif::showscript[]
 
-== Routes
-:noaudio:
+Here is an example of a secured route definition using edge termination.
 
-.Secured TLS termination types - Passthrough Termination
+Note the following:
 
-*Passthrough Termination*
+. The `termination` field is `edge` for edge termination.
+. The `certificate` field is the contents of the PEM format certificate file.
+. The `key` field is the contents of the PEM format key file.
+. An optional CA certificate may be required to establish a certificate chain for validation.
 
-* With passthrough termination, encrypted traffic is sent straight to the
-destination without the router providing TLS termination. Therefore no
-key or certificate is required (on the router).
-
-* The destination pod is responsible for serving certificates for the
-traffic at the endpoint.
-
-* This is currently the only method that can support requiring client
-certificates (also known as two-way authentication).
-
-
-ifdef::showscript[]
-=== Transcript
-With passthrough termination, encrypted traffic is sent straight to the
-destination without the router providing TLS termination.
-Therefore no key or certificate is required on the *router*.
-And the destination pod is responsible for serving certificates for the
-traffic at the endpoint.
-
-This is currently the only method that can support requiring client
-certificates.
+Because TLS is terminated at the router, connections from the router to the endpoints over the internal network are not encrypted.
 
 endif::showscript[]
 
 == Routes
 :noaudio:
 
-.Secured TLS termination types - Passthrough Termination
+.Secured TLS Termination Types: Passthrough Termination
 
-* A Secured Route definition using Passthrough Termination
-+
+* With _passthrough termination_, encrypted traffic sent straight to destination
+** Router does not provide TLS termination
+** No key or certificate required on router
+
+* Destination pod responsible for serving certificates for traffic at endpoint
+
+* Currently only method that supports requiring client certificates
+** AKA _two-way authentication_
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+With passthrough termination, encrypted traffic is sent straight to the destination without the router providing TLS termination. Therefore no key or certificate is required on the router.
+
+The destination pod is responsible for serving certificates for the traffic at the endpoint.
+
+This is currently the only method that can support requiring client certificates, also known as _two-way authentication_.
+
+endif::showscript[]
+
+== Routes
+:noaudio:
+
+.Secured TLS Termination Types: Passthrough Termination Route Definition
+
 [source,yaml]
 ----
 apiVersion: v1
@@ -1047,48 +1031,46 @@ spec:
     termination: passthrough     <1>
 ----
 
-<1> The `*termination*` field is set to `passthrough`. No other encryption
-fields are needed.
-
 
 ifdef::showscript[]
+
 === Transcript
-Here is an example of a "Secured TLS termination types - Passthrough
-Termination".
+
+Here is an example of a secured route definition using passthrough termination.
+
+Note the following:
+
+. The `termination` field is set to `passthrough`. No other encryption fields are needed.
+
 
 endif::showscript[]
 
 == Routes
 :noaudio:
 
-.Secured TLS termination types Re-encryption Termination
+.Secured TLS Termination Types: Re-encryption Termination
 
-*Re-encryption Termination*
-
-* Re-encryption is a variation on edge termination where the router terminates
-TLS with a certificate, then re-encrypts its connection to the endpoint which
-may have a different certificate.
-* Therefore the full path of the connection is encrypted, even over the internal
-network.
+* _Re-encryption_ is variation on edge termination
+** Router terminates TLS with certificate
+** Re-encrypts connection to endpoint, which may have different certificate
+* Full connection path encrypted, even over internal network
 
 
 ifdef::showscript[]
-=== Transcript
-Re-encryption is a variation on edge termination where the router terminates
-TLS with a certificate, then re-encrypts its connection to the endpoint which
-may have a different certificate.
 
-The full path of the connection is encrypted, even over the internal network.
+=== Transcript
+
+_Re-encryption_ is a variation on edge termination in which the router terminates TLS with a certificate, then re-encrypts its connection to the endpoint, which may have a different certificate.
+
+Thus the full path of the connection is encrypted, even over the internal network.
 
 endif::showscript[]
 
 == Routes
 :noaudio:
 
-.Secured TLS termination types Re-encryption Termination
+.Secured TLS Termination Types: Re-encryption Termination Route Definition
 
-* A Secured Route definition using Re-Encrypt Termination
-+
 [source,yaml]
 ----
 apiVersion: v1
@@ -1111,28 +1093,30 @@ spec:
       END CERTIFICATE
 ----
 
-<1> The `*termination*` field is set to `reencrypt`. Other fields are as in edge termination.
-<2> The `*destinationCaCertificate*` field optionally specifies a CA
-certificate to validate the endpoint certificate, securing the connection
-from the router to the destination.
-
 
 ifdef::showscript[]
+
 === Transcript
-Here is an example of a "Secured Route definition using Re-Encrypt
-Termination".
+
+Here is an example of a secured route definition using re-encryption termination.
+
+Note the following:
+
+. The `termination` field is set to `reencrypt`. Other fields are the same as in edge termination.
+. Optionally, the `destinationCaCertificate` field specifies a CA certificate to validate the endpoint certificate, securing the connection from the router to the destination.
+
 endif::showscript[]
 
 == Routes
 :noaudio:
 
-.Routes with Hostnames
+.Routes With Hostnames
 
-* In order for services to be exposed externally, an OpenShift route allows
-you to associate a service with an externally-reachable hostname.
-* This edge hostname is then used to route traffic to the service.
+* To expose services externally:
+** Route lets you associate service with externally reachable hostname
+* Edge hostname routes traffic to service
 
-* A Route with a specified host:
+* Example: Route with specified host:
 +
 [source,yaml]
 ----
@@ -1147,27 +1131,30 @@ spec:
     name: service-name
 ----
 
-<1> Specifies the externally-reachable hostname used to expose a service.
-
 ifdef::showscript[]
-=== Transcript
-In order for services to be exposed externally, an OpenShift route allows
-you to associate a service with an externally-reachable hostname.
 
-This edge hostname is then used to route traffic to the service.
+=== Transcript
+
+To expose services externally, an OpenShift Enterprise route lets you associate a service with an externally reachable hostname.
+
+This edge hostname then routes traffic to the service.
+
+The example here shows a route with a specified host. Note the following:
+
+. This specifies the externally reachable hostname used to expose a service.
+
 
 endif::showscript[]
 
 == Routes
 :noaudio:
 
-.Routes without Hostnames
+.Routes Without Hostnames
 
-* If a hostname is *not* provided as part of the route specification, then
-OpenShift will automatically generate one for you.
-* The generated hostname is of the form `$routename[.$namespace].$suffix`.
-* A Route definition without a host:
-
+* If hostname _not_ provided in route specification, OpenShift Enterprise generates one
+* Form: `$routename[.$namespace].$suffix`
+* Example: Route definition without host:
++
 [source,yaml]
 ----
 apiVersion: v1
@@ -1182,25 +1169,28 @@ spec:
 
 
 ifdef::showscript[]
-=== Transcript
-If a hostname is *not* provided as part of the route specification, then
-OpenShift will automatically generate one for you.
 
-The generated hostname is of the form of `routename.projectname.defaultsubnet`
+=== Transcript
+
+If a hostname is _not_ provided as part of the route specification, OpenShift Enterprise automatically generates one for you.
+
+The generated hostname is of the form of `$routename[.$namespace].$suffix`.
+
+The example here shows a route definition without a host.
 
 endif::showscript[]
 
 == Routes
 :noaudio:
 
-.Custom default routing subdomain
+.Custom Default Routing Subdomain
 
-* A cluster administrator can customize the suffix or the default routing
-subdomain for an environment using the OpenShift master configuration.
-* The following example shows how you can set the configured suffix to
-`v3.openshift.test`:
+* Cluster administrator can use OpenShift Enterprise master configuration to customize environment's:
+** Suffix
+** Default routing subdomain
 
-* OpenShift master configuration snippet (master-config.yaml):
+* Example: Set configured suffix to `v3.openshift.test`:
+** OpenShift Enterprise master configuration snippet (`master-config.yaml`):
 +
 [source,yaml]
 ----
@@ -1209,9 +1199,7 @@ routingConfig:
 ----
 
 
-* With the OpenShift master node(s) running the above configuration, the
-generated hostname for our example of a host added to a namespace "my-namespace"
- would be:
+* With master node(s) running above configuration, generated hostname for host added to `my-namespace` would be:
 +
 ----
 no-route-hostname.my-namespace.v3.openshift.test
@@ -1219,82 +1207,74 @@ no-route-hostname.my-namespace.v3.openshift.test
 
 
 ifdef::showscript[]
+
 === Transcript
 
-A cluster administrator can customize the suffix or the default routing
-subdomain for an environment using the OpenShift master configuration.
+A cluster administrator can customize the suffix or the default routing subdomain for an environment using the OpenShift Enterprise master configuration.
 
-The following example shows how you can set the configured suffix to
-`v3.openshift.test`.
+The example shows here how you can set the configured suffix to `v3.openshift.test`.
 
-Finally, using the definition from the previous slide, with our new default
-sub-domain, we can see the hostname associated with our route is:
-no-route-hostname.my-namespace.v3.openshift.test
+Using the definition from the preceding slide, with your new default subdomain, you can see that the hostname associated with your route is `no-route-hostname.my-namespace.v3.openshift.test`.
 
 
 endif::showscript[]
 
 
-== Using Persistent Volumes
+== Persistent Volumes
 :noaudio:
 
 .Overview
-* A `PersistentVolume` object is a storage resource in an OpenShift cluster.
-* Storage is provisioned by an administrator by creating `PersistentVolume`
-objects from sources such as:
-- NFS mounts - Supported method
-- GCE Persistent Disks (Google Compute)
-- EBS Volumes (Amazon Elastic Block Stores)
-* When `PersistentVolume` is defined it must be associated with a `project`.
-
-NOTE: Persistent volume plug-ins other than the supported NFS plug-in, such as
-AWS Elastic Block Stores (EBS), GCE Persistent Disks, GlusterFS, iSCSI, and
-RADOS (Ceph), are currently in *Technology Preview*.
+* `PersistentVolume` object: Storage resource in OpenShift Enterprise cluster
+* Administrator provides storage by creating `PersistentVolume` from sources such as:
+** NFS mounts: Supported method
+** GCE Persistent Disks (Google Compute)
+** EBS Volumes (Amazon Elastic Block Stores)
+* Must associate `PersistentVolume` with `project`
 
 
 ifdef::showscript[]
 
 === Transcript
-A `PersistentVolume` object is a storage resource in an OpenShift cluster.
-* Storage is provisioned by an administrator by creating `PersistentVolume`
-objects from sources such as:
-- NFS mounts - Supported method
-- GCE Persistent Disks (Google Compute)
-- EBS Volumes (Amazon Elastic Block Stores)
+
+A `PersistentVolume` object is a storage resource in an OpenShift Enterprise cluster. An administrator provisions storage by creating `PersistentVolume` objects from sources such as the following:
+
+* NFS mounts: This is the supported method.
+* GCE Persistent Disks (Google Compute).
+* EBS Volumes (Amazon Elastic Block Stores).
+
+Note that persistent volume plug-ins other than the supported NFS plug-in, such as AWS Elastic Block Stores (EBS), GCE Persistent Disks, GlusterFS, iSCSI, and RADOS (Ceph), are currently in Technology Preview.
+
+When you define `PersistentVolume`, you must associate it with a project.
 
 endif::showscript[]
 
 
-== Using Persistent Volumes
+== Persistent Volumes
 :noaudio:
 
 .Requesting Storage
 
-* Storage can be made available to you by laying claims to the resource.
-* You can make a request for storage resources using a `PersistentVolumeClaim`
-object;
-**  the claim is paired with a volume that can fulfill your request.
+* Can make storage available by laying claims to resource
+* To request storage resources, use `PersistentVolumeClaim`
+** Claim paired with volume that can fulfill request
 
 ifdef::showscript[]
 
 === Transcript
-Storage can be made available to you by laying claims to the resource.
 
-You can make a request for storage resources using a `PersistentVolumeClaim`
-object;
-The claim is paired with a volume that can fulfill your request.
+You can make storage available to you by laying claims to the resource.
+
+To make a request for storage resources, use a `PersistentVolumeClaim` object. The claim is paired with a volume that can fulfill your request.
 
 endif::showscript[]
 
-== Using Persistent Volumes
+== Persistent Volumes
 :noaudio:
 
-.Requesting Storage - prerequisite
-* For a user to be able to *claim* a volume (`PersistentVolumeClaim`), a
-Persistent Volume (`PersistentVolume`) needs to be created.
-** A *cluster admin* needs to define and "created" the *pv* in the project it
-belongs to.
-
+.Requesting Storage: Prerequisite
+* For user to _claim_ volume (`PersistentVolumeClaim`), `PersistentVolume` needs to be created
+** Cluster admininstrator needs to define and _create_ `pv` in project:
++
 [source,yaml]
 ----
 {
@@ -1321,28 +1301,24 @@ ifdef::showscript[]
 
 === Transcript
 
-For a user to be able to *claim* a volume (`PersistentVolumeClaim`), a
-Persistent Volume (`PersistentVolume`) needs to be created.
+For a user to _claim_ a volume (`PersistentVolumeClaim`), a `PersistentVolume` needs to be created.
 
-A *cluster admin* needs to define and "created" the *pv* in the project it
-belongs to.
+A cluster admininstrator needs to define and _create_ the `pv` in the project to which it belongs.
 
-Review the `PersistentVolume` definition file example.
+This example shows a `PersistentVolume` definition file.
 
 endif::showscript[]
 
 
 
-== Using Persistent Volumes
+== Persistent Volumes
 :noaudio:
 
-.Requesting Storage
-* After a *PersistentVolume* has been defined in your project:
-** You can request storage by creating `PersistentVolumeClaim` objects in your
-*project*:
+.Requesting Storage: `PersistentVolumeClaim` Definition
 
-.Persistent Volume Claim Object Definition
-
+* After defining `PersistentVolume` in project:
+** Can  create `PersistentVolumeClaim` objects to request storage:
++
 [source,json]
 ----
 {
@@ -1366,49 +1342,47 @@ endif::showscript[]
 ifdef::showscript[]
 
 === Transcript
-After a *PersistentVolume* has been defined in your project, you can claim
-the volume by creating `PersistentVolumeClaim` objects in your *project*.
 
-Review the `PersistentVolumeClaim` definition file example.
+After you define a `PersistentVolume` in your project, you can claim the volume by creating `PersistentVolumeClaim` objects in your project.
+
+The example here shows a `PersistentVolumeClaim` definition file.
 
 endif::showscript[]
 
 
-== Using Persistent Volumes
+== Persistent Volumes
 :noaudio:
 
 .Volume and Claim Binding
-* A `PersistentVolume` is a specific resource.
-* A `PersistentVolumeClaim` is a request for a resource with specific
-attributes, such as storage size.
-* In between the two is a process that matches a claim to an available volume
-and binds them together.
-** This allows the claim to be used as a volume in a pod.
-** OpenShift finds the volume backing the claim and mounts it into the pod.
+* `PersistentVolume`: Specific resource
+* `PersistentVolumeClaim`: Request for resource with specific attributes
+** Example: Storage size
+* In between two is process that:
+** Matches claim to volume and binds them together
+** Lets you use claim as volume in pod
+** OpenShift Enterprise finds volume backing claim and mounts it into pod
 
 
 ifdef::showscript[]
 
 === Transcript
-A `PersistentVolume` is a specific resource but a `PersistentVolumeClaim` is a
-request for a resource with specific attributes, such as storage size.
 
-In between the two is a process that matches a claim to an available volume and
-binds them together.
+A `PersistentVolume` is a specific resource. A `PersistentVolumeClaim` is a request for a resource with specific attributes, such as storage size.
 
-This allows the claim to be used as a volume in a pod.
-OpenShift finds the volume backing the claim and mounts it into the pod.
+When a request is made, a process matches it to an available volume and binds them together.
+
+This lets you use the claim as a volume in a pod. OpenShift Enterprise finds the volume backing the claim and mounts it into the pod.
 
 endif::showscript[]
 
 
-== Using Persistent Volumes
+== Persistent Volumes
 :noaudio:
 
-.Volume and Claim Binding
+.Volume and Claim Binding: Status
 
-* You can tell whether a claim or volume is bound by querying using the CLI:
-
+* To tell whether claim or volume is bound:
++
 ----
 $ oc get pvc
 NAME        LABELS    STATUS    VOLUME
@@ -1422,21 +1396,23 @@ pv0001              map[]               5368709120          RWO                 
 ifdef::showscript[]
 
 === Transcript
-You can tell whether a claim or volume is bound by querying using the CLI.
+
+As shown in the example here, you can tell whether a claim or volume is bound by using the CLI to submit a query.
 
 endif::showscript[]
 
 
-== Using Persistent Volumes
+== Persistent Volumes
 :noaudio:
 
 .Claims as Volumes in Pods
 
-* A `PersistentVolumeClaim` is used by a pod as a volume.
-* OpenShift finds the claim with the given name in the same namespace as the
-pod, then uses the claim to find the corresponding volume to mount.
+* Pod uses `PersistentVolumeClaim` as volume
+* OpenShift Enterprise finds claim with given name in same namespace as pod
+** Uses claim to find volume to mount
 
-* Review the example Pod Definition with a Claim:
+* Example: Pod definition with claim:
++
 [source,json]
 ----
 {
@@ -1475,12 +1451,11 @@ ifdef::showscript[]
 
 === Transcript
 
-A `PersistentVolumeClaim` is used by a pod as a volume.
+A pod uses a `PersistentVolumeClaim` as a volume.
 
-OpenShift finds the claim with the given name in the same namespace as the
-pod, then uses the claim to find the corresponding volume to mount.
+OpenShift Enterprise finds the claim with the given name in the same namespace as the pod, then uses the claim to find the corresponding volume to mount.
 
-Review the example Pod Definition with a Claim.
+The example here shows a pod definition with a claim.
 
 endif::showscript[]
 
@@ -1489,11 +1464,10 @@ endif::showscript[]
 == Summary
 :noaudio:
 
-In This chapter we covered:
-
-* OpenShift Resources
+* Resource Types
+* OpenShift Enterprise Resources
 * Projects and Users
-* Client tool authentication
+* Client Tool Authentication
 * Resource Quota
 * Service Accounts
 * Routes
@@ -1502,8 +1476,8 @@ In This chapter we covered:
 ifdef::showscript[]
 
 === Transcript
-In this module we discussed many of the resources that you will encounter in
-OpenShift Enterprise 3.0
+
+This module discussed various OpenShift Enterprise resources and how to use them to configure and manage your environment.
 
 
 endif::showscript[]

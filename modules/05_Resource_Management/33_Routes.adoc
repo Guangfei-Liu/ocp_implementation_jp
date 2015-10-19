@@ -1,24 +1,34 @@
 == Routes
 :noaudio:
 
-.Secured TLS termination types Re-encryption Termination
+.Secured TLS Termination Types: Passthrough Termination Route Definition
 
-*Re-encryption Termination*
-
-* Re-encryption is a variation on edge termination where the router terminates
-TLS with a certificate, then re-encrypts its connection to the endpoint which
-may have a different certificate.
-* Therefore the full path of the connection is encrypted, even over the internal
-network.
+[source,yaml]
+----
+apiVersion: v1
+kind: Route
+metadata:
+  name: route-passthrough-secured
+spec:
+  host: www.example.com
+  to:
+    kind: Service
+    name: service-name
+  tls:
+    termination: passthrough     <1>
+----
 
 
 ifdef::showscript[]
-=== Transcript
-Re-encryption is a variation on edge termination where the router terminates
-TLS with a certificate, then re-encrypts its connection to the endpoint which
-may have a different certificate.
 
-The full path of the connection is encrypted, even over the internal network.
+=== Transcript
+
+Here is an example of a secured route definition using passthrough termination.
+
+Note the following:
+
+. The `termination` field is set to `passthrough`. No other encryption fields are needed.
+
 
 endif::showscript[]
 

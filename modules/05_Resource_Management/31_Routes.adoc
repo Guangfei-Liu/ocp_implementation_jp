@@ -1,31 +1,50 @@
 == Routes
 :noaudio:
 
-.Secured TLS termination types - Passthrough Termination
+.Secured TLS Termination Types: Edge Termination Route Definition
 
-*Passthrough Termination*
-
-* With passthrough termination, encrypted traffic is sent straight to the
-destination without the router providing TLS termination. Therefore no
-key or certificate is required (on the router).
-
-* The destination pod is responsible for serving certificates for the
-traffic at the endpoint.
-
-* This is currently the only method that can support requiring client
-certificates (also known as two-way authentication).
+[source,yaml]
+----
+apiVersion: v1
+kind: Route
+metadata:
+  name: route-edge-secured
+spec:
+  host: www.example.com
+  to:
+    kind: Service
+    name: service-name
+  tls:
+    termination: edge            <1>
+    key: |-                      <2>
+      BEGIN PRIVATE KEY
+      [...]
+      END PRIVATE KEY
+    certificate: |-              <3>
+      BEGIN CERTIFICATE
+      [...]
+      END CERTIFICATE
+    caCertificate: |-            <4>
+      BEGIN CERTIFICATE
+      [...]
+      END
+----
 
 
 ifdef::showscript[]
-=== Transcript
-With passthrough termination, encrypted traffic is sent straight to the
-destination without the router providing TLS termination.
-Therefore no key or certificate is required on the *router*.
-And the destination pod is responsible for serving certificates for the
-traffic at the endpoint.
 
-This is currently the only method that can support requiring client
-certificates.
+=== Transcript
+
+Here is an example of a secured route definition using edge termination.
+
+Note the following:
+
+. The `termination` field is `edge` for edge termination.
+. The `certificate` field is the contents of the PEM format certificate file.
+. The `key` field is the contents of the PEM format key file.
+. An optional CA certificate may be required to establish a certificate chain for validation.
+
+Because TLS is terminated at the router, connections from the router to the endpoints over the internal network are not encrypted.
 
 endif::showscript[]
 

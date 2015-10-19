@@ -1,27 +1,37 @@
 == Routes
 :noaudio:
 
-.Route Types - Secured Routes
+.Route Types: An Unsecured Route With a Path
 
-* Secured routes specify the TLS termination of the route and, optionally,
-provide a key and certificate(s).
+[source,yaml]
+----
+apiVersion: v1
+kind: Route
+metadata:
+  name: route-unsecured
+spec:
+  host: www.example.com
+  path: "/test"   <1>
+  to:
+    kind: Service
+    name: service-name
+----
 
-NOTE: TLS termination in OpenShift relies on
-link:https://en.wikipedia.org/wiki/Server_Name_Indication[SNI] for serving
-custom certificates. Any non-SNI traffic received on port 443 is handled with TLS
-termination and a default certificate (which may not match the requested hostname,
-resulting in validation errors).
+* Path-based routing not available with passthrough TLS
+** Router does not terminate TLS
+** Cannot read request contents
 
 ifdef::showscript[]
+
 === Transcript
-Secured routes specify the TLS termination of the route and, optionally,
-provide a key and certificate(s).
 
-TLS termination in OpenShift relies on SNI (Server Name Indication) for serving
-custom certificates. Any non-SNI traffic received on port 443 is handled with
-TLS termination and a default certificate (which may not match the requested
-  hostname, resulting in validation errors).
+Here is an example of a unsecured route using a path: http://www.example.com/path.
 
+Note the following:
+
+. The path is the only added attribute for a path-based route.
+
+Path-based routing is not available when using passthrough TLS, as the router does not terminate TLS in that case and cannot read the contents of the request.
+ 
 endif::showscript[]
-
 

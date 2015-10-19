@@ -1,14 +1,11 @@
 == Pods and Services
 :noaudio:
 
-.Pods Definition file/Manifest
+.Pods Definition File/Manifest
 
-* Below is an example definition of a pod that provides a long-running
-service, which is actually a part of the OpenShift infrastructure: the
-*private Docker integrated registry*.
-* It demonstrates many features of pods, most of which are discussed in other
-topics and thus only briefly mentioned here.
-* We'll break the file into a few slides to make it easier to follow:
+* Example definition of pod that provides long-running service
+** Part of OpenShift Enterprise infrastructure: _Private Docker integrated registry_
+** Demonstrates many pod features
 +
 [source,yaml]
 ----
@@ -16,32 +13,27 @@ topics and thus only briefly mentioned here.
  kind: Pod
  metadata:
    annotations: { ... }
-   labels:                                <1>
+   labels:                               // <1>
      deployment: docker-registry-1
      deploymentconfig: docker-registry
      docker-registry: default
-   generateName: docker-registry-1-       <2>
+   generateName: docker-registry-1-     //  <2>
 
 ----
-<1> Pods can be "tagged" with one or more *labels*, which can then
- be used to select and manage groups of pods in a single operation. The labels
- are stored in key/value format in the *metadata* hash. One label in this
- example is *docker-registry=default*.
-<2> Pods must have a unique name within their _namespace_. A pod definition may
-specify the basis of a name with the *generateName* attribute, and random
-characters will be added automatically to generate a unique name.
 
 ifdef::showscript[]
+
 === Transcript
-Below is an example definition of a pod that provides a long-running
-service, which is actually a part of the OpenShift infrastructure.
 
-Pods can be "tagged" with one or more *labels*, which can then
- be used to select and manage groups of pods in a single operation.
+Here is an example definition of a pod that provides a long-running service. This is actually a part of the OpenShift Enterprise infrastructure, the _private Docker integrated registry_.
 
- Pods must have a unique name within their _namespace_. A pod definition may
- specify the basis of a name with the *generateName* attribute, and random
- characters will be added automatically to generate a unique name.
+The sample demonstrates many features of pods. The next few slides examine the file in smaller chunks to make it easier to follow.
+
+Note the following:
+
+. You can _tag_ pods with one or more _labels_. You can then use the labels to select and manage groups of pods in a single operation.
+
+. Pods must have a unique name within their _namespace_. In the pod definition, you can specify a base name and use the `generateName` attribute to automatically add random characters at the end of the base name, thus generating a unique name.
 
 
 endif::showscript[]

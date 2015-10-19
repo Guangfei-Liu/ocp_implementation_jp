@@ -3,36 +3,26 @@
 
 .Docker Build
 
-* The Docker build strategy invokes the plain _docker build_ command,
-and therefore expects a repository with a *_Dockerfile_* and all required
-artifacts in it to produce a runnable image.
+* Docker build strategy invokes plain `docker build` command
+* Expects repository with `Dockerfile` and required artifacts to produce runnable image
 
 
-.Source-to-Image (S2I) Build
-* Source-to-Image (S2I)] is a tool for building reproducible Docker images.
-* It produces ready-to-run images by injecting a user source into a docker image
- and assembling a new docker image.
-* The new image incorporates the base image (the builder) and built source, and
-is ready to use with the `docker run` command.
-* S2I supports incremental builds, which re-use previously downloaded
-dependencies, previously built artifacts, etc.
+.S2I Build
+* *S2I*: Tool for building reproducible Docker images
+* Produces ready-to-run images by injecting user source into base Docker image (_source_) and assembling new Docker image
+** Ready to use with `docker run`
+* S2I supports incremental builds
+** Reuse previously downloaded dependencies, previously built artifacts, etc.
 
 ifdef::showscript[]
+
 === Transcript
 
-The Docker build strategy invokes the plain _docker build_ command,
-and therefore expects a repository with a *_Dockerfile_* and all required
-artifacts in it to produce a runnable image.
+The Docker build strategy invokes the plain _docker build_ command. It expects a repository with a `Dockerfile` and all required artifacts in it to produce a runnable image.
 
-The Source-to-Image (S2I) is a tool for building reproducible Docker images, it
-produces ready-to-run images by injecting a user source into a docker image
- and assembling a new docker image.
+S2I is a tool for building reproducible Docker images. It produces ready-to-run images by injecting a user source into a base Docker image (the _builder_) and assembling a new Docker image that is ready to use within the OpenShift Enterprise environment or with the `docker run` command.
 
-The new image incorporates the base image (the builder) and built source, and
-is ready to use within the OSE environment or with `docker run`
-
-S2I supports incremental builds, which re-use previously downloaded
-dependencies, previously built artifacts, etc.
+S2I supports incremental builds, which reuse previously downloaded dependencies, previously built artifacts, and so on.
 
 endif::showscript[]
 

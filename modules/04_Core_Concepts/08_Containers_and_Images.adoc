@@ -1,29 +1,29 @@
 == Containers and Images
 :noaudio:
 
-.Docker Registries
+.Docker Registry
 
-* A Docker registry is a service for storing and retrieving Docker images.
-* A registry contains a collection of one or more Docker image repositories.
-* Each image repository contains one or more tagged images.
-* Docker provides its own registry, the
-link:https://registry.hub.docker.com/[Docker Hub], but you may
-also use private or third-party registries.
-* Red Hat provides a Docker registry at `registry.access.redhat.com` for
-subscribers.
-* OpenShift can also supply its own internal registry for managing custom Docker
-images.
+* Service for storing and retrieving Docker images
+* Contains one or more Docker image repositories
+** Repository contains one or more tagged images
+* Docker provides own registry, Docker Hub
+** Learn more:
+https://registry.hub.docker.com/
+** Can also use private or third-party registries
+* Red Hat provides Docker registry at `registry.access.redhat.com` for subscribers
+* OpenShift Enterprise can supply internal registry for managing Docker images
 
 ifdef::showscript[]
+
 === Transcript
-A Docker registry is a service for storing and retrieving Docker images, a user
-can "pull" and "push" images from and to the registry.
 
-Red Hat provides a Docker registry, with certified images  at
-`registry.access.redhat.com` for subscribers.
+A Docker registry is a service for storing and retrieving Docker images. A registry contains a collection of one or more Docker image repositories. Each image repository in turn contains one or more tagged images. A user can _pull_ and _push_ images from and to the registry.
 
-In OSE3.0 we will usually create our own registry, referred to as the
-"Integrated Registry" and use it to push our S2I created images.
+Docker provides its own registry, the Docker hub, but you can also use private or third-party registries.
+
+Red Hat provides a Docker registry with certified images at `registry.access.redhat.com` for subscribers.
+
+In OpenShift Enterprise 3.0, you usually create your own registry, referred to as the `Integrated Registry`, and use it to push your S2I-created images.
 
 
 endif::showscript[]

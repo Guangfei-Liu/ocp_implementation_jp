@@ -2,39 +2,35 @@
 :noaudio:
 
 .Scheduler Extensibility
-As is the case with almost everything else in Kubernetes/OpenShift, the
-scheduler is built using a plugin model and the current implementation itself is
-a plugin.  There are two ways to extend the scheduler functionality:
 
-* Enhancements
-** The scheduler functionality can be enhanced by adding new predicates and
-priority functions.  They can either be contributed upstream or maintained
-separately.
-** These predicates and priority functions would need to be registered with the
-scheduler factory and then specified in the scheduler policy file.
+* Scheduler built using plug-in model
+* Current implementation is plug-in
+* Two ways to extend scheduler functionality:
 
-* Replacement
-** Since the scheduler is a plugin, it can be replaced in favor of an alternate
-implementation.
-** The scheduler code has a clean separation that watches new pods as they get
-created and identifies the most suitable node to host them.
-** It then creates bindings (pod to node bindings) for the pods using the master
-API.
+** Enhancements
+*** Add predicates and priority functions
+*** Can be contributed upstream or maintained separately
+*** Need to be registered with scheduler factory and specified in scheduler policy file
+
+** Replacement
+*** Replace scheduler with alternate implementation
+** Scheduler code watches pods as they are created and identifies most suitable node to host them
+*** Uses master API to create pod-to-node bindings for pods
 
 
 
 ifdef::showscript[]
+
 === Transcript
 
-As is the case with almost everything else in Kubernetes/OpenShift, the
-scheduler is built using a plugin model and the current implementation itself is
-a plugin.
+As is the case with almost everything in Kubernetes/OpenShift Enterprise, the scheduler is built using a plug-in model, and the current implementation itself is a plug-in.
 
- There are two ways to extend the scheduler functionality, enhancements and
- replacement, you can either enhance the scheduler functionality by adding new
- predicates and priority functions (These would be covered in the next few
-   slides) or you can completely replace the scheduler plugin with your own
-   implementation.
+You can extend the scheduler functionality in two ways: enhancements and replacement. You can enhance the scheduler functionality by adding new predicates and priority functions. You can either contribute these upstream or maintain them separately. You need to register new predicates and priority functions with the scheduler factory and then specify them in the scheduler policy file.
+
+ 
+Alternatively, because the scheduler is a plug-in, you can replace it with a different implementation. 
+
+The scheduler code has a clean separation that watches new pods as they get created and identifies the most suitable node to host them. It then creates pod-to-node bindings for the pods using the master API.
 
 endif::showscript[]
 

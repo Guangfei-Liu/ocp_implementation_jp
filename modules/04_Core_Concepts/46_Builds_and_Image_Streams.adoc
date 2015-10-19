@@ -3,35 +3,35 @@
 
 .Image Pull Policy
 
-* Each container in a pod has a Docker image. Once you have created an image and
-pushed it to a registry, you can then refer to it in the pod.
+* Each container in pod has Docker image
+** Can refer to image in pod after creating it and pushing it to registry
 
-* When OpenShift creates containers, it uses the container's `imagePullPolicy`
-to determine if the image should be pulled prior to starting the container.
+* When OpenShift Enterprise creates containers, uses `imagePullPolicy` to determine whether to pull image prior to starting container
 
-* There are three possible values for `imagePullPolicy`:
+* Three values for `imagePullPolicy`:
 
-- `Always` - always pull the image.
-- `IfNotPresent` - only pull the image if it does not already exist on the node.
-- `Never` - never pull the image.
+** `Always`: Always pull image
+** `IfNotPresent`: Pull image only if it does not already exist on node
+** `Never`: Never pull image
 
-NOTE: If a container's `imagePullPolicy` parameter is not specified, OpenShift
-sets it based on the image's tag, if the tag is: *latest*, OpenShift defaults
-`imagePullPolicy` to *Always*.
+* If not specified, OpenShift Enterprise sets container's `imagePullPolicy` parameter based on image's tag
+** If tag is `latest`, OpenShift Enterprise defaults `imagePullPolicy` to `Always`
 
 ifdef::showscript[]
+
 === Transcript
 
-Each container in a pod has a Docker image. Once you have created an image and
-pushed it to a registry, you can then refer to it in the pod.
+Each container in a pod has a Docker image. After you create an image and push it to a registry, you can then refer to it in the pod.
 
-When OpenShift creates containers, it uses the container's `imagePullPolicy`
-to determine if the image should be pulled prior to starting the container.
+When OpenShift Enterprise creates containers, it uses the container's `imagePullPolicy` to determine whether to pull the image prior to starting the container.
 
 There are three possible values for `imagePullPolicy`:
-- `Always` - always pull the image.
-- `IfNotPresent` - only pull the image if it does not already exist on the node.
-- `Never` - never pull the image.
+
+* `Always`: Always pull the image
+* `IfNotPresent`: Pull the image only if it does not already exist on the node
+* `Never`: Never pull the image
+
+If a container's `imagePullPolicy` parameter is not specified, OpenShift Enterprise sets it based on the image's tag. If the tag is `latest`, OpenShift Enterprise defaults `imagePullPolicy` to `Always`.
 
 
 endif::showscript[]

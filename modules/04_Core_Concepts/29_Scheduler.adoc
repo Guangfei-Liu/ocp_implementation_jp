@@ -2,25 +2,23 @@
 :noaudio:
 
 .Available Priority Functions
-* A custom set of priority functions can be specified to configure the scheduler.
-** There are several priority functions provided out-of-the-box in OSE.
-* Some of these priority functions can be customized by providing certain parameters.
-* Multiple priority functions can be combined and different weights can be given
-to each in order to impact the prioritization.
-** A weight is required to be specified and cannot be 0 or negative.
+
+* Can specify custom set of priority functions to configure scheduler
+** OpenShift Enterprise provides several priority functions out of the box
+* Can customize some priority functions by providing parameters
+* Can combine priority functions and give different weights to influence prioritization results
+** Weight required, must be greater than 0
 
 ifdef::showscript[]
 
 === Transcript
 
-A custom set of priority functions can be specified to configure the scheduler.
-There are several priority functions provided out-of-the-box in OSE, some of
-these priority functions can be customized by providing certain parameters.
+You can configure the scheduler by specifying a custom set of priority functions.
 
-Multiple priority functions can be combined and different weights can be given
-to each in order to impact the prioritization, A weight is required to be
-specified and cannot be 0 or negative.
+OpenShift Enterprise provides several priority functions out of the box. You can customize some of them by providing certain parameters.
+
+You can also combine multiple priority functions and give them different weights to influence the results of the prioritization process. You must specify a weight, which must be a number greater than 0.
+
 endif::showscript[]
-
 
 

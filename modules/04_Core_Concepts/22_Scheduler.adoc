@@ -3,48 +3,40 @@
 
 .Generic Scheduler
 
-* The existing generic scheduler is the default OSE-provided scheduler
-"engine" that selects a node to host the pod in a 3-step operation:
+* OpenShift Enterprise provides generic scheduler
+** Default scheduling _engine_
+** Selects node to host pod in three-step operation:
 
-- Step 1: Filter the nodes
-The available nodes are filtered based on the constraints or requirements
-specified. This is done by running each of the nodes through the list of filter
-functions called 'predicates'.
+. Filter nodes based on specified constraints/requirements
 
-- Step 2: Prioritize the filtered list of nodes
-This is achieved by passing each node through a series of 'priority' functions
-that assign it a score between 0 - 10, with 0 indicating a bad fit and 10
-indicating a good fit to host the pod.
+- Runs nodes through list of filter functions called _predicates_
 
-- Step 3: Select the best fit node
-The nodes are sorted based on their scores and the node with the highest score
-is selected to host the pod. If multiple nodes have the same high score, then
-one of them is selected at random.
+. Prioritize qualifying nodes 
 
-NOTE:  The node score provided by each priority
-function is multiplied by the "weight" and then combined by just adding the
-scores for each node provided by all the priority functions.
+- Pass each node through series of _priority_ functions
+- Assign node score between 0 - 10
+- 0 indicates bad fit, 10 indicates good fit
+
+. Select the best fit node
+
+- Sort nodes based on scores
+- Select node with highest score to host pod
+- If multiple nodes have same high score, select one at random
+- Priority functions equally weighted by default; more important priorities can receive higher weight
 
 ifdef::showscript[]
+
 === Transcript
 
-The existing generic scheduler is the default OSE provided scheduler
-"engine" that selects a node to host the pod in a 3-step operation:
-- Step 1: Filter the nodes, in this step we disqualify any nodes that do not fit
- our requirements.
+OpenShift Enterprise provides a default generic scheduler. It is a scheduling _engine_ that selects a node to host the pod in a three-step operation:
 
-- Step 2: Prioritize the filtered list of nodes, between the nodes that were NOT
- disqualified in the last step, the _Scheduler_ prioritizes the nodes using the
- _Priority_ functions (more on this in the next slides)
+. The scheduler filters all of the available nodes based on specified constraints and requirements by running them through a list of filter functions called _predicates_, and disqualifies the nodes that do not meet the criteria. 
 
-The scheduler configuration can also take in a simple "weight" (positive numeric
-  value) for each priority function. The node score provided by each priority
-  function is multiplied by the "weight" (default weight is 1) and then combined
-   by just adding the scores for each node provided by all the priority
-   functions.
+. It then prioritizes the qualifying nodes that remain by passing them through a series of _priority_ functions that assign each node a score between 0 and 10, where 0 indicates the worst possible fit and 10 the best possible fit to host the pod. 
 
-This weight attribute can be used by administrators to give higher importance to
- some priority functions.
+. The scheduler sorts the nodes by scores and selects the node with the highest score to host the pod. If multiple nodes have the same high score, the scheduler selects one of them at random.
+
+By default, the scheduler considers every priority function to be equally important and gives each one a weight, or positive numeric value, of 1. Administrators can reconfigure the scheduler to give some priority functions more importance by increasing their weight.
 
 endif::showscript[]
 

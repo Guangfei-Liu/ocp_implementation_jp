@@ -3,18 +3,22 @@
 
 .Pods Lifecycle
 
-* Pods have a lifecycle they are; *defined*, then they are *assigned* to run on
-a node, then they *run* until their container(s) exit or they are removed
-for some other reason.
-* Pods, depending on policy and exit code, may be removed after exiting, or may
-be retained in order to enable access to the logs of their containers.
+* Lifecycle:
+** Pod is _defined_
+** _Assigned_ to run on node
+** _Runs_ until containers exit or pods are removed
+
+* After exiting, pods may be:
+** Removed
+** Retained to enable access to container logs
 
 ifdef::showscript[]
+
 === Transcript
 
-Pods have a lifecycle they are; *defined*, then they are *assigned*, by the
-"Scheduler" to run on a specific node, then they *run* until their container(s)
-exit or they are removed for some other reason.
+Pods have the following lifecycle: They are _defined_, then they are _assigned_ by the scheduler to run on a specific node. They then _run_ until their container(s) exit or they are removed for some other reason.
+
+Depending on policy and exit code, pods may be removed after exiting, or they may be retained to enable access to their containers' logs.
 
 endif::showscript[]
 

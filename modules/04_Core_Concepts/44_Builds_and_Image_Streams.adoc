@@ -3,22 +3,21 @@
 
 .Custom Build
 
-* The Custom build strategy allows developers to define a specific builder image,
-responsible for the entire build process. Using your own builder image allows
-you to customize your build process.
+* Custom build strategy lets you define builder image
+** Responsible for entire build process
+* Using own builder image lets you customize build process
 
-* The builder could call out to an external system, such as Jenkins or any other
- automation agent to create the image and push it into our registry.
+* Builder can call out to external system
+** Example: Jenkins or other automation agent
+** Creates image and pushes it into registry
 
 ifdef::showscript[]
 
 === Transcript
-The Custom build strategy allows developers to define a specific builder image,
-responsible for the entire build process. Using your own builder image allows
-you to customize your build process.
 
-The builder could call out to an external system, such as Jenkins or any other
- automation agent to create the image and push it into our registry.
+The custom build strategy lets you define a specific builder image that is responsible for the entire build process. Using your own builder image lets you customize your build process.
+
+The builder can call out to an external system, such as Jenkins or any other automation agent, to create the image and push it into the registry.
 
 endif::showscript[]
 

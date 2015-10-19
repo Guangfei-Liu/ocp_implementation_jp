@@ -3,25 +3,25 @@
 
 .Pods Overview
 
-* OpenShift leverages the Kubernetes concept of a `pod`, which is one or more
-containers deployed together on one host, and the smallest compute unit that can
-be defined, deployed, and managed.
+* OpenShift Enterprise leverages Kubernetes concept of _pod_
+* *Pod*: One or more containers deployed together on host
+** Smallest compute unit you can define, deploy, manage
 
-* Pods are the rough equivalent of OpenShift v2 gears, with containers
-the rough equivalent of v2 cartridge instances.
-** Each pod is allocated its own internal IP address, therefore owning its
-entire port space, and containers within pods can share their local storage and
-networking.
+* Pods equivalent of OpenShift Enterprise 2.0 _gears_
+* Containers equivalent of OpenShift Enterprise 2.0 _cartridge instances_
+
+* Each pod allocated own internal IP address, owns entire port space
+* Containers within pods can share local storage and networking
 
 ifdef::showscript[]
-=== Transcript
-OpenShift leverages the Kubernetes concept of a `pod`, which is one or more
-containers deployed together on one host, and the smallest compute unit that can
-be defined, deployed, and managed.
 
-Each pod is allocated its own internal IP address, therefore owning its
-entire port space, and containers within pods can share their local storage and
-networking.
+=== Transcript
+
+OpenShift Enterprise leverages the Kubernetes concept of a _pod_, which is one or more containers deployed together on one host. A pod is the smallest compute unit that you can define, deploy, and manage.
+
+Pods are the rough equivalent of OpenShift Enterprise 2.0 _gears_, while containers are the rough equivalent of OpenShift Enterprise 2.0 _cartridge instances_.
+
+Each pod is allocated its own internal IP address, thus owning its entire port space. Containers within pods can share their local storage and networking.
 
 
 endif::showscript[]

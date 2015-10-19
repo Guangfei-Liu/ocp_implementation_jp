@@ -1,26 +1,25 @@
 == Scheduler
 :noaudio:
 
-.Affinity and Anti-Affinity
+.Affinity
 
-* Affinity
-** Administrators should be able to configure the scheduler to specify affinity
-at any topological level, or even at multiple levels.
-** Affinity at a particular level indicates that all pods that belong to the
-same service will be scheduled onto nodes that belong to the same level.
-** This handles any latency requirements of applications by allowing
-administrators to ensure that peer pods do not end up being too geographically
-separated.  If no node is available within the same affinity group to host the
-pod, then the pod will not get scheduled.
+* Administrators can configure scheduler to specify affinity at any topological level or multiple levels
+* Affinity indicates all pods belonging to same service are scheduled onto nodes belonging to same level
+* Handles application latency requirements by letting administrators ensure peer pods do not end up being too geographically separated
+* If no node available within same affinity group to host pod, pod not scheduled
 
 ifdef::showscript[]
+
 === Transcript
 
-Functions based on Affinity and Anti-Affinity are a good place to start when
-looking into the possibilities of use for the Scheduler.
+Use the affinity function when you want all components of a service--that is, all the pods--to be located in the same _zone_, _region_, or _node_.
+  
+Administrators can configure the scheduler to specify affinity at any topological level, or even at multiple levels.
 
-Affinity function makes sense when you want all components of a _service_ (By
-  This we mean all the pods) to be located in the same "Zone"/"Region"/"Node".
+Affinity at a particular level indicates that all pods that belong to the same service are scheduled onto nodes that belong to the same level.
+
+This handles any latency requirements of applications by letting administrators ensure that peer pods do not end up being too geographically separated. If no node is available within the same affinity group to host the pod, the pod is not scheduled.
+
 endif::showscript[]
 
 

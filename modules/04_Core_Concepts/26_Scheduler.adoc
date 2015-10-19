@@ -2,30 +2,30 @@
 :noaudio:
 
 .Static Predicates
-These predicates do not take any configuration parameters or inputs from the
-user. These are specified in the scheduler configuration using their exact name.
 
-* *_PodFitsPorts_* deems a node to be fit for hosting a pod based on the absence
-of port conflicts.
+* Fixed names and configuration parameters that users cannot change
+* Kubernetes provides following out of box:
 
-* *_PodFitsResources_* determines a fit based on resource availability.
-The nodes can declare their resource capacities and then pods can specify what
-resources they require.  Fit is based on requested, rather than used resources.
-
-* *_NoDiskConflict_* determines fit based on non-conflicting disk volumes.
-It evaluates if a pod can fit due to the volumes it requests, and those that
-are already mounted.
-* *_MatchNodeSelector_* determines fit based on node selector query that is
-defined in the pod.
-
-* *_HostName_* determines fit based on the presence of the Host parameter and a
-string match with the name of the host.
+[cols="1,4"]
+|===================================================================
+|Static Predicate |Description
+|`PodFitsPorts` |Deems node fit for hosting pod based on absence of port conflicts
+|`PodFitsResources` a|* Determines fit based on resource availability
+* Nodes declare resource capacities, pods specify what resources they require
+* Fit based on requested, rather than used, resources
+|`NoDiskConflict` a|* Determines fit based on nonconflicting disk volumes
+* Evaluates if pod can fit based on volumes requested and those already mounted 
+|`MatchNodeSelector` |Determines fit based on node selector query defined in pod
+|`HostName` |Determines fit based on presence of host parameter and string match with host name
+|===================================================================
 
 ifdef::showscript[]
+
 === Transcript
 
-Static Predicates do not take any configuration parameters or inputs from the
-user. These are specified in the scheduler configuration using their exact name.
+Static predicates have fixed names and configuration parameters that users cannot change. 
+
+Kubernetes provides the static predicates shown here out of the box.
 
 endif::showscript[]
 

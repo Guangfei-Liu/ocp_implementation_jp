@@ -1,42 +1,33 @@
 == Pods and Services
-
-.Services
 :noaudio:
 
-* A Kubernetes _service_ serves as an *internal* load balancer.
- It identifies a set of replicated _pods_ in order to proxy the connections it
- receives to them.
-* Backing pods can be added to or removed from a service arbitrarily while the
- _service_ remains consistently available, enabling anything that depends on the
- _service_ to refer to it at a consistent internal address.
+.Services
 
-* Services are assigned an IP address and port pair that, when accessed,
- proxy to an appropriate backing pod.
-* A service uses a label selector to find  all the containers running that
- provide a certain network service on a certain port.
-* A server can be accessed by its IP address and a local DNS name created and
-resolved by the local DNS server on the master.
+* Kubernetes service serves as internal load-balancer
+** Identifies set of replicated pods
+** Proxy connections it receives to identified pods
+* Can add or remove backing pods to or from service while service remains consistently available
+** Lets anything depending on service refer to it at consistent internal address
 
-NOTE: When we use the "_Default Router_" (HA-Proxy) we bypass the _Service_ load
-balancing. We only use the _Service_ to find out which _Pods_ are represented by
- The Service and load balancing use done by the "_Router_"
+* Assign services IP address and port pair
+** Proxy to appropriate backing pod when accessed
+* Service uses label selector to find running containers that provide certain network service on certain port
+* Can access server by IP address and DNS name
+** Name created and resolved by local DNS server on master
 
 ifdef::showscript[]
+
 === Transcript
 
-A Kubernetes _service_ serves as an *internal* load balancer.
-It identifies a set of replicated _pods_ in order to proxy the connections it
-receives to them. A service uses a label selector to find  all the containers
-running that provide a certain network service on a certain port.
+A Kubernetes _service_ serves as an internal load-balancer. It identifies a set of replicated _pods_ and then proxies the connections it receives to those pods. 
 
-Services are assigned an IP address and port pair that, when accessed,
-proxy to an appropriate backing pod. Backing pods can be added to or removed
-from a service arbitrarily while the _service_ remains consistently available,
-enabling anything that depends on the _service_ to refer to it at a consistent
-internal address.
+You can add or remove backing pods to or from a service arbitrarily while the service remains consistently available. This lets anything that depends on the service refer to it at a consistent internal address.
 
-When we use the "_Default Router_" (HA-Proxy) we bypass the _Service_ load
-balancing. We only use the _Service_ to find out which _Pods_ are represented by
- The Service and load balancing use done by the "_Router_"
+You assign services an IP address and port pair that, when accessed, proxy to an appropriate backing pod. 
 
+A service uses a label selector to find all the running containers that provide a certain network service on a certain port.
+
+Note that when you use the `Default Router` (HAProxy), you bypass the service load-balancing. You use the service only to find out which pods the service represents. The `Default Router` does the load-balancing.
+ 
 endif::showscript[]
+

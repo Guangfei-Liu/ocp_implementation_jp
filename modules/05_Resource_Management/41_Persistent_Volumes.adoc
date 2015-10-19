@@ -2,8 +2,9 @@
 :noaudio:
 
 .Requesting Storage: Prerequisite
-* For user to _claim_ volume (`PersistentVolumeClaim`), `PersistentVolume` needs to be created
-** Cluster admininstrator needs to define and _create_ `pv` in project:
+* For user to _claim_ a volume (`PersistentVolumeClaim`), a `PersistentVolume`
+ needs to be created
+** Cluster administrator needs to define and _create_ `pv` in project:
 +
 [source,yaml]
 ----
@@ -31,13 +32,12 @@ ifdef::showscript[]
 
 === Transcript
 
-For a user to _claim_ a volume (`PersistentVolumeClaim`), a `PersistentVolume` needs to be created.
+For a user to _claim_ a volume (`PersistentVolumeClaim`),
+ a `PersistentVolume` needs to be created.
 
-A cluster admininstrator needs to define and _create_ the `pv` in the project to which it belongs.
+A cluster administrator needs to define and _create_ the `pv` in the project to
+ which it belongs.
 
 This example shows a `PersistentVolume` definition file.
 
 endif::showscript[]
-
-
-

@@ -12,8 +12,7 @@ $ oc create -f create_quota_def_file.json --namespace=your_project_name
 ifdef::showscript[]
 
 === Transcript
-To create a quota and apply it to a project, use the `oc create` command and specify the `--namespace` or `-n` flag with the project name.
+To create a quota and apply it to a project, use the `oc create` command and
+ specify the `--namespace` or `-n` flag with the project name.
 
 endif::showscript[]
-
-

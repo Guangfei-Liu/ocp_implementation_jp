@@ -4,7 +4,8 @@
 .What Is `ResourceQuota`?
 * OpenShift Enterprise can limit:
 ** Number of objects created in project
-** Amount of resources requested across objects in namespace/project
+** Amount of compute/memory/storage resources requested across objects in
+ namespace/project
 * Several teams can share single OpenShift Enterprise cluster
 ** Each team in own project
 ** Prevents teams from starving each other of cluster resources
@@ -18,14 +19,18 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise can limit both the number of objects created in a project and the total amount of resources requested across objects in a namespace or project.
+OpenShift Enterprise can limit both the number of objects created in a project
+ and the total amount of resources requested across objects in a namespace or
+  project.
 
-This lets several teams, each with its own project, share a single OpenShift Enterprise cluster. It provides a mechanism for preventing one team from starving another team of cluster resources.
+This lets several teams, each with its own project, share a single OpenShift
+ Enterprise cluster. It provides a mechanism for preventing one team from
+  starving another team of cluster resources.
 
-A `ResourceQuota` object enumerates hard resource usage limits _per project_. It can limit the total number of a particular type of object that may be created in a project, as well as the total amount of compute resources that resources may consume in that project.
+A `ResourceQuota` object enumerates hard resource usage limits _per project_.
+ It can limit the total number of a particular type of object that may be
+  created in a project, as well as the total amount of compute resources that
+   resources may consume in that project.
 
 
 endif::showscript[]
-
-
-

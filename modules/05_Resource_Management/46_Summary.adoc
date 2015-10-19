@@ -14,7 +14,8 @@ ifdef::showscript[]
 
 === Transcript
 
-This module discussed various OpenShift Enterprise resources and how to use them to configure and manage your environment.
+This module discussed various OpenShift Enterprise resources and how to use them
+ to configure and manage your environment.
 
 
 endif::showscript[]

@@ -21,14 +21,23 @@ ifdef::showscript[]
 
 === Transcript
 
-A project, as mentioned earlier is a Kubernetes namespace with additional annotations. It is the central vehicle for managing access to resources for regular users.
+A project, as mentioned earlier is a Kubernetes namespace with additional
+ annotations. It is the central vehicle for managing access to resources for
+  regular users.
 
-A project lets a community of users organize and manage their content in isolation from other communities.
+A project lets a community of users organize and manage their content in
+ isolation from other communities.
 
-Users must receive access to projects from administrators. But cluster administrators can allow developers to create their own projects. In that case, users automatically have access to their own projects.
+Users must receive access to projects from administrators. But cluster
+ administrators can allow developers to create their own projects. In that
+  case, users automatically have access to their own projects.
 
-Each project scopes its own set of objects, policies, constraints, and service accounts. Objects, include pods, services, replication controllers, etc. Policies are rules for which users can or cannot perform actions on objects. Constraints are quotas for each kind of object that can be limited. Service accounts are users that act automatically with designated access to objects in the project.
+Each project scopes its own set of objects, policies, constraints, and service
+ accounts. Objects, include pods, services, replication controllers, etc.
+  Policies are rules for which users can or cannot perform actions on objects.
+   Constraints are quotas for each kind of object that can be limited. Service
+    accounts are users that act automatically with designated access to objects
+     in the project.
 
 
 endif::showscript[]
-

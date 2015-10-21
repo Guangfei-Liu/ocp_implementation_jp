@@ -46,8 +46,7 @@ ifdef::showscript[]
 
 === Transcript
 
-This slide shows the template `parameters` generated from expressions. Parameters are essentially variables that the entire template can access.
+This slide shows the template `parameters` generated from expressions.
+ Parameters are essentially variables that the entire template can access.
 
 endif::showscript[]
-
-

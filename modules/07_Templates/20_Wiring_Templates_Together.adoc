@@ -24,10 +24,7 @@ ifdef::showscript[]
 
 === Transcript
 
-The first step is to stand up the front end of your application and process the `frontend` template to create the configuration file.
+The first step is to stand up the front end of your application and process the
+ `frontend` template to create the configuration file.
 
 endif::showscript[]
-
-
-
-

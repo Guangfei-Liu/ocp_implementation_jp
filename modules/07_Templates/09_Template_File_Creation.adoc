@@ -26,4 +26,3 @@ This slide shows the `metadata` section of a sample template.
 
 
 endif::showscript[]
-

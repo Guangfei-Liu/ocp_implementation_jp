@@ -10,11 +10,10 @@
 ifdef::showscript[]
 
 === Transcript
-With templates you can create instantly deployable applications for developers or customers.
+With templates you can create instantly deployable applications for developers
+ or customers.
 
 A template can use preset variables or randomize values (like passwords).
 
 
 endif::showscript[]
-
-

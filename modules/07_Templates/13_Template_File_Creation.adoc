@@ -38,7 +38,8 @@ ifdef::showscript[]
 
 This slide shows the `ruby-sample` and `ruby-20-rhel7` `ImageStream` objects.
 
-Note that there are two `imagestream` objects in this template, one for the _builder image_ (`ruby-20-rhel7`) and one for the S2I image (`ruby-sample`) that will be created for this deployment.
+Note that there are two `imagestream` objects in this template, one for the
+ _builder image_ (`ruby-20-rhel7`) and one for the S2I image (`ruby-sample`)
+  that will be created for this deployment.
 
 endif::showscript[]
-

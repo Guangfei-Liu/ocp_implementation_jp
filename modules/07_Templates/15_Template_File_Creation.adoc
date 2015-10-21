@@ -85,6 +85,7 @@ ifdef::showscript[]
 
 This slide shows the `database` `DeploymentConfig` object.
 
-Notice that the `env` parameters for MySQL access are set the same as they were in the `frontend` `DeploymentConfig` object.
+Notice that the `env` parameters for MySQL access are set the same as they were
+ in the `frontend` `DeploymentConfig` object.
 
 endif::showscript[]

@@ -5,21 +5,26 @@
 
 * May want to build components separately
 
-** Database team deploys database templates and development team deploys front-end template
+** Database team deploys database templates and development team deploys
+ front-end template
 * Treat as two applications wired together:
 ** Process and create template for `frontend`
 ** Extract values of `mysql` credentials from configuration file
-** Process and create template for `db` 
+** Process and create template for `db`
 ** Override  values with values extracted from `front`end` configuration file
 
 ifdef::showscript[]
 
 === Transcript
 
-Sometimes you might want to build various components separately. For example, a database team deploys database templates and the development team deploys the front-end template.
+Sometimes you might want to build various components separately. For example, a
+ database team deploys database templates and the development team deploys the
+  front-end template.
 
-You can take these two separate templates and wire them together. First, process and create a `frontend` template, and extract the values of the `mysql` credentials from its configuration file. Then process and create a `db` template and override its `mysq1` credentials values with the values extracted from the `frontend` configuration file.
+You can take these two separate templates and wire them together. First, process
+ and create a `frontend` template, and extract the values of the `mysql`
+  credentials from its configuration file. Then process and create a `db`
+   template and override its `mysq1` credentials values with the values
+    extracted from the `frontend` configuration file.
 
 endif::showscript[]
-
-

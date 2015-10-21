@@ -15,10 +15,8 @@ ifdef::showscript[]
 
 Welcome to module 7 of the OpenShift Enterprise Implementation course.
 
-In this module you learn about the various sections of a template; how to deploy, process, and modify a template;
+In this module you learn about the various sections of a template; how to
+ deploy, process, and modify a template;
 and how to "wire" templates together.
 
 endif::showscript[]
-
-
-

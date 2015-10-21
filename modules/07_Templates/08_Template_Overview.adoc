@@ -3,7 +3,7 @@
 
 .Objects
 
-* Can be any resources that needs to be created for template 
+* Can be any resources that needs to be created for template
 * Examples: pods, services, replication controllers, and route
 * Other objects can be build configurations and image streams
 
@@ -11,11 +11,12 @@
 ifdef::showscript[]
 
 === Transcript
-Objects can be any resources that needs to be created for the template. Examples are pods, services, replication controllers, and a route for your template. Other objects can be build configurations and image streams.
+Objects can be any resources that needs to be created for the template. Examples
+ are pods, services, replication controllers, and a route for your template.
+  Other objects can be build configurations and image streams.
 
-The next few slides show sections of a sample template, which illustrate most of these objects.
+The next few slides show sections of a sample template, which illustrate most of
+ these objects.
 
 
 endif::showscript[]
-
-

@@ -7,7 +7,7 @@
 * Apply to _every resource that is generated from the template_
 * Used to organize, group, or select objects and resources
 * Resources and pods are "tagged" with labels
-* Allows services and replication controllers to: 
+* Allows services and replication controllers to:
 ** Indicate pods they relate to
 ** Reference groups of pods
 ** Treat pods with different Docker containers as similar entities
@@ -16,12 +16,16 @@ ifdef::showscript[]
 
 === Transcript
 
-Labels are used to manage generated resources, such as pods. The labels specified in the template are applied to _every resource that is generated from the template_.
+Labels are used to manage generated resources, such as pods. The labels
+ specified in the template are applied to
+  _every resource that is generated from the template_.
 
-Labels are used to organize, group, or select objects and resources. 
+Labels are used to organize, group, or select objects and resources.
 
-Resources and pods are "tagged" with labels, and services and replication controllers use the labels to indicate the pods they relate to. This makes it possible for services and replication controllers to reference groups of pods, or treat pods with potentially different Docker containers as similar entities.
+Resources and pods are "tagged" with labels, and services and replication
+ controllers use the labels to indicate the pods they relate to. This makes it
+  possible for services and replication controllers to reference groups of pods,
+   or treat pods with potentially different Docker containers as similar
+    entities.
 
 endif::showscript[]
-
-

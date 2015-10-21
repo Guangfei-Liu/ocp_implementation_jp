@@ -28,14 +28,10 @@ ifdef::showscript[]
 
 === Transcript
 
-Before creating the `db` template, review the `frontend` config file.  You can see that a database password and other parameters were generated.
+Before creating the `db` template, review the `frontend` config file.  You can
+ see that a database password and other parameters were generated.
 
-For an existing deployment, you can extract these values with the `oc env` command.
+For an existing deployment, you can extract these values with the `oc env`
+ command.
 
 endif::showscript[]
-
-
-
-
-
-

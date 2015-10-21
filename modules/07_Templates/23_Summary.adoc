@@ -12,6 +12,7 @@ ifdef::showscript[]
 
 === Transcript
 
-In this module you learned about the various sections of a template; how to deploy , process, and modify a template; and how to "wire" templates together.
+In this module you learned about the various sections of a template; how to
+ deploy , process, and modify a template; and how to "wire" templates together.
 
 endif::showscript[]

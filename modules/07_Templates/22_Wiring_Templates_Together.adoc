@@ -10,7 +10,8 @@
 ----
 $ oc process -f db-template.json  -v MYSQL_USER=userMXG,MYSQL_PASSWORD=slDrggRv,MYSQL_DATABASE=root > db-config.json
 ----
-** This example processes and creates `db` template while overriding `mysql` credentials variables
+** This example processes and creates `db` template while overriding `mysql`
+ credentials variables
 
 * Create configuration:
 +
@@ -31,9 +32,10 @@ ifdef::showscript[]
 
 === Transcript
 
-Now that you know the values used to create `frontend`, you can use them when the `db` template is processed.
+Now that you know the values used to create `frontend`, you can use them when
+ the `db` template is processed.
 
-In this example you are processing and creating the `db` template while overriding the `mysql` credentials variables.
+In this example you are processing and creating the `db` template while
+ overriding the `mysql` credentials variables.
 
 endif::showscript[]
-

@@ -1,0 +1,23 @@
+== New App From Template
+:noaudio:
+
+* To use template in file system directly, without first storing it in OpenShift
+ Enterprise:
+** Use `-f|--file` argument
+** Specify file name as argument to `new-app`
+
+* To create application from template in file:
++
+----
+$ oc new-app -f examples/sample-app/application-template-stibuild.json
+----
+
+
+ifdef::showscript[]
+
+=== Transcript
+To use a template in the file system directly, without first storing it in
+ OpenShift Enterprise, use the `-f|--file` argument, or simply specify the file
+  name as the argument to `new-app`.
+
+endif::showscript[]

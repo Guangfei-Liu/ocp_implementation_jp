@@ -1,0 +1,30 @@
+== Source-to-Image
+:noaudio:
+
+.Build Process
+
+* *Build*: Process of creating runnable OpenShift Enterprise _image_
+* Three build strategies:
+** *Docker*: Invoke Docker build, expect repository with Dockerfile and directories required for Docker build process
+** *S2I*: Build reproducible Docker images from _source code_ and _builder image_
+** *Custom*: Build with user-defined process, possibly integrated with existing CI/CD deployment (e.g., Jenkins)
+
+ifdef::showscript[]
+
+=== Transcript
+
+A build is the process of transforming input parameters--typically source
+ code--into an object, which is usually a runnable image. The object depends on
+  the builder used to create the image.
+
+Three build strategies are available: Docker, S2I, and Custom. With the Docker
+ strategy, you invoke a Docker build. The process expects a repository with the
+  Dockerfile and the directories required for the Docker build process.
+
+In the S2I strategy, you build reproducible Docker images from the _source code_
+ and the _builder image_.
+
+The custom strategy lets you build with a user-defined process, possibly
+ integrated with an existing CI/CD deployment (for example, Jenkins).
+
+endif::showscript[]

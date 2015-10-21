@@ -1,0 +1,30 @@
+== Application Creation
+:noaudio:
+
+.Overview
+
+* Create new OpenShift Enterprise application using web console or `oc new-app`
+ 
+* OpenShift Enterprise creates application by specifying _source code_, _image_, or _template_
+* `new-app` looks for images on local Docker installation (if available), in Docker registry, or OpenShift Enterprise image stream
+
+* If you specify source code, `new-app` constructs:
+** _Build configuration_ that builds source into new _application image_
+** _Deployment configuration_ that deploys _image_
+** _Service_ to provide load-balanced access to _deployment_ running _image_
+
+NOTE: If you specify source code, you may need to run a build with `oc start-build` after the application is created.
+
+ifdef::showscript[]
+
+=== Transcript
+
+You can create a new OpenShift Enterprise application using the web console or by running the `oc new-app` command from the CLI. OpenShift Enterprise creates a new application by specifying source code, images, or templates. The `new-app` command looks for images on the local Docker installation (if available), in a Docker registry, or an OpenShift Enterprise image stream.
+
+If you specify source code, you may need to run a build with `oc start-build` after the application is created.
+
+
+endif::showscript[]
+
+
+

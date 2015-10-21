@@ -1,0 +1,29 @@
+== New App From Source Code
+:noaudio:
+
+.Build Strategy Detection
+
+* If `new-app` finds a _Dockerfile_ in the repository, it uses `docker` build
+ strategy
+
+** Otherwise, `new-app` uses `source` strategy
+* To specify strategy, set `--strategy` flag to `source` or `docker`
+
+** Example: To force `new-app` to use `docker` strategy for local source
+ repository:
++
+----
+$ oc new-app /home/user/code/myapp --strategy=docker
+----
+
+
+ifdef::showscript[]
+
+=== Transcript
+If `new-app` finds a _Dockerfile_ in the repository, it generates a `Docker`
+ build strategy. Otherwise, `new-app` generates a `source` strategy.
+
+To use a specific strategy, set the `--strategy` flag to either `source` or
+ `docker`.
+
+endif::showscript[]

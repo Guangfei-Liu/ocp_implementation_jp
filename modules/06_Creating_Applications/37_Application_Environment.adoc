@@ -1,0 +1,30 @@
+== Application Environment
+:noaudio:
+
+.Specifying Environment Variables
+
+* When generating applications from _source_ or _image_, use `-e|--env` argument
+ to specify environment to be passed to application container at runtime
+* To set environment variables when creating application for database image:
++
+----
+$ oc new-app openshift/postgresql-92-centos7 \
+    -e POSTGRESQL_USER=user \
+    -e POSTGRESQL_DATABASE=db \
+    -e POSTGRESQL_PASSWORD=password
+----
+
+
+
+ifdef::showscript[]
+
+=== Transcript
+When generating applications from _source_ or  _image_, you can use the
+ `-e|--env` argument to specify the environment to be passed to the application
+  container at runtime.
+
+The example shows setting environment variables when creating an application for
+ a database image.
+
+
+endif::showscript[]

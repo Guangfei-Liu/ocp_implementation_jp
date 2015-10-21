@@ -1,0 +1,31 @@
+== Source-to-Image Builds
+:noaudio:
+
+.Watching the S2I Build
+
+* To see builds and their status, use `oc get builds`:
++
+----
+$ oc get builds
+NAME                             TYPE      STATUS    POD
+simple-openshift-sinatra-sti-1   S2I       Running   simple-openshift-sinatra-sti-1
+
+----
+
+* To follow the build process, use `oc build-logs`:
++
+----
+oc build-logs sin-simple-openshift-sinatra-sti-1
+----
+
+ifdef::showscript[]
+
+=== Transcript
+
+To see the builds and their status, use the `oc get builds` command.
+
+To follow the build process by checking the log created for your build, use the `oc build-logs` command.
+
+endif::showscript[]
+
+

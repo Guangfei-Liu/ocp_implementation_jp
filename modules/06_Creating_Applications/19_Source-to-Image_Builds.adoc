@@ -1,0 +1,57 @@
+== Source-to-Image Builds
+:noaudio:
+
+.JSON Build File - `DeploymentConfig`
+
+* Defines:
+** Additional _image rebuild_
+** Number of replicas application will have
+
++
+[subs="verbatim,macros"]
+----
+{
+            pass:quotes[*"kind": "DeploymentConfig",*]
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "simple-openshift-sinatra-sti",
+                "creationTimestamp": null
+            },
+            "spec": {
+                "strategy": {
+                    "type": "Recreate",
+                    "resources": {}
+                },
+                pass:quotes[*"triggers": [*]
+                    {
+                        "type": "ConfigChange"
+                    },
+                    {
+                        "type": "ImageChange",
+                        "imageChangeParams": {
+                            "automatic": true,
+                            "containerNames": [
+                                "simple-openshift-sinatra-sti"
+                            ],
+                            "from": {
+                                "kind": "ImageStreamTag",
+                                "name": "simple-openshift-sinatra-sti:latest"
+                            }
+                        }
+                    }
+                ],
+                pass:quotes[*"replicas": 1,*]
+                "selector": {
+                    "deploymentconfig": "simple-openshift-sinatra-sti"
+                },
+----
+
+ifdef::showscript[]
+
+=== Transcript
+
+In the `DeploymentConfig` section, you define more triggers that can start a rebuild of your image and how many replicas your application will have.
+
+endif::showscript[]
+
+

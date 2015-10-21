@@ -1,36 +1,34 @@
 == Advanced Application Creation
 :noaudio:
 
-.Grouping Images and Source in a Single Pod
-* The `new-app` command allows deploying multiple images together in a single pod.
-In order to specify which images to group together, use the `+` separator.
-* The `--group` command line argument can also be used to specify which images
-should be grouped together.
-* To group the image built from a source repository with other images, specify
-its builder image in the group.
+.Multiple Components and Grouping
 
-* To Deploy Two Images in a Single Pod:
+* `new-app` can create multiple applications at same time from _source_, _image_, or _template_
+
+* To create multiple applications, specify multiple parameters to `new-app` 
+
+** Labels specified on command line apply to all objects created by single command call
+
+** Environment variables apply to all components created from source or images
+
+* To create application from source repository and Docker Hub image:
 +
 ----
-$ oc new-app nginx+mysql
+$ oc new-app https://github.com/openshift/ruby-hello-world mysql
 ----
 
-* To Deploy an Image Built from Source and an External Image Together:
-+
-----
-$ oc new-app \
-    ruby~https://github.com/openshift/ruby-hello-world \
-    mysql \
-    --group=ruby+mysql
-----
+NOTE: If a source code repository and a builder image are specified as separate arguments, `new-app` uses the _builder image_ as the builder for the source code repository. If this is not intended, use the `~` separator to specify a specific _builder image_ for the source.
+
+
 
 ifdef::showscript[]
 
 === Transcript
-The `new-app` command allows deploying multiple images together in a single pod.
-In order to specify which images to group together, use the `+` separator.
+The `new-app` command allows creating multiple applications at once from source, images, or templates. To do this, simply specify multiple parameters to the `new-app` call. Labels specified on the command line apply to all objects created by the single call. Environment variables apply to all components created from source or images.
 
-Here are a few examples:
+If a source code repository and a builder image are specified as separate arguments, `new-app` uses the _builder image_ as the builder for the source code repository. If this is not intended, use the `~` separator to specify a specific _builder image_ for the source.
+
+
 endif::showscript[]
 
 

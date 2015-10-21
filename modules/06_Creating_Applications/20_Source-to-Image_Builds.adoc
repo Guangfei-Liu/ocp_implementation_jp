@@ -1,0 +1,45 @@
+== Source-to-Image Builds
+:noaudio:
+
+.JSON Build File - `Template`
+
+* Defines container _deployment template_
++
+[subs="verbatim,macros"]
+----
+    },
+                pass:quotes[*"template": {*]
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "deploymentconfig": "simple-openshift-sinatra-sti"
+                        }
+                    },
+                    "spec": {
+                        pass:quotes[*"containers": [
+                            {
+                                "name": "simple-openshift-sinatra-sti",
+                                "image": "simple-openshift-sinatra-sti:latest",
+                                "ports": [
+                                    {
+                                        "name": "simple-openshift-sinatra-sti-tcp-8080",
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"*]
+                                    }
+                                ],
+                                "resources": {}
+                            }
+                        ]
+                    }
+                }
+----
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+The `template` section defines different aspects of your application--for example, container name, image, and ports.
+
+endif::showscript[]
+

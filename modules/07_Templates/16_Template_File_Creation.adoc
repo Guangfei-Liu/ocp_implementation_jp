@@ -1,14 +1,12 @@
-== How to create a Template file
+== Template File Creation
 :noaudio:
 
-* *Parameters* for the template generated from customised expression.
-- These are essentially variables that all the entire template can access.
+.Example Template - `parameters`
 
-* Template example - Parameters
-[source,json]
+[subs="verbatim,macros"]
 ----
   ],
-  "parameters": [
+  pass:quotes[*"parameters": [*]
     {
       "name": "ADMIN_USERNAME",
       "description": "administrator username",
@@ -44,15 +42,12 @@
   }
 ----
 
-ifdef::showScript[]
+ifdef::showscript[]
 
 === Transcript
 
-In this slide we can see the *parameters* for the template generated from
-expression.
+This slide shows the template `parameters` generated from expressions. Parameters are essentially variables that the entire template can access.
 
-these are essentially variables that all the entire template can access.
-
-endif::showScript[]
+endif::showscript[]
 
 

@@ -1,14 +1,12 @@
 == Wiring Templates Together
 :noaudio:
 
-.Extract the values from config file
+.Extract Configuration File Values
 
-* Before creating the "db" template we will review the config file for "frontend"
-** In the config, you will see that a DB password and other parameters have been
- generated.
-
-NOTE: For an existing deployment you can extract these values with the `oc env`
-command.
+* Before creating `db` template, review `frontend` configuration file
+* Note that database password and other parameters were generated
+* For existing deployment, can extract these values with `oc env`
++
 ----
 grep -A 1 MYSQL_* frontend-config.json
                                             "name": "MYSQL_USER",
@@ -26,18 +24,15 @@ grep -A 1 MYSQL_* frontend-config.json
 ----
 
 
-ifdef::showScript[]
+ifdef::showscript[]
 
 === Transcript
 
-Before creating the "db" template we will review the config file for "frontend"
-In the config, you will see that a DB password and other parameters have been
-generated.
+Before creating the `db` template, review the `frontend` config file.  You can see that a database password and other parameters were generated.
 
-For an existing deployment you can extract these values with the `oc env`
-command.
+For an existing deployment, you can extract these values with the `oc env` command.
 
-endif::showScript[]
+endif::showscript[]
 
 
 

@@ -1,23 +1,17 @@
 == Summary
 :noaudio:
 
-* Templates Overview
-* How to create a Template file
-* Creating a Configuration From a Template
-* Wiring Templates together
-* Using Templates from the Web Management Console
-* Lab	: Installing a Template
-* Lab	: Wiring Templates together
+* Template Overview
+* Template File Creation
+* New Configuration From Template
+* Wiring Templates Together
 
 
 
-
-ifdef::showScript[]
+ifdef::showscript[]
 
 === Transcript
 
-In this module we learned about the various sections of a `template`, we learned
-how to deploy a template, process it, modify it and how to "wire" templates
-together.
+In this module you learned about the various sections of a template; how to deploy , process, and modify a template; and how to "wire" templates together.
 
-endif::showScript[]
+endif::showscript[]

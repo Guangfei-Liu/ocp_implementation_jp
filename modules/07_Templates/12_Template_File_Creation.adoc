@@ -1,0 +1,34 @@
+== Template File Creation
+:noaudio:
+
+.Example Template - `objects:` `Route`
+[subs="verbatim,macros"]
+----
+    {
+      pass:quotes[*"kind": "Route",*]
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "route-edge",
+        "creationTimestamp": null
+      },
+      "spec": {
+        pass:quotes[*"host": "integrated.cloudapps.example.com",*]
+        "to": {
+          "kind": "Service",
+          pass:quotes[*"name": "frontend"*]
+        }
+      },
+      "status": {}
+    },
+----
+
+ifdef::showscript[]
+
+=== Transcript
+
+This slide shows the `frontend` `route` object, and the hostname defined.
+
+endif::showscript[]
+
+
+

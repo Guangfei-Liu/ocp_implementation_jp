@@ -1,23 +1,20 @@
 == Template Overview
 :noaudio:
 
-.What are Templates for?
+.What Are Templates For?
 
-* With Templates we can create instantly deployable apps for our developers or
-customers.
-* A template can use a pre-set variables or randomize values (i.e passwords)
-according to definition.
+* Can create instantly deployable applications for developers or customers
+* Can use preset variables or randomize values (like passwords)
 
 
-ifdef::showScript[]
+ifdef::showscript[]
 
 === Transcript
-* With Templates we can create instantly deployable apps for our developers or
-customers.
-* A template can use a pre-set variables or randomize values (i.e passwords)
-according to definition.
+With templates you can create instantly deployable applications for developers or customers.
+
+A template can use preset variables or randomize values (like passwords).
 
 
-endif::showScript[]
+endif::showscript[]
 
 

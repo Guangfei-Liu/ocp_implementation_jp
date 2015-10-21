@@ -1,15 +1,14 @@
-== How to create a Template file
+== Template File Creation
 :noaudio:
 
-* Template example - Objects: Service "database"
-
-[source,json]
+.Example Template - `objects:`  `Service` `database` 
+[subs="verbatim,macros"]
 ----
   {
-      "kind": "Service",
+      pass:quotes[*"kind": "Service",*]
       "apiVersion": "v1",
       "metadata": {
-        "name": "database",
+        pass:quotes[*"name": "database",*]
         "creationTimestamp": null
       },
       "spec": {
@@ -35,11 +34,11 @@
     },
 ----
 
-ifdef::showScript[]
+ifdef::showscript[]
 
 === Transcript
 
-In this slide we can see the "database" `Service` Object
-endif::showScript[]
+This slide shows the database Service object.
+endif::showscript[]
 
 

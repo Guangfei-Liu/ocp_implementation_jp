@@ -3,30 +3,27 @@
 
 
 
-.What is a Template
+.What Is a Template?
 
-* From: link:http://docs.openshift.org/latest/dev_guide/templates.html[docs.openshift.org]
-** A template describes a set of `resources` that can be customized and
-processed to produce a configuration.
-** Each template is a parameterized list that is used by OpenShift to create a
-list of resources, including services, pods, routes, buildconfigs, etc.
-** A template also defines a set of labels to apply to every resource created
-by the template.
 
-ifdef::showScript[]
+* Describes set of resources that can be customized and processed to produce configuration
+* Parameterized list OpenShift Enterprise uses to create list of resources, including services, pods, routes, and build configurations
+* Defines set of labels to apply to every resource created by template
+
+.Reference
+* http://docs.openshift.org/latest/dev_guide/templates.html
+
+ifdef::showscript[]
 
 === Transcript
 
-A template describes a set of `resources` that can be customized and processed
- to produce a configuration.
+A template describes a set of resources that can be customized and processed to produce a configuration.
 
-Each template is a parameterized list that is used by OpenShift to create a
-list of resources, including services, pods, routes, buildconfigs, etc.
+Each template is a parameterized list that OpenShift Enterprise uses to create a list of resources, including services, pods, routes, and build configurations.
 
-A template also defines a set of labels to apply to every resource created by
-the template.
+A template also defines a set of labels to apply to every resource it creates.
 
-endif::showScript[]
+endif::showscript[]
 
 
 

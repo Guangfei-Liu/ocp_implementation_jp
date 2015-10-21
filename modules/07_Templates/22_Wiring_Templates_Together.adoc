@@ -1,48 +1,39 @@
 == Wiring Templates Together
 :noaudio:
 
-.Process "db"
+.Process `db`
 
-* Now that we know the values that were used to create "frontend" we can use
-them when we process the "db" template
-* In this example we are processing and creating the "db" template while
-overriding the mysql credentials variables.
-** Process the "frontend" template and create the *config* file.
+* Values used to create `frontend` can be used to process `db` template
 
+* To process `db` template and create configuration file:
++
 ----
-
 $ oc process -f db-template.json  -v MYSQL_USER=userMXG,MYSQL_PASSWORD=slDrggRv,MYSQL_DATABASE=root > db-config.json
+----
+** This example processes and creates `db` template while overriding `mysql` credentials variables
 
+* Create configuration:
++
+----
+$ oc create -f db-template.json
 ----
 
-** create the configuration:
-
+* Can also process and create application in single step:
++
 ----
-
-$ oc create -f frontend-config.json
-
-----
-
-* We can also achieve this in a single step.
-** The following will process and create the application:
-
-----
-
 oc process -f db-template.json \
     -v MYSQL_USER=userMXG,MYSQL_PASSWORD=slDrggRv,MYSQL_DATABASE=root \
     | oc create -f -
-
 ----
 
 
-ifdef::showScript[]
+ifdef::showscript[]
 
 === Transcript
 
-Now that we know the values that were used to create "frontend" we can use
-them when we process the "db" template
-* In this example we are processing and creating the "db" template while
-overriding the mysql credentials variables.
+Now that you know the values used to create `frontend`, you can use them when the `db` template is processed.
 
-endif::showScript[]
+In this example you are processing and creating the `db` template while overriding the `mysql` credentials variables.
+
+endif::showscript[]
 

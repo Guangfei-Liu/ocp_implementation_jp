@@ -1,23 +1,21 @@
-== How to create a Template file
+== Template File Creation
 :noaudio:
 
-* Template example - Objects: Service "web"
-
-[source,json]
+.Example Template - `objects:` `Service` `frontend` / `web`
+[subs="verbatim,macros"]
 ----
-
 "objects": [
     {
-      "kind": "Service",
+     pass:quotes[*"kind": "Service",*] 
       "apiVersion": "v1",
       "metadata": {
-        "name": "frontend",
+        pass:quotes[*"name": "frontend",*]
         "creationTimestamp": null
       },
       "spec": {
         "ports": [
           {
-            "name": "web",
+            pass:quotes[*"name": "web",*]
             "protocol": "TCP",
             "port": 5432,
             "targetPort": 8080,
@@ -38,10 +36,12 @@
 
 ----
 
-ifdef::showScript[]
+ifdef::showscript[]
 
 === Transcript
 
-In this slide we can see the "frontend" `Service` Object
-endif::showScript[]
+This section shows the service named `frontend`, and the `web` object.
+
+
+endif::showscript[]
 

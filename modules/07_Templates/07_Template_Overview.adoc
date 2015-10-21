@@ -1,22 +1,18 @@
 == Template Overview
 :noaudio:
 
-.Template Parameters:
+.Parameters
 
-* Parameters are used to "share" configuration values between the different
-items in the template.
-* An easy example would be the database user name, password or port needed by
-the frontend pods to communicate to our database backend pods.
+* Share configuration values between different items in template
 
-ifdef::showScript[]
+* Example: Database user name, password, or port needed by front-end pods to communicate to back-end database pods.
+
+ifdef::showscript[]
 
 === Transcript
 
-* Parameters are used to "share" configuration values between the different
-items in the template.
-* An easy example would be the database user name, password or port needed by
-the frontend pods to communicate to our database backend pods.
+Parameters are used to share configuration values between the different items in the template. An easy example is the database user name, password, or port needed by the front-end pods to communicate to the back-end database pods.
 
-endif::showScript[]
+endif::showscript[]
 
 

@@ -1,22 +1,21 @@
 == Template Overview
 :noaudio:
 
-.Template Items:
+.Objects
 
-* Items can be any resources that needs to be created for the template, in our
-example we will create Pods, Services, Replication controllers and a route for
-our template.
-- Other items can be BuildConfigs, ImageStreams and more.
+* Can be any resources that needs to be created for template 
+* Examples: pods, services, replication controllers, and route
+* Other objects can be build configurations and image streams
 
-//ISSUE: Are we actually creating a router in the example?
-ifdef::showScript[]
+
+ifdef::showscript[]
 
 === Transcript
-* Items can be any resources that needs to be created for the template, in our
-example we will create Pods, Services, Replication controllers and a route for
-our template.
-- Other items can be BuildConfigs, ImageStreams and more.
+Objects can be any resources that needs to be created for the template. Examples are pods, services, replication controllers, and a route for your template. Other objects can be build configurations and image streams.
 
-endif::showScript[]
+The next few slides show sections of a sample template, which illustrate most of these objects.
+
+
+endif::showscript[]
 
 

@@ -1,15 +1,15 @@
-== How to create a Template file
+== Template File Creation
 :noaudio:
 
-* Template example - Objects: DeploymentConfig "frontend"
+.Example Template - `objects:` `DeploymentConfig` `frontend`
 
-[source,json]
+[subs="verbatim,macros"]
 ----
  {
-      "kind": "DeploymentConfig",
+      pass:quotes[*"kind": "DeploymentConfig",*]
       "apiVersion": "v1",
       "metadata": {
-        "name": "frontend",
+        pass:quotes[*"name": "frontend",*]
         "creationTimestamp": null
       },
       "spec": {
@@ -60,7 +60,7 @@
                     "protocol": "TCP"
                   }
                 ],
-                "env": [
+                pass:quotes[*"env": [
                   {
                     "name": "ADMIN_USERNAME",
                     "value": "${ADMIN_USERNAME}"
@@ -79,7 +79,7 @@
                   },
                   {
                     "name": "MYSQL_DATABASE",
-                    "value": "${MYSQL_DATABASE}"
+                    "value": "${MYSQL_DATABASE}"*]
                   }
                 ],
                 "resources": {},
@@ -102,17 +102,16 @@
     },
 ----
 
-ifdef::showScript[]
+ifdef::showscript[]
 
 === Transcript
 
-In this slide we can see the "frontend" `DeploymentConfig` object.
+This slide shows the `frontend` `DeploymentConfig` object.
 
 
-Notice that the "env" parameters for MySQL access are set, you will see them
- again in the next part of the template.
+Notice that the `env` parameters for MySQL access are set. You see them again in the next part of the template.
 
-endif::showScript[]
+endif::showscript[]
 
 
 

@@ -1,26 +1,28 @@
-:icons: images/icons
+:scrollbar:
+:data-uri:
 :toc2:
+:icons: images/icons
+
+== Work With Templates
 
 :numbered:
 
-== Lab	: Installing a Template
+In this lab you install a template and wire templates together.
 
-=== Templates, Instant Apps, and "Quickstarts"
+* Install a Template
+* Wire Templates Together
 
-This example will involve a build of another application, but also a service
-that has two pods -- a "front-end" web tier and a "back-end" database tier. This
-application also makes use of auto-generated parameters and other neat features
-of OpenShift. One thing of note is that this project already has the
-wiring/plumbing between the front- and back-end components pre-defined as part
-of its JSON and embedded in the source code. Adding resources "after the fact"
-will come in a later lab.
+== Install a Template
 
-This example is effectively a "quickstart" -- a pre-defined application that
-comes in a template that you can just fire up and start using or hacking on.
+=== Templates, Instant Applications, and Quickstarts
 
-=== A Project for the Quickstart
+This example involves a build of another application and a service that has two pods: a front-end web tier and a back-end database tier. This application uses auto-generated parameters and other neat features of OpenShift Enterprise. Note that this project has the connectivity between the front- and back-end components predefined as part of its JSON and embedded in the source code. You will add resources after the fact in a later lab.
 
-. On the master host as `root`, create a new project:
+This example is effectively a "quickstart": a predefined application that comes in a template that you can just start using or hacking.
+
+=== Create a Project for the Quickstart
+
+. On the `master` host as `root`, create a new project.
 +
 ----
 
@@ -29,19 +31,15 @@ comes in a template that you can just fire up and start using or hacking on.
     --node-selector='region=primary' --admin=andrew
 ----
 
-=== A Quick Aside on Templates
+=== Learn About Templates
 
-From the [OpenShift
-documentation](http://docs.openshift.org/latest/dev_guide/templates.html):
+From the OpenShift documentation (http://docs.openshift.org/latest/dev_guide/templates.html):
 
-    A template describes a set of resources intended to be used together that
-    can be customized and processed to produce a configuration. Each template
-    can define a list of parameters that can be modified for consumption by
-    containers.
+"A template describes a set of resources intended to be used together that can be customized and processed to produce a configuration. Each template can define a list of parameters that can be modified for consumption by containers."
 
-As we mentioned previously, this template has some auto-generated parameters.
-For example, take a look at the following JSON:
+As mentioned previously, a template has some auto-generated parameters. For example, consider the following JSON:
 
+----
     "parameters": [
       {
         "name": "ADMIN_USERNAME",
@@ -50,12 +48,13 @@ For example, take a look at the following JSON:
         "from": "admin[A-Z0-9]{3}"
       },
 
-This portion of the template's JSON tells OpenShift to generate an expression
-using a regex-like string that will be presented as ADMIN_USERNAME.
+----
 
-=== Adding the Template
+This portion of the template's JSON tells OpenShift Enterprise to generate an expression using a regex-like string that will be presented as `ADMIN_USERNAME`.
 
-. On the master host as `root`, get and create the Example template:
+=== Add the Template
+
+. On the `master` host as `root`, get and create the `Example` template.
 +
 ----
 
@@ -63,95 +62,82 @@ using a regex-like string that will be presented as ADMIN_USERNAME.
 [root@master00-GUID ~]# oc create -f Template_Example.json -n openshift
 
 ----
-
-NOTE: What did you just do? The `Template_Example.json` file defined a template.
- By "creating" it, you have added it to the `openshift` project. if we wanted
-to make the template available for only limited projects we would add it to them
-and not the openshift project.
++
+[NOTE]
+Consider what you just did. The `Template_Example.json` file defined a template. By "creating" it, you added it to the `openshift` project. If you wanted to make the template available only for limited projects, you would add it to those projects, not the `openshift` project.
 
 === Create an Instance of the Template
 
-. In the web console, log in as `andrew`.
+. In the web console, log in as user `andrew`.
 
-. Find the "Quickstart" project, and then click the "Create..." button.
+. Find the `Quickstart` project and click *Create*.
 +
-We’ve seen this page before, but now it contains something new — an "Instant App(lication)".
-An instant app is a "special" kind of template (in reality, it just has the "instant-app" tag). . 
-The idea behind an
-"instant app" is that, when creating an instance of the template, you will have
-a fully functional application. in this example, our "instant" app is just a
-simple key-value storage and retrieval webpage.
+[NOTE]
+You have seen this page before, but now it contains something new: an "Instant App." An instant application is a special kind of template that has the `instant-app` tag. The idea behind an instant application is that, when you create an instance of the template, you will have a fully functional application. In this example, your instant application is just a simple key-value storage and retrieval web page.
 
-. Click "quickstart-keyvalue-application", and you'll see a modal pop-up that
-provides more information about the template.
+. Click *quickstart-keyvalue-application*. 
 
-. Click "Select template..."
+* A screen appears that provides more information about the template.
+
+. Click *Select template*.
+
+* You now see the template configuration screen. Here you can specify certain options for how to instantiate the application components. 
+* This screen:
+
+** Shows you what Docker images are used
+
+** Lets you add `label:value` pairs that can be used for other things
+
+** Lets you set specific values for any parameters, if you so choose
+
+. Leave all of the defaults and click *Create*. This instantiates the services, pods, replication controllers, etc. 
 +
-The next page that you will see is the template "configuration" page. This is
-where you can specify certain options for how the application components will be
-insantiated.
-+
-It will:
-+
-* Show you what Docker images are used
+[NOTE]
+One advantage of the template is that it has a built-in route. However, the route is not configurable at the moment.
 
-* Let you add label:value pairs that can be used for other things
+. Click *Browse*, and then click *Services*. 
 
-* Let you set specific values for any parameters, if you so choose
-
-. Leave all of the defaults and simply click "Create".
-+
-Once you hit the "Create" button, the services and pods and
-replicationcontrollers etc. will be instantiated.
-+
-The cool thing about the template is that it has a built-in route. The not so
-cool thing is that route is not configurable at the moment. But, it's there!
-
-. Click "Browse" and then "Services" you will see that there is a route for
-the *frontend* service:
+.. Observe that a route exists for the `frontend` service.
 +
 ----
 
 `frontend.quickstart.router.default.local`
 
 ----
-+
-The build was started for us immediately after creating an instance of the
-template, so you can wait for it to finish. Feel free to check the build logs.
 
-. Once the build is complete edit the router configuration:
+* After you create an instance of the template, the build starts immediately.
+.. Wait for the build to finish. 
+.. (Optional) Check the build logs.
+
+. After the build is complete, edit the router configuration.
 +
 ----
 [andrew@master00-GUID ~]$ oc project quickstart
 [andrew@master00-GUID ~]$ oc edit route example-route
 ----
 
-. Update the host: line to have the correct hostname:
+. Update the `host:` line to have the correct hostname.
 +
 ----
   host: integrated.cloudapps-GUID.oslab.opentlc.com
 ----
 
-=== Using Your App
+=== Use Your Application
 
-Once the app is built, you should be able to visit the routed URL and
-actually use the application!
+After the application is built, you should be able to visit the routed URL and actually use the application.
 
-    http://integrated.cloudapps-GUID.oslab.opentlc.com
+http://integrated.cloudapps-GUID.oslab.opentlc.com
 
 [NOTE]
-HTTPS will *not* work for this example because the form submission was
-written with HTTP links. Be sure to use HTTP.
+HTTPS will _not_ work for this example, because the form submission was written with HTTP links. Be sure to use HTTP.
 
-== Lab: Wiring Templates together
+== Wire Templates Together
 
-Quickstarts are great, but sometimes a developer wants to build up the various
-components manually. Let's take our quickstart example and treat it like two
-separate "applications" that we want to wire together.
+Quickstarts are great, but sometimes a developer wants to build the various components manually. Here you take your quickstart example and treat it as two separate applications that you want to wire together.
 
 === Create a New Project
 
-. On the *master* host as `root`, create a new project, *wiring*:
+. On the `master` host as `root`, create a new project named `wiring`.
 +
 ----
 
@@ -161,7 +147,7 @@ separate "applications" that we want to wire together.
 
 ----
 
-. Authenticate user `marina` to Openshift Enterprise:
+. Authenticate as user `marina` to Openshift Enterprise.
 +
 ----
 
@@ -169,8 +155,8 @@ separate "applications" that we want to wire together.
 [marina@master00~]$ oc login -u marina --insecure-skip-tls-verify --server=https://master00-${GUID}.oslab.opentlc.com:8443
 
 ----
-+
-You will See
+
+* You will see the following:
 +
 ----
 Password: (Enter r3dh4t1!)
@@ -178,24 +164,22 @@ Login successful.
 Welcome to OpenShift! See 'oc help' to get started.
 ----
 
-. Log into the web console as `marina`. Can you see `andrew`'s projects and content?
+. Log into the web console as `marina`. 
 +
-NOTE: Of course you dont.
+[NOTE]
+Note that you cannot see `andrew`'s projects and content.
 
-=== Stand Up the Frontend
+=== Stand Up the Front End
 
-The first step will be to stand up the frontend of our application. For
-argument's sake, this could have just as easily been brand new vanilla code.
-However, to make things faster, we'll start with an application that already is
-looking for a DB, but won't fail spectacularly if one isn't found.
+The first step in wiring is to stand up the front end of your application. Note that you can just as easily do this as brand-new code. However, to speed things up, you start here with an application that already is looking for a database, but will not fail spectacularly if it does not find one.
 
-. Create a new app using the *https://github.com/openshift/ruby-hello-world* Git repository:
+. Create a new app using the https://github.com/openshift/ruby-hello-world Git repository.
 +
 ----
 [marina@master00-GUID ~]$ oc new-app -i openshift/ruby https://github.com/openshift/ruby-hello-world#beta4
 ----
 
-.. You should see something like
+* You should see something like the following:
 +
 ----
 I0709 05:09:45.198010    9706 newapp.go:301] Image "openshift/ruby" is a builder, so a repository will be expected unless you also specify --strategy=docker
@@ -208,7 +192,7 @@ A build was created - you can run `oc start-build ruby-hello-world` to start it.
 Service "ruby-hello-world" created at 172.30.96.14 with port mappings 8080.
 ----
 
-. Before your build starts, lets look at the *BuildConfig* that was created and the *DeploymentConfig*
+. Before your build starts, look at the `BuildConfig` that you created, as well as the `DeploymentConfig`.
 +
 ----
 [marina@master00-GUID ~]$ oc get builds # if you see nothing, it's because the build isn't running yet.
@@ -221,13 +205,13 @@ NAME               TRIGGERS                    LATEST VERSION
 ruby-hello-world   ConfigChange, ImageChange   1
 ----
 
-. Since we know that we want to talk to a database eventually, let's take a moment to add the environment variables for it. Conveniently, there is an env subcommand to oc. As marina, we can use it like so:
+. Because you know that you want to talk to a database eventually, add the environment variables for it now using the `env` subcommand to `oc`.
 +
 ----
 [marina@master00-GUID ~]$ oc env dc/ruby-hello-world MYSQL_USER=root MYSQL_PASSWORD=redhat MYSQL_DATABASE=mydb
 ----
 
-. If you want to double-check, you can verify using the following:
+. Verify that the variables were added correctly.
 +
 ----
 [marina@master00-GUID ~]$ oc env dc/ruby-hello-world --list
@@ -236,9 +220,11 @@ MYSQL_USER=root
 MYSQL_PASSWORD=redhat
 MYSQL_DATABASE=mydb
 ----
++
+[NOTE]
+Your build might have started before you changed the `DeploymentConfig` environment variables. If so, this would trigger another deployment to start.
 
-. Notice that your build might have already started before you changed the *DeploymentConfig* environment variables, this would trigger another deployment to start.
-. Expose the *ruby-hello-world* Service
+. Expose the `ruby-hello-world` service.
 +
 ----
 [marina@master00-GUID ~]$ oc expose service \
@@ -246,7 +232,7 @@ MYSQL_DATABASE=mydb
   --hostname="frontwire.wiring.cloudapps-$guid.oslab.opentlc.com"
 ----
 
-. Check that your route was created
+. Check that your route was created.
 +
 ----
 [marina@master00-GUID ~]$ oc get route
@@ -254,46 +240,55 @@ NAME               HOST/PORT                                       PATH      SER
 ruby-hello-world   frontwire.wiring.cloudapps-r2d2.oslab.opentlc.com             ruby-hello-world
 ----
 
-. Now you should be able to access your application with your browser, Go ahead and do that now. link:http://frontwire.wiring.cloudapps-GUID.oslab.opentlc.com[http://frontwire.wiring.cloudapps-GUID.oslab.opentlc.com]
-. Earlier we added a template to the openshift namespace to make it available for all users. Now we'll demonstrate adding a template to our own project.
+. You should be able to access your application with your browser. Go to  http://frontwire.wiring.cloudapps-GUID.oslab.opentlc.com.
+
+. Add the template to your own project.
 +
 ----
 [marina@master00-GUID ~]$ wget http://www.opentlc.com/download/ose_implementation/resources/mysql_template.json
 [marina@master00-GUID ~]$ oc create -f mysql_template.json
 ----
 
-. You'll see:
+* You will see the following:
 +
 ----
 templates/mysql-ephemeral
 ----
 
-. Create the Database From the Web Console
-.. Go to the web console and make sure you are logged in as marina and using the Wiring project. You should see your front-end already there.
-.. Click the "Create..." button and then the "Browse all templates..." button.
-.. You should see the mysql-ephemeral template. Click it and then click "Select template".
-. You will need to edit the parameters of this template, because the defaults will not work for us.
-.. Change the DATABASE_SERVICE_NAME to be "*database*", because that is what service the frontend expects to connect to.
-.. Change the MYSQL_USER to be "*root*", because that is what mysql user that the frontend will use.
-.. Change the MYSQL_PASSWORD to be "*redhat*", because the password the frontend will use.
-.. Change the MYSQL_DATABASE to be "*mydb*", because that is what database the frontend expects to connect to.
+=== Create the Database From the Web Console
 
-.. Make sure that the MySQL user, password and database match whatever values you specified in the previous steps.
-. Click the "Create" button when you are ready.
+. Go to the web console. 
+* Make sure you are logged in as `marina` and using the `wiring` project. 
+* You should see your front end already there.
+. Click *Create*, and then click *Browse all templates*.
+. Click the `mysql-ephemeral` template, and then click *Select template*.
+. Edit the parameters of this template as follows:
+** *DATABASE_SERVICE_NAME*: `database`
+** *MYSQL_USER*: `root`
+** *MYSQL_PASSWORD*: `redhat`
+** *MYSQL_DATABASE*: `mydb`
 
-. It may take a little while for the MySQL container to download (if you didn't pre-fetch it). It's a good idea to verify that the database is running before continuing. If you don't happen to have a MySQL client installed you can still verify MySQL is running with curl:
+. Make sure that the MySQL user, password, and database match whatever values you specified in the previous steps.
+. Click *Create*.
+
+* It may take a little while for the MySQL container to download if you did not prefetch it. 
+. Verify that the database is running before continuing. 
+* If you do not have a MySQL client installed, you can use `curl` to verify that MySQL is running.
 +
 ----
 [marina@master00-GUID ~]$ curl `oc get services | grep mysql | awk '{print $4}'`:3306
 ----
-
-. MySQL doesn't speak HTTP so you will see garbled output like this (however, you'll know your database is running!):
 +
+[NOTE]
+====
+Because MySQL does not speak HTTP, you see garbled output similar to the following. However, this lets you know that the database is running.
+
 ----
 5.6.2K\l-7mA<��F/T:emsy'TR~mysql_native_password!��#08S01Got packets out of order
 ----
+====
 
-. Lets see on which nodes our pods are hosted
+. View the nodes on which your pods are hosted.
 +
 ----
 [marina@master00-GUID ~]$ oc get pod -t '{{range .items}}{{.metadata.name}} {{.spec.host}}{{"\n"}}{{end}}' | grep ruby-hello-world|awk '{print $2}'
@@ -303,7 +298,7 @@ templates/mysql-ephemeral
 node0X-GUID.oslab.opentlc.com
 ----
 
-. As *root* connect to the node where the pod is running (found in the previous command), and find the Docker container id
+. As `root`, connect to the node on which the pod is running, and find the Docker container ID.
 +
 ----
 [root@node0X-GUID ~] docker inspect `docker ps | grep hello-world | grep run | awk '{print $1}'` | egrep -i "mysql|database"
@@ -316,27 +311,23 @@ node0X-GUID.oslab.opentlc.com
 ...OUTPUT OMITTED...
 ----
 
-. Visit Your Application Again, link:http://frontwire.wiring.cloudapps-GUID.oslab.opentlc.com[http://frontwire.wiring.cloudapps-GUID.oslab.opentlc.com]
-
-NOTE:
-Why does it still say that there is no database?
-When the frontend was first built and created, there was no service called "database", so the environment variable DATABASE_SERVICE_HOST did not get populated with any values.
-Our database does exist now, and there is a service for it, but OpenShift could not "inject" those values into the frontend container.
+. Go to your application at http://frontwire.wiring.cloudapps-GUID.oslab.opentlc.com.
++
+[NOTE]
+You might wonder why it still says that there is no database. When you first built and created the front end, there was no service called `database`, so the environment variable `DATABASE_SERVICE_HOST` did not get populated with any values. Your database does exist now, and there is a service for it, but OpenShift Enterprise could not inject those values into the front end container.
 
 
-=== Replication Controllers
+=== Use Replication Controllers
 
-The easiest way to get this going? Just nuke the existing pod.
-
-
-. We need to kill our front-end pods so they retry the database
+. Delete your front-end pods so that they retry the database.
 +
 ----
 [marina@master00-GUID ~]$ oc delete pods -l deploymentconfig=ruby-hello-world
 ----
 
-. Wait a few seconds and see that a new pod was created, thanks to our trusty *Replication Controller*
-. Get the replication controller that is running for both the frontend and backend:
+. Wait a few seconds and observe that a new pod was created. 
+* This is the work of the _replication controller_.
+. Get the replication controller that is running for both the front end and back end.
 +
 ----
 
@@ -344,9 +335,7 @@ The easiest way to get this going? Just nuke the existing pod.
 
 ----
 
-. The replication controller is configured to ensure that we always have the
-desired number of replicas (instances) running. We can look at how many that
-should be:
+. The replication controller is configured to ensure that you always have the desired number of replicas (instances) running. View that number of instances.
 +
 ----
 
@@ -354,59 +343,55 @@ should be:
 
 ----
 +
-So, if we kill the pod, the RC will detect that, and fire it back up. When it
-gets fired up this time, it will then have the `DATABASE_SERVICE_HOST` value,
-which means it will be able to connect to the DB, which means that we should no
-longer see the database error!
+[NOTE]
+Therefore, if you kill a pod, the replication controller detects that and starts the pod back up. This time when the pod starts, it has the `DATABASE_SERVICE_HOST` value, which means it can connect to the database. This in turn means that you should no longer see the database error.
 
-. As `marina`, Lets try another way to kill the pod
+. As user `marina`, delete the pod using a different method.
 +
 ----
 
 [marina@master00-GUID ~]$ oc delete pod `oc get pod | grep -e "hello-world-[0-9]" | grep -v build | awk '{print $1}'`
 
 ----
-+
-You'll see something like:
+
+* You will see something like the following:
 +
 ----
 
 pods/ruby-hello-world-1-wcxiw
 
 ----
-+
- That was the generated name of the pod when the replication controller stood it
-up the first time. You also see some deployment hook pods. We will talk about
-deployment hooks a bit later.
 
-. After a few moments, we can look at the list of pods again:
+* This is the generated name of the pod when the replication controller stood it up the first time. You also see some deployment hook pods. 
+
+. After a few minutes, look at the list of pods again.
 +
 ----
 
 [marina@master00-GUID ~]$ oc get pod | grep world
 
 ----
-+
-We should see a different name for the pod this time:
+
+* You should see a different name for the pod this time.
 +
 ----
 
 ruby-hello-world-1-4ikbl
 
 ----
-+
-This shows that, underneath the covers, the RC restarted our pod. Since it was
-restarted, it should have a value for the `DATABASE_SERVICE_HOST` environment
-variable.
 
-. As marina on the master host find the node where the pod is running:
+* This shows that, in the background, the replication controller restarted your pod. 
+* Because it was restarted, the pod should have a value for the `DATABASE_SERVICE_HOST` environment variable.
+
+. As `marina` on the `master` host, find the node on which the pod is running.
 +
 ----
 [marina@master00-GUID ~]$ oc get pod -t '{{range .items}}{{.metadata.name}} {{.spec.host}}{{"\n"}}{{end}}' | grep ruby-hello-world|awk '{print $2}'
 ----
 
-. From root on the master SSH to the *node* where the *pod is running*, and find the Docker container
-id as `root`:
+. As `root` on the `master`, do the following:
+.. Connect to the node where the pod is running via SSH.
+.. Find the Docker container ID.
 +
 ----
 
@@ -414,8 +399,8 @@ id as `root`:
 [root@node0X-GUID ~]# docker inspect `docker ps | grep hello-world | grep run | awk '{print $1}'` | egrep -i "mysql|database"
 
 ----
-+
-The output will look something like:
+
+* The output will look something like the following:
 +
 ----
 
@@ -431,7 +416,6 @@ The output will look something like:
 
 ----
 
-=== Revisit the Webpage
+=== Revisit the Web Page
 
-Go ahead and revisit `http://frontwire.wiring.cloudapps-GUID.oslab.opentlc.com` in your browser, and you should see that the application is now fully
-functional!
+In your browser, go to http://frontwire.wiring.cloudapps-GUID.oslab.opentlc.com. You should see that the application is now fully functional.

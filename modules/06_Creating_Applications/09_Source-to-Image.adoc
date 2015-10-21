@@ -4,21 +4,25 @@
 .`BuildConfig` Triggers
 
 * Three trigger types:
-- *GitHub webhook*: Specifies which repository changes invoke a new build; specific to GitHub API
-- *Generic webhook*: Invokes new build when notified; payload slightly different from GitHub
-- *Image change*: Invoked when new image is available in specified image repository
+- *GitHub webhook*: Specifies which repository changes invoke a new build;
+ specific to GitHub API
+- *Generic webhook*: Invokes new build when notified; payload slightly different
+ from GitHub
+- *Image change*: Invoked when new image is available in specified image
+ repository
 
 ifdef::showscript[]
 
 === Transcript
 
-There are three trigger types of triggers. 
+There are three trigger types of triggers.
 
-* GitHub-specific webhooks specify the repository changes, such as a new commit, that invoke a new build. This trigger is specific to the GitHub API.
-* The second type is a generic webhook. This trigger is similar to a GitHub webhook in that it invokes a new build whenever it receives a notification.
+* GitHub-specific webhooks specify the repository changes, such as a new commit,
+ that invoke a new build. This trigger is specific to the GitHub API.
+* The second type is a generic webhook. This trigger is similar to a GitHub
+ webhook in that it invokes a new build whenever it receives a notification.
 
-* And an image change trigger is invoked when a new image is available in the specified image repository or image stream.
+* And an image change trigger is invoked when a new image is available in the
+ specified image repository or image stream.
 
 endif::showscript[]
-
-

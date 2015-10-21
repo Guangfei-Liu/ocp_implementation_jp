@@ -3,7 +3,7 @@
 
 
 * To create application from existing image stream, specify:
-**  Namespace (optional)
+** Namespace (optional)
 ** Name
 ** Tag (optional)
 
@@ -18,11 +18,12 @@ $ oc new-app my-stream:v1
 ifdef::showscript[]
 
 === Transcript
-To create an application from an existing image stream, specify the namespace (optional), name, and tag (optional) for the image stream.
+To create an application from an existing image stream, specify the namespace
+ (optional), name, and tag (optional) for the image stream.
 
-The example shows creating an application from an image stream with a specific tag.
+The example shows creating an application from an image stream with a specific
+ tag.
 
 
 
 endif::showscript[]
-

@@ -15,7 +15,8 @@ $ oc new-app ruby-helloworld-sample
 ----
 
 .Reference
-* For detailed information about storing a template and using it to create an application, see:  https://github.com/openshift/origin/tree/master/examples/sample-app
+* For detailed information about storing a template and using it to create an
+ application, see:  https://github.com/openshift/origin/tree/master/examples/sample-app
 
 ifdef::showscript[]
 
@@ -25,4 +26,3 @@ The `new-app` command can instantiate a template from a stored template or from 
 The example shows creating an application from a template.
 
 endif::showscript[]
-

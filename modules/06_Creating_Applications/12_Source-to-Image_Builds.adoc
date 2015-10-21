@@ -3,7 +3,8 @@
 
 
 .S2I Build
-* S2I builds replace build process of OpenShift Enterprise 2
+* S2I builds replace the developer experience and build process of OpenShift
+ Enterprise 2
 * Developer now specifies:
 ** Repository where project is located
 ** _Builder image_ that defines language and framework for writing application
@@ -14,9 +15,13 @@ ifdef::showscript[]
 === Transcript
 //ISSUE: is this slide too much a repeat? or is it solidifying knowledge?
 
-S2I builds are a replacement for the build process of OpenShift Enterprise Version 2. The developer now needs to provide only the repository where the project is located and a builder image, which defines the language and framework used for writing the application.
+S2I builds are a replacement for the build process of OpenShift Enterprise
+ Version 2. The developer now needs to provide only the repository where the
+  project is located and a builder image, which defines the language and
+   framework used for writing the application.
 
-S2I then assembles a new image that runs the application defined by the source, using the framework defined by the builder image. You can customize the assembly process to fit different approaches.
+S2I then assembles a new image that runs the application defined by the source,
+ using the framework defined by the builder image. You can customize the
+  assembly process to fit different approaches.
 
 endif::showscript[]
-

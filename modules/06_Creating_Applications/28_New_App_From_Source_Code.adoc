@@ -3,7 +3,8 @@
 
 .Language Detection
 
-* If creating `source` build, `new-app` tries to determine language to use based on files present in repository root
+* If creating `source` build, `new-app` tries to determine language to use based
+ on files present in the repository root
 
 * Languages detected by `new-app`:
 
@@ -27,8 +28,11 @@ a|`index.pl`, `cpanfile`
 ifdef::showscript[]
 
 === Transcript
-When creating a `source` build, `new-app` tries to determine the language builder to use based on the presence of certain files in the root of the repository; for example, if a file called `Gemfile` is present in the repository, `new-app` determines that the language is Ruby.
+When creating a `source` build, `new-app` tries to determine the language
+ builder to use based on the presence of certain files in the root of the
+  repository; for example, if a file called `Gemfile` is present in the
+   repository, `new-app` determines that the language is Ruby.
 
-Shown here is a list of languages `new-app` can detect and the files associated with them.
+Shown here is a list of languages `new-app` can detect and the files associated
+ with them.
 endif::showscript[]
-

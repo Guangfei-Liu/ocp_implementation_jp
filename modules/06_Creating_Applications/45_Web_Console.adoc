@@ -1,7 +1,8 @@
 == Web Console
 :noaudio:
 
-*  Select builder image from list of images in your project or from global library
+* Select builder image from list of images in your project or from global
+ library
 +
 
 image::images/console_select_image.png[]
@@ -10,8 +11,7 @@ image::images/console_select_image.png[]
 ifdef::showscript[]
 
 === Transcript
-Select a builder image from the list of images in your project or from the global library.
+Select a builder image from the list of images in your project or from the
+ global library.
 
 endif::showscript[]
-
-

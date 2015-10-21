@@ -14,10 +14,11 @@ $ oc new-app
 +
 ----
 $ oc new-app https://github.com/openshift/sti-ruby.git \
-    --context=2.0/test/puma-test-app
+    --context-dir=2.0/test/puma-test-app
 ----
 
-* To create application using remote Git repository with specific branch reference:
+* To create application using remote Git repository with specific branch
+ reference:
 +
 ----
 $ oc new-app https://github.com/openshift/ruby-hello-world.git#beta4
@@ -28,9 +29,9 @@ ifdef::showscript[]
 
 === Transcript
 
-These examples show how to create an application based on a local or remote Git repository. The S2I process takes care of selecting the appropriate builder image for the application.
+These examples show how to create an application based on a local or remote Git
+ repository. The S2I process takes care of selecting the appropriate builder
+  image for the application.
 
 
 endif::showscript[]
-
-

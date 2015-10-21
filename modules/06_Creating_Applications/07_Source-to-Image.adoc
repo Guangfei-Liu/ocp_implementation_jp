@@ -13,14 +13,18 @@ ifdef::showscript[]
 
 === Transcript
 
-A build is the process of transforming input parameters--typically source code--into an object, which is usually a runnable image. The object depends on the builder used to create the image.
+A build is the process of transforming input parameters--typically source
+ code--into an object, which is usually a runnable image. The object depends on
+  the builder used to create the image.
 
-Three build strategies are available: Docker, S2I, and Custom. With the Docker strategy, you invoke a Docker build. The process expects a repository with the Dockerfile and the directories required for the Docker build process.
+Three build strategies are available: Docker, S2I, and Custom. With the Docker
+ strategy, you invoke a Docker build. The process expects a repository with the
+  Dockerfile and the directories required for the Docker build process.
 
-In the S2I strategy, you build reproducible Docker images from the _source code_ and the _builder image_.
+In the S2I strategy, you build reproducible Docker images from the _source code_
+ and the _builder image_.
 
-The custom strategy lets you build with a user-defined process, possibly integrated with an existing CI/CD deployment (for example, Jenkins).
+The custom strategy lets you build with a user-defined process, possibly
+ integrated with an existing CI/CD deployment (for example, Jenkins).
 
 endif::showscript[]
-
-

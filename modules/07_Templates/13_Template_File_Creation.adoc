@@ -1,0 +1,45 @@
+== Template File Creation
+:noaudio:
+
+.Example Template - `objects:` `ImageStream` `ruby-sample` and `ruby-20-rhel7`
+[subs="verbatim,macros"]
+----
+ {
+pass:quotes[*"kind": "ImageStream",*]
+      "apiVersion": "v1",
+      "metadata": {
+        pass:quotes[*"name": "ruby-sample",*]
+        "creationTimestamp": null
+      },
+      "spec": {},
+      "status": {
+        "dockerImageRepository": ""
+      }
+    },
+    {
+      pass:quotes[*"kind": "ImageStream",*]
+      "apiVersion": "v1",
+      "metadata": {
+        pass:quotes[*"name": "ruby-20-rhel7",*]
+        "creationTimestamp": null
+      },
+      "spec": {
+        "dockerImageRepository": "registry.access.redhat.com/openshift3/ruby-20-rhel7"
+      },
+      "status": {
+        "dockerImageRepository": ""
+      }
+    },
+----
+
+ifdef::showscript[]
+
+=== Transcript
+
+This slide shows the `ruby-sample` and `ruby-20-rhel7` `ImageStream` objects.
+
+Note that there are two `imagestream` objects in this template, one for the
+ _builder image_ (`ruby-20-rhel7`) and one for the S2I image (`ruby-sample`)
+  that will be created for this deployment.
+
+endif::showscript[]

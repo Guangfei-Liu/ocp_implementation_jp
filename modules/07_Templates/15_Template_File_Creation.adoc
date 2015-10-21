@@ -1,15 +1,14 @@
-== How to create a Template file
+== Template File Creation
 :noaudio:
 
-* Template example - Objects: DeploymentConfig "frontend"
-
-[source,json]
+.Template Example - `objects:` `DeploymentConfig` `database`
+[subs="verbatim,macros"]
 ----
- {
-      "kind": "DeploymentConfig",
+  {
+      pass:quotes[*"kind": "DeploymentConfig",*]
       "apiVersion": "v1",
       "metadata": {
-        "name": "frontend",
+        pass:quotes[*"name": "database",*]
         "creationTimestamp": null
       },
       "spec": {
@@ -18,32 +17,18 @@
         },
         "triggers": [
           {
-            "type": "ImageChange",
-            "imageChangeParams": {
-              "automatic": true,
-              "containerNames": [
-                "ruby-helloworld"
-              ],
-              "from": {
-                "kind": "ImageStreamTag",
-                "name": "ruby-sample:latest"
-              },
-              "lastTriggeredImage": ""
-            }
-          },
-          {
             "type": "ConfigChange"
           }
         ],
-        "replicas": 2,
+        "replicas": 1,
         "selector": {
-          "name": "frontend"
+          "name": "database"
         },
         "template": {
           "metadata": {
             "creationTimestamp": null,
             "labels": {
-              "name": "frontend"
+              "name": "database"
             }
           },
           "nodeSelector": {
@@ -52,23 +37,15 @@
           "spec": {
             "containers": [
               {
-                "name": "ruby-helloworld",
-                "image": "ruby-sample",
+                "name": "ruby-helloworld-database",
+                "image": "registry.access.redhat.com/openshift3/mysql-55-rhel7:latest",
                 "ports": [
                   {
-                    "containerPort": 8080,
+                    "containerPort": 3306,
                     "protocol": "TCP"
                   }
                 ],
-                "env": [
-                  {
-                    "name": "ADMIN_USERNAME",
-                    "value": "${ADMIN_USERNAME}"
-                  },
-                  {
-                    "name": "ADMIN_PASSWORD",
-                    "value": "${ADMIN_PASSWORD}"
-                  },
+                pass:quotes["env": [
                   {
                     "name": "MYSQL_USER",
                     "value": "${MYSQL_USER}"
@@ -79,12 +56,12 @@
                   },
                   {
                     "name": "MYSQL_DATABASE",
-                    "value": "${MYSQL_DATABASE}"
+                    "value": "${MYSQL_DATABASE}"*]
                   }
                 ],
                 "resources": {},
                 "terminationMessagePath": "/dev/termination-log",
-                "imagePullPolicy": "IfNotPresent",
+                "imagePullPolicy": "Always",
                 "capabilities": {},
                 "securityContext": {
                   "capabilities": {},
@@ -99,20 +76,16 @@
         }
       },
       "status": {}
-    },
+    }
 ----
 
-ifdef::showScript[]
+ifdef::showscript[]
 
 === Transcript
 
-In this slide we can see the "frontend" `DeploymentConfig` object.
+This slide shows the `database` `DeploymentConfig` object.
 
+Notice that the `env` parameters for MySQL access are set the same as they were
+ in the `frontend` `DeploymentConfig` object.
 
-Notice that the "env" parameters for MySQL access are set, you will see them
- again in the next part of the template.
-
-endif::showScript[]
-
-
-
+endif::showscript[]

@@ -14,25 +14,25 @@ include::07_Template_Overview.adoc[]
 
 include::08_Template_Overview.adoc[]
 
-include::09_How_to_create_a_Template_file.adoc[]
+include::09_Template_File_Creation.adoc[]
 
-include::10_How_to_create_a_Template_file.adoc[]
+include::10_Template_File_Creation.adoc[]
 
-include::11_How_to_create_a_Template_file.adoc[]
+include::11_Template_File_Creation.adoc[]
 
-include::12_How_to_create_a_Template_file.adoc[]
+include::12_Template_File_Creation.adoc[]
 
-include::13_How_to_create_a_Template_file.adoc[]
+include::13_Template_File_Creation.adoc[]
 
-include::14_How_to_create_a_Template_file.adoc[]
+include::14_Template_File_Creation.adoc[]
 
-include::15_How_to_create_a_Template_file.adoc[]
+include::15_Template_File_Creation.adoc[]
 
-include::16_How_to_create_a_Template_file.adoc[]
+include::16_Template_File_Creation.adoc[]
 
-include::17_Creating_a_Configuration_From_a_Template.adoc[]
+include::17_New_Configuration_From_Template.adoc[]
 
-include::18_Creating_a_Configuration_From_a_Template.adoc[]
+include::18_New_Configuration_From_Template.adoc[]
 
 include::19_Wiring_Templates_Together.adoc[]
 

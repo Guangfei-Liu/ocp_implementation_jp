@@ -1,37 +1,30 @@
 == Wiring Templates Together
 :noaudio:
 
-.Process "frontend"
+.Process `frontend`
 
-* The first step will be to stand up the frontend of our application.
-** Process the "frontend" template and create the *config* file.
-
+* First stand up front end of application
+* Process `frontend` template and create configuration file.
++
 ----
-
 $ oc process -f frontend-template.json > frontend-config.json
-
 ----
 
-** create the configuration:
+* Create configuration:
++
 ----
-
 $ oc create -f frontend-config.json
-
 ----
 
-* As soon as you create this, all of the resources will be created and a build will be started for you.
+** When this command is run, resources are created and build is started
 
 
 
-ifdef::showScript[]
+ifdef::showscript[]
 
 === Transcript
 
-The first step will be to stand up the frontend of our application. and process
-the "frontend" template to create the *config* file.
+The first step is to stand up the front end of your application and process the
+ `frontend` template to create the configuration file.
 
-endif::showScript[]
-
-
-
-
+endif::showscript[]

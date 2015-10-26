@@ -1,19 +1,23 @@
+:scrollbar:
+:data-uri:
 :toc2:
+:icons: images/icons
 
+== Manage Resources
 :numbered:
 
-== Resource Management
+In this lab you manage different types of OpenShift Enterprise resources.
 
-In this module we have the following labs:
+* Manage Users, Projects, and Quotas
+* Create Services and Routes
+* Learn About Container Components 
+* Create a Persistent Volume for the Registry
 
-* Lab: Users, Projects and Quotas
-* Creating Services and Routes
-* Taking a tour into a container
+== Manage Users, Projects, and Quotas
 
-== Lab: Users, Projects and Quotas
-=== Create Projects
+=== Create a Project
 
-. On the master host use the `oadm` command to create a project, and assign an administrative user to it:
+. On the master host, use `oadm` to create and assign an administrative user `andrew` to a project.
 +
 ----
 
@@ -23,41 +27,28 @@ In this module we have the following labs:
 
 ----
 
-=== A look at resources in the Web Console
+=== View Resources in the Web Console
 
-Now that you have a project created, it's time to look at the web console, which
-has been completely redesigned for V3.
+[NOTE]
+Red Hat has completely redesigned the web console for OpenShift Enterprise 3.0.
 
-. Open your desktop/laptop web browser and visit the following URL:
-+
-----
-
-https://master00-GUID.oslab.opentlc.com:8443
-
-----
+. Open your web browser and go to https://master00-GUID.oslab.opentlc.com:8443.
 +
 [NOTE]
-Be aware that it may take up to 90 seconds for the web console to be available
-any time you restart the master.
+It may take up to 90 seconds for the web console to become available any time you restart the master.
 
-. On your first visit your browser will need to accept the self-signed SSL
-certificate.
+. The first time you access the URL, you need to accept the self-signed SSL certificate.
 
-. You will be asked for a username and a password. Remembering
-that we created a user previously, `andrew`, go ahead and enter that and use
-the password (`r3dh4t1!`) you set earlier.
+. When prompted, enter the following username and a password:
+** *Username*: `andrew`
+** *Password*: `r3dh4t1!`
 
-. Once you are in, click the *"Resources Management"* project. There really isn't
-anything of interest at the moment, because we haven't put anything into our
-project.
+. In the web console, click the *Resources Management* project. Because you have not put anything into your project, there is nothing to view yet.
 
 
-=== Applying Quota to Projects
+=== Apply a Quota to Your Project
 
-At this point we have created our "Resource Management" project, so let's apply the quota above
-to it.
-
-. Create a Quota definition file
+. Create a quota definition file.
 +
 ----
 
@@ -83,7 +74,8 @@ EOF
 
 ----
 
-. On the master host apply the file you just created with the `oc create` command:
+. On the master host, do the following:
+.. Use `oc create` to apply the file you just created:
 +
 ----
 
@@ -91,7 +83,7 @@ EOF
 
 ----
 
-. On the master host make sure it was created:
+.. Verify that the quota was created:
 +
 ----
 
@@ -106,7 +98,7 @@ test-quota
 
 ----
 
-. On the master host verify limits and examine usage:
+.. Verify limits and examine usage:
 +
 ----
 
@@ -127,27 +119,19 @@ resourcequotas          1       1
 services                0       5
 
 ----
-
-. Go back into the web console and click into the "Resource Management"
-project.
-
-. Click on the *Settings* tab and you'll see that the quota information
-is displayed.
-
++
 [NOTE]
-Once creating the quota, it can take a few moments for it to be fully
-processed. If you get blank output from the `get` or `describe` commands, wait a
-few moments and try again.
+After you create the quota, it can take a few moments for it to be fully processed. If you get blank output from the `get` or `describe` commands, wait a few minutes and try again.
 
-=== Applying Limit Ranges to Projects
+. Go back into the web console and click the *Resource Management* project.
 
-In order for quotas to be effective you need to also create Limit Ranges
-which set the maximum, minimum, and default allocations of memory and cpu at
-both a pod and container level. Without default values for containers projects
-with quotas will fail because the deployer and other infrastructure pods are
-unbounded and therefore forbidden.
+. Click the *Settings* tab. The quota information is displayed.
 
-. Create the Limits file
+=== Apply Limit Ranges to Your Project
+
+For quotas to be effective, you need to create _limit ranges_. Limit ranges set the maximum, minimum, and default allocations of memory and CPU at both the pod and container level. Without default values for containers, projects with quotas will fail, because the deployer and other infrastructure pods are unbounded and therefore forbidden.
+
+. Create the limits file.
 +
 ----
 [root@master00-GUID ~]# cat << EOF > limits.json
@@ -194,7 +178,7 @@ EOF
 
 ----
 
-. On the master host run `oc create` against the `limits.json` file and the "resourcemanagement" project
+. On the master host, run `oc create` against the `limits.json` file and the `resourcemanagement` project.
 +
 ----
 
@@ -202,7 +186,7 @@ EOF
 
 ----
 
-. Review your limit ranges on the master host:
+. Review your limit ranges.
 +
 ----
 
@@ -222,13 +206,14 @@ Container       memory          5Mi     750Mi   100Mi
 
 ----
 
-=== Test your Quotas
+=== Test Your Quotas
 
-.Authenticate to OpenShift Enterprise and Choose Your Project
+. Authenticate to OpenShift Enterprise and choose your project:
 
-. Connect to the OpenShift Enterprise master by following the same steps you used previously.
-. Authenticate user `andrew` to Openshift Enterprise (Password is: `r3dh4t1!`)
-
+.. Connect to the OpenShift Enterprise master following the same steps you used previously.
+.. When prompted, enter the following username and a password:
+** *Username*: `andrew`
+** *Password*: `r3dh4t1!`
 +
 ----
 
@@ -236,8 +221,8 @@ Container       memory          5Mi     750Mi   100Mi
 [andrew@master00-GUID ~]$ oc login -u andrew --insecure-skip-tls-verify --server=https://master00-${guid}.oslab.opentlc.com:8443
 
 ----
-+
-You will See
+
+* You will see the following:
 +
 ----
 Password: (Enter r3dh4t1!)
@@ -246,10 +231,8 @@ Welcome to OpenShift! See 'oc help' to get started.
 ----
 
 
-.Create the Pod Definition
-
-Run the following command to create the `hello-pod.json` file:
-
+. Create the `hello-pod.json` pod definition file.
++
 ----
 
 [andrew@master00-GUID ~]$ cat <<EOF > hello-pod.json
@@ -306,9 +289,9 @@ EOF
 
 === Run the Pod
 
-We will now create a simple pod without a *route* or a *service*
+Here you create a simple pod without a _route_ or a _service_.
 
-. Run the following commands to create and verify the pod:
+. Create and verify the `hello-openshift` pod.
 +
 ----
 
@@ -321,7 +304,7 @@ hello-openshift   1/1       Running   0          2m
 
 ----
 
-. Run the *oc describe* command to learn about your pod.
+. Run `oc describe` to learn about your pod.
 +
 ----
 [andrew@master00-GUID ~]$  oc describe pod hello-openshift
@@ -347,7 +330,7 @@ Events:
 
 ----
 +
-. Test that your pod is responding with "Hello OpenShift"
+. Test that your pod is responding with `Hello OpenShift`.
 +
 ----
 
@@ -355,14 +338,14 @@ Events:
 [andrew@master00-GUID ~]$ curl http://${ip}:8080
 
 ----
-+
-You will see:
+
+* You will see the following:
 +
 ----
 Hello OpenShift!
 ----
 
-. Great, the pod works, Now, lets kill it and create a few more
+. Delete this pod.
 +
 ----
 
@@ -370,7 +353,7 @@ Hello OpenShift!
 
 ----
 
-. Create a new definition file that launches 4 hello-pods
+. Create a new definition file that launches four `hello-openshift` pods.
 +
 ----
 [andrew@master00-GUID ~]$ cat << EOF > hello-many-pods.json
@@ -557,7 +540,7 @@ EOF
 
 ----
 
-. Create the items in the *hello-many-pods.json* file
+. Create the items in the `hello-many-pods.json` file.
 +
 ----
 [andrew@master00-GUID ~]$ oc create -f hello-many-pods.json
@@ -566,20 +549,21 @@ pods/hello-openshift-2
 pods/hello-openshift-3
 Error from server: Pod "hello-openshift-4" is forbidden: Limited to 3 pods
 ----
++
+[NOTE]
+Because you created a quota, the fourth pod is not created.
 
-NOTE: Because we created a quota, the forth pod will not be created.
-
-. Lets delete the objects and move on
+. Delete these objects.
 +
 ----
 [andrew@master00-GUID ~]$ oc delete  -f hello-many-pods.json
 ----
 
-. *Optional* - Using what you have learned, create a new project, and set the quota so that the pods value is 10 and run the *hello-many-pods.json* again.
+. (Optional) Using what you have learned, create a new project, set the quota so that the pod value is `10`, and run `hello-many-pods.json` again.
 
-== Lab: Creating Services and Routes
+== Create Services and Routes
 
-. As root on the master host create a new project:
+. As `root` on the master host, create a new `scvslab` project.
 +
 ----
 
@@ -589,7 +573,8 @@ NOTE: Because we created a quota, the forth pod will not be created.
     --admin=andrew  --node-selector='region=primary'
 ----
 
-. Become the *andrew* user and log back into OpenShift and switch to the *svcslab* project:
+. Switch to user `andrew` and log back into OpenShift Enterprise.
+. Switch to the `svcslab` project.
 +
 ----
 
@@ -599,7 +584,7 @@ Now using project "svcslab" on server "https://master00-GUID.oslab.opentlc.com:8
 
 ----
 
-. Run the following command to create the `hello-service.json` file:
+. Create the `hello-service.json` file.
 +
 ----
 
@@ -627,7 +612,7 @@ EOF
 
 ----
 +
-. Run the following commands to create and verify the pod:
+. Create and verify the pod.
 +
 ----
 
@@ -636,7 +621,7 @@ services/hello-service
 
 ----
 +
-. Display the running services (under the current project)
+. Display the services running under the current project.
 +
 ----
 
@@ -646,9 +631,9 @@ hello-service   <none>    name=hello-openshift   172.30.xxx.yyy   8888/TCP
 
 ----
 +
-. Lets look at the details of our service, Please notice the *selector* and the *Endpoints* lines.
-.. The *selector* describes which pods should be "selected" or "listed" by the service.
-.. The *Endpoints* line lists all the pods that are currently listed, notice that we have none.
+. Look at the details of your service. Note the following:
+** *Selector*: Describes which pods the service should "select" or "list".
+** *Endpoints*: Lists all the pods that are currently listed--none in your current project.
 +
 ----
 [andrew@master00-GUID ~]$ oc describe service hello-service
@@ -663,14 +648,17 @@ Session Affinity:       None
 No events.
 ----
 
-. Lets create some pods
+. Create more pods.
++
 ----
 
 [andrew@master00-GUID ~]$ oc create -f hello-many-pods.json
 
 ----
 
-. Now lets check the service again, you can see that the pods who share the label "name=hello-service" are all listed.
+. Check the service again.
+
+* You can see that the pods that share the label `name=hello-openshift` are all listed.
 +
 ----
 
@@ -691,7 +679,7 @@ No events.
 
 ----
 
-. Lets test our service
+. Test your service.
 +
 ----
 
@@ -701,14 +689,14 @@ Hello OpenShift!
 
 ----
 
-. Create the Route
+. Create the route.
 +
 ----
 [andrew@master00-GUID ~]$ oc expose service/hello-service --hostname=hello2-openshift.cloudapps-${guid}.oslab.opentlc.com
 ----
 +
 
-. Lets see our routes
+. View your routes.
 +
 ----
 [andrew@master00-6b80 ~]$ oc get routes
@@ -716,7 +704,7 @@ NAME            HOST/PORT                                           PATH      SE
 hello-service   hello2-openshift.cloudapps-GUID.oslab.opentlc.com             hello-service
 ----
 
-. Test Route:
+. Test the route.
 +
 ----
 
@@ -725,13 +713,15 @@ Hello OpenShift!
 
 ----
 
-== Lab: Taking a tour into a container
+== Learn About Container Components
 
-We can have a look into the container using the *oc exec* command, In this
-section we will have a look at our *Router* and *Registry*
+You use `oc exec` to look into a container. Here look at your _router_ and _registry_.
 
-. As Andrew, Lets run the following commands, We will learn more about this later,
-for now, just enjoy the ride. (Make sure you are in the *svcslab* project)
+=== View the Route Container
+
+. Make sure you are in the `svcslab` project.
+. As user `andrew`, run the following:
++
 ----
 [andrew@master00-d9b2 ~]$ oc new-app https://github.com/openshift/simple-openshift-sinatra-STI.git -l "todelete=yes" -o yaml |  sed 's/replicas: 1/replicas: 3/g' | oc create -f -
 imagestreams/simple-openshift-sinatra-sti
@@ -744,8 +734,7 @@ services/simple-openshift-sinatra
 ----
 
 
-. As *root*, Lets connect to the *Router*, by finding out it's name and running the
-*oc exec* command.
+. As `root`, connect to the router by finding out its name and running `oc exec`.
 +
 ----
 [root@master00-d9b2 ~]# oc get pods
@@ -760,10 +749,11 @@ bash-4.2$
 bash-4.2$
 ----
 
-. Once you are running *bash* inside the container you can explore
-.. Run the *id* command
-.. Run *pwd* and *ls*, what directory are you in?
-.. Run *cat haproxy.config* to see your empty configuration file.
+. After you are running `bash` inside the container, do the following:
+.. Run `id`.
+.. Run `pwd` and `ls`. Note the directory you are now in.
+.. Run `grep SERVERID *`.
+.. Run `cat haproxy.config` to see your empty configuration file.
 +
 ----
 
@@ -787,11 +777,11 @@ bash-4.2$ cat haproxy.config
 
 ----
 
-. You will see output similar to this:
-.. You will see the *route* that was created in the previous lab.
-.. Notice that the *route* points to the endpoints directly
-.. Notice the *svcslab* project route we created exists, but would probably not
-have any end-points until the build is complete
+* You will see output similar to that shown below. Note the following:
+
+** The route is the one you created in the previous lab.
+** The route points to the endpoints directly.
+** The `svcslab` project route you created exists, but probably will not have any endpoints until the build is complete.
 +
 ----
 backend be_http_resourcemanagement-hello-service
@@ -811,13 +801,17 @@ ocache httponly
 
 ----
 
-. Make changes to your service/route (add or remove pods or create another route)
-and see the changes in the *haproxy.config* file.
+. Make changes to your service or route by adding or removing pods or creating another route.
+. View the changes in the `haproxy.config` file.
 
-. Before we start looking at the *registry* container, lets make sure our build
-(from earlier in this lab) has completed.
-. As Andrew,run this command to see the build (More on this later), this will take a while
-on our hardware, If its not completed, it's good time for a quick break.
+=== View the Registry Container
+
+Before you start looking at the registry container, make sure your build has completed.
+
+. As user `andrew`, run the following to see the build.
++
+[NOTE]
+This takes a while on the lab environment hardware. If the build has not completed, you can take a quick break here.
 +
 ----
 [andrew@master00-d9b2 ~]$ oc build-logs simple-openshift-sinatra-sti-1
@@ -829,19 +823,17 @@ I0810 21:53:13.659295       1 sti.go:138] Successfully pushed 172.30.236.109:500
 
 ----
 
-. Once the build has completed and Successfully pushed the image to the
-registry, we can continue the lab and go have a look inside the registry.
-. As root, run the following commands:
-.
+. After the build has completed, as `root`, run the following:
++
 ----
 [root@master00-d9b2 ~]# oc exec -ti -p `oc get pods |  awk '/registry/ { print $1; }'` /bin/bash
 
 ----
 
-. Once you are running *bash* inside the container you can explore
-.. Run the *id* command
-.. Run *pwd* and *ls*, what directory are you in?
-.. Run *cat haproxy.config* to see your empty configuration file.
+. After you are running `bash` inside the container, do the following:
+.. Run `id`.
+.. Run `pwd` and `ls`. Note the directory you are now in.
+.. Run `cat config.yml` to see your empty configuration file.
 +
 ----
 bash-4.2$ id
@@ -871,7 +863,7 @@ middleware:
 
 ----
 
-. You can have a look at the repositories and images available using the following:
+. Look at the repositories and images available.
 +
 ----
 bash-4.2$ cd /registry/docker/registry/v2/repositories
@@ -889,8 +881,10 @@ c0e305bb0b350a4efcaeb33e1f99efe5235728747d3695b16b111fff7fb40e74
 f1689e5704ab6738da07deea58081b784b9e43675063d1e98402ef3c745cd631
 /var/export/registry-storage/docker/registry/v2/blobs
 ----
-. If you want to see the size of the "blobs" that the layers are saves as:
-.. Note that the *blob file* name is the same as your layer *link name*
+. To see the size of the "blobs" that the layers are saved as:
++
+[NOTE]
+The _blob file_ name is the same as your layer _link name_.
 +
 ----
 bash-4.2$ cd /registry/docker/registry/v2/blobs/sha256/
@@ -903,11 +897,11 @@ bash-4.2$ ls f1
 f1689e5704ab6738da07deea58081b784b9e43675063d1e98402ef3c745cd631
 
 ----
++
+[NOTE]
+If you configured persistent storage for your registry, you could see the same in `/var/export/registry-storage/docker/registry/v2/`.
 
-NOTE: If you configured Persistent storage for your registry, you could see the
-same in:  */var/export/registry-storage/docker/registry/v2/*
-
-. As Andrew, lets have a look at one of the pods we started earlier in this lab.
+. As user `andrew`, look at one of the pods you started earlier in this lab.
 +
 ----
 [andrew@master00-d9b2 ~]$ oc get pods
@@ -918,19 +912,17 @@ simple-openshift-sinatra-sti-2-ehdke   1/1       Running      0          29m
 simple-openshift-sinatra-sti-2-qesjy   1/1       Running      0          29m
 ----
 
-. Run the following command to connect to the container
+. Connect to the container.
 +
 ----
 [andrew@master00-d9b2 ~]$  oc exec -ti -p  simple-openshift-sinatra-sti-2-ehdke "/bin/bash"
 bash-4.2$
 ----
 
-. Explore the container:
-.. Run the *id* command
-.. Run *pwd* and *ls*, what directory are you in?
-.. Run *ps -ef* to see what processes are running
-+
-
+. To explore the container, do the following:
+.. Run `id`.
+.. Run `pwd` and `ls`. Note the directory you are in.
+.. Run `ps -ef` to see what processes are running.
 +
 ----
 
@@ -950,19 +942,19 @@ UID         PID   PPID  C STIME TTY          TIME CMD
 1000040+     62     34  0 22:21 ?        00:00:00 ps -ef
 
 ----
++
+[NOTE]
+Your pod names and output will differ slightly.
 
-NOTE: Your pod names and output will differ slightly.
 
 
+== Create a Persistent Volume for the Registry
 
-== Lab: Create a Persistent Volume for the Registry
+In this lab, you create a persistent volume for your registry, attach it to the `deploymentConfiguration`, and redeploy the registry.
 
-In this lab we will create a persistent volume for our registry, attach it to
-the deploymentConfiguration and redeploy the Registry.
+=== Create an NFS Export for the Registry
 
-=== Create NFS export for registry
-
-. as root, on the *oselab* host, create a directory for our *NFS export*
+. As `root` on the `oselab` host, create a directory for your NFS export.
 +
 ----
 [root@oselab-GUID ~]# export volname=registry-storage
@@ -977,14 +969,14 @@ the deploymentConfiguration and redeploy the Registry.
 [root@oselab-GUID ~]# echo "/var/export/pvs/${volname} *(rw,sync,all_squash)" >> /etc/exports
 ----
 
-. Restart NFS services:
+. Restart NFS services.
 +
 ----
 [root@oselab-GUID ~]# systemctl restart rpcbind nfs-server nfs-lock nfs-idmap
 ----
 
 
-. Back on the *master* host, create a Persistent volume definition file:
+. On the master host, create a persistent volume definition file named `registry-volume.json`.
 +
 [source,json]
 ----
@@ -1011,16 +1003,17 @@ EOF
 
 ----
 
-. Create the Persistent Volume from definition file (in the `default` project):
-- Note that we are creating the PV in the `default` project because its the
-project that the registry runs in.
+. In the `default` project, create the `registry-storage1 persistent volume from the definition file.
++
+[NOTE]
+You are creating the persistent volume in the `default` project, because that is the project in which the registry runs.
 +
 ----
 [root@master00-GUID ~]# oc create -f registry-volume.json -n default
 persistentvolumes/registry-storage
 ----
 
-. View your create Persistent Volume
+. View the persistent volume you created.
 +
 ----
 [root@master00-GUID ~]# oc get pv
@@ -1028,7 +1021,7 @@ NAME               LABELS    CAPACITY      ACCESSMODES   STATUS      CLAIM     R
 registry-storage   <none>    16106127360   RWX           Available
 ----
 
-. Create a claim definition file to claim your volume
+. Create a `registry-volume-claim.json` claim definition file to claim your volume.
 +
 ----
 
@@ -1053,14 +1046,14 @@ EOF
 
 ----
 
-. Create the Claim from definition file:
+. Create the `registry-claim` claim from the definition file.
 +
 ----
 [root@master00-GUID ~]# oc create -f registry-volume-claim.json -n default
 persistentvolumeclaims/registry-claim
 ----
 
-. View your create Persistent Volume, notice that the status is "Bound"
+. View the persistent volume you created. Note that the status is `Bound`.
 +
 ----
 [root@master00-GUID ~]# oc get pv
@@ -1069,7 +1062,7 @@ registry-storage   <none>    16106127360   RWX           Bound     default/regis
 
 ----
 
-. View your create Persistent Volume Claims, notice that the status is "Bound"
+. View the persistent volume claim you created. Note that the status is also `Bound`.
 +
 ----
 [root@master00-GUID ~]# oc get pvc
@@ -1079,8 +1072,7 @@ registry-claim   map[]     Bound     registry-storage
 
 === Attach the Persistent Volume to the Registry
 
-. Assuming that your registry is already running, get the names of your
-available *deploymentConfigurations*
+. Assuming that your registry is already running, get the names of your available `deploymentConfigurations`.
 +
 ----
 [root@master00-GUID ~]# oc get dc
@@ -1089,17 +1081,15 @@ docker-registry   ConfigChange   1
 trainingrouter    ConfigChange   1
 
 ----
-
-. you can modify the *DeploymentConfiguration* using the *oc volume* command.
-Add the volume to the Registry's _DeploymentConfiguration_, this will trigger
-a redeployment of the registry.
-
+. (Optional) You can use `oc volume` to modify the `DeploymentConfiguration`.
+. Add the `registry-storage` volume to the registry's `DeploymentConfiguration`. This triggers a redeployment of the registry.
++
 ----
 oc volume dc/docker-registry --add --overwrite -t persistentVolumeClaim \
 --claim-name=registry-claim --name=registry-storage
 ----
 
-. Once you create an S2I build you could see the registry is using the persistent volume.
+. After you create an S2I build, check that the registry is using the `registry-storage` volume.
 +
 ----
 

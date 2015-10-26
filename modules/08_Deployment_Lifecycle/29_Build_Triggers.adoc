@@ -3,11 +3,14 @@
 
 .Image Change Triggers
 
-* Allow your build to be automatically invoked when new upstream image is available
-- If build based on Red Hat Enterprise Linux image, can trigger build to run any time that image changes
+* Allow your build to be automatically invoked when new upstream image is
+ available
+- If build based on Red Hat Enterprise Linux image, can trigger build to run any
+ time that image changes
 - Your application image always runs latest Red Hat Enterprise Linux base image
 
-* To configure image change trigger, define `ImageStream` to point to upstream trigger image:
+* To configure image change trigger, define `ImageStream` to point to upstream
+ trigger image:
 +
 ----
 {
@@ -19,14 +22,19 @@
 }
 ----
 +
-** Defines image stream tied to Docker image repository at `<system-registry>/<namespace>/ruby-20-rhel7`
-** `<system-registry>` is defined as service with name `docker-registry` running in OpenShift Enterprise
+** Defines image stream tied to Docker image repository at
+ `<system-registry>/<namespace>/ruby-20-rhel7`
+** `<system-registry>` is defined as service with name `docker-registry` running
+ in OpenShift Enterprise
 
 ifdef::showscript[]
 === Transcript
 
-Image change triggers allow your build to be automatically invoked when a new  upstream image is available. For example, if a build is based on a Red Hat Enterprise Linux image, you can trigger that build to run any time the Red Hat Enterprise Linux image changes. As a result, the application image is always running on the latest base image.
+Image change triggers allow your build to be automatically invoked when a new
+ upstream image is available. For example, if a build is based on a Red Hat
+  Enterprise Linux image, you can trigger that build to run any time the Red Hat
+   Enterprise Linux image changes. As a result, the application image is always
+    running on the latest base image.
 
 
 endif::showscript[]
-

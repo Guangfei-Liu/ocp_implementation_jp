@@ -13,14 +13,18 @@
 |`Ignore`|Ignore hook failure and proceed with deployment.
 |===
 
-WARNING: Some hook points for a strategy might support only a subset of failure policy values. For example, the `Recreate` and `Rolling` strategies do not support the `Abort` policy for a `post` deployment lifecycle hook.
+WARNING: Some hook points for a strategy might support only a subset of failure
+ policy values. For example, the `Recreate` and `Rolling` strategies do not
+  support the `Abort` policy for a `post` deployment lifecycle hook.
 
 
 ifdef::showscript[]
 === Transcript
-Every hook has a failure policy that defines the action the strategy should take when a hook failure is encountered.
+Every hook has a failure policy that defines the action the strategy should take
+ when a hook failure is encountered.
 
-Note that some hook points for a strategy might support only a subset of failure policy values. For example, the `Recreate` and `Rolling` strategies do not currently support the `Abort` policy for a `post` deployment lifecycle hook.
+Note that some hook points for a strategy might support only a subset of failure
+ policy values. For example, the `Recreate` and `Rolling` strategies do not
+  currently support the `Abort` policy for a `post` deployment lifecycle hook.
 
 endif::showscript[]
-

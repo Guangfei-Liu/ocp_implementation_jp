@@ -5,7 +5,8 @@
 
 * Handle call made by GitHub when repository is updated
 
-* When defining trigger, specify `secret` value as part of URL supplied to GitHub
+* When defining trigger, specify `secret` value as part of URL supplied to
+ GitHub
 ** Ensures that only you and your repository can trigger build
 
 * JSON trigger definition within `buildConfig`:
@@ -29,9 +30,11 @@ ifdef::showscript[]
 === Transcript
 GitHub webhooks handle the call made by GitHub when a repository is updated.
 
-When defining the trigger, you must specify a value for `secret` as part of the URL you supply to GitHub when configuring the webhook. The `secret` value ensures that only you and your repository can trigger the build.
+When defining the trigger, you must specify a value for `secret` as part of the
+ URL you supply to GitHub when configuring the webhook. The `secret` value
+  ensures that only you and your repository can trigger the build.
 
-The first example is a JSON `buildConfig` trigger definition, and the second is a GitHub webhook URL.
+The first example is a JSON `buildConfig` trigger definition, and the second is
+ a GitHub webhook URL.
 
 endif::showscript[]
-

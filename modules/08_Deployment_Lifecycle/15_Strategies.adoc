@@ -3,7 +3,8 @@
 
 .`Rolling` Strategy
 
-* Performs rolling update and supports lifecycle hooks for injecting code into deployment process
+* Performs rolling update and supports lifecycle hooks for injecting code into
+ deployment process
 
 * `Rolling` strategy:
 +
@@ -22,10 +23,11 @@
 ifdef::showscript[]
 === Transcript
 
-The `Rolling` strategy performs a rolling update and supports lifecycle hooks for injecting code into the deployment process.
+The `Rolling` strategy performs a rolling update and supports lifecycle hooks
+ for injecting code into the deployment process.
 
-In the example, `timeoutSeconds` is optional. The default value is 120. `pre` and `post` are lifecycle hooks.
+In the example, `timeoutSeconds` is optional. The default value is 120. `pre`
+ and `post` are lifecycle hooks.
 
 
 endif::showscript[]
-

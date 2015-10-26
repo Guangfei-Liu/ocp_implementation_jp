@@ -16,7 +16,7 @@ $ oc rollback <deployment>
 
 ** Image change triggers in deployment configuration are disabled as part of
  rollback to prevent unwanted deployments soon after rollback completes
- 
+
 * To re-enable image change triggers:
 +
 ----
@@ -25,12 +25,15 @@ $ oc deploy <deployment_config> --enable-triggers
 
 ifdef::showscript[]
 === Transcript
-Rollbacks revert an application back to a previous deployment and can be performed using the REST API or the CLI.
+Rollbacks revert an application back to a previous deployment and can be
+ performed using the REST API or the CLI.
 
-The deployment configuration’s template is reverted to match the deployment specified in the rollback command, and a new deployment is started.
+The deployment configuration’s template is reverted to match the deployment
+ specified in the rollback command, and a new deployment is started.
 
-Image change triggers on the deployment configuration are disabled as part of the rollback to prevent unwanted deployments soon after the rollback is complete. You can re-enable the triggers with the command shown.
+Image change triggers on the deployment configuration are disabled as part of
+ the rollback to prevent unwanted deployments soon after the rollback is
+  complete. You can re-enable the triggers with the command shown.
 
 
 endif::showscript[]
-

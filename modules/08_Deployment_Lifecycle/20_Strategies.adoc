@@ -15,11 +15,12 @@
 
 ifdef::showscript[]
 === Transcript
-OpenShift Enterprise provides these two environment variables for use with the strategy process.
+OpenShift Enterprise provides these two environment variables for use with the
+ strategy process.
 
-The replica count of the new deployment is initially zero. 
+The replica count of the new deployment is initially zero.
 
-The strategy is responsible for making the new deployment active, using the logic that best serves the user's needs.
+The strategy is responsible for making the new deployment active, using the
+ logic that best serves the user's needs.
 
 endif::showscript[]
-

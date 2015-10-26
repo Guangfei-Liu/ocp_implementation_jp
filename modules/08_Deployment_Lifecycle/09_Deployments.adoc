@@ -8,7 +8,8 @@
 ----
 $ oc deploy <deployment_config> --latest
 ----
-** If deployment is already in progress, message displays and deployment does not start
+** If deployment is already in progress, message displays and deployment does
+ not start
 
 .Viewing Deployments
 * To get basic information about recent deployments:
@@ -17,8 +18,9 @@ $ oc deploy <deployment_config> --latest
 $ oc describe <deployment_config>
 ----
 
-** Shows details, including deployment currently running 
-* To get detailed information about deployment configuration and latest deployment:
+** Shows details, including deployment currently running
+* To get detailed information about deployment configuration and latest
+ deployment:
 +
 ----
 $ oc describe dc <deployment_config>
@@ -28,10 +30,11 @@ $ oc describe dc <deployment_config>
 
 ifdef::showscript[]
 === Transcript
-Here are some examples of how to manage a deployment. When trying to deploy the latest deployment version, using the `--latest flag`, the new deployment starts only if no other deployment is in progress.
+Here are some examples of how to manage a deployment. When trying to deploy the
+ latest deployment version, using the `--latest flag`, the new deployment starts
+  only if no other deployment is in progress.
 
-For more detailed information about a deployment configuration and the latest deployment, use the `oc describe` command.
+For more detailed information about a deployment configuration and the latest
+ deployment, use the `oc describe` command.
 
 endif::showscript[]
-
-

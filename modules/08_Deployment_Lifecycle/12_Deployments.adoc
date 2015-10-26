@@ -10,9 +10,11 @@
 
 .`ConfigChange` Trigger
 
-* Results in new deployment whenever changes are detected to replication controller template of deployment configuration
+* Results in new deployment whenever changes are detected to replication
+ controller template of deployment configuration
 
-* If `ConfigChange` trigger is defined, first deployment is automatically created soon after deployment configuration is created
+* If `ConfigChange` trigger is defined, first deployment is automatically
+ created soon after deployment configuration is created
 
 * `ConfigChange` trigger:
 +
@@ -26,13 +28,17 @@
 
 ifdef::showscript[]
 === Transcript
-A deployment configuration can contain triggers that drive the creation of new deployments in response to events, both inside and outside OpenShift Enterprise.
+A deployment configuration can contain triggers that drive the creation of new
+ deployments in response to events, both inside and outside OpenShift Enterprise.
 
-If no triggers are defined in a deployment configuration, deployments must be started manually.
+If no triggers are defined in a deployment configuration, deployments must be
+ started manually.
 
-The `ConfigChange` trigger results in a new deployment whenever changes are detected to the replication controller template of the deployment configuration.
+The `ConfigChange` trigger results in a new deployment whenever changes are
+ detected to the replication controller template of the deployment configuration.
 
-If a `ConfigChange` trigger is defined in a deployment configuration, the first deployment is automatically created soon after the deployment configuration itself is created.
+If a `ConfigChange` trigger is defined in a deployment configuration, the first
+ deployment is automatically created soon after the deployment configuration
+  itself is created.
 
 endif::showscript[]
-

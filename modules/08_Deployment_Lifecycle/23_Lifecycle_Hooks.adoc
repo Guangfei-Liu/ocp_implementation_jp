@@ -7,13 +7,16 @@
 
 * Pod-based hooks are only supported type
 ** Specified in `execNewPod` field
-* Pod-based lifecycle hooks execute hook code in new pod derived from deployment configuration template
+* Pod-based lifecycle hooks execute hook code in new pod derived from deployment
+ configuration template
 
 ifdef::showscript[]
 === Transcript
-Hooks have a type-specific field that describes how to execute the hook. Currently, pod-based hooks are the only supported hook type, specified in the `execNewPod` field.
+Hooks have a type-specific field that describes how to execute the hook.
+ Currently, pod-based hooks are the only supported hook type, specified in the
+  `execNewPod` field.
 
-Pod-based lifecycle hooks execute hook code in a new pod derived from the deployment configuration template.
+Pod-based lifecycle hooks execute hook code in a new pod derived from the
+ deployment configuration template.
 
 endif::showscript[]
-

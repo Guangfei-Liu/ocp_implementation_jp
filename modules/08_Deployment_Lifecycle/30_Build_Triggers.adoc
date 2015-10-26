@@ -18,12 +18,14 @@
 }
 ----
 +
-** `sourceStrategy` definition consumes `latest` tag of image stream named `ruby-20-rhel7` located in this namespace
+** `sourceStrategy` definition consumes `latest` tag of image stream named
+ `ruby-20-rhel7` located in this namespace
 
 
 ifdef::showscript[]
 === Transcript
-This example defines a build with a strategy that consumes the image stream `ruby-20-rhel7`. The `sourceStrategy` definition is consuming the `latest` tag of the image stream named `ruby-20-rhel7` located within this namespace.
+This example defines a build with a strategy that consumes the image stream
+ `ruby-20-rhel7`. The `sourceStrategy` definition is consuming the `latest` tag
+  of the image stream named `ruby-20-rhel7` located within this namespace.
 
 endif::showscript[]
-

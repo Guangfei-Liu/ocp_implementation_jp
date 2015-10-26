@@ -28,8 +28,9 @@ ifdef::showscript[]
 === Transcript
 Generic webhooks can be invoked from any system capable of making a web request.
 
-As with a GitHub webhook, you must specify a value for `secret` when defining the trigger, and the caller must provide this value to trigger the build. The first example is a JSON trigger definition in the `buildConfig` section, and the second is a generic webhook URL.
+As with a GitHub webhook, you must specify a value for `secret` when defining
+ the trigger, and the caller must provide this value to trigger the build. The
+  first example is a JSON trigger definition in the `buildConfig` section, and
+   the second is a generic webhook URL.
 
 endif::showscript[]
-
-

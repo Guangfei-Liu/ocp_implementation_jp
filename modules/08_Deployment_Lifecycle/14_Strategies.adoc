@@ -3,23 +3,30 @@
 
 .Overview
 
-* _Deployment configuration_ declares _strategy_ responsible for executing deployment process
+* _Deployment configuration_ declares _strategy_ responsible for executing
+ deployment process
 
-* Applications have different requirements for availability and other considerations during deployments
+* Applications have different requirements for availability and other
+ considerations during deployments
 
-* OpenShift Enterprise provides strategies to support variety of deployment scenarios
+* OpenShift Enterprise provides strategies to support variety of deployment
+ scenarios
 
-* `Rolling` strategy is default if deployment configuration does not specify strategy
+* `Rolling` strategy is default if deployment configuration does not specify
+ strategy
 
 ifdef::showscript[]
 === Transcript
-A deployment configuration declares a strategy that is responsible for executing the deployment process.
+A deployment configuration declares a strategy that is responsible for executing
+ the deployment process.
 
-Each application has different requirements for availability and other considerations during deployments.
+Each application has different requirements for availability and other
+ considerations during deployments.
 
-OpenShift Enterprise provides out-of-the-box strategies to support a variety of deployment scenarios.
+OpenShift Enterprise provides out-of-the-box strategies to support a variety of
+ deployment scenarios.
 
-The `Rolling` strategy is the default strategy if a deployment configuration does not specify a strategy. 
+The `Rolling` strategy is the default strategy if a deployment configuration
+ does not specify a strategy. 
 
 endif::showscript[]
-

@@ -6,16 +6,18 @@
 * Strategies
 * Lifecycle Hooks
 * Build Triggers
-  
+
 
 ifdef::showscript[]
 
 === Transcript
 Welcome to Module 8 of the OpenShift Enterprise Implementation course.
 
-In this module you learn about the value of deployments to the developer and to operational workflows, and you learn the different strategies you can use to deploy a new version of your application.
+In this module you learn about the value of deployments to the developer and to
+ operational workflows, and you learn the different strategies you can use to
+  deploy a new version of your application.
 
-Lifecycle hooks are covered, including how to use them as build triggers, and you learn some practical commands to manage a redeployment or rollback.
+Lifecycle hooks are covered, including how to use them as build triggers, and
+ you learn some practical commands to manage a redeployment or rollback.
 
 endif::showscript[]
-

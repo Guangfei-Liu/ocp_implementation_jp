@@ -10,27 +10,34 @@
 ** Strategy for transitioning between deployments
 ** Lifecycle hooks
 
-* Each time deployment is triggered (manual or automatic), deployer pod manages deployment:
+* Each time deployment is triggered (manual or automatic), deployer pod manages
+ deployment:
 ** Scales down old replication controller
 ** Scales up new replication controller
 ** Runs hooks
 * Deployment pod remains after deployment to retain logs
-* To enable easy rollback, when one deployment is superseded by another, previous replication controller is retained 
+* To enable easy rollback, when one deployment is superseded by another,
+ previous replication controller is retained
 
 ifdef::showscript[]
 
 === Transcript
 
-The OpenShift Enterprise `DeploymentConfig` object defines the following details of a deployment:
+The OpenShift Enterprise `DeploymentConfig` object defines the following details
+ of a deployment:
 
 * The elements of a `ReplicationController` definition
 * Triggers for creating a new deployment automatically
 * The strategy for transitioning between deployments
 * Lifecycle hooks
 
-Each time a deployment is triggered, whether manually or automatically, a deployer pod manages the deployment, including scaling down the old replication controller, scaling up the new one, and running hooks. The deployment pod remains for an indefinite amount of time after it completes the deployment in order to retain its logs of the deployment.
+Each time a deployment is triggered, whether manually or automatically, a
+ deployer pod manages the deployment, including scaling down the old replication
+  controller, scaling up the new one, and running hooks. The deployment pod
+   remains for an indefinite amount of time after it completes the deployment
+    in order to retain its logs of the deployment.
 
-When a deployment is superseded by another, the previous replication controller is retained to enable easy rollback if needed.
+When a deployment is superseded by another, the previous replication controller
+ is retained to enable easy rollback if needed.
 
 endif::showscript[]
-

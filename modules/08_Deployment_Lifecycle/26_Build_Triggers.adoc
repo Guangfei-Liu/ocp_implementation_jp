@@ -22,7 +22,8 @@ ifdef::showscript[]
 
 === Transcript
 
-Webhook triggers trigger a new build by sending a request to the OpenShift Enterprise API endpoint. You can define these triggers using GitHub webhooks or generic webhooks.
+Webhook triggers trigger a new build by sending a request to the OpenShift
+ Enterprise API endpoint. You can define these triggers using GitHub webhooks
+  or generic webhooks.
 
 endif::showscript[]
-

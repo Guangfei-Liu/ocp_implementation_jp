@@ -3,7 +3,8 @@
 
 .Overview
 
-* OpenShift Enterprise deployment is replication controller based on user-defined template called _deployment configuration_ 
+* OpenShift Enterprise deployment is replication controller based on
+ user-defined template called _deployment configuration_
 
 * Deployments are created manually or in response to trigger events
 
@@ -11,11 +12,13 @@
 
 ** Configuration template for deployments
 ** Triggers that drive automated deployments
-** Customizable strategies for transitioning from previous deployment to new deployment
+** Customizable strategies for transitioning from previous deployment to new
+ deployment
 ** Rollbacks to a previous deployment
 ** Manual replication scaling
 
-* Deployment configuration version increments each time new deployment is created from configuration
+* Deployment configuration version increments each time new deployment is
+ created from configuration
 
 * Cause of last deployment is added to configuration
 
@@ -23,17 +26,21 @@
 ifdef::showscript[]
 === Transcript
 
-A deployment in OpenShift Enterprise is a replication controller based on a user-defined template called a _deployment configuration_. Deployments are created manually or in response to triggered events.
+A deployment in OpenShift Enterprise is a replication controller based on a
+ user-defined template called a _deployment configuration_. Deployments are
+  created manually or in response to triggered events.
 
 The deployment system provides:
 
 * A deployment configuration, which is a template for deployments
 * Triggers that drive automated deployments in response to events
-* User-customizable strategies to transition from the previous deployment to a new deployment
+* User-customizable strategies to transition from the previous deployment to a
+ new deployment
 * Rollbacks to a previous deployment
 * Manual replication scaling
 
-The deployment configuration contains a version number that is incremented each time a new deployment is created from that configuration. In addition, the cause of the last deployment is added to the configuration.
+The deployment configuration contains a version number that is incremented each
+ time a new deployment is created from that configuration. In addition, the
+  cause of the last deployment is added to the configuration.
 
 endif::showscript[]
-

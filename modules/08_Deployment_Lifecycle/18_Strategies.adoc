@@ -8,9 +8,12 @@
 ** Executes `post` lifecycle hooks
 
 
-WARNING: During scale up, if the replica count of the deployment is greater than one, the first deployment replica is validated for readiness before fully scaling up the deployment. If this validation fails, the deployment fails. 
+WARNING: During scale up, if the replica count of the deployment is greater than
+ one, the first deployment replica is validated for readiness before fully
+  scaling up the deployment. If this validation fails, the deployment fails.
 
-NOTE: When executing a `post` lifecycle hook, all failures are ignored regardless of the failure policy specified in the hook.
+NOTE: When executing a `post` lifecycle hook, all failures are ignored
+ regardless of the failure policy specified in the hook.
 
 ifdef::showscript[]
 === Transcript
@@ -22,7 +25,9 @@ ifdef::showscript[]
 - Executes any `post` lifecycle hooks
 
 
-During the scaling-up process, if the replica count of the deployment is greater than one, the first deployment replica is validated for readiness before fully scaling up the deployment. If this validation fails, the deployment fails. 
+During the scaling-up process, if the replica count of the deployment is greater
+ than one, the first deployment replica is validated for readiness before fully
+  scaling up the deployment. If this validation fails, the deployment fails.
 
-When executing a `post` lifecycle hook, all failures are ignored regardless of the failure policy specified in the hook.
-
+When executing a `post` lifecycle hook, all failures are ignored regardless of
+ the failure policy specified in the hook.

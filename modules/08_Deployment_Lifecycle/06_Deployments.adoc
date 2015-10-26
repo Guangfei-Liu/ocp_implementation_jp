@@ -32,17 +32,20 @@ spec:
 
 ifdef::showscript[]
 === Transcript
-This is an example `DeploymentConfig` definition with some omissions and items called out.
+This is an example `DeploymentConfig` definition with some omissions and items
+ called out.
 
-Note the following: 
+Note the following:
 
-. The `ConfigChange` trigger causes a new deployment to be created any time the replication controller template changes.
+. The `ConfigChange` trigger causes a new deployment to be created any time the
+ replication controller template changes.
 
-. The `ImageChange` trigger causes a new deployment to be created each time a new version of the backing image is available in the named image stream.
+. The `ImageChange` trigger causes a new deployment to be created each time a
+ new version of the backing image is available in the named image stream.
 
-. And the default `Rolling` strategy provides a downtime-free transition between deployments.
+. And the default `Rolling` strategy provides a downtime-free transition between
+ deployments.
 
 Deployment strategies are covered in more depth later in the training.
 
 endif::showscript[]
-

@@ -9,7 +9,8 @@
 - Deployment _strategy_ used to execute the deployment
 - Set of _triggers_ that cause deployments to be created automatically
 
-* Deployment configuration is `deploymentConfig` OpenShift Enterprise API resource
+* Deployment configuration is `deploymentConfig` OpenShift Enterprise API
+ resource
 ** Can be managed with `oc` command like any other resource
 
 ifdef::showscript[]
@@ -17,13 +18,14 @@ ifdef::showscript[]
 === Transcript
 A _deployment configuration_ consists of the following key parts:
 
-* A replication controller template, which describes the application to be deployed
+* A replication controller template, which describes the application to be
+ deployed
 * The default replica count for the deployment
 * A deployment strategy, which will be used to execute the deployment
 * A set of triggers, which cause deployments to be created automatically
 
-A deployment configuration is a `deploymentConfig` OpenShift Enterprise API resource that can be managed with the `oc` command like any other resource.
+A deployment configuration is a `deploymentConfig` OpenShift Enterprise API
+ resource that can be managed with the `oc` command like any other resource.
 
 
 endif::showscript[]
-

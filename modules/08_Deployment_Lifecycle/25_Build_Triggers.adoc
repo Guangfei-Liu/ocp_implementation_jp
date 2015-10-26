@@ -11,9 +11,9 @@ ifdef::showscript[]
 
 === Transcript
 
-When defining `buildConfig`, you can define triggers to control the circumstances in which `buildConfig` should be run.
+When defining `buildConfig`, you can define triggers to control the
+ circumstances in which `buildConfig` should be run.
 
 There are two types of triggers: webhooks and image change.
 
 endif::showscript[]
-

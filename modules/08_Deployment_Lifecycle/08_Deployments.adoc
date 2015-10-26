@@ -67,14 +67,16 @@ ifdef::showscript[]
 === Transcript
 
 
-This is an example of a `deploymentConfig` resource. Note the following in the code sample:
+This is an example of a `deploymentConfig` resource. Note the following in the
+ code sample:
 
-. The replication controller template named `frontend` describes a simple Ruby application.
+. The replication controller template named `frontend` describes a simple Ruby
+ application.
 . There will be 5 replicas of `frontend` by default.
-. A configuration change trigger causes a new deployment to be created any time the replication controller template changes.
-. An image change trigger causes a new deployment to be created each time a new version of the `origin-ruby-sample:latest` image repository is available.
+. A configuration change trigger causes a new deployment to be created any time
+ the replication controller template changes.
+. An image change trigger causes a new deployment to be created each time a new
+ version of the `origin-ruby-sample:latest` image repository is available.
 . The `Rolling` strategy is the default and may be omitted.
 
 endif::showscript[]
-
-

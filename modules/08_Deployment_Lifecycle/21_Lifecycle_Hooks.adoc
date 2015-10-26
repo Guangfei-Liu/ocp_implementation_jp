@@ -20,12 +20,13 @@
 
 ifdef::showscript[]
 === Transcript
-The `Recreate` and `Rolling` strategies support lifecycle hooks, which allow behavior to be injected into the deployment process at predefined points in the strategy.
+The `Recreate` and `Rolling` strategies support lifecycle hooks, which allow
+ behavior to be injected into the deployment process at predefined points in the
+  strategy.
 
-The example shows a `pre` lifecycle hook. `execNewPod` is a pod-based lifecycle hook.
+The example shows a `pre` lifecycle hook. `execNewPod` is a pod-based lifecycle
+ hook.
 
 Every hook has a  failure policy.
 
 endif::showscript[]
-
-

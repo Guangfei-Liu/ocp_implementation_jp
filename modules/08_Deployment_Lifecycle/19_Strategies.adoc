@@ -5,7 +5,7 @@
 
 * Allows you to define deployment behavior
 
-* `Custom` strategy: 
+* `Custom` strategy:
 +
 ----
 "strategy": {
@@ -13,7 +13,7 @@
   "customParams": {
     "image": "organization/strategy", <1>
     "command": ["command", "arg1"], <2>
-    "environment": [  
+    "environment": [
       {
         "name": "ENV_1",  <3>
         "value": "VALUE_1"
@@ -31,12 +31,12 @@ The `Custom` strategy allows you to provide your own deployment behavior.
 Note the following:
 
 . The `organization/strategy` Docker image provides deployment behavior.
- 
-. The optional `command` array overrides the `CMD` directive specified in image Dockerfile.
- 
+
+. The optional `command` array overrides the `CMD` directive specified in image
+ Dockerfile.
+
 . The optional environment variables are added to the execution environment.
 
 
 
 endif::showscript[]
-

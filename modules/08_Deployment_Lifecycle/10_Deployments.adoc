@@ -8,7 +8,7 @@
 $ oc deploy <deployment_config> --cancel
 ----
 ** Cancellation is best-effort operation
-** May take some time to complete 
+** May take some time to complete
 
 ** Possible deployment will complete before cancellation
 
@@ -27,13 +27,18 @@ $ oc deploy <deployment_config> --retry
 ifdef::showscript[]
 === Transcript
 
-You can use the `--cancel` flag to cancel a running deployment that is stuck or failing. Cancellation is a best-effort operation. It may take some time to complete, and it is possible that the deployment will partially or totally complete before the cancellation is effective.
+You can use the `--cancel` flag to cancel a running deployment that is stuck or
+ failing. Cancellation is a best-effort operation. It may take some time to
+  complete, and it is possible that the deployment will partially or totally
+   complete before the cancellation is effective.
 
-The `--retry` flag reruns a previously failed deployment. Note that if the last deployment did not fail, a message displays, and the deployment is not retried.
+The `--retry` flag reruns a previously failed deployment. Note that if the last
+ deployment did not fail, a message displays, and the deployment is not retried.
 
-Retrying a deployment restarts the deployment; it does not create a new deployment version. The restarted deployment has the same configuration as when it failed.
+Retrying a deployment restarts the deployment; it does not create a new
+ deployment version. The restarted deployment has the same configuration as when
+  it failed.
 
 
 
 endif::showscript[]
-

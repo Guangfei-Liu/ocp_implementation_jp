@@ -26,21 +26,25 @@
   }
 }
 ----
-* Trigger monitors image stream and tag defined by `strategy` section's `from` field 
-** When change occurs, new build is triggered 
+* Trigger monitors image stream and tag defined by `strategy` section's `from`
+ field
+** When change occurs, new build is triggered
 * Ensures that triggered build uses new image just pushed to repository
 * Build can be rerun any time with same inputs
 
 
 ifdef::showscript[]
 === Transcript
-This example defines an image change trigger that monitors the image stream and tag as defined by the `from` field.
+This example defines an image change trigger that monitors the image stream and
+ tag as defined by the `from` field.
 
-When a change occurs, a new build is triggered and is supplied with an immutable Docker tag that points to the new image that was just created. The strategy uses this new image when it executes the build. 
+When a change occurs, a new build is triggered and is supplied with an immutable
+ Docker tag that points to the new image that was just created. The strategy
+  uses this new image when it executes the build.
 
-This ensures that the triggered build uses the new image that was just pushed to the repository, and the build can be rerun any time with the same inputs.
+This ensures that the triggered build uses the new image that was just pushed to
+ the repository, and the build can be rerun any time with the same inputs.
 
 
 
 endif::showscript[]
-

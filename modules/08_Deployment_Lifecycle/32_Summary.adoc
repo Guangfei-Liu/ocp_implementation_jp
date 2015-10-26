@@ -1,0 +1,21 @@
+== Summary
+:noaudio:
+
+
+* Deployments
+* Strategies
+* Lifecycle Hooks
+* Build Triggers
+
+
+ifdef::showscript[]
+=== Transcript
+In this module you learned about the the value of deployments to the developer
+ and to operational workflows. You learned the different strategies that you can
+  use to deploy a new version of your application.
+
+Lifecycle hooks were covered, including how to use them as build triggers, and
+ finally, you learned some practical commands to manage a redeployment or
+  rollback.
+
+endif::showscript[]

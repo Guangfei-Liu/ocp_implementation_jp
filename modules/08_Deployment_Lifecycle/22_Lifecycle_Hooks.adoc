@@ -1,20 +1,30 @@
 == Lifecycle Hooks
 :noaudio:
 
-.Pod-based Lifecycle Hook
+.Failure Policy
 
-* Hooks have a type-specific field that describes how to execute the hook.
-* Currently pod-based hooks are the only supported hook type, specified by the
-execNewPod field.
-* Pod-based lifecycle hooks execute hook code in a new pod derived from the
-template in a deployment configuration.
+* `failurePolicy` defines action strategy takes when hook fails
+
+[cols="1,4"]
+|===
+|Value | Action
+|`Abort`| Abort deployment if if hook fails.
+|`Retry`|Retry hook execution until it succeeds.
+|`Ignore`|Ignore hook failure and proceed with deployment.
+|===
+
+WARNING: Some hook points for a strategy might support only a subset of failure
+ policy values. For example, the `Recreate` and `Rolling` strategies do not
+  support the `Abort` policy for a `post` deployment lifecycle hook.
+
 
 ifdef::showscript[]
 === Transcript
-* Hooks have a type-specific field that describes how to execute the hook.
-* Currently pod-based hooks are the only supported hook type, specified by the
-execNewPod field.
-* Pod-based lifecycle hooks execute hook code in a new pod derived from the
-template in a deployment configuration.
-endif::showscript[]
+Every hook has a failure policy that defines the action the strategy should take
+ when a hook failure is encountered.
 
+Note that some hook points for a strategy might support only a subset of failure
+ policy values. For example, the `Recreate` and `Rolling` strategies do not
+  currently support the `Abort` policy for a `post` deployment lifecycle hook.
+
+endif::showscript[]

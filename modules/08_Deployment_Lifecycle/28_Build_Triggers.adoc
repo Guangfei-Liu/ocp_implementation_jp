@@ -1,42 +1,36 @@
 == Build Triggers
 :noaudio:
 
-.Image Change Triggers
+.Generic Webhook Triggers
 
-* Image change triggers allow your build to be automatically invoked when a new
-  of an upstream image is available.
-- If a build is based on top of a RHEL image, then you can trigger that build to
- run any time the RHEL image changes.
-- As a result, the application image is always running on the latest RHEL
-base image.
+* Can be invoked from any system that can make web request
 
-* Configuring an image change trigger requires the following actions:
-** Define an ImageStream that points to the upstream image you want to trigger on:
+* Must specify `secret` value when defining trigger
+* Caller must provide `secret` value to trigger build
+* JSON trigger definition within `buildConfig`:
+
 +
-[source,json]
 ----
 {
-  "kind": "ImageStream",
-  "apiVersion": "v1",
-  "metadata": {
-    "name": "ruby-20-rhel7"
+  "type": "generic",
+  "generic": {
+    "secret": "secret101"
   }
 }
 ----
+* To set up caller, provide calling system with URL of generic webhook endpoint:
 +
-- This defines the image stream that is tied to a Docker image repository
-located at <system-registry>/<namespace>/ruby-20-rhel7.
-- The <system-registry> is defined as a service with the name docker-registry running in OpenShift.
+----
+http://<openshift_api_host:port>/osapi/v1/namespaces/<namespace>/buildconfigs/<name>/webhooks/<secret>/generic
+----
 
 ifdef::showscript[]
 === Transcript
+Generic webhooks can be invoked from any system capable of making a web request.
 
-Image change triggers allow your build to be automatically invoked when a new
-  of an upstream image is available. For example, if a build is based on top of
-a RHEL image, then you can trigger that build to run any time the RHEL image
-changes. As a result, the application image is always running on the latest RHEL
-base image.
-
+As with a GitHub webhook, you must specify a value for `secret` when defining
+ the trigger, and the caller must provide this value to trigger the build. The
+  first example is a JSON trigger definition in the `buildConfig` section, and
+   the second is a generic webhook URL.
 
 endif::showscript[]
-

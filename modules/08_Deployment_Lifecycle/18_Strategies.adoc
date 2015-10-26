@@ -1,45 +1,33 @@
 == Strategies
 :noaudio:
 
-.Custom Strategy
+* `Recreate` strategy:
+** Executes `pre` lifecycle hooks
+** Scales down previous deployment to zero
+** Scales up new deployment
+** Executes `post` lifecycle hooks
 
-The Custom strategy allows you to provide your own deployment behavior.
 
-* The following is an example of the Custom strategy:
-+
-[source,json]
-----
-"strategy": {
-  "type": "Custom",
-  "customParams": {
-    "image": "organization/strategy",
-    "command": ["command", "arg1"],
-    "environment": [
-      {
-        "name": "ENV_1",
-        "value": "VALUE_1"
-      }
-    ]
-  }
-}
-----
-+
-** In the above example, the organization/strategy Docker image provides the
-deployment behavior. The optional command array overrides any CMD directive
-specified in the image’s Dockerfile. The optional environment variables provided
-  are added to the execution environment of the strategy process.
+WARNING: During scale up, if the replica count of the deployment is greater than
+ one, the first deployment replica is validated for readiness before fully
+  scaling up the deployment. If this validation fails, the deployment fails.
+
+NOTE: When executing a `post` lifecycle hook, all failures are ignored
+ regardless of the failure policy specified in the hook.
 
 ifdef::showscript[]
 === Transcript
-The Custom strategy allows you to provide your own deployment behavior.
 
-* The following is an example of the Custom strategy:
-
-In the above example, the organization/strategy Docker image provides the
-deployment behavior. The optional command array overrides any CMD directive
-specified in the image’s Dockerfile. The optional environment variables provided
-  are added to the execution environment of the strategy process.
+* The `Recreate` strategy:
+- Executes any `pre` lifecycle hooks
+- Scales down the previous deployment to zero
+- Scales up the new deployment.
+- Executes any `post` lifecycle hooks
 
 
-endif::showscript[]
+During the scaling-up process, if the replica count of the deployment is greater
+ than one, the first deployment replica is validated for readiness before fully
+  scaling up the deployment. If this validation fails, the deployment fails.
 
+When executing a `post` lifecycle hook, all failures are ignored regardless of
+ the failure policy specified in the hook.

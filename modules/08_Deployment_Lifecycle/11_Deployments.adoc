@@ -1,45 +1,39 @@
 == Deployments
 :noaudio:
 
-.Triggers
+.Rolling Back a Deployment
 
-* A deployment configuration can contain triggers, which drive the creation of
-new deployments in response to events, both inside and outside OpenShift.
-
-* If no triggers are defined on a deployment configuration, deployments must be
-started manually.
-* Configuration Change Trigger
-- The ConfigChange trigger results in a new deployment whenever changes are
-detected to the replication controller template of the deployment configuration.
-
-- If a ConfigChange trigger is defined on a deployment configuration,
-the first deployment will be automatically created soon after the deployment
-configuration itself is created.
-
-** The following is an example of a ConfigChange trigger:
+* Rollbacks revert application to previous deployment
+** Can be performed using REST API or CLI
+* To roll back to previous deployment:
 +
-[source,json]
 ----
-"triggers": [
-  {
-    "type": "ConfigChange"
-  }
-]
+$ oc rollback <deployment>
+----
+
+** Configuration template is reverted to deployment specified in rollback command
+** New deployment is started
+
+** Image change triggers in deployment configuration are disabled as part of
+ rollback to prevent unwanted deployments soon after rollback completes
+
+* To re-enable image change triggers:
++
+----
+$ oc deploy <deployment_config> --enable-triggers
 ----
 
 ifdef::showscript[]
 === Transcript
-* A deployment configuration can contain triggers, which drive the creation of
-new deployments in response to events, both inside and outside OpenShift.
+Rollbacks revert an application back to a previous deployment and can be
+ performed using the REST API or the CLI.
 
-* If no triggers are defined on a deployment configuration, deployments must be
-started manually.
-* Configuration Change Trigger
-- The ConfigChange trigger results in a new deployment whenever changes are
-detected to the replication controller template of the deployment configuration.
+The deployment configuration’s template is reverted to match the deployment
+ specified in the rollback command, and a new deployment is started.
 
-- If a ConfigChange trigger is defined on a deployment configuration,
-the first deployment will be automatically created soon after the deployment
-configuration itself is created.
+Image change triggers on the deployment configuration are disabled as part of
+ the rollback to prevent unwanted deployments soon after the rollback is
+  complete. You can re-enable the triggers with the command shown.
+
+
 endif::showscript[]
-

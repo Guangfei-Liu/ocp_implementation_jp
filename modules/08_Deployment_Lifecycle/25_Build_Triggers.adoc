@@ -1,31 +1,19 @@
 == Build Triggers
 :noaudio:
 
-.Webhook Triggers
+* Control circumstances in which `buildConfig` runs
 
-Webhook triggers allow you to trigger a new build by sending a request to the
-OpenShift API endpoint. You can define these triggers using GitHub webhooks or
-Generic webhooks.
-
-
-.Displaying a BuildConfig’s Webhook URLs
-
-* Use the following command to display the webhook URLs associated with a build
-configuration:
-+
-----
-$ oc describe buildConfig <name>
-----
-
-* If the above command does not display any webhook URLs, then no webhook
-trigger is defined for that build configuration.
+* Two types of triggers:
+- Webhooks
+- Image change
 
 ifdef::showscript[]
+
 === Transcript
 
-Webhook triggers allow you to trigger a new build by sending a request to the
-OpenShift API endpoint. You can define these triggers using GitHub webhooks or
-Generic webhooks.
+When defining `buildConfig`, you can define triggers to control the
+ circumstances in which `buildConfig` should be run.
+
+There are two types of triggers: webhooks and image change.
 
 endif::showscript[]
-

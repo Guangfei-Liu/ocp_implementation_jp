@@ -1,0 +1,80 @@
+== Lifecycle Hooks
+:noaudio:
+
+.Simplified Deployment Configuration
+
+----
+{
+  "kind": "DeploymentConfig",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "frontend"
+  },
+  "spec": {
+    "template": {
+      "metadata": {
+        "labels": {
+          "name": "frontend"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "helloworld", <1>
+            "image": "openshift/origin-ruby-sample"
+          }
+        ]
+      }
+    }
+    "replicas": 5,
+    "selector": {
+      "name": "frontend"
+    },
+    "strategy": {
+      "type": "Rolling",
+      "rollingParams": {
+        "pre": {
+          "failurePolicy": "Abort", <2>
+          "execNewPod": {
+            "containerName": "helloworld", <3>
+            "command": [
+              "/usr/bin/command", "arg1", "arg2" <4>
+            ],
+            "env": [ <5>
+              {
+                "name": "CUSTOM_VAR1",
+                "value": "custom_value1"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}
+----
+
+ifdef::showscript[]
+=== Transcript
+This simplified example deployment configuration uses the `Rolling` strategy.
+ Triggers and some other minor details are omitted for brevity.
+
+Note the following:
+
+. The `pre` hook is executed in a new pod using the
+ `openshift/origin-ruby-sample` image from the `helloworld` container.
+
+. Because the hook failure policy is `Abort`, the deployment fails if the hook
+ fails.
+
+. The `helloworld` name refers to `spec.template.spec.containers[0].name`.
+
+. The hook container command is `/usr/bin/command arg1 arg2`. This command
+ overrides any `ENTRYPOINT` defined by the `openshift/origin-ruby-sample` image.
+
+. The hook container will have the `CUSTOM_VAR1=custom_value1` environment
+ variable. The `env` section contains an optional set of environment variables
+  for the hook container.
+
+
+endif::showscript[]

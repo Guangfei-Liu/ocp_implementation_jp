@@ -3,26 +3,27 @@
 
 .Deployments and Deployment Configurations
 
-* Building on replication controllers, OpenShift adds expanded support
-for the software development and deployment lifecycle with the concept
-of deployments.
-* In the simplest case, a deployment just creates a new replication controller
-and lets it start up pods.
-* OpenShift deployments also provide the ability to transition from an existing
-deployment of an image to a new one and also define hooks to be run
-before or after creating the replication controller.
+* With concept of _deployments_, OpenShift Enterprise adds expanded support for
+ software development and deployment lifecycle
+
+* Deployment creates new replication controller and lets it start up pods
+
+* Also provides ability to transition from existing image deployment to new one
+
+* Can define hooks to run before or after replication controller is created
 
 ifdef::showscript[]
 === Transcript
 
-* Building on replication controllers, OpenShift adds expanded support
-for the software development and deployment lifecycle with the concept
-of deployments.
-* In the simplest case, a deployment just creates a new replication controller
-and lets it start up pods.
-* OpenShift deployments also provide the ability to transition from an existing
-deployment of an image to a new one and also define hooks to be run
-before or after creating the replication controller.
+Building on replication controllers, with this concept of deployments, OpenShift
+ Enterprise adds expanded support for the software development and deployment
+  lifecycle.
+
+In the simplest sense, a deployment just creates a new replication controller
+ and lets it start up pods.
+
+OpenShift Enterprise deployments also provide the ability to transition from an
+ existing deployment of an image to a new one, and also to define hooks to be
+  run before or after the replication controller is created.
 
 endif::showscript[]
-

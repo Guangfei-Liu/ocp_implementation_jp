@@ -1,10 +1,3 @@
-
-:noaudio:
-
-ifdef::revealjs_slideshow[]
-
-[#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"]
-
 == &nbsp;
 :noaudio:
 
@@ -13,7 +6,7 @@ ifdef::revealjs_slideshow[]
 Red Hat OpenShift Enterprise Implementation
 
 [#cover-h2]
-OpenShift 3.0 Application Lifecycle
+OpenShift 3 Application Lifecycle
 
 [#cover-logo]
 image::{revealjs_cover_image}[]

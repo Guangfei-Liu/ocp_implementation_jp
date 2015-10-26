@@ -1,48 +1,40 @@
 == Deployments
 :noaudio:
 
-.Manage Deployments
+.Managing Deployments
 
-* Canceling and Retrying a Deployment
-- To cancel a running or *stuck* deployment:
+* To start new deployment manually:
 +
 ----
-$ oc deploy <deployment_config> --cancel
+$ oc deploy <deployment_config> --latest
 ----
-- The cancellation is a best-effort operation, and may take some time to
-complete. It’s possible the deployment will partially or totally complete
-before the cancellation is effective.
+** If deployment is already in progress, message displays and deployment does
+ not start
 
-* Retrying a Deployment
-- To retry the last failed deployment:
+.Viewing Deployments
+* To get basic information about recent deployments:
 +
 ----
-$ oc deploy <deployment_config> --retry
+$ oc describe <deployment_config>
 ----
-- If the last deployment didn’t fail,
-the command will display a message and the deployment will not be retried.
-** Retrying a deployment restarts the deployment and does not create a new
-deployment version. The restarted deployment will have the same configuration
-it had when it failed.
+
+** Shows details, including deployment currently running
+* To get detailed information about deployment configuration and latest
+ deployment:
++
+----
+$ oc describe dc <deployment_config>
+----
+
 
 
 ifdef::showscript[]
 === Transcript
-Here are a few more examples of how to manage a deployment.
-You can cancel a running deployment that is stuck or failing using the --cancel
-flag,  cancellation is a best-effort operation, and may take some time to
-complete. It’s possible the deployment will partially or totally complete
-before the cancellation is effective.
+Here are some examples of how to manage a deployment. When trying to deploy the
+ latest deployment version, using the `--latest flag`, the new deployment starts
+  only if no other deployment is in progress.
 
-The --retry flag creates a re-run of a prevoiusly failed deployment, note that
-if the last deployment didn’t fail, the command will display a message and the
-deployment will not be retried.
-
-Retrying a deployment restarts the deployment and does not create a new
-deployment version. The restarted deployment will have the same configuration
-it had when it failed.
-
-
+For more detailed information about a deployment configuration and the latest
+ deployment, use the `oc describe` command.
 
 endif::showscript[]
-

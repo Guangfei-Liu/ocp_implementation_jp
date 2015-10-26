@@ -1,41 +1,29 @@
 == Build Triggers
 :noaudio:
 
-.Webhook Triggers - GitHub webhooks
+.Webhook Triggers
 
-* GitHub webhooks handle the call made by GitHub when a repository is updated.
-* When defining the trigger, you must specify a secret as part of the URL you
-supply to GitHub when configuring the webhook.
-** The secret ensures that only you and your
-repository can trigger the build. The following example is a trigger definition
-JSON within the buildConfig:
-+
-[source,json]
-----
-{
-  "type": "github",
-  "github": {
-    "secret": "secret101"
-  }
-}
-----
+* Trigger new build by sending request to OpenShift Enterprise API endpoint
 
-** The payload URL is returned as the GitHub Webhook URL by the describe command
-  (see below), and is structured as follows:
+* Define using GitHub webhooks or generic webhooks
+
+
+.Displaying `buildConfig` Webhook URLs
+
+* To display webhook URLs associated with build configuration:
 +
 ----
-http://<openshift_api_host:port>/osapi/v1/namespaces/<namespace>/buildconfigs/<name>/webhooks/<secret>/github
+$ oc describe buildConfig <name>
 ----
+
+* If command does not display webhook URLs, then no webhook trigger is defined
 
 ifdef::showscript[]
+
 === Transcript
-GitHub webhooks handle the call made by GitHub when a repository is updated.
-* When defining the trigger, you must specify a secret as part of the URL you
-supply to GitHub when configuring the webhook.
-** The secret ensures that only you and your
-repository can trigger the build.
 
-The first example is a trigger definition JSON within the buildConfig and the
-second is a GitHub Webhook URL example.
+Webhook triggers trigger a new build by sending a request to the OpenShift
+ Enterprise API endpoint. You can define these triggers using GitHub webhooks
+  or generic webhooks.
+
 endif::showscript[]
-

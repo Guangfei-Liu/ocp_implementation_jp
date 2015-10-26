@@ -1,12 +1,10 @@
 == Deployments
 :noaudio:
 
-.Deployment Configuration  Definition file/Manifest
+.Deployment Configuration Definition File/Manifest
 
-* Here is an example _DeploymentConfiguration_ definition with some
-omissions and callouts:
+* Example `DeploymentConfig` definition:
 +
-[source,yaml]
 ----
 apiVersion: v1
 kind: DeploymentConfig
@@ -31,27 +29,20 @@ spec:
     type: Rolling      <3>
 ----
 
-<1> A `ConfigChange` trigger causes a new deployment to be created any time the
-replication controller template changes.
-<2> An `ImageChange` trigger causes a new deployment to be created each time a
-new version of the backing image is available in the named image stream.
-<3> The default `Rolling` strategy makes a downtime-free transition between
-deployments.
-
-NOTE: We will discuss *Deployment Strategies* in more depth later in the
-training.
 
 ifdef::showscript[]
 === Transcript
-Here is an example _DeploymentConfiguration_ definition with some omissions and
-callouts:
+This is an example `DeploymentConfig` definition with some omissions and items called out.
 
-The `ConfigChange` trigger causes a new deployment to be created any time the
-replication controller template changes.
-The  `ImageChange` trigger causes a new deployment to be created each time a
-new version of the backing image is available in the named image stream.
-And The default `Rolling` strategy makes a downtime-free transition between
-deployments.
+Note the following: 
+
+. The `ConfigChange` trigger causes a new deployment to be created any time the replication controller template changes.
+
+. The `ImageChange` trigger causes a new deployment to be created each time a new version of the backing image is available in the named image stream.
+
+. And the default `Rolling` strategy provides a downtime-free transition between deployments.
+
+Deployment strategies are covered in more depth later in the training.
 
 endif::showscript[]
 

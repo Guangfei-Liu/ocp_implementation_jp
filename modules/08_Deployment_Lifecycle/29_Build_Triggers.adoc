@@ -1,35 +1,32 @@
 == Build Triggers
 :noaudio:
 
-.Image Change Triggers - Examples
+.Image Change Triggers
 
-* Define a build with a strategy that consumes the image stream:
+* Allow your build to be automatically invoked when new upstream image is available
+- If build based on Red Hat Enterprise Linux image, can trigger build to run any time that image changes
+- Your application image always runs latest Red Hat Enterprise Linux base image
+
+* To configure image change trigger, define `ImageStream` to point to upstream trigger image:
 +
-[source,json]
 ----
 {
-  "strategy": {
-    "type": "Source",
-    "sourceStrategy": {
-      "from": {
-        "kind": "ImageStreamTag",
-        "name": "ruby-20-rhel7:latest"
-      },
-    }
+  "kind": "ImageStream",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "ruby-20-rhel7"
   }
 }
 ----
 +
-** In this case, the sourceStrategy definition is consuming the latest tag of
-the ImageStream named ruby-20-rhel7 located within this namespace.
-
+** Defines image stream tied to Docker image repository at `<system-registry>/<namespace>/ruby-20-rhel7`
+** `<system-registry>` is defined as service with name `docker-registry` running in OpenShift Enterprise
 
 ifdef::showscript[]
 === Transcript
-Here is an example of how to define a build with a strategy that consumes the
-image stream "ruby-20-rhel7", in this case, the `sourceStrategy` definition is
-consuming the latest tag of the ImageStream named ruby-20-rhel7 located within
-this namespace.
+
+Image change triggers allow your build to be automatically invoked when a new  upstream image is available. For example, if a build is based on a Red Hat Enterprise Linux image, you can trigger that build to run any time the Red Hat Enterprise Linux image changes. As a result, the application image is always running on the latest base image.
+
 
 endif::showscript[]
 

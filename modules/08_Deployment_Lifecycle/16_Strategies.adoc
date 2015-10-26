@@ -1,33 +1,35 @@
 == Strategies
 :noaudio:
 
-.Recreate Strategy
+* `Rolling` strategy:
+** Executes `pre` lifecycle hooks
+** Scales up new deployment by one
+** Scales down old deployment by one
+** Repeats scaling until:
+*** New deployment reaches specified replica count
+*** Old deployment is scaled to zero
+** Executes `post` lifecycle hooks
 
-The Recreate strategy has basic rollout behavior and supports lifecycle hooks
-for injecting code into the deployment process.
+WARNING: During scale up, if replica count of the deployment is greater than one, the first deployment replica is validated for readiness before fully scaling up the deployment. If this validation fails, the deployment fails. 
 
-* The following is an example of the Recreate strategy:
-+
-[source,json]
-----
-"strategy": {
-  "type": "Recreate",
-  "recreateParams": { <1>
-    "pre": {}, <2>
-    "post": {}
-  }
-}
-----
-<1> recreateParams are optional.
-<2> pre and post are both lifecycle hooks.
+NOTE: When executing a `post` lifecycle hook, all failures are ignored regardless of the failure policy specified in the hook.
 
 ifdef::showscript[]
 === Transcript
-The Recreate strategy has basic rollout behavior and supports lifecycle hooks
-for injecting code into the deployment process.
 
-* The following is an example of the Recreate strategy:
+The `Rolling` strategy:
+
+- Executes any `pre` lifecycle hooks.
+- Scales up the new deployment by one.
+- Scales down the old deployment by one.
+- Repeats this scaling until the new deployment reaches the specified replica count and the old deployment is scaled to zero.
+- Executes any `post` lifecycle hooks.
+
+
+During the scaling-up process, if the replica count of the deployment is greater than one, the first replica of the deployment is validated for readiness before fully scaling up the deployment. If the validation of the first replica fails, the deployment is considered a failure.
+
+When executing a `post` lifecycle hook, all failures are ignored regardless of the failure policy specified in the hook.
+
 
 endif::showscript[]
-
 

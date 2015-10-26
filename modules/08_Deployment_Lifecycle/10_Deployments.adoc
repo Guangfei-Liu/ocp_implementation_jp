@@ -1,38 +1,38 @@
 == Deployments
 :noaudio:
 
-.Rolling Back a Deployment
-
-* Rollbacks revert an application back to a previous deployment and can be
-performed using the REST API or the CLI.
-** To rollback to a previous deployment:
+.Canceling and Retrying a Deployment
+* To cancel running or stuck deployment:
 +
 ----
-$ oc rollback <deployment>
+$ oc deploy <deployment_config> --cancel
 ----
+** Cancellation is best-effort operation
+** May take some time to complete 
 
-** The deployment configuration’s template will be reverted to match the
-deployment specified in the rollback command, and a new deployment will be started.
+** Possible deployment will complete before cancellation
 
-* Image change triggers on the deployment configuration are disabled as part of
-the rollback to prevent unwanted deployments soon after the rollback is complete.
-** To re-enable the image change triggers:
+* To retry last failed deployment:
 +
 ----
-$ oc deploy <deployment_config> --enable-triggers
+$ oc deploy <deployment_config> --retry
 ----
+** If last deployment did not fail, message displays and deployment not retried
+
+** Retrying deployment restarts deployment; does not create new version
+
+** Restarted deployment has same configuration as when it failed
+
 
 ifdef::showscript[]
 === Transcript
-Rollbacks revert an application back to a previous deployment and can be
-performed using the REST API or the CLI.
 
-The deployment configuration’s template will be reverted to match the
-deployment specified in the rollback command, and a new deployment will be started.
+You can use the `--cancel` flag to cancel a running deployment that is stuck or failing. Cancellation is a best-effort operation. It may take some time to complete, and it is possible that the deployment will partially or totally complete before the cancellation is effective.
 
-Image change triggers on the deployment configuration are disabled as part of
-the rollback to prevent unwanted deployments soon after the rollback is
-complete, you can re-enable them with the following command line.
+The `--retry` flag reruns a previously failed deployment. Note that if the last deployment did not fail, a message displays, and the deployment is not retried.
+
+Retrying a deployment restarts the deployment; it does not create a new deployment version. The restarted deployment has the same configuration as when it failed.
+
 
 
 endif::showscript[]

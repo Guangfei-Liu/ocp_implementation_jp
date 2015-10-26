@@ -1,51 +1,38 @@
 == Deployments
 :noaudio:
 
-.Triggers Continued
+.Deployment Configuration Triggers
 
-* Image Change Trigger
-** The ImageChange trigger results in a new deployment whenever the value of an
-image stream tag changes.
+* Drive creation of new deployment in response to events
+** Events can be inside or outside OpenShift Enterprise
 
-** The following is an example of an ImageChange trigger:
+* If no triggers defined, deployment must be started manually
+
+.`ConfigChange` Trigger
+
+* Results in new deployment whenever changes are detected to replication controller template of deployment configuration
+
+* If `ConfigChange` trigger is defined, first deployment is automatically created soon after deployment configuration is created
+
+* `ConfigChange` trigger:
 +
 ----
 "triggers": [
   {
-    "type": "ImageChange",
-    "imageChangeParams": {
-      "automatic": true,
-      "from": {
-        "kind": "ImageStreamTag",
-        "name": "origin-ruby-sample:latest"
-      },
-      "containerNames": [
-        "helloworld"
-      ]
-    }
+    "type": "ConfigChange"
   }
 ]
 ----
 
-** If the automatic option is set to false, the trigger is disabled.
-** With the above example, when the latest tag value of the origin-ruby-sample
-image stream changes and the new tag value differs from the current image
-specified in the deployment configuration’s helloworld container, a new
-deployment is created using the new tag value for the helloworld container
-
 ifdef::showscript[]
 === Transcript
-The ImageChange trigger results in a new deployment whenever the value of an
-image stream tag changes.
+A deployment configuration can contain triggers that drive the creation of new deployments in response to events, both inside and outside OpenShift Enterprise.
 
-With the above example, when the latest tag value of the origin-ruby-sample
-image stream changes and the new tag value differs from the current image
-specified in the deployment configuration’s helloworld container, a new
-deployment is created using the new tag value for the helloworld container
+If no triggers are defined in a deployment configuration, deployments must be started manually.
 
-** The following is an example of an ImageChange trigger:
+The `ConfigChange` trigger results in a new deployment whenever changes are detected to the replication controller template of the deployment configuration.
 
+If a `ConfigChange` trigger is defined in a deployment configuration, the first deployment is automatically created soon after the deployment configuration itself is created.
 
 endif::showscript[]
-
 

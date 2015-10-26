@@ -1,0 +1,46 @@
+== Deployments
+:noaudio:
+
+.`ImageChange` Trigger
+
+* Results in new deployment whenever value of image stream tag changes
+
+* In example below:
+** When `latest` tag value of `origin-ruby-sample` image stream changes
+** And when new tag value differs from current image specified in `helloworld` container
+** Then new deployment is created using new tag value for `helloworld` container
++
+----
+"triggers": [
+  {
+    "type": "ImageChange",
+    "imageChangeParams": {
+      "automatic": true,
+      "from": {
+        "kind": "ImageStreamTag",
+        "name": "origin-ruby-sample:latest"
+      },
+      "containerNames": [
+        "helloworld"
+      ]
+    }
+  }
+]
+----
+
+
+
+
+ifdef::showscript[]
+=== Transcript
+The `ImageChange` trigger results in a new deployment whenever the value of an image stream tag changes.
+
+In the example, when the `latest` tag value of the `origin-ruby-sample` image stream changes, and the new tag value differs from the current image specified in the deployment configuration’s `helloworld` container, a new deployment is created using the new tag value for the `helloworld` container.
+
+Note that if the `automatic` option is set to `false`, the trigger is disabled.
+
+
+
+endif::showscript[]
+
+

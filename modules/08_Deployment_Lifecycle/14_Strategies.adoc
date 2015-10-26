@@ -1,35 +1,25 @@
 == Strategies
 :noaudio:
 
-.Rolling Strategy
+.Overview
 
-The Rolling strategy performs a rolling update and supports lifecycle hooks for
-injecting code into the deployment process.
+* _Deployment configuration_ declares _strategy_ responsible for executing deployment process
 
-* The following is an example of the Rolling strategy:
-+
-[source,json]
-----
-"strategy": {
-  "type": "Rolling",
-  "rollingParams": {
-    "timeoutSeconds": 120,
-    "pre": {},
-    "post": {}
-  }
-}
-----
+* Applications have different requirements for availability and other considerations during deployments
 
-- How long to wait for a scaling event before giving up. Optional;
-the default is 120.
-- pre and post are both lifecycle hooks.
+* OpenShift Enterprise provides strategies to support variety of deployment scenarios
+
+* `Rolling` strategy is default if deployment configuration does not specify strategy
 
 ifdef::showscript[]
 === Transcript
+A deployment configuration declares a strategy that is responsible for executing the deployment process.
 
-The Rolling strategy performs a rolling update and supports lifecycle hooks for
-injecting code into the deployment process.
+Each application has different requirements for availability and other considerations during deployments.
 
+OpenShift Enterprise provides out-of-the-box strategies to support a variety of deployment scenarios.
+
+The `Rolling` strategy is the default strategy if a deployment configuration does not specify a strategy. 
 
 endif::showscript[]
 

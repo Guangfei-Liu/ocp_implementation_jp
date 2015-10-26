@@ -1,0 +1,46 @@
+== Build Triggers
+:noaudio:
+
+
+* Image change trigger:
++
+----
+{
+  "type": "imageChange",
+  "imageChange": {}
+}
+----
+
+* Resulting build :
++
+----
+{
+  "strategy": {
+    "type": "Source",
+    "sourceStrategy": {
+      "from": {
+        "kind": "DockerImage",
+        "name": "172.30.17.3:5001/mynamespace/ruby-20-centos7:immutableid"
+      }
+    }
+  }
+}
+----
+* Trigger monitors image stream and tag defined by `strategy` section's `from` field 
+** When change occurs, new build is triggered 
+* Ensures that triggered build uses new image just pushed to repository
+* Build can be rerun any time with same inputs
+
+
+ifdef::showscript[]
+=== Transcript
+This example defines an image change trigger that monitors the image stream and tag as defined by the `from` field.
+
+When a change occurs, a new build is triggered and is supplied with an immutable Docker tag that points to the new image that was just created. The strategy uses this new image when it executes the build. 
+
+This ensures that the triggered build uses the new image that was just pushed to the repository, and the build can be rerun any time with the same inputs.
+
+
+
+endif::showscript[]
+

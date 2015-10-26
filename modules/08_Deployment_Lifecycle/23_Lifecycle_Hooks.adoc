@@ -1,86 +1,19 @@
 == Lifecycle Hooks
 :noaudio:
 
-.Pod-based Lifecycle Hook
+.Pod-Based Lifecycle Hook
 
-* The following simplified example deployment configuration uses the Rolling
-strategy. Triggers and some other minor details are omitted for brevity:
-* In this example, the "pre" hook will be executed in a new pod using the
-"openshift/origin-ruby-sample" image from the "helloworld "container.
-* The hook container command will be /usr/bin/command arg1 arg2, and the hook
-container will have the "CUSTOM_VAR1=custom_value1" environment variable.
-* Because the hook failure policy is Abort, the deployment will fail if the hook
-  fails.
+* Hooks have type-specific field that describes how to execute hook
 
-
-[source,json]
-----
-{
-  "kind": "DeploymentConfig",
-  "apiVersion": "v1",
-  "metadata": {
-    "name": "frontend"
-  },
-  "spec": {
-    "template": {
-      "metadata": {
-        "labels": {
-          "name": "frontend"
-        }
-      },
-      "spec": {
-        "containers": [
-          {
-            "name": "helloworld",
-            "image": "openshift/origin-ruby-sample"
-          }
-        ]
-      }
-    }
-    "replicas": 5,
-    "selector": {
-      "name": "frontend"
-    },
-    "strategy": {
-      "type": "Rolling",
-      "rollingParams": {
-        "pre": {
-          "failurePolicy": "Abort",
-          "execNewPod": {
-            "containerName": "helloworld", <1>
-            "command": [  <2>
-              "/usr/bin/command", "arg1", "arg2"
-            ],
-            "env": [ <3>
-              {
-                "name": "CUSTOM_VAR1",
-                "value": "custom_value1"
-              }
-            ]
-          }
-        }
-      }
-    }
-  }
-}
-----
-
-<1> The helloworld name refers to spec.template.spec.containers[0].name.
-<2> This command overrides any ENTRYPOINT defined by the openshift/origin-ruby-sample image.
-<3> env is an optional set of environment variables for the hook container.
-
-
+* Pod-based hooks are only supported type
+** Specified in `execNewPod` field
+* Pod-based lifecycle hooks execute hook code in new pod derived from deployment configuration template
 
 ifdef::showscript[]
 === Transcript
-* The following simplified example deployment configuration uses the Rolling
-strategy. Triggers and some other minor details are omitted for brevity:
-* In this example, the "pre" hook will be executed in a new pod using the
-"openshift/origin-ruby-sample" image from the "helloworld "container.
-* The hook container command will be /usr/bin/command arg1 arg2, and the hook
-container will have the "CUSTOM_VAR1=custom_value1" environment variable.
-* Because the hook failure policy is Abort, the deployment will fail if the hook
-  fails.
+Hooks have a type-specific field that describes how to execute the hook. Currently, pod-based hooks are the only supported hook type, specified in the `execNewPod` field.
+
+Pod-based lifecycle hooks execute hook code in a new pod derived from the deployment configuration template.
 
 endif::showscript[]
 

@@ -3,102 +3,27 @@
 
 .Creating a Deployment Configuration
 
-* A deployment configuration consists of the following key parts:
-- A replication controller template which describes the application to be
-deployed.
-- The default replica count for the deployment.
-- A deployment strategy which will be used to execute the deployment.
-- A set of triggers which cause deployments to be created automatically.
+* _Deployment configuration_ consists of:
+- _Replication controller_ template describing application to be deployed
+- Default _replica_ count for deployment
+- Deployment _strategy_ used to execute the deployment
+- Set of _triggers_ that cause deployments to be created automatically
 
-* Deployment configurations are `deploymentConfig` OpenShift API resources which
-can be managed with the *oc* command like any other resource.
-
-* The following is an example of a `deploymentConfig` resource:
-+
-[source,json]
-----
-{
-  "kind": "DeploymentConfig",
-  "apiVersion": "v1",
-  "metadata": {
-    "name": "frontend"
-  },
-  "spec": {
-    "template": { <1>
-      "metadata": {
-        "labels": {
-          "name": "frontend"
-        }
-      },
-      "spec": {
-        "containers": [
-          {
-            "name": "helloworld",
-            "image": "openshift/origin-ruby-sample",
-            "ports": [
-              {
-                "containerPort": 8080,
-                "protocol": "TCP"
-              }
-            ]
-          }
-        ]
-      }
-    }
-    "replicas": 5, <2>
-    "selector": {
-      "name": "frontend"
-    },
-    "triggers": [
-      {
-        "type": "ConfigChange" <3>
-      },
-      {
-        "type": "ImageChange", <4>
-        "imageChangeParams": {
-          "automatic": true,
-          "containerNames": [
-            "helloworld"
-          ],
-          "from": {
-            "kind": "ImageStreamTag",
-            "name": "origin-ruby-sample:latest"
-          }
-        }
-      }
-    ],
-    "strategy": {
-      "type": "Rolling" <5>
-    }
-  }
-}
-----
-
-<1> The replication controller template named frontend describes a simple Ruby
-application.
-<2> There will be 5 replicas of frontend by default.
-<3> A configuration change trigger causes a new deployment to be created any
-time the replication controller template changes.
-<4> An image change trigger trigger causes a new deployment to be created each
-time a new version of the origin-ruby-sample:latest image repository is available.
-<5> The rolling strategy is the default and may be omitted.
+* Deployment configuration is `deploymentConfig` OpenShift Enterprise API resource
+** Can be managed with `oc` command like any other resource
 
 ifdef::showscript[]
 
 === Transcript
+A _deployment configuration_ consists of the following key parts:
 
-* A deployment configuration consists of the following key parts:
-- A replication controller template which describes the application to be
-deployed.
-- The default replica count for the deployment.
-- A deployment strategy which will be used to execute the deployment.
-- A set of triggers which cause deployments to be created automatically.
+* A replication controller template, which describes the application to be deployed
+* The default replica count for the deployment
+* A deployment strategy, which will be used to execute the deployment
+* A set of triggers, which cause deployments to be created automatically
 
-* Deployment configurations are `deploymentConfig` OpenShift API resources which
-can be managed with the *oc* command like any other resource.
+A deployment configuration is a `deploymentConfig` OpenShift Enterprise API resource that can be managed with the `oc` command like any other resource.
 
-* The following is an example of a `deploymentConfig` resource:
 
 endif::showscript[]
-
 

@@ -1,26 +1,32 @@
 == Configuring Authentication
 :noaudio:
 
-.Identity Providers - HTPasswd
+.Identity Providers: `htpasswd`
 
-* Set _HTPasswdPasswordIdentityProvider_ in the `identityProviders` stanza to
-validate user names and passwords against a flat file generated using
-http://httpd.apache.org/docs/2.4/programs/htpasswd.html[`htpasswd`].
+* Set `HTPasswdPasswordIdentityProvider` in `identityProviders` stanza to
+ validate usernames and passwords against flat file generated using `htpasswd`
+** Learn more: http://httpd.apache.org/docs/2.4/programs/htpasswd.html
 
-* Only MD5 and SHA encryption types are supported. MD5 encryption is recommended,
-and is the default for `htpasswd`.
-** Plaintext, crypt, and bcrypt hashes are not currently supported.
+* Supports MD5 and SHA encryption types only
+** MD5 encryption recommended, default for `htpasswd`
+** Not supported: Plaintext, crypt, bcrypt hashes
 
-* The flat file is re-read if its modification time changes, without requiring a
-server restart.
+* Flat file reread if modification time changes
+** Server restart not required
 
 ifdef::showscript[]
 === Transcript
 
-* The htpasswd identity provider validates user names and passwords against a
-flat file generated using *htpasswd* command.
-* The flat file is re-read if its modification time changes, without requiring a
-server restart.
+You can set `HTPasswdPasswordIdentityProvider` in the `identityProviders`
+ stanza to validate usernames and passwords against a flat file generated using
+  `htpasswd`. For more information, see the link shown here.
+
+Currently, OpenShift Enterprise supports MD5 and SHA encryption types only. MD5
+ encryption, which is the default for `htpasswd`, is recommended.
+
+Plaintext, crypt, or bcrypt hashes currently are not supported.
+
+The flat file is reread if its modification time changes, without requiring a
+ server restart.
 
 endif::showscript[]
-

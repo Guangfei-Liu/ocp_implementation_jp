@@ -2,41 +2,40 @@
 :noaudio:
 
 .Overview
-* The OpenShift _master_ includes a built-in OAuth Server.
-* Developers and administrators obtain _OAuth access tokens_ to authenticate
-themselves to the API.
+* OpenShift Enterprise _master_ includes built-in OAuth server
+* Developers/administrators obtain _OAuth access tokens_ to authenticate to API
 
-* As an administrator, you can configure _OAuth_ using a
-_master configuration file_ to specify an _identity provider_.
+* Administrator can configure OAuth using _master configuration file_ to specify
+ _identity provider_
 
-* The _Deny All_ identity provider is used by default, which denies access for
-all user names and passwords. To allow access, you must choose a different
-identity provider and configure the master
-configuration file appropriately (located at
-*_/etc/openshift/master/master-config.yaml_* by default).
+* _Deny All_ identity provider used by default
+** Denies access for all usernames/passwords
+** Must choose different identity provider and configure master configuration
+ file to allow access
+** Default master configuration file location: `/etc/openshift/master/master-config.yaml`
 
-* When running a master without a configuration file, the _Allow All_ identity
-provider is used by default, which allows any non-empty user name and password to log in. This is
-useful for testing purposes.
+* When running master without configuration file:
+** _Allow All_ identity provider used by default
+** Lets any non-empty username/password log in
+** Useful for testing
 
 ifdef::showscript[]
 === Transcript
-The OpenShift _master_ includes a built-in OAuth Server.
-* Developers and administrators obtain _OAuth access tokens_ to authenticate
-themselves to the API.
+The OpenShift Enterprise _master_ includes a built-in OAuth server. Developers
+ and administrators obtain _OAuth access tokens_ to authenticate themselves to
+  the API.
 
-* As an administrator, you can configure _OAuth_ using a
-_master configuration file_ to specify an _identity provider_.
+An administrator can configure OAuth using a _master configuration file_ to
+ specify an _identity provider_.
 
-* The _Deny All_ identity provider is used by default, which denies access for
-all user names and passwords. To allow access, you must choose a different
-identity provider and configure the master
-configuration file appropriately (located at
-*_/etc/openshift/master/master-config.yaml_* by default).
+The default identity provider is _Deny All_. This provider denies access for all
+ user names and passwords. To allow access, you must choose a different identity
+  provider and configure the master configuration file appropriately.
+   By default, the master configuration file is located at
+    `/etc/openshift/master/master-config.yaml.
 
-* When running a master without a configuration file, the _Allow All_ identity
-provider is used by default, which allows any non-empty user name and password
-to log in. This is useful for testing purposes.
+When running a master without a configuration file, the identity provider
+ defaults to _Allow All_. This allows any non-empty user name and password to
+  log in. This is useful for testing purposes.
 
 endif::showscript[]
-

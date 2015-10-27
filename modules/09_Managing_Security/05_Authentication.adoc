@@ -3,36 +3,36 @@
 
 .Users and Groups
 
-In the default set of virtual groups, note the following in
-particular:
+* Default virtual groups:
 
-[cols="2,5",options="header"]
+[cols="2,5"]
 |===
-
 |Virtual Group |Description
-
-|*system:authenticated* |Automatically associated with any currently-authenticated users.
-|*system:unauthenticated* |Automatically associated with any currently-unauthenticated users.
-
+|`system:authenticated` |Automatically associated with currently authenticated
+ users
+|`system:unauthenticated` |Automatically associated with currently
+ unauthenticated users
 |===
 
-NOTE: Support for developers and administrators to define their own custom groups is
-currently under active development. At this time, the only groups that exist are
-system groups, or _virtual groups_, that are automatically provisioned by
-OpenShift. These can be seen when
-link:https://docs.openshift.com/enterprise/3.0/admin_guide/manage_authorization_policy.html#viewing-cluster-bindings[viewing
-cluster bindings].
+* Support for developers and administrators to define custom groups under
+ development
+* Only currently existing groups are system groups, or _virtual groups_
+** Automatically provisioned by OpenShift Enterprise
+** Can view at
+ https://docs.openshift.com/enterprise/3.0/admin_guide/manage_authorization_policy.html#viewing-cluster-bindings
 
 
 ifdef::showscript[]
 === Transcript
-In the default set of virtual groups, note the following groups in particular.
+In the default set of virtual groups, note the `system:authenticated` and
+ `system:unauthenticated` groups in particular. These are automatically
+  associated with currently authenticated and unauthenticated users,
+   respectively.
 
 Support for developers and administrators to define their own custom groups is
-currently under active development. At this time, the only groups that exist are
-system groups, or _virtual groups_, that are automatically provisioned by
-OpenShift.
+ currently under active development. At this time, the only groups that exist
+  are system groups, or _virtual groups_, that are automatically provisioned by
+   OpenShift Enterprise. You can view these at the web address shown here.
 
 
 endif::showscript[]
-

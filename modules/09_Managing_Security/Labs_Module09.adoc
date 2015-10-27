@@ -1,25 +1,26 @@
-== Labs Overview
+:scrollbar:
+:data-uri:
+:toc2:
+:icons: images/icons
 
-* Lab: Add a user to the "privileged" SCC
-** Lab Scenario - Allow user to run a privileged container
+== Managing Security
 
-* Lab: Create SCCs to manage permissions
-** Lab Scenario - It's not always desired to add users directly to the very
-permissive "privileged" SCC, In this section we will create a couple of SCCs to
-control our users permissions and capabilities.
+:numbered:
 
-* Lab: Manage Project Self-Provisioning
-** Lab Scenario - In this scenario we will disable Self-Provisioning for all
-users then and allow specific users to Self-provision projects from a set template.
+In this lab you manage the various security features of OpenShift Enterprise.
 
-== Lab: Allow User to run privileged container
-Lab Scenario - Add a user to the "privileged" SCC to allow the user to run a
-privileged container
+* Allow Users to Run Privileged Containers
+* Create SCCs to Manage Permissions
+* Manage Project Self-Provisioning
+
+== Allow Users to Run Privileged Containers
+
+Here you add a user to the privileged SCC to let the user run a privileged container.
 
 === Authenticate to OpenShift Enterprise and Choose Your Project
 
-. Connect to the OpenShift Enterprise master by following the same steps you used previously.
-. Authenticate user `marina` to Openshift Enterprise
+. Connect to the OpenShift Enterprise `master` following the same steps you used in previous labs.
+. Authenticate to OpenShift Enterprise as user `marina` .
 +
 ----
 
@@ -28,8 +29,8 @@ privileged container
 [marina@master00 ~]$ oc login -u marina --insecure-skip-tls-verify --server=https://master00-${guid}.oslab.opentlc.com:8443
 
 ----
-+
-You will See
+
+* You will see the following:
 +
 ----
 Password: (Enter r3dh4t1!)
@@ -37,16 +38,18 @@ Login successful.
 Welcome to OpenShift! See 'oc help' to get started.
 ----
 
-. Create a project to work in:
+. Create the `managesecurity-lab` project in which to work.
 +
 ----
 [marina@master00 ~]$ oc new-project managesecurity-lab
 
 ----
+
 === Create the Privileged Pod Definition
 
-. Run the following command to create the `hello-pod-priv.json` file:
-. Note the setting : "privileged": true"
+. Create the `hello-pod-priv.json` file. 
+* Note the `"privileged": true` setting.
++
 ----
 
 [marina@master00 ~]$ cat <<EOF > hello-pod-priv.json
@@ -100,7 +103,7 @@ EOF
 
 ----
 
-. Try (and fail) to create the pod from the `hello-pod-priv.json`definition file
+. Try to create the pod from the `hello-pod-priv.json` definition file, and note that it fails.
 +
 ----
 [marina@master00-GUID ~]$ oc create -f hello-pod-priv.json
@@ -108,11 +111,11 @@ Error from server: Pod "hello-openshift" is forbidden: unable to validate agains
 ----
 
 
-=== Add User to Privileged SCC
+=== Add a User to the Privileged SCC
 
-. One way to  allow *marina* to deploy "Privileged" Containers is to add her to
-the "privileged" *SCC* :
-- as *root*, Display the available *SCCs*:
+One way to let user `marina` deploy privileged containers is to add her to the `privileged` SCC.
+
+. As `root`, display the available SCCs:
 +
 ----
 [root@master00 ~]# oc get scc
@@ -121,8 +124,11 @@ privileged   true      []        true      RunAsAny    RunAsAny
 restricted   false     []        false     MustRunAs   MustRunAsRange
 ----
 
-. Edit the *privileged scc*, to look similar to the example:
-- Add _- marina_ at the last line of the file. (for clarity: "-<space>marina")
+. Edit the `privileged` SCC to look similar to the sample below.
+. Add `- marina` as the last line of the file. 
++
+[NOTE]
+To clarify, this means entering *-<space>marina*.
 +
 ----
 [root@master00 ~]# oc edit scc privileged
@@ -152,25 +158,24 @@ users:
 - marina
 ----
 
-=== Retry to deploy Pod
+=== Try to Deploy the Pod Again
 
-. Go back to the *marina* user, and test your new priviliges:
+. Go back to user `marina` and test your new privileges.
 +
 ----
 [marina@master00-GUID ~]$ oc create -f hello-pod-priv.json
 ----
 
-* Did the pod deploy this time? (It should have).
+* The pod should deploy this time.
 
-. Lets clean up the environment and try another way of granting users permissions.
-- As *marina*, Delete the Pod you created
+. Clean up the environment so you can try another way of granting user permissions. 
+.. As user `marina`, delete the pod you created.
 +
 ----
 [marina@master00-GUID ~]$ oc delete -f hello-pod-priv.json
 ----
 
-. As *root*, remove *marina* from the "privileged" SCC. Remove _- marina_ from
-the last line of the file:
+.. As `root`, remove `marina` from the `privileged` SCC by deleting `- marina` from the last line of the file.
 +
 ----
 [root@master00 ~]# oc edit scc privileged
@@ -200,16 +205,16 @@ users:
 
 ----
 
-== Lab: Create SCCs to manage permissions
-Lab Scenario - It's not always desired to add users directly to the very permissive "privileged"
-SCC, In this section we will create a couple of SCCs to control our users
-permissions and capabilities.
+== Create SCCs to Manage Permissions
 
-=== Create SCCs to allocation permissions and capabilities
+You do not always want to add users directly to the very permissive `privileged` SCC. Here you create a few SCCs to control your users' permissions and capabilities.
 
+=== Create SCCs to Allocate Permissions and Capabilities
 
-. Create the *scc-ops* SCC:
-- We are creating an SCC to allow specific users to run "Privileged" containers.
+First you create an SCC to let specific users run privileged containers.
+
+. Create the `scc-ops` SCC.
+
 +
 [source,yaml]
 ----
@@ -229,11 +234,11 @@ users:
 EOF
 
 ----
++
+[NOTE]
+This is different from the built-in `privileged` SCC. It is more restrictive in that it does not allow users to mount local host directories with `allowHostDirVolumePlugin`.
 
-NOTE: This is different than the "privileged" built-in SCC, it is more restrictive, it
-doesn't allow to mount local host directories with: _allowHostDirVolumePlugin_
-
-. After saving the file, use the *oc create* command to create the scc
+. After saving the file, use `oc create` to create the SCC.
 +
 ----
 [root@master00 ~] oc create -f scc-ops.yaml
@@ -241,7 +246,7 @@ doesn't allow to mount local host directories with: _allowHostDirVolumePlugin_
 ----
 
 
-. Check your available SCCs:
+. Check your available SCCs.
 +
 ----
 
@@ -254,12 +259,11 @@ scc-ops      true      []        false     RunAsAny    RunAsAny
 ----
 
 
-. Create the *scc-dev* SCC:
-- This SCC is for our developer team, it allows them create docker builds that
-use *any user other than root*.
-- We will take another approach to achieving this, we will *oc export* the
-"restricted" built-in SCC and make changed to it.
+. Create the `scc-dev` SCC.
 
+* This SCC is for the Red Hat developer team, letting them create Docker builds that use any user _other than root_.
+
+* In this lab, you take another approach to achieve the same result. You `oc export` the `restricted` built-in SCC and make changes to it.
 +
 [source,yaml]
 ----
@@ -277,11 +281,11 @@ seLinuxContext:
   type: MustRunAs
 ----
 
-. Edit the file to look like the following:
-- Delete the _groups_ section.
-- Change _RunAsUser_ Type value to "*MustRunAsNonRoot*".
-- Change the SCC _name_ to "*scc-dev*".
-- Add the _users_ section, and make sure user *andrew* is on the list
+. Edit the file as follows:
+.. Delete the `groups` section.
+.. Change `RunAsUser` type value to `MustRunAsNonRoot`.
+.. Change the SCC `name` to `scc-dev`.
+.. Add the `users` section, and make sure user `andrew` is on the list
 +
 [source,yaml]
 ----
@@ -298,14 +302,14 @@ users:
  - andrew
 ----
 
-. After saving the file, use the *oc create* command to create the scc
+. After saving the file, use `oc create` to create the SCC.
 +
 ----
 [root@master00 ~] oc create -f scc-dev.yaml
 
 ----
 
-. Check your available SCCs:
+. Check your available SCCs.
 +
 ----
 [root@master00-GUID ~]# oc get scc
@@ -316,34 +320,30 @@ scc-ops      true      []        false     RunAsAny    RunAsAny
 scc-dev      false     []        false     MustRunAs   MustRunAsNonRoot
 ----
 
-=== Test your new SCCs
+=== Test Your New SCCs
 
-. Go back to the *marina* user, and test your new privileges:
+. Go back to user `marina`, and test your new privileges.
 +
 ----
 [marina@master00-GUID ~]$ oc create -f hello-pod-priv.json
 ----
 
-* Did the pod deploy this time? (It should have).
+. Confirm that your pod deployed.
 
+== Manage Project Self-Provisioning
 
-
-
-== Lab: Manage Project Self-Provisioning
-Lab Scenario - In this scenario we will disable Self-Provisioning for all
-users then and allow specific users to Self-provision projects from a set template.
+Here you disable self-provisioning for all users and then let specific users self-provision projects from a set template.
 
 === Disable Self-Provisioning
 
-. First, Lets disable *Self-Provisioning* for the "`system:authenticated`" group
-.. As root, use the *oc edit* command to edit the `clusterPolicybinding`
+. Disable self-provisioning for the `system:authenticated` group.
+.. As `root`, use `oc edit` to edit the `clusterPolicybinding`.
 +
 ----
  [root@master00-GUID ~]$ oc edit clusterPolicybinding :default
 ----
-
-. Your *self-provisioners* binding will have the "`system:authenticated`" group
-listed and will look similar to the output below.
++
+.. Your `self-provisioners` binding will have the `system:authenticated` group listed and will look similar to the following:
 +
 [source,yaml]
 ----
@@ -361,8 +361,9 @@ listed and will look similar to the output below.
     userNames: []
 ----
 
-. Remove the line with the  "`system:authenticated`" group, after your change,
-the self-provisioners binding should look like this:
+.. Remove the line with the `system:authenticated` group. 
+
+* The `self-provisioners` binding should now look like the following:
 +
 [source,yaml]
 ----
@@ -379,36 +380,36 @@ the self-provisioners binding should look like this:
     userNames: []
 ----
 
-. To create a message for users trying to provision projects, edit the master's
-config file `/etc/openshift/master/master-config.yaml`, and change the
-*projectRequestMessage* key to your own message:
+. To create a message for users trying to provision projects, edit the `master` config file `/etc/openshift/master/master-config.yaml` by changing the `projectRequestMessage` key to your own message.
 +
 ----
   projectRequestMessage: "Please create project using the portal http://portal.example.com/provision or Contact Mike"
 ----
 
-. Restart OpenShift master daemon
+. Restart the OpenShift Enterprise `master` daemon.
 +
 ----
 [root@master00-GUID ~]$ systemctl restart openshift-master
 ----
 
-=== Allow specific users Self-Provisioning from project template
+=== Allow Specific Users Self-Provisioning From the Project Template
 
-. Lets create a user for our new hire *mike*, this user will be used to create
-projects for all the users in the environment.
+. Create a user for your new hire `mike`. 
+
+* You will use this user to create projects for all users in the environment.
 +
 ----
 [root@master00-GUID ~]# useradd mike
 [root@master00-GUID ~]# htpasswd -b /etc/openshift/openshift-passwd mike r3dh4t1!
 ----
 
-. Lets add the "Self-Provisioner" role to Mike
+. Add the `self-provisioner` role to user `mike`.
++
 ----
 [root@master00-GUID ~]# oadm policy add-cluster-role-to-user self-provisioner mike
 ----
 
-. Log in as *marina* and see if you can create a project (you can't)
+. Log in as user `marina` and see if you can create a project. You will not be able to.
 +
 ----
 [root@master00-GUID ~]# su - marina
@@ -418,7 +419,8 @@ Error from server: Please create project using the portal http://portal.example.
 
 
 ----
-. Log in as *mike*, login to openshift and see if you can create a project and allocate marina as the administrator.
+. As user `mike`, log in to OpenShift Enterprise.
+. See if you can create a project and allocate `marina` as the administrator.
 +
 ----
 [root@master00-GUID ~]# su - mike
@@ -426,12 +428,13 @@ Last login: Wed Aug 12 02:20:02 EDT 2015 on pts/1
 [mike@master00-d9b2 ~]$ oc new-project thiswillwork
 Now using project "thiswillwork" on server "https://localhost:8443"
 ----
++
+[NOTE]
+If you already logged in as a different user, you might need to use `oc login` to refresh the token.
 
-NOTE: If you already logged in with a user, you might have to use the *oc login*
-command to refresh the token.
+. Look at the project that `mike` created. 
 
-. Have a look at the project that *mike* created
-.. Note that the Node Selector isn't defined, we'll have to do something about that.
+* Note that the `Node Selector` is not defined.
 +
 ----
 [mike@master00-GUID ~]$ oc describe project thiswillwork
@@ -453,10 +456,11 @@ Resource limits:        <none>
 
 ----
 
-. We want to limit all users (including mike, but excluding cluster
-  administrators) to be able to deploy projects only in the "primary" region.
-. As root, Create a project template definition file:
-- Note we have set the desired *node-selector*
+. Limit all users (including `mike`, but excluding `cluster administrator` users) to being able to deploy projects only in the `primary` region.
+
+.. As `root`, create a project template definition file.
+
+* Note that the desired `node-selector` is set.
 +
 [source,yaml]
 ----
@@ -499,15 +503,13 @@ parameters:
 ----
 
 
-. As root, load the template into the "openshift" project.
+.. As `root`, load the template into the `openshift` project.
 +
 ----
 [root@master00-GUID ~]# oc create -f project-request.yaml --namespace=openshift
 ----
 
-. To set the default template, edit the master's config file:
-`/etc/openshift/master/master-config.yaml`, and change the
-projectRequestTemplate key value to "*openshift/project-request*"
+.. To set the default template, edit the `master` config file `/etc/openshift/master/master-config.yaml`, and change the `projectRequestTemplate` key value to `openshift/project-request`.
 +
 ----
 [root@master00-GUID ~]# vi /etc/openshift/master/master-config.yaml
@@ -515,27 +517,27 @@ or
 [root@master00-GUID ~]# sed -i 's/projectRequestTemplate: ""/projectRequestTemplate: "openshift\/project-request"/g' /etc/openshift/master/master-config.yaml
 ----
 
-. The line should look something like this:
+* The line should look something like this:
 +
 ----
   projectRequestTemplate: "openshift/project-request"
 ----
 
-. Restart the master daemon:
+. Restart the `master` daemon.
 +
 ----
 [root@master00-GUID ~]# systemctl restart openshift-master
 ----
 
 
-. As *mike*, try to create another project
+. As user `mike`, try to create another project.
 +
 ----
 [mike@master00-GUID ~]$ oc new-project thiswillworkbetter
 Now using project "thiswillworkbetter" on server "https://localhost:8443".
 ----
 
-. Lets look if the *Node Selector* was defined by the project template
+. Check if the project template defines the `Node Selector`.
 +
 ----
 [mike@master00-GUID ~]$ oc describe project thiswillworkbetter
@@ -557,14 +559,13 @@ Quota:  <none>
 Resource limits:        <none>
 ----
 
-. In order to make marina the *admin* on the project, we need to bind the *admin*
-role to her.
+. To make user `marina` the administrator on the project, bind the `admin` role to her.
 +
 ----
 [mike@master00-GUID ~]$ oc policy add-role-to-user admin marina -n thiswillworkbetter
 ----
 
-. As *marina*, check that you have access to the "thiswillworkbetter" project
+. As `marina`, check that you have access to the `thiswillworkbetter` project.
 +
 ----
 

@@ -2,32 +2,39 @@
 :noaudio:
 
 .OAuth
-* The OpenShift master includes a built-in OAuth server. Users obtain OAuth
-access tokens to authenticate themselves to the API.
+* OpenShift Enterprise master includes built-in OAuth server
+* Users obtain OAuth access tokens to authenticate to API
 
-* When a person requests a new OAuth token, the OAuth server uses the configured
-link:https://docs.openshift.com/enterprise/3.0/admin_guide/configuring_authentication.html[identity
-provider] to determine the identity of the person making the request.
+* When user requests OAuth token:
+** OAuth server uses configured identity provider to determine identity of
+ requester
+** Learn more: https://docs.openshift.com/enterprise/3.0/admin_guide/configuring_authentication.html
 
-- It then determines what user that identity maps to, creates an access token for
-that user, and returns the token for use.
+* Server:
+** Determines user to which identity maps
+** Creates access token for user
+** Returns token for use
 
-
-NOTE: If no access token or certificate is presented, the authentication layer assigns
-the `system:anonymous` virtual user and the `system:unauthenticated` virtual
-group to the request. This allows the authorization layer to determine which
-requests, if any, an anonymous user is allowed to make.
+* If no access token or certificate presented, authentication layer assigns
+** `system:anonymous` virtual user
+** `system:unauthenticated` virtual group
+* Lets authorization layer determine requests anonymous user can make
 
 ifdef::showscript[]
 === Transcript
-The OpenShift master includes a built-in OAuth server. Users obtain OAuth
-access tokens to authenticate themselves to the API.
+The OpenShift Enterprise master includes a built-in OAuth server. Users obtain
+ OAuth access tokens to authenticate themselves to the API.
 
-* When a person requests a new OAuth token, the OAuth server uses the configured
-identity provider to determine the identity of the person making the request.
+When a user requests a new OAuth token, the OAuth server uses the configured
+ identity provider to determine the identity of the person making the request.
 
-- It then determines what user that identity maps to, creates an access token for
-that user, and returns the token for use.
+Learn more at the link shown here.
 
+It then determines what user that identity maps to, creates an access token for
+ that user, and returns the token for use.
+
+If no access token or certificate is presented, the authentication layer assigns
+ the `system:anonymous` virtual user and the `system:unauthenticated` virtual
+  group to the request. This allows the authorization layer to determine which
+   requests, if any, an anonymous user can make.
 endif::showscript[]
-

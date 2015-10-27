@@ -1,15 +1,15 @@
-== Security Context Constraints
+== Security Context Constraints (SCCs)
 :noaudio:
 
-.Privileged and Restricted SCCs
+.Privileged and Restricted SCCs: Definition
 
-* The _users_ and _groups_ fields on the SCC control which SCCs can be used.
-By default, cluster administrators, nodes, and the build controller are granted
-access to the privileged SCC.
-* All authenticated users are granted access to the restricted SCC.
+* _Users_ and _groups_ fields on SCC define users and groups subject to SCC
+** Default: Cluster administrators, nodes, and build controller granted access
+ to privileged SCC
+** All authenticated users granted access to restricted SCC
 
-* The definition for each SCC is also viewable by cluster administrators using the
-CLI. For example, for the privileged SCC:
+* Cluster administrators can use CLI to view SCC definition
+* Example: For privileged SCC:
 +
 ----
 # oc export scc/privileged
@@ -31,20 +31,23 @@ users: <4>
 - system:serviceaccount:openshift-infra:build-controller
 ----
 
-<1> The groups that have access to this SCC
-<2> The run as user strategy type which dictates the allowable values for the Security Context
-<3> The SELinux context strategy type which dictates the allowable values for the Security Context
-<4> The users who have access to this SCC
-
 ifdef::showscript[]
 === Transcript
 
-* The _users_ and _groups_ fields on the SCC control which SCCs can be used.
+The _users_ and _groups_ fields on the SCC define the users and groups that are
+ subject to the SCC.
 By default, cluster administrators, nodes, and the build controller are granted
-access to the privileged SCC.
-* All authenticated users are granted access to the restricted SCC.
+ access to the privileged SCC.
+All authenticated users are granted access to the restricted SCC.
 
-* The definition for each SCC is also viewable by cluster administrators using
-the CLI.
+Cluster administrators can use the CLI to view the definition for each SCC. The
+ example here shows output for the privileged SCC. Note the following:
+
+. These are the groups that have access to this SCC.
+. This is the run as user strategy type, which dictates the allowable values for
+ the Security Context.
+. This is thee SELinux context strategy type, which dictates the allowable
+ values for the Security Context.
+. These are the users who have access to this SCC.
+
 endif::showscript[]
-

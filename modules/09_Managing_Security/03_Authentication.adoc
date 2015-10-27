@@ -1,31 +1,30 @@
 == Authentication
 :noaudio:
 .Overview
-* The authentication layer identifies the user associated with requests to the
-OpenShift API. The authorization layer then uses information about the
-requesting user to determine if the request should be allowed.
+* Authentication layer:
+** Identifies user associated with requests to OpenShift Enterprise API
+** Uses information about user to determine whether to allow request
 
-* As an administrator, you can
-link:https://docs.openshift.com/enterprise/3.0/admin_guide/configuring_authentication.html[configure authentication]
-using a link:https://docs.openshift.com/enterprise/3.0/admin_guide/master_node_configuration.html[master
-configuration file].
-
-* In this section we will review:
-- Users and Groups
-- API Authentication
-- OAuth
+* Administrator can use master configuration file to configure authentication
+* Learn more:
+** Configuring authentication: https://docs.openshift.com/enterprise/3.0/admin_guide/configuring_authentication.html
+** Master configuration file: https://docs.openshift.com/enterprise/3.0/admin_guide/master_node_configuration.html
+// ISSUE: update link to 3.1
+* This section reviews:
+** Users and groups
+** API authentication
+** OAuth
 
 ifdef::showscript[]
 === Transcript
-The authentication layer identifies the user associated with requests to the
-OpenShift API. The authorization layer then uses information about the
-requesting user to determine if the request should be allowed.
+The authentication layer identifies the user associated with requests to the OpenShift Enterprise API. The authorization layer then uses information about the requesting user to determine whether to allow the request.
 
+An administrator can use a master configuration file to configure authentication. Learn more at the links shown here.
 
-* In this section we will review:
-- Users and Groups
-- API Authentication
-- OAuth
+This section reviews the following topics:
+
+* Users and groups
+* API authentication
+* OAuth
 
 endif::showscript[]
-

@@ -1,0 +1,28 @@
+== Managing SCCs
+:noaudio:
+
+.Using the `hostPath` Volume Plug-in
+
+* Can relax security in cluster so that:
+** Pods can use `hostPath` volume plug-in
+** Without granting everyone access to privileged SCC
+
+. Edit restricted SCC:
++
+----
+$ oc edit scc restricted
+----
+
+. Add `allowHostDirVolumePlugin: true`
+
+. Save changes
+
+ifdef::showscript[]
+=== Transcript
+You can relax the security in your cluster so that pods can use the `hostPath`
+ volume plug-in without granting everyone access to the privileged SCC.
+
+To do this, edit the restricted SCC and add the `allowHostDirVolumePlugin: true`
+ flag.
+
+endif::showscript[]

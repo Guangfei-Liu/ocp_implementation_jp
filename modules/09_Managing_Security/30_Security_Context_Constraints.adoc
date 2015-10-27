@@ -1,30 +1,32 @@
-== Security Context Constraints
+== Security Context Constraints (SCCs)
 :noaudio:
 
 .Admission
 
-* In order to have control over the creation of resources and actions  based on
- the capabilities granted to a user or a pod _Admission control_ is used.
+* Use _admission control_ to control resource/action creation
+** Based on capabilities granted to user/pod
 
-* Doing so ensures the pod is authorized to make requests about its operating
-environment or to generate a set of constraints to apply to the pod.
+* Authorizes pod to:
+** Make requests about operating environment
+** Generate constraints to apply to pod
 
-* The set of SCCs that _admission_ uses to authorize a pod are determined by the
- user identity and groups that the user belongs to.
-** Additionally, if the pod specifies a service account, the set of allowable
-SCCs includes any constraints accessible to the service account.
+* SCCs that _admission_ uses to authorize pod determined by:
+** User identity
+** Groups to which user belongs
+* If pod specifies service account:
+** Allowable SCCs includes constraints accessible to service account
 
 ifdef::showscript[]
 === Transcript
-* In order to have control over the creation of resources and actions  based on
- the capabilities granted to a user or a pod _Admission control_ is used.
 
-* Doing so ensures the pod is authorized to make requests about its operating
-environment or to generate a set of constraints to apply to the pod.
+You use _admission control_ to have control over the creation of resources and
+ actions based on the capabilities granted to a user or a pod.
 
-* The set of SCCs that _admission_ uses to authorize a pod are determined by the
- user identity and groups that the user belongs to.
-** Additionally, if the pod specifies a service account, the set of allowable
-SCCs includes any constraints accessible to the service account.
+Doing so authorizes the pod to make requests about its operating environment or
+ to generate a set of constraints to apply to the pod.
+
+The set of SCCs that _admission_ uses to authorize a pod are determined by the
+ user identity and groups to which the user belongs. Additionally, if the pod
+  specifies a service account, the set of allowable SCCs includes any
+   constraints accessible to the service account.
 endif::showscript[]
-

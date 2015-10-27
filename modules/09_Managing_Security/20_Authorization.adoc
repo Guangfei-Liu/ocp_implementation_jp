@@ -3,33 +3,24 @@
 
 .Evaluating Authorization
 
-* Several factors are combined to make the decision when OpenShift evaluates
-authorization:
+* Factors combined to make decision when evaluating authorization:
 
-[cols="1,7"]
+[.noredheader, cols="1,7"]
 |===
-
-|*Identity* |In the context of authorization, both the user name and
-list of groups the user belongs to.
-
-|*Action* a|The action being performed. In most cases, this consists of:
-
+|*Identity* |In authorization context, both username and list of groups to which
+ user belongs
+|*Action* a|Action being performed; usually consists of:
 [horizontal]
-Project:: The _project_ being accessed.
-Verb:: Can be `get`, `list`, `create`, `update`, or others.
-Resource Name:: The API endpoint being accessed.
-
-|*Bindings* |The full list of link:https://docs.openshift.com/enterprise/3.0/architecture/additional_concepts/authorization.html#bindings[bindings].
-
+Project:: Project being accessed
+Verb:: Can be `get`, `list`, `create`, `update`, other
+Resource Name:: API endpoint being accessed
+|*Bindings* |Full list of bindings: https://docs.openshift.com/enterprise/3.0/architecture/additional_concepts/authorization.html#bindings
 |===
 
 ifdef::showscript[]
 === Transcript
-* Several factors are combined to make the decision when OpenShift evaluates
-authorization: Identity, Action and Bindings.
 
-In the next slide we will review the workflow descriving an authorization event.
+OpenShift Enterprise combines several factors to make the decision when
+ evaluating authorization. These include identity, action, and bindings.
 
 endif::showscript[]
-
-

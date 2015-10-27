@@ -2,30 +2,38 @@
 :noaudio:
 
 .Roles
-* Roles are collections of policy _rules_, which are sets of
-permitted verbs that can be performed on a set of resources.
-* OpenShift includes a set of default roles that can be added to users and
-groups in the _cluster policy_ or the  _local policy_. (Detailed in the next
-  slide)
+* *Roles*: Collections of policy _rules_
+** Verbs permitted to perform on set of resources
+* OpenShift Enterprise includes default roles
+** Can add to users/groups in _cluster policy_ or _local policy_
 
-* These roles, including a matrix of the verbs and resources each are associated
-  with, can be visualized in the cluster policy by using the CLI. Additional
-  _system_ roles are listed as well, which are used for various OpenShift
-  system and component operations.
+* Can use CLI to visualize roles in cluster policy
+** Includes matrix of verbs and resources associated with role
+** Lists  additional _system_ roles
+*** Used for OpenShift Enterprise operations
 
-NOTE: By default in a local policy, only the binding for the _admin_ role is
-  immediately listed when using the CLI to _view local bindings_. However, if
-  other default roles are added to users and groups within a local policy,
-  they become listed in the CLI output, as well.
+* Default: In local policy, only _admin_ role binding listed when using CLI to
+ view local bindings
+** Can add default roles to users/groups within local policy
+** These appear in CLI output
 
 ifdef::showscript[]
 === Transcript
-* Roles are collections of policy _rules_, which are sets of
-permitted verbs that can be performed on a set of resources.
-* OpenShift includes a set of default roles that can be added to users and
-groups in the _cluster policy_ or the  _local policy_. (Detailed in the next
-  slide)
+
+Roles are collections of policy _rules_, which are sets of permitted verbs that
+ you can perform on a set of resources.
+OpenShift Enterprise includes a set of default roles that you can add to users
+ and groups in either the _cluster policy_ or the  _local policy_.
+
+You can use the CLI to visualize these roles, including a matrix of the verbs
+ and resources associated with each role, in the cluster policy. The CLI output
+  lists additional _system_ roles as well. OpenShift Enterprise uses these roles
+   for various system and component operations.
+
+By default, in a local policy, only the binding for the _admin_ role is
+ immediately listed when you use the CLI to view local bindings. However, if you
+  add other default roles to users and groups within a local policy, these
+   become listed in the CLI output as well.
 
 
 endif::showscript[]
-

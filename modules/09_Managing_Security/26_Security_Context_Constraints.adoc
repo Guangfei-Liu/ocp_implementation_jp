@@ -1,36 +1,35 @@
-== Security Context Constraints
+== Security Context Constraints (SCCs)
 :noaudio:
 
 .Overview
 
-* In addition to _authorization policies_ that control what a user
-can do, OpenShift provides _security context constraints_ (SCC) that control the
-actions that a _pod_ can perform and what it has the ability to access.
+* _Authorization policies_ control what user can do
+* In addition, _security context constraints_ (SCCs) control:
+** Actions that pod can perform
+** What pod can access
 
-* SCCs are objects that define a set of conditions that a pod must run with in
-order to be accepted into the system. They allow an administrator to control the
-following:
+* *SCCs*: Define conditions pod must run with to be accepted into system
+* Let administrator control:
 
-. Running of privileged containers.
-. Capabilities a container can request to be added.
-. Use of host directories as volumes.
-. The SELinux context of the container.
-. The user ID. (within the container)
+** Running privileged containers
+** Capabilities container can request to be added
+** Use of host directories as volumes
+** SELinux context of container
+** User ID within container
 
 ifdef::showscript[]
 === Transcript
-In addition to _authorization policies_ that control what a user
-can do, OpenShift provides _security context constraints_ (SCC) that control the
-actions that a _pod_ can perform and what it has the ability to access.
+In addition to _authorization policies_ that control what a user can do,
+ OpenShift Enterprise provides _security context constraints_, or SCCs, that
+  control the actions that a pod can perform and what it can access.
 
-* SCCs are objects that define a set of conditions that a pod must run with in
-order to be accepted into the system. They allow an administrator to control the
+SCCs are objects that define a set of conditions that a pod must run with to be
+ accepted into the system. SCCs let an administrator control the
 following:
 
-. Running of privileged containers.
-. Capabilities a container can request to be added.
-. Use of host directories as volumes.
-. The SELinux context of the container.
-. The user ID. (within the container)
+* Running of privileged containers
+* Capabilities a container can request to be added
+* Use of host directories as volumes
+* SELinux context of the container
+* User ID within the container
 endif::showscript[]
-

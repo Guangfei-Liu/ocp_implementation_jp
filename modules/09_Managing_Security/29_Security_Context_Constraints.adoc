@@ -1,36 +1,29 @@
-== Security Context Constraints
+== Security Context Constraints (SCCs)
 :noaudio:
 
-.Privileged and Restricted SCCs - Continued
+.Privileged and Restricted SCCs: Settings
 
-* SCCs are comprised of settings and strategies that control the security
-features a pod has access to. These settings fall into three categories:
+* SCCs comprised of settings and strategies
+* Control security features pod can access
+* Settings fall into three categories:
 
-[cols="1,4"]
+[.noredheader, cols="1,4"]
 |===
-
 |*Controlled by a boolean*
-|Fields of this type default to the most restrictive value. For example,
-`AllowPrivilegedContainer` is always set to *false* if unspecified.
-
+ a|* Fields of this type default to most restrictive value
+* Example: `AllowPrivilegedContainer` always set to `false` if unspecified
 |*Controlled by an allowable set*
-|Fields of this type are checked against the set to ensure their value is
-allowed.
-
+|Fields of this type checked against set to ensure value is allowed
 |*Controlled by a strategy*
-a|Items that have a strategy to generate a value provide:
-
-* A mechanism to generate the value, and
-* A mechanism to ensure that a specified value falls into the set of allowable
-values.
-
+a|* Items that have strategy to generate value provide:
+** Mechanism to generate value
+** Mechanism to ensure specified value falls into set of allowable values
 |===
 
 ifdef::showscript[]
 === Transcript
-SCCs are comprised of settings and strategies that control the security
-features a pod has access to. These settings fall into three categories:
-"Controlled by a boolean", "Controlled by an allowable set" and "Controlled by a
-strategy".
+SCCs are comprised of settings and strategies that control the security features
+ a pod can access. These settings fall into three categories:
+  *Controlled by a boolean*, *Controlled by an allowable set*, and
+   *Controlled by a strategy*.
 endif::showscript[]
-

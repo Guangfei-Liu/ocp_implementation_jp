@@ -1,9 +1,7 @@
 == Configuring Authentication
 :noaudio:
 
-.Identity Providers - HTPasswd Continued
-
-* Master Configuration Using *HTPasswdPasswordIdentityProvider*:
+* Master configuration using `HTPasswdPasswordIdentityProvider`:
 +
 [source,yaml]
 ----
@@ -19,20 +17,20 @@ oauthConfig:
       file: /path/to/users.htpasswd <4>
 ----
 
-<1> This provider name is prefixed to provider user names to form an identity
-name.
-<2> When *true*, unauthenticated token requests from non-web clients (like the
-CLI) are sent a `WWW-Authenticate` challenge header for this provider.
-<3> When *true*, unauthenticated token requests from web clients (like the web
-console) are redirected to a login page backed by this provider.
-<4> File generated using
-http://httpd.apache.org/docs/2.4/programs/htpasswd.html[`htpasswd`].
 
 ifdef::showscript[]
 === Transcript
-Here is an example of the `oauthConfig` section of the master config file that
-defines the use of `HTPasswdPasswordIdentityProvider` with the file:
-/path/to/users.htpasswd
+Here is an example of the `oauthConfig` section of the master configuration file
+ that defines the use of `HTPasswdPasswordIdentityProvider` with the file
+  `/path/to/users.htpasswd`.
+
+Note the following:
+
+. This provider name is prefixed to provider usernames to form an identity name.
+. When `true`, unauthenticated token requests from non-web clients (like the
+   CLI) are sent a `WWW-Authenticate` challenge header for this provider.
+. When `true`, unauthenticated token requests from web clients (like the web
+   console) are redirected to a login page backed by this provider.
+. This is the file generated using `htpasswd`.
 
 endif::showscript[]
-

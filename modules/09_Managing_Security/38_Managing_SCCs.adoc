@@ -1,0 +1,33 @@
+== Managing SCCs
+:noaudio:
+
+.Enabling Images to Run With `USER` in the Dockerfile
+
+* Can relax security in cluster so that:
+** Images not forced to run as preallocated UID
+** Without granting everyone access to privileged SCC
+
+. Edit restricted SCC:
++
+----
+$ oc edit scc restricted
+----
+
+. Change `runAsUser.Type` strategy to `RunAsAny`
+
+** Lets images run as root UID if no `USER` specified in Dockerfile
+
+
+ifdef::showscript[]
+=== Transcript
+
+You can relax the security in your cluster so that images are not forced to run
+ as a preallocated UID, without granting everyone access to the privileged SCC.
+
+To do this, edit the restricted SCC and change the `RunAsUser` type to
+ `RunAsAny`.
+
+This also lets images run as the root UID if no `USER` is specified in the
+ Dockerfile.
+
+endif::showscript[]

@@ -3,8 +3,10 @@
 
 .Identity Providers: Deny All
 
-* Set `DenyAllPasswordIdentityProvider` in `identityProviders` stanza to deny access for all usernames/passwords
-* Default identity provider when running OpenShift Enterprise with _master configuration file_
+* Set `DenyAllPasswordIdentityProvider` in `identityProviders` stanza to deny
+ access for all usernames/passwords
+* Default identity provider when running OpenShift Enterprise with
+_master configuration file_
 
 * Master configuration using `DenyAllPasswordIdentityProvider`:
 +
@@ -24,16 +26,20 @@ oauthConfig:
 ifdef::showscript[]
 === Transcript
 
-You can set `DenyAllPasswordIdentityProvider` in the `identityProviders` stanza to deny access for all usernames and passwords.
+You can set `DenyAllPasswordIdentityProvider` in the `identityProviders` stanza
+ to deny access for all usernames and passwords.
 
-The _Deny All_ identity provider is the default identity provider when running OpenShift Enterprise with a _master configuration file_.
+The _Deny All_ identity provider is the default identity provider when running
+ OpenShift Enterprise with a _master configuration file_.
 
-The example here shows the master configuration using `DenyAllPasswordIdentityProvider`. Note the following:
+The example here shows the master configuration using
+ `DenyAllPasswordIdentityProvider`. Note the following:
 
 . This provider name is prefixed to provider usernames to form an identity name.
-. When `true`, unauthenticated token requests from non-web clients (like the CLI) are sent a `WWW-Authenticate` challenge header for this provider.
-. When `true`, unauthenticated token requests from web clients (like the web console) are redirected to a login page backed by this provider.
+. When `true`, unauthenticated token requests from non-web clients
+ (like the CLI) are sent a `WWW-Authenticate` challenge header for this provider.
+. When `true`, unauthenticated token requests from web clients (like the web
+   console) are redirected to a login page backed by this provider.
 
 
 endif::showscript[]
-

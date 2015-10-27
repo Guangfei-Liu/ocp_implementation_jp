@@ -25,9 +25,7 @@ $ htpasswd </path/to/users.htpasswd> -D <user_name>
 
 ifdef::showscript[]
 === Transcript
-You can use the commands shown here to create the password file and create or remove user logins.
+You can use the commands shown here to create the password file and create or
+ remove user logins.
 
 endif::showscript[]
-
-
-

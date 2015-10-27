@@ -6,7 +6,8 @@
 * Administrator might want to create privileged pods
 ** Provide access to users/groups outside administrator group
 ** To do so, use `oc edit` to add user/group to `users` or `groups` field of SCC
-** Example: To allow `e2e-user` access to `privileged` SCC, add username to `users` list:
+** Example: To allow `e2e-user` access to `privileged` SCC, add username to
+ `users` list:
 +
 [source,yaml]
 ----
@@ -38,14 +39,16 @@ users:
 
 ifdef::showscript[]
 === Transcript
-In some cases, an administrator might want to provide access to users or groups outside the administrator group to create more privileged pods.
+In some cases, an administrator might want to provide access to users or groups
+ outside the administrator group to create more privileged pods.
 
-To do so, you use the `oc edit` command to add the user or group to the `users` or `groups` field of the SCC.
-In the example shown here, you add `e2e-user` to the `user` list of the privileged SCC to allow `e2e-user` to create privileged pods.
+To do so, you use the `oc edit` command to add the user or group to the `users`
+ or `groups` field of the SCC.
+In the example shown here, you add `e2e-user` to the `user` list of the
+ privileged SCC to allow `e2e-user` to create privileged pods.
 
 Note the following:
 
 . This shows `e2e-user` added to the users section.
 
 endif::showscript[]
-

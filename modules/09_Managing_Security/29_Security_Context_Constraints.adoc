@@ -22,6 +22,8 @@ a|* Items that have strategy to generate value provide:
 
 ifdef::showscript[]
 === Transcript
-SCCs are comprised of settings and strategies that control the security features a pod can access. These settings fall into three categories: *Controlled by a boolean*, *Controlled by an allowable set*, and *Controlled by a strategy*.
+SCCs are comprised of settings and strategies that control the security features
+ a pod can access. These settings fall into three categories:
+  *Controlled by a boolean*, *Controlled by an allowable set*, and
+   *Controlled by a strategy*.
 endif::showscript[]
-

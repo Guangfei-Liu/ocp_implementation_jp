@@ -19,10 +19,14 @@
 ifdef::showscript[]
 === Transcript
 
-You use _admission control_ to have control over the creation of resources and actions based on the capabilities granted to a user or a pod.
+You use _admission control_ to have control over the creation of resources and
+ actions based on the capabilities granted to a user or a pod.
 
-Doing so authorizes the pod to make requests about its operating environment or to generate a set of constraints to apply to the pod.
+Doing so authorizes the pod to make requests about its operating environment or
+ to generate a set of constraints to apply to the pod.
 
-The set of SCCs that _admission_ uses to authorize a pod are determined by the user identity and groups to which the user belongs. Additionally, if the pod specifies a service account, the set of allowable SCCs includes any constraints accessible to the service account.
+The set of SCCs that _admission_ uses to authorize a pod are determined by the
+ user identity and groups to which the user belongs. Additionally, if the pod
+  specifies a service account, the set of allowable SCCs includes any
+   constraints accessible to the service account.
 endif::showscript[]
-

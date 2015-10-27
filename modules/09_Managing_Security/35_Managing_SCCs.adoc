@@ -18,6 +18,6 @@ scc-admin    true      []        false     RunAsAny    RunAsAny
 
 ifdef::showscript[]
 === Transcript
-Next, you run the `oc create` command, passing the file to create it. To see your new SCC, use the `oc get scc` command.
+Next, you run the `oc create` command, passing the file to create it. To see
+ your new SCC, use the `oc get scc` command.
 endif::showscript[]
-

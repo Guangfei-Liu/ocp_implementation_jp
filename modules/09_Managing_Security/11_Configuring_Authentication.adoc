@@ -3,8 +3,10 @@
 
 .Identity Providers: Allow All
 
-* Set `AllowAllPasswordIdentityProvider` in `identityProviders` stanza to allow any non-empty username/password to log in
-* Default identity provider when running OpenShift Enterprise without _master configuration file_
+* Set `AllowAllPasswordIdentityProvider` in `identityProviders` stanza to allow
+ any non-empty username/password to log in
+* Default identity provider when running OpenShift Enterprise without
+ _master configuration file_
 
 * Master configuration using `AllowAllPasswordIdentityProvider`:
 +
@@ -24,18 +26,20 @@ oauthConfig:
 ifdef::showscript[]
 === Transcript
 
-You can set `AllowAllPasswordIdentityProvider` in the `identityProviders` stanza to allow any non-empty username/password to log in.
+You can set `AllowAllPasswordIdentityProvider` in the `identityProviders`
+ stanza to allow any non-empty username/password to log in.
 
 The _Allow All_ identity provider is the default identity provider when running
 OpenShift Enterprise without a _master configuration file_.
 
-The example here shows the master configuration using `AllowAllPasswordIdentityProvider`. Note the following:
+The example here shows the master configuration using
+ `AllowAllPasswordIdentityProvider`. Note the following:
 
 . This provider name is prefixed to provider usernames to form an identity name.
-. When `true`, unauthenticated token requests from non-web clients (like the CLI) are sent a `WWW-Authenticate` challenge header for this provider.
-. When `true`, unauthenticated token requests from web clients (like the web console) are redirected to a login page backed by this provider.
+. When `true`, unauthenticated token requests from non-web clients
+ (like the CLI) are sent a `WWW-Authenticate` challenge header for this provider.
+. When `true`, unauthenticated token requests from web clients
+ (like the web console) are redirected to a login page backed by this provider.
 
 
 endif::showscript[]
-
-

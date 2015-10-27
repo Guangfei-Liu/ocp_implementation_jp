@@ -18,7 +18,7 @@ a|* Roles and bindings scoped to given project
 * Local bindings can reference cluster and local roles
 |===
 
-* Two-level hierarchy allows: 
+* Two-level hierarchy allows:
 ** Reusability over multiple projects through cluster policy
 ** Customization inside individual projects through local policies
 
@@ -32,16 +32,24 @@ a|* Roles and bindings scoped to given project
 ifdef::showscript[]
 === Transcript
 
-There are two levels of authorization policies: _cluster policy_ and _local policy_.
+There are two levels of authorization policies: _cluster policy_ and
+ _local policy_.
 
-Cluster policy includes roles and bindings that are applicable across all projects. Roles that exist in the cluster policy are considered cluster roles. Cluster bindings can reference cluster roles only.
+Cluster policy includes roles and bindings that are applicable across all
+ projects. Roles that exist in the cluster policy are considered cluster roles.
+  Cluster bindings can reference cluster roles only.
 
-Local policy includes roles and bindings that are scoped to a given project. Roles that exist only in a local policy are considered local roles. Local bindings can reference both cluster and local roles.
+Local policy includes roles and bindings that are scoped to a given project.
+Roles that exist only in a local policy are considered local roles.
+Local bindings can reference both cluster and local roles.
 
-This two-level hierarchy allows reusability over multiple projects through the cluster policy while allowing customization inside individual projects through local policies.
+This two-level hierarchy allows reusability over multiple projects through the
+ cluster policy while allowing customization inside individual projects through
+  local policies.
 
-During evaluation, both the cluster bindings and the local bindings are used. For example:
+During evaluation, both the cluster bindings and the local bindings are used.
+ For example:
 
-First, the cluster-wide `allow` rules are checked. Then the locally-bound `allow` rules are checked. Authorization denies by default.
+First, the cluster-wide `allow` rules are checked. Then the locally-bound
+ `allow` rules are checked. Authorization denies by default.
 endif::showscript[]
-

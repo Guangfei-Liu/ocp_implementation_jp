@@ -12,20 +12,28 @@
 ** Lists  additional _system_ roles
 *** Used for OpenShift Enterprise operations
 
-* Default: In local policy, only _admin_ role binding listed when using CLI to view local bindings
+* Default: In local policy, only _admin_ role binding listed when using CLI to
+ view local bindings
 ** Can add default roles to users/groups within local policy
 ** These appear in CLI output
 
 ifdef::showscript[]
 === Transcript
 
-Roles are collections of policy _rules_, which are sets of permitted verbs that you can perform on a set of resources.
-OpenShift Enterprise includes a set of default roles that you can add to users and groups in either the _cluster policy_ or the  _local policy_.
+Roles are collections of policy _rules_, which are sets of permitted verbs that
+ you can perform on a set of resources.
+OpenShift Enterprise includes a set of default roles that you can add to users
+ and groups in either the _cluster policy_ or the  _local policy_.
 
-You can use the CLI to visualize these roles, including a matrix of the verbs and resources associated with each role, in the cluster policy. The CLI output lists additional _system_ roles as well. OpenShift Enterprise uses these roles for various system and component operations.
+You can use the CLI to visualize these roles, including a matrix of the verbs
+ and resources associated with each role, in the cluster policy. The CLI output
+  lists additional _system_ roles as well. OpenShift Enterprise uses these roles
+   for various system and component operations.
 
-By default, in a local policy, only the binding for the _admin_ role is immediately listed when you use the CLI to view local bindings. However, if you add other default roles to users and groups within a local policy, these become listed in the CLI output as well.
+By default, in a local policy, only the binding for the _admin_ role is
+ immediately listed when you use the CLI to view local bindings. However, if you
+  add other default roles to users and groups within a local policy, these
+   become listed in the CLI output as well.
 
 
 endif::showscript[]
-

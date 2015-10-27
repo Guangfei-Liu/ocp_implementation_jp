@@ -4,7 +4,8 @@
 .Privileged and Restricted SCCs: Definition
 
 * _Users_ and _groups_ fields on SCC define users and groups subject to SCC
-** Default: Cluster administrators, nodes, and build controller granted access to privileged SCC
+** Default: Cluster administrators, nodes, and build controller granted access
+ to privileged SCC
 ** All authenticated users granted access to restricted SCC
 
 * Cluster administrators can use CLI to view SCC definition
@@ -33,16 +34,20 @@ users: <4>
 ifdef::showscript[]
 === Transcript
 
-The _users_ and _groups_ fields on the SCC define the users and groups that are subject to the SCC.
-By default, cluster administrators, nodes, and the build controller are granted access to the privileged SCC.
+The _users_ and _groups_ fields on the SCC define the users and groups that are
+ subject to the SCC.
+By default, cluster administrators, nodes, and the build controller are granted
+ access to the privileged SCC.
 All authenticated users are granted access to the restricted SCC.
 
-Cluster administrators can use the CLI to view the definition for each SCC. The example here shows output for the privileged SCC. Note the following:
+Cluster administrators can use the CLI to view the definition for each SCC. The
+ example here shows output for the privileged SCC. Note the following:
 
 . These are the groups that have access to this SCC.
-. This is the run as user strategy type, which dictates the allowable values for the Security Context.
-. This is thee SELinux context strategy type, which dictates the allowable values for the Security Context.
+. This is the run as user strategy type, which dictates the allowable values for
+ the Security Context.
+. This is thee SELinux context strategy type, which dictates the allowable
+ values for the Security Context.
 . These are the users who have access to this SCC.
 
 endif::showscript[]
-

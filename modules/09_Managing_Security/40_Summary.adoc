@@ -9,7 +9,10 @@
 
 ifdef::showscript[]
 === Transcript
-This module described the different authentication providers that OpenShift Enterprise 3 supports. It showed how to configure `htpasswd` authentication and how the authorization mechanism operates.
+This module described the different authentication providers that OpenShift
+ Enterprise 3 supports. It showed how to configure `htpasswd` authentication and
+  how the authorization mechanism operates.
 
-It also covered SCCs and how they effect capabilities of users and pods, and reviewed common SCC management tasks.
+It also covered SCCs and how they effect capabilities of users and pods, and
+ reviewed common SCC management tasks.
 endif::showscript[]

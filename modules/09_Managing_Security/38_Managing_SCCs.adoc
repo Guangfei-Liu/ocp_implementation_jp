@@ -21,11 +21,13 @@ $ oc edit scc restricted
 ifdef::showscript[]
 === Transcript
 
-You can relax the security in your cluster so that images are not forced to run as a preallocated UID, without granting everyone access to the privileged SCC.
+You can relax the security in your cluster so that images are not forced to run
+ as a preallocated UID, without granting everyone access to the privileged SCC.
 
-To do this, edit the restricted SCC and change the `RunAsUser` type to `RunAsAny`.
+To do this, edit the restricted SCC and change the `RunAsUser` type to
+ `RunAsAny`.
 
-This also lets images run as the root UID if no `USER` is specified in the Dockerfile.
+This also lets images run as the root UID if no `USER` is specified in the
+ Dockerfile.
 
 endif::showscript[]
-

@@ -5,7 +5,8 @@
 
 * Steps OpenShift Enterprise uses to evaluate authorization:
 
-. Use identity and project-scoped action to find all bindings applicable to user/groups
+. Use identity and project-scoped action to find all bindings applicable to
+ user/groups
 . Use bindings to locate applicable roles
 . Use roles to find applicable rules
 . Check action against each rule to find match
@@ -15,12 +16,11 @@ ifdef::showscript[]
 === Transcript
 * OpenShift Enterprise evaluates authorization using the following steps:
 
-. OpenShift Enterprise uses the identity and the project-scoped action to find all bindings that apply to the user or the user's groups.
+. OpenShift Enterprise uses the identity and the project-scoped action to find
+ all bindings that apply to the user or the user's groups.
 . It then uses bindings to locate all the roles that apply.
 . Next it uses roles to find all the rules that apply.
 . Finally, it checks the action against each rule to find a match.
 ** If it does not find a matching rule, the action is denied by default.
 
 endif::showscript[]
-
-

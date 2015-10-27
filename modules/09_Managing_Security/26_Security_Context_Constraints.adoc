@@ -19,9 +19,12 @@
 
 ifdef::showscript[]
 === Transcript
-In addition to _authorization policies_ that control what a user can do, OpenShift Enterprise provides _security context constraints_, or SCCs, that control the actions that a pod can perform and what it can access.
+In addition to _authorization policies_ that control what a user can do,
+ OpenShift Enterprise provides _security context constraints_, or SCCs, that
+  control the actions that a pod can perform and what it can access.
 
-SCCs are objects that define a set of conditions that a pod must run with to be accepted into the system. SCCs let an administrator control the
+SCCs are objects that define a set of conditions that a pod must run with to be
+ accepted into the system. SCCs let an administrator control the
 following:
 
 * Running of privileged containers
@@ -30,4 +33,3 @@ following:
 * SELinux context of the container
 * User ID within the container
 endif::showscript[]
-

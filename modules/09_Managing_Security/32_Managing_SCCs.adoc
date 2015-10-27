@@ -8,6 +8,6 @@
 
 ifdef::showscript[]
 === Transcript
-You can manage SCCs in your instance as normal API _objects_ using the CLI. To manage SCCs, you must be a `cluster-admin`.
+You can manage SCCs in your instance as normal API _objects_ using the CLI. To
+ manage SCCs, you must be a `cluster-admin`.
 endif::showscript[]
-

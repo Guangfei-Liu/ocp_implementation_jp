@@ -18,13 +18,19 @@
 
 ifdef::showscript[]
 === Transcript
-Requests to the OpenShift Enterprise API are authenticated using Oauth access tokens and X.509 client certificates.
+Requests to the OpenShift Enterprise API are authenticated using Oauth access
+ tokens and X.509 client certificates.
 
-You obtain OAuth access tokens from the OpenShift Enterprise OAuth server using the endpoints shown here. You send them as either a header or a query parameter, as shown here.
+You obtain OAuth access tokens from the OpenShift Enterprise OAuth server using
+ the endpoints shown here. You send them as either a header or a query
+  parameter, as shown here.
 
-X.509 client certificates require an HTTPS connection to the API server. The server verifies the certificates against a trusted certificate authority bundle, and then creates and distributes certificates to controllers to authenticate themselves.
+X.509 client certificates require an HTTPS connection to the API server.
+ The server verifies the certificates against a trusted certificate authority
+  bundle, and then creates and distributes certificates to controllers to
+   authenticate themselves.
 
-The authentication layer rejects any request with an invalid access token or an invalid certificate with a 401 error.
+The authentication layer rejects any request with an invalid access token or an
+ invalid certificate with a 401 error.
 
 endif::showscript[]
-

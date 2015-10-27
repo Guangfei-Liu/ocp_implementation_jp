@@ -7,7 +7,8 @@
 
 [.noredheader, cols="1,7"]
 |===
-|*Identity* |In authorization context, both username and list of groups to which user belongs
+|*Identity* |In authorization context, both username and list of groups to which
+ user belongs
 |*Action* a|Action being performed; usually consists of:
 [horizontal]
 Project:: Project being accessed
@@ -19,8 +20,7 @@ Resource Name:: API endpoint being accessed
 ifdef::showscript[]
 === Transcript
 
-OpenShift Enterprise combines several factors to make the decision when evaluating authorization. These include identity, action, and bindings.
+OpenShift Enterprise combines several factors to make the decision when
+ evaluating authorization. These include identity, action, and bindings.
 
 endif::showscript[]
-
-

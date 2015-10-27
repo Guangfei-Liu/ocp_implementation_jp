@@ -22,6 +22,6 @@ users:
 
 ifdef::showscript[]
 === Transcript
-To create a new SCC, you first define the SCC in a JSON or YAML file similar to the example shown here.
+To create a new SCC, you first define the SCC in a JSON or YAML file similar to
+ the example shown here.
 endif::showscript[]
-

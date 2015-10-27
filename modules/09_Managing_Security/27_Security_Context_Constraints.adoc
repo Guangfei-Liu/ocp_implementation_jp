@@ -33,10 +33,12 @@ Two SCCs are added to the cluster by default: _privileged_ and _restricted_.
 
 Cluster administrators can view the SCCs using the CLI.
 
-The privileged SCC allows privileged pods, allows host directories to be mounted as volumes, and allows a pod to run as any user and with any MCS label.
+The privileged SCC allows privileged pods, allows host directories to be mounted
+ as volumes, and allows a pod to run as any user and with any MCS label.
 
 
-The restricted SCC ensures pods cannot run as privileged or host directory volumes, and requires that a pod runs as a user in a preallocated range of UIDs and with a pre-allocated MCS label.
+The restricted SCC ensures pods cannot run as privileged or host directory
+ volumes, and requires that a pod runs as a user in a preallocated range of UIDs
+  and with a pre-allocated MCS label.
 
 endif::showscript[]
-

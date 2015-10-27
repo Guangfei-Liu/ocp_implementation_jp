@@ -3,7 +3,8 @@
 
 .Identity Providers: `htpasswd`
 
-* Set `HTPasswdPasswordIdentityProvider` in `identityProviders` stanza to validate usernames and passwords against flat file generated using `htpasswd`
+* Set `HTPasswdPasswordIdentityProvider` in `identityProviders` stanza to
+ validate usernames and passwords against flat file generated using `htpasswd`
 ** Learn more: http://httpd.apache.org/docs/2.4/programs/htpasswd.html
 
 * Supports MD5 and SHA encryption types only
@@ -16,13 +17,16 @@
 ifdef::showscript[]
 === Transcript
 
-You can set `HTPasswdPasswordIdentityProvider` in the `identityProviders` stanza to validate usernames and passwords against a flat file generated using `htpasswd`. For more information, see the link shown here.
+You can set `HTPasswdPasswordIdentityProvider` in the `identityProviders`
+ stanza to validate usernames and passwords against a flat file generated using
+  `htpasswd`. For more information, see the link shown here.
 
-Currently, OpenShift Enterprise supports MD5 and SHA encryption types only. MD5 encryption, which is the default for `htpasswd`, is recommended.
+Currently, OpenShift Enterprise supports MD5 and SHA encryption types only. MD5
+ encryption, which is the default for `htpasswd`, is recommended.
 
 Plaintext, crypt, or bcrypt hashes currently are not supported.
 
-The flat file is reread if its modification time changes, without requiring a server restart.
+The flat file is reread if its modification time changes, without requiring a
+ server restart.
 
 endif::showscript[]
-

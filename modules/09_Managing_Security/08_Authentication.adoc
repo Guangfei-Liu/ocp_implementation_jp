@@ -12,20 +12,24 @@
 |`openshift-web-console`
 |Requests tokens for web console
 |`openshift-browser-client`
-|Requests tokens at `_<master>_/oauth/token/request` with user-agent that can handle interactive logins
+|Requests tokens at `_<master>_/oauth/token/request` with user-agent that can
+ handle interactive logins
 |`openshift-challenging-client`
 |Requests tokens with user-agent that can handle `WWW-Authenticate` challenges
 |===
 
 ifdef::showscript[]
 === Transcript
-Every request for an OAuth token must specify the OAuth client that will receive and use the token.
+Every request for an OAuth token must specify the OAuth client that will receive
+ and use the token.
 
-The following OAuth clients are automatically created when starting the OpenShift Enterprise API:
+The following OAuth clients are automatically created when starting the
+ OpenShift Enterprise API:
 
 * `openshift-web-console` requests tokens for the web console.
-* `openshift-browser-client` requests tokens at `_<master>_/oauth/token/request` with user-agent that can handle interactive logins.
-* `openshift-challenging-client` requests tokens with user-agent that can handle `WWW-Authenticate` challenges.
+* `openshift-browser-client` requests tokens at `_<master>_/oauth/token/request`
+ with user-agent that can handle interactive logins.
+* `openshift-challenging-client` requests tokens with user-agent that can handle
+ `WWW-Authenticate` challenges.
 
 endif::showscript[]
-

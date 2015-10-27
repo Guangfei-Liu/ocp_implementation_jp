@@ -1,27 +1,26 @@
 == Authorization
 :noaudio:
 
-.Evaluating Authorization - Continued
+.Evaluating Authorization: Workflow
 
-* OpenShift evaluates authorizations using the following steps:
+* Steps OpenShift Enterprise uses to evaluate authorization:
 
-. The identity and the project-scoped action is used to find all bindings that
-apply to the user or their groups.
-. Bindings are used to locate all the roles that apply.
-. Roles are used to find all the rules that apply.
-. The action is checked against each rule to find a match.
-. If no matching rule is found, the action is then denied by default.
+. Use identity and project-scoped action to find all bindings applicable to user/groups
+. Use bindings to locate applicable roles
+. Use roles to find applicable rules
+. Check action against each rule to find match
+** If no matching rule found, action denied by default
 
 ifdef::showscript[]
 === Transcript
-* OpenShift evaluates authorizations using the following steps:
+* OpenShift Enterprise evaluates authorization using the following steps:
 
-. The identity and the project-scoped action is used to find all bindings that
-apply to the user or their groups.
-. Bindings are used to locate all the roles that apply.
-. Roles are used to find all the rules that apply.
-. The action is checked against each rule to find a match.
-. If no matching rule is found, the action is then denied by default.
+. OpenShift Enterprise uses the identity and the project-scoped action to find all bindings that apply to the user or the user's groups.
+. It then uses bindings to locate all the roles that apply.
+. Next it uses roles to find all the rules that apply.
+. Finally, it checks the action against each rule to find a match.
+** If it does not find a matching rule, the action is denied by default.
 
 endif::showscript[]
+
 

@@ -1,0 +1,24 @@
+== Security Context Constraints (SCCs)
+:noaudio:
+
+.Admission: Approach
+
+* Admission's approach to creating final security context for pod:
+** Retrieve SCCs available for use
+** Generate field values for any security context setting not specified on request
+** Validate final settings against available constraints
+
+* If matching set of constraints found, pod is accepted
+* If request cannot be matched to SCC, pod is rejected
+
+ifdef::showscript[]
+=== Transcript
+* _Admission_ uses the following approach to create the final security context for the pod:
+First, retrieve all SCCs available for use.
+Next, generate field values for any security context setting that was not specified on the request.
+Finally, validate the final settings against the available constraints.
+
+If a matching set of constraints is found, then the pod is accepted. If the request cannot be matched to an SCC, the pod is rejected.
+
+endif::showscript[]
+

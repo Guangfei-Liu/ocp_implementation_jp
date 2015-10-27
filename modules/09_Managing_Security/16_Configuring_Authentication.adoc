@@ -1,21 +1,21 @@
 == Configuring Authentication
 :noaudio:
 
-.Identity Providers - HTPasswd Continued
+.Identity Providers: `htpasswd` Commands
 
-* To create the file, run:
+* To create file:
 +
 ----
 $ htpasswd -c </path/to/users.htpasswd> <user_name>
 ----
 
-* To add or update a login to the file, run:
+* To add or update login to file:
 +
 ----
 $ htpasswd </path/to/users.htpasswd> <user_name>
 ----
 
-* To remove a login from the file, run:
+* To remove login from file:
 +
 ----
 $ htpasswd </path/to/users.htpasswd> -D <user_name>
@@ -25,8 +25,7 @@ $ htpasswd </path/to/users.htpasswd> -D <user_name>
 
 ifdef::showscript[]
 === Transcript
-You can use the following commands to create the password file and create/remove
-user logins.
+You can use the commands shown here to create the password file and create or remove user logins.
 
 endif::showscript[]
 

@@ -1,13 +1,12 @@
 == Configuring Authentication
 :noaudio:
 
-.Identity Providers - Allow All
+.Identity Providers: Allow All
 
-* Set _AllowAllPasswordIdentityProvider_ in the `*identityProviders*` stanza to
-allow any non-empty user name and password to log in. This is the default
-identity provider when running OpenShift without a _master configuration file_.
+* Set `AllowAllPasswordIdentityProvider` in `identityProviders` stanza to allow any non-empty username/password to log in
+* Default identity provider when running OpenShift Enterprise without _master configuration file_
 
-* Master Configuration Using *AllowAllPasswordIdentityProvider*:
+* Master configuration using `AllowAllPasswordIdentityProvider`:
 +
 [source,yaml]
 ----
@@ -21,17 +20,22 @@ oauthConfig:
       apiVersion: v1
       kind: AllowAllPasswordIdentityProvider
 ----
-<1> This provider name is prefixed to provider user names to form an identity
-name.
-<2> When *true*, unauthenticated token requests from non-web clients (like
-the CLI) are sent a `WWW-Authenticate` challenge header for this provider.
-<3> When *true*, unauthenticated token requests from web clients (like the web
-console) are redirected to a login page backed by this provider.
-
 
 ifdef::showscript[]
 === Transcript
-The "Allow All" identity provider is the default identity provider when running
-OpenShift without a _master configuration file_.
+
+You can set `AllowAllPasswordIdentityProvider` in the `identityProviders` stanza to allow any non-empty username/password to log in.
+
+The _Allow All_ identity provider is the default identity provider when running
+OpenShift Enterprise without a _master configuration file_.
+
+The example here shows the master configuration using `AllowAllPasswordIdentityProvider`. Note the following:
+
+. This provider name is prefixed to provider usernames to form an identity name.
+. When `true`, unauthenticated token requests from non-web clients (like the CLI) are sent a `WWW-Authenticate` challenge header for this provider.
+. When `true`, unauthenticated token requests from web clients (like the web console) are redirected to a login page backed by this provider.
+
+
 endif::showscript[]
+
 

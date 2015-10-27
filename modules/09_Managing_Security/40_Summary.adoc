@@ -5,18 +5,11 @@
 * Configuring Authentication
 * Authorization
 * Security Context Constraints
-* Managing Security Context Constraints
-* Summary
-* Lab : Managing Authentication
-* Lab : Manage Security Constraints
-
+* Managing SCCs
 
 ifdef::showscript[]
 === Transcript
-In this Module we learned about the different Authentication providors that 
-OpenShift 3.0 can support, we learned how to configure httpasswd authentication
-and how the Authorization mechanism operates.
+This module described the different authentication providers that OpenShift Enterprise 3 supports. It showed how to configure `htpasswd` authentication and how the authorization mechanism operates.
 
-We covered SCCs and how they effect capabilities of Users and Pods, finally we
-reviewed common SCC management tasks.
+It also covered SCCs and how they effect capabilities of users and pods, and reviewed common SCC management tasks.
 endif::showscript[]

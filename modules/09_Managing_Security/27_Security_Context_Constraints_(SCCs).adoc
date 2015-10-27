@@ -1,0 +1,42 @@
+== Security Context Constraints (SCCs)
+:noaudio:
+
+.Privileged and Restricted SCCs
+
+* Two SCCs added to cluster by default: _privileged_ and _restricted_
+* Cluster administrator can use CLI to view:
++
+----
+$ oc get scc
+NAME         PRIV      CAPS      HOSTDIR   SELINUX     RUNASUSER
+privileged   true      []        true      RunAsAny    RunAsAny
+restricted   false     []        false     MustRunAs   MustRunAsRange
+
+----
+
+* The privileged SCC:
+** Allows privileged pods
+** Lets host directories be mounted as volumes
+** Lets pod run as any user
+** Lets pod run with any MCS label
+
+* The restricted SCC:
+** Ensures pods cannot run as privileged
+** Ensures pods cannot use host directory volumes
+** Requires pod to run as user in preallocated range of UIDs
+** Requires pod to run with preallocated MCS label
+
+
+ifdef::showscript[]
+=== Transcript
+Two SCCs are added to the cluster by default: _privileged_ and _restricted_.
+
+Cluster administrators can view the SCCs using the CLI.
+
+The privileged SCC allows privileged pods, allows host directories to be mounted as volumes, and allows a pod to run as any user and with any MCS label.
+
+
+The restricted SCC ensures pods cannot run as privileged or host directory volumes, and requires that a pod runs as a user in a preallocated range of UIDs and with a pre-allocated MCS label.
+
+endif::showscript[]
+

@@ -1,29 +1,26 @@
 == Authorization
 :noaudio:
 
-.Overview - Continued
+.Managing Authorization
 
-* Authorization is managed using:
+* Manage authorization using:
 
-[cols="1,7"]
+[.noredheader, cols="1,7"]
 |===
-
-|*Rules* |Sets of permitted _verbs_ on a set of _objects_.
-For example, whether something can
-`create` [verb] `pods` [object].
-|*Roles* |Collections of rules. _Users and groups_ can be associated
-with, or _bound_ to, multiple _roles_ at the same time.
-|*Bindings* |Associations between users and/or groups with a _role_
+|*Rules* a|* Sets of permitted _verbs_ on a set of _objects_
+*  Example: Whether something can `create` [verb] `pods` [object]
+|*Roles* a|* Collections of rules
+* _Users and groups_ can be associated with, or _bound_ to, multiple _roles_ at same time
+|*Bindings* |Associations between users/groups with _role_
 |===
 
 ifdef::showscript[]
 === Transcript
-Authorization is managed using Rules, Roles and Bindings.
-* *rules* are sets of permitted verbs on a set of objects. For example, whether
-something can create [verb] pods [object].
-* *Roles* are collections of *rules*. Users and groups can be associated with,
-or bound to, multiple roles at the same time.
-* *Bindings* are associations between users and/or groups with a role.
+You manage authorization using rules, roles, and bindings.
+
+*Rules* are sets of permitted verbs on a set of objects--for example, whether something can create [verb] pods [object].
+*Roles* are collections of *rules*. Users and groups can be associated with, or bound to, multiple roles at the same time.
+*Bindings* are associations between users and/or groups with a role.
 
 endif::showscript[]
 

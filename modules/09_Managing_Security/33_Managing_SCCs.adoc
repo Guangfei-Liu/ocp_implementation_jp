@@ -1,9 +1,9 @@
-== Managing Security Context Constraints
+== Managing SCCs
 :noaudio:
 
-.Listing Security Context Constraints
+.Listing SCCs
 
-* To get a current list of SCCs:
+* To get current list of SCCs:
 +
 ----
 $ oc get scc
@@ -14,6 +14,6 @@ restricted   false     []        false     MustRunAs   MustRunAsRange
 
 ifdef::showscript[]
 === Transcript
- To get a current list of SCCs, use the *oc get scc* command.
+To get a current list of SCCs, use the `oc get scc` command.
 endif::showscript[]
 

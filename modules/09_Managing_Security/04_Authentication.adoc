@@ -4,27 +4,31 @@
 .Users and Groups
 
 
-* A _user_ in OpenShift is an entity that can make requests to the OpenShift API.
-Typically, this represents the account of a developer or administrator that is
-interacting with OpenShift.
+* OpenShift Enterprise _user_:
+** Can make requests to OpenShift Enterprise API
+** Typically represents account of developer or administrator interacting with OpenShift Enterprise
 
-* A user can be assigned to one or more _groups_, each of which represent a
-certain set of users.
-* Groups are useful when
-link:https://docs.openshift.com/enterprise/3.0/admin_guide/manage_authorization_policy.html[managing authorization
-policies] to grant permissions to multiple users at once, for example allowing
-access to link:https://docs.openshift.com/enterprise/3.0/architecture/core_concepts/overview.html[objects] within a
-link:https://docs.openshift.com/enterprise/3.0/architecture/core_concepts/projects_and_users.html#projects[project], versus granting
-them to users individually.
+* Can assign user to one or more _groups_
+** Represent set of users
+** Use to manage authorization policies to grant permissions to multiple users at once
+** Example: Allow access to objects in project
+
+* Learn more:
+** Managing authorization policies: 
+https://docs.openshift.com/enterprise/3.0/admin_guide/manage_authorization_policy.html
+** Objects: https://docs.openshift.com/enterprise/3.0/architecture/core_concepts/overview.html
+** Projects: https://docs.openshift.com/enterprise/3.0/architecture/core_concepts/projects_and_users.html#projects
 
 
 ifdef::showscript[]
 === Transcript
-* A _user_ in OpenShift is an entity that can make requests to the OpenShift API.
-Typically, this represents the account of a developer or administrator that is
-interacting with OpenShift.
+A _user_ in OpenShift Enterprise is an entity that can make requests to the OpenShift Enterprise API. Typically, this represents a developer or administrator account that is interacting with OpenShift Enterprise.
 
-* A user can be assigned to one or more _groups_, each of which represent a
-certain set of users.
+You can assign a user to one or more _groups_. Each group represents a certain set of users.
+
+Groups are useful when you are managing authorization policies to grant permissions to multiple users at once--for example, allowing access to objects within a project--versus granting permissions to users individually.
+
+Learn more at the links shown here.
+
 endif::showscript[]
 

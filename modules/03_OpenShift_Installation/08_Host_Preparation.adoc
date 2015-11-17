@@ -1,5 +1,5 @@
 == Host Preparation
-
+:noaudio:
 
 .Overview
 
@@ -37,4 +37,3 @@ If you want to create a scalable environment, you should create an image templat
 
 
 endif::showscript[]
-

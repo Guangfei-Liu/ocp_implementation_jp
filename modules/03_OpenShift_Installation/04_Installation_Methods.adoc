@@ -1,5 +1,5 @@
 == Installation Methods
-
+:noaudio:
 
 .Quick Install
 ** Lets you use interactive CLI utility to install OpenShift across set of hosts
@@ -27,4 +27,3 @@ This module focuses on the Quick Install method.
 Note that the Quick Install method uses Ansible in the background of the interactive CLI utility.
 
 endif::showscript[]
-

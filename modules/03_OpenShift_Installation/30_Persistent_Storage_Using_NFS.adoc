@@ -1,5 +1,5 @@
 == Persistent Storage Using NFS
-
+:noaudio:
 
 .Disk Quota Enforcement
 
@@ -26,4 +26,3 @@ Using unique names enforces for persistent volumes. However, the administrator d
 Enforcing quotas this way lets a user request a specific amount of persistent storage--for example, 10GB--and be matched with a corresponding volume of equal or greater capacity.
 
 endif::showscript[]
-

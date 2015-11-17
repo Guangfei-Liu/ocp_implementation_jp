@@ -1,5 +1,5 @@
 == Registry Deployment
-
+:noaudio:
 
 .NFS Storage for the Registry
 
@@ -9,7 +9,7 @@
 ** Destroyed if pod exits
 *** Images built or pushed into registry disappear
 * For production:
-** Use persistent storage 
+** Use persistent storage
 ** Use `PersistentVolume` and `PersistentVolumeClaim` objects for storage for registry
 * For non-production:
 ** Other options exist
@@ -38,4 +38,3 @@ For non-production use, other options exist to provide persistent storage, such 
 The `--mount-host` option mounts a directory from the node on which the registry container lives. If you scale up the `docker-registry` deployment configuration, it is possible that your registry pods and containers will run on different nodes.
 
 endif::showscript[]
-

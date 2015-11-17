@@ -1,5 +1,5 @@
 == OpenShift Enterprise Population
-
+:noaudio:
 
 * Can populate OpenShift Enterprise installation with Red Hat-provided _image streams_ and _templates_
 ** Make it easy to create new applications
@@ -19,4 +19,3 @@ A _template_ describes a set of resources intended to be used together that you 
 An _image stream_ is similar to a Docker image repository in that it contains one or more Docker images identified by tags. An image stream presents a single virtual view of related images.
 
 endif::showscript[]
-

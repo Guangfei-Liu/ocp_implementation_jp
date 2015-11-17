@@ -1,5 +1,5 @@
 == Persistent Storage Using NFS
-
+:noaudio:
 
 .SELinux and NFS Export Settings
 
@@ -13,7 +13,7 @@
 
 * Each exported volume on NFS server should conform to
 the following:
-** Set each export option in `/etc/exports` as folows: 
+** Set each export option in `/etc/exports` as folows:
 +
 ----
 /example_fs *(rw,all_squash)
@@ -40,4 +40,3 @@ To configure SElinux to let the nodes use NFS in the way required for OpenShift 
 In addition, configure each exported volume on the NFS server itself so that each export option is set as shown here in the `/etc/exports` file, and each export is owned by `nfsnobody` and has the permissions shown here.
 
 endif::showscript[]
-

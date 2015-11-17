@@ -1,5 +1,5 @@
 == Persistent Storage Using NFS
-
+:noaudio:
 
 .Resource Reclamation
 * OpenShift Enterprise implements Kubernetes `Recyclable` plug-in interface
@@ -25,4 +25,3 @@ By default, persistent volumes are set to `Retain`. In this case, volumes are no
 NFS volumes set to `Recycle` are scrubbed--that is, `rm -rf` is run on the volume--after being released from their claim. After you recycle an NFS volume, you can bind it to a new claim.
 
 endif::showscript[]
-

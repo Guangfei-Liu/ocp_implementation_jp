@@ -1,5 +1,5 @@
 == OpenShift Enterprise Installation
-
+:noaudio:
 
 * Access quick installer from:
 https://install.openshift.com
@@ -37,7 +37,3 @@ For stability's sake, and if you intend to add more nodes in the future, conside
 
 
 endif::showscript[]
-
-
-
-

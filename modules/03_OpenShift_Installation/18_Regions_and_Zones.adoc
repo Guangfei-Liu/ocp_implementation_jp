@@ -1,5 +1,5 @@
 == Regions and Zones
-
+:noaudio:
 
 * After installation, need to label nodes
 ** Lets scheduler use _logic_ defined in `scheduler.json` when provisioning pods
@@ -30,7 +30,7 @@ OpenShift Enterprise 2.0 introduced the specific concepts of _regions_ and _zone
 
 OpenShift Enterprise 3.0 is not based on your topology. It is _topology-agnostic_. OpenShift Enterprise 3.0 provides advanced controls for implementing whatever topologies you create.
 
-The example shown here uses the concept the _regions_ and _zones_. 
+The example shown here uses the concept the _regions_ and _zones_.
 
 Other options you can use include _Prod_ and _Dev_,
 _Secure_ and _Insecure_, or _Rack and Power_.
@@ -38,5 +38,3 @@ _Secure_ and _Insecure_, or _Rack and Power_.
 The labels on the nodes handle the assignments of _regions_ and _zones_ at the node level.
 
 endif::showscript[]
-
-

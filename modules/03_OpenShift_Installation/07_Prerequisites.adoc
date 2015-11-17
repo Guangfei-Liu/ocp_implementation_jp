@@ -1,5 +1,5 @@
 == Prerequisites
-
+:noaudio:
 
 .DNS Setup
 
@@ -32,5 +32,3 @@ The wildcard for a DNS zone must resolve ultimately to the IP address of the Ope
 For example, you can use the code shown here to create a wildcard DNS entry for `cloudapps` in your DNS Server, or something similar. The entry has a low TTL and points to the public IP address of the host where the router will be deployed.
 
 endif::showscript[]
-
-

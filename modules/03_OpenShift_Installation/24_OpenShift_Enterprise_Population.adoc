@@ -1,5 +1,5 @@
 == OpenShift Enterprise Population
-
+:noaudio:
 
 * Core set of image streams define images you can use to build applications:
 ** Node.js
@@ -8,7 +8,7 @@
 ** Python
 ** Ruby
 
-* Defines images for databases: 
+* Defines images for databases:
 ** MongoDB
 ** MySQL
 ** PostgreSQL
@@ -30,4 +30,3 @@ The core set of image streams define images that can be used to build Node.js, P
 Use the code shown here to create the core set of image streams that use the Red Hat Enterprise Linux 7-based images.
 
 endif::showscript[]
-

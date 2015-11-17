@@ -1,5 +1,5 @@
 == Docker Installation
-
+:noaudio:
 
 .Docker Storage Configuration
 
@@ -23,6 +23,3 @@ You can use the `docker-storage-setup` script to create a thin-pool device and c
 The script reads configuration options from the `/etc/sysconfig/docker-storage-setup` file.
 
 endif::showscript[]
-
-
-

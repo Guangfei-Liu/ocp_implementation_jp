@@ -1,9 +1,9 @@
 == Host Preparation
-
+:noaudio:
 
 .Firewalls: Component Communication
 
-* OpenShift Enterprise relies on `iptables` 
+* OpenShift Enterprise relies on `iptables`
 * Must be running, and following ports must be open
 * Allows communication between components
 
@@ -29,11 +29,9 @@ ifdef::showscript[]
 === Transcript
 
 OpenShift Enterprise relies heavily on `iptables` in the background. So `iptables` must be running, and various ports must be open to allow communication between OpenShift Enterprise components.
- 
+
 This table shows the ports you need to open. Note that port `4789` must be accessible on any host in the cluster, because it is required for the SDN overlay.
 
 Also note that the master is running a local DNS server. Do not confuse this server with the DNS server that holds the wildcard DNS entry. This is a DNS server (`SkyDNS`) used to resolve local resources--for example, each _service_ you define in OpenShift Enterprise has a `dns` entry that you can resolve locally.
 
 endif::showscript[]
-
-

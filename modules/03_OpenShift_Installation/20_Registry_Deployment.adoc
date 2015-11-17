@@ -1,9 +1,9 @@
 == Registry Deployment
-
+:noaudio:
 
 .Deploying Registry
 
-* Environment includes `infra` region and dedicated 
+* Environment includes `infra` region and dedicated
 `infranode00` host
 ** Good practice for highly scalable environment
 ** Use better-performing servers for nodes or place them in DMZ for external access only
@@ -36,5 +36,3 @@ To deploy a registry anywhere in the environment, run the first command shown he
 To ensure that the `registry` pod is hosted only in the `infra` region, run the second command shown here with the `--selector` option added.
 
 endif::showscript[]
-
-

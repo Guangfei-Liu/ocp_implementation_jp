@@ -1,5 +1,5 @@
 == Docker Installation
-
+:noaudio:
 
 .Storage Options: Example
 
@@ -15,7 +15,7 @@ SETUP_LVM_THIN_POOL=yes
 ----
 
 * Verify configuration:
-** Should have `dm.thinpooldev` value in 
+** Should have `dm.thinpooldev` value in
 `/etc/sysconfig/docker-storage` and `docker-pool` device
 +
 ----
@@ -42,6 +42,3 @@ To verify that the volume is created and configured, use the `lvs` command and v
 After you verify the setup, restart the `Docker` daemon.
 
 endif::showscript[]
-
-
-

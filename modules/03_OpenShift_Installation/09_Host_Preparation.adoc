@@ -1,5 +1,5 @@
 == Host Preparation
-
+:noaudio:
 
 .Password-Less Communication
 
@@ -30,4 +30,3 @@ To achieve this, you generate a key and copy it to the root user's ID on each me
 An easy way to distribute your SSH keys is by using a bash loop.
 
 endif::showscript[]
-

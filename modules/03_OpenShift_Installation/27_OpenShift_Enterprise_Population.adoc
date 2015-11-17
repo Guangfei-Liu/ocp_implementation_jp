@@ -1,5 +1,5 @@
 == OpenShift Enterprise Population
-
+:noaudio:
 
 .QuickStart Templates
 
@@ -21,14 +21,13 @@ $ oc create -f \
 ifdef::showscript[]
 
 === Transcript
-The QuickStart templates define a full set of objects for a running application. This includes the following: 
- 
+The QuickStart templates define a full set of objects for a running application. This includes the following:
+
 * Build configurations, to build the application from source located in a GitHub public repository.
 * Deployment configurations, to deploy the application image after it is built.
 * Services, to provide internal load balancing for the application pods.
 * Routes, to provide external access and load balancing to the application.
- 
+
 Use the code shown here to create the core QuickStart templates.
 
 endif::showscript[]
-

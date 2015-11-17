@@ -1,5 +1,5 @@
 == Deployments
-:noaudio:
+
 
 .Deployments and Deployment Configurations
 
@@ -33,11 +33,9 @@ The OpenShift Enterprise `DeploymentConfig` object defines the following details
 
 Each time a deployment is triggered, whether manually or automatically, a
  deployer pod manages the deployment, including scaling down the old replication
-  controller, scaling up the new one, and running hooks. The deployment pod
-   remains for an indefinite amount of time after it completes the deployment
-    in order to retain its logs of the deployment.
+  controller, scaling up the new one, and running hooks.
 
 When a deployment is superseded by another, the previous replication controller
- is retained to enable easy rollback if needed.
+ is retained and set to "relica=0" to enable easy rollback if needed.
 
 endif::showscript[]

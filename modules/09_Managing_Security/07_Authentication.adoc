@@ -1,5 +1,5 @@
 == Authentication
-:noaudio:
+
 
 .OAuth
 * OpenShift Enterprise master includes built-in OAuth server

@@ -1,5 +1,5 @@
 == Persistent Volumes
-:noaudio:
+
 
 .Claims as Volumes in Pods
 
@@ -49,7 +49,8 @@ ifdef::showscript[]
 
 A pod uses a `PersistentVolumeClaim` as a volume.
 
-OpenShift Enterprise finds the claim with the given name in the same namespace as the pod, then uses the claim to find the corresponding volume to mount.
+OpenShift Enterprise finds the claim in the same namespace
+ as the pod, then uses the claim to find the corresponding volume to mount.
 
 The example here shows a pod definition with a claim.
 

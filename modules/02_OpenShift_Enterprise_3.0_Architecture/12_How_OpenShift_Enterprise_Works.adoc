@@ -1,5 +1,5 @@
 == How OpenShift Enterprise Works
-:noaudio:
+
 
 //This section would be a candidate for Bob to do an animation with the various layers moving out as they're explained.
 

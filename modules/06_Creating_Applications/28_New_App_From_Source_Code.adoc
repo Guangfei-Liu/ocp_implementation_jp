@@ -1,5 +1,5 @@
 == New App From Source Code
-:noaudio:
+
 
 .Language Detection
 
@@ -29,7 +29,7 @@ ifdef::showscript[]
 
 === Transcript
 When creating a `source` build, `new-app` tries to determine the language
- builder to use based on the presence of certain files in the root of the
+ to use based on the presence of certain files in the root of the
   repository; for example, if a file called `Gemfile` is present in the
    repository, `new-app` determines that the language is Ruby.
 

@@ -1,5 +1,5 @@
 == Pods and Services
-:noaudio:
+
 
 .Services
 
@@ -24,7 +24,7 @@ A Kubernetes _service_ serves as an internal load-balancer. It identifies a set
 
 You can add or remove backing pods to or from a service arbitrarily while the
  service remains consistently available. This lets anything that depends on the
-  service refer to it at a consistent internal address.
+  service refer to it at a consistent Interal IP address.
 
 You assign services an IP address and port pair that, when accessed, proxy to
  an appropriate backing pod.

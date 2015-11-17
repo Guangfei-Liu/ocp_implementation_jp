@@ -1,5 +1,5 @@
 == Course Goals
-:noaudio:
+
 * Review OpenShift Enterprise by Red Hat version 3.0 architecture
 * Describe/review OpenShift Enterprise 3.0 components
 * Describe OpenShift Enterprise installation and configuration process

@@ -1,5 +1,5 @@
 == How OpenShift Enterprise Works
-:noaudio:
+
 
 * *Containers*: Run languages/framework, middleware, database, and other runtimes
 * *Pods*: Define one or more containers colocated on same host

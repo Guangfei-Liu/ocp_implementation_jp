@@ -1,5 +1,5 @@
 == Strategies
-:noaudio:
+
 
 .`Rolling` Strategy
 
@@ -26,8 +26,9 @@ ifdef::showscript[]
 The `Rolling` strategy performs a rolling update and supports lifecycle hooks
  for injecting code into the deployment process.
 
-In the example, `timeoutSeconds` is optional. The default value is 120. `pre`
- and `post` are lifecycle hooks.
+In the example, `timeoutSeconds` is optional. The default value is 120.
 
+ `pre`  and `post` are lifecycle hooks that happen before or after the
+ deployment
 
 endif::showscript[]

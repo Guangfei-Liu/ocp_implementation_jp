@@ -1,9 +1,10 @@
 == New App From Template
-:noaudio:
+
 
 .Template Parameters
 
-* When creating application based on _template_, use `-p|--param` argument to set parameter values defined by template
+* When creating application based on _template_, use `-p|--param` argument to
+ set parameter values defined by template
 * To specify template parameters with template:
 +
 ----
@@ -18,9 +19,9 @@ NOTE: This topic is covered in depth in the next module.
 ifdef::showscript[]
 
 === Transcript
-When creating an application based on a _template_, use the `-p|--param` argument to set parameter values defined by the template.
+When creating an application based on a _template_, use the `-p|--param`
+ flag to set parameter values defined by the template.
 
 This topic is covered in depth in the next module.
 
 endif::showscript[]
-

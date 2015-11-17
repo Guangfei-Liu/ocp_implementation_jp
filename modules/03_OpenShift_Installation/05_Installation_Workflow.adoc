@@ -1,5 +1,5 @@
 == Installation Workflow
-:noaudio:
+
 
 * Prerequisites
 ** System requirements

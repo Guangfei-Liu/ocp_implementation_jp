@@ -1,5 +1,5 @@
 == Strategies
-:noaudio:
+
 
 .Overview
 
@@ -27,6 +27,6 @@ OpenShift Enterprise provides out-of-the-box strategies to support a variety of
  deployment scenarios.
 
 The `Rolling` strategy is the default strategy if a deployment configuration
- does not specify a strategy. 
+ does not specify a strategy.
 
 endif::showscript[]

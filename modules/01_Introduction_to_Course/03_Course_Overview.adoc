@@ -1,5 +1,5 @@
 == Course Overview
-:noaudio:
+
 * Module 01: Introduction to Course and Learning Environment
 * Module 02: OpenShift Enterprise 3.0 Architecture
 * Module 03: OpenShift Enterprise 3.0 Installation

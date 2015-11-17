@@ -1,5 +1,5 @@
 == Module Topics
-:noaudio:
+
 
 * Resource Types
 * OpenShift Enterprise Resources
@@ -17,11 +17,8 @@ ifdef::showscript[]
 
 Welcome to module five of the OpenShift Enterprise Implementation course.
 
-This module discusses various OpenShift Enterprise resources and how to use them to configure and manage your environment.
+This module discusses various OpenShift Enterprise resources and how to use them
+ to configure and manage your environment.
 
 
 endif::showscript[]
-
-
-
-

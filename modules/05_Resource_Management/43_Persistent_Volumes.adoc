@@ -1,5 +1,5 @@
 == Persistent Volumes
-:noaudio:
+
 
 .Volume and Claim Binding
 * `PersistentVolume`: Specific resource

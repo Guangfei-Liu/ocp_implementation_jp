@@ -1,5 +1,5 @@
 == Configuring Authentication
-:noaudio:
+
 
 .Identity Providers: Deny All
 
@@ -23,6 +23,13 @@ oauthConfig:
       kind: DenyAllPasswordIdentityProvider
 ----
 
+. This provider name is prefixed to provider usernames to form an identity name.
+. When `true`, unauthenticated token requests from non-web clients
+ (like the CLI) are sent a `WWW-Authenticate` challenge header for this provider.
+. When `true`, unauthenticated token requests from web clients (like the web
+   console) are redirected to a login page backed by this provider.
+
+
 ifdef::showscript[]
 === Transcript
 
@@ -33,13 +40,8 @@ The _Deny All_ identity provider is the default identity provider when running
  OpenShift Enterprise with a _master configuration file_.
 
 The example here shows the master configuration using
- `DenyAllPasswordIdentityProvider`. Note the following:
+ `DenyAllPasswordIdentityProvider`. 
 
-. This provider name is prefixed to provider usernames to form an identity name.
-. When `true`, unauthenticated token requests from non-web clients
- (like the CLI) are sent a `WWW-Authenticate` challenge header for this provider.
-. When `true`, unauthenticated token requests from web clients (like the web
-   console) are redirected to a login page backed by this provider.
 
 
 endif::showscript[]

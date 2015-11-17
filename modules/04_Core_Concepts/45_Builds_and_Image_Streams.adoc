@@ -1,5 +1,5 @@
 == Builds and Image Streams
-:noaudio:
+
 
 .Image Streams
 
@@ -25,16 +25,21 @@ ifdef::showscript[]
 
 === Transcript
 
-An _image stream_ is similar to a Docker image repository in that it contains one or more _Docker images_ identified by tags. An image stream presents a single virtual view of related images. The stream may contain images from any of the following:
+An _image stream_ is similar to a Docker image repository in that it contains
+ one or more _Docker images_ identified by tags. An image stream presents a
+  single virtual view of related images. The stream may contain images from any
+   of the following:
 
 * Its own image repository in OpenShift Enterprise's integrated Docker Registry
 * Other image streams
 * Docker image repositories from external registries
 
-OpenShift Enterprise stores complete metadata about each image--for example, command, entrypoint, environment variables, and so on. Images in OpenShift Enterprise are immutable.
+OpenShift Enterprise stores complete metadata about each image--for example,
+ command, entrypoint, environment variables, and so on. Images in OpenShift
+  Enterprise are immutable.
 
-OpenShift Enterprise components such as builds and deployments can watch an image stream, receive notifications when new images are added, and react by performing a build or a deployment, among other functions.
+OpenShift Enterprise components such as builds and deployments can watch an
+ image stream, receive notifications when new images are added, and react by
+  performing a build or a deployment, among other functions.
 
 endif::showscript[]
-
-

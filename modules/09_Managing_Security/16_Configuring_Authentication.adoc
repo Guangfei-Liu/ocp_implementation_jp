@@ -1,5 +1,5 @@
 == Configuring Authentication
-:noaudio:
+
 
 .Identity Providers: `htpasswd` Commands
 

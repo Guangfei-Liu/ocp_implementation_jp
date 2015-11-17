@@ -1,5 +1,5 @@
 == Configuring Authentication
-:noaudio:
+
 
 .Identity Providers
 
@@ -30,8 +30,6 @@ clients (i.e., CLI) sent `WWW-Authenticate` challenge header
 
 ifdef::showscript[]
 === Transcript
-To configure the master for authentication using your desired identity provider,
- you modify the _master configuration file_.
 
 Three parameters are common to all identity providers:
 
@@ -40,10 +38,7 @@ Three parameters are common to all identity providers:
 * When `challenge` is `true`, unauthenticated token requests from non-web
  clients such as the CLI are sent the `WWW-Authenticate` challenge header.
   Some identity providers do not support the `challenge` parameter.
-   To prevent cross-site request forgery (CSRF) attacks against browser clients,
-    Basic authentication challenges are sent only if the `X-CSRF-Token` header
-     is present on the request. Clients expecting to receive basic
-      `WWW-Authenticate` challenges should set the header to a non-empty value.
+
 * When `login` is `true`, unauthenticated token requests from web clients such
  as the web console are redirected to the login page backed by the provider.
   Some identity providers do not support the `login` parameter.

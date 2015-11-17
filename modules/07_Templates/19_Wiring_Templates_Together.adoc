@@ -1,5 +1,5 @@
 == Wiring Templates Together
-:noaudio:
+
 
 .Overview
 

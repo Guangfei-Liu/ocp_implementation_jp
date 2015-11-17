@@ -1,5 +1,5 @@
 == Source-to-Image
-:noaudio:
+
 
 .`BuildConfig` Triggers
 
@@ -15,10 +15,11 @@ ifdef::showscript[]
 
 === Transcript
 
-There are three trigger types of triggers.
+There are three types of triggers.
 
 * GitHub-specific webhooks specify the repository changes, such as a new commit,
  that invoke a new build. This trigger is specific to the GitHub API.
+
 * The second type is a generic webhook. This trigger is similar to a GitHub
  webhook in that it invokes a new build whenever it receives a notification.
 

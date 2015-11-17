@@ -1,23 +1,27 @@
 == Replication Controllers
-:noaudio:
+
 
 .Replication Controllers Overview
 
-* Replication controller ensures specified number of pod replicas running at all times
+* Replication controller ensures specified number of pod replicas running at all
+ times
 * If pods exit or are deleted, replication controller instantiates more
-* If more pods running than desired, replication controller deletes as many as necessary
+* If more pods running than desired, replication controller deletes as many as
+ necessary
 
 
 ifdef::showscript[]
 
 === Transcript
 
-The job of a replication controller is to ensure that a specified number of replicas of a pod are running at all times.
+The job of a replication controller is to ensure that a specified number of
+ replicas of a pod are running at all times.
 
-If pods exit or are deleted, the replication controller acts to instantiate more pods up to the desired number.
+If pods exit or are deleted, the replication controller acts to instantiate more
+ pods up to the desired number.
 
-By the same token, if there are more pods running than desired, the replication controller deletes as many pods as necessary to match the specified number.
+If there are more pods running than desired, the replication
+ controller deletes as many pods as necessary to match the specified number.
 
 
 endif::showscript[]
-

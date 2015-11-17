@@ -1,5 +1,5 @@
 == Containerization Standards
-:noaudio:
+
 
 .Registry and Container Discovery
 * Finds and consumes trusted container images

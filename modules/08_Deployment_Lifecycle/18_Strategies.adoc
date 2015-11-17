@@ -1,5 +1,5 @@
 == Strategies
-:noaudio:
+
 
 * `Recreate` strategy:
 ** Executes `pre` lifecycle hooks

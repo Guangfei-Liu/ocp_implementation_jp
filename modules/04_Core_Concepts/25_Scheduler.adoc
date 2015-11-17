@@ -1,9 +1,9 @@
 == Scheduler
-:noaudio:
+
 
 .Available Predicates
 
-* Kubernetes provides predicates out of the box
+* OpenShift Enterprise 3 provides predicates out of the box
 * Can customize by by providing parameters
 * Can combine to provide additional node filtering
 
@@ -13,12 +13,13 @@ ifdef::showscript[]
 
 === Transcript
 
-Kubernetes provides several predicates out of the box.
+OpenShift Enterprise 3 provides several predicates out of the box.
 
-You can customize some of these predicates by providing certain parameters. You also can combine multiple predicates to provide additional filtering of nodes.
+You can customize some of these predicates by providing certain parameters.
+ You also can combine multiple predicates to provide additional filtering of
+  nodes.
 
-There are two kinds of predicates, _static_ and _configurable_. The next few slides discuss them.
+There are two kinds of predicates, _static_ and _configurable_. The next few
+ slides discuss them.
 
 endif::showscript[]
-
-

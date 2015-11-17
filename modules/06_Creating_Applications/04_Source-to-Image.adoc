@@ -1,30 +1,36 @@
 == Source-to-Image
-:noaudio:
+
 
 .What Is S2I?
 
 * Tool for building reproducible Docker images
 
-* Produces ready-to-run images by injecting user source into Docker image and assembling new Docker image
+* Produces ready-to-run images by injecting user source into Docker image and
+ assembling new Docker image
 
 ** New image incorporates base image (_builder image_) and built source
-*** Ready to use within OpenShift Enterprise or other platforms (e.g., Atomic Host)
+*** Ready to use within OpenShift Enterprise or other platforms (e.g., Atomic
+   Host)
 
-* Supports incremental builds
-** Reuses previous dependencies, built artifacts, etc.
 
 
 ifdef::showscript[]
 
 === Transcript
 
-An S2I, or Source-to-Image, build is a process in which a developer points to a code repository in a supported framework and selects a _builder_ image that contains the operating system and framework to support the code.
+An S2I, or Source-to-Image, build is a process in which a developer points to a
+ code repository in a supported framework and selects a _builder_ image that
+  contains the operating system and framework to support the code.
 
-To start an S2I build, your code must reside in a supported code repository, and you need a base, or builder, image--for example, `ruby-20-rhel7`--on top of which to start building. These base images are available in OpenShift Enterprise--you do not need to create them yourself.
+To start an S2I build, your code must reside in a supported code repository, and
+ you need a base, or builder, image--for example, `ruby-20-rhel7`--on top of
+  which to start building. These base images are available in OpenShift
+   Enterprise--you do not need to create them yourself.
 
-S2I supports incremental builds and reuses previous dependencies, built artifacts, and so on.
 
 
 endif::showscript[]
-
-
+// ISSUE: Removed until 3.1
+//   * Supports incremental builds
+//   ** Reuses previous dependencies, built artifacts, etc.
+//S2I supports incremental builds and reuses previous dependencies, built artifacts, and so on.

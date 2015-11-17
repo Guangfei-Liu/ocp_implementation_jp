@@ -1,5 +1,5 @@
 == Routes
-:noaudio:
+
 
 .Secured TLS Termination Types: Re-encryption Termination
 
@@ -13,9 +13,11 @@ ifdef::showscript[]
 
 === Transcript
 
-_Re-encryption_ is a variation on edge termination in which the router terminates TLS with a certificate, then re-encrypts its connection to the endpoint, which may have a different certificate.
+_Re-encryption_ is a variation on edge termination in which the router
+ terminates TLS with a certificate, then re-encrypts its connection to the
+  endpoint, which may have a different certificate.
 
-Thus the full path of the connection is encrypted, even over the internal network.
+Thus the full path of the connection is encrypted, even over the internal
+ network.
 
 endif::showscript[]
-

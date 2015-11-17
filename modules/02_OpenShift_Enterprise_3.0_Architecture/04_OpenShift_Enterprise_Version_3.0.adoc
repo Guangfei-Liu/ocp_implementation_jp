@@ -1,5 +1,5 @@
 == OpenShift Enterprise Version 3.0
-:noaudio:
+
 
 
 [.noredheader,cols="<,^"]

@@ -1,5 +1,5 @@
 == Projects and Users
-:noaudio:
+
 
 .Users and User Types
 
@@ -25,7 +25,7 @@ a|.System Users
 ** Anonymous system user
 *** Used by default for
 unauthenticated requests
-*** Examples: `system:admin`, `system:openshift-registry`, `system:node:node1.example.com`
+*** Examples: `system:admin`,`system:node:node1.example.com`
 |===================================================================
 
 ifdef::showscript[]
@@ -34,17 +34,25 @@ ifdef::showscript[]
 
 Interaction with OpenShift Enterprise is associated with a _user_.
 
-An OpenShift Enterprise user object represents an _actor_. You can grant permissions to actors in the system by adding roles to them or to their groups.
+An OpenShift Enterprise user object represents an _actor_. You can grant
+ permissions to actors in the system by adding roles to them or to their groups.
 
 Among the user types that can exist are regular users and system users.
 
-Regular users are how most interactive OpenShift Enterprise users are represented. Regular users are created automatically in the system upon first login, or you can create them via the API. Regular users are represented with the `User` object.
+Regular users are how most interactive OpenShift Enterprise users are
+ represented. Regular users are created automatically in the system upon first
+  login, or you can create them via the API. Regular users are represented with
+   the `User` object.
 
-Most system users are created automatically when the infrastructure is defined, mainly for the purpose of enabling the infrastructure to interact with the API securely.
+Most system users are created automatically when the infrastructure is defined,
+ mainly for the purpose of enabling the infrastructure to interact with the API
+  securely.
 
-System users include a cluster administrator, who has access to everything; a per-node user; users for use by routers and registries; and various others.
+System users include a cluster administrator, who has access to everything;
+ a per-node user; service accounts for use by routers and registries;
+  and various others.
 
-There is also an anonymous system user that is used by default for unauthenticated requests. Examples include `system:admin`, `system:openshift-registry`, and `system:node:node1.example.com`.
-
+There is also an anonymous system user that is used by default for
+ unauthenticated requests.
+ 
 endif::showscript[]
-

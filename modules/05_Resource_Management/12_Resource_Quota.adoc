@@ -1,5 +1,5 @@
 == Resource Quota
-:noaudio:
+
 
 .What Is `ResourceQuota`?
 * OpenShift Enterprise can limit:
@@ -30,7 +30,7 @@ This lets several teams, each with its own project, share a single OpenShift
 A `ResourceQuota` object enumerates hard resource usage limits _per project_.
  It can limit the total number of a particular type of object that may be
   created in a project, as well as the total amount of compute resources that
-   resources may consume in that project.
+   can be consumed in that project.
 
 
 endif::showscript[]

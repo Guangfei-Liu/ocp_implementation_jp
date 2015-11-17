@@ -1,6 +1,6 @@
 == How Does a Docker Image Work?
 
-:noaudio:
+
 
 * Containers launched from read-only templates
 * Image consists of series of layers
@@ -19,13 +19,14 @@ Each image consists of a series of layers.
 Docker uses union file systems to combine these layers into a single
 image.
 
-Union file systems let you transparently overlay files and directories of separate file systems,
+Union file systems let you transparently overlay files and directories of
+ separate file systems,
 known as branches, to form a single coherent file
 system.
 
 When you change a Docker image--for example, you update an application to a
-new version--a new layer gets built. You only need to distribute the update, not a whole new image.
+new version--a new layer gets built. You only need to distribute the update, not
+ a whole new image.
 
 
 endif::showscript[]
-

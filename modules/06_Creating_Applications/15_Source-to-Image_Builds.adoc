@@ -1,5 +1,5 @@
 == Source-to-Image Builds
-:noaudio:
+
 
 .JSON Build File
 
@@ -180,7 +180,8 @@ ifdef::showscript[]
 
 === Transcript
 
-This is a generated JSON build file. It contains some familiar items and some new ones--specifically, `BuildConfig` and `ImageRepository`. Upcoming slides cover each section of the file.
+This is a generated JSON build file. It contains some familiar items and some
+ new ones--specifically, `BuildConfig` and `ImageRepository`. Upcoming slides
+  cover each section of the file.
 
 endif::showscript[]
-

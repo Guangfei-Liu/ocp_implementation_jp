@@ -1,5 +1,5 @@
 == Template File Creation
-:noaudio:
+
 
 .Example Template - `metadata`
 [subs="verbatim,macros"]

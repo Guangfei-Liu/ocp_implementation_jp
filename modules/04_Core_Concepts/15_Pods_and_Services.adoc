@@ -1,5 +1,5 @@
 == Pods and Services
-:noaudio:
+
 
 .Pods Definition File/Manifest: Requests and Storage Volumes
 
@@ -25,10 +25,15 @@ ifdef::showscript[]
 
 In this example, you see how pods make requests and define storage volumes:
 
-. Pods commonly make requests against the OpenShift Enterprise API and need authentication to do so. The `serviceAccount` field specifies the _service account_ user that the pod should use to authenticate when making requests. This enables fine-grained access control for custom infrastructure components.
-. The pod defines storage volumes that its container(s) can use. In this case, it provides an ephemeral volume for the registry storage and a `secret` volume containing the service account credentials.
+. Pods commonly make requests against the OpenShift Enterprise API and need
+ authentication to do so. The `serviceAccount` field specifies the
+  _service account_ user that the pod should use to authenticate when making
+   requests. This enables fine-grained access control for custom infrastructure
+    components.
+. The pod defines storage volumes that its container(s) can use. In this case,
+ it provides an ephemeral volume for the registry storage and a `secret` volume
+  containing the service account credentials.
 
 You can learn more about using _secrets_ in the developer guide documentation.
 
 endif::showscript[]
-

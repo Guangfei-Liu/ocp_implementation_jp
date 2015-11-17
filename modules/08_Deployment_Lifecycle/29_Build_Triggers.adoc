@@ -1,5 +1,5 @@
 == Build Triggers
-:noaudio:
+
 
 .Image Change Triggers
 

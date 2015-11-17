@@ -1,5 +1,5 @@
 == Authorization
-:noaudio:
+
 
 .Roles: Creating Roles
 
@@ -21,9 +21,8 @@
 ifdef::showscript[]
 === Transcript
 If you find that the default roles do not suit you, a `cluster-admin` user can
- create a `policyBinding` object named `_<projectname>_:default` with the CLI
-  using a JSON file. This lets the project `admin` bind users to roles that are
-   defined in the `_<projectname>_` local policy only.
+ create a `policyBinding` object with the CLI using a JSON file. This lets the
+  project `admin` bind users to roles that are defined in the local policy only.
 
 After a product update, the recommended default roles may be updated.  To check
  if an update is recommended for your environment, you can run

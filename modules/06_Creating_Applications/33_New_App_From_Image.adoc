@@ -1,5 +1,5 @@
 == New App From Image
-:noaudio:
+
 
 
 * To create application from existing image stream, specify:

@@ -1,18 +1,21 @@
 == Scheduler
-:noaudio:
+
 
 .Configurable Predicates: `ServiceAffinity` and `LabelsPresence`
 
-* `ServiceAffinity`: Filters out nodes that do not belong to topological level defined by provided labels
+* `ServiceAffinity`: Filters out nodes that do not belong to topological level
+ defined by provided labels
 ** Takes in list of labels
-** Ensures affinity within nodes with same label values for pods belonging to same service
+** Ensures affinity within nodes with same label values for pods belonging to
+ same service
 *** If pod specifies label value in `NodeSelector`:
 *** Pod scheduled on nodes matching labels only
 +
 ----
 {"name" : "Zone", "argument" : {"serviceAffinity" : {"labels" : ["zone"]}}}
 ----
-* `LabelsPresence`: Checks whether node has certain label defined, regardless of value
+* `LabelsPresence`: Checks whether node has certain label defined, regardless of
+ value
 +
 ----
 {"name" : "ZoneRequired", "argument" : {"labels" : ["retiring"], "presence" : false}}
@@ -22,12 +25,15 @@ ifdef::showscript[]
 
 === Transcript
 
-`ServiceAffinity` filters out nodes that do not belong to the specified topological level defined by the provided labels. This predicate takes in a list of labels and ensures affinity within the nodes that have the same label values for pods belonging to the same service.
+`ServiceAffinity` filters out nodes that do not belong to the specified
+ topological level defined by the provided labels. This predicate takes in a
+  list of labels and ensures affinity within the nodes that have the same label
+   values for pods belonging to the same service.
 
-If the pod specifies a value for the labels in its `NodeSelector`, then the scheduler can schedule pods on only the nodes matching those labels.
+If the pod specifies a value for the labels in its `NodeSelector`, then the
+ scheduler can schedule pods on only the nodes matching those labels.
 
-`LabelsPresence` checks whether a particular node has a certain label defined, regardless of its value.
+`LabelsPresence` checks whether a particular node has a certain label defined,
+ regardless of its value.
 
 endif::showscript[]
-
-

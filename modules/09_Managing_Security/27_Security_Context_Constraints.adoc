@@ -1,5 +1,5 @@
 == Security Context Constraints (SCCs)
-:noaudio:
+
 
 .Privileged and Restricted SCCs
 
@@ -21,7 +21,7 @@ restricted   false     []        false     MustRunAs   MustRunAsRange
 ** Lets pod run with any MCS label
 
 * The restricted SCC:
-** Ensures pods cannot run as privileged
+**  Ensures pods cannot run as privileged
 ** Ensures pods cannot use host directory volumes
 ** Requires pod to run as user in preallocated range of UIDs
 ** Requires pod to run with preallocated MCS label
@@ -37,8 +37,8 @@ The privileged SCC allows privileged pods, allows host directories to be mounted
  as volumes, and allows a pod to run as any user and with any MCS label.
 
 
-The restricted SCC ensures pods cannot run as privileged or host directory
- volumes, and requires that a pod runs as a user in a preallocated range of UIDs
-  and with a pre-allocated MCS label.
+The restricted SCC ensures pods cannot run as privileged pods or mount a local
+ host directory as a volume, and requires that a pod runs as a user in a
+  preallocated range of UIDs and with a pre-allocated MCS label.
 
 endif::showscript[]

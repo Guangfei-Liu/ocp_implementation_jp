@@ -1,5 +1,5 @@
 == How OpenShift Enterprise Works
-:noaudio:
+
 
 .Authentication Layer
 * Provides framework for collaboration and quota management
@@ -14,8 +14,7 @@ ifdef::showscript[]
 
 The authentication layer provides a framework for collaboration and quota
 management.
-OpenShift Enterprise 3.0 supports a number of mechanisms for authentication.
+OpenShift Enterprise 3 supports a number of mechanisms for authentication.
 The simplest use case for testing purposes is `htpasswd`-based authentication.
 
 endif::showscript[]
-

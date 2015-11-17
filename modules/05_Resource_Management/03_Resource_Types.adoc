@@ -1,8 +1,8 @@
 == Resource Types
-:noaudio:
 
 
-* Working with applications means manipulating OpenShift Environment and Kubernetes resources in background:
+
+* Working with applications means manipulating OpenShift resources in background:
 ** Create
 ** Destroy
 ** Scale
@@ -19,7 +19,7 @@ ifdef::showscript[]
 === Transcript
 
 When you work with applications--creating, building, scaling, destroying, and
- so on--you manipulate OpenShift Enterprise and Kubernetes resources in the
+ so on--you manipulate OpenShift Enterprise resources in the
   background.
 
 You can enforce quotas against resources.

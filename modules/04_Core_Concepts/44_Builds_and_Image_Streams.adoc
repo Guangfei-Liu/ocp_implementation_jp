@@ -1,5 +1,5 @@
 == Builds and Image Streams
-:noaudio:
+
 
 .Custom Build
 
@@ -15,10 +15,11 @@ ifdef::showscript[]
 
 === Transcript
 
-The custom build strategy lets you define a specific builder image that is responsible for the entire build process. Using your own builder image lets you customize your build process.
+The custom build strategy lets you define a specific builder image that is
+ responsible for the entire build process. Using your own builder image lets
+  you customize your build process.
 
-The builder can call out to an external system, such as Jenkins or any other automation agent, to create the image and push it into the registry.
+The builder can call out to an external system, such as Jenkins or any other
+ automation agent, to create the image and push it into the registry.
 
 endif::showscript[]
-
-

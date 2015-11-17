@@ -1,12 +1,14 @@
 == Scheduler
-:noaudio:
+
 
 .Use Cases
 
-* Important use case for scheduling within OpenShift Enterprise: Support affinity and anti-affinity policies
+* Important use case for scheduling within OpenShift Enterprise: Support
+ affinity and anti-affinity policies
 
 * OpenShift Enterprise can implement multiple infrastructure topological levels
-* Administrators can define multiple topological levels for infrastructure (nodes)
+* Administrators can define multiple topological levels for infrastructure
+ (nodes)
 ** To do this, specify labels on nodes
 *** Example: `region` = `r1`, `zone` = `z1`, `rack` = `s1`
 ** Label names have no particular meaning
@@ -15,19 +17,27 @@
 ** Administrators can define any number of levels for infrastructure topology
 *** Three levels usually adequate
 *** Example: `regions` -> `zones` -> `racks`
-** Administrators can specify combination of affinity/anti-affinity rules at each level
+** Administrators can specify combination of affinity/anti-affinity rules at
+ each level
 
 ifdef::showscript[]
 
 === Transcript
 
-One important use case for scheduling within OpenShift Enterprise is to support flexible affinity and anti-affinity policies. OpenShift Enterprise can implement multiple infrastructure topological levels. By specifying labels on the nodes, administrators can define multiple topological levels for their infrastructure.
+One important use case for scheduling within OpenShift Enterprise is to support
+ flexible affinity and anti-affinity policies. OpenShift Enterprise can
+  implement multiple infrastructure topological levels. By specifying labels on
+   the nodes, administrators can define multiple topological levels for their
+    infrastructure.
 
-Label names have no particular meaning, and administrators can name infrastructure levels anything. Administrators can also define any number of levels for their infrastructure topology, although three levels are usually adequate. Finally, administrators can specify any combination of affinity and anti-affinity rules at each level.
+Label names have no particular meaning, and administrators can name
+ infrastructure levels anything. Administrators can also define any number of
+  levels for their infrastructure topology, although three levels are usually
+   adequate. Finally, administrators can specify any combination of affinity
+    and anti-affinity rules at each level.
 
-The examples shown here use `region`, `zone`, and `rack`. However, you can use any kind of topology that makes sense in your environment.
+The examples shown here use `region`, `zone`, and `rack`. However, you can use
+ any kind of topology that makes sense in your environment.
 
 
 endif::showscript[]
-
-

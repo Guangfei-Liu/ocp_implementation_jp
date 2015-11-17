@@ -1,5 +1,5 @@
 == Pods and Services
-:noaudio:
+
 
 .Service Definition File/Manifest
 
@@ -11,16 +11,16 @@
  apiVersion: v1
  kind: Service
  metadata:
-   name: docker-registry      <1>
+   name: docker-registry
  spec:
-   selector:                  <2>
+   selector:                  <1>
      docker-registry: default
-   portalIP: 172.30.136.123   <3>
+   portalIP: 172.30.136.123   <2>
    ports:
    - nodePort: 0
-     port: 5000               <4>
+     port: 5000               <3>
      protocol: TCP
-     targetPort: 5000         <5>
+     targetPort: 5000         <4>
 ----
 
 
@@ -28,13 +28,16 @@ ifdef::showscript[]
 
 === Transcript
 
-Like pods, services are REST objects. The example shown here provides the definition of a service for the pod defined above.
+Like pods, services are REST objects. The example shown here provides the
+ definition of a service for the pod defined above.
 
-. You use the `docker-registry` service name to construct an environment variable with the service IP that is inserted into other pods in the same namespace or project.
-. The label selector identifies all pods with the `docker-registry=default` label attached as the selector's backing pods.
-. When the service is created, it automatically receives a virtual IP, `PortalIP`, chosen from a pool of internal IPs.
-. The `PortalIP` is the port on which the service listens. When you define a new service, you leave this blank to get assigned a random IP.
+. The label selector identifies all pods with the `docker-registry=default`
+ label as the `Pods` represented by the `service`
+. When the service is created, it automatically receives a virtual IP,
+ `PortalIP`, chosen from a pool of internal IPs. When you define a new service,
+  you leave this blank to get assigned a random IP.
+. The `Port` line specifies the port on which the service listens.
 . The service uses the `targetPort` to forward connections to the backing pods.
+ Those pods should "listen" on that port.
 
 endif::showscript[]
-

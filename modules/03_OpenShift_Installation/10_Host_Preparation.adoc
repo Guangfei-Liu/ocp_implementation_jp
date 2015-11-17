@@ -1,5 +1,5 @@
 == Host Preparation
-:noaudio:
+
 
 .Firewalls: Component Communication
 

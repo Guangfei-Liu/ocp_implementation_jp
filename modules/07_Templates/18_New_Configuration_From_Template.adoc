@@ -1,5 +1,5 @@
 == New Configuration From Template
-:noaudio:
+
 
 .Generating a Configuration
 
@@ -42,11 +42,10 @@ You can generate a configuration with the `oc process` command. `oc process`
   configuration that can be created with `oc create`.
 
 Alternatively, you can pipe both commands together to create from a template
- without uploading it to the template library. You can process the template and
-  create from the same template.
+ without uploading it to the template library.
 
-You can also override any parameters defined in the JSON file by adding the `-v`
- option and any desired parameters. For example, you can override the
+You can also override any parameters defined in the template file by adding the
+ `-v` optionn and any desired parameters. For example, you can override the
   `ADMIN_USERNAME` and `MYSQL_DATABASE` parameters to create a configuration
    with customized environment variables.
 

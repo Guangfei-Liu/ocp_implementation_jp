@@ -1,5 +1,5 @@
 == Deployments
-:noaudio:
+
 
 .Overview
 
@@ -20,9 +20,6 @@
 * Deployment configuration version increments each time new deployment is
  created from configuration
 
-* Cause of last deployment is added to configuration
-
-
 ifdef::showscript[]
 === Transcript
 
@@ -37,10 +34,9 @@ The deployment system provides:
 * User-customizable strategies to transition from the previous deployment to a
  new deployment
 * Rollbacks to a previous deployment
-* Manual replication scaling
+* Replication scaling
 
 The deployment configuration contains a version number that is incremented each
- time a new deployment is created from that configuration. In addition, the
-  cause of the last deployment is added to the configuration.
+ time a new deployment is created from that configuration.
 
 endif::showscript[]

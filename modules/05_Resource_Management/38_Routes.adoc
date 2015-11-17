@@ -1,5 +1,5 @@
 == Routes
-:noaudio:
+
 
 .Custom Default Routing Subdomain
 
@@ -31,7 +31,8 @@ ifdef::showscript[]
 === Transcript
 
 A cluster administrator can customize the suffix or the default routing
- subdomain for an environment using the OpenShift Enterprise master configuration.
+ subdomain for an environment using the OpenShift Enterprise master
+  configuration.
 
 The example shows here how you can set the configured suffix to
  `cloudapps.mydomain.com`.

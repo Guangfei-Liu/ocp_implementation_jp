@@ -1,5 +1,5 @@
 == Overview
-:noaudio:
+
 
 [cols="2,3"]
 |===================================================================
@@ -22,16 +22,17 @@ ifdef::showscript[]
 This module provides high-level architectural information on core concepts and
  objects you will encounter when using OpenShift Enterprise.
 
-Many of these objects come from Kubernetes. OpenShift Enterprise expands
- Kubernetes to provide a more feature-rich development lifecycle platform.
+Many of these objects come from the Kubernetes Project. OpenShift Enterprise
+ expands Kubernetes to provide a more feature-rich development lifecycle
+  platform.
 
 This module discusses the following:
 
 * Containers and images, which are the building blocks for deploying your
  applications
 
-* Pods and services, which let containers communicate with each other and with
- proxy connections
+* Pods and services, which let containers communicate with each other and
+ provide a permanent IP to represent the Pods
 
 * Projects and users, which provide the space and means for communities to
  organize and manage their content together

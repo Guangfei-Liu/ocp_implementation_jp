@@ -1,5 +1,5 @@
 == Kubernetes Concepts
-:noaudio:
+
 
 * *Nodes*: Compute resources on top of which containers are built
 * *Pods*: Colocated group of containers
@@ -8,14 +8,17 @@
 * *Services*: Provide single, stable name and address for pod set
 * *Labels*: Organize and select groups of objects based on key-value pairs
 
-
+NOTE: Although it's possible to deploy more than one container in a pod, it is
+ almost always a good idea to have a single container in a pod for multiple
+  reasons.
 ifdef::showscript[]
 
 === Transcript
 
-Nodes are the compute resources on top of which you build your containers.
+Nodes are the compute resources on top of which you run your containers.
 
-Pods, used in the same context as "a pod of whales" or "peas in a pod," are colocated groups of containers that may share persistent storage volumes.
+Pods, used in the same context as "a pod of whales" or "peas in a pod," are
+ colocated groups of containers that may share persistent storage volumes.
 Pods are the smallest deployable units that you can create, schedule, and
 manage with Kubernetes.
 

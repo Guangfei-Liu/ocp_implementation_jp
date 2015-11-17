@@ -1,9 +1,10 @@
 == Persistent Volumes
-:noaudio:
+
 
 .Overview
 * `PersistentVolume` object: Storage resource in OpenShift Enterprise cluster
-* Administrator provides storage by creating `PersistentVolume` from sources such as:
+* Administrator provides storage by creating `PersistentVolume` from sources
+ such as:
 ** NFS mounts: Supported method
 ** GCE Persistent Disks (Google Compute)
 ** EBS Volumes (Amazon Elastic Block Stores)
@@ -14,16 +15,14 @@ ifdef::showscript[]
 
 === Transcript
 
-A `PersistentVolume` object is a storage resource in an OpenShift Enterprise cluster. An administrator provisions storage by creating `PersistentVolume` objects from sources such as the following:
+A `PersistentVolume` object is a storage resource in an OpenShift Enterprise
+ cluster. An administrator provisions storage by creating `PersistentVolume`
+  objects from sources such as the following:
 
 * NFS mounts: This is the supported method.
 * GCE Persistent Disks (Google Compute).
 * EBS Volumes (Amazon Elastic Block Stores).
 
-Note that persistent volume plug-ins other than the supported NFS plug-in, such as AWS Elastic Block Stores (EBS), GCE Persistent Disks, GlusterFS, iSCSI, and RADOS (Ceph), are currently in Technology Preview.
-
-When you define `PersistentVolume`, you must associate it with a project.
+When you define a `PersistentVolume`, you must associate it with a project.
 
 endif::showscript[]
-
-

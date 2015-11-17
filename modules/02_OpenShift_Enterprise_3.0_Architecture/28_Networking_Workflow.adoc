@@ -1,5 +1,5 @@
 == Networking Workflow
-:noaudio:
+
 :number:
 
 .Scenario: Client Points Browser to `http://myApp.MyDomain.org:80`
@@ -18,12 +18,12 @@ ifdef::showscript[]
 Consider this following scenario:
 A user requests a page by pointing his or her browser to
 http://Myapp.MyDomain. DNS resolves that request to the IP address of one of
-the nodes that hosts the routing layer.
+the nodes that hosts the `Default Router`.
 
 You would usually create a wildcard Cname record in your DNS server and point
 it to the node or nodes that host the router container.
 
-The routing layer, in this case the `Router Container`, then selects the pod
-that gets the request and acts as a proxy for the pod.
+The `Default Router`, then selects the a pod from the list of pods listed by the
+ application "service" and acts as a proxy for the pod.
 
 endif::showscript[]

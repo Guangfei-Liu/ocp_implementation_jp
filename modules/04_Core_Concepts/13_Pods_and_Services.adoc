@@ -1,5 +1,5 @@
 == Pods and Services
-:noaudio:
+
 
 .Pods Definition File/Manifest: `containers` and `env`
 

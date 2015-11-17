@@ -1,5 +1,5 @@
 == Advanced Application Creation
-:noaudio:
+
 
 .Grouping Images and Source in Single Pod
 * `new-app` can deploy multiple images in single _pod_
@@ -28,10 +28,12 @@ $ oc new-app \
 ifdef::showscript[]
 
 === Transcript
-The `new-app` command allows deploying multiple images together in a single pod. To specify which images to group together, use the `+` separator, shown in the first example. The `--group` command line argument can also be used to specify the images to be grouped together. This is shown in the second example.
+The `new-app` command allows deploying multiple images together in a single pod.
+ To specify which images to group together, use the `+` separator, shown in the
+  first example. The `--group` command line argument can also be used to specify
+   the images to be grouped together. This is shown in the second example.
 
-To group the image built from a source repository with other images, specify its builder image in the group.
+To group the image built from a source repository with other images, specify
+ its builder image in the group.
 
 endif::showscript[]
-
-

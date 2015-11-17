@@ -1,5 +1,5 @@
 == Scheduler
-:noaudio:
+
 
 .Configurable Priority Functions
 
@@ -8,11 +8,13 @@
 ** Identified by the argument they take
 
 * `ServiceAntiAffinity`: Takes label
-** Ensures spread of pods belonging to same service across group of nodes based on label values
+** Ensures spread of pods belonging to same service across group of nodes based
+ on label values
 ** Gives same score to all nodes with same value for specified label
 ** Gives higher score to nodes within group with least concentration of pods
 
-* `LabelsPreference`: Prefers either nodes that have particular label defined or those that do not, regardless of value
+* `LabelsPreference`: Prefers either nodes that have particular label defined
+ or those that do not, regardless of value
 
 
 
@@ -20,16 +22,20 @@ ifdef::showscript[]
 
 === Transcript
 
-A user can configure configurable priority functions by providing certain parameters.
+A user can configure configurable priority functions by providing certain
+ parameters.
 
-A user can give a configurable priority function any user-defined name. The function type is identified by the argument that it takes.
+A user can give a configurable priority function any user-defined name. The
+ function type is identified by the argument that it takes.
 
-`ServiceAntiAffinity` takes a label and ensures a spread of pods belonging to the same service across a group of nodes based on label values. It gives the same score to all nodes with the same value for a specified label, and gives a higher score to nodes within the group with the least concentration of pods.
+`ServiceAntiAffinity` takes a label and ensures a spread of pods belonging to
+ the same service across a group of nodes based on label values. It gives the
+  same score to all nodes with the same value for a specified label, and gives
+   a higher score to nodes within the group with the least concentration of
+    pods.
 
-`LabelsPreference` prefers either nodes that have a particular label defined or those that do not have a particular label defined, regardless of value.
+`LabelsPreference` prefers either nodes that have a particular label defined or
+ those that do not have a particular label defined, regardless of value.
 
- 
+
 endif::showscript[]
-
-
-

@@ -1,5 +1,5 @@
 == Managing SCCs
-:noaudio:
+
 
 .Granting Access to the Privileged SCC
 
@@ -32,7 +32,7 @@ seLinuxContext:
   type: RunAsAny
 users:
 - system:serviceaccount:openshift-infra:build-controller
-- e2e-user <1>
+- example-user <1>
 
 ----
 
@@ -44,11 +44,7 @@ In some cases, an administrator might want to provide access to users or groups
 
 To do so, you use the `oc edit` command to add the user or group to the `users`
  or `groups` field of the SCC.
-In the example shown here, you add `e2e-user` to the `user` list of the
- privileged SCC to allow `e2e-user` to create privileged pods.
-
-Note the following:
-
-. This shows `e2e-user` added to the users section.
+In the example shown here, you add `example-user` to the `user` list of the
+ privileged SCC to allow `example-user` to create privileged pods.
 
 endif::showscript[]

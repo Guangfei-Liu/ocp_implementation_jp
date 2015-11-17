@@ -1,5 +1,5 @@
 == OpenShift Enterprise Model
-:noaudio:
+
 
 * *Masters*: Responsible for managing system state
 ** Provides a REST endpoint for interacting with the system.

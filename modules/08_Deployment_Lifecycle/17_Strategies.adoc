@@ -1,5 +1,5 @@
 == Strategies
-:noaudio:
+
 
 .`Recreate` Strategy
 
@@ -25,7 +25,6 @@ The `Recreate` strategy has basic rollout behavior and supports lifecycle hooks
  for injecting code into the deployment process.
 
 In the example, `recreateParams` are optional. `pre` and `post` are both
- lifecycle hooks.
-
+ lifecycle hooks that happen before and after the deployment. 
 
 endif::showscript[]

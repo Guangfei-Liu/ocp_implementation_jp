@@ -1,5 +1,5 @@
 == Pods and Services
-:noaudio:
+
 
 .Pods Definition File/Manifest
 
@@ -29,7 +29,7 @@ Here is an example definition of a pod that provides a long-running service.
  This is actually a part of the OpenShift Enterprise infrastructure, the
   _private Docker integrated registry_.
 
-The sample demonstrates many features of pods. The next few slides examine the
+This example demonstrates many features of pods. The next few slides examine the
  file in smaller chunks to make it easier to follow.
 
 Note the following:

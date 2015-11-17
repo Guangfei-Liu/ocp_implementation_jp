@@ -1,5 +1,5 @@
 == Pods and Services
-:noaudio:
+
 
 .Pod Changes and Management
 
@@ -19,7 +19,7 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise treats pods as largely _static_. You cannot change a pod
+OpenShift Enterprise treats pods as _static_ objects. You cannot change a pod
  definition while it is running. When you want to change a pod, you _recreate_
   rather than _modify_ it.
 

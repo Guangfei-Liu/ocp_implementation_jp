@@ -1,5 +1,5 @@
 == Template File Creation
-:noaudio:
+
 
 .Template Example - `objects:` `DeploymentConfig` `database`
 [subs="verbatim,macros"]

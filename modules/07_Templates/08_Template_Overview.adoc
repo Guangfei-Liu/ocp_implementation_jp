@@ -1,10 +1,10 @@
 == Template Overview
-:noaudio:
+
 
 .Objects
 
 * Can be any resources that needs to be created for template
-* Examples: pods, services, replication controllers, and route
+* Examples: pods, services, replication controllers, and routes
 * Other objects can be build configurations and image streams
 
 
@@ -12,7 +12,7 @@ ifdef::showscript[]
 
 === Transcript
 Objects can be any resources that needs to be created for the template. Examples
- are pods, services, replication controllers, and a route for your template.
+ are pods, services, replication controllers, and a route for your application.
   Other objects can be build configurations and image streams.
 
 The next few slides show sections of a sample template, which illustrate most of

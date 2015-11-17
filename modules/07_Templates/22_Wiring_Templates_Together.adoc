@@ -1,5 +1,5 @@
 == Wiring Templates Together
-:noaudio:
+
 
 .Process `db`
 
@@ -32,8 +32,8 @@ ifdef::showscript[]
 
 === Transcript
 
-Now that you know the values used to create `frontend`, you can use them when
- the `db` template is processed.
+Now that you know the values used to create the `frontend` template, you can use
+ them when the `db` template is processed.
 
 In this example you are processing and creating the `db` template while
  overriding the `mysql` credentials variables.

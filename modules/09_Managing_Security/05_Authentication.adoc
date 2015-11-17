@@ -1,5 +1,5 @@
 == Authentication
-:noaudio:
+
 
 .Users and Groups
 
@@ -13,7 +13,7 @@
 |`system:unauthenticated` |Automatically associated with currently
  unauthenticated users
 |===
-
+//ISSUE: This will change with 3.1 not recorded
 * Support for developers and administrators to define custom groups under
  development
 * Only currently existing groups are system groups, or _virtual groups_
@@ -28,11 +28,5 @@ In the default set of virtual groups, note the `system:authenticated` and
  `system:unauthenticated` groups in particular. These are automatically
   associated with currently authenticated and unauthenticated users,
    respectively.
-
-Support for developers and administrators to define their own custom groups is
- currently under active development. At this time, the only groups that exist
-  are system groups, or _virtual groups_, that are automatically provisioned by
-   OpenShift Enterprise. You can view these at the web address shown here.
-
 
 endif::showscript[]

@@ -1,5 +1,5 @@
 == Security Context Constraints (SCCs)
-:noaudio:
+
 
 .Privileged and Restricted SCCs: Definition
 
@@ -31,6 +31,16 @@ users: <4>
 - system:serviceaccount:openshift-infra:build-controller
 ----
 
+Note the following:
+
+. These are the groups that have access to this SCC.
+. This is the run as user strategy type, which dictates the allowable values for
+the Security Context.
+. This is thee SELinux context strategy type, which dictates the allowable
+values for the Security Context.
+. These are the users who have access to this SCC.
+
+
 ifdef::showscript[]
 === Transcript
 
@@ -41,13 +51,5 @@ By default, cluster administrators, nodes, and the build controller are granted
 All authenticated users are granted access to the restricted SCC.
 
 Cluster administrators can use the CLI to view the definition for each SCC. The
- example here shows output for the privileged SCC. Note the following:
-
-. These are the groups that have access to this SCC.
-. This is the run as user strategy type, which dictates the allowable values for
- the Security Context.
-. This is thee SELinux context strategy type, which dictates the allowable
- values for the Security Context.
-. These are the users who have access to this SCC.
-
+ example here shows output for the privileged SCC.
 endif::showscript[]

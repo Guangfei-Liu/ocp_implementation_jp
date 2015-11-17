@@ -1,5 +1,5 @@
 == How OpenShift Enterprise Works
-:noaudio:
+
 
 .Replication Layer
 * Ensures number of instances/pods defined in store layer actually exist
@@ -11,11 +11,10 @@ ifdef::showscript[]
 
 === Transcript
 
-The replication layer contains the replication controller, whose role is to make sure that the
+The replication layer contains the replication controller, whose role is to make
+ sure that the
 number of instances/pods defined in the store layer actually exist.
 The replication controller instantiates (creates) or kills pods according to
 the desired state definition.
 
 endif::showscript[]
-
-

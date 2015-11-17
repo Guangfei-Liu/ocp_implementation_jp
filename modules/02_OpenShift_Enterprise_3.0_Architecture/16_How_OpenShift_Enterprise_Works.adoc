@@ -1,5 +1,5 @@
 == How OpenShift Enterprise Works
-:noaudio:
+
 
 .Scheduler Layer
 * Determines where to create new pods
@@ -12,11 +12,10 @@ ifdef::showscript[]
 
 === Transcript
 
-The scheduler is essentially the OpenShift Enterprise master.
+The scheduler is essentially the OpenShift Enterprise master main function.
 Whenever a user decides to create a pod, the master determines where to do
 this. This is called _scheduling_.
 
 You can configure the priorities and rules for the scheduler logic.
 
 endif::showscript[]
-

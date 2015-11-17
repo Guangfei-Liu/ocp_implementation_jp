@@ -1,5 +1,5 @@
 == Routes
-:noaudio:
+
 
 .Secured TLS Termination Types: Passthrough Termination
 
@@ -17,11 +17,11 @@ ifdef::showscript[]
 
 === Transcript
 
-With passthrough termination, encrypted traffic is sent straight to the destination without the router providing TLS termination. Therefore no key or certificate is required on the router.
+With passthrough termination, encrypted traffic is sent straight to the
+ destination without the router providing TLS termination. Therefore no key or
+  certificate is required on the router.
 
-The destination pod is responsible for serving certificates for the traffic at the endpoint.
-
-This is currently the only method that can support requiring client certificates, also known as _two-way authentication_.
+The destination pod is responsible for serving certificates for the traffic at
+ the endpoint.
 
 endif::showscript[]
-

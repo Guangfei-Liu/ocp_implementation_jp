@@ -1,10 +1,11 @@
 == Projects and Users
-:noaudio:
+
 
 .Projects
 * *Project*: Kubernetes namespace with additional annotations
 ** Central vehicle for managing resource access for regular users
-** Lets community of users organize and manage content in isolation from other communities
+** Lets community of users organize and manage content in isolation from other
+ communities
 * Users either:
 ** Receive access to projects from administrators
 ** Have access to own projects if allowed to create them
@@ -13,7 +14,8 @@
 ** *Objects:* Pods, services, replication controllers, etc.
 ** *Policies:* Rules for which users can or cannot perform actions on objects
 ** *Constraints:* Quotas for objects that can be limited
-** *Service accounts:* Users that act automatically with access to project objects
+** *Service accounts:* Users that act automatically with access to project
+ objects
 
 
 
@@ -37,7 +39,7 @@ Each project scopes its own set of objects, policies, constraints, and service
   Policies are rules for which users can or cannot perform actions on objects.
    Constraints are quotas for each kind of object that can be limited. Service
     accounts are users that act automatically with designated access to objects
-     in the project.
+     in their project.
 
 
 endif::showscript[]

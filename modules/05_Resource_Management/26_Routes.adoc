@@ -1,5 +1,5 @@
 == Routes
-:noaudio:
+
 
 .Route Types: Path-Based Routes
 
@@ -13,9 +13,10 @@ ifdef::showscript[]
 
 === Transcript
 
-Path-based routes specify a path component that can be compared against a URL so that you can serve multiple routes, each with a different path, using the same hostname.
+Path-based routes specify a path component that can be compared against a URL so
+ that you can serve multiple routes, each with a different path, using the same
+  hostname.
 
 This requires that the traffic for the route be HTTP-based.
 
 endif::showscript[]
-

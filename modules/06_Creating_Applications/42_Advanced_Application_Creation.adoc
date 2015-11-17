@@ -1,13 +1,15 @@
 == Advanced Application Creation
-:noaudio:
+
 
 .Multiple Components and Grouping
 
-* `new-app` can create multiple applications at same time from _source_, _image_, or _template_
+* `new-app` can create multiple applications at same time from _source_,
+ _image_, or _template_
 
-* To create multiple applications, specify multiple parameters to `new-app` 
+* To create multiple applications, specify multiple parameters to `new-app`
 
-** Labels specified on command line apply to all objects created by single command call
+** Labels specified on command line apply to all objects created by single
+ command call
 
 ** Environment variables apply to all components created from source or images
 
@@ -17,18 +19,22 @@
 $ oc new-app https://github.com/openshift/ruby-hello-world mysql
 ----
 
-NOTE: If a source code repository and a builder image are specified as separate arguments, `new-app` uses the _builder image_ as the builder for the source code repository. If this is not intended, use the `~` separator to specify a specific _builder image_ for the source.
+NOTE: If a source code repository and a builder image are specified as separate
+ arguments, `new-app` uses the _builder image_ as the builder for the source
+  code repository. If this is not intended, use the `~` separator to specify a
+   specific _builder image_ for the source.
 
 
 
 ifdef::showscript[]
 
 === Transcript
-The `new-app` command allows creating multiple applications at once from source, images, or templates. To do this, simply specify multiple parameters to the `new-app` call. Labels specified on the command line apply to all objects created by the single call. Environment variables apply to all components created from source or images.
+The `new-app` command allows creating multiple applications at once from source,
+ images, or templates. To do this, simply specify multiple parameters to the
+  `new-app` call. Labels specified on the command line apply to all objects
+   created by the single call. Environment variables apply to all components
+    created from source or images.
 
-If a source code repository and a builder image are specified as separate arguments, `new-app` uses the _builder image_ as the builder for the source code repository. If this is not intended, use the `~` separator to specify a specific _builder image_ for the source.
 
 
 endif::showscript[]
-
-

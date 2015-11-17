@@ -1,5 +1,5 @@
 == Security Context Constraints (SCCs)
-:noaudio:
+
 
 .Admission: Approach
 

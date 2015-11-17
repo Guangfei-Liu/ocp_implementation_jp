@@ -1,11 +1,12 @@
 == OpenShift Enterprise Workflow
-:noaudio:
+
 
 
 .Scenario
-* Application needs to be scaled up to accommodate overall increase or upcoming spike in traffic
+* Application needs to be scaled up to accommodate overall increase or upcoming
+ spike in traffic
 * Request could be:
-** Manual API call/Command Line 
+** Manual API call/Command Line
 ** Initiated by external monitoring agent
 
 * OpenShift Enterprise workflow:
@@ -22,26 +23,33 @@ ifdef::showscript[]
 
 Put simply, OpenShift Enterprise manages its workflow as follows:
 
-. Users or automation make calls to the REST API (using the web console, command line, or any other method) to change the state of the system.
-. OpenShift Enterprise periodically checks to see what system state the call wants.
+. Users or automation make calls to the REST API (using the web console, command
+   line, or any other method) to change the state of the system.
+. OpenShift Enterprise periodically checks to see what system state the call
+ wants.
 . OpenShift Enterprise then works to bring the other parts of the system into
 sync with the desired state.
 
-For example: Say an OpenShift Enterprise 3.0 user predicts a spike in traffic before a holiday or major sports event.
-The user wants to spin up more pods of a specific service/application to accommodate the additional traffic.
+For example: Say an OpenShift Enterprise 3 user predicts a spike in traffic
+ before a holiday or major sports event.
+The user wants to spin up more pods of a specific service/application to
+ accommodate the additional traffic.
 
-The application has three pods running, and the user wants to double that number, to six running pods, as a pre-emptive measure.
+The application has three pods running, and the user wants to double that
+ number, to six running pods, as a pre-emptive measure.
 
-The user uses the web console, CLI, or other method to make a call stating that the application should have six instances.
+The user uses the web console, CLI, or other method to make a call to the master
+ stating that the application should have six instances.
 
-The system updates the data store with the new information that the desired scale is six running pods.
+The Master updates the data store with the new information that the desired
+ scale is six running pods.
 
-On the next sync loop, the replication controllers determine that the current scale of three running pods does not match the desired scale of six running pods.
+On the next sync loop, the replication controllers determine that the current
+ scale of three running pods does not match the desired scale of six running
+  pods.
 
-OpenShift Enterprise then schedules three more instances and places them for deployment.
+OpenShift Enterprise then schedules three more instances and places them for
+ deployment.
 
-As you can see, the OpenShift Enterprise controllers are performing the "business logic" of the system by taking user actions and transforming them into reality.
-
-You can customize the launching and running of builds independently of how images are managed or how deployments happen.
 
 endif::showscript[]

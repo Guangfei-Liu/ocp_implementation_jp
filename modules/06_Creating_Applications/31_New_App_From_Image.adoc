@@ -1,5 +1,5 @@
 == New App From Image
-:noaudio:
+
 
 .Specifying an Image
 
@@ -18,16 +18,22 @@
 ** For image stream, use `-i|--image` argument
 
 
-NOTE: If you specify an image from your local Docker repository, you must ensure that the same image is available to the OpenShift Enterprise cluster nodes.
+NOTE: If you specify an image from your local Docker repository, you must ensure
+ that the same image is available to the OpenShift Enterprise cluster nodes.
 
 ifdef::showscript[]
 
 === Transcript
-The `new-app` command generates the necessary artifacts to deploy an existing image as an application. Images can come from image streams in the OpenShift Enterprise server, a specific registry, Docker Hub, or a local Docker server.
+The `new-app` command generates the necessary artifacts to deploy an existing
+image as an application. Images can come from image streams in the OpenShift
+ Enterprise server, a specific registry, Docker Hub, or a local Docker server.
 
-The `new-app` command attempts to determine the type of image specified in the arguments passed to it. However, you can explicitly tell `new-app` that the image is a Docker image by using the `--docker-image` argument, or an image stream by using the `-i|--image` argument.
+The `new-app` command attempts to determine the type of image specified in the
+ arguments passed to it. However, you can explicitly tell `new-app` that the
+  image is a Docker image by using the `--docker-image` argument, or an image
+   stream by using the `-i|--image` argument.
 
-If you specify an image from your local Docker repository, you must ensure that the same image is available to the OpenShift Enterprise cluster nodes.
+If you specify an image from your local Docker repository, you must ensure that
+ the same image is available to the OpenShift Enterprise cluster nodes.
 
 endif::showscript[]
-

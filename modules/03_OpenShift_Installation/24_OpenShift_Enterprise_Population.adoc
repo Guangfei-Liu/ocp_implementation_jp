@@ -1,5 +1,5 @@
 == OpenShift Enterprise Population
-:noaudio:
+
 
 * Core set of image streams define images you can use to build applications:
 ** Node.js

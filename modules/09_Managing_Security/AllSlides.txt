@@ -48,17 +48,17 @@ include::24_Authorization.adoc[]
 
 include::25_Authorization.adoc[]
 
-include::26_Security_Context_Constraints_(SCCs).adoc[]
+include::26_Security_Context_Constraints.adoc[]
 
-include::27_Security_Context_Constraints_(SCCs).adoc[]
+include::27_Security_Context_Constraints.adoc[]
 
-include::28_Security_Context_Constraints_(SCCs).adoc[]
+include::28_Security_Context_Constraints.adoc[]
 
-include::29_Security_Context_Constraints_(SCCs).adoc[]
+include::29_Security_Context_Constraints.adoc[]
 
-include::30_Security_Context_Constraints_(SCCs).adoc[]
+include::30_Security_Context_Constraints.adoc[]
 
-include::31_Security_Context_Constraints_(SCCs).adoc[]
+include::31_Security_Context_Constraints.adoc[]
 
 include::32_Managing_SCCs.adoc[]
 

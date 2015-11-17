@@ -1,5 +1,5 @@
 == Docker Installation
-
+:noaudio:
 
 .Storage Options
 
@@ -45,5 +45,3 @@ You then start the script and create a thin-pool volume from the remaining free 
 Then you use an existing volume group, in this example `docker-vg`, to create a thin-pool.
 
 endif::showscript[]
-
-

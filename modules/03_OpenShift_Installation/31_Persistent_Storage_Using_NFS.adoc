@@ -1,5 +1,5 @@
 == Persistent Storage Using NFS
-
+:noaudio:
 
 .Volume Security
 
@@ -19,4 +19,3 @@ You create `PersistentVolume` objects in the context of a specific _project_. A 
 Each NFS volume must be mountable by all nodes in the cluster.
 
 endif::showscript[]
-

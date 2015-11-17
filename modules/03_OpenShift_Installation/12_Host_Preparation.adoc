@@ -1,5 +1,5 @@
 == Host Preparation
-
+:noaudio:
 
 .Networking and Miscellaneous
 
@@ -22,7 +22,3 @@ ifdef::showscript[]
 You need to install the software packages shown here and run a `yum` update on your master before using the installer and installing OpenShift Enterprise 3.0.
 
 endif::showscript[]
-
-
-
-

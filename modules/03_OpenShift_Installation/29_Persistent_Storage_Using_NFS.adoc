@@ -1,5 +1,5 @@
 == Persistent Storage Using NFS
-
+:noaudio:
 
 .Persistent Volume Object Definition
 
@@ -34,4 +34,3 @@ Here is the definition of the `Persistent Volume` object.
 You must specify the storage capacity, access mode, and details of your NFS host.
 
 endif::showscript[]
-

@@ -1,5 +1,5 @@
 == OpenShift Enterprise Population
-
+:noaudio:
 
 .Image Streams
 
@@ -30,4 +30,3 @@ Use the first code sample shown here to create the image streams for xPaaS middl
 
 
 endif::showscript[]
-

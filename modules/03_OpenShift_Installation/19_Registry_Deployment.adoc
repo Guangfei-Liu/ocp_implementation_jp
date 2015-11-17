@@ -1,9 +1,9 @@
 == Registry Deployment
-
+:noaudio:
 
 .Registry Container
 
-* OpenShift Enterprise: 
+* OpenShift Enterprise:
 ** Builds Docker images from source code
 ** Deploys them
 ** Manages lifecycle
@@ -13,7 +13,7 @@
 ** Both called `docker-registry`
 * After deployment, pod created with name similar to `docker-registry-1-cpty9`
 
-* To control where registry is deployed, use `--selector` flag to specify desired target  
+* To control where registry is deployed, use `--selector` flag to specify desired target
 
 ifdef::showscript[]
 
@@ -30,4 +30,3 @@ After successful deployment, a pod is created with a name similar to `docker-reg
 To control where your registry is deployed, you use the `--selector` flag to specify your target by picking the labels you want to match.
 
 endif::showscript[]
-

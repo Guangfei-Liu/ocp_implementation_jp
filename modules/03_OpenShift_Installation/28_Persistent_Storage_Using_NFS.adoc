@@ -1,5 +1,5 @@
 == Persistent Storage Using NFS
-
+:noaudio:
 
 .Overview
 
@@ -26,4 +26,3 @@ NFS requires only a distinct list of servers and paths and the `PersistentVolume
 
 
 endif::showscript[]
-

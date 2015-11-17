@@ -1,5 +1,5 @@
 == OpenShift Enterprise Population
-
+:noaudio:
 
 .Database Service Templates
 
@@ -30,7 +30,3 @@ Use the second code sample shown here to create the core set of database templat
 After you create the templates, you can easily instantiate them. This gives the templates quick access to a database deployment.
 
 endif::showscript[]
-
-
-
-

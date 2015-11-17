@@ -1,5 +1,5 @@
 == Prerequisites
-
+:noaudio:
 
 .System Requirements
 
@@ -30,4 +30,3 @@ These are the minimal requirements for a viable OpenShift Enterprise environment
 To lower costs, the servers in the learning environment are not configured with the recommended settings.
 
 endif::showscript[]
-

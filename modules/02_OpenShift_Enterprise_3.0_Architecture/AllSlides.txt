@@ -4,7 +4,7 @@ include::02_Module_Topics.adoc[]
 
 include::03_What_Is_OpenShift_Enterprise.adoc[]
 
-include::04_OpenShift_Enterprise_Version_3.0.adoc[]
+include::04_OpenShift_Enterprise_Version_3.adoc[]
 
 include::05_How_OpenShift_Enterprise_Works.adoc[]
 
@@ -65,4 +65,3 @@ include::32_What_Is_an_S2I_Build.adoc[]
 include::33_Why_Use_S2I_Builds.adoc[]
 
 include::34_Summary.adoc[]
-

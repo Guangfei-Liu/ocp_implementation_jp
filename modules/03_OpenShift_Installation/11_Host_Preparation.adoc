@@ -1,5 +1,5 @@
 == Host Preparation
-
+:noaudio:
 
 .Firewalls: External Access
 
@@ -29,6 +29,3 @@ The `Default Router` listens on its host's ports `80` and `443` for incoming req
 Consider a topology where only the infrastructure _nodes_ are running in a DMZ and the application hosting _nodes_, master, and other supporting infrastructure are running in a more secure network.
 
 endif::showscript[]
-
-
-

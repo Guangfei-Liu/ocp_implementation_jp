@@ -1,6 +1,8 @@
 == &nbsp;
 :noaudio:
 
+ifdef::revealjs_slideshow[]
+
 
 [#cover-h1]
 Red Hat OpenShift Enterprise Implementation
@@ -12,5 +14,3 @@ OpenShift 3 Application Lifecycle
 image::{revealjs_cover_image}[]
 
 endif::[]
-
-

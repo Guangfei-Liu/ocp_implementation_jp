@@ -1,5 +1,5 @@
 == Authorization
-:noaudio:
+
 
 .Visualizing Rules, Roles, and Bindings
 
@@ -25,7 +25,7 @@ basic-user		Verbs					Resources															Resource Names	Extension
 
 * Example: View policy bindings
 ** Shows above roles bound to various users/groups
-** Uses `oc describe clusterPolicy default`:
+** Uses `oc describe clusterPolicyBindings :default  `:
 +
 [options="nowrap"]
 ----
@@ -48,5 +48,5 @@ You can use the CLI to visualize rules, roles, and bindings. The first sample
 
 The second sample views policy bindings and shows the above roles bound to
  various users and groups, using the command:
-  `oc describe clusterPolicy default`.
+  `oc describe clusterPolicyBindings :default `.
 endif::showscript[]

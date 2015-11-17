@@ -1,5 +1,5 @@
 == Pods and Services
-:noaudio:
+
 
 .Labels: Examples
 
@@ -27,14 +27,20 @@ ifdef::showscript[]
 
 === Transcript
 
-Labels are simple key/value pairs that you can use in almost every type of object in OpenShift Enterprise.
+Labels are simple key/value pairs that you can use in almost every type of
+ object in OpenShift Enterprise.
 
-Labels provide an easy way to manage resources as groups, rather than individually.
+Labels provide an easy way to manage resources as groups, rather than
+ individually.
 
-For example, say you have two separate pods. One is a `nginx` Docker container, and the other is an `Apache httpd` Docker container. If both are tagged with a `role=webserver` label, the service or replication controller defined to use pods with the `role=webserver` label treats both pods as part of the same group.
+For example, say you have two separate pods. One is a `nginx` Docker container,
+ and the other is an `Apache httpd` Docker container. If both are tagged with a
+  `role=webserver` label, the service or replication controller defined to use
+   pods with the `role=webserver` label treats both pods as part of the same
+    group.
 
-The second example here shows how labeing a group of components with `app=mytest` let you delete all of them in one command rather than having to locate and delete each component manually.
+The second example here shows how labeling a group of components with
+ `app=mytest` label lets you delete all of them in one command rather than
+  having to locate and delete each component manually.
 
 endif::showscript[]
-
-

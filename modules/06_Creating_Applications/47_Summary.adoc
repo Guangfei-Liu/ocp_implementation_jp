@@ -1,5 +1,5 @@
 == Summary
-:noaudio:
+
 
 * Overview
 * Source-to-Image
@@ -19,12 +19,19 @@ ifdef::showscript[]
 
 This module covered the following topics:
 
-* Concepts such as build and deployment automation; the definition of Source-to-Image, or S2I; the build process; the `BuildConfig` object; and build strategies.
+* Concepts such as build and deployment automation; the definition of
+ Source-to-Image, or S2I; the build process; the `BuildConfig` object; and build
+  strategies.
 
-* Creating an S2I build, including creating the build file and understanding the various sections of the build file: `Service,`, `ImageStream`, `BuildConfig`, `DeploymentConfig`, and `Templates`.
+* Creating an S2I build, including creating the build file and understanding the
+ various sections of the build file: `Service,`, `ImageStream`, `BuildConfig`,
+  `DeploymentConfig`, and `Templates`.
 
-* Deploying an S2I build image, including creating the build environment, starting the build, and using the web console to create an S2I build.
+* Deploying an S2I build image, including creating the build environment,
+ starting the build, and using the web console to create an S2I build.
 
-* You also learned how to deploy applications from source or image using the `oc new-app` CLI tool or the web console, and you learned a little about templates and advanced application creation.
+* You also learned how to deploy applications from source or image using the
+ `oc new-app` CLI tool or the web console, and you learned a little about
+  templates and advanced application creation.
 
 endif::showscript[]

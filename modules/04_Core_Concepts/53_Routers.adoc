@@ -1,9 +1,10 @@
 == Routers
-:noaudio:
+
 
 .Routers and Routes: Requests
 
-* To reach a router, requests for hostnames must resolve via DNS to a router or set of routers
+* To reach a router, requests for hostnames must resolve via DNS to a router or
+ set of routers
 * Recommended router setup:
 ** Define a sub-domain with a wildcard DNS entry pointing to a virtual IP
 ** Back virtual IP with multiple router instances on designated nodes
@@ -20,6 +21,6 @@ We recommend defining a cloud domain with a wildcard DNS entry pointing to a
  virtual IP backed by multiple router instances on designated nodes.
 
 In this approach, you need to configure the DNS for each address outside the
- cloud domain individually. Other approaches may be feasible.
+ cloud domain individually.
 
 endif::showscript[]

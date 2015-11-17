@@ -1,5 +1,5 @@
 == Strategies
-:noaudio:
+
 
 * `Rolling` strategy:
 ** Executes `pre` lifecycle hooks
@@ -18,7 +18,7 @@ NOTE: When executing a `post` lifecycle hook, all failures are ignored
  regardless of the failure policy specified in the hook.
 
 ifdef::showscript[]
-=== Transcript
+=== TranscriptR
 
 The `Rolling` strategy:
 

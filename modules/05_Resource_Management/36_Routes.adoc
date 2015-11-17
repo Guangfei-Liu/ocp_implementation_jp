@@ -1,5 +1,5 @@
 == Routes
-:noaudio:
+
 
 .Routes With Hostnames
 
@@ -22,18 +22,17 @@ spec:
     name: service-name
 ----
 
+. This specifies the externally reachable hostname used to expose a service.
+
+
 ifdef::showscript[]
 
 === Transcript
 
-To expose services externally, an OpenShift Enterprise route lets you associate a service with an externally reachable hostname.
+To expose services externally, an OpenShift Enterprise route lets you associate
+ a service with an externally reachable hostname.
 
-This edge hostname then routes traffic to the service.
-
-The example here shows a route with a specified host. Note the following:
-
-. This specifies the externally reachable hostname used to expose a service.
+The example here shows a route with a specified host.
 
 
 endif::showscript[]
-

@@ -1,5 +1,5 @@
 == Application Environment
-:noaudio:
+
 
 .Object Names
 
@@ -16,7 +16,8 @@ $ oc new-app https://github.com/openshift/ruby-hello-world --name=myapp
 
 * `new-app` creates objects in current project
 
-* To tell `new-app` to create objects in different project, use `-n|--namespace` argument
+* To tell `new-app` to create objects in different project, use `-n|--namespace`
+ flag
 
 * To create `new-app` artifacts in different project:
 +
@@ -30,11 +31,15 @@ $ oc new-app https://github.com/openshift/ruby-hello-world -n myproject
 ifdef::showscript[]
 
 === Transcript
-Objects created by `new-app` are normally named after the source repository or the image used to generate them.
+Objects created by `new-app` are normally named after the source repository or
+ the image used to generate them.
 
-You can set the name of the objects produced by adding the `--name` flag to the command.
+You can set the name of the objects produced by adding the `--name` flag to the
+ command.
 
-Normally `new-app` creates objects in the current project. To tell it to create objects in a different project that you have access to, use the `-n|--namespace` argument.
+Normally `new-app` creates objects in the current project. To tell it to create
+ objects in a different project that you have access to, use the
+  `-n|--namespace` flag.
 
 
 endif::showscript[]

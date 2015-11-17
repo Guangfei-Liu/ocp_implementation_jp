@@ -1,5 +1,5 @@
 == Authentication
-:noaudio:
+
 .Overview
 * Authentication layer:
 ** Identifies user associated with requests to OpenShift Enterprise API
@@ -17,14 +17,12 @@
 
 ifdef::showscript[]
 === Transcript
-The authentication layer identifies the user associated with requests to the OpenShift Enterprise API. The authorization layer then uses information about the requesting user to determine whether to allow the request.
+The authentication layer identifies the user associated with requests to the
+ OpenShift Enterprise API. The authorization layer then uses information about
+  the requesting user to determine whether to allow the request.
 
-An administrator can use a master configuration file to configure authentication. Learn more at the links shown here.
+An administrator can use a master configuration file to configure
+ authentication. Learn more at the links shown here.
 
-This section reviews the following topics:
-
-* Users and groups
-* API authentication
-* OAuth
 
 endif::showscript[]

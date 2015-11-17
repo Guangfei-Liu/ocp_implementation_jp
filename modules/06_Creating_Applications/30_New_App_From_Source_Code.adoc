@@ -1,5 +1,5 @@
 == New App From Source Code
-:noaudio:
+
 
 .Language Detection
 
@@ -21,9 +21,8 @@ $ oc new-app openshift/ruby-20-centos7:latest~/home/user/code/my-ruby-app
 ifdef::showscript[]
 
 === Transcript
-To override the image that `new-app` uses as the builder for a particular source repository, you can specify the image--either an image stream or Docker specification along with the repository by using a `~` (tilde) as a separator.
+To override the image that `new-app` uses as the builder for a particular source
+ repository, you can specify the image--either an image stream or Docker
+  specification along with the repository by using a `~` (tilde) as a separator.
 
 endif::showscript[]
-
-
-

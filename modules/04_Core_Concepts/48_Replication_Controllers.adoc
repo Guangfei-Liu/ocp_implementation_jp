@@ -1,5 +1,5 @@
 == Replication Controllers
-:noaudio:
+
 
 .Replication Controllers Definition
 
@@ -8,13 +8,16 @@
 ** Pod definition for creating replicated pod
 ** Selector for identifying managed pods
 
-* *Selector*: Set of labels all pods managed by replication controller should have
+* *Selector*: Set of labels all pods managed by replication controller should
+ have
 ** Included in pod definition that replication controller instantiates
-** Used by replication controller to determine how many pod instances are running, to adjust as needed
+** Used by replication controller to determine how many pod instances are
+ running, to adjust as needed
 
-* Not replication controller's job to perform auto-scaling based on load or traffic
+* Not replication controller's job to perform auto-scaling based on load or
+ traffic
 ** Does not track either
-** Requires external auto-scaler to adjust replica count
+
 
 
 
@@ -28,11 +31,14 @@ The definition of a replication controller consists mainly of the following:
 * A pod definition for creating a replicated pod
 * A selector for identifying managed pods
 
-The selector is just a set of labels that all of the pods managed by the replication controller should have. The set of labels is included in the pod definition that the replication controller instantiates.
+The selector is just a set of labels that all of the pods managed by the
+ replication controller should have. The set of labels is included in the pod
+  definition that the replication controller instantiates.
 
-The replication controller uses this selector to determine how many instances of the pod are already running, to adjust as needed.
+The replication controller uses this selector to determine how many instances
+ of the pod are already running, to adjust as needed.
 
-It is _not_ the replication controller's job to perform auto-scaling based on load or traffic, as it does not track either. That requires an external auto-scaler.
+It is _not_ the replication controller's job to perform auto-scaling based on
+ load or traffic, as it does not track either.
 
 endif::showscript[]
-

@@ -1,5 +1,5 @@
 == Overview
-:noaudio:
+
 
 * Can create new OpenShift Enterprise application using web console or `oc new-app` command
 ** Can specify application creation from _source code_, _image_, or _template_
@@ -14,14 +14,17 @@ ifdef::showscript[]
 
 === Transcript
 
-You can create a new OpenShift Enterprise application using the web console or by running the `oc new-app` command from the CLI.
+You can create a new OpenShift Enterprise application using the web console or
+ by running the `oc new-app` command from the CLI.
 
-In this context, an application is set of objects, such as `DeploymentConfig`, `BuildConfig`, `ReplicationController`, `pod`, `service`, and others that make up a _deployment_.
+In this context, an application is set of objects, such as `DeploymentConfig`,
+ `BuildConfig`, `ReplicationController`, `pod`, `service`, and others that make
+  up a _deployment_.
 
 The `oc new-app` command uses the S2I build process underneath the cover.
 
-In this module you start by learning the manual way of creating each of these objects, and then the much simpler `oc new-app` method.
+In this module you start by learning the manual way of creating each of these
+ objects, and then the much simpler `oc new-app` method.
 
 
 endif::showscript[]
-

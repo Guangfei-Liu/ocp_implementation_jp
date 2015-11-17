@@ -1,5 +1,5 @@
 == Source-to-Image Builds
-:noaudio:
+
 
 .JSON Build File - `Service`
 
@@ -41,7 +41,7 @@ ifdef::showscript[]
 
 === Transcript
 
-The `Service` section describes the service to be created to support the built application. Note the `selector` line.
+The `Service` section describes the service to be created to support the built
+ application. Note the `selector` line.
 
 endif::showscript[]
-

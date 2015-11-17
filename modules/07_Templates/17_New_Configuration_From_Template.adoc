@@ -1,5 +1,5 @@
 == New Configuration From Template
-:noaudio:
+
 
 .Uploading a Template
 
@@ -25,8 +25,8 @@ ifdef::showscript[]
 
 === Transcript
 
-You can create a configuration from a template or the management console. Using
- the management console, however, requires the template to be in
+You can create a configuration from a template file or the management console.
+ Using the management console, however, requires the template to be uploaded to
 your project or global template library.
 
 You can create a JSON template file and then upload it to your project's

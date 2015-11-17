@@ -1,5 +1,5 @@
 == Docker Components
-:noaudio:
+
 
 * *Docker daemon*: Runs on host machine
 * *Docker client*: Primary user interface to Docker
@@ -18,15 +18,14 @@ The Docker client is the primary user interface. It accepts commands
 from the user and communicates back and forth with a Docker daemon.
 
 A Docker image is a read-only template. For example, an image could contain a
-Red Hat Enterprise Linux 7 operating system with Apache and your web
-application installed.
+Red Hat Enterprise Linux 7 compatible libraries for Apache and your web
+application source code.
 
 Docker registries hold images. Registries are public or private stores from
 which you upload or download images.
 
 Docker containers hold everything that is needed for an application to run.
-Each container is created from a Docker image. You can start, run, stop, move, and delete Docker containers.
-
-
+Each container is created from a Docker image. You can start, run, terminate and
+ delete Docker containers.
 
 endif::showscript[]

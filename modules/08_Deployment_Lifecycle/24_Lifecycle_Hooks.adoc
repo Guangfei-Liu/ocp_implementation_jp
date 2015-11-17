@@ -1,5 +1,5 @@
 == Lifecycle Hooks
-:noaudio:
+
 
 .Simplified Deployment Configuration
 
@@ -53,13 +53,7 @@
   }
 }
 ----
-
-ifdef::showscript[]
-=== Transcript
-This simplified example deployment configuration uses the `Rolling` strategy.
- Triggers and some other minor details are omitted for brevity.
-
-Note the following:
+Note the following call-outs in the example:
 
 . The `pre` hook is executed in a new pod using the
  `openshift/origin-ruby-sample` image from the `helloworld` container.
@@ -75,6 +69,13 @@ Note the following:
 . The hook container will have the `CUSTOM_VAR1=custom_value1` environment
  variable. The `env` section contains an optional set of environment variables
   for the hook container.
+
+ifdef::showscript[]
+=== Transcript
+This simplified example deployment configuration uses the `Rolling` strategy.
+ Triggers and some other minor details are omitted for brevity.
+
+
 
 
 endif::showscript[]

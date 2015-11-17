@@ -1,5 +1,5 @@
 == Web Console
-:noaudio:
+
 
 * Can also create applications using web console
 
@@ -16,9 +16,11 @@ image::images/console_enter_source_uri.png[]
 ifdef::showscript[]
 
 === Transcript
-You can also create applications using the web console. While in the desired project, click *Create* and enter the repository URL for the application to build.
+You can also create applications using the web console. While in the desired
+ project, click *Create* and enter the repository URL for the application to
+  build.
 
 
 endif::showscript[]
 
-
+// ISSUE: I need to get new screenshots here for 3.1

@@ -1,5 +1,5 @@
 == Routes
-:noaudio:
+
 
 .Route Types
 * Routes can be secured or unsecured
@@ -8,7 +8,7 @@
 * Secured routes offer security
 ** Connections remain private
 ** Let you use several types of TLS termination to serve certificates to client
-* `Default Router` supports: 
+* `Default Router` supports:
 ** Edge
 ** Passthrough
 ** Re-encryption termination
@@ -20,11 +20,13 @@ ifdef::showscript[]
 
 Routes can be either secured or unsecured.
 
-Unsecured routes are simplest to configure, as they require no key or certificates. However, secured routes offer security for connections to remain private.
+Unsecured routes are simplest to configure, as they require no key or
+ certificates. However, secured routes offer security for connections to remain
+  private.
 
-Secure routes let you use several types of TLS termination to serve certificates to the client.
+Secure routes let you use several types of TLS termination to serve certificates
+ to the client.
 
 The `Default Router` supports edge, passthrough, and re-encryption termination.
 
 endif::showscript[]
-

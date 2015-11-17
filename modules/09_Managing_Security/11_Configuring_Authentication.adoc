@@ -1,5 +1,5 @@
 == Configuring Authentication
-:noaudio:
+
 
 .Identity Providers: Allow All
 
@@ -23,6 +23,13 @@ oauthConfig:
       kind: AllowAllPasswordIdentityProvider
 ----
 
+. This provider name is prefixed to provider usernames to form an identity name.
+. When `true`, unauthenticated token requests from non-web clients
+ (like the CLI) are sent a `WWW-Authenticate` challenge header for this provider.
+. When `true`, unauthenticated token requests from web clients
+ (like the web console)  are redirected to a login page backed by this provider.
+
+
 ifdef::showscript[]
 === Transcript
 
@@ -31,15 +38,6 @@ You can set `AllowAllPasswordIdentityProvider` in the `identityProviders`
 
 The _Allow All_ identity provider is the default identity provider when running
 OpenShift Enterprise without a _master configuration file_.
-
-The example here shows the master configuration using
- `AllowAllPasswordIdentityProvider`. Note the following:
-
-. This provider name is prefixed to provider usernames to form an identity name.
-. When `true`, unauthenticated token requests from non-web clients
- (like the CLI) are sent a `WWW-Authenticate` challenge header for this provider.
-. When `true`, unauthenticated token requests from web clients
- (like the web console) are redirected to a login page backed by this provider.
 
 
 endif::showscript[]

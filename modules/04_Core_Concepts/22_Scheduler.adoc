@@ -1,5 +1,5 @@
 == Scheduler
-:noaudio:
+
 
 .Generic Scheduler
 
@@ -11,7 +11,7 @@
 
 - Runs nodes through list of filter functions called _predicates_
 
-. Prioritize qualifying nodes 
+. Prioritize qualifying nodes
 
 - Pass each node through series of _priority_ functions
 - Assign node score between 0 - 10
@@ -28,15 +28,25 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise provides a default generic scheduler. It is a scheduling _engine_ that selects a node to host the pod in a three-step operation:
+OpenShift Enterprise provides a default generic scheduler. It is a scheduling
+ _engine_ that selects a node to host the pod in a three-step operation:
 
-. The scheduler filters all of the available nodes based on specified constraints and requirements by running them through a list of filter functions called _predicates_, and disqualifies the nodes that do not meet the criteria. 
+. The scheduler filters all of the available nodes based on specified
+ constraints and requirements by running them through a list of filter functions
+  called _predicates_, and disqualifies the nodes that do not meet the criteria.
 
-. It then prioritizes the qualifying nodes that remain by passing them through a series of _priority_ functions that assign each node a score between 0 and 10, where 0 indicates the worst possible fit and 10 the best possible fit to host the pod. 
+. It then prioritizes the qualifying nodes that remain by passing them through
+ a series of _priority_ functions that assign each node a score between 0 and
+  10, where 0 indicates the worst possible fit and 10 the best possible fit to
+   host the pod.
 
-. The scheduler sorts the nodes by scores and selects the node with the highest score to host the pod. If multiple nodes have the same high score, the scheduler selects one of them at random.
+. The scheduler sorts the nodes by scores and selects the node with the highest
+ score to host the pod. If multiple nodes have the same high score, the
+  scheduler selects one of them at random.
 
-By default, the scheduler considers every priority function to be equally important and gives each one a weight, or positive numeric value, of 1. Administrators can reconfigure the scheduler to give some priority functions more importance by increasing their weight.
+By default, the scheduler considers every priority function to be equally
+ important and gives each one a weight, or positive numeric value, of 1.
+  Administrators can reconfigure the scheduler to give some priority functions
+   more importance by increasing their weight.
 
 endif::showscript[]
-

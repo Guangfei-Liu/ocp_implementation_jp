@@ -1,5 +1,5 @@
 == New App From Source Code
-:noaudio:
+
 
 .Specifying Source Code
 
@@ -16,10 +16,10 @@ NOTE: If you are using a local Git repository, the repository must have an _orig
 ifdef::showscript[]
 
 === Transcript
-The `new-app` command allows you to create applications using source code from a local or remote Git repository. If only a source repository is specified, `new-app` tries to automatically determine the type of build strategy to use (`docker` or `source`), and for `source` builds, an appropriate language builder image.
-
-If you are using a local Git repository, the repository must have an _origin_ remote that points to a URL accessible by the OpenShift Enterprise cluster.
+The `new-app` command allows you to create applications using source code from a
+ local or remote Git repository. If only a source repository is specified,
+  `new-app` tries to automatically determine the type of build strategy to use
+   (`docker` or `source`), and for `source` builds, an appropriate language
+    builder image.
 
 endif::showscript[]
-
-

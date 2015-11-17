@@ -1,5 +1,5 @@
 == Routes
-:noaudio:
+
 
 .Creating Routes With the Command Line
 
@@ -8,7 +8,8 @@
 ** Object definition file (YAML, JSON)
 ** CLI tool
 
-* Example: Use CLI to create route with hostname exposing service `hello-service`:
+* Example: Use CLI to create route with hostname exposing service
+ `hello-service`:
 +
 [source,bash]
 ----
@@ -31,13 +32,17 @@ ifdef::showscript[]
 
 === Transcript
 
-You can create `routes` using an API call, an object definition file such as YAM or JSON, or the CLI tool.
+You can create `routes` using an API call, an object definition file such as
+ YAML or JSON, or the CLI tool.
 
-The first example shows how you can use the CLI to create a route with a hostname that exposes a service called `hello-service`.
+The first example shows how you can use the CLI to create a route with a
+ hostname that exposes a service called `hello-service`.
 
-As you can see,  you use the `oc expose` command to create a `route` for external access to your `service` Note that the route routes directly to the pods, not to the `service`. The route gets the pod connection details from the service.
+As you can see,  you use the `oc expose` command to create a `route` for
+ external access to your `service` Note that the route routes directly to the
+  pods, not to the `service`. The route gets the pod connection details from
+   the service.
 
 The second example shows how to display the `routes` in your current project.
 
 endif::showscript[]
-

@@ -1,9 +1,10 @@
 == Scheduler
-:noaudio:
+
 
 .Scheduler Policy
 * Selection of predicates and priority functions defines scheduler _policy_
-* Administrators can provide JSON file that specifies predicates and priority functions to configure scheduler
+* Administrators can provide JSON file that specifies predicates and priority
+ functions to configure scheduler
 ** Overrides default scheduler policy
 ** If default predicates or priority functions required, must specify them in file
 ** Can specify path to scheduler policy file in master configuration file
@@ -24,6 +25,7 @@ The predicates and priority functions defined in the scheduler configuration
 Administrators can specify the path to the scheduler policy file in the master
  configuration file.
 
-In the absence of the scheduler policy file, the default configuration is applied.
+In the absence of the scheduler policy file, the default configuration is
+ applied.
 
 endif::showscript[]

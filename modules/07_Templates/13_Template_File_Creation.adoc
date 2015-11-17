@@ -1,5 +1,5 @@
 == Template File Creation
-:noaudio:
+
 
 .Example Template - `objects:` `ImageStream` `ruby-sample` and `ruby-20-rhel7`
 [subs="verbatim,macros"]

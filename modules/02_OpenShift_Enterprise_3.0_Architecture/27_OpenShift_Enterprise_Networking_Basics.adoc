@@ -1,5 +1,5 @@
 == OpenShift Enterprise Networking Basics
-:noaudio:
+
 
 * One or more OpenShift Enterprise nodes host the `Default Router`:
 ** `Default Router`: An HA-Proxy instance running inside a container to "route"
@@ -25,7 +25,7 @@ Router_.
 The router's function is to resolve `fqdn` hostname requests and proxy the
 connection directly to any of the pods represented by the service.
 
-You need to configure a DNS entry in the client's DNS server to resolve a wildcard
-entry such as `*.cloudapps.companynameexample.com`.
+You need to configure a DNS entry in the client's DNS server to resolve a
+ wildcard entry such as `*.cloudapps.companynameexample.com`.
 
 endif::showscript[]

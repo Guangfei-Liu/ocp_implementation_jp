@@ -1,5 +1,5 @@
 == Client Tool Authentication
-:noaudio:
+
 
 * Every user must authenticate to access OpenShift Enterprise
 * Requests lacking valid authentication authenticated as anonymous system user
@@ -17,11 +17,15 @@ ifdef::showscript[]
 
 === Transcript
 
-Every user must authenticate in some way to access OpenShift Enterprise. API requests that lack valid authentication are authenticated as requests by an anonymous system user. Once you authenticate, policy determines what you are authorized to do.
+Every user must authenticate in some way to access OpenShift Enterprise. API
+ requests that lack valid authentication are authenticated as requests by an
+  anonymous system user. Once you authenticate, policy determines what you are
+   authorized to do.
 
-You access the web console on the OpenShift Enterprise master's public IP on port 8443. The system automatically redirects you to the login page.
+You can access the web console on the OpenShift Enterprise master's public IP on
+ port 8443. The system automatically redirects you to the login page.
 
-You provide your login credentials to obtain a token to make API calls. After you log in, you use the web console to navigate your projects.
+You provide your login credentials to obtain a token to make API calls. After
+ you log in, you use the web console to navigate through your projects.
 
 endif::showscript[]
-

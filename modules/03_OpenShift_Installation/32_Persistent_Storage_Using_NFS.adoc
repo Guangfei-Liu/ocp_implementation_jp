@@ -1,5 +1,5 @@
 == Persistent Storage Using NFS
-:noaudio:
+
 
 .Resource Reclamation
 * OpenShift Enterprise implements Kubernetes `Recyclable` plug-in interface

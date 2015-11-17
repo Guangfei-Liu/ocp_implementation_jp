@@ -1,5 +1,5 @@
 == Integrated Registry
-:noaudio:
+
 
 * Provides an integrated Docker registry
 * Provides place for builds to push images
@@ -17,9 +17,9 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise provides an integrated Docker registry. This 
-automatically provides users with a place to which their builds can push the resulting
-images.
+OpenShift Enterprise provides an integrated Docker registry. This
+automatically provides users with a place to which their builds can push the
+ resulting images.
 
 Whenever a new image is pushed to the integrated registry, the registry notifies
 OpenShift Enterprise about the new image and passes along image information,
@@ -29,7 +29,3 @@ Various pieces of OpenShift Enterprise react to the new images by creating new
 builds and deployments.
 
 endif::showscript[]
-
-
-
-

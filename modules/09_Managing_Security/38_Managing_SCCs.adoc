@@ -1,5 +1,5 @@
 == Managing SCCs
-:noaudio:
+
 
 .Enabling Images to Run With `USER` in the Dockerfile
 

@@ -1,5 +1,5 @@
 == Configuring Authentication
-:noaudio:
+
 
 .Identity Providers: `htpasswd`
 
@@ -9,7 +9,6 @@
 
 * Supports MD5 and SHA encryption types only
 ** MD5 encryption recommended, default for `htpasswd`
-** Not supported: Plaintext, crypt, bcrypt hashes
 
 * Flat file reread if modification time changes
 ** Server restart not required
@@ -23,8 +22,6 @@ You can set `HTPasswdPasswordIdentityProvider` in the `identityProviders`
 
 Currently, OpenShift Enterprise supports MD5 and SHA encryption types only. MD5
  encryption, which is the default for `htpasswd`, is recommended.
-
-Plaintext, crypt, or bcrypt hashes currently are not supported.
 
 The flat file is reread if its modification time changes, without requiring a
  server restart.

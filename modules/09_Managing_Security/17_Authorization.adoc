@@ -1,5 +1,5 @@
 == Authorization
-:noaudio:
+
 
 .Overview
 * Authorization policies: Determine whether user may perform _action_ within

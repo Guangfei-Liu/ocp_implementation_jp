@@ -1,5 +1,5 @@
 == OpenShift Enterprise Population
-:noaudio:
+
 
 * Can populate OpenShift Enterprise installation with Red Hat-provided _image streams_ and _templates_
 ** Make it easy to create new applications

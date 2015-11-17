@@ -1,5 +1,5 @@
 == What Is OpenShift Enterprise?
-:noaudio:
+
 
 * Platform-as-a-Service (PaaS)
 * Uses industry standards

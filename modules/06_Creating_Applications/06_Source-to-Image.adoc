@@ -1,5 +1,5 @@
 == Source-to-Image
-:noaudio:
+
 
 .Build and Deployment Automation
 
@@ -12,11 +12,10 @@ ifdef::showscript[]
 
 === Transcript
 
-S2I is the process OpenShift Enterprise uses to build a container image from a base image and your application source code.
+OpenShift Enterprise offers an integrated Docker registry and automated image
+ builds, enabling both source code deployments that leverage S2I build
+  automation and binary deployments that are integrated with your existing build
+   and CI infrastructure.
 
-OpenShift Enterprise offers an integrated Docker registry and automated image builds, enabling both source code deployments that leverage S2I build automation and binary deployments that are integrated with your existing build and CI infrastructure.
-
-OpenShift Enterprise also offers configurable deployment patterns, which are covered later in this training.
 
 endif::showscript[]
-

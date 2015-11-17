@@ -1,5 +1,5 @@
 == Replication Controllers
-:noaudio:
+
 
 .Replication Controllers Definition File/Manifest
 
@@ -34,7 +34,8 @@ ifdef::showscript[]
 
 Replication controllers are a core Kubernetes object, `ReplicationController`.
 
-Here is a sample `ReplicationController` definition with some omissions and callouts.
+Here is a sample `ReplicationController` definition with some omissions and
+ callouts.
 
 . The number of copies of the pod to run.
 . The label selector of the pod to run.
@@ -42,4 +43,3 @@ Here is a sample `ReplicationController` definition with some omissions and call
 . Labels on the pod should include those from the label selector.
 
 endif::showscript[]
-

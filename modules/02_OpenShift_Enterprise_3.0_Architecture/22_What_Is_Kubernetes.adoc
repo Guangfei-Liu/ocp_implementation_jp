@@ -1,5 +1,5 @@
 == What Is Kubernetes?
-:noaudio:
+
 
 * Open source system for managing containerized applications
 across multiple hosts
@@ -26,4 +26,3 @@ Kubernetes is lean, portable, extensible, and self-healing. Kubernetes builds
 upon more than 15 years of experience at Google.
 
 endif::showscript[]
-

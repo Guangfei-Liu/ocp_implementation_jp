@@ -1,5 +1,5 @@
 == Source-to-Image
-:noaudio:
+
 
 
 image::images/DockerVsS2IBuilds.png[]
@@ -8,7 +8,7 @@ ifdef::showscript[]
 
 === Transcript
 
-This illustration shows the key difference between a Docker build and an S2I build.
+This illustration shows the key difference between a Docker build and an S2I
+ build.
 
 endif::showscript[]
-

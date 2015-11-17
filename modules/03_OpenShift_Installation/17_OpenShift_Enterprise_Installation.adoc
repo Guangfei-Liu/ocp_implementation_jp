@@ -1,5 +1,5 @@
 == OpenShift Enterprise Installation
-:noaudio:
+
 
 * Access quick installer from:
 https://install.openshift.com

@@ -1,5 +1,5 @@
 == Scheduler
-:noaudio:
+
 
 .Sample Policy Configuration
 
@@ -26,8 +26,7 @@ ifdef::showscript[]
 
 === Transcript
 
-The configuration shown here specifies the default scheduler configuration, as it might be specified via the scheduler policy file.
+The configuration shown here specifies the default scheduler configuration, as
+ it might be specified via the scheduler policy file.
 
 endif::showscript[]
-
-

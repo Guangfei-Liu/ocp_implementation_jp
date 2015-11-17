@@ -1,12 +1,12 @@
 == Template File Creation
-:noaudio:
+
 
 .Example Template - `objects:` `Service` `frontend` / `web`
 [subs="verbatim,macros"]
 ----
 "objects": [
     {
-     pass:quotes[*"kind": "Service",*] 
+     pass:quotes[*"kind": "Service",*]
       "apiVersion": "v1",
       "metadata": {
         pass:quotes[*"name": "frontend",*]
@@ -40,8 +40,7 @@ ifdef::showscript[]
 
 === Transcript
 
-This section shows the service named `frontend`, and the `web` object.
+This section shows the service named `frontend`.
 
 
 endif::showscript[]
-

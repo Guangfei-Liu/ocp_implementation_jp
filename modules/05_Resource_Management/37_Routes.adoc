@@ -1,9 +1,10 @@
 == Routes
-:noaudio:
+
 
 .Routes Without Hostnames
 
-* If hostname _not_ provided in route specification, OpenShift Enterprise generates one
+* If hostname _not_ provided in route specification, OpenShift Enterprise
+ generates one
 * Form: `$routename[.$namespace].$suffix`
 * Example: Route definition without host:
 +
@@ -24,11 +25,11 @@ ifdef::showscript[]
 
 === Transcript
 
-If a hostname is _not_ provided as part of the route specification, OpenShift Enterprise automatically generates one for you.
+If a hostname is _not_ provided as part of the route specification, OpenShift
+ Enterprise automatically generates one for you.
 
 The generated hostname is of the form of `$routename[.$namespace].$suffix`.
 
 The example here shows a route definition without a host.
 
 endif::showscript[]
-

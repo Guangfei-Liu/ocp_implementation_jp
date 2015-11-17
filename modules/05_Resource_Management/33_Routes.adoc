@@ -1,5 +1,5 @@
 == Routes
-:noaudio:
+
 
 .Secured TLS Termination Types: Passthrough Termination Route Definition
 
@@ -18,6 +18,8 @@ spec:
     termination: passthrough     <1>
 ----
 
+. The `termination` field is set to `passthrough`. No other encryption fields
+ are needed.
 
 ifdef::showscript[]
 
@@ -26,9 +28,10 @@ ifdef::showscript[]
 Here is an example of a secured route definition using passthrough termination.
 
 Note the following:
+. The `termination` field is set to `passthrough`. No other encryption fields
+ are needed.
 
-. The `termination` field is set to `passthrough`. No other encryption fields are needed.
+
 
 
 endif::showscript[]
-

@@ -1,5 +1,5 @@
 == Scheduler
-:noaudio:
+
 
 .Topology Example 3
 
@@ -27,8 +27,7 @@ ifdef::showscript[]
 
 === Transcript
 
-In this example, the policy means that a _node_ must have a _region_ label, and that you prefer to use a _node_ that also has a _zone_ label defined.
+In this example, the policy means that a _node_ must have a _region_ label, and
+ that you prefer to use a _node_ that also has a _zone_ label defined.
 
 endif::showscript[]
-
-

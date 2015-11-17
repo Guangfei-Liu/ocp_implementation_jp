@@ -1,9 +1,10 @@
 == Containers and Images
-:noaudio:
+
 
 .Containers: Docker
 
-* Linux kernel incorporated capabilities for container technologies for years.
+* In the past few years, Linux kernel advanced capabilities for container
+ technologies
 * More recently, Docker project developed management interface for Linux
 containers
 ** Learn more: https://www.docker.com/whatisdocker/
@@ -15,8 +16,8 @@ ifdef::showscript[]
 
 === Transcript
 
-The Linux kernel has been incorporating capabilities for container technologies
- for years.
+In the past few years, Linux kernel advanced capabilities for container
+ technologies
 
 Recently, the Docker project has developed a convenient management interface for
  Linux containers on a host.

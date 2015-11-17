@@ -1,5 +1,5 @@
 == Client Tool Authentication
-:noaudio:
+
 
 .CLI Authentication: `oc login` Options
 
@@ -26,12 +26,12 @@ server
 does not ask for it interactively
 |`--certificate-authority`
 a|* Correctly and securely authenticates with OpenShift Enterprise
-server that uses HTTPS 
+server that uses HTTPS
 * Must provide path to certificate authority file
 |`--insecure-skip-tls-verify`
 a|* Allows interaction with HTTPS server while bypassing server
 certificate checks
-* Not secure if 
+* Not secure if
 ** You `oc
 login` to HTTPS server that does not provide valid certificate
 ** This or `--certificate-authority` not provided
@@ -45,9 +45,9 @@ ifdef::showscript[]
 
 The code example here shows brief syntax for CLI authentication.
 
-Review the options for the `oc login` command shown in the table. Pay special attention to the `insecure-skip-tls-verify` flag. You will probably need to use it when attempting to access the OpenShift Enterprise master before securing the master with TLS certificates.
+Review the options for the `oc login` command shown in the table. Pay special
+ attention to the `insecure-skip-tls-verify` flag. You will probably need to use
+  it when attempting to access the OpenShift Enterprise master before securing
+   the master with a TLS certificate.
 
 endif::showscript[]
-
-
-

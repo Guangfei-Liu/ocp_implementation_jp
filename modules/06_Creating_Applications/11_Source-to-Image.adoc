@@ -1,31 +1,43 @@
 == Source-to-Image
-:noaudio:
+
 
 .Build Strategies
 
 * Docker build
-- Invokes `docker build`, expects repository with Dockerfile and required directories
+- Invokes `docker build`, expects repository with Dockerfile and required
+ directories
 - Suitable for prebuilt Docker container
 - Need to create Docker image and inject code into it
 * S2I build
 - Builds reproducible Docker images
-- Produces ready-to-run images by injecting user source into Docker image and assembling new Docker image
-*** New ready-to-use image incorporates base image and built source 
-- Supports incremental builds that reuse downloaded dependencies, built artifacts, etc.
+- Produces ready-to-run images by injecting user source into Docker image and
+ assembling new Docker image
+*** New ready-to-use image incorporates base image and built source
 
 ifdef::showscript[]
 
 === Transcript
 
-The OpenShift Enterprise build system provides extensible support for build strategies based on selectable types specified in the build API.
+The OpenShift Enterprise build system provides extensible support for build
+ strategies based on selectable types specified in the build API.
 
-Docker builds invoke the plain `docker build` command, and therefore expect a repository with a Dockerfile and all required directories for a Docker build process. This method is suitable for deploying a prebuilt Docker container.
+Docker builds invoke the plain `docker build` command, and therefore expect a
+ repository with a Dockerfile and all required directories for a Docker build
+  process. This method is suitable for deploying a prebuilt Docker container.
 
-With this approach, a developer, provider, or OPs team needs to create the Docker image and inject the code into it.
+With this approach, a developer, provider, or OPs team needs to create the
+ Docker image and inject the code into it.
 
-Source-to-Image, or S2I, is a tool for building reproducible Docker images. S2I produces ready-to-run images by injecting a user's source code into an image and assembling a new Docker image. The created image incorporates the base image and built source.
+Source-to-Image, or S2I, is a tool for building reproducible Docker images.
+ S2I produces ready-to-run images by injecting a user's source code into an
+  image and assembling a new Docker image. The created image incorporates the
+   base image and built source.
 
-S2I supports incremental builds that reuse previously downloaded dependencies, previously built artifacts, and so on.
 
 endif::showscript[]
 
+// ISSUE: Added after 3.1 updates
+// Supports incremental builds that reuse downloaded dependencies, built artifacts, etc.
+
+// S2I supports incremental builds that reuse previously downloaded dependencies,
+// previously built artifacts, and so on.

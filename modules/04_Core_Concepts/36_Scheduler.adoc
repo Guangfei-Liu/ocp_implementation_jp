@@ -1,5 +1,5 @@
 == Scheduler
-:noaudio:
+
 
 .Topology Example 1
 
@@ -30,12 +30,16 @@ ifdef::showscript[]
 
 You can use as many or as few topological levels as you like in the scheduler.
 
-The example shown here defines three topological levels: `region`, `zone`, and `rack`.
+The example shown here defines three topological levels: `region`, `zone`, and
+ `rack`.
 
-This policy creates a scheduling process that puts pods in the same `region` and `zone` but spreads the pods among the `racks` within each zone.
+This policy creates a scheduling process that puts pods in the same `region` and
+ `zone` but spreads the pods among the `racks` within each zone.
 
-Note that in all of the sample configurations provided, the list of predicates and priority functions is truncated to include only the ones that pertain to the specified use case. In practice, a complete and meaningful scheduler policy should include most, if not all, of the default predicates and priority functions described earlier in this module.
+Note that in all of the sample configurations provided here, the list of
+ predicates and priority functions are truncated to include only the ones that
+  pertain to the specified use case. In practice, a complete and meaningful
+	 scheduler policy should include most, if not all, of the default predicates
+	  and priority functions described earlier in this module.
 
 endif::showscript[]
-
-

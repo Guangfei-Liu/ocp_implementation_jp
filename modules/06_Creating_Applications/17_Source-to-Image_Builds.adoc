@@ -1,5 +1,5 @@
 == Source-to-Image Builds
-:noaudio:
+
 
 .JSON Build File - `ImageStream`
 
@@ -39,9 +39,11 @@ ifdef::showscript[]
 
 === Transcript
 
-The `ImageStream` section describes the `ImageStream` resource to be created to support the built application.
+The `ImageStream` section describes the `ImageStream` resource to be created to
+ support the built application.
 
-Using `ImageStreams` lets OpenShift Enterprise _listen_ or _poll_ for changes in the image, such as security patches. OpenShift Enterprise _rebuilds_ when a change like this occurs.
+Using `ImageStreams` lets OpenShift Enterprise _listen_ or _poll_ for changes in
+ the image, such as security patches. OpenShift Enterprise _rebuilds_ when a
+  change like this occurs.
 
 endif::showscript[]
-

@@ -1,5 +1,5 @@
 == Resource Quota
-:noaudio:
+
 
 .Sample Quota Definition File
 
@@ -23,12 +23,6 @@
 }
 ----
 
-ifdef::showscript[]
-
-=== Transcript
-
-Here is an example of a quota definition file. Note the following:
-
 . This is the name of this quota document
 . This is the total amount of memory consumed across all containers. It cannot exceed 1 GB.
 . This is the total amount of CPU usage consumed across all containers. It cannot exceed 20 Kubernetes compute units.
@@ -36,6 +30,12 @@ Here is an example of a quota definition file. Note the following:
 . This is the total number of services in the project.
 . This is the total number of replication controllers in the project.
 . This is the total number of resource quota documents in the project.
+
+ifdef::showscript[]
+
+=== Transcript
+
+Here is an example of a quota definition file.
 
 
 endif::showscript[]

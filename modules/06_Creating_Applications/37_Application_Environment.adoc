@@ -1,5 +1,5 @@
 == Application Environment
-:noaudio:
+
 
 .Specifying Environment Variables
 
@@ -20,8 +20,8 @@ ifdef::showscript[]
 
 === Transcript
 When generating applications from _source_ or  _image_, you can use the
- `-e|--env` argument to specify the environment to be passed to the application
-  container at runtime.
+ `-e|--env` flag to specify environment variables to be passed to the
+  application container at runtime.
 
 The example shows setting environment variables when creating an application for
  a database image.

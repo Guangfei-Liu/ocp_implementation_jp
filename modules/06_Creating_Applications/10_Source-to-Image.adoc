@@ -1,5 +1,5 @@
 == Source-to-Image
-:noaudio:
+
 
 .`BuildConfig` Parameters
 
@@ -15,8 +15,8 @@ ifdef::showscript[]
 
 There are three parameter types.
 
-* The source parameter describes the SCM used to locate the source code. The
- source parameter currently supports only Git.
+* The source parameter describes the source code repository. The
+ source parameter currently supports only the Git SCM.
 
 * Strategy describes the build type being invoked, along with the build's
  specific details.

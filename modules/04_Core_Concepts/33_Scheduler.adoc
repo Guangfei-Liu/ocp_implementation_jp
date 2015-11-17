@@ -1,25 +1,32 @@
 == Scheduler
-:noaudio:
+
 
 .Affinity
 
-* Administrators can configure scheduler to specify affinity at any topological level or multiple levels
-* Affinity indicates all pods belonging to same service are scheduled onto nodes belonging to same level
-* Handles application latency requirements by letting administrators ensure peer pods do not end up being too geographically separated
+* Administrators can configure scheduler to specify affinity at any topological
+ level or multiple levels
+* Affinity indicates all pods belonging to same service are scheduled onto nodes
+ belonging to same level
+* Handles application latency requirements by letting administrators ensure peer
+ pods do not end up being too geographically separated
 * If no node available within same affinity group to host pod, pod not scheduled
 
 ifdef::showscript[]
 
 === Transcript
 
-Use the affinity function when you want all components of a service--that is, all the pods--to be located in the same _zone_, _region_, or _node_.
-  
-Administrators can configure the scheduler to specify affinity at any topological level, or even at multiple levels.
+Use the affinity function when you want all components of a service--that is,
+ all the pods--to be located in the same _zone_, _region_, or _node_.
 
-Affinity at a particular level indicates that all pods that belong to the same service are scheduled onto nodes that belong to the same level.
+Administrators can configure the scheduler to specify affinity at any
+ topological level, or even at multiple levels.
 
-This handles any latency requirements of applications by letting administrators ensure that peer pods do not end up being too geographically separated. If no node is available within the same affinity group to host the pod, the pod is not scheduled.
+Affinity at a particular level indicates that all pods that belong to the same
+ service are scheduled onto nodes that belong to the same level.
+
+This handles any latency requirements of applications by letting administrators
+ ensure that peer pods do not end up being too geographically separated. If no
+  node is available within the same affinity group to host the pod, the pod is
+   not scheduled.
 
 endif::showscript[]
-
-

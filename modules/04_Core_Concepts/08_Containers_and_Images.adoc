@@ -1,5 +1,5 @@
 == Containers and Images
-:noaudio:
+
 
 .Docker Registry
 
@@ -28,7 +28,7 @@ Docker provides its own registry, the Docker hub, but you can also use private
 Red Hat provides a Docker registry with certified images at
  `registry.access.redhat.com` for subscribers.
 
-In OpenShift Enterprise 3.0, you usually create your own registry, referred to
+In OpenShift Enterprise 3, you usually create your own registry, referred to
  as the `Integrated Registry`, and use it to push your S2I-created images.
 
 

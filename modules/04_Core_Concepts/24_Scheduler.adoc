@@ -1,5 +1,5 @@
 == Scheduler
-:noaudio:
+
 
 .Default Scheduler Policy
 
@@ -23,9 +23,8 @@ ifdef::showscript[]
 
 === Transcript
 
-The default scheduler policy includes the _predicates_ and _priority functions_ shown here. After the predicates disqualify (or _opt-out_) nodes, the priority functions and their _weight_ define the best fit for the new pod.
+The default scheduler policy includes the _predicates_ and _priority functions_
+ shown here. After the predicates disqualify (or _opt-out_) nodes, the priority
+  functions and their _weight_ define the best fit for the new pod.
 
 endif::showscript[]
-
-
-

@@ -1,5 +1,5 @@
 == Scheduler
-:noaudio:
+
 
 .Static Predicates
 
@@ -14,7 +14,7 @@
 * Nodes declare resource capacities, pods specify what resources they require
 * Fit based on requested, rather than used, resources
 |`NoDiskConflict` a|* Determines fit based on nonconflicting disk volumes
-* Evaluates if pod can fit based on volumes requested and those already mounted 
+* Evaluates if pod can fit based on volumes requested and those already mounted
 |`MatchNodeSelector` |Determines fit based on node selector query defined in pod
 |`HostName` |Determines fit based on presence of host parameter and string match with host name
 |===================================================================
@@ -23,10 +23,9 @@ ifdef::showscript[]
 
 === Transcript
 
-Static predicates have fixed names and configuration parameters that users cannot change. 
+Static predicates have fixed names and configuration parameters that users
+ cannot change.
 
 Kubernetes provides the static predicates shown here out of the box.
 
 endif::showscript[]
-
-

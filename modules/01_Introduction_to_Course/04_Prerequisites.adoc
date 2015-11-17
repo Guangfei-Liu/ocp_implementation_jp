@@ -1,5 +1,5 @@
 == Prerequisites
-:noaudio:
+
 
 * Knowledge of Red Hat Enterprise Linux 7
 * Completion of OpenShift 3.x FASTRAX training with labs

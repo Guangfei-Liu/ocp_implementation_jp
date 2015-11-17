@@ -1,5 +1,5 @@
 == Lifecycle Hooks
-:noaudio:
+
 
 .Pod-Based Lifecycle Hook
 
@@ -13,10 +13,12 @@
 ifdef::showscript[]
 === Transcript
 Hooks have a type-specific field that describes how to execute the hook.
- Currently, pod-based hooks are the only supported hook type, specified in the
-  `execNewPod` field.
 
 Pod-based lifecycle hooks execute hook code in a new pod derived from the
  deployment configuration template.
 
+
+
 endif::showscript[]
+
+//ISSUE: Update this in 3.1

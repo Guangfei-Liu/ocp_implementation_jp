@@ -1,5 +1,5 @@
 == Containers and Images
-:noaudio:
+
 
 .Docker Images
 
@@ -23,9 +23,7 @@ A running instance of a Docker image is referred to as a container.
 
 A Docker image is a binary that includes all of the requirements for running a
  single Docker container, as well as metadata describing its needs and
-  capabilities.
-
-You can think of it as a packaging technology.
+  capabilities. You can think of it as a packaging technology.
 
 Docker containers have access only to resources defined in the image, unless
  you give the container additional access when you create it.

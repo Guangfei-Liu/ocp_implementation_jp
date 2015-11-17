@@ -1,5 +1,5 @@
 == Containers and Images
-:noaudio:
+
 
 .Containers
 
@@ -8,7 +8,7 @@
 ** Limits processes to interacting with designated resources only
 * Can run many application instances in containers on single host
 ** No visibility into other processes, files, network, etc.
-* Container typically provides single service (_microservice_)
+* Container typically provides single service (often called a _microservice_)
 ** Web server or database
 * Can use containers for arbitrary workloads
 * More info on Linux container technologies: https://access.redhat.com/articles/1353593

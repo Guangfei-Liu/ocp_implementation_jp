@@ -1,10 +1,11 @@
 == Scheduler
-:noaudio:
+
 
 .Static Priority Functions
 
 * Do not take configuration parameters or inputs from user
-* Specified in scheduler configuration using predefined names and weight calculations
+* Specified in scheduler configuration using predefined names and weight
+ calculations
 
 [cols="1,4"]
 |===================================================================
@@ -26,10 +27,10 @@ ifdef::showscript[]
 
 === Transcript
 
-Static priority functions do not take any configuration parameters or inputs from the user. The scheduler configuration file specifies these priority functions using their predefined names and weight calculations.
+Static priority functions do not take any configuration parameters or inputs
+ from the user. The scheduler configuration file specifies these priority
+  functions using their predefined names and weight calculations.
 
 The available static priority functions are shown here.
 
 endif::showscript[]
-
-

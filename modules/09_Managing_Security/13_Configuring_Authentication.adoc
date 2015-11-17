@@ -1,5 +1,5 @@
 == Configuring Authentication
-:noaudio:
+
 
 //ISSUE: Bob - This could benefit from expand/collapse I think
 

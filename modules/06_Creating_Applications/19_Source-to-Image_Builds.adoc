@@ -1,5 +1,5 @@
 == Source-to-Image Builds
-:noaudio:
+
 
 .JSON Build File - `DeploymentConfig`
 
@@ -50,8 +50,7 @@ ifdef::showscript[]
 
 === Transcript
 
-In the `DeploymentConfig` section, you define more triggers that can start a rebuild of your image and how many replicas your application will have.
+In the `DeploymentConfig` section, you define more triggers that can start a
+ rebuild of your image and how many replicas your application will have.
 
 endif::showscript[]
-
-

@@ -1,5 +1,5 @@
 == Persistent Volumes
-:noaudio:
+
 
 .Requesting Storage
 
@@ -11,9 +11,9 @@ ifdef::showscript[]
 
 === Transcript
 
-You can make storage available to you by laying claims to the resource.
+You can make storage available by laying claims to the resource.
 
-To make a request for storage resources, use a `PersistentVolumeClaim` object. The claim is paired with a volume that can fulfill your request.
+To make a request for storage resources, use a `PersistentVolumeClaim` object.
+ The claim is paired with a volume that can fulfill your request.
 
 endif::showscript[]
-

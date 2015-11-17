@@ -1,5 +1,5 @@
 == Managing SCCs
-:noaudio:
+
 
 .Creating SCCs: Part 2
 

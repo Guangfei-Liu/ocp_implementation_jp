@@ -1,5 +1,5 @@
 == Strategies
-:noaudio:
+
 
 .`Custom` Strategy
 
@@ -22,20 +22,16 @@
   }
 }
 ----
+. The `organization/strategy` Docker image provides deployment behavior.
+. The optional `command` array overrides the `CMD` directive specified in image
+ Dockerfile.
+. The optional environment variables are added to the execution environment.
 
 
 ifdef::showscript[]
 === Transcript
 The `Custom` strategy allows you to provide your own deployment behavior.
 
-Note the following:
-
-. The `organization/strategy` Docker image provides deployment behavior.
-
-. The optional `command` array overrides the `CMD` directive specified in image
- Dockerfile.
-
-. The optional environment variables are added to the execution environment.
 
 
 

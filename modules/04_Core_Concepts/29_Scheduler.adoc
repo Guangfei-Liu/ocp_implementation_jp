@@ -1,12 +1,13 @@
 == Scheduler
-:noaudio:
+
 
 .Available Priority Functions
 
 * Can specify custom set of priority functions to configure scheduler
 ** OpenShift Enterprise provides several priority functions out of the box
 * Can customize some priority functions by providing parameters
-* Can combine priority functions and give different weights to influence prioritization results
+* Can combine priority functions and give different weights to influence
+ prioritization results
 ** Weight required, must be greater than 0
 
 ifdef::showscript[]
@@ -15,10 +16,11 @@ ifdef::showscript[]
 
 You can configure the scheduler by specifying a custom set of priority functions.
 
-OpenShift Enterprise provides several priority functions out of the box. You can customize some of them by providing certain parameters.
+OpenShift Enterprise provides several priority functions out of the box. You can
+ customize some of them by providing certain parameters.
 
-You can also combine multiple priority functions and give them different weights to influence the results of the prioritization process. You must specify a weight, which must be a number greater than 0.
+You can also combine multiple priority functions and give them different weights
+ to influence the results of the prioritization process. You must specify a
+  weight, which must be a number greater than 0.
 
 endif::showscript[]
-
-

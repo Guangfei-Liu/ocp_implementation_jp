@@ -1,5 +1,5 @@
 == Resource Quota
-:noaudio:
+
 
 .Applying a Quota to a Project
 

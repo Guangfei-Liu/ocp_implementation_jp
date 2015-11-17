@@ -1,5 +1,5 @@
 == Routers
-:noaudio:
+
 
 .HAProxy Default Router
 
@@ -11,8 +11,9 @@ ifdef::showscript[]
 
 === Transcript
 
-The HAProxy default router implementation is the reference implementation for a template router plug-in. It uses the `openshift3/OpenShift Enterprise-haproxy-router` image to run an HAProxy instance alongside the template router plug-in.
+The HAProxy default router implementation is the reference implementation for a
+ template router plug-in. It uses the
+  `openshift3/OpenShift Enterprise-haproxy-router` image to run an HAProxy
+   instance alongside the template router plug-in.
 
 endif::showscript[]
-
-

@@ -1,5 +1,5 @@
 == Scheduler
-:noaudio:
+
 
 .Topology Example 2
 * Example: Three topological levels
@@ -27,8 +27,7 @@ ifdef::showscript[]
 
 === Transcript
 
-This three-level topology example keeps the pods in the same `city` and spreads them between the `buildings` and the `rooms` in each building.
+This three-level topology example keeps the pods in the same `city` and spreads
+ them between the `buildings` and the `rooms` in each building.
 
 endif::showscript[]
-
-

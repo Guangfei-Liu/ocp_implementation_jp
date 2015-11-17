@@ -1,5 +1,5 @@
 == Build Triggers
-:noaudio:
+
 
 
 * To define build with strategy that consumes image stream:
@@ -25,7 +25,5 @@
 ifdef::showscript[]
 === Transcript
 This example defines a build with a strategy that consumes the image stream
- `ruby-20-rhel7`. The `sourceStrategy` definition is consuming the `latest` tag
-  of the image stream named `ruby-20-rhel7` located within this namespace.
-
+ `ruby-20-rhel7`.
 endif::showscript[]

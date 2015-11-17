@@ -1,5 +1,5 @@
 == How OpenShift Enterprise Works
-:noaudio:
+
 
 .Store Layer
 * Holds current state, desired state, and configuration information of environment

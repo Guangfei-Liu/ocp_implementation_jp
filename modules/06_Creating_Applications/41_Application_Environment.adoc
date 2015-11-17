@@ -1,22 +1,32 @@
 == Application Environment
-:noaudio:
+
 
 .Objects Created
 
-* Artifacts/objects created by `new-app` depend on artifacts passed as input: _source repository_, _image_, or _template_
+* Artifacts/objects created by `new-app` depend on artifacts passed as input:
+ _source repository_, _image_, or _template_
 
 [cols="2,8"]
 |===
 |Artifact |Description
 a|`BuildConfig`
-a|`BuildConfig` entry is created for each source repository specified on the command line. `BuildConfig` specifies the strategy to use, the source location, and the build output location.
+a|`BuildConfig` entry is created for each source repository specified on the
+ command line. `BuildConfig` specifies the strategy to use, the source location,
+  and the build output location.
 a|`ImageStream`
 a|For `BuildConfig`, two `ImageStream` entries are usually created: one to
-represent the input image and another to represent the output image. The input image can be the _builder image_ for source builds or `FROM` image for Docker builds. If a Docker image is specified as input to `new-app`, then an image stream is also created for that image.
+represent the input image and another to represent the output image. The input
+ image can be the _builder image_ for source builds or `FROM` image for Docker
+  builds. If a Docker image is specified as input to `new-app`, then an image
+   stream is also created for that image.
 a|`DeploymentConfig`
-a|`DeploymentConfig` entry is created to deploy the output of a build or a specified image.
+a|`DeploymentConfig` entry is created to deploy the output of a build or a
+ specified image.
 a|`Service`
-a|The `new-app` command attempts to detect exposed ports in input images. It uses the lowest numeric exposed port to generate a service that exposes that port. To expose a different port, after `new-app` has completed, use the `oc expose` command to generate additional services.
+a|The `new-app` command attempts to detect exposed ports in input images. It
+ uses the lowest numeric exposed port to generate a service that exposes that
+  port. To expose a different port, after `new-app` has completed, use the
+   `oc expose` command to generate additional services.
 a|Other
  |Other resources can be generated when instantiating templates.
 
@@ -26,19 +36,10 @@ a|Other
 ifdef::showscript[]
 
 === Transcript
-The set of artifacts/objects created by `new-app` depends on the artifacts passed as input: source repositories, images, or templates. This table describes the various resources that `new-app` can output.
+The set of artifacts/objects created by `new-app` depends on the artifacts
+ passed as input: source repositories, images, or templates. This table
+  describes the various resources that `new-app` can output.
 
-A `BuildConfig` entry is created for each source repository specified on the command line. `BuildConfig` specifies the strategy to use, the source location, and the build output location.
-
-For one `BuildConfig`, two `ImageStream` entries are usually created: one to represent the input image and another entry to represent the output image. The input image can be the _builder image_ for source builds or `FROM` image for Docker builds. If a Docker image is specified as input to `new-app`, then an image stream is also created for that image.
-
-A `DeploymentConfig` entry is created to deploy the output of a build or a specified image.
-
-The `new-app` command attempts to detect exposed ports in input images. It uses the lowest numeric exposed port to generate a service that exposes that port. To expose a different port, after `new-app` has completed, use the `oc expose` command to generate additional services.
-
-Other resources can be generated when instantiating templates.
 
 
 endif::showscript[]
-
-

@@ -1,5 +1,5 @@
 == What Is Docker?
-:noaudio:
+
 
 * Open platform for developers and administrators to build, ship, and run
 distributed applications
@@ -20,14 +20,11 @@ ifdef::showscript[]
 === Transcript
 
 Docker is an open platform for developers and system administrators to build,
-ship, and run distributed applications. The main components are the Docker Engine and the Docker Hub.
+ship, and run distributed applications. The main components are the Docker
+ Engine and the Docker Hub.
 
-The Docker Engine is a portable, lightweight runtime and packaging tool. The Docker Hub
+The Docker Engine is a portable, lightweight runtime and packaging tool. The
+ Docker Hub
 is a cloud service for sharing applications and automating workflows.
 
-Docker has a number of benefits, as shown here. Docker images are described in
-detail later.
-
 endif::showscript[]
-
-

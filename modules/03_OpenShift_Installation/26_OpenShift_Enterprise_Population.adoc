@@ -1,5 +1,5 @@
 == OpenShift Enterprise Population
-:noaudio:
+
 
 .Database Service Templates
 

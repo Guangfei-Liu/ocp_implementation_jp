@@ -1,5 +1,5 @@
 == Important Projects in OpenShift Enterprise
-:noaudio:
+
 
 * *Kubernetes*: http://kubernetes.io/
 

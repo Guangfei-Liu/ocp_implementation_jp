@@ -1,5 +1,5 @@
 == Authorization
-:noaudio:
+
 
 //ISSUE: Bob - This could benefit from expand/collapse I think
 
@@ -51,5 +51,6 @@ During evaluation, both the cluster bindings and the local bindings are used.
  For example:
 
 First, the cluster-wide `allow` rules are checked. Then the locally-bound
- `allow` rules are checked. Authorization denies by default.
+ `allow` rules are checked. If no `allow` rules apply, authorization is denied
+   by default.
 endif::showscript[]

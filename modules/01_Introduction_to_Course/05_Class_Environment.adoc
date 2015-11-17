@@ -1,5 +1,5 @@
 == Class Environment
-:noaudio:
+
 
 * Class labs and demonstrations require provisioning virtual machines (VMs):
 ** *Master host*: One VM serves as OpenShift Enterprise environment master

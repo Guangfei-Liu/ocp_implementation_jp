@@ -1,14 +1,15 @@
 == Routes
-:noaudio:
+
 
 .Route Types: Secured Routes
 
 * *Secured routes*: Specify TLS termination of route
 ** Key and certificate(s) also option
 
-* TLS termination in OpenShift Enterprise relies on SNI 
+* TLS termination in OpenShift Enterprise relies on SNI (Server Name Indication)
 ** Serves custom certificates
-** Non-SNI traffic received on port 443 handled with TLS termination and default certificate
+** Non-SNI traffic received on port 443 handled with TLS termination and default
+ certificate
 ** Might not match requested hostname, causing errors
 ** Learn more: https://en.wikipedia.org/wiki/Server_Name_Indication
 
@@ -16,10 +17,12 @@ ifdef::showscript[]
 
 === Transcript
 
-Secured routes specify the TLS termination of the route. They also have the option to provide a key and certificate(s).
+Secured routes specify the TLS termination of the route. They also have the
+ option to provide a key and certificate(s).
 
-TLS termination in OpenShift Enterprise relies on SNI for serving custom certificates. Any non-SNI traffic received on port 443 is handled with TLS termination and a default certificate. These might not match the requested hostname, resulting in validation errors.
+TLS termination in OpenShift Enterprise relies on SNI  for serving custom
+ certificates. Any non-SNI traffic received on port 443 is handled with TLS
+  termination and a default certificate. These might not match the requested
+   hostname, resulting in validation errors.
 
 endif::showscript[]
-
-

@@ -1,5 +1,5 @@
 == Routes
-:noaudio:
+
 
 .Secured TLS Termination Types: Edge Termination
 
@@ -17,9 +17,11 @@ ifdef::showscript[]
 
 Secured routes can use three types of secure TLS termination.
 
-_Edge termination_ is a type TLS termination that occurs at the router, prior to proxying traffic to its destination.
+_Edge termination_ is a type TLS termination that occurs at the router, prior to
+ proxying traffic to its destination.
 
-The front end of the router serves the TLS certificates, so they must be configured into the route. Otherwise, the router's default certificate is used for TLS termination.
+The front end of the router serves the TLS certificates, so they must be
+ configured into the route. Otherwise, the router's default certificate is used
+  for TLS termination.
 
 endif::showscript[]
-

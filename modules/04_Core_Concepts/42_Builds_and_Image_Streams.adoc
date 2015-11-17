@@ -1,38 +1,51 @@
 == Builds and Image Streams
-:noaudio:
+
 
 .S2I Advantages
 
 [horizontal]
-Image flexibility:: 
+Image flexibility::
 
-* Can write S2I scripts to layer application code onto almost any existing Docker image
+* Can write S2I scripts to layer application code onto almost any existing
+ Docker image
 * Takes advantage of existing ecosystem
-* Currently, S2I relies on `tar` to inject application source, so image must be able to process tarred content
+* Currently, S2I relies on `tar` to inject application source, so image must be
+ able to process tarred content
 
-Speed:: 
+Speed::
 
-* S2I assembly process can perform large number of complex operations without creating new layer at each step
+* S2I assembly process can perform large number of complex operations without
+ creating new layer at each step
 * Results in faster process
-* Can write S2I scripts to reuse artifacts stored in previous version of application image
+* Can write S2I scripts to reuse artifacts stored in previous version of
+ application image
 * Eliminates need to download or build image each time build is run
 
-Patchability:: 
+Patchability::
 
-* S2I lets you rebuild application consistently if underlying image needs patch because of a security issue
+* S2I lets you rebuild application consistently if underlying image needs patch
+ because of a security issue
 
 ifdef::showscript[]
 
 === Transcript
 
-Among the advantages S2I provides are image flexibility, speed, and patchability. 
+Among the advantages S2I provides are image flexibility, speed, and
+ patchability.
 
-With regard to image flexibility, you can write S2I scripts to layer application code onto almost any existing Docker image, taking advantage of the existing ecosystem. This means that you can, for example, switch your builder image from Centos to Red Hat Enterprise Linux or from  Red Hat Enterprise Linux 7.1 to 7.2 without any issues. You simply rebuild the image and start using it. Note that S2I currently relies on `tar` to inject the application source, so the image must be able to process tarred content.
+With regard to image flexibility, you can write S2I scripts to layer application
+ code onto almost any existing Docker image, taking advantage of the existing
+  ecosystem. This means that you can, for example, switch your builder image
+   from Centos to Red Hat Enterprise Linux or from  Red Hat Enterprise Linux 7.1
+    to 7.2 without any issues. You simply rebuild the image and start using it.
 
-With regard to speed, S2I's assembly process can perform a large number of complex operations without creating a new layer at each step, resulting in a faster process. You can write S2I scripts to reuse artifacts stored in a previous version of the application image, which eliminates the need to download or build the image each time a build is run.
+With regard to speed, S2I's assembly process can perform a large number of
+ complex operations without creating a new layer at each step, resulting in a
+  faster process. You can write S2I scripts to reuse artifacts stored in a
+   previous version of the application image, which eliminates the need to
+    download or build the image each time a build is run.
 
-With regard to patchability, S2I lets you rebuild an image quickly if the base image requires a patch, for example, if there is a new security patch.
+With regard to patchability, S2I lets you rebuild an image quickly if the base
+ image requires a patch, for example, if there is a new security patch.
 
 endif::showscript[]
-
-

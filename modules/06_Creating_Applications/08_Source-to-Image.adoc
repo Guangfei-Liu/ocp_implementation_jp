@@ -1,5 +1,5 @@
 == Source-to-Image
-:noaudio:
+
 
 .`BuildConfig` Object
 

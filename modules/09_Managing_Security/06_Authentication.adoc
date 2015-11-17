@@ -1,5 +1,5 @@
 == Authentication
-:noaudio:
+
 
 .API Authentication
 

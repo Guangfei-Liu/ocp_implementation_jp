@@ -1,5 +1,5 @@
 == Source-to-Image Builds
-:noaudio:
+
 
 .Creating the Build File
 
@@ -15,17 +15,20 @@
 $ oc new-app https://github.com/openshift/simple-openshift-sinatra-sti.git -o json | tee ~/simple-sinatra.json
 
 ----
-NOTE: Adding `-o json` or `-o yaml` to this command (and others) creates an output of the requested action in the desired format rather than actually requesting the action (more on this later).
+NOTE: Adding `-o json` or `-o yaml` to this command (and others) creates an
+ output of the requested action in the desired format rather than actually
+  requesting the action (more on this later).
 
 ifdef::showscript[]
 
 === Transcript
 
-As shown in the code sample, you use the `oc new-app` command to generate a JSON file that defines your build. `oc new-app` is a tool that examines a directory tree, a remote repo, or other source and attempts to generate an appropriate JSON configuration so that after it creates the file, OpenShift Enterprise can build the resulting image to run.
-
-`oc new-app` also defines a service for the pods, but does not start the build yet.
+As shown in the code sample, you use the `oc new-app` command to generate a
+ JSON file that defines your build. `oc new-app` is a tool that examines a
+  directory tree, a remote repo, or other source and attempts to generate an
+   appropriate JSON configuration so that OpenShift Enterprise can build the
+    resulting image to run.
 
 You can edit the JSON file before you create the build.
 
 endif::showscript[]
-

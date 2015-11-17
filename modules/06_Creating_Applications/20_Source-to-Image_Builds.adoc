@@ -1,5 +1,5 @@
 == Source-to-Image Builds
-:noaudio:
+
 
 .JSON Build File - `Template`
 
@@ -39,7 +39,7 @@ ifdef::showscript[]
 
 === Transcript
 
-The `template` section defines different aspects of your application--for example, container name, image, and ports.
+The `template` section defines different aspects of your application--for
+ example, container name, image, and ports.
 
 endif::showscript[]
-

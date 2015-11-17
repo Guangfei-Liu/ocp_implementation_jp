@@ -1,5 +1,5 @@
 == Source-to-Image Builds
-:noaudio:
+
 
 .Deploying an S2I Build Image
 
@@ -13,7 +13,10 @@ ifdef::showscript[]
 
 === Transcript
 
-Essentially, the S2I process is as follows: OpenShift Enterprise sets up various components so that it can build source code into a Docker image. Then, on command, OpenShift Enterprise builds the Docker image with the source code. And finally, OpenShift Enterprise deploys the Docker image as a pod with an associated service.
+Essentially, the S2I process is as follows: OpenShift Enterprise sets up various
+ components so that it can build source code into a Docker image. Then OpenShift
+  Enterprise builds the Docker image with the source code.
+   And finally, OpenShift Enterprise deploys the Docker image as a pod with an
+    associated service.
 
 endif::showscript[]
-

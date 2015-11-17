@@ -1,6 +1,6 @@
 == Module Topics
 
-:noaudio:
+
 
 * Overview and design concepts in OpenShift Enterprise by Red Hat version 3.0
 * Introduction to Docker

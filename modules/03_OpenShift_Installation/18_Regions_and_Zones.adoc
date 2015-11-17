@@ -1,5 +1,5 @@
 == Regions and Zones
-:noaudio:
+
 
 * After installation, need to label nodes
 ** Lets scheduler use _logic_ defined in `scheduler.json` when provisioning pods

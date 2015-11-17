@@ -1,5 +1,5 @@
 == Summary
-:noaudio:
+
 
 * Overview and design concepts in OpenShift Enterprise 3.0
 * Introduction to Docker
@@ -15,12 +15,12 @@ ifdef::showscript[]
 
 This module presented an overview of and design concepts in OpenShift Enterprise 3.0, including the
 OpenShift Enterprise stack, how OpenShift Enterprise works, standards, important projects, workflows,
-and how the various components work.
+and how the various components work together.
 
 It introduced Docker, noted the difference between containers and VMs,
 and described Docker components and capabilities.
 
-It covered Kubernetes features and concepts, with an emphasis on pods, followed by an overview of networking in OpenShift Enterprise 3.0.
+It covered Kubernetes features and concepts, with an emphasis on pods, followed by an overview of networking in OpenShift Enterprise 3
 
 The Image registry section described the integrated OpenShift Enterprise registry and
 third-party registries.

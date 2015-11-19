@@ -83,7 +83,6 @@ yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-GUID.oslab.opentlc.c
 . On the admistration host collect and define the environment's information, We will define the Public IP of our *InfraNode00* as the target of our wildcard record.
 +
 ----
-[root@oselab-GUID ~]# guid=`hostname|cut -f2 -d-|cut -f1 -d.`
 [root@oselab-GUID ~]# host infranode00-$guid.oslab.opentlc.com  ipa.opentlc.com |grep infranode | awk '{print $4}'
 [root@oselab-GUID ~]# HostIP=`host infranode00-$guid.oslab.opentlc.com  ipa.opentlc.com |grep infranode | awk '{print $4}'`
 [root@oselab-GUID ~]# domain="cloudapps-$guid.oslab.opentlc.com"
@@ -252,7 +251,6 @@ Only do this for hosts that are used for development, testing, or demos!
 +
 ----
 
-[root@master00-GUID ~]# guid=`hostname|cut -f2 -d-|cut -f1 -d.`
 [root@master00-GUID ~]# for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do ssh-copy-id root@$node ; done
 
 ----
@@ -516,7 +514,7 @@ appropriate for production. Red Hat considers the dm.thinpooldev storage option
 +
 ----
 
-[root@master00-GUID ~]# for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do ssh $node "rm -rf /var/lib/docker/*"  ; done
+[root@master00-GUID ~]# for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do ssh $node "systemctl stop docker ; rm -rf /var/lib/docker/*"  ; done
 
 ----
 +
@@ -627,7 +625,6 @@ DOCKER_STORAGE_OPTIONS=-s devicemapper --storage-opt dm.fs=xfs --storage-opt dm.
 +
 ----
 
-[root@master00-GUID ~]# guid=`hostname|cut -f2 -d-|cut -f1 -d.`
 [root@master00-GUID ~]# ssh infranode00-$guid.oslab.opentlc.com "systemctl status docker"
 [root@master00-GUID ~]# ssh node00-$guid.oslab.opentlc.com "systemctl status docker"
 [root@master00-GUID ~]# ssh node01-$guid.oslab.opentlc.com "systemctl status docker"
@@ -1366,7 +1363,7 @@ all nodes where the pod could land (i.e. all of them) with:
 +
 ----
 
-[root@master00-GUID ~]# for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do setsebool -P virt_use_nfs=true ; done
+[root@master00-GUID ~]# for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do ssh $node "setsebool -P virt_use_nfs=true" ; done
 
 ----
 +

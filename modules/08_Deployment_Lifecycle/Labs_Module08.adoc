@@ -1,31 +1,41 @@
+:scrollbar:
+:data-uri:
 :toc2:
+:icons: images/icons
+
+== Manage the Deployment Lifecycle
 
 :numbered:
 
+In this lab you manage the various phases of the deployment lifecycle.
 
-== Lab: Rollback/Activate and Code Lifecycle
+* Roll Back/Activate and Code Lifecycle
+* Use Webhooks
+* Create Customized Build and Run Processes
 
-Not every coder is perfect, and sometimes you want to rollback to a previous
-incarnation of your application. Sometimes you then want to go forward to a
-newer version, too.
 
-The next few labs require that you have a Github account. We will take Marina's
-"wiring" application and modify its front-end and then rebuild. We'll roll-back
-to the original version, and then go forward to our re-built version.
+
+
+== Roll Back/Activate and Code Lifecycle
+
+Because no one always codes perfectly, sometimes you want to roll back to a previous incarnation of your application. And sometimes you want to go forward to a newer version.
+
+The next few labs require you to have a GitHub account. 
+
+In this lab, you take Marina's `wiring` application, modify its front end, and then rebuild. After that, you roll back to the original version, and then go forward to your rebuilt version.
 
 === Fork the Repository
 
-. Using the git web interface, fork the following git repo:
-link:https://github.com/openshift/ruby-hello-world[https://github.com/openshift/ruby-hello-world]
+. Using the Git web interface, fork the following Git repository: https://github.com/openshift/ruby-hello-world.
 
-. Fork this into your own account by clicking the *Fork* Button at
-the upper right corner of the Github web UI.
+. To fork this into your own account, click *Fork* in the upper-right corner of the GitHub web UI.
 
-=== Create your application
+=== Create Your Application
 
-NOTE: Remember that a `BuildConfig`(uration) tells OpenShift how to do a build.
+[NOTE]
+Remember that `BuildConfig` (Build Configuration) tells OpenShift Enterprise how to do a build.
 
-. As *root*, Create a project for Marina to work with:
+. As `root`, create a project for user `marina` to work with:
 +
 ----
 [root@master00 ~]# oadm new-project lifecycle --display-name="Lifecycle Lab" \
@@ -33,7 +43,7 @@ NOTE: Remember that a `BuildConfig`(uration) tells OpenShift how to do a build.
     --admin=marina --node-selector='region=primary'
 ----
 
-. Switch to Marina and use the *"lifecycle"* project.
+. Switch to user `marina` and use the `lifecycle` project.
 +
 ----
 [root@master00 ~]# su - marina
@@ -41,26 +51,26 @@ NOTE: Remember that a `BuildConfig`(uration) tells OpenShift how to do a build.
 [marina@master00 ~]$ oc project lifecycle
 ----
 
-. Lets create an app based on the link:https://github.com/openshift/ruby-hello-world[https://github.com/openshift/ruby-hello-world] repo
+. Create an application based on the https://github.com/openshift/ruby-hello-world repository.
 +
 ----
 [marina@master00~]$ oc new-app https://github.com/openshift/ruby-hello-world --strategy=source
 ----
 +
-NOTE: Notice that we are using `"--strategy=source"` to force the *oc new-app*
-command to use the S2I strategy.
-NOTE: You could have, of course, started the new-app with your own repo, we are only picking the "wrong" one as part of the learning exercise.
+[NOTE]
+====
+Note that you are using `--strategy=source` to force `oc new-app` to use the S2I strategy. You could have started the `new-app` with your own repository, but you are intentionally picking the "wrong" repository as part of this learning exercise.
+====
 
-. Since we know that we want to talk to a database eventually, let's take a moment to add the environment variables for it. Conveniently, there is an env subcommand to oc. As marina, we can use it like so:
+. Because you know that you want to talk to a database eventually, use `oc env` to add the environment variables for it now.
 +
 ----
 [marina@master00~]$ oc env dc/ruby-hello-world MYSQL_USER=root \
   MYSQL_PASSWORD=redhat MYSQL_DATABASE=mydb
 ----
 
-. While we wait for the build to finish, lets *expose* our service to the world so we can test this from our local browser:
+. While you wait for the build to finish, `expose` your service to the world so you can test it from your local browser.
 +
-
 ----
 [marina@master00~]$ oc expose service ruby-hello-world \
   --name="ruby-hello-world" \
@@ -69,7 +79,7 @@ NOTE: You could have, of course, started the new-app with your own repo, we are 
 ----
 
 
-. Take a look at the current `BuildConfig` for our application:
+. Check the current `BuildConfig` for your application.
 +
 ----
 
@@ -77,7 +87,7 @@ NOTE: You could have, of course, started the new-app with your own repo, we are 
 
 ----
 
-. Expect output similar to the following
+* You will see output similar to the following:
 +
 ----
 
@@ -120,11 +130,13 @@ status:
   lastVersion: 1
 
 ----
-+
 
-. As you can see, the current configuration points at the `openshift/ruby-hello-world` repository. Since you've forked this repo, let's go ahead and re-point our configuration.
+. Observe that the current configuration points at the `openshift/ruby-hello-world` repository. 
+* Because you forked this repository, you can now repoint your configuration.
 
-. Use `oc edit` to re-point the configuration:
+=== Repoint Your Configuration
+
+. Use `oc edit` to repoint the configuration.
 +
 ----
 
@@ -132,25 +144,25 @@ status:
 
 ----
 
-. Change the "uri" reference to match the name of your Github
-repository. For example if your github user is `jeandeaux`, you would point it
-to `https://github.com/jeandeaux/ruby-hello-world`.
+.. Change the `uri` reference to match the name of your GitHub repository. For example if your GitHub user is `jeandeaux`, you would point to `https://github.com/jeandeaux/ruby-hello-world`.
++
+[WARNING]
+Do not use `jeandeaux` as your username. You need to use your actual GitHub user--for example, `https://github.com/<mylogin>/ruby-hello-world`.
 
-. Save and exit (:wq in vi)
 
-WARNING: Please do not use `jeandeaux` as your user name, this needs to be you actual
-GitHub user. for example, `https://github.com/<mylogin>/ruby-hello-world`
+.. Save and enter *:wq* to exit `vi`.
 
-. If you again run `oc get buildconfig ruby-hello-world -o yaml` you should see
-that the `uri` has been updated.
 
-. Run `oc get builds` to see if the new build has started:
+. Run `oc get buildconfig ruby-hello-world -o yaml` again. 
+* You should see that the `uri` has been updated.
+
+. Run `oc get builds` to see if the new build has started.
 +
 ----
 [marina@master00~]$ oc get builds
 ----
 
-. If a build has not started yet, you can start it yourself and follow the build-log:
+. If a build has not started yet, you can start it yourself and follow the `build-log`.
 +
 ----
 [marina@master00~]$ oc get bc
@@ -177,7 +189,7 @@ Cropped Output
 .......
 ----
 
-. Create a file called *mysql-template.json*:
+. Create a `mysql-template.json` file.
 +
 ----
 [marina@master00 ~]$ cat << EOF > mysql-template.json
@@ -340,9 +352,9 @@ EOF
 
 ----
 
-. Lets start the *database* service, This time we will do it a little differently:
-.. Notice how we are providing the values and processing the *mysql-template.json* file.
-.. The *oc process* command output can be saved into a file or "piped" into the *oc create* command
+. Start the `database` service, using a slightly different method: the `oc process` command.
+** Note that you are providing the `MYSQL_` values and processing the `mysql-template.json` file.
+** You can save the `oc process` output into a file or "pipe" it into `oc create`.
 +
 ----
 [marina@master00~]$ oc process -f mysql-template.json \
@@ -350,14 +362,15 @@ EOF
   tee mysql-processed.json
 [marina@master00~]$ oc create -f  mysql-processed.json
 ----
-. *Or* we can process the template, add our variables and "pipe" the output directly to the *oc create* command
-.. Note that we are providing the *MYSQL_* attibutes, but also choosing the name of the *service* to be created.
++
+** Alternatively, you can process the template, add your variables, and "pipe" the output directly to `oc create`.
+** Note that here you are providing the `MYSQL_` attibutes and choosing the name of the service to be created.
 +
 ----
 [marina@master00~]$ oc process -f mysql-template.json --value="MYSQL_USER=root,MYSQL_PASSWORD=redhat,MYSQL_DATABASE=mydb,DATABASE_SERVICE_NAME=database" | oc create -f -
 ----
 
-. Check that your values were processed correctly
+. Check that your values were processed correctly.
 +
 ----
 [marina@master00~]$ oc env dc/database --list
@@ -370,42 +383,40 @@ MYSQL_PASSWORD=redhat
 MYSQL_DATABASE=mydb
 ----
 
-. Your frontend needs to be "redeployed" so it checks for the DB again.
+. Redeploy your front end so that it checks for the database again.
 +
 ----
 [marina@master00-GUID ~]$ oc deploy ruby-hello-world --latest
 ----
 
-== Lab: Using Webhooks
+== Use Webhooks
+
+Webhooks give you a way to integrate external systems into your OpenShift Enterprise environment so that these systems can start OpenShift Enterprise builds. Generally speaking, you would make code changes and update the code repository, and then some process would hit OpenShift Enterprise's webhook URL to start a build with the new code.
 
 === Create a Webhook
 
-Webhooks are a way to integrate external systems into your OpenShift
-environment so that they can fire off OpenShift builds. Generally
-speaking, one would make code changes, update the code repository, and
-then some process would hit OpenShift's webhook URL in order to start
-a build with the new code.
+Your GitHub account has the capability to configure a webhook to request whenever you push a commit to a specific branch.
 
-Your GitHub account has the capability to configure a webhook to request
-whenever a commit is pushed to a specific branch;
+. To find the webhook URL:
+.. Go to the web console.
+.. Click into your project.
+.. Click *Browse*, and then click *Builds*. 
+* You will see two webhook URLs.
 
-. To find the webhook URL, you can visit the web console, click into the
-project, click on *Browse* and then on *Builds*. You'll see two webhook
-URLs.
-
-. Copy the *Generic* one. It should look like:
+. Copy the *Generic* URL. 
+* It should look like the following:
 +
 ----
 https://master00-GUID.oslab.opentlc.com:8443/osapi/v1/namespaces/lifecycle/buildconfigs/ruby-hello-world/webhooks/ALNUyArydLb22JqdXYIb/generic
 ----
 
-. Get the *secret* password from the *BuildConfig*
+. Get the `secret` password from the `BuildConfig`.
 +
 ----
 [marina@master00~]$ oc get bc ruby-hello-world -o yaml
 ----
 
-. It will look similar to this output, use the "secret" value in your configuration in git.
+. The output will look similar to the following. Use the `secret` value in your configuration in Git.
 +
 ----
 .... Cropped Output ....
@@ -419,22 +430,22 @@ https://master00-GUID.oslab.opentlc.com:8443/osapi/v1/namespaces/lifecycle/build
 .... Cropped Output ....
 ----
 
-. In your Github repo that you forked go to settings -> webhooks and services
+. In the GitHub repository that you forked, go to *Settings -> Webhooks and Services*.
 
-. Paste the URL copied from the OpenShift GUI into the Payload URL field.
+. Paste the URL you copied from the OpenShift Enterprise UI into the *Payload URL* field.
 
-. Complete the secret field and disable SSL verification.
+. Complete the `secret` field and disable SSL verification.
 
-. Click "add Webhook".
+. Click *Add Webhook*.
 
-=== Test your WebHook
+=== Test Your Webhook
 
-We want to make a change to the code, then, commit and push the change into the git repository.
-+
-NOTE: If you know how, you can do this "the normal way" but cloning your repo locally, making changes and pushing them to the repo.
-+
-. Github's web interface will let you make edits to files. Go to your forked
-repository (eg: https://github.com/marina/ruby-hello-world), and find the file `main.erb` in the `views` folder.
+To test your webhook, you make a change to the code, commit, and then push the change into the Git repository.
+
+[NOTE]
+If you know how, you can do this the "normal" way by cloning your repository locally, making changes, and pushing them to the repository.
+
+. GitHub's web interface lets you edit files. Go to your forked repository (eg: https://github.com/marina/ruby-hello-world), and find the file `main.erb` in the `views` folder.
 
 . Change the following HTML:
 +
@@ -445,8 +456,8 @@ repository (eg: https://github.com/marina/ruby-hello-world), and find the file `
     </div>
 
 ----
-+
-To read (with the typo):
+
+* To read (include the typo):
 +
 ----
 
@@ -456,57 +467,50 @@ To read (with the typo):
 
 ----
 
-. When finished changing your code, commit the change to the repo.
-. Now check if a build has been triggered.
-
-CAUTION: If a build is currently running, your latest build might fail because
-both builds are pushing to our registry, stop the older build (oc delete build)
-or retry the failed build. (oc start-build )
-
-. You can also check the web interface (logged in as `marina`) and see
-that the build is running. Once it is complete, point your web browser
-at the application: link:http://ruby-hello-world.lifecycle.cloudapps-GUID.oslab.opentlc.com/[http://ruby-hello-world.lifecycle.cloudapps-GUID.oslab.opentlc.com/]
-
+. When you finish changing your code, commit the change to the repository.
+. Check to see whether a build has been triggered.
 +
-You should see your big fat typo.
+[CAUTION]
+If a build is currently running, your latest build might fail because both builds are pushing to the registry. Either stop the older build using `oc delete build`, or retry the failed build using `oc start-build`.
+
+. Check the web interface (logged in as `marina`) to see that the build is running. 
+. After the build has completed, point your web browser at the application: http://ruby-hello-world.lifecycle.cloudapps-GUID.oslab.opentlc.com/.
+
+* You should see your output, including the typo.
 +
 [NOTE]
-Remember that it can take a minute for your service endpoint to get
-updated. You might get a `503` error if you try to access the application before
-this happens.
+It can take a minute for your service endpoint to get updated. You might get a `503` error if you try to access the application before the update.
 
 
-=== Rollback
+=== Roll Back Your Application
 
-Since we failed to properly test our application, and our ugly typo has made it
-into production, a nastygram from corporate marketing has told us that we need
-to revert to the previous version, ASAP.
+Because you failed to properly test your application, and your typo made it into production, you need to revert to the previous version of your application.
 
-. If you log into the web console as `marina` and find the `Deployments` section of
-the `Browse` menu, you'll see that there are two deployments of our frontend: 1
-and 2.
-
-. You can also see this information from the cli by doing:
+. Log in to the web console as `marina`.
+. Find the *Deployments* section of the *Browse* menu. 
+* You will see that there are two deployments of your front end: `1` and `2`.
 +
+[TIP]
+====
+You can also see this information from the CLI:
+
 ----
 
 [marina@master00~]$ oc get replicationcontroller
 
 ----
-+
-The semantics of this are that a `DeploymentConfig` ensures a
-`ReplicationController` is created to manage the deployment of the built `Image`
-from the `ImageStream`.
 
+The semantics of this syntax state that a `DeploymentConfig` ensures a `ReplicationController` is created to manage the deployment of the built `Image` from the `ImageStream`.
+====
 
-You can rollback a deployment using the CLI.
-. Check which builds you have available
+. Using the CLI, roll back a deployment.
+.. Check which builds you have available.
 +
 ----
 [marina@master00~] oc get builds
 
 ----
-. Choose a deployment and, check out what a rollback to`ruby-hello-world-#` would look like:
+.. Choose a deployment, and check what a rollback to `ruby-hello-world-X` would look like.
 +
 ----
 
@@ -527,7 +531,7 @@ Latest Deployment:      <none>
 
 ----
 
-. Since it looks OK, let's go ahead and do it:
+.. Because it looks fine, go ahead and roll back the deployment.
 +
 ----
 
@@ -537,15 +541,13 @@ Warning: the following images triggers were disabled: ruby-hello-world
   You can re-enable them with: oc deploy ruby-hello-world --enable-triggers
 
 ----
-+
-If you look at the `Browse` tab of your project, you'll see that in the `Pods`
-section there is a new pod now. After a few moments, revisit the
-application in your web browser, and you should see the old "Welcome..." text.
 
-=== Roll Back/Forward
+. Look at the *Browse* tab of your project, and observe that you have a new pod in the *Pods* section. 
+. After a few minutes, go back to the application in your web browser, and you should see the old "Welcome..." text.
 
-. Corporate marketing called again. They think the typo makes us look hip and
-cool. Let's now roll forward (activate) the typo-enabled application:
+=== Roll Your Application Forward
+
+. Roll forward (activate) the typo-enabled application:
 +
 ----
 
@@ -556,55 +558,41 @@ Warning: the following images triggers were disabled: ruby-hello-world
 
 ----
 
-== Lab: Customized Build and Run Processes
+== Create Customized Build and Run Processes
 
-OpenShift v3 supports customization of both the build and run processes.
-Generally speaking, this involves modifying the various S2I scripts from the
-builder image. When OpenShift builds your code, it checks to see if any of the
-scripts in the `.sti/bin` folder of your repository override/supercede the
-builder image's scripts. If so, it will execute the repository script instead.
+OpenShift Enterprise 3.0 supports customization of both the build and run processes. Generally speaking, this involves modifying the various S2I scripts from the builder image. When OpenShift Enterprise builds your code, it checks to see if any of the scripts in the `.sti/bin` folder of your repository override or supercede the builder image's scripts. If so, it executes the repository script instead.
 
-More information on the scripts, their execution during the process, and
-customization can be found here:
-
-    https://docs.openshift.org/latest/creating_images/overview.html
+You can find more information on the scripts, their execution during the process, and customization at  https://docs.openshift.org/latest/creating_images/overview.html
 
 === Add a Script
 
-. In a new tab in your web browser open the following URL and copy all of the text:
-+
-----
-http://www.opentlc.com/download/ose_implementation/resources/custom-assemble.sh
-----
+. In a new tab in your web browser, open the following URL and copy all of the text:  http://www.opentlc.com/download/ose_implementation/resources/custom-assemble.sh
 
-. Go to your Github repository for your application from the previous lab.
+. Go to your GitHub repository for your application from the previous lab.
 
-. In the Github web GUI navigate to the `.sti/bin` folder.
+. In the GitHub web UI, navigate to the `.sti/bin` folder.
 
-. Click the "+" button at the top (to the right of `bin` in the breadcrumbs).
+. Click the *+* button at the top (to the right of `bin` in the breadcrumbs).
 
 . Name your file `assemble`.
 
-. In the GitHub GUI paste the contents you copied earlier into the text area.
+. In the GitHub UI, paste the contents you copied earlier into the text area.
 
-. Provide a nifty commit message.
+. Enter a commit message.
 
-. Click the "commit" button.
+. Click *Commit*.
 +
 [NOTE]
-If you know how to Git(hub), you can do this via your shell.
+If you know how to use GitHub, you can do this via your shell.
 
-. Once the file is added, we can now do another build. The "custom" assemble
-script will log some extra data.
-
+. After you add the file, you can do another build. 
+* The custom assemble script logs some extra data.
 
 === Watch the Build Logs
 
-. Using the skills you have learned, watch the build logs for this build. If you
-miss them, remember that you can find the Docker container that ran the build
-and look at its Docker logs.
+. Using the skills you have learned, watch the build logs for this build. 
 
-. Did You See It?
+* If you miss the logs, remember that you can find the Docker container that ran the build and look at its Docker logs.
 +
 ----
 
@@ -613,12 +601,7 @@ and look at its Docker logs.
 
 ----
 +
-But where's the output from the custom `run` script? The `assemble` script is
-run inside of your builder pod. That's what you see by using `build-logs` - the
-output of the assemble script. The
-`run` script actually is what is executed to "start" your application's pod. In
-other words, the `run` script is what starts the Ruby process for an image that
-was built based on the `ruby-20-rhel7` S2I builder.
+NOTE: There is no output from the custom `run` script. The `assemble` script is run inside your builder pod. That is what you see by using `build-logs`: the output of the assemble script. The `run` script is what is actually executed to start your application's pod. In other words, the `run` script is what starts the Ruby process for an image that was built based on the `ruby-20-rhel7` S2I builder.
 
 . To look inside the builder pod, as `marina`:
 +
@@ -627,8 +610,8 @@ was built based on the `ruby-20-rhel7` S2I builder.
 [marina@master00~]$ oc logs `oc get pod | grep -e "[0-9]-build" | tail -1 | awk {'print $1'}` | grep CUSTOM
 
 ----
-+
-You should see something similar to:
+
+* You should see something similar to the following:
 +
 ----
 

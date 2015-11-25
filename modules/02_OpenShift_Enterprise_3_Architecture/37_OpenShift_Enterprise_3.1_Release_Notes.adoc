@@ -1,0 +1,23 @@
+== OpenShift Enterprise 3.1 Release Notes
+:noaudio:
+
+* More Persistent Storage Options:
+** Several persistent storage options are now available, such as Red Hat's
+GlusterFS and Ceph RBD, AWS, and Google Compute Engine. Also, NFS storage is
+now supplemented by iSCSI- and Fibre Channel-based volumes.
+
+* More Middleware Options:
+** Several middleware services are now available, such as JBoss DataGrid, and
+JBoss BRMS, as well as a supported JBoss Developer Studio and Eclipse plug-in.
+
+* Job Controller Now Available:
+** The job object type is now available, meaning that finite jobs can now be
+executed on the cluster.
+
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+
+

@@ -1,6 +1,4 @@
-== Why Use S2I Builds?
-
-
+== Why Use S2I Builds
 
 * Provides a developer-centric flow
 ** Focuses on turning source code into running application
@@ -38,3 +36,6 @@ the runtime environment in the Docker image helps you migrate your code:
 Linux.
 
 endif::showscript[]
+
+
+

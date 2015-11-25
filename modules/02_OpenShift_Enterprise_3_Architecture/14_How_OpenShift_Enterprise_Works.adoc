@@ -2,7 +2,9 @@
 
 
 .Store Layer
-* Holds current state, desired state, and configuration information of environment
+* Holds current state, desired state, and configuration information of
+ environment
+* *etcd* key value store is used for this Layer
 +
 image::images/03Store.png[]
 

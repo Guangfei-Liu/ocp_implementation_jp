@@ -13,7 +13,9 @@ ifdef::showscript[]
 
 === Transcript
 
-Kubernetes manages containers in a cluster environment. It orchestrates containers at scale, defines application topologies, handles part of the container networking,
+Kubernetes manages containers in a cluster environment. It orchestrates
+ containers at scale, defines application topologies, handles part of the
+  container networking,
 manages container state, and schedules across hosts.
 
 

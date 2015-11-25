@@ -1,0 +1,36 @@
+== OpenShift Enterprise 3.1 Release Notes
+:noaudio:
+* Here are a few changes that you would notice in the OpenShift Enterprise 3.1:
+
+.Service, package, file name, and directories name changes renamed:
+
+[cols="4,6",options="header"]
+|===
+|Previous Name
+|New Name
+
+|*openshift-master*
+|*atomic-openshift-master*
+
+|*openshift-node*
+|*atomic-openshift-node*
+
+|*_/etc/openshift/_*
+|*_/etc/origin/_*
+
+|*_/var/lib/openshift/_*
+|*_/var/lib/origin/_*
+
+|*_/etc/sysconfig/openshift-master_*
+|*_/etc/sysconfig/atomic-openshift-master_*
+
+|*_/etc/sysconfig/openshift-node_*
+|*_/etc/sysconfig/atomic-openshift-node_*
+|===
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+
+

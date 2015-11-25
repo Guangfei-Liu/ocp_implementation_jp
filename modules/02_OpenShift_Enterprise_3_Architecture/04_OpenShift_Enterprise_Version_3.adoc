@@ -1,4 +1,4 @@
-== OpenShift Enterprise Version 3.0
+== OpenShift Enterprise Version 3
 
 
 

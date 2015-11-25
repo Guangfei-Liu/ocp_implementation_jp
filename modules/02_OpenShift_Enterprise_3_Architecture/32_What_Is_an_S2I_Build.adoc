@@ -1,5 +1,4 @@
-== What Is an S2I Build?
-
+== What Is an S2I Build
 
 [.noredheader,cols="<2,^3"]
 |======

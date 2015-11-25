@@ -2,7 +2,7 @@
 
 
 * *Nodes*: Compute resources on top of which containers are built
-* *Pods*: Colocated group of containers
+* *Pods*: Co-located group of containers
 * *Replication controllers*: Manage pod lifecycle, starting and killing pods as
  required.
 * *Services*: Provide single, stable name and address for pod set
@@ -18,7 +18,7 @@ ifdef::showscript[]
 Nodes are the compute resources on top of which you run your containers.
 
 Pods, used in the same context as "a pod of whales" or "peas in a pod," are
- colocated groups of containers that may share persistent storage volumes.
+ co-located groups of containers that may share persistent storage volumes.
 Pods are the smallest deployable units that you can create, schedule, and
 manage with Kubernetes.
 
@@ -32,3 +32,4 @@ can come and go, the service provides a _front end_ for the pods it represents.
 You use labels to organize and select groups of objects based on key-value pairs.
 
 endif::showscript[]
+

@@ -1,0 +1,19 @@
+== OpenShift Enterprise 3.1 Release Notes
+
+* OpenShift Enterprise version 3.1 is now available.
+* Ensure that you follow the instructions on upgrading your OpenShift cluster
+ properly, including steps specific to this release.
+
+[NOTE]
+====
+for instructions on
+link:https://docs.openshift.com/enterprise/3.1/install_config/upgrades.html[upgrading your OpenShift cluster] properly,
+including any additional steps that may be required for a specific release.
+====
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+
+

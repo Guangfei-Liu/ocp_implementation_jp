@@ -17,8 +17,8 @@ ifdef::showscript[]
 The service and routing layer takes care of internal and external requests to
 and from the applications running on OpenShift Enterprise.
 
-The service part provides a list of IPs for the pods it represents. The routing part
-directs traffic from the outside world to the correct pod's IP and port.
+The service part provides a list of IPs for the pods it represents. The routing
+ part directs traffic from the outside world to the correct pod's IP and port.
 
 endif::showscript[]
 

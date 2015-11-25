@@ -1,6 +1,4 @@
-
 :noaudio:
-
 ifdef::revealjs_slideshow[]
 
 [#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"]
@@ -20,20 +18,17 @@ image::{revealjs_cover_image}[]
 
 endif::[]
 
-
 :numbered!:
 
 == Module Topics
 
-
-
-* Overview and design concepts in OpenShift Enterprise by Red Hat version 3.0
+* Overview and design concepts in OpenShift Enterprise by Red Hat version 3
 * Introduction to Docker
 * Introduction to Kubernetes infrastructure
-* Networking in OpenShift Enterprise 3.0
+* Networking in OpenShift Enterprise 3
 * Image registry
 * Builds and OpenShift Enterprise S2I images
-
+* OpenShift Enterprise 3.1 Release Notes
 
 ifdef::showscript[]
 
@@ -43,8 +38,9 @@ Welcome to module two of the OpenShift Enterprise Implementation course.
 
 This module covers the following topics:
 
-* Overview and design concepts in OpenShift Enterprise by Red Hat version 3.0, including the
-OpenShift stack, how OpenShift works, standards, important projects, and how the
+* Overview and design concepts in OpenShift Enterprise by Red Hat version 3,
+ including the OpenShift stack, how OpenShift works, standards, important
+  projects, and how the
 various components work together
 
 * An introduction to Docker, including the difference between containers and
@@ -52,12 +48,13 @@ VMs and Docker components and capabilities
 
 * An introduction to Kubernetes infrastructure, covering features and concepts.
 
-* An overview of networking in OpenShift Enterprise 3.0
+* An overview of networking in OpenShift Enterprise 3
 
 * A description of the image registry, including the integrated OpenShift
 Enterprise registry and third-party registries
 
-* A discussion of builds and OpenShift Enterprise S2I images, including what an S2I build is and reasons to use it
+* A discussion of builds and OpenShift Enterprise S2I images, including what an
+ S2I build is and reasons to use it
 
 endif::showscript[]
 == What Is OpenShift Enterprise?
@@ -78,19 +75,23 @@ ifdef::showscript[]
 
 This module begins with an overview of OpenShift Enterprise design concepts.
 
-OpenShift Enterprise is a Platform-as-a-Service, or PaaS, that is based on industry
-standards. OpenShift Enterprise is a self-service platform, meaning that it provides development environments on demand. As a polyglot offering, it includes a
-range of languages, frameworks, runtimes, and databases. It also automates
-management of the entire application lifecycle: build, deploy, and retire.
+OpenShift Enterprise is a Platform-as-a-Service, or PaaS, that is based on
+ industry
+standards. OpenShift Enterprise is a self-service platform, meaning that it
+ provides development environments on demand. As a polyglot offering, it
+  includes a range of languages, frameworks, runtimes, and databases. It also
+   automates management of the entire application lifecycle: build, deploy, and
+    retire.
 
-OpenShift Enterprise enables collaboration between developers on projects and components.
+OpenShift Enterprise enables collaboration between developers on projects and
+ components.
 
 
 endif::showscript[]
 
 
 
-== OpenShift Enterprise Version 3.0
+== OpenShift Enterprise Version 3
 
 
 
@@ -125,8 +126,9 @@ endif::showscript[]
 == How OpenShift Enterprise Works
 
 
-* *Containers*: Run languages/framework, middleware, database, and other runtimes
-* *Pods*: Define one or more containers colocated on same host
+* *Containers*: Run languages/framework, middleware, database, and other
+ runtimes
+* *Pods*: Define one or more containers co-located on same host
 * *Nodes*: Linux container hosts; run pods assigned by master
 * *Master*:
 ** Provides API, service orchestration, scheduling, placement
@@ -141,12 +143,12 @@ ifdef::showscript[]
 === Transcript
 
 Here is a simplified explanation of some of the components of OpenShift
-Enterprise 3.0.
+Enterprise 3.
 
 Containers run languages and frameworks, middleware components, databases, and
 other runtimes.
 
-Pods run one or more containers as a single unit, to be colocated on the same
+Pods run one or more containers as a single unit, to be co-located on the same
 host.
 Each pod has an IP address and can be assigned persistent storage volumes.
 
@@ -203,7 +205,9 @@ ifdef::showscript[]
 
 === Transcript
 
-Kubernetes manages containers in a cluster environment. It orchestrates containers at scale, defines application topologies, handles part of the container networking,
+Kubernetes manages containers in a cluster environment. It orchestrates
+ containers at scale, defines application topologies, handles part of the
+  container networking,
 manages container state, and schedules across hosts.
 
 
@@ -223,7 +227,8 @@ ifdef::showscript[]
 === Transcript
 
 Red Hat promotes registry and container discovery standards to easily find
-and consume trusted container images and federate consumption libraries. This promotes consistency and reuse.
+and consume trusted container images and federate consumption libraries. This
+ promotes consistency and reuse.
 
 endif::showscript[]
 
@@ -246,24 +251,26 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise 3 consists of several key open source projects, most notably Kubernetes, Docker, and EtcD.
+OpenShift Enterprise 3 consists of several key open source projects, most
+ notably Kubernetes, Docker, and EtcD.
 
 Kubernetes orchestrates containers at massive scale and manages and orchestrates
 Docker containers across clusters of nodes.
 
 Docker automates the deployment of applications
 inside software containers by providing an additional layer of abstraction and
-automation of operating system-level virtualization. It also provides the abstraction for packaging and creating lightweight
+automation of operating system-level virtualization. It also provides the
+ abstraction for packaging and creating lightweight
 containers.
 
 EtcD is a highly available key-value store for shared configuration and service
-discovery. EtcD is the persistent data store for information about the OpenShift Enterprise
-environment.
+discovery. EtcD is the persistent data store for information about the OpenShift
+ Enterprise environment.
 
-OpenShift Enterprise helps manage large developer organizations. It adds source code
-management, builds, and deployments for developers; manages and promotes images
-at scale as they flow through the system; manages applications at scale; and
-tracks teams and users.
+OpenShift Enterprise helps manage large developer organizations. It adds source
+ code management, builds, and deployments for developers; manages and promotes
+  images at scale as they flow through the system; manages applications at
+   scale; and tracks teams and users.
 
 endif::showscript[]
 == OpenShift Enterprise Model
@@ -385,8 +392,8 @@ ifdef::showscript[]
 The service and routing layer takes care of internal and external requests to
 and from the applications running on OpenShift Enterprise.
 
-The service part provides a list of IPs for the pods it represents. The routing part
-directs traffic from the outside world to the correct pod's IP and port.
+The service part provides a list of IPs for the pods it represents. The routing
+ part directs traffic from the outside world to the correct pod's IP and port.
 
 endif::showscript[]
 
@@ -415,7 +422,9 @@ endif::showscript[]
 
 
 .Store Layer
-* Holds current state, desired state, and configuration information of environment
+* Holds current state, desired state, and configuration information of
+ environment
+* *etcd* key value store is used for this Layer
 +
 image::images/03Store.png[]
 
@@ -442,8 +451,8 @@ ifdef::showscript[]
 === Transcript
 
 The replication layer contains the replication controller, whose role is to make
- sure that the
-number of instances/pods defined in the store layer actually exist.
+ sure that the number of instances/pods defined in the store layer actually
+  exist.
 The replication controller instantiates (creates) or kills pods according to
 the desired state definition.
 
@@ -462,7 +471,6 @@ ifdef::showscript[]
 
 === Transcript
 
-The scheduler is essentially the OpenShift Enterprise master main function.
 Whenever a user decides to create a pod, the master determines where to do
 this. This is called _scheduling_.
 
@@ -477,7 +485,8 @@ distributed applications
 
 * Main support components:
 ** *Docker Engine*: Portable, lightweight runtime and packaging tool
-** *Docker Hub*: Cloud service for sharing applications and automating workflows
+** *Docker Hub*: Cloud service for sharing applications and automating
+ work-flows
 * Benefits:
 ** Multi-version packaging format and isolation
 ** Simplified container API (Docker `libcontainer`)
@@ -495,8 +504,8 @@ ship, and run distributed applications. The main components are the Docker
  Engine and the Docker Hub.
 
 The Docker Engine is a portable, lightweight runtime and packaging tool. The
- Docker Hub
-is a cloud service for sharing applications and automating workflows.
+ Docker Hub is a cloud service for sharing applications and automating
+  work-flows.
 
 endif::showscript[]
 == How Containers Differ From VMs
@@ -560,6 +569,7 @@ Each container is created from a Docker image. You can start, run, terminate and
  delete Docker containers.
 
 endif::showscript[]
+
 == Docker Capabilities
 
 
@@ -568,7 +578,7 @@ endif::showscript[]
 * Share and reuse images via Docker Hub or own registry
 +
 [NOTE]
-OpenShift Enterprise 3 an _integrated registry_ to store and distribute
+OpenShift Enterprise 3 uses an _integrated registry_ to store and distribute
 images created locally.
 
 ifdef::showscript[]
@@ -647,7 +657,7 @@ endif::showscript[]
 
 
 * *Nodes*: Compute resources on top of which containers are built
-* *Pods*: Colocated group of containers
+* *Pods*: Co-located group of containers
 * *Replication controllers*: Manage pod lifecycle, starting and killing pods as
  required.
 * *Services*: Provide single, stable name and address for pod set
@@ -663,7 +673,7 @@ ifdef::showscript[]
 Nodes are the compute resources on top of which you run your containers.
 
 Pods, used in the same context as "a pod of whales" or "peas in a pod," are
- colocated groups of containers that may share persistent storage volumes.
+ co-located groups of containers that may share persistent storage volumes.
 Pods are the smallest deployable units that you can create, schedule, and
 manage with Kubernetes.
 
@@ -677,22 +687,23 @@ can come and go, the service provides a _front end_ for the pods it represents.
 You use labels to organize and select groups of objects based on key-value pairs.
 
 endif::showscript[]
+
 == Pods
 
 
-* Correspond to colocated group of applications running with shared context
+* Correspond to co-located group of applications running with shared context
 * Model application-specific logical hosts in containerized environment
 ** May contain tightly coupled applications
 ** Example: Web server and _file puller/syncer_
 * Smallest deployable units that can be created, scheduled, managed
-* Consist of colocated group of Docker containers with shared volumes
+* Consist of co-located group of Docker containers with shared volumes
 
 
 ifdef::showscript[]
 
 === Transcript
 
-A pod corresponds to a colocated group of applications running with a shared
+A pod corresponds to a co-located group of applications running with a shared
 context.  Within that context, the applications may also have individual cgroup
 isolations applied. A pod models an application-specific logical host in a
 containerized environment.
@@ -704,7 +715,7 @@ For example, a pod could contain a web server and a _file puller/syncer_. .
 
 In Kubernetes, pods, not individual application containers, are the
 smallest deployable units that you can create, schedule, and manage.
-In terms of Docker constructs, a pod consists of a colocated group of Docker
+In terms of Docker constructs, a pod consists of a co-located group of Docker
 containers.
 
 endif::showscript[]
@@ -903,7 +914,6 @@ creators.
 endif::showscript[]
 == What Is an S2I Build?
 
-
 [.noredheader,cols="<2,^3"]
 |======
 a|* Integrated Docker registry and automated image builds
@@ -926,8 +936,6 @@ the selected code.
 
 endif::showscript[]
 == Why Use S2I Builds?
-
-
 
 * Provides a developer-centric flow
 ** Focuses on turning source code into running application
@@ -965,22 +973,326 @@ the runtime environment in the Docker image helps you migrate your code:
 Linux.
 
 endif::showscript[]
+
+
+
+== OpenShift Enterprise 3.1 Release Notes
+
+* OpenShift Enterprise version 3.1 is now available.
+* Ensure that you follow the instructions on upgrading your OpenShift cluster
+ properly, including steps specific to this release.
+
+[NOTE]
+====
+for instructions on
+link:https://docs.openshift.com/enterprise/3.1/install_config/upgrades.html[upgrading your OpenShift cluster] properly,
+including any additional steps that may be required for a specific release.
+====
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+
+
+== OpenShift Enterprise 3.1 Release Notes
+:noaudio:
+* Here are a few changes that you would notice in the OpenShift Enterprise 3.1:
+
+.Service, package, file name, and directories name changes renamed:
+
+[cols="4,6",options="header"]
+|===
+|Previous Name
+|New Name
+
+|*openshift-master*
+|*atomic-openshift-master*
+
+|*openshift-node*
+|*atomic-openshift-node*
+
+|*_/etc/openshift/_*
+|*_/etc/origin/_*
+
+|*_/var/lib/openshift/_*
+|*_/var/lib/origin/_*
+
+|*_/etc/sysconfig/openshift-master_*
+|*_/etc/sysconfig/atomic-openshift-master_*
+
+|*_/etc/sysconfig/openshift-node_*
+|*_/etc/sysconfig/atomic-openshift-node_*
+|===
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+
+
+== OpenShift Enterprise 3.1 Release Notes
+:noaudio:
+* Docker version update require
+** Docker version 1.8.2 is required. This contains the fix to let the
+*_/etc/groups_* file use supplementary groups.
+
+* LDAP Synchronization:
+** OpenShift now allows you to sync LDAP records with OpenShift, so that you can
+ manage groups easily.
+
+* F5 Availability:
+** You can now configure an F5 load-balancer for use with your OpenShift
+ Enterprise environment.
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+
+
+== OpenShift Enterprise 3.1 Release Notes
+:noaudio:
+
+* More Persistent Storage Options:
+** Several persistent storage options are now available, such as Red Hat's
+GlusterFS and Ceph RBD, AWS, and Google Compute Engine. Also, NFS storage is
+now supplemented by iSCSI- and Fibre Channel-based volumes.
+
+* More Middleware Options:
+** Several middleware services are now available, such as JBoss DataGrid, and
+JBoss BRMS, as well as a supported JBoss Developer Studio and Eclipse plug-in.
+
+* Job Controller Now Available:
+** The job object type is now available, meaning that finite jobs can now be
+executed on the cluster.
+
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+
+
+== OpenShift Enterprise 3.1 Release Notes
+:noaudio:
+
+* Installation Utility Updates:
+** Multiple enhancements have been made to the Ansible-based installation
+utility. The utility can now:
+* Perform container-based installations. (Technology Preview)
+* Install active-active, highly-available clusters.
+* Uninstall existing OpenShift clusters.
+
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+
+
+== OpenShift Enterprise 3.1 Release Notes
+:noaudio:
+
+* Custom CA Certificates:
+** You can now specify your own CA certificate during the install, so that
+application developers do not have to specify the OpenShift-generated CA to
+obtain secure connections.
+
+* DNS Service Name Change:
+** The DNS name for service SRV discovery has changed. Services without search
+ paths resulted in long load times to resolve DNS. The change reduces load
+  times.
+
+* New Parameter Preventing Memory Overload:
+** Excessive amounts of events being stored in etcd can lead to excessive memory
+ growth.
+ ** You can now set the `*event-ttl*` parameter in the master configuration file
+  to a lower value (for example, `*15m*`) to prevent memory growth.
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+
+
+== OpenShift Enterprise 3.1 Release Notes
+:noaudio:
+
+* New Parameter for Port Destination:
+** You can now specify the port to send routes to. Any services that are
+pointing to multiple ports should have the `*spec.port.targetPort*` parameter
+on the pod set to the desired port.
+
+* New Remote Access Command:
+** The `oc rsync` command is now available, which can copy local directories into
+a remote pod.
+
+* Project Binding Command:
+** Isolated projects can now be bound together using `oadm pod-network
+join-project`.
+
+* Host Configuration Validation Commands:
+** New commands exist to validate master and node configuration files:
+ `openshift ex validate master-config` and `openshift ex validate node-config`,
+  respectively.
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+
+
+== OpenShift Enterprise 3.1 Release Notes
+:noaudio:
+
+* New Tag Deletion Command:
+** You can now delete tags from an image stream using the `oc tag <tag_name> -d`
+ command.
+
+* `*v1beta3*` no Longer Supported:
+** Using `*v1beta3*` in configuration files is no longer supported:
+* The `*etcdStorageConfig.kubernetesStorageVersion*` and
+`*etcdStorageConfig.openShiftStorageVersion*` values in the master
+configuration file must be `*v1*`.
+* You may also need to change the `*apiLevels*` field and remove `*v1beta3*`.
+* `*v1beta3*` is no longer supported as an endpoint. `*/api/v1beta3*` and
+`*/osapi/v1beta3*` are now disabled.
+* New Tag Deletion Command:
+** You can now delete tags from an image stream using the `oc tag <tag_name> -d`
+ command.
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+
+
+== OpenShift Enterprise 3.1 Release Notes
+:noaudio:
+
+
+* Web Console Enhancements:
+* Extended resource information is now available on the web console.
+* The ability to trigger a deployment and rollback from the console has been
+added.
+* Logs for builds and pods are now displayed on the web console in real time.
+* When enabled, the web console will now display pod metrics.
+* You can now connect to a container using a remote shell connection when in
+the *Builds* tab.
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+
+
+== OpenShift Enterprise 3.1 Release Notes
+:noaudio:
+
+
+* Aggregating Logging With the EFK Stack:
+** Elasticsearch, Fluentd, and Kibana (together, known as the EFK stack) are now
+ available for logging consumption.
+
+* Heapster Now Available:
+** The Heapster interface and metric datamodel can now be used with OpenShift.
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+
+
+== OpenShift Enterprise 3.1 Release Notes
+:noaudio:
+
+
+
+* Jenkins is Now Available:
+** A Jenkins image is now available for deployment on OpenShift.
+** Integration between Jenkins masters and Jenkins slaves running on OpenShift
+has improved.
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+
+
+== OpenShift Enterprise 3.1 Release Notes
+:noaudio:
+
+
+* `oc build-logs` is Now Deprecated:
+** The `oc build-logs <build_name>` command is now deprecated and replaced by `oc
+logs build/<build_name>`.
+
+* `*spec.rollingParams.updatePercent*` Field is Replaced:
+** The `*spec.rollingParams.updatePercent*` field in deployment configurations
+has been replaced with `*maxUnavailable*` and `*maxSurge*`.
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+
+
+== OpenShift Enterprise 3.1 Release Notes
+:noaudio:
+
+
+* Images now Editable:
+** Images can be edited to set fields such as `*labels*` or `*annotations*`.
+
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+
+
+== OpenShift Enterprise 3.1 Release Notes
+:noaudio:
+
+* Some features in this release are currently in Technology Preview. These
+experimental features are not intended for production use.
+* Binary builds, and the Dockerfile source type for builds.
+* Pod autoscaling, using the *HorizontalPodAutoscaler* object.
+** OpenShift compares pod CPU usage as a percentage of requested CPU, and scales
+ according to up to an indicated threshold.
+* Support for OpenShift Enterprise running on Atomic Host.
+* Containerized installations, meaning all OpenShift Enterprise components
+ running in containers.
+
+ NOTE:
+ following scope of support on the Red Hat Customer Portal for these features:
+ link:https://access.redhat.com/support/offerings/techpreview[Technology Preview
+ Features Support Scope]
+
+ ifdef::showscript[]
+ === Transcript
+
+ endif::showscript[]
+
+
 == Summary
 
 
-* Overview and design concepts in OpenShift Enterprise 3.0
+* Overview and design concepts in OpenShift Enterprise 3
 * Introduction to Docker
 * Introduction to Kubernetes infrastructure
-* Networking in OpenShift Enterprise 3.0
+* Networking in OpenShift Enterprise 3
 * Image registry
 * Builds and OpenShift Enterprise S2I images
+* OpenShift Enterprise 3.1 Release Notes
 
 
 ifdef::showscript[]
 
 === Transcript
 
-This module presented an overview of and design concepts in OpenShift Enterprise 3.0, including the
+This module presented an overview of and design concepts in OpenShift Enterprise 3, including the
 OpenShift Enterprise stack, how OpenShift Enterprise works, standards, important projects, workflows,
 and how the various components work together.
 

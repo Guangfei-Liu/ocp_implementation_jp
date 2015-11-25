@@ -1,0 +1,25 @@
+== OpenShift Enterprise 3.1 Release Notes
+:noaudio:
+
+* Custom CA Certificates:
+** You can now specify your own CA certificate during the install, so that
+application developers do not have to specify the OpenShift-generated CA to
+obtain secure connections.
+
+* DNS Service Name Change:
+** The DNS name for service SRV discovery has changed. Services without search
+ paths resulted in long load times to resolve DNS. The change reduces load
+  times.
+
+* New Parameter Preventing Memory Overload:
+** Excessive amounts of events being stored in etcd can lead to excessive memory
+ growth.
+ ** You can now set the `*event-ttl*` parameter in the master configuration file
+  to a lower value (for example, `*15m*`) to prevent memory growth.
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+
+

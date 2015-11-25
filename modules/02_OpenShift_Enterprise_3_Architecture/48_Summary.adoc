@@ -1,19 +1,20 @@
 == Summary
 
 
-* Overview and design concepts in OpenShift Enterprise 3.0
+* Overview and design concepts in OpenShift Enterprise 3
 * Introduction to Docker
 * Introduction to Kubernetes infrastructure
-* Networking in OpenShift Enterprise 3.0
+* Networking in OpenShift Enterprise 3
 * Image registry
 * Builds and OpenShift Enterprise S2I images
+* OpenShift Enterprise 3.1 Release Notes
 
 
 ifdef::showscript[]
 
 === Transcript
 
-This module presented an overview of and design concepts in OpenShift Enterprise 3.0, including the
+This module presented an overview of and design concepts in OpenShift Enterprise 3, including the
 OpenShift Enterprise stack, how OpenShift Enterprise works, standards, important projects, workflows,
 and how the various components work together.
 

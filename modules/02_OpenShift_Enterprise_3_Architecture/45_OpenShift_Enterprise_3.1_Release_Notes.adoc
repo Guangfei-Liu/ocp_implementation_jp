@@ -1,0 +1,18 @@
+== OpenShift Enterprise 3.1 Release Notes
+:noaudio:
+
+
+* `oc build-logs` is Now Deprecated:
+** The `oc build-logs <build_name>` command is now deprecated and replaced by `oc
+logs build/<build_name>`.
+
+* `*spec.rollingParams.updatePercent*` Field is Replaced:
+** The `*spec.rollingParams.updatePercent*` field in deployment configurations
+has been replaced with `*maxUnavailable*` and `*maxSurge*`.
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+
+

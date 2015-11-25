@@ -1,4 +1,4 @@
-== What Is OpenShift Enterprise?
+== What Is OpenShift Enterprise
 
 
 * Platform-as-a-Service (PaaS)
@@ -16,12 +16,16 @@ ifdef::showscript[]
 
 This module begins with an overview of OpenShift Enterprise design concepts.
 
-OpenShift Enterprise is a Platform-as-a-Service, or PaaS, that is based on industry
-standards. OpenShift Enterprise is a self-service platform, meaning that it provides development environments on demand. As a polyglot offering, it includes a
-range of languages, frameworks, runtimes, and databases. It also automates
-management of the entire application lifecycle: build, deploy, and retire.
+OpenShift Enterprise is a Platform-as-a-Service, or PaaS, that is based on
+ industry
+standards. OpenShift Enterprise is a self-service platform, meaning that it
+ provides development environments on demand. As a polyglot offering, it
+  includes a range of languages, frameworks, runtimes, and databases. It also
+   automates management of the entire application lifecycle: build, deploy, and
+    retire.
 
-OpenShift Enterprise enables collaboration between developers on projects and components.
+OpenShift Enterprise enables collaboration between developers on projects and
+ components.
 
 
 endif::showscript[]

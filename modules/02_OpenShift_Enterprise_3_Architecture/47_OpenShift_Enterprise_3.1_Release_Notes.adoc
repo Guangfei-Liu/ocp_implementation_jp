@@ -1,0 +1,24 @@
+== OpenShift Enterprise 3.1 Release Notes
+:noaudio:
+
+* Some features in this release are currently in Technology Preview. These
+experimental features are not intended for production use.
+* Binary builds, and the Dockerfile source type for builds.
+* Pod autoscaling, using the *HorizontalPodAutoscaler* object.
+** OpenShift compares pod CPU usage as a percentage of requested CPU, and scales
+ according to up to an indicated threshold.
+* Support for OpenShift Enterprise running on Atomic Host.
+* Containerized installations, meaning all OpenShift Enterprise components
+ running in containers.
+
+ NOTE:
+ following scope of support on the Red Hat Customer Portal for these features:
+ link:https://access.redhat.com/support/offerings/techpreview[Technology Preview
+ Features Support Scope]
+
+ ifdef::showscript[]
+ === Transcript
+
+ endif::showscript[]
+
+

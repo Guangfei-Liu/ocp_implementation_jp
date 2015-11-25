@@ -1,4 +1,4 @@
-== What Is Kubernetes?
+== What Is Kubernetes
 
 
 * Open source system for managing containerized applications

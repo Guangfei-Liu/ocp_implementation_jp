@@ -12,8 +12,8 @@ ifdef::showscript[]
 === Transcript
 
 The replication layer contains the replication controller, whose role is to make
- sure that the
-number of instances/pods defined in the store layer actually exist.
+ sure that the number of instances/pods defined in the store layer actually
+  exist.
 The replication controller instantiates (creates) or kills pods according to
 the desired state definition.
 

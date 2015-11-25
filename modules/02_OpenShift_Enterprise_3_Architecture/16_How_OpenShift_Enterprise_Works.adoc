@@ -12,7 +12,6 @@ ifdef::showscript[]
 
 === Transcript
 
-The scheduler is essentially the OpenShift Enterprise master main function.
 Whenever a user decides to create a pod, the master determines where to do
 this. This is called _scheduling_.
 

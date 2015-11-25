@@ -1,0 +1,17 @@
+== OpenShift Enterprise 3.1 Release Notes
+:noaudio:
+
+* Installation Utility Updates:
+** Multiple enhancements have been made to the Ansible-based installation
+utility. The utility can now:
+* Perform container-based installations. (Technology Preview)
+* Install active-active, highly-available clusters.
+* Uninstall existing OpenShift clusters.
+
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+
+

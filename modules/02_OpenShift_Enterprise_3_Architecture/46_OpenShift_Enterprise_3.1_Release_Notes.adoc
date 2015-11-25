@@ -1,0 +1,14 @@
+== OpenShift Enterprise 3.1 Release Notes
+:noaudio:
+
+
+* Images now Editable:
+** Images can be edited to set fields such as `*labels*` or `*annotations*`.
+
+
+ifdef::showscript[]
+=== Transcript
+
+endif::showscript[]
+
+

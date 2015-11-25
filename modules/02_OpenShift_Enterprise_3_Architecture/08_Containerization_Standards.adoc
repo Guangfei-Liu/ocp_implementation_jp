@@ -11,7 +11,8 @@ ifdef::showscript[]
 === Transcript
 
 Red Hat promotes registry and container discovery standards to easily find
-and consume trusted container images and federate consumption libraries. This promotes consistency and reuse.
+and consume trusted container images and federate consumption libraries. This
+ promotes consistency and reuse.
 
 endif::showscript[]
 

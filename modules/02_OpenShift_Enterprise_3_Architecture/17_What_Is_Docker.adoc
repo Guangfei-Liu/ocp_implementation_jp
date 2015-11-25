@@ -1,4 +1,4 @@
-== What Is Docker?
+== What Is Docker
 
 
 * Open platform for developers and administrators to build, ship, and run
@@ -6,7 +6,8 @@ distributed applications
 
 * Main support components:
 ** *Docker Engine*: Portable, lightweight runtime and packaging tool
-** *Docker Hub*: Cloud service for sharing applications and automating workflows
+** *Docker Hub*: Cloud service for sharing applications and automating
+ work-flows
 * Benefits:
 ** Multi-version packaging format and isolation
 ** Simplified container API (Docker `libcontainer`)
@@ -24,7 +25,7 @@ ship, and run distributed applications. The main components are the Docker
  Engine and the Docker Hub.
 
 The Docker Engine is a portable, lightweight runtime and packaging tool. The
- Docker Hub
-is a cloud service for sharing applications and automating workflows.
+ Docker Hub is a cloud service for sharing applications and automating
+  work-flows.
 
 endif::showscript[]

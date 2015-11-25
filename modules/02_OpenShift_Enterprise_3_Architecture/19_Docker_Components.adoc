@@ -29,3 +29,4 @@ Each container is created from a Docker image. You can start, run, terminate and
  delete Docker containers.
 
 endif::showscript[]
+

@@ -15,7 +15,7 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise 3.0 consists of several key open source projects, most notably Kubernetes, Docker, and EtcD.
+OpenShift Enterprise 3 consists of several key open source projects, most notably Kubernetes, Docker, and EtcD.
 
 Kubernetes orchestrates containers at massive scale and manages and orchestrates
 Docker containers across clusters of nodes.

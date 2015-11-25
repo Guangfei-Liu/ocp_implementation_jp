@@ -6,7 +6,7 @@
 * Share and reuse images via Docker Hub or own registry
 +
 [NOTE]
-OpenShift Enterprise 3.0 an _integrated registry_ to store and distribute
+OpenShift Enterprise 3 an _integrated registry_ to store and distribute
 images created locally.
 
 ifdef::showscript[]

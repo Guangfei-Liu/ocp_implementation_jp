@@ -24,7 +24,7 @@ When you work with applications--creating, building, scaling, destroying, and
 
 You can enforce quotas against resources.
 
-OpenShift Enterprise 3.0 includes different resource types. In this context,
+OpenShift Enterprise 3 includes different resource types. In this context,
  the term _resources_ can refer to hardware resources, such as memory, CPU,
   and other _platform_ resources, or to OpenShift Enterprise resources, such as
    pods, services, and replication controllers.

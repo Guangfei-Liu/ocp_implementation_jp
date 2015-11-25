@@ -18,7 +18,7 @@ ifdef::showscript[]
 
 === Transcript
 
-The OpenShift Enterprise version 3.0 stack features the following:
+The OpenShift Enterprise version 3 stack features the following:
 
 * A standard containers API
 * A container-optimized OS

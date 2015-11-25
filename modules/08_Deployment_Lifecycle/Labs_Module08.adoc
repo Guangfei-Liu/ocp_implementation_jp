@@ -560,7 +560,7 @@ Warning: the following images triggers were disabled: ruby-hello-world
 
 == Create Customized Build and Run Processes
 
-OpenShift Enterprise 3.0 supports customization of both the build and run processes. Generally speaking, this involves modifying the various S2I scripts from the builder image. When OpenShift Enterprise builds your code, it checks to see if any of the scripts in the `.sti/bin` folder of your repository override or supercede the builder image's scripts. If so, it executes the repository script instead.
+OpenShift Enterprise 3 supports customization of both the build and run processes. Generally speaking, this involves modifying the various S2I scripts from the builder image. When OpenShift Enterprise builds your code, it checks to see if any of the scripts in the `.sti/bin` folder of your repository override or supercede the builder image's scripts. If so, it executes the repository script instead.
 
 You can find more information on the scripts, their execution during the process, and customization at  https://docs.openshift.org/latest/creating_images/overview.html
 

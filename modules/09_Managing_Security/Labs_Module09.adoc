@@ -380,7 +380,7 @@ Here you disable self-provisioning for all users and then let specific users sel
     userNames: []
 ----
 
-. To create a message for users trying to provision projects, edit the `master` config file `/etc/openshift/master/master-config.yaml` by changing the `projectRequestMessage` key to your own message.
+. To create a message for users trying to provision projects, edit the `master` config file `/etc/origin/master/master-config.yaml` by changing the `projectRequestMessage` key to your own message.
 +
 ----
   projectRequestMessage: "Please create project using the portal http://portal.example.com/provision or Contact Mike"
@@ -509,12 +509,12 @@ parameters:
 [root@master00-GUID ~]# oc create -f project-request.yaml --namespace=openshift
 ----
 
-.. To set the default template, edit the `master` config file `/etc/openshift/master/master-config.yaml`, and change the `projectRequestTemplate` key value to `openshift/project-request`.
+.. To set the default template, edit the `master` config file `/etc/origin/master/master-config.yaml`, and change the `projectRequestTemplate` key value to `openshift/project-request`.
 +
 ----
-[root@master00-GUID ~]# vi /etc/openshift/master/master-config.yaml
+[root@master00-GUID ~]# vi /etc/origin/master/master-config.yaml
 or
-[root@master00-GUID ~]# sed -i 's/projectRequestTemplate: ""/projectRequestTemplate: "openshift\/project-request"/g' /etc/openshift/master/master-config.yaml
+[root@master00-GUID ~]# sed -i 's/projectRequestTemplate: ""/projectRequestTemplate: "openshift\/project-request"/g' /etc/origin/master/master-config.yaml
 ----
 
 * The line should look something like this:

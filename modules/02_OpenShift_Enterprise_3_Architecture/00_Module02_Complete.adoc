@@ -112,7 +112,7 @@ ifdef::showscript[]
 
 === Transcript
 
-The OpenShift Enterprise version 3.0 stack features the following:
+The OpenShift Enterprise version 3 stack features the following:
 
 * A standard containers API
 * A container-optimized OS
@@ -247,7 +247,7 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise 3.0 consists of several key open source projects, most notably Kubernetes, Docker, and EtcD.
+OpenShift Enterprise 3 consists of several key open source projects, most notably Kubernetes, Docker, and EtcD.
 
 Kubernetes orchestrates containers at massive scale and manages and orchestrates
 Docker containers across clusters of nodes.
@@ -341,7 +341,7 @@ Put simply, OpenShift Enterprise manages its workflow as follows:
 . OpenShift Enterprise then works to bring the other parts of the system into
 sync with the desired state.
 
-For example: Say an OpenShift Enterprise 3.0 user predicts a spike in traffic before a holiday or major sports event.
+For example: Say an OpenShift Enterprise 3 user predicts a spike in traffic before a holiday or major sports event.
 The user wants to spin up more pods of a specific service/application to accommodate the additional traffic.
 
 The application has three pods running, and the user wants to double that number, to six running pods, as a pre-emptive measure.
@@ -402,7 +402,7 @@ ifdef::showscript[]
 
 The authentication layer provides a framework for collaboration and quota
 management.
-OpenShift Enterprise 3.0 supports a number of mechanisms for authentication.
+OpenShift Enterprise 3 supports a number of mechanisms for authentication.
 The simplest use case for testing purposes is `htpasswd`-based authentication.
 
 endif::showscript[]
@@ -571,7 +571,7 @@ endif::showscript[]
 * Share and reuse images via Docker Hub or own registry
 +
 [NOTE]
-OpenShift Enterprise 3.0 includes _integrated registry_ to store and distribute
+OpenShift Enterprise 3 includes _integrated registry_ to store and distribute
 images created locally.
 
 ifdef::showscript[]
@@ -737,8 +737,8 @@ endif::showscript[]
 == OpenShift Enterprise Networking Basics
 :noaudio:
 
-* Understanding OpenShift Enterprise 3.0 networking workflow requires knowledge of components:
-** Every host in OpenShift Enterprise 3.0 environment/cluster is member of SDN network
+* Understanding OpenShift Enterprise 3 networking workflow requires knowledge of components:
+** Every host in OpenShift Enterprise 3 environment/cluster is member of SDN network
 ** Each `pod` has own IP routable from any SDN member
 *** Default: `10.x.x.x`
 ** Each `service` represents one or more `pods`, has own IP
@@ -750,7 +750,7 @@ ifdef::showscript[]
 
 To understand the networking workflow in OpenShift Enterprise 3.0, you must be familiar with its various components.
 
-All hosts in the OpenShift Enterprise 3.0 environment, or cluster, are members of the same SDN
+All hosts in the OpenShift Enterprise 3 environment, or cluster, are members of the same SDN
 overlay network.
 
 Each pod gets its own IP that is routable from any member of the SDN
@@ -969,7 +969,7 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise 3.0 provides a developer-centric flow that focuses on
+OpenShift Enterprise 3 provides a developer-centric flow that focuses on
 turning the developer's source code into a running application as simply as possible.
 
 The S2I project was started to make it easy for developers to take

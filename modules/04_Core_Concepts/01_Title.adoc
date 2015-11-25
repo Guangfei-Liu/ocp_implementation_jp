@@ -17,7 +17,7 @@ ifdef::revealjs_slideshow[]
 Red Hat OpenShift Enterprise Implementation
 
 [#cover-h2]
-OpenShift 3.0 Core Concepts
+OpenShift 3 Core Concepts
 
 [#cover-logo]
 image::{revealjs_cover_image}[]

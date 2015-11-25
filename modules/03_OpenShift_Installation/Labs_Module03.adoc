@@ -854,7 +854,7 @@ The installation was successful!
 +
 ----
 echo "configuration:
-  subdomain: cloudapps-$GUID.oslab.opentlc.com" >> /etc/openshift/master/master-config.yaml
+  subdomain: cloudapps-$GUID.oslab.opentlc.com" >> /etc/origin/master/master-config.yaml
 ----
 
 . Verify that your `master-config.yaml` file was updated correctly.
@@ -933,7 +933,7 @@ To set a _default route_, run the following:
 
 [source,bash]
 ----
-[root@master00-GUID ~]# sed -i "s/router.default.local/cloudapps-${GUID}.oslab.opentlc.com/g" /etc/openshift/master/master-config.yaml
+[root@master00-GUID ~]# sed -i "s/router.default.local/cloudapps-${GUID}.oslab.opentlc.com/g" /etc/origin/master/master-config.yaml
 [root@master00-GUID ~]# systemctl restart openshift-master
 
 ----
@@ -963,7 +963,7 @@ CAUTION: Do not set a default `NodeSelector` in your lab environment. Skip this 
 
 [source,bash]
 ----
-[root@master00-GUID ~]# sed -i 's/defaultNodeSelector: ""/defaultNodeSelector: "region=primary"' /etc/openshift/master/master-config.yaml
+[root@master00-GUID ~]# sed -i 's/defaultNodeSelector: ""/defaultNodeSelector: "region=primary"' /etc/origin/master/master-config.yaml
 [root@master00-GUID ~]# systemctl restart openshift-master
 ----
 
@@ -1089,9 +1089,9 @@ The remaining steps in this lab are for reference only. You would run the comman
 . Create a copy of your master's configuration file.
 +
 ----
-[root@master00-GUID ~]# cp /etc/openshift/master/master-config.yaml /etc/openshift/master/master-config.yaml.original
+[root@master00-GUID ~]# cp /etc/origin/master/master-config.yaml /etc/origin/master/master-config.yaml.original
 ----
-. Edit `/etc/openshift/master/master-config.yaml` so that the `oauthConfig` section looks like the following:
+. Edit `/etc/origin/master/master-config.yaml` so that the `oauthConfig` section looks like the following:
 +
 ----
 oauthConfig:
@@ -1133,7 +1133,7 @@ In the real world, your developers are likely to use the OpenShift Enterprise to
 
 === Configure `htpasswd` Authentication
 
-OpenShift Enterprise 3.0 supports a number of authentication mechanisms. The simplest use case for testing purposes is authentication based on `htpasswd`.
+OpenShift Enterprise 3 supports a number of authentication mechanisms. The simplest use case for testing purposes is authentication based on `htpasswd`.
 
 To start, you need the `htpasswd` binary available in the `httpd-tools` package.
 

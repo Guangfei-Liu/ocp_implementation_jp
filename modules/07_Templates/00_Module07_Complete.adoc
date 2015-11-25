@@ -1,8 +1,10 @@
+
 :noaudio:
 
 ifdef::revealjs_slideshow[]
 
 [#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"]
+
 == &nbsp;
 
 
@@ -18,7 +20,7 @@ endif::[]
 
 
 == Module Topics
-:noaudio:
+
 
 
 * Template Overview
@@ -34,23 +36,23 @@ ifdef::showscript[]
 
 Welcome to module 7 of the OpenShift Enterprise Implementation course.
 
-In this module you learn about the various sections of a template; how to deploy, process, and modify a template;
+In this module you learn about the various sections of a template; how to
+ deploy, process, and modify a template;
 and how to "wire" templates together.
 
 endif::showscript[]
-
-
-
 == Template Overview
-:noaudio:
+
 
 
 
 .What Is a Template?
 
 
-* Describes set of resources that can be customized and processed to produce configuration
-* Parameterized list OpenShift Enterprise uses to create list of resources, including services, pods, routes, and build configurations
+* Describes set of resources that can be customized and processed to produce
+ configuration
+* Parameterized list OpenShift Enterprise uses to create list of resources,
+ including services, pods, routes, and build configurations
 * Defines set of labels to apply to every resource created by template
 
 .Reference
@@ -60,19 +62,17 @@ ifdef::showscript[]
 
 === Transcript
 
-A template describes a set of resources that can be customized and processed to produce a configuration.
+A template describes a set of resources that can be customized and processed to
+ produce a configuration.
 
-Each template is a parameterized list that OpenShift Enterprise uses to create a list of resources, including services, pods, routes, and build configurations.
+Each template is a parameterized list that OpenShift Enterprise uses to create a
+ list of resources, including services, pods, routes, and build configurations.
 
 A template also defines a set of labels to apply to every resource it creates.
 
 endif::showscript[]
-
-
-
-
 == Template Overview
-:noaudio:
+
 
 .What Are Templates For?
 
@@ -83,16 +83,15 @@ endif::showscript[]
 ifdef::showscript[]
 
 === Transcript
-With templates you can create instantly deployable applications for developers or customers.
+With templates you can create instantly deployable applications for developers
+ or customers.
 
 A template can use preset variables or randomize values (like passwords).
 
 
 endif::showscript[]
-
-
 == Template Overview
-:noaudio:
+
 
 .Template Elements
 
@@ -139,15 +138,14 @@ This sample template file is constructed from the following elements:
 
 . `name` is the name of the template.
 . `description` is an optional description for the template.
-. `parameters` is where you list of parameters like username, passwords, and others.
-. `labels` is a list of labels to apply to resources.
+. `parameters` is where you list of parameters like username, passwords, and
+ others.
+. `labels` is a list of labels to apply to resources created by the template.
 . `object` lists resources to create, like pods, services, and routes.
 
 endif::showscript[]
-
-
 == Template Overview
-:noaudio:
+
 
 .Labels
 
@@ -155,7 +153,7 @@ endif::showscript[]
 * Apply to _every resource that is generated from the template_
 * Used to organize, group, or select objects and resources
 * Resources and pods are "tagged" with labels
-* Allows services and replication controllers to: 
+* Allows services and replication controllers to:
 ** Indicate pods they relate to
 ** Reference groups of pods
 ** Treat pods with different Docker containers as similar entities
@@ -164,56 +162,62 @@ ifdef::showscript[]
 
 === Transcript
 
-Labels are used to manage generated resources, such as pods. The labels specified in the template are applied to _every resource that is generated from the template_.
+Labels are used to manage generated resources, such as pods. The labels
+ specified in the template are applied to
+  _every resource that is generated from the template_.
 
-Labels are used to organize, group, or select objects and resources. 
+Labels are used to organize, group, or select objects and resources.
 
-Resources and pods are "tagged" with labels, and services and replication controllers use the labels to indicate the pods they relate to. This makes it possible for services and replication controllers to reference groups of pods, or treat pods with potentially different Docker containers as similar entities.
+Resources and pods are "tagged" with labels, and services and replication
+ controllers use the labels to indicate the pods they relate to. This makes it
+  possible for services and replication controllers to reference groups of pods,
+   or treat pods with potentially different Docker containers as similar
+    entities.
 
 endif::showscript[]
-
-
 == Template Overview
-:noaudio:
+
 
 .Parameters
 
-* Share configuration values between different items in template
+* Share configuration values between different objects in template
 
-* Example: Database user name, password, or port needed by front-end pods to communicate to back-end database pods.
+* Example: Database user name, password, or port needed by front-end pods to
+ communicate to back-end database pods.
 
 ifdef::showscript[]
 
 === Transcript
 
-Parameters are used to share configuration values between the different items in the template. An easy example is the database user name, password, or port needed by the front-end pods to communicate to the back-end database pods.
+Parameters are used to share configuration values between the different objects
+ in the template. An easy example is the database user name, password, or port
+  needed by the front-end pods to communicate to the back-end database pods.
 
 endif::showscript[]
-
-
 == Template Overview
-:noaudio:
+
 
 .Objects
 
-* Can be any resources that needs to be created for template 
-* Examples: pods, services, replication controllers, and route
+* Can be any resources that needs to be created for template
+* Examples: pods, services, replication controllers, and routes
 * Other objects can be build configurations and image streams
 
 
 ifdef::showscript[]
 
 === Transcript
-Objects can be any resources that needs to be created for the template. Examples are pods, services, replication controllers, and a route for your template. Other objects can be build configurations and image streams.
+Objects can be any resources that needs to be created for the template. Examples
+ are pods, services, replication controllers, and a route for your application.
+  Other objects can be build configurations and image streams.
 
-The next few slides show sections of a sample template, which illustrate most of these objects.
+The next few slides show sections of a sample template, which illustrate most of
+ these objects.
 
 
 endif::showscript[]
-
-
 == Template File Creation
-:noaudio:
+
 
 .Example Template - `metadata`
 [subs="verbatim,macros"]
@@ -240,16 +244,15 @@ This slide shows the `metadata` section of a sample template.
 
 
 endif::showscript[]
-
 == Template File Creation
-:noaudio:
+
 
 .Example Template - `objects:` `Service` `frontend` / `web`
 [subs="verbatim,macros"]
 ----
 "objects": [
     {
-     pass:quotes[*"kind": "Service",*] 
+     pass:quotes[*"kind": "Service",*]
       "apiVersion": "v1",
       "metadata": {
         pass:quotes[*"name": "frontend",*]
@@ -283,13 +286,12 @@ ifdef::showscript[]
 
 === Transcript
 
-This section shows the service named `frontend`, and the `web` object.
+This section shows the service named `frontend`.
 
 
 endif::showscript[]
-
 == Template File Creation
-:noaudio:
+
 
 .Example Template - `objects:`  `Service` `database` 
 [subs="verbatim,macros"]
@@ -333,7 +335,7 @@ endif::showscript[]
 
 
 == Template File Creation
-:noaudio:
+
 
 .Example Template - `objects:` `Route`
 [subs="verbatim,macros"]
@@ -367,7 +369,7 @@ endif::showscript[]
 
 
 == Template File Creation
-:noaudio:
+
 
 .Example Template - `objects:` `ImageStream` `ruby-sample` and `ruby-20-rhel7`
 [subs="verbatim,macros"]
@@ -406,12 +408,13 @@ ifdef::showscript[]
 
 This slide shows the `ruby-sample` and `ruby-20-rhel7` `ImageStream` objects.
 
-Note that there are two `imagestream` objects in this template, one for the _builder image_ (`ruby-20-rhel7`) and one for the S2I image (`ruby-sample`) that will be created for this deployment.
+Note that there are two `imagestream` objects in this template, one for the
+ _builder image_ (`ruby-20-rhel7`) and one for the S2I image (`ruby-sample`)
+  that will be created for this deployment.
 
 endif::showscript[]
-
 == Template File Creation
-:noaudio:
+
 
 .Example Template - `objects:` `DeploymentConfig` `frontend`
 
@@ -521,14 +524,12 @@ ifdef::showscript[]
 This slide shows the `frontend` `DeploymentConfig` object.
 
 
-Notice that the `env` parameters for MySQL access are set. You see them again in the next part of the template.
+Notice that the `env` parameters for MySQL access are set. You see them again in
+ the next part of the template.
 
 endif::showscript[]
-
-
-
 == Template File Creation
-:noaudio:
+
 
 .Template Example - `objects:` `DeploymentConfig` `database`
 [subs="verbatim,macros"]
@@ -614,11 +615,12 @@ ifdef::showscript[]
 
 This slide shows the `database` `DeploymentConfig` object.
 
-Notice that the `env` parameters for MySQL access are set the same as they were in the `frontend` `DeploymentConfig` object.
+Notice that the `env` parameters for MySQL access are set the same as they were
+ in the `frontend` `DeploymentConfig` object.
 
 endif::showscript[]
 == Template File Creation
-:noaudio:
+
 
 .Example Template - `parameters`
 
@@ -665,19 +667,20 @@ ifdef::showscript[]
 
 === Transcript
 
-This slide shows the template `parameters` generated from expressions. Parameters are essentially variables that the entire template can access.
+This slide shows the template `parameters` generated from expressions.
+ Parameters are essentially variables that the entire template can access.
 
 endif::showscript[]
-
-
 == New Configuration From Template
-:noaudio:
+
 
 .Uploading a Template
 
 * Can create configuration from template using CLI or management console
-** If management console, template must exist in project or global template library
-* Can create JSON template file, then upload it with CLI to project’s template library by passing file:
+** If management console, template must exist in project or global template
+ library
+* Can create JSON template file, then upload it with CLI to project’s template
+ library by passing file:
 +
 ----
 $ oc create -f <filename>
@@ -695,22 +698,25 @@ ifdef::showscript[]
 
 === Transcript
 
-You can create a configuration from a template or the management console. Using the management console, however, requires the template to be in
+You can create a configuration from a template file or the management console.
+ Using the management console, however, requires the template to be uploaded to
 your project or global template library.
 
-You can create a JSON template file and then upload it to your project's template library with with the CLI as shown. If you want to upload the JSON file to a different project, use the `-n` option with the project's name.
+You can create a JSON template file and then upload it to your project's
+ template library with with the CLI as shown. If you want to upload the JSON
+  file to a different project, use the `-n` option with the project's name.
 
-After you upload the template, you can configure it using the management console or the CLI.
+After you upload the template, you can configure it using the management console
+ or the CLI.
 
 endif::showscript[]
-
-
 == New Configuration From Template
-:noaudio:
+
 
 .Generating a Configuration
 
-* `oc process` examines template, generates parameters, and outputs JSON configuration
+* `oc process` examines template, generates parameters, and outputs JSON
+ configuration
 
 **  Create configuration with `oc create`
 
@@ -720,16 +726,19 @@ endif::showscript[]
 $ oc process -f <filename>
 ----
 
-** Alternatively, can pipe both commands to create from template without uploading it to library
+** Alternatively, can pipe both commands to create from template without
+ uploading it to library
 ** To process template and create from same template:
 +
 ----
 $ oc process -f <filename.json> | sed s/oldvalue/newvalue/g |oc create -f -
 ----
 
-* Can override parameters defined in JSON file by adding `-v` option and parameters 
+* Can override parameters defined in JSON file by adding `-v` option and
+ parameters
 
-* To override `ADMIN_USERNAME` and `MYSQL_DATABASE` parameters to create configuration with customized environment variables:
+* To override `ADMIN_USERNAME` and `MYSQL_DATABASE` parameters to create
+ configuration with customized environment variables:
 +
 ----
 $ oc process -f examples/sample-app/application-template-dockerbuild.json -v ADMIN_USERNAME=root,MYSQL_DATABASE=admin
@@ -740,42 +749,51 @@ ifdef::showscript[]
 
 === Transcript
 
-You can generate a configuration with the `oc process` command. `oc process` examines a template, generates any desired parameters, and outputs a JSON configuration that can be created with `oc create`.
+You can generate a configuration with the `oc process` command. `oc process`
+ examines a template, generates any desired parameters, and outputs a JSON
+  configuration that can be created with `oc create`.
 
-Alternatively, you can pipe both commands together to create from a template without uploading it to the template library. You can process the template and create from the same template.
+Alternatively, you can pipe both commands together to create from a template
+ without uploading it to the template library.
 
-You can also override any parameters defined in the JSON file by adding the `-v` option and any desired parameters. For example, you can override the `ADMIN_USERNAME` and `MYSQL_DATABASE` parameters to create a configuration with customized environment variables.
+You can also override any parameters defined in the template file by adding the
+ `-v` optionn and any desired parameters. For example, you can override the
+  `ADMIN_USERNAME` and `MYSQL_DATABASE` parameters to create a configuration
+   with customized environment variables.
 
 endif::showscript[]
-
-
 == Wiring Templates Together
-:noaudio:
+
 
 .Overview
 
 * May want to build components separately
 
-** Database team deploys database templates and development team deploys front-end template
+** Database team deploys database templates and development team deploys
+ front-end template
 * Treat as two applications wired together:
 ** Process and create template for `frontend`
 ** Extract values of `mysql` credentials from configuration file
-** Process and create template for `db` 
+** Process and create template for `db`
 ** Override  values with values extracted from `front`end` configuration file
 
 ifdef::showscript[]
 
 === Transcript
 
-Sometimes you might want to build various components separately. For example, a database team deploys database templates and the development team deploys the front-end template.
+Sometimes you might want to build various components separately. For example, a
+ database team deploys database templates and the development team deploys the
+  front-end template.
 
-You can take these two separate templates and wire them together. First, process and create a `frontend` template, and extract the values of the `mysql` credentials from its configuration file. Then process and create a `db` template and override its `mysq1` credentials values with the values extracted from the `frontend` configuration file.
+You can take these two separate templates and wire them together. First, process
+ and create a `frontend` template, and extract the values of the `mysql`
+  credentials from its configuration file. Then process and create a `db`
+   template and override its `mysq1` credentials values with the values
+    extracted from the `frontend` configuration file.
 
 endif::showscript[]
-
-
 == Wiring Templates Together
-:noaudio:
+
 
 .Process `frontend`
 
@@ -800,15 +818,12 @@ ifdef::showscript[]
 
 === Transcript
 
-The first step is to stand up the front end of your application and process the `frontend` template to create the configuration file.
+The first step is to create the front end of your application and process the
+ `frontend` template to create the configuration file.
 
 endif::showscript[]
-
-
-
-
 == Wiring Templates Together
-:noaudio:
+
 
 .Extract Configuration File Values
 
@@ -837,19 +852,15 @@ ifdef::showscript[]
 
 === Transcript
 
-Before creating the `db` template, review the `frontend` config file.  You can see that a database password and other parameters were generated.
+Before creating the `db` template, review the `frontend` config file.  You can
+ see that a database password and other parameters were generated.
 
-For an existing deployment, you can extract these values with the `oc env` command.
+For an existing deployment, you can extract these values with the `oc env`
+ command.
 
 endif::showscript[]
-
-
-
-
-
-
 == Wiring Templates Together
-:noaudio:
+
 
 .Process `db`
 
@@ -860,7 +871,8 @@ endif::showscript[]
 ----
 $ oc process -f db-template.json  -v MYSQL_USER=userMXG,MYSQL_PASSWORD=slDrggRv,MYSQL_DATABASE=root > db-config.json
 ----
-** This example processes and creates `db` template while overriding `mysql` credentials variables
+** This example processes and creates `db` template while overriding `mysql`
+ credentials variables
 
 * Create configuration:
 +
@@ -881,14 +893,15 @@ ifdef::showscript[]
 
 === Transcript
 
-Now that you know the values used to create `frontend`, you can use them when the `db` template is processed.
+Now that you know the values used to create the `frontend` template, you can use
+ them when the `db` template is processed.
 
-In this example you are processing and creating the `db` template while overriding the `mysql` credentials variables.
+In this example you are processing and creating the `db` template while
+ overriding the `mysql` credentials variables.
 
 endif::showscript[]
-
 == Summary
-:noaudio:
+
 
 * Template Overview
 * Template File Creation
@@ -901,6 +914,7 @@ ifdef::showscript[]
 
 === Transcript
 
-In this module you learned about the various sections of a template; how to deploy , process, and modify a template; and how to "wire" templates together.
+In this module you learned about the various sections of a template; how to
+ deploy , process, and modify a template; and how to "wire" templates together.
 
 endif::showscript[]

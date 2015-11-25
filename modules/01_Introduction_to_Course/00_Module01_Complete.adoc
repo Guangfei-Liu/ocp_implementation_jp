@@ -1,8 +1,10 @@
+
 :noaudio:
 
 ifdef::revealjs_slideshow[]
 
 [#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"]
+
 == &nbsp;
 :noaudio:
 [#cover-h1]
@@ -19,7 +21,7 @@ endif::[]
 
 
 == Course Goals
-:noaudio:
+
 * Review OpenShift Enterprise by Red Hat version 3 architecture
 * Describe/review OpenShift Enterprise 3 components
 * Describe OpenShift Enterprise installation and configuration process
@@ -49,7 +51,7 @@ endif::showscript[]
 
 
 == Course Overview
-:noaudio:
+
 * Module 01: Introduction to Course and Learning Environment
 * Module 02: OpenShift Enterprise 3 Architecture
 * Module 03: OpenShift Enterprise 3 Installation
@@ -72,7 +74,7 @@ endif::showscript[]
 
 
 == Prerequisites
-:noaudio:
+
 
 * Knowledge of Red Hat Enterprise Linux 7
 * Completion of OpenShift 3.x FASTRAX training with labs
@@ -84,14 +86,14 @@ ifdef::showscript[]
 
 === Transcript
 
-Students taking this course should know Red Hat Enterprise Linux 7, have completed OpenShift 3 FASTRAX training and all its labs, and be able to read and modify some form of code. They also must have a workstation with an SSH client installed.
+Students taking this course should be familiar with Red Hat Enterprise Linux 7,
+have completed OpenShift 3 FASTRAX training and all it's labs, and be able to
+read and modify some form of code.
+They also must have a workstation with an SSH client installed.
 
 endif::showscript[]
-
-
-
 == Class Environment
-:noaudio:
+
 
 * Class labs and demonstrations require provisioning virtual machines (VMs):
 ** *Master host*: One VM serves as OpenShift Enterprise environment master
@@ -123,7 +125,7 @@ endif::showscript[]
 
 
 == Connection Details
-:noaudio:
+
 
 .Master and Infranode Hosts
 
@@ -142,26 +144,26 @@ ifdef::showscript[]
 
 === Transcript
 
-The tables on the next three slides show the connection details to use when setting up and
-connecting to the lab environment. This information is repeated in the labs as
-required.
+The tables on the next three slides show the connection details to use when
+setting up and connecting to the lab environment. This information is repeated
+in the labs as required.
 
-The lab provisioning email you receive after you provision the lab from `labs.opentlc.com` provides the external IPs.
+External IPs are provided by the lab provisioning email you receive after you
+provision the lab from `labs.opentlc.com`.
 
-You use the master host to manage the state of the OpenShift cluster/environment. It hosts the web console and the API endpoint.
+You use the master host to manage the state of the OpenShift cluster/environment.
+ It hosts the web console and the API endpoint.
 
-The infranode host is a regular node to host _pods_ and _containers_. You use it only for infrastructure-related applications such as the router and Docker registry.
+The infranode host is a regular node to host _pods_ and _containers_.
+In this training it is used for infrastructure-related applications such as the
+ router and Docker registry.
 
 The `GUID` is a four-character generated unique identifier assigned to your lab environment. The provisioning email also provides your GUID.
 
 
 endif::showscript[]
-
-
-
-
 == Connection Details
-:noaudio:
+
 
 .Node Hosts
 
@@ -180,14 +182,11 @@ ifdef::showscript[]
 
 === Transcript
 
-You use the node servers to run your _pods_ and _applications_. The nodes are firewalled, or completely blocked, from external access.
+You use the node servers to run your _pods_. The nodes are firewalled, and are completely blocked, from external access.
 
 endif::showscript[]
-
-
-
 == Connection Details
-:noaudio:
+
 
 .Administration and Support Host
 
@@ -206,8 +205,12 @@ ifdef::showscript[]
 
 === Transcript
 
-When you connect to your environment, use only your OPENTLC credentials and SSH key to connect directly into your administration VM. Do not use root or try to connect directly to the master or nodes.
+You can use your `oselab` administration VM as a jump box to connect to the
+other internal lab hosts via SSH.
 
-You can use your `oselab` administration VM as a jump box to connect to the other internal lab hosts via SSH.
+When you connect to your environment, use only your OPENTLC credentials and SSH
+ key to connect directly into your administration VM.
+
+
 
 endif::showscript[]

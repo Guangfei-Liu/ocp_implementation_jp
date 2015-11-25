@@ -1,18 +1,23 @@
-:icons: images/icons
+:scrollbar:
+:data-uri:
 :toc2:
+:icons: images/icons
+
+== Deploy an S2I Build
 
 :numbered:
-
-
-== Lab: Deploy an S2I Build
 
 In this lab, you create a simple S2I build. As part of this process, you create a `BuildConfig` object and build an image using the S2I build process. You also create the pod, service, and route for your S2I build image.
 
-:numbered:
+* Authenticate to OpenShift Enterprise and Choose Your Project
+* Create Your S2I Description
+* Start Your Build
+* Create Your First Image (Sinatra)
+* Use the Web Console
 
-=== Authenticate to OpenShift Enterprise and Choose Your Project
+== Authenticate to OpenShift Enterprise and Choose Your Project
 
-. On the master host use the `oadm` command to create a project called: *hello-s2i*, and assign an administrative user to it:
+. On the `master` host, use `oadm` to create a project called `hello-s2i`, and assign an administrative user to it.
 +
 ----
 
@@ -21,7 +26,7 @@ In this lab, you create a simple S2I build. As part of this process, you create 
       --node-selector='region=primary' --admin=andrew
 ----
 
-. Become and authenticate to OpenShift Enterprise as user `andrew` (if you haven't done so already:
+. If you have not done so already, switch to user `andrew` and authenticate to OpenShift Enterprise as this user.
 +
 ----
 
@@ -31,7 +36,7 @@ In this lab, you create a simple S2I build. As part of this process, you create 
 
 ----
 
-. Change the context to the `hello-s2i` project:
+. Change the context to the `hello-s2i` project.
 +
 ----
 
@@ -40,10 +45,7 @@ Now using project "hello-s2i" on server "https://master00-GUID.oslab.opentlc.com
 
 ----
 
-. Check your current context:
-
-.. View the `~/.kube/config` file to review the information.
-.. Run the following command for a quick test:
+. Check your current context by viewing `~/.kube/config` and running a quick test.
 +
 ----
 
@@ -52,15 +54,14 @@ current-context: hello-s2i/master00-GUID-oslab-opentlc-com:8443/andrew
 
 ----
 
-=== Create Your S2I description
+== Create Your S2I Description
 
 For this activity, you use a prebuilt and preconfigured code repository. This repository is an extremely simple application of the `Hello World` type.
 
-. Go to link:https://github.com/openshift/simple-openshift-sinatra-S2I[https://github.com/openshift/simple-openshift-sinatra-S2I]. You will use this application's source code.
+. Go to https://github.com/openshift/simple-openshift-sinatra-S2I. You will use this application's source code.
 
 . Take a minute to review the repository.
-. To create the instructions and configuration for your image, use the `oc new-app` command as follows:
-** To use the default image suggested by the builder, run the following:
+. Create the instructions and configuration for your image using the default image suggested by the builder.
 +
 ----
 
@@ -74,10 +75,10 @@ For this activity, you use a prebuilt and preconfigured code repository. This re
 
 ----
 
-=== Start Your Build
+== Start Your Build
 
 
-. To create the build components, use the `oc create` command on the `BuildConfig` file:
+. Create the build components using `oc create` on the `BuildConfig` file.
 +
 ----
 
@@ -85,7 +86,7 @@ For this activity, you use a prebuilt and preconfigured code repository. This re
 
 ----
 
-. To see the output of the last command, run the following:
+. View the output of the last command.
 +
 ----
 
@@ -94,7 +95,7 @@ For this activity, you use a prebuilt and preconfigured code repository. This re
 
 ----
 
-. Output after build is complete would look similar to this:
+* After the build is complete, you should see output similar to the following:
 +
 ----
 NAME                           TYPE      SOURCE
@@ -110,7 +111,7 @@ simple-openshift-sinatra   <none>    deploymentconfig=simple-openshift-sinatra-S
 
 ----
 
-. Watch the running pods in realtime:
+. View the running pods in real time.
 +
 ----
 
@@ -118,7 +119,7 @@ simple-openshift-sinatra   <none>    deploymentconfig=simple-openshift-sinatra-S
 
 ----
 
-. Note you will see an error for a few minutes, it will clear up:
+* For the first few minutes, you will see the following error. It will soon resolve itself.
 +
 ----
 
@@ -127,7 +128,7 @@ simple-openshift-sinatra-S2I-1-o72am   0/1       Error: image library/simple-ope
 
 ----
 
-. Eventually it will build and look like this:
+* Eventually you will see something similar to the following:
 +
 ----
 
@@ -139,11 +140,11 @@ CTRL+C
 
 ----
 +
+[NOTE]
+If you see that the pod has failed to deploy, do not worry. This happens before your image is created and resolves itself after the image build process is complete.
 
-NOTE: Don't be alarmed if you see that the pod has failed to deploy, that happens before our image is created and will rectify itself once the image build process is complete.
 
-
-. To view the current build status and build logs, run the following:
+. View the current build status and build logs.
 +
 ----
 
@@ -153,7 +154,7 @@ simple-openshift-sinatra-S2I-1   Source    Complete   simple-openshift-sinatra-S
 
 ----
 
-. View the Build log
+. View the build log.
 +
 ----
 [andrew@master00 ~]$ oc build-logs simple-openshift-sinatra-S2I-1
@@ -175,9 +176,9 @@ I0702 05:39:46.967064       1 S2I.go:103] Successfully pushed 172.30.133.153:500
 
 . Make sure to check the progress on the web console.
 
-=== Create Your First Image (Sinatra)
+== Create Your First Image (Sinatra)
 
-. After your build is complete, to verify your pod and service, run the following:
+. After your build is complete, verify your pod and service.
 +
 ----
 
@@ -186,7 +187,7 @@ Hello, Sinatra!
 
 ----
 
-. Your last step is to add a route to make the application publicly accessible. To do this, run the following:
+. Add a route to make the application publicly accessible.
 +
 ----
 
@@ -203,14 +204,16 @@ simple-openshift-sinatra   mysinatra.cloudapps-f4fc.oslab.opentlc.com           
 Hello, Sinatra!
 ----
 
-=== Using the Web Console
+== Use the Web Console
 
-. Using what you learned in this chapter, create an application using the Web Console and the command line.
-.. Create a project called "nodejs"
-.. The Application repository is link:https://github.com/openshift/nodejs-ex[https://github.com/openshift/nodejs-ex]
-.. Use the "nodejs:0.10" image
-.. Create a route and expose the service to the world under the name : http://nodejs.cloudapps-GUID.oslab.opentlc.com/
-... Try to explore the *oc edit route* command
-.. Make sure Application has 4 replicas.
+Using what you learned, create an application using the web console and the command line.
 
-NOTE: At this point the web console can create a local route. To create an external route use the *oc expose* command or edit the exiS2Ing route with *oc edit route*
+. Create a project called `nodejs`.
+. Go to the application repository at https://github.com/openshift/nodejs-ex.
+. Use the `nodejs:0.10` image.
+. Create a route and expose the service to the world under the name http://nodejs.cloudapps-GUID.oslab.opentlc.com/.
+. Try to explore the `oc edit route` command.
+. Make sure the application has for replicas.
+
+[NOTE]
+At this point, the web console can create a local route. To create an external route, use `oc expose` or edit the existing route with `oc edit route`.

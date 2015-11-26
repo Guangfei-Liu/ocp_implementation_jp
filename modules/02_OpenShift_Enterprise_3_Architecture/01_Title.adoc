@@ -1,3 +1,8 @@
+:noaudio:
+ifdef::revealjs_slideshow[]
+
+[#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"]
+
 == &nbsp;
 :noaudio:
 
@@ -14,4 +19,3 @@ image::{revealjs_cover_image}[]
 endif::[]
 
 :numbered!:
-

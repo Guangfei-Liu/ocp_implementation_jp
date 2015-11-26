@@ -1,7 +1,20 @@
-v3.1.0.4
-source: https://github.com/openshift/origin/releases/tag/v1.0.7
 
-== Changes is ose_fastrax
+CAUTION: This file is for internal task management and note taking, it should not be made public
+
+== Changes on Course that require Tech Writer review:
+* Module 02 :
+** Slides 34-47 were added and did not exist before
+* Module 03 :
+** 04_Installation_Methods.adoc
+== Changes on Course that require Audio Recording
+* Module 02 :
+** Slides 34-47 were added and did not exist before
+** Slide 48_Summary.adoc needs to be renamed and line added to Audio
+* Module 03 :
+** 04_Installation_Methods.adoc - Needs to be recorded from scratch.
+
+
+== Changes in ose_fastrax
 
 * Metrics
 * The Kubelet now exposes statistics from cAdvisor securely via cluster permissions to view metrics

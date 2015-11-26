@@ -55,7 +55,17 @@ foreach $line (<SOURCEFILE>)
 		$DEBUG && print "File will be named: $current_file_name\n";
 		open(CURRENTFILE,">",$current_file_name) or die("could not open: $current_file_name\n");
 
+		if ($current_page_name =~ /Title/)
+		{
+			print CURRENTFILE '
+:noaudio:
 
+ifdef::revealjs_slideshow[]
+
+[#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"]
+
+';
+		}
 
 		print CURRENTFILE "$line";
 		#Added file to index

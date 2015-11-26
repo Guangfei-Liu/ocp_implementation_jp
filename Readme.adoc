@@ -1,22 +1,23 @@
 Goals:
 
-* Explain  with the technical architecture of OSE3.0
-* Perform a 20 minute demonstration of the use of OSE3.0
+* Explain  with the technical architecture of OSE3
+* Perform a 20 minute demonstration of the use of OSE3
 * Explain how to set up STI build process
 * Explain how to implement Zones and Regions in multi node environments
-* Explain how to deploy a POC like environment of OpenShift 3.0
-* Explain how HA application deployments work in OpenShift 3.0
-* Explain how to Manage the life cycle of applications in OpenShift 3.0
+* Explain how to deploy a POC like environment of OpenShift 3
+* Explain how HA application deployments work in OpenShift 3
+* Explain how to Manage the life cycle of applications in OpenShift 3
 
-Module 01 : Introduction to Course and Learning Environment
-Module 02 : OpenShift 3.0 Architecture
-Module 03 : OpenShift 3.0 Installation
-Module 04 : Resource Management
-Module 05 : Builder Methods
-Module 06 : InstantApps and Templates
-Module 07 : Code Lifecycle
-Module 08 : Demonstrating OpenShift 3.0 Capabilities
-Module 09 : Other topics
+Module 01 - Introduction to Course
+Module 02 - OpenShift Enterprise 3 Architecture
+Module 03 - OpenShift Installation
+Module 04 - Core Concepts
+Module 05 - Resource Management
+Module 06 - Creating Applications
+Module 07 - Templates
+Module 08 - Deployment Life-cycle
+Module 09 - Managing Security
+
 
 = Module 01	: Introduction to Course and Learning Environment
 == Module Topics
@@ -26,16 +27,16 @@ Module 09 : Other topics
 	* Class Environment
 	* Lab	: Set Up Your Lab Environment
 
-= Module 02 : OpenShift Enterprise 3.0 Architecture
+= Module 02 : OpenShift Enterprise 3 Architecture
 == Module Topics
 
-	* Overview and design concepts in OSE3.0
-	* Introduction to Docker (Do we just skip these Modules?)
-	* Introduction to Kubernetes Infrastructure (Do we just skip these Modules?)
-	* Networking in OSE3.0
-	* Resources overview
-
-NOTE: Status 11/06/15 : We got Slides, Erik will push a revision that includes some more words. I did not review this module for "GA" but it should be fine.
+* Overview and design concepts in OpenShift Enterprise by Red Hat version 3
+* Introduction to Docker
+* Introduction to Kubernetes infrastructure
+* Networking in OpenShift Enterprise 3
+* Image registry
+* Builds and OpenShift Enterprise S2I images
+* OpenShift Enterprise 3.1 Release Notes
 
 
 = Module 03 : OpenShift Installation
@@ -53,7 +54,7 @@ NOTE: Status 11/06/15 : We got Slides, Erik will push a revision that includes s
 	* Lab : OpenShift Configuration and Setup
 	* Lab : Configuring Authentication
 
-NOTE: Status 11/06/15 We got Slides and Labs ready for GA. If any issues arise with this install we can fall back to the ose_fastrax lab
+NOTE: Status 11/06/15 We got Slides and Labs ready for GA. If any issues arise with this install we can fall back to the ose fastrax lab
 
 = Module 04 : Resource Management
 == Module Topics
@@ -116,7 +117,7 @@ NOTE: Status 11/06/15 Lots of labs, No slides, Some labs have issues
 NOTE: Status 12/06/15 Lots of labs, CREATED SLIDES, Some labs have issues
 
 
-= Module 08 : Demonstrating OpenShift 3.0 Capabilities
+= Module 08 : Demonstrating OpenShift 3 Capabilities
 == Module Topics
 	* Demonstration Goals and Audience
 	* Demonstration Tips

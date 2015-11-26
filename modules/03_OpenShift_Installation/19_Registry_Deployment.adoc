@@ -19,14 +19,19 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise can build Docker images from your source code, deploy them, and manage their lifecycle. To enable this, you deploy an internal, integrated Docker registry in your OpenShift Enterprise environment.
+OpenShift Enterprise can build Docker images from your source code, deploy them,
+ and manage their lifecycle. To enable this, you deploy an internal, integrated
+  Docker registry in your OpenShift Enterprise environment.
 
 OpenShift runs the registry in a pod on a node, just like any other workload.
 
-Deploying the registry creates a _service_ and a _deployment configuration_, both called `docker-registry`.
+Deploying the registry creates a _service_ and a _deployment configuration_,
+ both called `docker-registry`.
 
-After successful deployment, a pod is created with a name similar to `docker-registry-1-cpty9`.
+After successful deployment, a pod is created with a name similar to
+ `docker-registry-1-cpty9`.
 
-To control where your registry is deployed, you use the `--selector` flag to specify your target by picking the labels you want to match.
+To control where your registry is deployed, you use the `--selector` flag to
+ specify your target by picking the labels you want to match.
 
 endif::showscript[]

@@ -4,7 +4,8 @@
 .QuickStart Templates
 
 * Define full set of objects for running application:
-** *Build configurations*: Build application from source located in GitHub public repository
+** *Build configurations*: Build application from source located in GitHub
+ public repository
 ** *Deployment configurations*: Deploy application image after it is built
 ** *Services*: Provide internal load balancing for application pods
 ** *Routes*: Provide external access and load balancing to application
@@ -12,22 +13,27 @@
 +
 ----
 
-$ oc create -f \
+$ oc create|delete -f \
     examples/quickstart-templates -n openshift
 
 ----
+
+NOTE: These templates and others are *installed automatically* by the
+ install utility.
 
 
 ifdef::showscript[]
 
 === Transcript
-The QuickStart templates define a full set of objects for a running application. This includes the following:
+The QuickStart templates define a full set of objects for a running application.
+ This includes the following:
 
-* Build configurations, to build the application from source located in a GitHub public repository.
+* Build configurations, to build the application from source located in a GitHub
+ public repository.
 * Deployment configurations, to deploy the application image after it is built.
 * Services, to provide internal load balancing for the application pods.
 * Routes, to provide external access and load balancing to the application.
 
-Use the code shown here to create the core QuickStart templates.
+Use the code shown here to create or delete the core QuickStart templates.
 
 endif::showscript[]

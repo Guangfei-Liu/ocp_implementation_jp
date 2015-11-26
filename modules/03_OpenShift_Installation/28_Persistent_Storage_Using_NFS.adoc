@@ -7,22 +7,26 @@
 * `Persistent Volume` framework:
 ** Lets administrators provision cluster with persistent storage
 ** Gives users access to resources without knowledge of underlying infrastructure
-* Storage must exist in underlying infrastructure before mounting as volume in OpenShift Enterprise
-* NFS requires:
-** Distinct list of servers and paths
-** `PersistentVolume` API
+* Storage must exist in underlying infrastructure before mounting as volume in
+ OpenShift Enterprise
 
+NOTE: There are many other supported storage back-end, they will be covered
+ later in the training. In our lab we will use NFS for persistent storage.
 
 ifdef::showscript[]
 
 === Transcript
-You can provision your OpenShift Enterprise cluster with persistent storage using NFS.
+You can provision your OpenShift Enterprise cluster with persistent storage
+ using NFS. There are many other supported storage back-end, they will be
+  covered later in the training. In our lab we will use NFS for persistent
+   storage.
 
-A `Persistent Volume` framework lets administrators provision a cluster with persistent storage and gives users a way to request those resources without having any knowledge of the underlying infrastructure.
+A `Persistent Volume` framework lets administrators provision a cluster with
+ persistent storage and gives users a way to request those resources without
+  having any knowledge of the underlying infrastructure.
 
-Storage must exist in the underlying infrastructure before you can mount it as a volume in OpenShift Enterprise.
-
-NFS requires only a distinct list of servers and paths and the `PersistentVolume` API.
-
+Storage must exist in the underlying infrastructure before you can mount it as
+ a volume in OpenShift Enterprise.
 
 endif::showscript[]
+

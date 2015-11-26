@@ -17,10 +17,17 @@
 ifdef::showscript[]
 === Transcript
 
-Use this workflow to install OpenShift Enterprise. You start by making sure that the system prerequisites have been met. These are the basic requirements for a viable OpenShift Enterprise environment. They include setting up the DNS requirements and preparing the hosts for OpenShift Enterprise deployment.
+Use this workflow to install OpenShift Enterprise. You start by making sure that
+ the system prerequisites have been met. These are the basic requirements for a
+  viable OpenShift Enterprise environment. They include setting up the DNS
+   requirements and preparing the hosts for OpenShift Enterprise deployment.
 
-Next, you use the CLI installation utility to install the OpenShift Enterprise software.
+Next, you use the CLI installation utility to install the OpenShift Enterprise
+ software.
 
-Finally, you deploy some containerized infrastructure components such as the default router and the integrated Docker registry. You also configure authentication and set up an NFS server to serve your persistent volume requests.
+Finally, you deploy some containerized infrastructure components such as the
+ default router and the integrated Docker registry. You also configure
+  authentication and set up an NFS server to serve your persistent volume
+   requests.
 
 endif::showscript[]

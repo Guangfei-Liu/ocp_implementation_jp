@@ -12,7 +12,8 @@
 # rm -rf /var/lib/docker/*
 ----
 
-* Create thin-pool volume from free space in volume group where root filesystem resides:
+* Create thin-pool volume from free space in volume group where root filesystem
+ resides:
 ** Requires no configuration
 +
 ----
@@ -25,8 +26,8 @@
 ----
 
 # cat /etc/sysconfig/docker-storage-setup
+DEVS=/dev/vdb
 VG=docker-vg
-SETUP_LVM_THIN_POOL=yes
 # docker-storage-setup
 ----
 
@@ -34,14 +35,20 @@ ifdef::showscript[]
 
 === Transcript
 
-You must edit the `/etc/sysconfig/docker-storage-setup` file to work as an answer file for `docker-storage-setup`.
+You must edit the `/etc/sysconfig/docker-storage-setup` file to work as an
+ answer file for `docker-storage-setup`.
 
-When you configure the `docker-storage-setup` script for your environment, some options are available based on your storage configuration.
+When you configure the `docker-storage-setup` script for your environment, some
+ options are available based on your storage configuration.
 
-Before you start the `docker-storage-setup` script, you must reinitialize Docker.
+Before you start the `docker-storage-setup` script, you must reinitialize
+ Docker.
 
-You then start the script and create a thin-pool volume from the remaining free space in the volume group where your root filesystem resides. This requires no configuration.
+You then start the script and create a thin-pool volume from the remaining free
+ space in the volume group where your root filesystem resides. This requires no
+  configuration.
 
-Then you use an existing volume group, in this example `docker-vg`, to create a thin-pool.
+Then you use an existing volume group, in this example `docker-vg`, to create a
+ thin-pool.
 
 endif::showscript[]

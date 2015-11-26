@@ -2,17 +2,27 @@
 CAUTION: This file is for internal task management and note taking, it should not be made public
 
 == Changes on Course that require Tech Writer review:
-* Module 02 :
+=== Module 02 :
 ** Slides 34-47 were added and did not exist before
-* Module 03 :
+=== Module 03 :
 ** 04_Installation_Methods.adoc
+** 08_Host_Preparation.adoc
+** 12_Host_Preparation
+** 17_OpenShift_Enterprise_Installation
+** Slides 24,25,26,27 OpenShift Population
+** Slides 28,29,30,31 - Persistent_Storage_Using_NFS
+
 == Changes on Course that require Audio Recording
-* Module 02 :
+=== Module 02 :
 ** Slides 34-47 were added and did not exist before
 ** Slide 48_Summary.adoc needs to be renamed and line added to Audio
-* Module 03 :
+** 08_Host_Preparation.adoc -
+=== Module 03 :
 ** 04_Installation_Methods.adoc - Needs to be recorded from scratch.
-
+** 08_Host_Preparation.adoc - Needs to be recorded from scratch.
+** 12_Host_Preparation
+** 17_OpenShift_Enterprise_Installation
+** Slides 24,25,26,27
 
 == Changes in ose_fastrax
 

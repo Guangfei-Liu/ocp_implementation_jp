@@ -1,39 +1,38 @@
 == OpenShift Enterprise Installation
 :noaudio:
 
-* Access quick installer from:
-https://install.openshift.com
+* Install the OpenShift Utils package that includes the installer
++
+----
+# yum -y install atomic-openshift-utils
+----
 
 * Run the following on host that has SSH access to intended master and nodes:
 +
 ----
-$ curl -o oo-install-ose.tgz \
-    https://install.openshift.com/portable/oo-install-ose.tgz
-$ tar -zxf oo-install-ose.tgz
-$ ./oo-install-ose
+$ atomic-openshift-installer install
 ----
 
-* Follow onscreen instructions to install new OpenShift instance
-** Installer asks for internal and public IPs of masters and nodes and configures them accordingly
+* Follow onscreen instructions to install OpenShift Enterprise
+** Installer asks for hostnames or IPs of masters and nodes and configures them
+ accordingly.
+** A configuration file with all the information provided would be saved in:
+ `~/.config/openshift/installer.cfg.yml` - This can be used as an "Answer file".
 
-* Can use the following to download and run script in single command:
-+
-----
-$ sh <(curl -s https://install.openshift.com/ose/)
-----
-
-* Consider saving installer script to add more nodes in future
 ifdef::showscript[]
 
 === Transcript
-The latest installer is available from the link shown here. To install OpenShift Enterprise 3.0, download the latest installer, unzip it, and run the installer CLI utility on a host that has SSH access to your intended master and nodes.
+The latest installer is available from the link shown here. To install OpenShift
+ Enterprise 3, Install the OpenShift Utils package that includes the installer,
+  and run the installer CLI utility on a host that has SSH access to your
+   intended master and nodes.
 
-The installer asks for the internal and public IPs of your masters and nodes and configures them accordingly.
+The installer asks for hostnames or IPs of masters and nodes and configures them
+ accordingly.
 
-If you want, you can use the last command shown here to download and run the script in a single command.
-
-For stability's sake, and if you intend to add more nodes in the future, consider saving the installer script you used and using it for all future nodes.
-
+A configuration file with all the information provided would be saved in:
+  `~/.config/openshift/installer.cfg.yml`, this can be used as an "Answer file"
+  for future installs.
 
 
 endif::showscript[]

@@ -7,7 +7,8 @@
 ** Points to _node_ hosting _Default Router Container_
 ** Resolves to OpenShift router IP address
 * In lab and examples, this is `infranode00` server
-** If environment uses multiple _routers_ (HAProxy instances), use external load balancer or round-robin setting
+** If environment uses multiple _routers_ (HAProxy instances), use external load
+ balancer or round-robin setting
 * Example: Create wildcard DNS entry for `cloudapps` in DNS server
 ** Has low TTL
 ** Points to public IP address of host where the router is deployed:
@@ -23,12 +24,20 @@ ifdef::showscript[]
 
 
 
-To make the OpenShift Enterprise environment accessible externally, you create a wildcard DNS entry that points to the _node_ that is hosting the _Default Router Container_.
+To make the OpenShift Enterprise environment accessible externally, you create a
+ wildcard DNS entry that points to the _node_ that is hosting the
+  _Default Router Container_.
 
-In this lab and examples this is the `infranode00` server. If your environment uses multiple _routers_ (HAProxy instances), which is likely, you use an external load balancer or round-robin setting to use them.
+In this lab and examples this is the `infranode00` server. If your environment
+ uses multiple _routers_ (HAProxy instances), which is likely, you use an
+  external load balancer or round-robin setting to use them.
 
-The wildcard for a DNS zone must resolve ultimately to the IP address of the OpenShift Enterprise router.
+The wildcard for a DNS zone must resolve ultimately to the IP address of the
+ OpenShift Enterprise router.
 
-For example, you can use the code shown here to create a wildcard DNS entry for `cloudapps` in your DNS Server, or something similar. The entry has a low TTL and points to the public IP address of the host where the router will be deployed.
+For example, you can use the code shown here to create a wildcard DNS entry for
+ `cloudapps` in your DNS Server, or something similar. The entry has a low TTL
+  and points to the public IP address of the host where the router will be
+   deployed.
 
 endif::showscript[]

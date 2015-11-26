@@ -20,6 +20,8 @@ ifdef::showscript[]
 === Transcript
 Welcome to module three of the OpenShift Enterprise Implementation course.
 
-This module reviews the installation process and shows how to configure the scheduler, registry, and router containers, as well as how to set up persistent storage.
+This module reviews the installation process and shows how to configure the
+ scheduler, registry, and router containers, as well as how to set up persistent
+  storage.
 
 endif::showscript[]

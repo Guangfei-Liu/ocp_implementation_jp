@@ -1,21 +1,42 @@
 == Persistent Storage Using NFS
 :noaudio:
 
-.Volume Security
+.SELinux and NFS Export Settings
 
-* `PersistentVolume` objects created in context of _project_
-* User request storage with `PersistentVolumeClaim` object in same project
-** Claim lives only in user's namespace
-** Can be referenced by pod within same namespace
-* Attempt to access persistent volume across project causes pod to fail
-* NFS volume must be mountable by all nodes in cluster
+* Default: SELinux does not allow writing from pod to remote NFS server
+** NFS volume mounts correctly but is read-only
+* To enable writing in SELinux on each node:
++
+----
+# setsebool -P virt_use_nfs 1
+----
+
+* Each exported volume on NFS server should conform to
+the following:
+** Set each export option in `/etc/exports` as folows:
++
+----
+/example_fs *(rw,all_squash)
+----
+
+** Each export must be owned by `nfsnobody` and have the following permissions:
++
+----
+# chown -R nfsnobody:nfsnobody /example_fs
+# chmod 777
+----
 
 ifdef::showscript[]
 
 === Transcript
 
-You create `PersistentVolume` objects in the context of a specific _project_. A user can request storage with a `PersistentVolumeClaim` object in the same _project_. The claim lives in the user's namespace, or project and can be referenced only by a pod within that same namespace. Any attempt to access a persistent volume across a project causes the pod to fail.
+You need to configure your NFS server exports.
 
-Each NFS volume must be mountable by all nodes in the cluster.
+By default, SELinux does not allow writing from a pod to a remote NFS server. The NFS volume mounts correctly, but is read-only.
+
+To configure SElinux to let the nodes use NFS in the way required for OpenShift Enterprise `Persistent Volumes`, use the *setsebool* command as displayed here on each node.
+
+
+In addition, configure each exported volume on the NFS server itself so that each export option is set as shown here in the `/etc/exports` file, and each export is owned by `nfsnobody` and has the permissions shown here.
 
 endif::showscript[]

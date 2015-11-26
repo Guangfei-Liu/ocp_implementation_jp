@@ -1,4 +1,3 @@
-
 :noaudio:
 
 ifdef::revealjs_slideshow[]
@@ -46,7 +45,9 @@ ifdef::showscript[]
 === Transcript
 Welcome to module three of the OpenShift Enterprise Implementation course.
 
-This module reviews the installation process and shows how to configure the scheduler, registry, and router containers, as well as how to set up persistent storage.
+This module reviews the installation process and shows how to configure the
+ scheduler, registry, and router containers, as well as how to set up persistent
+  storage.
 
 endif::showscript[]
 == Installation Scenario
@@ -80,13 +81,20 @@ and NFS backend
 ifdef::showscript[]
 
 === Transcript
-In this sample scenario, you set up four hosts to simulate a regular environment.
+In this sample scenario, you set up four hosts to simulate an OpenShift
+ Enterprise 3 environment.
 
-You use the *master* host to host some of the management components of OpenShift Enterprise, such as the web console, the _API service_, and the _etcd store_.
+You use the *master* host to host some of the management components of OpenShift
+ Enterprise, such as the web console, the _API service_, and the _etcd store_.
 
-While *Infranode* is a regular node like the others, you dedicate it to be used only for _Infrastructure containers_ by changing its labels. This is strictly a design choice, not a mandatory constraint.
+While *Infranode* is a regular node like the others, you dedicate it to be used
+ only for _Infrastructure containers_ by changing its labels. This is strictly a
+  design choice, not a mandatory constraint.
 
-The two remaining *nodes* are hosts that you use to run containers (pods) in the OpenShift Enterprise environment. You label the two nodes to be in the same region but different zones. This simulates the use-case of an environment in a single region and possibly two cloud availability zones.
+The two remaining *nodes* are hosts that you use to run containers (pods) in the
+ OpenShift Enterprise environment. You label the two nodes to be in the same
+  region but different zones. This simulates the use-case of an environment in a
+   single region and possibly two cloud availability zones.
 
 endif::showscript[]
 == Installation Methods
@@ -94,12 +102,15 @@ endif::showscript[]
 
 .Quick Install
 ** Lets you use interactive CLI utility to install OpenShift across set of hosts
-** Utility is self-contained wrapper for use on Red Hat Enterprise Linux 7
-host
+** Installer made available by installing the utility package
+ ("atomic-openshift-utils") on the provisioning host.
 ** https://install.openshift.com
+** Uses Ansible playbooks under the covers
+** Does not assume any Ansible familiarity
 
 .Advanced Install
-** For complex environments requiring deeper customization of installation and maintenance
+** For complex environments requiring deeper customization of installation and
+ maintenance
 ** Uses Ansible playbooks
 ** Assumes familiarity with Ansible
 
@@ -109,13 +120,20 @@ ifdef::showscript[]
 
 === Transcript
 
-There are two ways to install OpenShift Enterprise 3.0. The Quick Install method uses an interactive CLI utility to install OpenShift across a set of hosts. The utility is a self-contained wrapper intended for usage on a Red Hat Enterprise Linux 7 host. It is available at the web address shown here.
+There are two ways to install OpenShift Enterprise 3.
+The Quick Install method uses an interactive CLI utility to install OpenShift
+ across a set of hosts. the installer is made available by installing the
+  utility package ("atomic-openshift-utils"), available in the OpenShift
+   Repository, on the provisioning host.
 
-For more complex environments where deeper customization of installation and maintenance is required, an Advanced Install method using Ansible playbooks is available. This method assumes familiarity with Ansible,
+For more complex environments where deeper customization of installation and
+ maintenance is required, an Advanced Install method using Ansible playbooks is
+  available. This method assumes familiarity with Ansible.
 
 This module focuses on the Quick Install method.
 
-Note that the Quick Install method uses Ansible in the background of the interactive CLI utility.
+Note that the Quick Install method uses Ansible in the background of the
+ interactive CLI utility.
 
 endif::showscript[]
 == Installation Workflow
@@ -137,11 +155,18 @@ endif::showscript[]
 ifdef::showscript[]
 === Transcript
 
-Use this workflow to install OpenShift Enterprise. You start by making sure that the system prerequisites have been met. These are the basic requirements for a viable OpenShift Enterprise environment. They include setting up the DNS requirements and preparing the hosts for OpenShift Enterprise deployment.
+Use this workflow to install OpenShift Enterprise. You start by making sure that
+ the system prerequisites have been met. These are the basic requirements for a
+  viable OpenShift Enterprise environment. They include setting up the DNS
+   requirements and preparing the hosts for OpenShift Enterprise deployment.
 
-Next, you use the CLI installation utility to install the OpenShift Enterprise software.
+Next, you use the CLI installation utility to install the OpenShift Enterprise
+ software.
 
-Finally, you deploy some containerized infrastructure components such as the default router and the integrated Docker registry. You also configure authentication and set up an NFS server to serve your persistent volume requests.
+Finally, you deploy some containerized infrastructure components such as the
+ default router and the integrated Docker registry. You also configure
+  authentication and set up an NFS server to serve your persistent volume
+   requests.
 
 endif::showscript[]
 == Prerequisites
@@ -160,20 +185,23 @@ endif::showscript[]
 
 ** Physical or virtual system, or instance running on public IaaS
 ** Base OS: Red Hat Enterprise Linux 7.1 with _Minimal_ installation option
-** Docker 1.6 or later
+** Docker 1.8.2 or later
 ** One vCPU
 ** Minimum 8 GB RAM
 ** Minimum 15 GB hard disk space
-
+** An additional minimum 15 GB unallocated space to be configured using
+ docker-storage-setup;
 
 
 
 ifdef::showscript[]
 === Transcript
 
-These are the minimal requirements for a viable OpenShift Enterprise environment, for both masters and nodes.
+These are the minimal requirements for a viable OpenShift Enterprise
+ environment, for both masters and nodes.
 
-To lower costs, the servers in the learning environment are not configured with the recommended settings.
+To lower costs, the servers in the learning environment are not configured with
+ the recommended settings.
 
 endif::showscript[]
 == Prerequisites
@@ -185,7 +213,8 @@ endif::showscript[]
 ** Points to _node_ hosting _Default Router Container_
 ** Resolves to OpenShift router IP address
 * In lab and examples, this is `infranode00` server
-** If environment uses multiple _routers_ (HAProxy instances), use external load balancer or round-robin setting
+** If environment uses multiple _routers_ (HAProxy instances), use external load
+ balancer or round-robin setting
 * Example: Create wildcard DNS entry for `cloudapps` in DNS server
 ** Has low TTL
 ** Points to public IP address of host where the router is deployed:
@@ -201,13 +230,21 @@ ifdef::showscript[]
 
 
 
-To make the OpenShift Enterprise environment accessible externally, you create a wildcard DNS entry that points to the _node_ that is hosting the _Default Router Container_.
+To make the OpenShift Enterprise environment accessible externally, you create a
+ wildcard DNS entry that points to the _node_ that is hosting the
+  _Default Router Container_.
 
-In this lab and examples this is the `infranode00` server. If your environment uses multiple _routers_ (HAProxy instances), which is likely, you use an external load balancer or round-robin setting to use them.
+In this lab and examples this is the `infranode00` server. If your environment
+ uses multiple _routers_ (HAProxy instances), which is likely, you use an
+  external load balancer or round-robin setting to use them.
 
-The wildcard for a DNS zone must resolve ultimately to the IP address of the OpenShift Enterprise router.
+The wildcard for a DNS zone must resolve ultimately to the IP address of the
+ OpenShift Enterprise router.
 
-For example, you can use the code shown here to create a wildcard DNS entry for `cloudapps` in your DNS Server, or something similar. The entry has a low TTL and points to the public IP address of the host where the router will be deployed.
+For example, you can use the code shown here to create a wildcard DNS entry for
+ `cloudapps` in your DNS Server, or something similar. The entry has a low TTL
+  and points to the public IP address of the host where the router will be
+   deployed.
 
 endif::showscript[]
 == Host Preparation
@@ -215,9 +252,8 @@ endif::showscript[]
 
 .Overview
 
-* To prepare your hosts for OpenShift Enterprise 3.0:
+* To prepare your hosts for OpenShift Enterprise 3:
 ** Install Red Hat Enterprise Linux 7.1
-*** See https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Installation_Guide/index.html
 ** Register hosts with `subscription-manager`
 ** Manage base packages:
 *** `git`
@@ -227,25 +263,34 @@ endif::showscript[]
 ** Manage services:
 *** Disable `firewalld`
 *** Enable `iptables-services`
-** Install Docker 1.6.x
+**  Docker 1.8.2 or later
 ** Host password-less communication
 
 ifdef::showscript[]
 
 === Transcript
 
-To prepare the hosts to use with OpenShift Enterprise, consult the documentation. This ensures you always have the most up-to-date information.
+To prepare the hosts to use with OpenShift Enterprise, consult the
+ documentation. This ensures you always have the most up-to-date information.
 
 The basic steps for preparing hosts are as follows:
 
-* Perform a base installation of Red Hat Enterprise Linux 7.1 for master or node hosts. See the Red Hat Enterprise Linux 7.1 Installation Guide for more information.
-* Use `subscription-manager` to register all the hosts to Red Hat Enterprise Linux 7.1 and OpenShift Enterprise repositories.
-* Install some utility packages, including `git`, `net-tools`, `bind-utils`, and `iptables-services`.
+* Perform a base installation of Red Hat Enterprise Linux 7.1 for master and
+ node hosts.
+* Use `subscription-manager` to register all the hosts to Red Hat Enterprise
+ Linux 7.1 and OpenShift Enterprise 3 repositories.
+* Install some utility packages, including `git`, `net-tools`, `bind-utils`, and
+ `iptables-services`.
 * Disable `firewalld` and enable `iptables-services`.
-* Install Docker 1.6 or later and configure the storage back end for images.
-* Make sure that the master hosts can issue `remove` commands on the nodes without requiring a password.
+* Install Docker 1.8.2 or later and configure the storage back-end for images.
+* Make sure that the master hosts can issue remote commands on the nodes
+ without requiring a password.
 
-If you want to create a scalable environment, you should create an image template for the node--depending on your infrastructure provider--and then, to save time, spin up a new instance or VM in which these steps have already been performed. You should then run the installer script to add the new node to the OpenShift Enterprise environment/cluster.
+TIP: If you want to create a scalable environment, you should create an image
+ template for the node--depending on your infrastructure provider--and then, to
+  save time, spin up a new instance or VM in which these steps have already been
+   performed. You should then run the installer script to add the new node to
+    the OpenShift Enterprise environment/cluster.
 
 
 endif::showscript[]
@@ -272,11 +317,17 @@ Do not use password when generating key.
 ifdef::showscript[]
 
 === Transcript
-For the installation to succeed, the installer needs to run commands on each member in the OpenShift Enterprise environment without requiring a password every time.
+For the installation to succeed, the installer needs to run commands on each
+ member in the OpenShift Enterprise environment without requiring a password
+  every time.
 
-Ansible, which is used to run the installation process, requires a user that has access to all hosts. For running the installer as a non-root user, you must configure password-less `sudo` rights on each destination host.
+Ansible, which is used to run the installation process, requires a user that has
+ access to all hosts. For running the installer as a non-root user, you must
+  configure password-less `sudo` rights on each destination host.
 
-To achieve this, you generate a key and copy it to the root user's ID on each member of the OpenShift Enterprise cluster. Do not use a password when generating the key.
+To achieve this, you generate a key and copy it to the root user's ID on each
+ member of the OpenShift Enterprise cluster. Do not use a password when
+  generating the key.
 
 An easy way to distribute your SSH keys is by using a bash loop.
 
@@ -293,17 +344,26 @@ endif::showscript[]
 [cols="2,1,5"]
 |=======================================================================
 |Communication |Port |Description
-|*Node to Node* |`4789` |Required between nodes for SDN communication between pods on separate
+|*Node to Node* |`4789` (UDP) |Required between nodes for SDN communication
+ between pods on separate
  hosts
-|*Node to Master* |`53` |Provides DNS services within the environment (not DNS for external access)
-| |`4789` |Required between nodes for SDN communication between pods on separate
+|*Node to Master* |`53` |Provides DNS services within the environment (not DNS
+   for external access)
+| |`4789` (UDP) |Required between nodes for SDN communication between pods on
+ separate
  hosts
 | |`8443` |Provides access to the API
 |*Master to Node* |`10250` |Endpoint for master communication with nodes
-| |`4789` |Required between nodes for SDN communication between pods on separate
+| |`4789` (UDP) |Required between nodes for SDN communication between pods on
+ separate
  hosts
-|*Master to Master*  |`4789` |Required between nodes for SDN communication between pods on separate
- hosts
+|*Master to Master*  |`4789` (UDP) |Required between nodes for SDN communication
+ between pods on separate hosts
+| |`53` |  Provides internal DNS services.
+| |`2379` | Used for standalone etcd (clustered) to accept changes in state.
+| |`2380` | etcd requires this port be open between masters for leader election
+ and peering connections when using standalone etcd (clustered).
+| |`4001` | Used for embedded etcd (non-clustered) to accept changes in state.
 |=======================================================================
 
 
@@ -311,13 +371,22 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise relies heavily on `iptables` in the background. So `iptables` must be running, and various ports must be open to allow communication between OpenShift Enterprise components.
+OpenShift Enterprise relies heavily on `iptables` in the background. So
+ `iptables` must be running, and various ports must be open to allow
+  communication between OpenShift Enterprise components.
 
-This table shows the ports you need to open. Note that port `4789` must be accessible on any host in the cluster, because it is required for the SDN overlay.
+This table shows the ports you need to open. Note that port `4789` must be
+ accessible on any host in the cluster, because it is required for the SDN
+  overlay.
 
-Also note that the master is running a local DNS server. Do not confuse this server with the DNS server that holds the wildcard DNS entry. This is a DNS server (`SkyDNS`) used to resolve local resources--for example, each _service_ you define in OpenShift Enterprise has a `dns` entry that you can resolve locally.
+Also note that the master is running a local DNS server. Do not confuse this
+ server with the DNS server that holds the wildcard DNS entry. This is a DNS
+  server (`SkyDNS`) used to resolve local resources--for example, each _service_
+   you define in OpenShift Enterprise has a `dns` entry that you can resolve
+    locally.
 
 endif::showscript[]
+
 == Host Preparation
 :noaudio:
 
@@ -328,7 +397,8 @@ endif::showscript[]
 [cols="2,1,5"]
 |=======================================================================
 |Type |Port |Description
-|*External - Master* |`8443` a|* CLI and IDE plug-ins communicate via REST to this port
+|*External - Master* |`8443` a|* CLI and IDE plug-ins communicate via REST to
+ this port
 * Web console runs on this port
 |*External - Node* (or nodes) hosting `Default Router` (HAProxy) container |`80`, `443` a|* Ports opened and bound to `Default Router` container
 * Proxy
@@ -337,16 +407,23 @@ communication from external world to _pods_ (containers) internally.
 
 * Sample topology:
 ** Infrastructure _nodes_ running in DMZ
-** Application hosting _nodes_, master, other supporting infrastructure running in more secure network
+** Application hosting _nodes_, master, other supporting infrastructure running
+ in more secure network
 
 ifdef::showscript[]
 
 === Transcript
-To allow users from outside your LAN to access the web console or make API calls to OpenShift Enterprise, you need to expose the master's `8443` port to those users' networks.
+To allow users from outside your LAN to access the web console or make API calls
+ to OpenShift Enterprise, you need to expose the master's `8443` port to those
+  users' networks.
 
-The `Default Router` listens on its host's ports `80` and `443` for incoming requests. To allow external access to your pods, you only need to expose the node hosting the `Default Router`.
+The `Default Router` listens on its host's ports `80` and `443` for incoming
+ requests. To allow external access to your pods, you only need to expose the
+  node hosting the `Default Router`.
 
-Consider a topology where only the infrastructure _nodes_ are running in a DMZ and the application hosting _nodes_, master, and other supporting infrastructure are running in a more secure network.
+Consider a topology where only the infrastructure _nodes_ are running in a DMZ
+ and the application hosting _nodes_, master, and other supporting
+  infrastructure are running in a more secure network.
 
 endif::showscript[]
 == Host Preparation
@@ -366,11 +443,14 @@ endif::showscript[]
 # yum update -y
 ----
 
+TIP: Its highly recommended to install "bash-completion" for command completion
+when tapping the Tab button.
 ifdef::showscript[]
 
 === Transcript
 
-You need to install the software packages shown here and run a `yum` update on your master before using the installer and installing OpenShift Enterprise 3.0.
+You need to install the software packages shown here and run a `yum` update on
+ your master before using the installer and installing OpenShift Enterprise 3.
 
 endif::showscript[]
 == Docker Installation
@@ -378,7 +458,9 @@ endif::showscript[]
 
 .Installing Docker
 
-* Must install Docker version 1.6 or later from `rhel-7-server-ose-3.0-rpms` and have it running on master and node hosts before installing OpenShift Enterprise:
+* Must install Docker version 1.8.2 or later from `rhel-7-server-ose-3.1-rpms`
+ and have it running on master and node hosts before installing OpenShift
+  Enterprise:
 
 ** Install Docker:
 +
@@ -403,11 +485,14 @@ Docker registry on `172.30.0.0/16` subnet
 ifdef::showscript[]
 
 === Transcript
-Each node requires Docker to be installed and configured. You must use version 1.6, which you can obtain from the OpenShift repository.
+Each node requires Docker to be installed and configured. You must use version
+ 1.8.2, which you can obtain from the OpenShift repository.
 
-Use the commands shown here to install Docker and add the `--insecure-registry` option to the `OPTIONS` parameter.
+Use the commands shown here to install Docker and add the `--insecure-registry`
+ option to the `OPTIONS` parameter.
 
-The `--insecure-registry` option instructs the Docker daemon to trust any Docker registry on the `172.30.0.0/16` subnet, without requiring a certificate.
+The `--insecure-registry` option instructs the Docker daemon to trust any Docker
+ registry on the `172.30.0.0/16` subnet, without requiring a certificate.
 
 You will deploy your local registry under this subnet.
 
@@ -424,18 +509,25 @@ endif::showscript[]
 * For production environments:
 ** Create thin-pool logical volume
 ** Reconfigure Docker to use volume
-* To do this use `docker-storage-setup` script after installing but before using Docker
+* To do this use `docker-storage-setup` script after installing but before using
+ Docker
 ** Script reads configuration options from `/etc/sysconfig/docker-storage-setup`
 
 ifdef::showscript[]
 
 === Transcript
 
-Docker’s default loopback storage mechanism is not supported for production use and is only appropriate for proof of concept environments. For production environments, you must create a thin-pool logical volume and reconfigure Docker to use that volume.
+Docker’s default loopback storage mechanism is not supported for production use
+ and is only appropriate for proof of concept environments. For production
+  environments, you must create a thin-pool logical volume and reconfigure
+   Docker to use that volume.
 
-You can use the `docker-storage-setup` script to create a thin-pool device and configure Docker’s storage driver after installing Docker. Do not use Docker until the storage driver is configured.
+You can use the `docker-storage-setup` script to create a thin-pool device and
+ configure Docker’s storage driver after installing Docker. Do not use Docker
+  until the storage driver is configured.
 
-The script reads configuration options from the `/etc/sysconfig/docker-storage-setup` file.
+The script reads configuration options from the
+ `/etc/sysconfig/docker-storage-setup` file.
 
 endif::showscript[]
 == Docker Installation
@@ -452,7 +544,8 @@ endif::showscript[]
 # rm -rf /var/lib/docker/*
 ----
 
-* Create thin-pool volume from free space in volume group where root filesystem resides:
+* Create thin-pool volume from free space in volume group where root filesystem
+ resides:
 ** Requires no configuration
 +
 ----
@@ -465,8 +558,8 @@ endif::showscript[]
 ----
 
 # cat /etc/sysconfig/docker-storage-setup
+DEVS=/dev/vdb
 VG=docker-vg
-SETUP_LVM_THIN_POOL=yes
 # docker-storage-setup
 ----
 
@@ -474,15 +567,21 @@ ifdef::showscript[]
 
 === Transcript
 
-You must edit the `/etc/sysconfig/docker-storage-setup` file to work as an answer file for `docker-storage-setup`.
+You must edit the `/etc/sysconfig/docker-storage-setup` file to work as an
+ answer file for `docker-storage-setup`.
 
-When you configure the `docker-storage-setup` script for your environment, some options are available based on your storage configuration.
+When you configure the `docker-storage-setup` script for your environment, some
+ options are available based on your storage configuration.
 
-Before you start the `docker-storage-setup` script, you must reinitialize Docker.
+Before you start the `docker-storage-setup` script, you must reinitialize
+ Docker.
 
-You then start the script and create a thin-pool volume from the remaining free space in the volume group where your root filesystem resides. This requires no configuration.
+You then start the script and create a thin-pool volume from the remaining free
+ space in the volume group where your root filesystem resides. This requires no
+  configuration.
 
-Then you use an existing volume group, in this example `docker-vg`, to create a thin-pool.
+Then you use an existing volume group, in this example `docker-vg`, to create a
+ thin-pool.
 
 endif::showscript[]
 == Docker Installation
@@ -495,7 +594,7 @@ endif::showscript[]
 +
 ----
 # cat /etc/sysconfig/docker-storage-setup
-DEVS=/dev/vdc
+DEVS=/dev/vdb
 VG=docker-vg
 SETUP_LVM_THIN_POOL=yes
 # docker-storage-setup
@@ -511,8 +610,8 @@ LV                  VG        Attr       LSize  Pool Origin Data%  Meta% Move
 docker-pool         docker-vg twi-a-tz-- 48.95g             0.00   0.44
 
 # cat /etc/sysconfig/docker-storage
-DOCKER_STORAGE_OPTIONS=--storage-opt dm.fs=xfs --storage-opt
-dm.thinpooldev=/dev/mapper/docker--vg-docker--pool
+DOCKER_STORAGE_OPTIONS=--storage-driver devicemapper --storage-opt dm.fs=xfs --storage-opt dm.thinpooldev=/dev/mapper/docker--vg-docker--pool
+
 
 ----
 
@@ -522,9 +621,13 @@ ifdef::showscript[]
 
 === Transcript
 
-In this example, you use the `/dev/vdc` unpartitioned block device to create the `docker-vg` volume group that the `Docker` daemon will use.
+In this example, you use the `/dev/vdb` unpartitioned block device to create the
+ `docker-vg` volume group that the `Docker` daemon will use.
 
-To verify that the volume is created and configured, use the `lvs` command and view the `/etc/sysconfig/docker-storage` file. You should have a `dm.thinpooldev` value in the `/etc/sysconfig/docker-storage` file and a `docker-pool` device.
+To verify that the volume is created and configured, use the `lvs` command and
+ view the `/etc/sysconfig/docker-storage` file. You should have a
+ `dm.thinpooldev` value in the `/etc/sysconfig/docker-storage` file and a
+  `docker-pool` device.
 
 After you verify the setup, restart the `Docker` daemon.
 
@@ -532,39 +635,38 @@ endif::showscript[]
 == OpenShift Enterprise Installation
 :noaudio:
 
-* Access quick installer from:
-https://install.openshift.com
+* Install the OpenShift Utils package that includes the installer
++
+----
+# yum -y install atomic-openshift-utils
+----
 
 * Run the following on host that has SSH access to intended master and nodes:
 +
 ----
-$ curl -o oo-install-ose.tgz \
-    https://install.openshift.com/portable/oo-install-ose.tgz
-$ tar -zxf oo-install-ose.tgz
-$ ./oo-install-ose
+$ atomic-openshift-installer install
 ----
 
-* Follow onscreen instructions to install new OpenShift instance
-** Installer asks for internal and public IPs of masters and nodes and configures them accordingly
+* Follow onscreen instructions to install OpenShift Enterprise
+** Installer asks for hostnames or IPs of masters and nodes and configures them
+ accordingly.
+** A configuration file with all the information provided would be saved in:
+ `~/.config/openshift/installer.cfg.yml` - This can be used as an "Answer file".
 
-* Can use the following to download and run script in single command:
-+
-----
-$ sh <(curl -s https://install.openshift.com/ose/)
-----
-
-* Consider saving installer script to add more nodes in future
 ifdef::showscript[]
 
 === Transcript
-The latest installer is available from the link shown here. To install OpenShift Enterprise 3.0, download the latest installer, unzip it, and run the installer CLI utility on a host that has SSH access to your intended master and nodes.
+The latest installer is available from the link shown here. To install OpenShift
+ Enterprise 3, Install the OpenShift Utils package that includes the installer,
+  and run the installer CLI utility on a host that has SSH access to your
+   intended master and nodes.
 
-The installer asks for the internal and public IPs of your masters and nodes and configures them accordingly.
+The installer asks for hostnames or IPs of masters and nodes and configures them
+ accordingly.
 
-If you want, you can use the last command shown here to download and run the script in a single command.
-
-For stability's sake, and if you intend to add more nodes in the future, consider saving the installer script you used and using it for all future nodes.
-
+A configuration file with all the information provided would be saved in:
+  `~/.config/openshift/installer.cfg.yml`, this can be used as an "Answer file"
+  for future installs.
 
 
 endif::showscript[]
@@ -594,18 +696,27 @@ ifdef::showscript[]
 
 === Transcript
 
-After you install OpenShift Enterprise, you need to label the nodes. Labeling the nodes lets the scheduler use _logic_ defined in the `scheduler.json` file when it provisions pods in your environment.
+After you install OpenShift Enterprise, you need to label the nodes. Labeling
+ the nodes lets the scheduler use _logic_ defined in the `scheduler.json` file
+  when it provisions pods in your environment.
 
-OpenShift Enterprise 2.0 introduced the specific concepts of _regions_ and _zones_ to let organizations provide some topologies for application resiliency. Applications are spread throughout the zones within a region and, depending on the way you configure OpenShift Enterprise, you can make different regions accessible to users.
+OpenShift Enterprise 2.0 introduced the specific concepts of _regions_ and
+ _zones_ to let organizations provide some topologies for application
+  resiliency. Applications are spread throughout the zones within a region and,
+   depending on the way you configure OpenShift Enterprise, you can make
+    different regions accessible to users.
 
-OpenShift Enterprise 3 is not based on your topology. It is _topology-agnostic_. OpenShift Enterprise 3 provides advanced controls for implementing whatever topologies you create.
+OpenShift Enterprise 3 is not based on your topology. It is _topology-agnostic_.
+ OpenShift Enterprise 3 provides advanced controls for implementing whatever
+  topologies you create.
 
 The example shown here uses the concept the _regions_ and _zones_.
 
 Other options you can use include _Prod_ and _Dev_,
 _Secure_ and _Insecure_, or _Rack and Power_.
 
-The labels on the nodes handle the assignments of _regions_ and _zones_ at the node level.
+The labels on the nodes handle the assignments of _regions_ and _zones_ at the
+ node level.
 
 endif::showscript[]
 == Registry Deployment
@@ -629,15 +740,20 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise can build Docker images from your source code, deploy them, and manage their lifecycle. To enable this, you deploy an internal, integrated Docker registry in your OpenShift Enterprise environment.
+OpenShift Enterprise can build Docker images from your source code, deploy them,
+ and manage their lifecycle. To enable this, you deploy an internal, integrated
+  Docker registry in your OpenShift Enterprise environment.
 
 OpenShift runs the registry in a pod on a node, just like any other workload.
 
-Deploying the registry creates a _service_ and a _deployment configuration_, both called `docker-registry`.
+Deploying the registry creates a _service_ and a _deployment configuration_,
+ both called `docker-registry`.
 
-After successful deployment, a pod is created with a name similar to `docker-registry-1-cpty9`.
+After successful deployment, a pod is created with a name similar to
+ `docker-registry-1-cpty9`.
 
-To control where your registry is deployed, you use the `--selector` flag to specify your target by picking the labels you want to match.
+To control where your registry is deployed, you use the `--selector` flag to
+ specify your target by picking the labels you want to match.
 
 endif::showscript[]
 == Registry Deployment
@@ -648,7 +764,8 @@ endif::showscript[]
 * Environment includes `infra` region and dedicated
 `infranode00` host
 ** Good practice for highly scalable environment
-** Use better-performing servers for nodes or place them in DMZ for external access only
+** Use better-performing servers for nodes or place them in DMZ for external
+ access only
 
 * To deploy registry anywhere in environment:
 +
@@ -669,13 +786,19 @@ ifdef::showscript[]
 
 === Transcript
 
-You can deploy the _Registry container_ anywhere in the OpenShift Environment. In your environment, you created a region called `infra` and dedicated the `infranode00` host for it.
+You can deploy the _Registry container_ anywhere in the OpenShift Environment.
+ In your environment, you created a region called `infra` and dedicated the
+  `infranode00` host for it.
 
-This is a good practice for a highly scalable environment. You might want to use better-performing servers for these nodes or place them in the DMZ so only the external network can access them.
+This is a good practice for a highly scalable environment. You might want to use
+ better-performing servers for these nodes or place them in the DMZ so only the
+  external network can access them.
 
-To deploy a registry anywhere in the environment, run the first command shown here.
+To deploy a registry anywhere in the environment, run the first command shown
+ here.
 
-To ensure that the `registry` pod is hosted only in the `infra` region, run the second command shown here with the `--selector` option added.
+To ensure that the `registry` pod is hosted only in the `infra` region, run the
+ second command shown here with the `--selector` option added.
 
 endif::showscript[]
 == Registry Deployment
@@ -690,7 +813,8 @@ endif::showscript[]
 *** Images built or pushed into registry disappear
 * For production:
 ** Use persistent storage
-** Use `PersistentVolume` and `PersistentVolumeClaim` objects for storage for registry
+** Use `PersistentVolume` and `PersistentVolumeClaim` objects for storage for
+ registry
 * For non-production:
 ** Other options exist
 ** Example: `--mount-host`:
@@ -703,19 +827,27 @@ $ oadm registry --config=admin.kubeconfig \
 ----
 +
 *** Mounts directory from node on which registry container lives
-*** If you scale up `docker-registry` deployment configuration, registry pods and containers might run on different nodes
+*** If you scale up `docker-registry` deployment configuration, registry pods
+ and containers might run on different nodes
 
 ifdef::showscript[]
 
 === Transcript
 
-The registry stores Docker images and metadata. If you simply deploy a pod with the registry, it uses an ephemeral volume that is destroyed if the pod exits. Any images built or pushed into that registry will disappear.
+The registry stores Docker images and metadata. If you simply deploy a pod with
+ the registry, it uses an ephemeral volume that is destroyed if the pod exits.
+  Any images built or pushed into that registry will disappear.
 
-For production use, you should build persistent storage using `PersistentVolume` and `PersistentVolumeClaim` objects for storage for the registry.
+For production use, you should build persistent storage using `PersistentVolume`
+ and `PersistentVolumeClaim` objects for storage for the registry.
 
-For non-production use, other options exist to provide persistent storage, such as the `--mount-host` option.
+For non-production use, other options exist to provide persistent storage, such
+ as the `--mount-host` option.
 
-The `--mount-host` option mounts a directory from the node on which the registry container lives. If you scale up the `docker-registry` deployment configuration, it is possible that your registry pods and containers will run on different nodes.
+The `--mount-host` option mounts a directory from the node on which the registry
+ container lives. If you scale up the `docker-registry` deployment
+  configuration, it is possible that your registry pods and containers will run
+   on different nodes.
 
 endif::showscript[]
 == Default HAProxy Router Deployment
@@ -723,36 +855,53 @@ endif::showscript[]
 
 * `Default Router` (aka `Default HA-Proxy Router`, other names):
 ** Modified deployment of HAProxy
-** Entry point for traffic destined for services in OpenShift Enterprise installation
-* HAProxy-based router implementation provided as default template router plug-in
-** Uses `openshift3/ose-haproxy-router` image to run HAProxy instance alongside and router plug-in
+** Entry point for traffic destined for services in OpenShift Enterprise
+ installation
+* HAProxy-based router implementation provided as default template router
+ plug-in
+** Uses `openshift3/ose-haproxy-router` image to run HAProxy instance alongside
+ and router plug-in
 ** Supports HTTP(S) traffic and TLS-enabled traffic via SNI only
 ** Hosted inside OpenShift Enterprise
 ** Essentially a proxy
 
 * Default router’s pod listens on host network interface on port 80 and 443
 ** Default router's container listens on external/public ports
-** Router proxies external requests for route names to IPs of actual pods identified by service associated with route
+** Router proxies external requests for route names to IPs of actual pods
+ identified by service associated with route
 
 ifdef::showscript[]
 
 === Transcript
 
-The `Default Router`, also known as the `Default HA-Proxy Router` and many other similar names, is a modified deployment of HAProxy. It serves as the entry point for all traffic destined for services in your OpenShift Enterprise installation.
+The `Default Router`, also known as the `Default HA-Proxy Router` and many other
+ similar names, is a modified deployment of HAProxy. It serves as the entry
+  point for all traffic destined for services in your OpenShift Enterprise
+   installation.
 
-An HAProxy-based router implementation is provided as the default template router plug-in. It uses the `openshift3/ose-haproxy-router` image to run an HAProxy instance alongside and a router plug-in. The router currently supports HTTP(S) traffic and TLS-enabled traffic via SNI only. Like the registry and any other workload, it is hosted inside OpenShift Enterprise.
+An HAProxy-based router implementation is provided as the default template
+ router plug-in. It uses the `openshift3/ose-haproxy-router` image to run an
+  HAProxy instance alongside and a router plug-in. The router currently supports
+   HTTP(S) traffic and TLS-enabled traffic via SNI only. Like the registry and
+    any other workload, it is hosted inside OpenShift Enterprise.
 
 While it is called a _router_, it is essentially a _proxy_.
 
-The default router’s pod listens on its host's network interface on ports 80 and 443. Unlike most containers, which listen only on private IPs, the default router's container listens on external/public ports. The router proxies external requests for route names to the IPs of actual pods identified by the service associated with the route.
+The default router’s pod listens on its host's network interface on ports 80 and
+ 443. Unlike most containers, which listen only on private IPs, the default
+  router's container listens on external/public ports. The router proxies
+   external requests for route names to the IPs of actual pods identified by the
+    service associated with the route.
 
 endif::showscript[]
 == OpenShift Enterprise Population
 :noaudio:
 
-* Can populate OpenShift Enterprise installation with Red Hat-provided _image streams_ and _templates_
+* Can populate OpenShift Enterprise installation with Red Hat-provided
+ _image streams_ and _templates_
 ** Make it easy to create new applications
-* *Template*: Set of resources you can customize and process to produce configuration
+* *Template*: Set of resources you can customize and process to produce
+ configuration
 ** Defines list of parameters you can modify for consumption by containers
 * *Image Stream*: Similar to Docker image repository
 ** Contains Docker images identified by tags
@@ -761,11 +910,19 @@ endif::showscript[]
 ifdef::showscript[]
 
 === Transcript
-You can populate your OpenShift Enterprise installation with a useful set of Red Hat-provided _image streams_ and _templates_. These make it easy for developers to create new applications. The installer automatically adds image streams and common templates.
+You can populate your OpenShift Enterprise installation with a useful set of
+ Red Hat-provided _image streams_ and _templates_. These make it easy for
+  developers to create new applications. The installer automatically adds image
+   streams and common templates.
 
-A _template_ describes a set of resources intended to be used together that you can customize and process to produce a configuration. Each template defines a list of parameters that you can modify for consumption by a container. This is somewhat similar to a OpenShift Enterprise 2.0 _quickstart_.
+A _template_ describes a set of resources intended to be used together that you
+ can customize and process to produce a configuration. Each template defines a
+  list of parameters that you can modify for consumption by a container. This is
+   somewhat similar to a OpenShift Enterprise 2.0 _quickstart_.
 
-An _image stream_ is similar to a Docker image repository in that it contains one or more Docker images identified by tags. An image stream presents a single virtual view of related images.
+An _image stream_ is similar to a Docker image repository in that it contains
+ one or more Docker images identified by tags. An image stream presents a single
+  virtual view of related images.
 
 endif::showscript[]
 == OpenShift Enterprise Population
@@ -783,21 +940,21 @@ endif::showscript[]
 ** MySQL
 ** PostgreSQL
 
-* To create core set of image streams that use Red Hat Enterprise Linux 7-based images:
-+
-----
-oc create -f \
-    examples/image-streams/image-streams-rhel7.json \
-    -n openshift
-----
+NOTE: These image streams and others are *installed automatically* by the
+ install utility.
+
 
 ifdef::showscript[]
 
 === Transcript
 
-The core set of image streams define images that can be used to build Node.js, Perl, PHP, Python, and Ruby applications. It also defines images for MongoDB, MySQL, and PostgreSQL databases.
+The core set of image streams define images that can be used to build Node.js,
+ Perl, PHP, Python, and Ruby applications. It also defines images for MongoDB,
+  MySQL, and PostgreSQL databases.
 
-Use the code shown here to create the core set of image streams that use the Red Hat Enterprise Linux 7-based images.
+  These image streams and others are *installed automatically* by the install
+   utility.
+
 
 endif::showscript[]
 == OpenShift Enterprise Population
@@ -812,10 +969,19 @@ endif::showscript[]
 
 * Can use images to build applications for those platforms
 
+* To create or delete core set of image streams that use Red Hat Enterprise
+ Linux 7-based images:
++
+----
+oc create|delete -f \
+    examples/image-streams/image-streams-rhel7.json \
+    -n openshift
+----
+
 ** To create image streams for xPaaS middleware images:
 +
 ----
-$ oc create -f \
+$ oc create|delete -f \
     examples/xpaas-streams/jboss-image-streams.json
     -n openshift
 ----
@@ -824,11 +990,14 @@ ifdef::showscript[]
 
 === Transcript
 
-Red Hat provides xPaas middleware image streams for  Red Hat JBoss Enterprise Application Platform, Red Hat JBoss Web Server, and Red Hat JBoss A-MQ.
+Red Hat provides xPaas middleware image streams for  Red Hat JBoss Enterprise
+ Application Platform, Red Hat JBoss Web Server, and Red Hat JBoss A-MQ.
 
 You can use the image streams to build application for these platforms.
 
-Use the first code sample shown here to create the image streams for xPaaS middleware images.
+Use the code shown here to create or delete the core set, xPaas and JBoss image
+ streams.
+
 
 
 endif::showscript[]
@@ -850,18 +1019,23 @@ $ oc create -f \
 ** Can easily instantiate templates after creating them
 ** Gives quick access to database deployment
 
+NOTE: These templates and others are *installed automatically* by the
+ install utility.
 
 ifdef::showscript[]
 
 === Transcript
 
-You can also deploy database templates that make it easy to run a database instance that other components can use.
+You can also deploy database templates that make it easy to run a database
+ instance that other components can use.
 
 For each database--MongoDB, MySQL, and PostgreSQL--two templates are provided.
 
-Use the second code sample shown here to create the core set of database templates.
+Use the second code sample shown here to create the core set of database
+ templates.
 
-After you create the templates, you can easily instantiate them. This gives the templates quick access to a database deployment.
+After you create the templates, you can easily instantiate them. This gives the
+ templates quick access to a database deployment.
 
 endif::showscript[]
 == OpenShift Enterprise Population
@@ -870,7 +1044,8 @@ endif::showscript[]
 .QuickStart Templates
 
 * Define full set of objects for running application:
-** *Build configurations*: Build application from source located in GitHub public repository
+** *Build configurations*: Build application from source located in GitHub
+ public repository
 ** *Deployment configurations*: Deploy application image after it is built
 ** *Services*: Provide internal load balancing for application pods
 ** *Routes*: Provide external access and load balancing to application
@@ -878,23 +1053,28 @@ endif::showscript[]
 +
 ----
 
-$ oc create -f \
+$ oc create|delete -f \
     examples/quickstart-templates -n openshift
 
 ----
+
+NOTE: These templates and others are *installed automatically* by the
+ install utility.
 
 
 ifdef::showscript[]
 
 === Transcript
-The QuickStart templates define a full set of objects for a running application. This includes the following:
+The QuickStart templates define a full set of objects for a running application.
+ This includes the following:
 
-* Build configurations, to build the application from source located in a GitHub public repository.
+* Build configurations, to build the application from source located in a GitHub
+ public repository.
 * Deployment configurations, to deploy the application image after it is built.
 * Services, to provide internal load balancing for the application pods.
 * Routes, to provide external access and load balancing to the application.
 
-Use the code shown here to create the core QuickStart templates.
+Use the code shown here to create or delete the core QuickStart templates.
 
 endif::showscript[]
 == Persistent Storage Using NFS
@@ -906,30 +1086,38 @@ endif::showscript[]
 * `Persistent Volume` framework:
 ** Lets administrators provision cluster with persistent storage
 ** Gives users access to resources without knowledge of underlying infrastructure
-* Storage must exist in underlying infrastructure before mounting as volume in OpenShift Enterprise
-* NFS requires:
-** Distinct list of servers and paths
-** `PersistentVolume` API
+* Storage must exist in underlying infrastructure before mounting as volume in
+ OpenShift Enterprise
 
+NOTE: There are many other supported storage back-end, they will be covered
+ later in the training. In our lab we will use NFS for persistent storage.
 
 ifdef::showscript[]
 
 === Transcript
-You can provision your OpenShift Enterprise cluster with persistent storage using NFS.
+You can provision your OpenShift Enterprise cluster with persistent storage
+ using NFS. There are many other supported storage back-end, they will be
+  covered later in the training. In our lab we will use NFS for persistent
+   storage.
 
-A `Persistent Volume` framework lets administrators provision a cluster with persistent storage and gives users a way to request those resources without having any knowledge of the underlying infrastructure.
+A `Persistent Volume` framework lets administrators provision a cluster with
+ persistent storage and gives users a way to request those resources without
+  having any knowledge of the underlying infrastructure.
 
-Storage must exist in the underlying infrastructure before you can mount it as a volume in OpenShift Enterprise.
-
-NFS requires only a distinct list of servers and paths and the `PersistentVolume` API.
-
+Storage must exist in the underlying infrastructure before you can mount it as
+ a volume in OpenShift Enterprise.
 
 endif::showscript[]
+
 == Persistent Storage Using NFS
 :noaudio:
 
-.Persistent Volume Object Definition
+* To create a Persistent Volume that could be claimed by a Pod, we need to
+ create a `PersistentVolume` object in the `Pod's` `Project`
+* After a `PersistentVolume` is created a `PersistentVolumeClaim` must be
+ created to ensure that no other `Pods/Projects` try to use the `PersistentVolume`
 
+.Persistent Volume Object Definition
 [source,yaml]
 ----
 {
@@ -956,39 +1144,17 @@ ifdef::showscript[]
 
 === Transcript
 
+To create a Persistent Volume that could be claimed by a Pod, we need to create
+ a `PersistentVolume` object in the `Pod's` `Project`
+After a `PersistentVolume` is created a `PersistentVolumeClaim` must be created
+ to ensure that no other `Pods/Projects` try to use the `PersistentVolume`
+
 Here is the definition of the `Persistent Volume` object.
 
 You must specify the storage capacity, access mode, and details of your NFS host.
 
 endif::showscript[]
-== Persistent Storage Using NFS
-:noaudio:
 
-.Disk Quota Enforcement
-
-* Use disk partitions to enforce disk quotas and size constraints
-** Each partition can be own export
-** Each export = one persistent volume
-* Unique names enforces for persistent volumes
-** Administrator determines uniqueness of NFS volume server and path
-
-* Enforcing quotas lets user:
-** Request persistent storage by specific amount
-** Match with volume of equal or greater capacity
-
-ifdef::showscript[]
-
-=== Transcript
-
-To define disk quotas, you need to use disk partitions to create size constraints.
-
-Each partition can be its own export, and each export is one persistent volume.
-
-Using unique names enforces for persistent volumes. However, the administrator determines the uniqueness of the NFS volume's server and path.
-
-Enforcing quotas this way lets a user request a specific amount of persistent storage--for example, 10GB--and be matched with a corresponding volume of equal or greater capacity.
-
-endif::showscript[]
 == Persistent Storage Using NFS
 :noaudio:
 
@@ -1005,68 +1171,18 @@ ifdef::showscript[]
 
 === Transcript
 
-You create `PersistentVolume` objects in the context of a specific _project_. A user can request storage with a `PersistentVolumeClaim` object in the same _project_. The claim lives in the user's namespace, or project and can be referenced only by a pod within that same namespace. Any attempt to access a persistent volume across a project causes the pod to fail.
+You create `PersistentVolume` objects in the context of a specific _project_.
+
+A user can request storage with a `PersistentVolumeClaim` object in the same
+ _project_. The claim lives in the user's namespace, or project and can be
+  referenced only by a pod within that same namespace. Any attempt to access a
+   persistent volume across a project causes the pod to fail.
 
 Each NFS volume must be mountable by all nodes in the cluster.
 
 endif::showscript[]
-== Persistent Storage Using NFS
-:noaudio:
-
-.Resource Reclamation
-* OpenShift Enterprise implements Kubernetes `Recyclable` plug-in interface
-** Reclamation tasks based on policies set by `persistentVolumeReclaimPolicy` key in `PersistentVolume` object definition
-* Can _reclaim_ volume after it is released from claim
-
-* Can set `persistentVolumeReclaimPolicy` to `Retain` or `Recycle`:
-** `Retain`: Volumes not deleted
-*** Default setting for key
-** `Recycle`: Volumes scrubbed after being released from claim
-* Once recycled, can bind NFS volume to new claim
-
-ifdef::showscript[]
-
-=== Transcript
-
-OpenShift Enterprise implements the Kubernetes `Recyclable` plug-in interface. Reclamation tasks are based on policies set by the `persistentVolumeReclaimPolicy` key in the `PersistentVolume` object definition. After a volume is released from its claim--that is, after the user delete the `PersistentVolumeClaim` bound to the volume--the volume can be _reclaimed_.
-
-You can set the `persistentVolumeReclaimPolicy` key to `Retain` or `Recycle`.
-
-By default, persistent volumes are set to `Retain`. In this case, volumes are not deleted.
-
-NFS volumes set to `Recycle` are scrubbed--that is, `rm -rf` is run on the volume--after being released from their claim. After you recycle an NFS volume, you can bind it to a new claim.
-
-endif::showscript[]
-== Persistent Storage Using NFS
-:noaudio:
-
-.Automation
-
-* Can provision OpenShift Enterprise clusters with persistent storage using NFS:
-** Use disk partitions to enforce storage quotas
-** Enforce security by restricting volumes to namespace that has claim to them
-** Configure reclamation of discarded resources for each persistent volume
-
-* Can use scripts to automate these tasks
-* See sample Ansible playbook:
-https://github.com/openshift/openshift-ansible/tree/master/roles/kube_nfs_volumes
 
 
-ifdef::showscript[]
-
-=== Transcript
-
-The preceding sections have discussed the ways you can provision OpenShift Enterprise clusters with persistent storage using NFS:
-
-* Use disk partitions to enforce storage quotas
-* Enforce security by restricting volumes to the namespace that has a claim to them
-* Configure reclamation of discarded resources for each persistent volume
-
-After you set up your OpenShift Enterprise environment and clusters to use persistent storage, it is easy to create scripts to automate these tasks.
-
-To help you get started, see the example Ansible playbook at the web address shown here.
-
-endif::showscript[]
 == Persistent Storage Using NFS
 :noaudio:
 

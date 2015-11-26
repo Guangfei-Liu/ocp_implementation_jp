@@ -3,9 +3,8 @@
 
 .Overview
 
-* To prepare your hosts for OpenShift Enterprise 3.0:
+* To prepare your hosts for OpenShift Enterprise 3:
 ** Install Red Hat Enterprise Linux 7.1
-*** See https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Installation_Guide/index.html
 ** Register hosts with `subscription-manager`
 ** Manage base packages:
 *** `git`
@@ -15,25 +14,34 @@
 ** Manage services:
 *** Disable `firewalld`
 *** Enable `iptables-services`
-** Install Docker 1.6.x
+**  Docker 1.8.2 or later
 ** Host password-less communication
 
 ifdef::showscript[]
 
 === Transcript
 
-To prepare the hosts to use with OpenShift Enterprise, consult the documentation. This ensures you always have the most up-to-date information.
+To prepare the hosts to use with OpenShift Enterprise, consult the
+ documentation. This ensures you always have the most up-to-date information.
 
 The basic steps for preparing hosts are as follows:
 
-* Perform a base installation of Red Hat Enterprise Linux 7.1 for master or node hosts. See the Red Hat Enterprise Linux 7.1 Installation Guide for more information.
-* Use `subscription-manager` to register all the hosts to Red Hat Enterprise Linux 7.1 and OpenShift Enterprise repositories.
-* Install some utility packages, including `git`, `net-tools`, `bind-utils`, and `iptables-services`.
+* Perform a base installation of Red Hat Enterprise Linux 7.1 for master and
+ node hosts.
+* Use `subscription-manager` to register all the hosts to Red Hat Enterprise
+ Linux 7.1 and OpenShift Enterprise 3 repositories.
+* Install some utility packages, including `git`, `net-tools`, `bind-utils`, and
+ `iptables-services`.
 * Disable `firewalld` and enable `iptables-services`.
-* Install Docker 1.6 or later and configure the storage back end for images.
-* Make sure that the master hosts can issue `remove` commands on the nodes without requiring a password.
+* Install Docker 1.8.2 or later and configure the storage back-end for images.
+* Make sure that the master hosts can issue remote commands on the nodes
+ without requiring a password.
 
-If you want to create a scalable environment, you should create an image template for the node--depending on your infrastructure provider--and then, to save time, spin up a new instance or VM in which these steps have already been performed. You should then run the installer script to add the new node to the OpenShift Enterprise environment/cluster.
+TIP: If you want to create a scalable environment, you should create an image
+ template for the node--depending on your infrastructure provider--and then, to
+  save time, spin up a new instance or VM in which these steps have already been
+   performed. You should then run the installer script to add the new node to
+    the OpenShift Enterprise environment/cluster.
 
 
 endif::showscript[]

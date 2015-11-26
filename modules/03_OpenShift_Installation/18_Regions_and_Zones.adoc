@@ -24,17 +24,26 @@ ifdef::showscript[]
 
 === Transcript
 
-After you install OpenShift Enterprise, you need to label the nodes. Labeling the nodes lets the scheduler use _logic_ defined in the `scheduler.json` file when it provisions pods in your environment.
+After you install OpenShift Enterprise, you need to label the nodes. Labeling
+ the nodes lets the scheduler use _logic_ defined in the `scheduler.json` file
+  when it provisions pods in your environment.
 
-OpenShift Enterprise 2.0 introduced the specific concepts of _regions_ and _zones_ to let organizations provide some topologies for application resiliency. Applications are spread throughout the zones within a region and, depending on the way you configure OpenShift Enterprise, you can make different regions accessible to users.
+OpenShift Enterprise 2.0 introduced the specific concepts of _regions_ and
+ _zones_ to let organizations provide some topologies for application
+  resiliency. Applications are spread throughout the zones within a region and,
+   depending on the way you configure OpenShift Enterprise, you can make
+    different regions accessible to users.
 
-OpenShift Enterprise 3 is not based on your topology. It is _topology-agnostic_. OpenShift Enterprise 3 provides advanced controls for implementing whatever topologies you create.
+OpenShift Enterprise 3 is not based on your topology. It is _topology-agnostic_.
+ OpenShift Enterprise 3 provides advanced controls for implementing whatever
+  topologies you create.
 
 The example shown here uses the concept the _regions_ and _zones_.
 
 Other options you can use include _Prod_ and _Dev_,
 _Secure_ and _Insecure_, or _Rack and Power_.
 
-The labels on the nodes handle the assignments of _regions_ and _zones_ at the node level.
+The labels on the nodes handle the assignments of _regions_ and _zones_ at the
+ node level.
 
 endif::showscript[]

@@ -14,14 +14,6 @@
 $ oc process -f <filename>
 ----
 
-** Alternatively, can pipe both commands to create from template without
- uploading it to library
-** To process template and create from same template:
-+
-----
-$ oc process -f <filename.json> | sed s/oldvalue/newvalue/g |oc create -f -
-----
-
 * Can override parameters defined in JSON file by adding `-v` option and
  parameters
 
@@ -29,9 +21,21 @@ $ oc process -f <filename.json> | sed s/oldvalue/newvalue/g |oc create -f -
  configuration with customized environment variables:
 +
 ----
-$ oc process -f examples/sample-app/application-template-dockerbuild.json -v ADMIN_USERNAME=root,MYSQL_DATABASE=admin
+$ oc process -f my_template_file.json -v ADMIN_USERNAME=root,MYSQL_DATABASE=admin
 ----
 
+.Creating an application from template
+* `new-app` can instantiate template from stored template or template file
+* To instantiate stored template, specify template name as argument
+* To create application from stored template or a template file:
++
+----
+# Create an application based on a stored template, explicitly setting a parameter value
+$ oc new-app --template=ruby-helloworld-sample --param=MYSQL_USER=admin
+
+# Create an application based on a template file, explicitly setting a parameter value
+  $ oc new-app --file=./example/myapp/template.json --param=MYSQL_USER=admin
+----
 
 ifdef::showscript[]
 
@@ -48,5 +52,9 @@ You can also override any parameters defined in the template file by adding the
  `-v` optionn and any desired parameters. For example, you can override the
   `ADMIN_USERNAME` and `MYSQL_DATABASE` parameters to create a configuration
    with customized environment variables.
+
+the "oc new-app" command can be used to deploy templates from a local template
+ file or from a stored template, the commands provided show how to create a new
+  application and override the template parameter value for MYSQL_USER.
 
 endif::showscript[]

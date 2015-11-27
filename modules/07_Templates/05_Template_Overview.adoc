@@ -36,6 +36,12 @@
 
 ----
 
+. `name` is the name of the template.
+. `description` is an optional description for the template.
+. `parameters` is where you list of parameters like username, passwords, and
+ others.
+. `labels` is a list of labels to apply to resources created by the template.
+. `object` lists resources to create, like pods, services, and routes.
 
 
 ifdef::showscript[]

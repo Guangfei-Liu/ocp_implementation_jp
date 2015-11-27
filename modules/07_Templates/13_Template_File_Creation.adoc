@@ -1,7 +1,8 @@
 == Template File Creation
 
 
-.Example Template - `objects:` `ImageStream` `ruby-sample` and `ruby-20-rhel7`
+.Example Template
+- `objects:` `ImageStream` `ruby-sample` and `ruby-20-rhel7`
 [subs="verbatim,macros"]
 ----
  {

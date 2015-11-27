@@ -34,13 +34,13 @@ include::17_New_Configuration_From_Template.adoc[]
 
 include::18_New_Configuration_From_Template.adoc[]
 
-include::19_Wiring_Templates_Together.adoc[]
+include::19_Processing_Template_Parameters.adoc[]
 
-include::20_Wiring_Templates_Together.adoc[]
+include::20_Processing_Template_Parameters.adoc[]
 
-include::21_Wiring_Templates_Together.adoc[]
+include::21_Processing_Template_Parameters.adoc[]
 
-include::22_Wiring_Templates_Together.adoc[]
+include::22_Processing_Template_Parameters.adoc[]
 
 include::23_Summary.adoc[]
 

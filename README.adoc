@@ -195,3 +195,25 @@ and review the changes to a service when scaling an application.
 - Lab Scenario: In this lab you will create an application from a forked git
     repository, you will inject a custom build script and, start a rebuild from the
      web console and follow the logs to review your custom script messages. lab you will create a customized build script
+
+
+=== Module 07 - Templates
+
+.Topics Covered
+
+* Template Overview
+* Template File Creation
+* New Configuration From Template
+* Processing Template Parameters
+
+.Module Labs
+
+* Lab: Create and upload a template
+- Lab Scenario: In this lab you will create a template for a 2-tier application
+ (Frontend and Database), upload it into the shared namespace ("openshift"
+  project) and check that users can deploy it from the web console.
+
+* Lab: Using Templates and Template Parameters
+- Lab Scenario: In this lab you will create two separate template instances, in
+   two separate projects and use template parameters establish a frontend to
+    database backend connection.

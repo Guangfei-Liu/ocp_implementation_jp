@@ -1,7 +1,8 @@
 == Template File Creation
 
 
-.Example Template - `objects:` `DeploymentConfig` `frontend`
+.Example Template
+- `objects:` `DeploymentConfig` `frontend`
 
 [subs="verbatim,macros"]
 ----
@@ -60,7 +61,7 @@
                     "protocol": "TCP"
                   }
                 ],
-                pass:quotes[*"env": [
+              "env": [
                   {
                     "name": "ADMIN_USERNAME",
                     "value": "${ADMIN_USERNAME}"

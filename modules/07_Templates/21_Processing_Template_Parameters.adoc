@@ -1,4 +1,4 @@
-== Wiring Templates Together
+== Processing Template Parameters
 
 
 .Extract Configuration File Values

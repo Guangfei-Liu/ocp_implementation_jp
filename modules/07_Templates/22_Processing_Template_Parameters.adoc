@@ -1,4 +1,4 @@
-== Wiring Templates Together
+== Processing Template Parameters
 
 
 .Process `db`
@@ -26,8 +26,12 @@ oc process -f db-template.json \
     -v MYSQL_USER=userMXG,MYSQL_PASSWORD=slDrggRv,MYSQL_DATABASE=root \
     | oc create -f -
 ----
-
-
++
+** Or, use "oc new-app" to achieve the same
++
+----
+$ oc new-app --file=./db-template.json --param=MYSQL_USER=userMXG,MYSQL_PASSWORD=slDrggRv,MYSQL_DATABASE=root
+----
 ifdef::showscript[]
 
 === Transcript

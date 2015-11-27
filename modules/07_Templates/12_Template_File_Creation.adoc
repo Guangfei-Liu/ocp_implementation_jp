@@ -1,7 +1,8 @@
 == Template File Creation
 
 
-.Example Template - `objects:` `Route`
+.Example Template
+- `objects:` `Route`
 [subs="verbatim,macros"]
 ----
     {

@@ -28,7 +28,11 @@ CAUTION: This file is for internal task management and note taking, it should no
 - Slide 02_Module_Topics
 - 04_Source-to-Image and 11_Source-to-Image, Waiting for confirmation about incremental builds from EJ
 - Completely re-done the lab, consider it a first time review.
-
+=== Module 07 :
+- 05_Template_Overview
+- 07_Template_Overview
+- 18_New_Configuration_From_Template
+- Slides 19,20,21,22 "Wiring Templates Together" renamed : Processing Template Parameters
 
 == Changes on Course that require Audio Recording
 
@@ -51,6 +55,12 @@ CAUTION: This file is for internal task management and note taking, it should no
 
 === Module 05 :
 - 39_Persistent_Volumes
+
+=== Module 07 :
+- 05_Template_Overview
+- 07_Template_Overview
+- 18_New_Configuration_From_Template Record again with additions.
+- Slides 19,20,21,22 "Wiring Templates Together" renamed : Processing Template Parameters
 
 == Changes in ose_fastrax
 

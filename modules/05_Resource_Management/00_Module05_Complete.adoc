@@ -48,8 +48,6 @@ This module discusses various OpenShift Enterprise resources and how to use them
 endif::showscript[]
 == Resource Types
 
-
-
 * Working with applications means manipulating OpenShift resources in background:
 ** Create
 ** Destroy
@@ -149,7 +147,7 @@ System users include a cluster administrator, who has access to everything;
 
 There is also an anonymous system user that is used by default for
  unauthenticated requests.
- 
+
 endif::showscript[]
 == Projects and Users
 
@@ -272,7 +270,7 @@ endif::showscript[]
 
 .Web Console Authentication
 
-* Access web console at `_<master-public-addr>_:8443`
+* Access web console at `_<master-public-addr>_:8443` (By default)
 * Automatically redirected to login page
 * Provide login credentials to obtain token to make API calls
 * Use web console to navigate projects
@@ -298,9 +296,9 @@ endif::showscript[]
 
 
 .CLI Authentication
-* Download client from Red Hat Product Downloads:
-link:https://access.redhat.com/downloads/[https://access.redhat.com/downloads/]
-* After extracting software, use `oc login` to authenticate from command line:
+* Download client from Red Hat Product Downloads or install the
+ "atomic-openshift-clients" rpm package.
+* After installing, use `oc login` to authenticate from command line:
 +
 ----
 $ oc login -u andrew --server="https://master09-c3po.oslab.opentlc.com:8443"
@@ -309,7 +307,9 @@ $ oc login -u andrew --server="https://master09-c3po.oslab.opentlc.com:8443"
 * Command's interactive flow helps establish session to OpenShift Enterprise
  server with provided credentials
 
-* Example: Authenticate as OpenShift Enterprise cluster administrator (usually `root` user):
+* Example: Authenticate as OpenShift Enterprise cluster administrator (usually
+   `root` user):
+** system:admin user is a password-less user that requires a token.
 +
 ----
 $ oc login -u system:admin -n openshift
@@ -1334,9 +1334,14 @@ endif::showscript[]
 * `PersistentVolume` object: Storage resource in OpenShift Enterprise cluster
 * Administrator provides storage by creating `PersistentVolume` from sources
  such as:
-** NFS mounts: Supported method
+** NFS
 ** GCE Persistent Disks (Google Compute)
 ** EBS Volumes (Amazon Elastic Block Stores)
+** GlusterFS
+** OpenStack Cinder
+** Ceph RBD
+** iSCSI
+** Fiber Channel
 * Must associate `PersistentVolume` with `project`
 
 
@@ -1351,12 +1356,16 @@ A `PersistentVolume` object is a storage resource in an OpenShift Enterprise
 * NFS mounts: This is the supported method.
 * GCE Persistent Disks (Google Compute).
 * EBS Volumes (Amazon Elastic Block Stores).
+* GlusterFS
+* OpenStack Cinder
+* Ceph RBD
+* iSCSI
+* Fiber Channel
 
 When you define a `PersistentVolume`, you must associate it with a project.
 
 endif::showscript[]
 == Persistent Volumes
-
 
 .Requesting Storage
 
@@ -1503,7 +1512,8 @@ ifdef::showscript[]
 
 === Transcript
 
-As shown in the example here, you can tell whether a claim or volume is bound by using the CLI to submit a query.
+As shown in the example here, you can tell whether a claim or volume is bound by
+ using the CLI to submit a query.
 
 endif::showscript[]
 
@@ -1565,6 +1575,113 @@ OpenShift Enterprise finds the claim in the same namespace
 The example here shows a pod definition with a claim.
 
 endif::showscript[]
+
+== Persistent Volumes
+:noaudio:
+
+.Disk Quota Enforcement
+
+* Use disk partitions to enforce disk quotas and size constraints
+** Each partition can be own export
+** Each export = one persistent volume
+* Unique names enforces for persistent volumes
+** Administrator determines uniqueness of NFS volume server and path
+
+* Enforcing quotas lets user:
+** Request persistent storage by specific amount
+** Match with volume of equal or greater capacity
+
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+To define disk quotas, you need to use disk partitions to create size constraints.
+
+Each partition can be its own export, and each export is one persistent volume.
+
+Using unique names enforces for persistent volumes. However, the administrator
+ determines the uniqueness of the NFS volume's server and path.
+
+Enforcing quotas this way lets a user request a specific amount of persistent
+ storage--for example, 10GB--and be matched with a corresponding volume of equal
+  or greater capacity.
+
+
+endif::showscript[]
+
+== Persistent Volumes
+:noaudio:
+
+.Resource Reclamation
+* OpenShift Enterprise implements Kubernetes `Recyclable` plug-in interface
+** Reclamation tasks based on policies set by `persistentVolumeReclaimPolicy`
+ key in `PersistentVolume` object definition
+* Can _reclaim_ volume after it is released from claim
+
+* Can set `persistentVolumeReclaimPolicy` to `Retain` or `Recycle`:
+** `Retain`: Volumes not deleted
+*** Default setting for key
+** `Recycle`: Volumes scrubbed after being released from claim
+* Once recycled, can bind NFS volume to new claim
+
+ifdef::showscript[]
+
+=== Transcript
+
+OpenShift Enterprise implements the Kubernetes `Recyclable` plug-in interface.
+ Reclamation tasks are based on policies set by the
+  `persistentVolumeReclaimPolicy` key in the `PersistentVolume` object
+   definition. After a volume is released from its claim--that is, after the
+    user delete the `PersistentVolumeClaim` bound to the volume--the volume can
+     be _reclaimed_.
+
+You can set the `persistentVolumeReclaimPolicy` key to `Retain` or `Recycle`.
+
+By default, persistent volumes are set to `Retain`. In this case, volumes are
+ not deleted.
+
+NFS volumes set to `Recycle` are scrubbed--that is, `rm -rf` is run on the
+ volume--after being released from their claim. After you recycle an NFS volume,
+  you can bind it to a new claim.
+
+endif::showscript[]
+== Persistent Volumes
+:noaudio:
+
+.Automation
+
+* Can provision OpenShift Enterprise clusters with persistent storage using NFS:
+** Use disk partitions to enforce storage quotas
+** Enforce security by restricting volumes to namespace that has claim to them
+** Configure reclamation of discarded resources for each persistent volume
+
+* Can use scripts to automate these tasks
+* See sample Ansible playbook:
+https://github.com/openshift/openshift-ansible/tree/master/roles/kube_nfs_volumes
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+The preceding sections have discussed the ways you can provision OpenShift
+ Enterprise clusters with persistent storage using NFS:
+
+* Use disk partitions to enforce storage quotas
+* Enforce security by restricting volumes to the namespace that has a claim to
+ them
+* Configure reclamation of discarded resources for each persistent volume
+
+After you set up your OpenShift Enterprise environment and clusters to use
+ persistent storage, it is easy to create scripts to automate these tasks.
+
+To help you get started, see the example Ansible playbook at the web address
+ shown here.
+
+endif::showscript[]
+
 == Summary
 
 

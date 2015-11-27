@@ -11,10 +11,10 @@
  apiVersion: v1
  kind: Service
  metadata:
-   name: docker-registry
+   name: example-name
  spec:
    selector:                  <1>
-     docker-registry: default
+     example-label: example-value
    portalIP: 172.30.136.123   <2>
    ports:
    - nodePort: 0
@@ -22,6 +22,11 @@
      protocol: TCP
      targetPort: 5000         <4>
 ----
+
+. The label selector identifies all pods with the `example-label: example-value`
+ `PortalIP` the assigned service IP
+. The `Port` line specifies the port on which the service listens.
+. `targetPort` is the port used to forward connections to the backing pods.
 
 
 ifdef::showscript[]
@@ -31,7 +36,7 @@ ifdef::showscript[]
 Like pods, services are REST objects. The example shown here provides the
  definition of a service for the pod defined above.
 
-. The label selector identifies all pods with the `docker-registry=default`
+. The label selector identifies all pods with the `example-label: example-value`
  label as the `Pods` represented by the `service`
 . When the service is created, it automatically receives a virtual IP,
  `PortalIP`, chosen from a pool of internal IPs. When you define a new service,

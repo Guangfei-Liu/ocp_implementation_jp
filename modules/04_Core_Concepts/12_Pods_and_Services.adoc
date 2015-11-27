@@ -13,13 +13,17 @@
  kind: Pod
  metadata:
    annotations: { ... }
-   labels:                               // <1>
-     deployment: docker-registry-1
-     deploymentconfig: docker-registry
-     docker-registry: default
-   generateName: docker-registry-1-     //  <2>
+   labels:                               <1>
+     deployment: example-name-1
+     deploymentconfig: example-name
+     example-name: default
+   generateName: example-name-1-       <2>
 
 ----
+
+. Labels used to select and manage groups of pods in a single operation.
+. Base name, `generateName`, is used in generating a unique pod name.
+
 
 ifdef::showscript[]
 

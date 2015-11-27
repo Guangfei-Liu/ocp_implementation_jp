@@ -3,8 +3,21 @@
 
 .HAProxy Default Router
 
-* HAProxy default router implementation: Reference implementation for template router plug-in
-* Uses `openshift3/OpenShift Enterprise-haproxy-router` image to run HAProxy instance alongside template router plug-in
+* HAProxy default router implementation: Reference implementation for template
+ router plug-in
+* Uses `openshift3/OpenShift Enterprise-haproxy-router` image to run HAProxy
+ instance alongside template router plug-in
+* Supports unsecured, edge terminated, re-encryption terminated,
+  and passthrough terminated routes matching on HTTP vhost and request path.
+
+.F5 Router
+* The F5 router plug-in integrates with an existing F5 BIG-IP® system in your
+ environment.
+* Supports unsecured, edge terminated, re-encryption terminated,
+  and passthrough terminated routes matching on HTTP vhost and request path.
+* Has feature parity with the HAProxy template route and some additional
+ features.
+
 
 
 ifdef::showscript[]
@@ -15,5 +28,15 @@ The HAProxy default router implementation is the reference implementation for a
  template router plug-in. It uses the
   `openshift3/OpenShift Enterprise-haproxy-router` image to run an HAProxy
    instance alongside the template router plug-in.
+
+The F5 router plug-in integrates with an existing F5 BIG-IP® system in your
+ environment. F5 BIG-IP® version 11.4 or newer is required in order to have the
+  F5 iControl REST API. The F5 router supports unsecured, edge terminated,
+   re-encryption terminated, and passthrough terminated routes matching on HTTP
+    vhost and request path.
+
+   The F5 router has feature parity with the HAProxy template router, which
+    means it has feature parity, and then additional features
+
 
 endif::showscript[]

@@ -4,13 +4,15 @@
 .Labels
 
 * Use labels to organize, group, choose API objects
-**  Example: Tag _pods_ with labels so services can use label selectors to identify pods to which they proxy
+**  Example: Tag _pods_ with labels so services can use label selectors to
+ identify pods to which they proxy
 ** Lets services reference groups of pods
 *** Can treat pods with different Docker containers as related entities
 
 * Most objects can include labels in metadata
 * Can use labels to group arbitrarily related objects
-** Example: Can group application's _pods_, _services_, _replication controllers_, and _deployment configurations_
+** Example: Can group application's _pods_, _services_,
+ _replication controllers_, and _deployment configurations_
 
 
 ifdef::showscript[]

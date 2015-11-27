@@ -1,4 +1,3 @@
-
 :noaudio:
 
 ifdef::revealjs_slideshow[]
@@ -7,11 +6,6 @@ ifdef::revealjs_slideshow[]
 
 == &nbsp;
 :noaudio:
-
-ifdef::revealjs_slideshow[]
-
-[#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"]
-
 
 [#cover-h1]
 Red Hat OpenShift Enterprise Implementation
@@ -112,7 +106,8 @@ endif::showscript[]
 * Container typically provides single service (often called a _microservice_)
 ** Web server or database
 * Can use containers for arbitrary workloads
-* More info on Linux container technologies: https://access.redhat.com/articles/1353593
+* More info on Linux container technologies:
+ https://access.redhat.com/articles/1353593
 
 ifdef::showscript[]
 
@@ -374,13 +369,17 @@ endif::showscript[]
  kind: Pod
  metadata:
    annotations: { ... }
-   labels:                               // <1>
-     deployment: docker-registry-1
-     deploymentconfig: docker-registry
-     docker-registry: default
-   generateName: docker-registry-1-     //  <2>
+   labels:                               <1>
+     deployment: example-name-1
+     deploymentconfig: example-name
+     example-name: default
+   generateName: example-name-1-       <2>
 
 ----
+
+. Labels used to select and manage groups of pods in a single operation.
+. Base name, `generateName`, is used in generating a unique pod name.
+
 
 ifdef::showscript[]
 
@@ -427,6 +426,10 @@ endif::showscript[]
        value: https://master.example.com:8443
 ----
 
+. `containers` specifies an array of container definitions--in this case
+ (as with most), just one.
+. You can specify variables (`env`) to pass necessary values to each container.
+ For example, these can be credentials and database connection details.
 
 ifdef::showscript[]
 
@@ -446,7 +449,7 @@ endif::showscript[]
 .Pods Definition File/Manifest: Container
 [source,yaml]
 ----
-     image: openshift3/docker-registry:v0.6.2 <1>
+     image: openshift3/example-image:v1.1.0.6 <1>
      imagePullPolicy: IfNotPresent
      name: registry
      ports:                              <2>
@@ -462,6 +465,11 @@ endif::showscript[]
        readOnly: true
 ----
 
+. Each container in the pod is instantiated from its own Docker image.
+. The container can bind to ports, which are available on the pod's IP.
+. _security context_ for containers that specifies whether they can run as
+ privileged containers.
+. External storage volumes should be mounted within the container.
 
 ifdef::showscript[]
 
@@ -501,6 +509,9 @@ endif::showscript[]
        secretName: default-token-br6yz
 ----
 
+. Service Account name
+. volumes that the pod can use
+
 
 ifdef::showscript[]
 
@@ -528,12 +539,14 @@ endif::showscript[]
 * Kubernetes service serves as *"internal"* load-balancer
 ** Identifies set of replicated pods
 ** Proxy connections it receives to identified pods
-* Can add or remove backing pods to or from service while service remains consistently available
+* Can add or remove backing pods to or from service while service remains
+ consistently available
 ** Lets anything depending on service refer to it at consistent internal address
 
 * Assign services IP address and port pair
 ** Proxy to appropriate backing pod when accessed
-* Service uses label selector to find running containers that provide certain network service on certain port
+* Service uses label selector to find running containers that provide certain
+ network service on certain port
 * Can access server by IP address and DNS name
 ** Name created and resolved by local DNS server on master
 
@@ -572,10 +585,10 @@ endif::showscript[]
  apiVersion: v1
  kind: Service
  metadata:
-   name: docker-registry
+   name: example-name
  spec:
    selector:                  <1>
-     docker-registry: default
+     example-label: example-value
    portalIP: 172.30.136.123   <2>
    ports:
    - nodePort: 0
@@ -583,6 +596,11 @@ endif::showscript[]
      protocol: TCP
      targetPort: 5000         <4>
 ----
+
+. The label selector identifies all pods with the `example-label: example-value`
+ `PortalIP` the assigned service IP
+. The `Port` line specifies the port on which the service listens.
+. `targetPort` is the port used to forward connections to the backing pods.
 
 
 ifdef::showscript[]
@@ -592,7 +610,7 @@ ifdef::showscript[]
 Like pods, services are REST objects. The example shown here provides the
  definition of a service for the pod defined above.
 
-. The label selector identifies all pods with the `docker-registry=default`
+. The label selector identifies all pods with the `example-label: example-value`
  label as the `Pods` represented by the `service`
 . When the service is created, it automatically receives a virtual IP,
  `PortalIP`, chosen from a pool of internal IPs. When you define a new service,
@@ -608,13 +626,15 @@ endif::showscript[]
 .Labels
 
 * Use labels to organize, group, choose API objects
-**  Example: Tag _pods_ with labels so services can use label selectors to identify pods to which they proxy
+**  Example: Tag _pods_ with labels so services can use label selectors to
+ identify pods to which they proxy
 ** Lets services reference groups of pods
 *** Can treat pods with different Docker containers as related entities
 
 * Most objects can include labels in metadata
 * Can use labels to group arbitrarily related objects
-** Example: Can group application's _pods_, _services_, _replication controllers_, and _deployment configurations_
+** Example: Can group application's _pods_, _services_,
+ _replication controllers_, and _deployment configurations_
 
 
 ifdef::showscript[]
@@ -648,8 +668,10 @@ endif::showscript[]
 
 * Scenario:
 ** Pod consisting of `nginx` Docker container, with `role=webserver` label
-** Pod consisting of `Apache httpd` Docker container, also with `role=webserver` label
-** Service or replication controller defined to use pods with `role=webserver` label treats both pods as part of same group
+** Pod consisting of `Apache httpd` Docker container, also with `role=webserver`
+ label
+** Service or replication controller defined to use pods with `role=webserver`
+ label treats both pods as part of same group
 
 * Example: To remove all components with the label `app=mytest`:
 +
@@ -718,11 +740,13 @@ endif::showscript[]
 ** Enhancements
 *** Add predicates and priority functions
 *** Can be contributed upstream or maintained separately
-*** Need to be registered with scheduler factory and specified in scheduler policy file
+*** Need to be registered with scheduler factory and specified in scheduler
+ policy file
 
 ** Replacement
 *** Replace scheduler with alternate implementation
-** Scheduler code watches pods as they are created and identifies most suitable node to host them
+** Scheduler code watches pods as they are created and identifies most suitable
+ node to host them
 *** Uses master API to create pod-to-node bindings for pods
 
 
@@ -1031,7 +1055,8 @@ endif::showscript[]
 * Calculates difference between consumed CPU and memory as fraction of capacity
 * Prioritizes nodes with smallest difference
 * Should always use with `LeastRequestedPriority`
-|`ServiceSpreadingPriority` |Spreads pods by minimizing number of pods belonging to same service onto same machine
+|`ServiceSpreadingPriority` |Spreads pods by minimizing number of pods belonging
+ to same service onto same machine
 |`EqualPriority` a|* Gives equal weight of *1* to all nodes
 * Not required/recommended outside of testing.
 |===================================================================
@@ -1390,8 +1415,7 @@ endif::showscript[]
  specifies
 
 * For list of build commands, see Developer's Guide:
-https://docs.openshift.org/latest/dev_guide/builds.html
-
+links:https://docs.openshift.com/enterprise/latest/architecture/core_concepts/builds_and_image_streams.html[https://docs.openshift.com/enterprise/latest/architecture/core_concepts/builds_and_image_streams.html]
 ifdef::showscript[]
 
 === Transcript
@@ -1501,7 +1525,8 @@ endif::showscript[]
 [horizontal]
 Operational efficiency::
 
-* PaaS operator restricts build operations instead of allowing arbitrary actions, such as in `Dockerfile`
+* PaaS operator restricts build operations instead of allowing arbitrary
+ actions, such as in `Dockerfile`
 * Can avoid accidental or intentional abuses of build system
 
 Operational security::
@@ -1769,6 +1794,11 @@ spec:
 
 ifdef::showscript[]
 
+. The number of copies of the pod to run.
+. The label selector of the pod to run.
+. A template for the pod the controller creates.
+. Labels on the pod should include those from the label selector.
+
 === Transcript
 
 Replication controllers are a core Kubernetes object, `ReplicationController`.
@@ -1794,10 +1824,11 @@ endif::showscript[]
 * Routers provide external hostname mapping and load-balancing to applications
  over protocols that pass distinguishing information directly to router
 
-* In OpenShift Enterprise 3.0.0.0, `Default Router` supports following protocols
- only:
-** HTTP
-** HTTPS
+* Currently, OpenShift Enterprise Routers support the following protocols:
+- HTTP
+- HTTPS (with SNI)
+- WebSockets
+- TLS with SNI
 
 ifdef::showscript[]
 
@@ -1811,8 +1842,13 @@ OpenShift Enterprise routers provide external hostname mapping and
  load-balancing to applications over protocols that pass distinguishing
   information directly to the router.
 
-Currently, in OpenShift Enterprise 3.0.0.0, OpenShift Enterprise's
- `Default Router` supports only HTTP and HTTPS.
+* Currently, OpenShift Enterprise Routers support the following protocols:
+- HTTP
+- HTTPS (with SNI)
+- WebSockets
+- TLS with SNI
+
+
 
 endif::showscript[]
 == Routers
@@ -1820,8 +1856,21 @@ endif::showscript[]
 
 .HAProxy Default Router
 
-* HAProxy default router implementation: Reference implementation for template router plug-in
-* Uses `openshift3/OpenShift Enterprise-haproxy-router` image to run HAProxy instance alongside template router plug-in
+* HAProxy default router implementation: Reference implementation for template
+ router plug-in
+* Uses `openshift3/OpenShift Enterprise-haproxy-router` image to run HAProxy
+ instance alongside template router plug-in
+* Supports unsecured, edge terminated, re-encryption terminated,
+  and passthrough terminated routes matching on HTTP vhost and request path.
+
+.F5 Router
+* The F5 router plug-in integrates with an existing F5 BIG-IP® system in your
+ environment.
+* Supports unsecured, edge terminated, re-encryption terminated,
+  and passthrough terminated routes matching on HTTP vhost and request path.
+* Has feature parity with the HAProxy template route and some additional
+ features.
+
 
 
 ifdef::showscript[]
@@ -1832,6 +1881,16 @@ The HAProxy default router implementation is the reference implementation for a
  template router plug-in. It uses the
   `openshift3/OpenShift Enterprise-haproxy-router` image to run an HAProxy
    instance alongside the template router plug-in.
+
+The F5 router plug-in integrates with an existing F5 BIG-IP® system in your
+ environment. F5 BIG-IP® version 11.4 or newer is required in order to have the
+  F5 iControl REST API. The F5 router supports unsecured, edge terminated,
+   re-encryption terminated, and passthrough terminated routes matching on HTTP
+    vhost and request path.
+
+   The F5 router has feature parity with the HAProxy template router, which
+    means it has feature parity, and then additional features
+
 
 endif::showscript[]
 == Routers

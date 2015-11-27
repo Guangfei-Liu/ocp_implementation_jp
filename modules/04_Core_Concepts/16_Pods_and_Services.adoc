@@ -6,12 +6,14 @@
 * Kubernetes service serves as *"internal"* load-balancer
 ** Identifies set of replicated pods
 ** Proxy connections it receives to identified pods
-* Can add or remove backing pods to or from service while service remains consistently available
+* Can add or remove backing pods to or from service while service remains
+ consistently available
 ** Lets anything depending on service refer to it at consistent internal address
 
 * Assign services IP address and port pair
 ** Proxy to appropriate backing pod when accessed
-* Service uses label selector to find running containers that provide certain network service on certain port
+* Service uses label selector to find running containers that provide certain
+ network service on certain port
 * Can access server by IP address and DNS name
 ** Name created and resolved by local DNS server on master
 

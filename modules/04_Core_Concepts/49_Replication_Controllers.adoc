@@ -30,6 +30,11 @@ spec:
 
 ifdef::showscript[]
 
+. The number of copies of the pod to run.
+. The label selector of the pod to run.
+. A template for the pod the controller creates.
+. Labels on the pod should include those from the label selector.
+
 === Transcript
 
 Replication controllers are a core Kubernetes object, `ReplicationController`.

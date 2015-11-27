@@ -1,43 +1,84 @@
-:scrollbar:
-:data-uri:
 :toc2:
 :icons: images/icons
 
-== Manage Resources
-:numbered:
+= Labs: Manage Resources
+
 
 In this lab you manage different types of OpenShift Enterprise resources.
 
 * Manage Users, Projects, and Quotas
 * Create Services and Routes
-* Learn About Container Components 
+* Learn About Container Components
 * Create a Persistent Volume for the Registry
 
-== Manage Users, Projects, and Quotas
+
+toc::[]
+
+== Labs Overview
+
+
+* Lab: Manage Users, Projects, and Quotas
+- Lab Scenario: In this lab, you create Projects and test out the use of Quotas
+ and limites
+
+* Lab: Create Services and Routes
+- Lab Scenario: In this lab we manually create Services and Routes for our pods
+and review the changes to a service when scaling an application.
+
+* Lab: Exploring inside the containers
+- Lab Scenario : In this lab, you will learn to run commands within active pods
+ and explore the "docker-registry" and "Default Router" containers.
+
+
+* Lab: Create a Persistent Volume for the Registry
+- Lab Scenario: In this lab, you create a persistent volume for your registry,
+ attach it to the `deploymentConfiguration`, and redeploy the registry.
+
+
+:numbered:
+
+
+
+== Lab: Manage Users, Projects, and Quotas
 
 === Create a Project
 
-. On the master host, use `oadm` to create and assign an administrative user `andrew` to a project.
+* Lab: Manage Users, Projects, and Quotas
+- Lab Scenario: In this lab, you create Projects and test out the use of Quotas
+ and limites
+
+. Connect to the "master00" host
 +
 ----
+[root@oselab-GUID ~]# ssh master00-$guid
+----
 
+. On the master host, use `oadm` to create and assign an administrative user
+ `andrew` to a project.
++
+----
 [root@master00-GUID ~]# oadm new-project resourcemanagement --display-name="Resources Management" \
     --description="This is the project we use to learn about resource management" \
     --admin=andrew  --node-selector='region=primary'
-
 ----
 
+NOTE: Andrew can create his own project using the "oc new-project" command,
+ later in this training we will experiment with that option as well.
+NOTE: Defining the "--node-selector" is optional, especially since we already
+ defined the default node-selector in a previous lab.
 === View Resources in the Web Console
 
-[NOTE]
-Red Hat has completely redesigned the web console for OpenShift Enterprise 3.0.
+Now that you have a project created, it's time to look at the web console, which
+has been completely redesigned for V3.
 
 . Open your web browser and go to https://master00-GUID.oslab.opentlc.com:8443.
 +
 [NOTE]
-It may take up to 90 seconds for the web console to become available any time you restart the master.
+It may take up to 90 seconds for the web console to become available any time
+ you restart the master.
 
-. The first time you access the URL, you need to accept the self-signed SSL certificate.
+. The first time you access the URL, you might need to accept the self-signed
+ SSL certificate.
 
 . When prompted, enter the following username and a password:
 ** *Username*: `andrew`
@@ -52,7 +93,7 @@ It may take up to 90 seconds for the web console to become available any time yo
 +
 ----
 
-[root@master00-GUID ~]# cat << EOF > quota.json
+[root@master00-GUID ~]#  cat << EOF > quota.json
 {
   "apiVersion": "v1",
   "kind": "ResourceQuota",
@@ -61,7 +102,7 @@ It may take up to 90 seconds for the web console to become available any time yo
   },
   "spec": {
     "hard": {
-      "memory": "1Gi",
+      "memory": "512Mi",
       "cpu": "20",
       "pods": "3",
       "services": "5",
@@ -78,24 +119,18 @@ EOF
 .. Use `oc create` to apply the file you just created:
 +
 ----
-
 [root@master00-GUID ~]# oc create -f quota.json --namespace=resourcemanagement
-
 ----
 
 .. Verify that the quota was created:
 +
 ----
-
 [root@master00-GUID ~]# oc get -n resourcemanagement quota
-
 ----
 +
 ----
-
-NAME
-test-quota
-
+NAME         AGE
+test-quota   8s
 ----
 
 .. Verify limits and examine usage:
@@ -107,21 +142,18 @@ test-quota
 ----
 +
 ----
-
-Name:                   test-quota
-Resource                Used    Hard
---------                ----    ----
-cpu                     0       20
-memory                  0       1Gi
-pods                    0       3
-replicationcontrollers  0       5
-resourcequotas          1       1
-services                0       5
-
+Name:			test-quota
+Namespace:		resourcemanagement
+Resource		Used	Hard
+--------		----	----
+cpu			0	20
+memory			0	1Gi
+pods			0	3
+replicationcontrollers	0	5
+resourcequotas		1	1
+services		0	5
 ----
 +
-[NOTE]
-After you create the quota, it can take a few moments for it to be fully processed. If you get blank output from the `get` or `describe` commands, wait a few minutes and try again.
 
 . Go back into the web console and click the *Resource Management* project.
 
@@ -129,7 +161,11 @@ After you create the quota, it can take a few moments for it to be fully process
 
 === Apply Limit Ranges to Your Project
 
-For quotas to be effective, you need to create _limit ranges_. Limit ranges set the maximum, minimum, and default allocations of memory and CPU at both the pod and container level. Without default values for containers, projects with quotas will fail, because the deployer and other infrastructure pods are unbounded and therefore forbidden.
+For quotas to be effective, you need to create _limit ranges_. Limit ranges set
+ the maximum, minimum, and default allocations of memory and CPU at both the pod
+  and container level. Without default values for containers, projects with
+   quotas will fail, because the deployer and other infrastructure pods are
+    unbounded and therefore forbidden.
 
 . Create the limits file.
 +
@@ -178,7 +214,8 @@ EOF
 
 ----
 
-. On the master host, run `oc create` against the `limits.json` file and the `resourcemanagement` project.
+. On the master host, run `oc create` against the `limits.json` file and the
+ `resourcemanagement` project.
 +
 ----
 
@@ -195,42 +232,51 @@ EOF
 ----
 +
 ----
-
-Name:           limits
-Type            Resource        Min     Max     Default
-----            --------        ---     ---     ---
-Pod             memory          5Mi     750Mi   -
-Pod             cpu             10m     500m    -
-Container       cpu             10m     500m    100m
-Container       memory          5Mi     750Mi   100Mi
-
+Name:		limits
+Namespace:	resourcemanagement
+Type		Resource	Min	Max	Request	Limit	Limit/Request
+----		--------	---	---	-------	-----	-------------
+Pod		memory		5Mi	750Mi	-	-	-
+Pod		cpu		10m	500m	-	-	-
+Container	memory		5Mi	750Mi	100Mi	100Mi	-
+Container	cpu		10m	500m	100m	100m	-
 ----
 
 === Test Your Quotas
 
+NOTE: We are running commands as the linux users "andrew" and "root" in our lab
+ environment, in a real word scenario users, of course,  would issue "oc"
+  commands from their workstations and not from the OpenShift Master.
+
 . Authenticate to OpenShift Enterprise and choose your project:
 
-.. Connect to the OpenShift Enterprise master following the same steps you used previously.
+.. Connect to the OpenShift Enterprise master following the same steps you used
+ previously.
 .. When prompted, enter the following username and a password:
 ** *Username*: `andrew`
 ** *Password*: `r3dh4t1!`
 +
 ----
-
 [root@master00-GUID ~]# su - andrew
 [andrew@master00-GUID ~]$ oc login -u andrew --insecure-skip-tls-verify --server=https://master00-${guid}.oslab.opentlc.com:8443
-
 ----
+
+
 
 * You will see the following:
 +
 ----
-Password: (Enter r3dh4t1!)
 Login successful.
-Welcome to OpenShift! See 'oc help' to get started.
+
+Using project "resourcemanagement".
+Welcome! See 'oc help' to get started.
+
 ----
-
-
++
+NOTE: There are easier ways to create a deployment and its components,
+ in this lab you will review the manual, step by step, creation of each object.
+  The "oc new-app" command will be covered later in this training.
++
 . Create the `hello-pod.json` pod definition file.
 +
 ----
@@ -250,19 +296,14 @@ Welcome to OpenShift! See 'oc help' to get started.
     "containers": [
       {
         "name": "hello-openshift",
-        "image": "openshift/hello-openshift:v0.4.3",
+        "image": "openshift/hello-openshift:v1.0.6",
         "ports": [
           {
-            "hostPort": 36061,
             "containerPort": 8080,
             "protocol": "TCP"
           }
         ],
         "resources": {
-          "limits": {
-            "cpu": "10m",
-            "memory": "16Mi"
-          }
         },
         "terminationMessagePath": "/dev/termination-log",
         "imagePullPolicy": "IfNotPresent",
@@ -270,9 +311,6 @@ Welcome to OpenShift! See 'oc help' to get started.
         "securityContext": {
           "capabilities": {},
           "privileged": false
-        },
-        "nodeSelector": {
-          "region": "primary"
         }
       }
     ],
@@ -299,34 +337,64 @@ Here you create a simple pod without a _route_ or a _service_.
 pods/hello-openshift
 
 [andrew@master00-GUID ~]$ oc get pods
-NAME              READY     REASON    RESTARTS   AGE
-hello-openshift   1/1       Running   0          2m
+NAME              READY     STATUS    RESTARTS   AGE
+hello-openshift   1/1       Running   0          8s
+
 
 ----
 
 . Run `oc describe` to learn about your pod.
 +
 ----
-[andrew@master00-GUID ~]$  oc describe pod hello-openshift
-Name:                           hello-openshift
-Image(s):                       openshift/hello-openshift:v0.4.3
-Host:                           node01-f4fc.oslab.opentlc.com/192.168.0.201
-Labels:                         name=hello-openshift
-Status:                         Running
-IP:                             10.1.1.2
-Replication Controllers:        <none>
+Name:				hello-openshift
+Namespace:			resourcemanagement
+Image(s):			openshift/hello-openshift:v1.0.6
+Node:				node00-GUID.oslab.opentlc.com/192.168.0.200
+Start Time:			Thu, 26 Nov 2015 21:23:27 -0500
+Labels:				name=hello-openshift
+Status:				Running
+Reason:
+Message:
+IP:				10.1.2.2
+Replication Controllers:	<none>
 Containers:
   hello-openshift:
-    Image:              openshift/hello-openshift:v0.4.3
-    State:              Running
-      Started:          Thu, 02 Jul 2015 02:42:50 -0400
-    Ready:              True
-    Restart Count:      0
+    Container ID:	docker://e36321aabeb1cb64e3da054128818dedd8ec3891dbf8aa758c72a96fc1180eee
+    Image:		openshift/hello-openshift:v1.0.6
+    Image ID:		docker://bba2117915baabfd05932dc916306bae2c51d15848592c3018e7af0308dee519
+    QoS Tier:
+      cpu:	Guaranteed
+      memory:	Guaranteed
+    Limits:
+      cpu:	100m
+      memory:	100Mi
+    Requests:
+      cpu:		100m
+      memory:		100Mi
+    State:		Running
+      Started:		Thu, 26 Nov 2015 21:23:32 -0500
+    Ready:		True
+    Restart Count:	0
+    Environment Variables:
 Conditions:
-  Type          Status
-  Ready         True
+  Type		Status
+  Ready 	True
+Volumes:
+  default-token-rnadp:
+    Type:	Secret (a secret that should populate this volume)
+    SecretName:	default-token-rnadp
 Events:
-  .... "Successfully assigned hello-openshift to node01-f4fc.oslab.opentlc.com" ....
+  FirstSeen	LastSeen	Count	From					SubobjectPath		Reason		Message
+  ─────────	────────	─────	────					─────────────		──────		───────
+  4m		4m		1	{kubelet node00-GUID.oslab.opentlc.com}	implicitly required container POD	Pulled		Container image "openshift3/ose-pod:v3.1.0.4" already present on machine
+  4m		4m		1	{scheduler }							Scheduled	Successfully assigned hello-openshift to node00-GUID.oslab.opentlc.com
+  4m		4m		1	{kubelet node00-GUID.oslab.opentlc.com}	implicitly required container POD	Created		Created with docker id f19fdc8fb3c8
+  4m		4m		1	{kubelet node00-GUID.oslab.opentlc.com}	implicitly required container POD	Started		Started with docker id f19fdc8fb3c8
+  4m		4m		1	{kubelet node00-GUID.oslab.opentlc.com}	spec.containers{hello-openshift}	Pulled		Container image "openshift/hello-openshift:v1.0.6" already present on machine
+  4m		4m		1	{kubelet node00-GUID.oslab.opentlc.com}	spec.containers{hello-openshift}	Created		Created with docker id e36321aabeb1
+  4m		4m		1	{kubelet node00-GUID.oslab.opentlc.com}	spec.containers{hello-openshift}	Started		Started with docker id e36321aabeb1
+
+
 
 ----
 +
@@ -339,24 +407,27 @@ Events:
 
 ----
 
-* You will see the following:
+* You should see the following:
 +
 ----
 Hello OpenShift!
 ----
 
-. Delete this pod.
+. Delete all the objects in you "hello-pod.json" definition file, at this point
+this is only the pod.
 +
 ----
-
 [andrew@master00-GUID ~]$ oc delete -f hello-pod.json
-
 ----
++
+NOTE: You could have also used the "oc delete pod hello-podname" command to
+ delete the pod.
+
 
 . Create a new definition file that launches four `hello-openshift` pods.
 +
 ----
-[andrew@master00-GUID ~]$ cat << EOF > hello-many-pods.json
+[andrew@master00-GUID ~]$  cat << EOF > hello-many-pods.json
 {
   "metadata":{
     "name":"quota-pod-deployment-test"
@@ -378,7 +449,7 @@ Hello OpenShift!
         "containers": [
           {
             "name": "hello-openshift",
-            "image": "openshift/hello-openshift",
+            "image": "openshift/hello-openshift:v1.0.6",
             "ports": [
               {
                 "containerPort": 8080,
@@ -420,7 +491,7 @@ Hello OpenShift!
         "containers": [
           {
             "name": "hello-openshift",
-            "image": "openshift/hello-openshift",
+            "image": "openshift/hello-openshift:v1.0.6",
             "ports": [
               {
                 "containerPort": 8080,
@@ -462,7 +533,7 @@ Hello OpenShift!
         "containers": [
           {
             "name": "hello-openshift",
-            "image": "openshift/hello-openshift",
+            "image": "openshift/hello-openshift:v1.0.6",
             "ports": [
               {
                 "containerPort": 8080,
@@ -504,7 +575,7 @@ Hello OpenShift!
         "containers": [
           {
             "name": "hello-openshift",
-            "image": "openshift/hello-openshift",
+            "image": "openshift/hello-openshift:v1.0.6",
             "ports": [
               {
                 "containerPort": 8080,
@@ -534,8 +605,6 @@ Hello OpenShift!
     }
   ]
 }
-
-
 EOF
 
 ----
@@ -544,45 +613,45 @@ EOF
 +
 ----
 [andrew@master00-GUID ~]$ oc create -f hello-many-pods.json
-pods/hello-openshift-1
-pods/hello-openshift-2
-pods/hello-openshift-3
-Error from server: Pod "hello-openshift-4" is forbidden: Limited to 3 pods
+pod "hello-openshift-1" created
+pod "hello-openshift-2" created
+pod "hello-openshift-3" created
+Error from server: Pod "hello-openshift-4" is forbidden: limited to 3 pods
 ----
 +
 [NOTE]
 Because you created a quota, the fourth pod is not created.
 
-. Delete these objects.
+. Delete the object in the "hello-many-pods.json" definition file (the 4 pods).
 +
 ----
 [andrew@master00-GUID ~]$ oc delete  -f hello-many-pods.json
 ----
 
-. (Optional) Using what you have learned, create a new project, set the quota so that the pod value is `10`, and run `hello-many-pods.json` again.
+. (Optional) Using what you have learned, create a new project, set the quota so
+ that the pod value is `10`, and run `hello-many-pods.json` again.
 
-== Create Services and Routes
+== Lab: Create Services and Routes
 
-. As `root` on the master host, create a new `scvslab` project.
+* Lab: Create Services and Routes
+- Lab Scenario: In this lab we manually create Services and Routes for our pods
+and review the changes to a service when scaling an application.
+
+. As `andrew`, create a new project called `scvslab`.
 +
 ----
 
-[andrew@master00-GUID ~]$ exit
-[root@master00-GUID ~]# oadm new-project svcslab --display-name="Services Lab" \
-    --description="This is the project we use to learn about services" \
-    --admin=andrew  --node-selector='region=primary'
+[andrew@master00-GUID ~]$ oc new-project svcslab --display-name="Services Lab" \
+    --description="This is the project we use to learn about services"
 ----
-
-. Switch to user `andrew` and log back into OpenShift Enterprise.
-. Switch to the `svcslab` project.
+. You should see:
 +
 ----
-
-[root@master00-GUID ~]# su - andrew
-[andrew@master00-GUID ~]$ oc project svcslab
 Now using project "svcslab" on server "https://master00-GUID.oslab.opentlc.com:8443".
-
 ----
++
+TIP: You can use the command "oc project `projectname`" to switch between
+ projects
 
 . Create the `hello-service.json` file.
 +
@@ -593,7 +662,10 @@ Now using project "svcslab" on server "https://master00-GUID.oslab.opentlc.com:8
   "kind": "Service",
   "apiVersion": "v1",
   "metadata": {
-    "name": "hello-service"
+    "name": "hello-service",
+    "labels": {
+      "name": "hello-openshift"
+    }
   },
   "spec": {
     "selector": {
@@ -612,12 +684,12 @@ EOF
 
 ----
 +
-. Create and verify the pod.
+. Run the following commands to create the "hello-service" service:
 +
 ----
 
 [andrew@master00-GUID ~]$ oc create -f hello-service.json
-services/hello-service
+service "hello-service" created
 
 ----
 +
@@ -626,8 +698,9 @@ services/hello-service
 ----
 
 [andrew@master00-GUID ~]$ oc get services
-NAME            LABELS    SELECTOR               IP(S)          PORT(S)
-hello-service   <none>    name=hello-openshift   172.30.xxx.yyy   8888/TCP
+NAME            CLUSTER_IP       EXTERNAL_IP   PORT(S)    SELECTOR               AGE
+hello-service   172.30.xxx.yyy   <none>        8888/TCP   name=hello-openshift   20s
+
 
 ----
 +
@@ -637,49 +710,64 @@ hello-service   <none>    name=hello-openshift   172.30.xxx.yyy   8888/TCP
 +
 ----
 [andrew@master00-GUID ~]$ oc describe service hello-service
-Name:                   hello-service
-Labels:                 <none>
-Selector:               name=hello-openshift
-Type:                   ClusterIP
-IP:                     172.30.xxx.yyy
-Port:                   <unnamed>       8888/TCP
-Endpoints:              <none>
-Session Affinity:       None
+Name:			hello-service
+Namespace:		svcslab
+Labels:			name=hello-openshift
+Selector:		name=hello-openshift
+Type:			ClusterIP
+IP:			172.30.231.196
+Port:			<unnamed>	8888/TCP
+Endpoints:		<none>
+Session Affinity:	None
 No events.
+
 ----
 
-. Create more pods.
+. Create pods based on the "hello-many-pods.json" definition file.
 +
 ----
-
 [andrew@master00-GUID ~]$ oc create -f hello-many-pods.json
-
 ----
 
-. Check the service again.
+. Wait a few seconds and check the service again.
 
 * You can see that the pods that share the label `name=hello-openshift` are all listed.
 +
 ----
 
-[andrew@master00-GUID ~]$ oc get service
-NAME            LABELS    SELECTOR               IP(S)          PORT(S)
-hello-service   <none>    name=hello-openshift   172.30.5.240   8888/TCP
-
 [andrew@master00-GUID ~]$ oc describe service hello-service
-Name:                   hello-service
-Labels:                 <none>
-Selector:               name=hello-openshift
-Type:                   ClusterIP
-IP:                     172.30.5.240
-Port:                   <unnamed>       8888/TCP
-Endpoints:              10.1.0.4:8080,10.1.1.5:8080,10.1.1.7:8080
-Session Affinity:       None
+Name:			hello-service
+Namespace:		svcslab
+Labels:			name=hello-openshift
+Selector:		name=hello-openshift
+Type:			ClusterIP
+IP:			172.30.231.196
+Port:			<unnamed>	8888/TCP
+Endpoints:		<none>
+Session Affinity:	None
 No events.
+
+[andrew@master00-GUID ~]$  oc create -f hello-many-pods.json
+pod "hello-openshift-1" created
+pod "hello-openshift-2" created
+pod "hello-openshift-3" created
+pod "hello-openshift-4" created
+[andrew@master00-GUID ~]$  oc describe service hello-service
+Name:			hello-service
+Namespace:		svcslab
+Labels:			name=hello-openshift
+Selector:		name=hello-openshift
+Type:			ClusterIP
+IP:			172.30.231.196
+Port:			<unnamed>	8888/TCP
+Endpoints:		10.1.1.2:8080,10.1.1.3:8080,10.1.2.5:8080 + 1 more...
+Session Affinity:	None
+No events.
+
 
 ----
 
-. Test your service.
+. Test your that your service is working:
 +
 ----
 
@@ -689,7 +777,8 @@ Hello OpenShift!
 
 ----
 
-. Create the route.
+. Expose you "service" using the "oc expose" command to create a "route" for
+ your application.
 +
 ----
 [andrew@master00-GUID ~]$ oc expose service/hello-service --hostname=hello2-openshift.cloudapps-${guid}.oslab.opentlc.com
@@ -713,43 +802,92 @@ Hello OpenShift!
 
 ----
 
-== Learn About Container Components
+== Lab: Exploring inside containers
 
-You use `oc exec` to look into a container. Here look at your _router_ and _registry_.
 
-=== View the Route Container
+* Lab: Exploring inside the containers
+- Lab Scenario : In this lab, you will learn to run commands within active pods
+ and explore the "docker-registry" and "Default Router" containers.
 
-. Make sure you are in the `svcslab` project.
-. As user `andrew`, run the following:
+=== Explore the Route Container
+
+.Create applications to use as examples
+
+. As `andrew`, create a new project called `explore-example`.
 +
 ----
-[andrew@master00-d9b2 ~]$ oc new-app https://github.com/openshift/simple-openshift-sinatra-STI.git -l "todelete=yes" -o yaml |  sed 's/replicas: 1/replicas: 3/g' | oc create -f -
-imagestreams/simple-openshift-sinatra-sti
-buildconfigs/simple-openshift-sinatra-sti
-deploymentconfigs/simple-openshift-sinatra-sti
-services/simple-openshift-sinatra
 
-[andrew@master00-d9b2 ~]$ oc expose service simple-openshift-sinatra --hostname=whatever.com
+[andrew@master00-GUID ~]$ oc new-project explore-example --display-name="Explore Example" \
+    --description="This is the project we use to learn about connecting to pods"
 
-----
-
-
-. As `root`, connect to the router by finding out its name and running `oc exec`.
+. Using the same image as before, use the "oc new-app" command to create a
+ deployment of "hello-openshift"
 +
 ----
-[root@master00-d9b2 ~]# oc get pods
+[andrew@master00-GUID ~]$ oc new-app --docker-image=openshift/hello-openshift:v1.0.6 -l "todelete=yes"
+--> Found Docker image 7ce9d7b (10 weeks old) from Docker Hub for "openshift/hello-openshift:v1.0.6"
+    * An image stream will be created as "hello-openshift:v1.0.6" that will track this image
+    * This image will be deployed in deployment config "hello-openshift"
+    * Ports 8080/tcp, 8888/tcp will be load balanced by service "hello-openshift"
+--> Creating resources with label todelete=yes ...
+    ImageStream "hello-openshift" created
+    DeploymentConfig "hello-openshift" created
+    Service "hello-openshift" created
+--> Success
+    Run 'oc status' to view your app.
+----
+. Check to see that a Pod and the Service were created
++
+----
+[andrew@master00-GUID ~]$ oc get service
+NAME              CLUSTER_IP      EXTERNAL_IP   PORT(S)             SELECTOR                                        AGE
+hello-openshift   172.30.60.163   <none>        8080/TCP,8888/TCP   deploymentconfig=hello-openshift,todelete=yes   2m
+[andrew@master00-GUID ~]$ oc get pods
+NAME                      READY     STATUS    RESTARTS   AGE
+hello-openshift-1-g3xow   1/1       Running   0          2m
+
+----
+. Expose the `Service` and create a `Route` for the application:
+----
+[andrew@master00-GUID ~]$ oc expose service hello-openshift --hostname=explore.cloudapps-${guid}.oslab.opentlc.com
+----
+
+. In a later section of this lab, you will explore the "docker-registry"
+ container, in order to save time, we will start an S2I build now that will push
+  an image into the registry.
++
+----
+[andrew@master00-GUID ~]$ oc new-app https://github.com/openshift/sinatra-example -l "todelete=yes"
+----
+
+.Connect to the default router container
+
+. As `root`, execute the "bash" shell inside the router by using the `oc exec`
+ command and the default router's pod name using one of the two options:
++
+----
+[root@master00-GUID ~]# oc get pods
 NAME                      READY     REASON    RESTARTS   AGE
 docker-registry-2-snarn   1/1       Running   0          17h
 trainingrouter-1-jm5zk    1/1       Running   0          18h
-[root@master00-d9b2 ~]# oc exec -ti -p trainingrouter-1-jm5zk /bin/bash
-bash-4.2$
+[root@master00-GUID ~]# oc exec -ti -p trainingrouter-1-jm5zk /bin/bash
 
 #Another option is:
-[root@master00-d9b2 ~]# oc exec -ti -p `oc get pods |  awk '/route/ { print $1; }'` /bin/bash
-bash-4.2$
+[root@master00-GUID ~]#  oc exec -ti `oc get pods |  awk '/route/ { print $1; }'` "/bin/bash"
 ----
 
-. After you are running `bash` inside the container, do the following:
+. You should see the following prompt:
++
+----
+[root@infranode00-GUID conf]#
+----
++
+NOTE: You'll see that the prompt suggests that you are using the *infranode*
+ host. This is due to the fact that the router container uses the host's IP, and
+ the hostnames gets resolved that way.
+
+
+. At this point you are running "bash" inside the container, do the following:
 .. Run `id`.
 .. Run `pwd` and `ls`. Note the directory you are now in.
 .. Run `grep SERVERID *`.
@@ -757,56 +895,127 @@ bash-4.2$
 +
 ----
 
-bash-4.2$ id
-uid=1000010000 gid=0(root)
+.. Run the *id* command
+.. Run *pwd* and *ls*, what directory are you in?
+.. Run *cat haproxy.config* to see your empty configuration file.
++
+----
 
-bash-4.2$ pwd
+[root@infranode00-GUID conf]# id
+uid=0(root) gid=0(root) groups=0(root)
+
+[root@infranode00-GUID conf]# pwd
 /var/lib/haproxy/conf
 
-bash-4.2$ ls
-default_pub_keys.pem     os_edge_http_be.map  os_sni_passthrough.map
-haproxy-config.template  os_http_be.map       os_tcp_be.map
-haproxy.config           os_reencrypt.map
+[root@infranode00-GUID conf]# ls
+default_pub_keys.pem	 os_edge_http_be.map	    os_reencrypt.map
+error-page-503.html	 os_edge_http_expose.map    os_sni_passthrough.map
+haproxy-config.template  os_edge_http_redirect.map  os_tcp_be.map
+haproxy.config		 os_http_be.map
 
-bash-4.2$ grep SERVERID *
-haproxy.config:    cookie OPENSHIFT_default-docker-registry_SERVERID insert indirect nocache httponly
-haproxy.config:    cookie OPENSHIFT_resourcemanagement-hello-service_SERVERID insert indirect nocache httponly
-haproxy.config:    cookie OPENSHIFT_svcslab-simple-openshift-sinatra_SERVERID insert indirect nocache httponly
+[root@infranode00-GUID conf]#  grep SERVERID haproxy.config
+    cookie OPENSHIFT_explore-example_hello-openshift_SERVERID insert indirect nocache httponly
+    cookie OPENSHIFT_svcslab_hello-service_SERVERID insert indirect nocache httponly
 
-bash-4.2$ cat haproxy.config
+[root@infranode00-GUID conf]# ps -ef
+UID         PID   PPID  C STIME TTY          TIME CMD
+root          1      0  0 02:07 ?        00:00:14 /usr/bin/openshift-router
+root        243      0  0 22:08 ?        00:00:00 /bin/bash
+root        319      1  0 22:11 ?        00:00:00 /usr/sbin/haproxy -f /var/lib/
+root        342    243  0 22:16 ?        00:00:00 ps -ef
 
+
+[root@infranode00-GUID conf]# cat haproxy.config
+< Examine the output>
 ----
 
 * You will see output similar to that shown below. Note the following:
 
 ** The route is the one you created in the previous lab.
 ** The route points to the endpoints directly.
-** The `svcslab` project route you created exists, but probably will not have any endpoints until the build is complete.
+
 +
 ----
-backend be_http_resourcemanagement-hello-service
+backend be_http_explore-example_hello-openshift
 
   mode http
+  option redispatch
+  option forwardfor
   balance leastconn
   timeout check 5000ms
+  http-request set-header X-Forwarded-Host %[req.hdr(host)]
+  http-request set-header X-Forwarded-Port %[dst_port]
+  http-request set-header X-Forwarded-Proto https if { ssl_fc }
 
-    cookie OPENSHIFT_resourcemanagement-hello-service_SERVERID insert indirect n
-ocache httponly
+    cookie OPENSHIFT_explore-example_hello-openshift_SERVERID insert indirect nocache httponly
+    http-request set-header X-Forwarded-Proto http
 
-  server 10.1.2.2:8080 10.1.2.2:8080 check inter 5000ms cookie 10.1.2.2:8080
-  server 10.1.2.3:8080 10.1.2.3:8080 check inter 5000ms cookie 10.1.2.3:8080
-  server 10.1.2.4:8080 10.1.2.4:8080 check inter 5000ms cookie 10.1.2.4:8080
+  http-request set-header Forwarded for=%[src],host=%[req.hdr(host)],proto=%[req.hdr(X-Forwarded-Proto)]
+
+  server 10.1.1.7:8080 10.1.1.7:8080 check inter 5000ms cookie 10.1.1.7:8080
+
 ...
 ...
 
 ----
 
-. Make changes to your service or route by adding or removing pods or creating another route.
-. View the changes in the `haproxy.config` file.
+. As *andrew* scale the "hello-openshift" to have 5 replicas of the
+ "hello-openshift" pod :
++
+----
+[andrew@master00-GUID ~]$ oc get deploymentconfig # or oc get dc
+NAME              TRIGGERS                    LATEST
+hello-openshift   ConfigChange, ImageChange   1
 
-=== View the Registry Container
+[andrew@master00-GUID ~]$ oc scale dc hello-openshift --replicas=5
+deploymentconfig "hello-openshift" scaled
 
-Before you start looking at the registry container, make sure your build has completed.
+----
+
+. Go back into the router container and look at the "haproxy.config" file again.
++
+----
+[root@infranode00-GUID conf]# grep -A 25 backend.*explore-example_hello-openshift haproxy.config
+
+backend be_http_explore-example_hello-openshift
+
+  mode http
+  option redispatch
+  option forwardfor
+  balance leastconn
+  timeout check 5000ms
+  http-request set-header X-Forwarded-Host %[req.hdr(host)]
+  http-request set-header X-Forwarded-Port %[dst_port]
+  http-request set-header X-Forwarded-Proto https if { ssl_fc }
+
+    cookie OPENSHIFT_explore-example_hello-openshift_SERVERID insert indirect nocache httponly
+    http-request set-header X-Forwarded-Proto http
+
+  http-request set-header Forwarded for=%[src],host=%[req.hdr(host)],proto=%[req.hdr(X-Forwarded-Proto)]
+
+  server 10.1.1.7:8080 10.1.1.7:8080 check inter 5000ms cookie 10.1.1.7:8080
+
+  server 10.1.1.8:8080 10.1.1.8:8080 check inter 5000ms cookie 10.1.1.8:8080
+
+  server 10.1.1.9:8080 10.1.1.9:8080 check inter 5000ms cookie 10.1.1.9:8080
+
+  server 10.1.2.10:8080 10.1.2.10:8080 check inter 5000ms cookie 10.1.2.10:8080
+
+  server 10.1.2.11:8080 10.1.2.11:8080 check inter 5000ms cookie 10.1.2.11:8080
+
+
+----
+
+. You can see that all of your pods are listed within the HAproxy configuration.
+
+NOTE: Remember, the router will proxy connections to the pods directly and not
+ through the service, the router uses the service only to get the list of pod
+  endpoints (IPs).
+
+=== Explore the Registry Container
+
+Before you start looking at the registry container, make sure your build from
+ earlier has completed.
 
 . As user `andrew`, run the following to see the build.
 +
@@ -814,19 +1023,23 @@ Before you start looking at the registry container, make sure your build has com
 This takes a while on the lab environment hardware. If the build has not completed, you can take a quick break here.
 +
 ----
-[andrew@master00-d9b2 ~]$ oc build-logs simple-openshift-sinatra-sti-1
+[andrew@master00-GUID ~]$ oc logs builds/sinatra-example-1
 ...
 ...
 ...
-I0810 21:50:39.236169       1 sti.go:134] Pushing 172.30.236.109:5000/svcslab/simple-openshift-sinatra-sti image ...
-I0810 21:53:13.659295       1 sti.go:138] Successfully pushed 172.30.236.109:5000/svcslab/simple-openshift-sinatra-sti
-
+I1120 02:16:05.875303       1 sti.go:298] Successfully built 172.30.41.32:5000/svcslab/sinatra-example:latest
+I1120 02:16:06.512944       1 cleanup.go:23] Removing temporary directory /tmp/s2i-build079968192
+I1120 02:16:06.513477       1 fs.go:99] Removing directory '/tmp/s2i-build079968192'
+I1120 02:16:06.546932       1 sti.go:213] Using provided push secret for pushing 172.30.41.32:5000/svcslab/sinatra-example:latest image
+I1120 02:16:06.547064       1 sti.go:217] Pushing 172.30.41.32:5000/svcslab/sinatra-example:latest image ...
+I1120 02:19:58.237018       1 sti.go:233] Successfully pushed 172.30.41.32:5000/svcslab/sinatra-example:latest
 ----
 
-. After the build has completed, as `root`, run the following:
-+
+. As `root`, execute the "bash" shell inside the registry container by using the
+ `oc exec`  command and the docker-registry pod name:
+++
 ----
-[root@master00-d9b2 ~]# oc exec -ti -p `oc get pods |  awk '/registry/ { print $1; }'` /bin/bash
+[root@master00-GUID ~]#  oc exec -ti  `oc get pods |  awk '/registry/ { print $1; }'` /bin/bash
 
 ----
 
@@ -837,12 +1050,12 @@ I0810 21:53:13.659295       1 sti.go:138] Successfully pushed 172.30.236.109:500
 +
 ----
 bash-4.2$ id
-uid=1000010000 gid=0(root)
+uid=1000000000 gid=0(root) groups=0(root)
 bash-4.2$ pwd
 /
 bash-4.2$ ls
-bin   config.yml  etc   lib    media  opt   registry  run   srv  tmp  var
-boot  dev         home  lib64  mnt    proc  root      sbin  sys  usr
+bin   config.yml  etc	lib    media  opt   registry  run   srv  tmp  var
+boot  dev	  home	lib64  mnt    proc  root      sbin  sys  usr
 bash-4.2$ cat config.yml
 version: 0.1
 log:
@@ -860,62 +1073,51 @@ auth:
 middleware:
   repository:
     - name: openshift
+bash-4.2$
+
 
 ----
 
 . Look at the repositories and images available.
 +
 ----
-bash-4.2$ cd /registry/docker/registry/v2/repositories
+bash-4.2$  cd /registry/docker/registry/v2/repositories
 bash-4.2$ ls
-svcslab
-bash-4.2$ ls svcslab/
-simple-openshift-sinatra-sti
-bash-4.2$ ls svcslab/simple-openshift-sinatra-sti/
-_layers  _manifests  _uploads
-bash-4.2$ ls svcslab/simple-openshift-sinatra-sti/_layers/
+explore-example  svcslab
+bash-4.2$ ls explore-example/sinatra-example/_layers/
 sha256
-bash-4.2$ ls svcslab/simple-openshift-sinatra-sti/_layers/sha256/
-39886d6f6998b59a31e853bf1fcc642e40a711d67248904b23647afcb2dae085
-c0e305bb0b350a4efcaeb33e1f99efe5235728747d3695b16b111fff7fb40e74
-f1689e5704ab6738da07deea58081b784b9e43675063d1e98402ef3c745cd631
-/var/export/registry-storage/docker/registry/v2/blobs
-----
-. To see the size of the "blobs" that the layers are saved as:
-+
-[NOTE]
-The _blob file_ name is the same as your layer _link name_.
-+
-----
-bash-4.2$ cd /registry/docker/registry/v2/blobs/sha256/
-bash-4.2$ du -sh *
-54M     39
-4.0K    7b
-1.3M    c0
-81M     f1
-bash-4.2$ ls f1
-f1689e5704ab6738da07deea58081b784b9e43675063d1e98402ef3c745cd631
+bash-4.2$ ls explore-example/sinatra-example/_layers/sha256/
+50c4d0284685934ca2920fd6e056318cac1187773e8a239dd02d8f248a59d382
+50de3644a809b46b344074ca0a691524eb06af3af6a07d25e90c25b50a00980f
+9320560b540438b82b1bb1a51d035490812ad9298b945c041da3d0a4b646abf6
+e1e04a46f510bf9b3fb68e6cf3fc027100cec875a7ff02e6d0da5206fa7f6b8c
 
 ----
+
 +
 [NOTE]
-If you configured persistent storage for your registry, you could see the same in `/var/export/registry-storage/docker/registry/v2/`.
+If you configured persistent storage for your registry, you could see the same
+ in `/var/export/registry-storage/docker/registry/v2/`.
 
 . As user `andrew`, look at one of the pods you started earlier in this lab.
 +
 ----
-[andrew@master00-d9b2 ~]$ oc get pods
-NAME                                   READY     REASON       RESTARTS   AGE
-simple-openshift-sinatra-sti-1-build   0/1       ExitCode:0   0          32m
-simple-openshift-sinatra-sti-2-2ppvr   1/1       Running      0          29m
-simple-openshift-sinatra-sti-2-ehdke   1/1       Running      0          29m
-simple-openshift-sinatra-sti-2-qesjy   1/1       Running      0          29m
+[andrew@master00-GUID ~]$ oc get pods
+NAME                      READY     STATUS      RESTARTS   AGE
+hello-openshift-1-1ecah   1/1       Running     0          27m
+hello-openshift-1-b8o3d   1/1       Running     0          27m
+hello-openshift-1-g3xow   1/1       Running     0          45m
+hello-openshift-1-rbfri   1/1       Running     0          27m
+hello-openshift-1-yxidw   1/1       Running     0          27m
+sinatra-example-1-build   0/1       Completed   0          11m
+sinatra-example-1-yxyod   1/1       Running     0          8m
+
 ----
 
 . Connect to the container.
 +
 ----
-[andrew@master00-d9b2 ~]$  oc exec -ti -p  simple-openshift-sinatra-sti-2-ehdke "/bin/bash"
+[andrew@master00-GUID ~]$ oc exec -ti sinatra-example-1-yxyod "/bin/bash"
 bash-4.2$
 ----
 
@@ -927,19 +1129,21 @@ bash-4.2$
 ----
 
 bash-4.2$ id
-uid=1000040000 gid=0(root)
-
-bash-4.2$ ls
-Gemfile  Gemfile.lock  app.rb  bundle  config.ru
+uid=1000050000 gid=0(root) groups=0(root)
 
 bash-4.2$ pwd
-/opt/openshift/src
+/opt/app-root/src
+
+bash-4.2$ ls
+Gemfile       README.md  config.ru	  example-mustache	 public
+Gemfile.lock  app.rb	 example-model	  example-views		 tmp
+README	      bundle	 example-modular  example-views-modular
 
 bash-4.2$ ps -ef
 UID         PID   PPID  C STIME TTY          TIME CMD
-1000040+      1      0  0 21:53 ?        00:00:01 ruby /opt/openshift/src/bundle
-1000040+     34      0  0 22:21 ?        00:00:00 /bin/bash
-1000040+     62     34  0 22:21 ?        00:00:00 ps -ef
+1000050+      1      0  0 22:41 ?        00:00:01 ruby /opt/app-root/src/bundle/
+1000050+     33      0  0 22:51 ?        00:00:00 /bin/bash
+1000050+     62     33  0 22:51 ?        00:00:00 ps -ef
 
 ----
 +
@@ -948,9 +1152,11 @@ Your pod names and output will differ slightly.
 
 
 
-== Create a Persistent Volume for the Registry
+== Lab: Create a Persistent Volume for the Registry
 
-In this lab, you create a persistent volume for your registry, attach it to the `deploymentConfiguration`, and redeploy the registry.
+* Lab: Create a Persistent Volume for the Registry
+- Lab Scenario: In this lab, you create a persistent volume for your registry,
+ attach it to the `deploymentConfiguration`, and redeploy the registry.
 
 === Create an NFS Export for the Registry
 
@@ -976,7 +1182,7 @@ In this lab, you create a persistent volume for your registry, attach it to the 
 ----
 
 
-. On the master host, create a persistent volume definition file named `registry-volume.json`.
+. On the *master* host, create a persistent volume definition file named `registry-volume.json`.
 +
 [source,json]
 ----
@@ -1003,23 +1209,28 @@ EOF
 
 ----
 
-. In the `default` project, create the `registry-storage1 persistent volume from the definition file.
+. In the `default` project, create the `registry-storage` persistent volume from
+ the definition file.
 +
 [NOTE]
-You are creating the persistent volume in the `default` project, because that is the project in which the registry runs.
+You are creating the persistent volume in the `default` project, because that is
+ the project in which the registry runs.
 +
 ----
 [root@master00-GUID ~]# oc create -f registry-volume.json -n default
-persistentvolumes/registry-storage
+persistentvolume "registry-storage" created
 ----
 
 . View the persistent volume you created.
 +
 ----
 [root@master00-GUID ~]# oc get pv
-NAME               LABELS    CAPACITY      ACCESSMODES   STATUS      CLAIM     REASON
-registry-storage   <none>    16106127360   RWX           Available
-----
+NAME               LABELS    CAPACITY   ACCESSMODES   STATUS      CLAIM     REASON    AGE
+pv21               <none>    5Gi        RWO           Available                       20h
+pv22               <none>    5Gi        RWO           Available                       20h
+pv23               <none>    5Gi        RWO           Available                       20h
+registry-storage   <none>    15Gi       RWX           Available                       43s
+^^^^^^^^^^^^^^^^
 
 . Create a `registry-volume-claim.json` claim definition file to claim your volume.
 +
@@ -1050,15 +1261,18 @@ EOF
 +
 ----
 [root@master00-GUID ~]# oc create -f registry-volume-claim.json -n default
-persistentvolumeclaims/registry-claim
+persistentvolumeclaim "registry-claim" created
 ----
 
 . View the persistent volume you created. Note that the status is `Bound`.
 +
 ----
 [root@master00-GUID ~]# oc get pv
-NAME               LABELS    CAPACITY      ACCESSMODES   STATUS    CLAIM                    REASON
-registry-storage   <none>    16106127360   RWX           Bound     default/registry-claim
+NAME               LABELS    CAPACITY   ACCESSMODES   STATUS      CLAIM                    REASON    AGE
+pv21               <none>    5Gi        RWO           Available                                      20h
+pv22               <none>    5Gi        RWO           Available                                      20h
+pv23               <none>    5Gi        RWO           Available                                      20h
+registry-storage   <none>    15Gi       RWX           Bound       default/registry-claim             2m
 
 ----
 
@@ -1066,8 +1280,9 @@ registry-storage   <none>    16106127360   RWX           Bound     default/regis
 +
 ----
 [root@master00-GUID ~]# oc get pvc
-NAME             LABELS    STATUS    VOLUME
-registry-claim   map[]     Bound     registry-storage
+NAME             LABELS    STATUS    VOLUME             CAPACITY   ACCESSMODES   AGE
+registry-claim   <none>    Bound     registry-storage   15Gi       RWX           43s
+
 ----
 
 === Attach the Persistent Volume to the Registry
@@ -1076,32 +1291,117 @@ registry-claim   map[]     Bound     registry-storage
 +
 ----
 [root@master00-GUID ~]# oc get dc
-NAME              TRIGGERS       LATEST VERSION
+NAME              TRIGGERS       LATEST
 docker-registry   ConfigChange   1
 trainingrouter    ConfigChange   1
 
+
 ----
-. (Optional) You can use `oc volume` to modify the `DeploymentConfiguration`.
-. Add the `registry-storage` volume to the registry's `DeploymentConfiguration`. This triggers a redeployment of the registry.
+. Use `oc volume` to modify the `DeploymentConfiguration`.
+. Add the `registry-storage` volume to the registry's `DeploymentConfiguration`.
+ This triggers a redeployment of the registry.
 +
 ----
-oc volume dc/docker-registry --add --overwrite -t persistentVolumeClaim \
+[root@master00-GUID ~]# oc volume dc/docker-registry --add --overwrite -t persistentVolumeClaim \
 --claim-name=registry-claim --name=registry-storage
 ----
 
-. After you create an S2I build, check that the registry is using the `registry-storage` volume.
+. After changing the DC (DeploymentConfiguration), a new deployment of the
+ docker-registry pod will start, run "oc get pods":
++
+----
+[root@master00-GUID ~]# oc get pods
+NAME                      READY     STATUS    RESTARTS   AGE
+docker-registry-2-d9niy   1/1       Running   0          31s
+trainingrouter-1-xcz9o    1/1       Running   0          21h
+----
+
+NOTE: Because the first docker-registry container was deleted all the images it
+ stored are deleted with it. Now that our Registry is using a persistent volume
+  images would be saved even if the docker-registry pod is deleted/replaced.
+
+. As *andrew*, start an application based on the
+ "https://github.com/openshift/sti-php" repository that would require an S2I
+  Build:
++
+----
+[andrew@master00-GUID ~]$ oc new-app openshift/php~https://github.com/openshift/sti-php -l "todelete=yes"
+--> Found image 355eabc (2 weeks old) in image stream "php in project openshift" under tag :latest for "openshift/php"
+    * A source build using source code from https://github.com/openshift/sti-php will be created
+      * The resulting image will be pushed to image stream "sti-php:latest"
+    * This image will be deployed in deployment config "sti-php"
+    * Port 8080/tcp will be load balanced by service "sti-php"
+--> Creating resources with label todelete=yes ...
+    ImageStream "sti-php" created
+    BuildConfig "sti-php" created
+    DeploymentConfig "sti-php" created
+    Service "sti-php" created
+--> Success
+    Build scheduled for "sti-php" - use the logs command to track its progress.
+    Run 'oc status' to view your app.
+----
+
+. Check the build logs to see that the build has completed and was pushed into
+ the registry:
++
+----
+[andrew@master00-GUID ~]$ oc logs -f builds/sti-php-1
+I1126 23:24:28.604316       1 sti.go:298] Successfully built 172.30.42.118:5000/default/sti-php:latest
+I1126 23:24:28.716843       1 cleanup.go:23] Removing temporary directory /tmp/s2i-build491090638
+I1126 23:24:28.717016       1 fs.go:99] Removing directory '/tmp/s2i-build491090638'
+I1126 23:24:28.740315       1 sti.go:213] Using provided push secret for pushing 172.30.42.118:5000/default/sti-php:latest image
+I1126 23:24:28.740431       1 sti.go:217] Pushing 172.30.42.118:5000/default/sti-php:latest image ...
+I1126 23:25:51.808905       1 sti.go:233] Successfully pushed 172.30.42.118:5000/default/sti-php:latest
+----
+TIP: The "-f" flag sets "oc logs" to "follow" the log. similar to "tail -f"
+
+. On our NFS server, "oselab" host, check that the registry is using the
+ `registry-storage` volume.
 +
 ----
 
-[root@oselab-GUID ~]# find /var/export/pvs/registry-storage
-/var/export/registry-storage/docker/registry/v2/repositories
-/var/export/registry-storage/docker/registry/v2/repositories/svcslab
-/var/export/registry-storage/docker/registry/v2/repositories/svcslab/simple-openshift-sinatra-sti
-/var/export/registry-storage/docker/registry/v2/repositories/svcslab/simple-openshift-sinatra-sti/_uploads
-/var/export/registry-storage/docker/registry/v2/repositories/svcslab/simple-openshift-sinatra-sti/_layers
-/var/export/registry-storage/docker/registry/v2/repositories/svcslab/simple-openshift-sinatra-sti/_layers/sha256
-...
-...
-...
+[root@oselab-GUID ~]# find /var/export/pvs/registry-storage | grep sti-php
+... Omitted output ...
+... Omitted output ...
+/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_uploads
+/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_layers
+/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_layers/sha256
+/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_layers/sha256/812413b2241fa8ff63cb2747bf62e516ff4dc953b1332014faa551655c0ed608
+/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_layers/sha256/812413b2241fa8ff63cb2747bf62e516ff4dc953b1332014faa551655c0ed608/link
+/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_layers/sha256/b18d4a50300b72f417496313920eff6d4bad00c0f1446686e3d5f157d255d0d2
+/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_layers/sha256/b18d4a50300b72f417496313920eff6d4bad00c0f1446686e3d5f157d255d0d2/link
+/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_layers/sha256/50c4d0284685934ca2920fd6e056318cac1187773e8a239dd02d8f248a59d382
+/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_layers/sha256/50c4d0284685934ca2920fd6e056318cac1187773e8a239dd02d8f248a59d382/link
+/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_layers/sha256/9320560b540438b82b1bb1a51d035490812ad9298b945c041da3d0a4b646abf6
+/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_layers/sha256/9320560b540438b82b1bb1a51d035490812ad9298b945c041da3d0a4b646abf6/link
+/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_manifests
+/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_manifests/revisions
+/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_manifests/revisions/sha256
+/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_manifests/revisions/sha256/5b8677660e3f1959a0eb44f1ac87200329c721ff4acd8c59f78a8d0afa5dd425
+/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_manifests/revisions/sha256/5b8677660e3f1959a0eb44f1ac87200329c721ff4acd8c59f78a8d0afa5dd425/signatures
+/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_manifests/revisions/sha256/5b8677660e3f1959a0eb44f1ac87200329c721ff4acd8c59f78a8d0afa5dd425/signatures/sha256
+/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_manifests/revisions/sha256/5b8677660e3f1959a0eb44f1ac87200329c721ff4acd8c59f78a8d0afa5dd425/signatures/sha256/561fd3acac303de8a9c4de202a2e3169bb47f5c03586358d13d374832e983df5
+/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_manifests/revisions/sha256/5b8677660e3f1959a0eb44f1ac87200329c721ff4acd8c59f78a8d0afa5dd425/signatures/sha256/561fd3acac303de8a9c4de202a2e3169bb47f5c03586358d13d374832e983df5/link
+... Omitted output ...
+/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/53
+/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/53/53aca6d1d55ccf8f9074725396099dc9592641a2ae233cb8b1b2de2c800410cb
+/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/53/53aca6d1d55ccf8f9074725396099dc9592641a2ae233cb8b1b2de2c800410cb/data
+/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/b1
+/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/b1/b18d4a50300b72f417496313920eff6d4bad00c0f1446686e3d5f157d255d0d2
+/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/b1/b18d4a50300b72f417496313920eff6d4bad00c0f1446686e3d5f157d255d0d2/data
+/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/50
+/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/50/50c4d0284685934ca2920fd6e056318cac1187773e8a239dd02d8f248a59d382
+/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/50/50c4d0284685934ca2920fd6e056318cac1187773e8a239dd02d8f248a59d382/data
+/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/93
+/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/93/9320560b540438b82b1bb1a51d035490812ad9298b945c041da3d0a4b646abf6
+/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/93/9320560b540438b82b1bb1a51d035490812ad9298b945c041da3d0a4b646abf6/data
+/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/93/931b7ebd6c92756356ae4174a02b845480c5c54884875533ffa4cbef3872199a
+/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/93/931b7ebd6c92756356ae4174a02b845480c5c54884875533ffa4cbef3872199a/data
+/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/81
+/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/81/812413b2241fa8ff63cb2747bf62e516ff4dc953b1332014faa551655c0ed608
+/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/81/812413b2241fa8ff63cb2747bf62e516ff4dc953b1332014faa551655c0ed608/data
+/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/56
+/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/56/561fd3acac303de8a9c4de202a2e3169bb47f5c03586358d13d374832e983df5
+/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/56/561fd3acac303de8a9c4de202a2e3169bb47f5c03586358d13d374832e983df5/data
 
 ----

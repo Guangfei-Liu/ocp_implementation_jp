@@ -11,7 +11,8 @@
 * Container typically provides single service (often called a _microservice_)
 ** Web server or database
 * Can use containers for arbitrary workloads
-* More info on Linux container technologies: https://access.redhat.com/articles/1353593
+* More info on Linux container technologies:
+ https://access.redhat.com/articles/1353593
 
 ifdef::showscript[]
 

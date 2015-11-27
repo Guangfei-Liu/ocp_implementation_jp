@@ -1,7 +1,5 @@
 == Resource Types
 
-
-
 * Working with applications means manipulating OpenShift resources in background:
 ** Create
 ** Destroy

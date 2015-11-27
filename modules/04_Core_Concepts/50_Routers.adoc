@@ -10,10 +10,11 @@
 * Routers provide external hostname mapping and load-balancing to applications
  over protocols that pass distinguishing information directly to router
 
-* In OpenShift Enterprise 3.0.0.0, `Default Router` supports following protocols
- only:
-** HTTP
-** HTTPS
+* Currently, OpenShift Enterprise Routers support the following protocols:
+- HTTP
+- HTTPS (with SNI)
+- WebSockets
+- TLS with SNI
 
 ifdef::showscript[]
 
@@ -27,7 +28,12 @@ OpenShift Enterprise routers provide external hostname mapping and
  load-balancing to applications over protocols that pass distinguishing
   information directly to the router.
 
-Currently, in OpenShift Enterprise 3.0.0.0, OpenShift Enterprise's
- `Default Router` supports only HTTP and HTTPS.
+* Currently, OpenShift Enterprise Routers support the following protocols:
+- HTTP
+- HTTPS (with SNI)
+- WebSockets
+- TLS with SNI
+
+
 
 endif::showscript[]

@@ -14,8 +14,10 @@
 
 * Scenario:
 ** Pod consisting of `nginx` Docker container, with `role=webserver` label
-** Pod consisting of `Apache httpd` Docker container, also with `role=webserver` label
-** Service or replication controller defined to use pods with `role=webserver` label treats both pods as part of same group
+** Pod consisting of `Apache httpd` Docker container, also with `role=webserver`
+ label
+** Service or replication controller defined to use pods with `role=webserver`
+ label treats both pods as part of same group
 
 * Example: To remove all components with the label `app=mytest`:
 +

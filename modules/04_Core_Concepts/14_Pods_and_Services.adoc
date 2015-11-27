@@ -4,7 +4,7 @@
 .Pods Definition File/Manifest: Container
 [source,yaml]
 ----
-     image: openshift3/docker-registry:v0.6.2 <1>
+     image: openshift3/example-image:v1.1.0.6 <1>
      imagePullPolicy: IfNotPresent
      name: registry
      ports:                              <2>
@@ -20,6 +20,11 @@
        readOnly: true
 ----
 
+. Each container in the pod is instantiated from its own Docker image.
+. The container can bind to ports, which are available on the pod's IP.
+. _security context_ for containers that specifies whether they can run as
+ privileged containers.
+. External storage volumes should be mounted within the container.
 
 ifdef::showscript[]
 

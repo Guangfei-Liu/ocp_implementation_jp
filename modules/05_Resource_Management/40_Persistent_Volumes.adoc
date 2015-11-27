@@ -1,6 +1,5 @@
 == Persistent Volumes
 
-
 .Requesting Storage
 
 * Can make storage available by laying claims to resource

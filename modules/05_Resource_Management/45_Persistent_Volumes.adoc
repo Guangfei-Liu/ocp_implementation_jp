@@ -55,3 +55,4 @@ OpenShift Enterprise finds the claim in the same namespace
 The example here shows a pod definition with a claim.
 
 endif::showscript[]
+

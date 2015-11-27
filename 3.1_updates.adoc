@@ -24,6 +24,11 @@ CAUTION: This file is for internal task management and note taking, it should no
 - 10_Client_Tool_Authentication
 - 39_Persistent_Volumes
 - Many changes in Labs
+=== Module 06 :
+- Slide 02_Module_Topics
+- 04_Source-to-Image and 11_Source-to-Image, Waiting for confirmation about incremental builds from EJ
+- Completely re-done the lab, consider it a first time review.
+
 
 == Changes on Course that require Audio Recording
 

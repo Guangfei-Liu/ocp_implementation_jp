@@ -15,8 +15,6 @@ image::{revealjs_cover_image}[]
 endif::[]
 == Module Topics
 
-
-
 * Overview
 * Source-to-Image
 * Source-to-Image Builds
@@ -45,8 +43,8 @@ This module covers the following topics:
  various sections of the build file: `Service,`, `ImageStream`, `BuildConfig`,
   `DeploymentConfig`, and `Templates`.
 
-* Deploying an S2I build image, including creating the build environment,
- starting the build, and using the web console to create an S2I build.
+* Deploying an image created by the an S2I build process, including creating the
+ build environment, starting the build, and using the web console.
 
 * How to deploy applications from source or image using the `oc new-app` CLI
  tool or the web console, and information about templates and advanced
@@ -56,13 +54,17 @@ endif::showscript[]
 == Overview
 
 
-* Can create new OpenShift Enterprise application using web console or `oc new-app` command
-** Can specify application creation from _source code_, _image_, or _template_
-* Application is set of deployed objects such as `DeploymentConfig`, `BuildConfig`, `ReplicationController`, `pod`, `service`, and others
+* Users can create new OpenShift Enterprise application using web console or
+ `oc new-app` command
+** Users can specify application creation from _source code_, _image_, or
+ _template_
+* Application is set of deployed objects such as `DeploymentConfig`,
+ `BuildConfig`, `ReplicationController`, `pod`, `service`, and others
 
 * `oc new-app` uses S2I (Source-to-Image) build process
 
-NOTE: You start by learning the manual way of creating objects and then the much simpler `oc new-app` method.
+NOTE: You start by learning the manual way of creating objects and then the much
+ simpler `oc new-app` method.
 
 
 ifdef::showscript[]
@@ -115,10 +117,11 @@ To start an S2I build, your code must reside in a supported code repository, and
 
 
 endif::showscript[]
-// ISSUE: Removed until 3.1
+// ISSUE: Waiting for Erik to answer regarding  3.1
 //   * Supports incremental builds
 //   ** Reuses previous dependencies, built artifacts, etc.
 //S2I supports incremental builds and reuses previous dependencies, built artifacts, and so on.
+// https://docs.openshift.com/enterprise/3.1/architecture/core_concepts/builds_and_image_streams.html
 == Source-to-Image
 
 
@@ -303,9 +306,8 @@ Source-to-Image, or S2I, is a tool for building reproducible Docker images.
 
 endif::showscript[]
 
-// ISSUE: Added after 3.1 updates
+// ISSUE: Added after 3.1 updates, Waiting for answer from EJ
 // Supports incremental builds that reuse downloaded dependencies, built artifacts, etc.
-
 // S2I supports incremental builds that reuse previously downloaded dependencies,
 // previously built artifacts, and so on.
 == Source-to-Image Builds
@@ -412,19 +414,15 @@ endif::showscript[]
             "apiVersion": "v1",
             "metadata": {
                 "name": "simple-openshift-sinatra-sti",
-                "creationTimestamp": null
+                "creationTimestamp": null,
+                "labels": {
+                    "app": "simple-openshift-sinatra-sti"
+                },
+                "annotations": {
+                    "openshift.io/generated-by": "OpenShiftNewApp"
+                }
             },
-            "spec": {
-                "tags": [
-                    {
-                        "name": "latest",
-                        "from": {
-                            "kind": "DockerImage",
-                            "name": "simple-openshift-sinatra-sti:latest"
-                        }
-                    }
-                ]
-            },
+            "spec": {},
             "status": {
                 "dockerImageRepository": ""
             }
@@ -434,21 +432,30 @@ endif::showscript[]
             "apiVersion": "v1",
             "metadata": {
                 "name": "simple-openshift-sinatra-sti",
-                "creationTimestamp": null
+                "creationTimestamp": null,
+                "labels": {
+                    "app": "simple-openshift-sinatra-sti"
+                },
+                "annotations": {
+                    "openshift.io/generated-by": "OpenShiftNewApp"
+                }
             },
             "spec": {
                 "triggers": [
                     {
                         "type": "GitHub",
                         "github": {
-                            "secret": "egsfGzfgMcKPPCfL88oz"
+                            "secret": "9PATsUhFWasUl91pzW1B"
                         }
                     },
                     {
                         "type": "Generic",
                         "generic": {
-                            "secret": "8fcmnyr0RbkzLPCPY9Sv"
+                            "secret": "lVS9l8FY8WAgq4rRhaez"
                         }
+                    },
+                    {
+                        "type": "ConfigChange"
                     },
                     {
                         "type": "ImageChange",
@@ -488,11 +495,16 @@ endif::showscript[]
             "apiVersion": "v1",
             "metadata": {
                 "name": "simple-openshift-sinatra-sti",
-                "creationTimestamp": null
+                "creationTimestamp": null,
+                "labels": {
+                    "app": "simple-openshift-sinatra-sti"
+                },
+                "annotations": {
+                    "openshift.io/generated-by": "OpenShiftNewApp"
+                }
             },
             "spec": {
                 "strategy": {
-                    "type": "Recreate",
                     "resources": {}
                 },
                 "triggers": [
@@ -515,28 +527,44 @@ endif::showscript[]
                 ],
                 "replicas": 1,
                 "selector": {
+                    "app": "simple-openshift-sinatra-sti",
                     "deploymentconfig": "simple-openshift-sinatra-sti"
                 },
                 "template": {
                     "metadata": {
                         "creationTimestamp": null,
                         "labels": {
+                            "app": "simple-openshift-sinatra-sti",
                             "deploymentconfig": "simple-openshift-sinatra-sti"
+                        },
+                        "annotations": {
+                            "openshift.io/generated-by": "OpenShiftNewApp"
                         }
                     },
                     "spec": {
+                        "volumes": [
+                            {
+                                "name": "simple-openshift-sinatra-sti-volume-1",
+                                "emptyDir": {}
+                            }
+                        ],
                         "containers": [
                             {
                                 "name": "simple-openshift-sinatra-sti",
-                                "image": "simple-openshift-sinatra-sti:latest",
+                                "image": "library/simple-openshift-sinatra-sti:latest",
                                 "ports": [
                                     {
-                                        "name": "simple-openshift-sinatra-sti-tcp-8080",
                                         "containerPort": 8080,
                                         "protocol": "TCP"
                                     }
                                 ],
-                                "resources": {}
+                                "resources": {},
+                                "volumeMounts": [
+                                    {
+                                        "name": "simple-openshift-sinatra-sti-volume-1",
+                                        "mountPath": "/run"
+                                    }
+                                ]
                             }
                         ]
                     }
@@ -549,21 +577,27 @@ endif::showscript[]
             "apiVersion": "v1",
             "metadata": {
                 "name": "simple-openshift-sinatra",
-                "creationTimestamp": null
+                "creationTimestamp": null,
+                "labels": {
+                    "app": "simple-openshift-sinatra-sti"
+                },
+                "annotations": {
+                    "openshift.io/generated-by": "OpenShiftNewApp"
+                }
             },
             "spec": {
                 "ports": [
                     {
-                        "name": "simple-openshift-sinatra-sti-tcp-8080",
+                        "name": "8080-tcp",
                         "protocol": "TCP",
                         "port": 8080,
-                        "targetPort": 8080,
+                        "targetPort": 8080
                     }
                 ],
                 "selector": {
+                    "app": "simple-openshift-sinatra-sti",
                     "deploymentconfig": "simple-openshift-sinatra-sti"
-                },
-                "portalIP": ""
+                }
             },
             "status": {
                 "loadBalancer": {}
@@ -571,6 +605,7 @@ endif::showscript[]
         }
     ]
 }
+
 ----
 
 
@@ -636,7 +671,8 @@ endif::showscript[]
 .JSON Build File - `ImageStream`
 
 * Describes `ImageStream` resource to be created to support application
-* Lets OpenShift Enterprise _listen_ or _poll_ for changes in image, such as security patches
+* Lets OpenShift Enterprise _listen_ or _poll_ for changes in image, such as
+ security patches
 ** OpenShift Enterprise _rebuilds_ when a change like this occurs
 +
 [subs="verbatim,macros"]
@@ -945,7 +981,7 @@ To follow the build process by checking the log created for your build, use the
 endif::showscript[]
 
 
-// ISSUE: I think this command has changed in 3.1, waiting for documentation 
+// ISSUE: I think this command has changed in 3.1, waiting for documentation
 == Application Creation
 
 
@@ -954,7 +990,8 @@ endif::showscript[]
 * Create new OpenShift Enterprise application using web console or `oc new-app`
 
 * OpenShift Enterprise creates application by specifying _source code_, _image_, or _template_
-* `new-app` looks for images on local Docker installation (if available), in Docker registry, or OpenShift Enterprise image stream
+* `new-app` looks for images on local Docker installation (if available), in
+ Docker registry, or OpenShift Enterprise image stream
 
 * If you specify source code, `new-app` constructs:
 ** _Build configuration_ that builds source into new _application image_
@@ -979,14 +1016,18 @@ endif::showscript[]
 .Specifying Source Code
 
 * `new-app` can use _source code_ from local or remote Git repository
-* If only source repository is specified, `new-app` tries to determine build strategy (`docker` or `source`)
+* If only source repository is specified, `new-app` tries to determine build
+ strategy (`docker` or `source`)
 ** For `source` builds, also tries to determine _builder image_
 
-* To tell `new-app` to use subdirectory of source code repository, use `--context-dir` flag
+* To tell `new-app` to use subdirectory of source code repository, use
+ `--context-dir` flag
 
-* When specifying remote URL, can specify Git reference to use by appending `#[reference]` to end of URL
+* When specifying remote URL, can specify Git reference to use by appending
+ `#[reference]` to end of URL
 
-NOTE: If you are using a local Git repository, the repository must have an _origin_ remote that points to a URL accessible by the OpenShift Enterprise cluster.
+NOTE: If you are using a local Git repository, the repository must have an
+ _origin_ remote that points to a URL accessible by the OpenShift Enterprise cluster.
 
 ifdef::showscript[]
 
@@ -1132,15 +1173,18 @@ endif::showscript[]
 
 .Language Detection
 
-* To override image that `new-app` uses as builder for source repository, specify image and repository using `~` (tilde) as separator
+* To override image that `new-app` uses as builder for source repository,
+ specify image and repository using `~` (tilde) as separator
 
-* To use image stream `myproject/my-ruby` to build the source at remote GitHub repository:
+* To use image stream `myproject/my-ruby` to build the source at remote GitHub
+ repository:
 +
 ----
 $ oc new-app myproject/my-ruby~https://github.com/openshift/ruby-hello-world.git
 ----
 
-* To use Docker image `openshift/ruby-20-centos7:latest` to build source in local repository:
+* To use Docker image `openshift/ruby-20-centos7:latest` to build source in
+ local repository:
 +
 ----
 $ oc new-app openshift/ruby-20-centos7:latest~/home/user/code/my-ruby-app
@@ -1594,7 +1638,8 @@ endif::showscript[]
 
 * Can also use `--group` argument to specify images to group
 
-* To group image built from source repository with other images, specify its _builder image_ in group
+* To group image built from source repository with other images, specify its
+ _builder image_ in group
 
 * To deploy two images in single pod:
 +
@@ -1676,9 +1721,7 @@ endif::showscript[]
 * Modify settings in new application screen to configure resources to support
  application
 +
-
 image::images/create_from_image.png[]
-
 
 
 ifdef::showscript[]
@@ -1690,8 +1733,8 @@ Modify settings in the new application screen to configure the resources to
  . Builder image name and description
  . Application name used for generated OpenShift Enterprise resources
  . Routing configuration section for making the application publicly accessible
- . Deployment configuration section for customizing deployment triggers and image
-  environment variables
+ . Deployment configuration section for customizing deployment triggers and
+  image environment variables
  . Build configuration section for customizing build triggers
  . Replica scaling section for configuring the number of running instances of
   the application

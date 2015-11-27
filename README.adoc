@@ -166,3 +166,32 @@ and review the changes to a service when scaling an application.
 * Lab: Create a Persistent Volume for the Registry
 - Lab Scenario: In this lab, you create a persistent volume for your registry,
  attach it to the `deploymentConfiguration`, and redeploy the registry.
+
+ === Module 06 - Creating Applications
+
+ .Topics Covered
+
+ * Overview
+ * Source-to-Image
+ * Source-to-Image Builds
+ * Application Creation
+ * New App From Source Code
+ * New App From Image
+ * New App From Template
+ * Application Environment
+ * Advanced Application Creation
+ * Web Console
+
+
+ .Module Labs
+
+
+* Lab: Deploy an Application Using the Web Console
+- Lab Scenario: In this lab you will deploy an application based on a code
+  repository follow the build logs using the OpenShift Enterprise Web Console and
+   CLI.
+
+* Lab: Create Customized Build script
+- Lab Scenario: In this lab you will create an application from a forked git
+    repository, you will inject a custom build script and, start a rebuild from the
+     web console and follow the logs to review your custom script messages. lab you will create a customized build script

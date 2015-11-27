@@ -3,15 +3,18 @@
 
 .Language Detection
 
-* To override image that `new-app` uses as builder for source repository, specify image and repository using `~` (tilde) as separator
+* To override image that `new-app` uses as builder for source repository,
+ specify image and repository using `~` (tilde) as separator
 
-* To use image stream `myproject/my-ruby` to build the source at remote GitHub repository:
+* To use image stream `myproject/my-ruby` to build the source at remote GitHub
+ repository:
 +
 ----
 $ oc new-app myproject/my-ruby~https://github.com/openshift/ruby-hello-world.git
 ----
 
-* To use Docker image `openshift/ruby-20-centos7:latest` to build source in local repository:
+* To use Docker image `openshift/ruby-20-centos7:latest` to build source in
+ local repository:
 +
 ----
 $ oc new-app openshift/ruby-20-centos7:latest~/home/user/code/my-ruby-app

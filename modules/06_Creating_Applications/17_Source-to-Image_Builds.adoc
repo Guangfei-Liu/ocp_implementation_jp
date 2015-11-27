@@ -4,7 +4,8 @@
 .JSON Build File - `ImageStream`
 
 * Describes `ImageStream` resource to be created to support application
-* Lets OpenShift Enterprise _listen_ or _poll_ for changes in image, such as security patches
+* Lets OpenShift Enterprise _listen_ or _poll_ for changes in image, such as
+ security patches
 ** OpenShift Enterprise _rebuilds_ when a change like this occurs
 +
 [subs="verbatim,macros"]

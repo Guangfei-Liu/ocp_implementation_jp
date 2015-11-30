@@ -1,3 +1,4 @@
+:noaudio:
 == Module Topics
 
 * Template Overview

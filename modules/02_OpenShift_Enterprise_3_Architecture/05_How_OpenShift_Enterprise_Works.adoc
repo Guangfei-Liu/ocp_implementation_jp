@@ -1,3 +1,4 @@
+:noaudio:
 == How OpenShift Enterprise Works
 
 

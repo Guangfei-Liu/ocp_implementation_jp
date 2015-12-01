@@ -1,3 +1,4 @@
+:noaudio:
 == OpenShift Enterprise Resources
 
 * Can define most OpenShift Enterprise resources with .JSON or .YAML file

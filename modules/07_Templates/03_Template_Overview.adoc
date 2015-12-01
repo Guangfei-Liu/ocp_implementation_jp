@@ -1,3 +1,4 @@
+:noaudio:
 == Template Overview
 
 .What Is a Template?

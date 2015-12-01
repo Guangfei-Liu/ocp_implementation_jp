@@ -1,3 +1,4 @@
+:noaudio:
 == What Is OpenShift Enterprise
 
 

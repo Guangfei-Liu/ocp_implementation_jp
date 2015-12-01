@@ -1,3 +1,4 @@
+:noaudio:
 == Why Use S2I Builds
 
 * Provides a developer-centric flow

@@ -1,3 +1,4 @@
+:noaudio:
 == Module Topics
 
 * Overview and design concepts in OpenShift Enterprise by Red Hat version 3

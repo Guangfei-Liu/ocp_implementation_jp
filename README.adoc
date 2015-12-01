@@ -184,7 +184,7 @@ and review the changes to a service when scaling an application.
 - Lab: Deploy an Application Using the Web Console
 - Lab: Create Customized Build script
 
- .Module Labs
+.Module Labs
 
 
 * Lab: Deploy an Application Using the Web Console

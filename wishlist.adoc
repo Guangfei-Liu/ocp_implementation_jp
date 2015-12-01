@@ -1,3 +1,4 @@
+CAUTION: This file is for internal task management and note taking, it should not be made public
 
 == Changes in ose_fastrax
 

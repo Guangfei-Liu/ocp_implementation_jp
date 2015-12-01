@@ -42,12 +42,12 @@ CAUTION: This file is for internal task management and note taking, it should no
 - 07_Template_Overview
 - 18_New_Configuration_From_Template
 - Slides 19,20,21,22 "Wiring Templates Together" renamed : Processing Template Parameters
+- Review lab, Many changes
 
 === Module 08 :
 
 - 06_Deployments, Just added callouts to slide text.
 - 19_Strategies, Added Callouts to narrator
-- Review lab, Many changes
 - Review lab, Many changes
 
 == Changes on Course that require Audio Recording

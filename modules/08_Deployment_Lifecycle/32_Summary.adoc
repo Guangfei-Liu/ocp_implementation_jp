@@ -1,7 +1,5 @@
 == Summary
 
-
-
 * Deployments
 * Strategies
 * Lifecycle Hooks

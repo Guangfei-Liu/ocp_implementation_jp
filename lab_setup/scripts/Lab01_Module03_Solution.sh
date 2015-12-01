@@ -52,59 +52,61 @@ export GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
 #. Connect to your administration host `oselab-GUID.oslab.opentlc.com` (your private key location may vary):
 
 #
+echo Configure `/etc/ssh/ssh_conf` to disable `StrictHostKeyChecking` on the master host:
+
+echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
+
 ssh root@oselab-$GUID.oslab.opentlc.com "bash /root/oselab.dns.installer.sh"
 
 echo "=== Configure SSH Keys:"
 ##The OpenShift installer uses SSH to configure hosts.  In this lab we create and install an SSH key pair on the master host and add the public key to the `authorized_hosts` file.
 #. SSH to the master host from the admin host and create an SSH key pair for the `root` user.
-rm -rf /root/.ssh/*
-ssh-keygen -f /root/.ssh/id_rsa -N ''
-/usr/bin/cp -f /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
 
-echo Configure `/etc/ssh/ssh_conf` to disable `StrictHostKeyChecking` on the master host:
-echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
+#rm -rf /root/.ssh/*
+#ssh-keygen -f /root/.ssh/id_rsa -N ''
+#/usr/bin/cp -f /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
 
-echo Copy the SSH key to the rest of the nodes in the environment
-echo "for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do ssh-copy-id root@$node ; done"
-for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do ssh-copy-id root@$node ; done
+
+#echo Copy the SSH key to the rest of the nodes in the environment
+#echo "for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do ssh-copy-id root@$node ; done"
+#for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do ssh-copy-id root@$node ; done
 
 echo "=== Configure the Repositories on the Master Host"
 echo " On the master host set up the yum repository configuration file /etc/yum.repos.d/open.repo"
 cat << EOF > /etc/yum.repos.d/open.repo
 [rhel-x86_64-server-7]
 name=Red Hat Enterprise Linux 7
-baseurl=http://www.opentlc.com/repos/rhel-x86_64-server-7
-enabled=1
-gpgcheck=0
-
-[rhel-x86_64-server-rh-common-7]
-name=Red Hat Enterprise Linux 7 Common
-baseurl=http://www.opentlc.com/repos/rhel-x86_64-server-rh-common-7
+baseurl=http://www.opentlc.com/repos/rhel-7-server-rpms
 enabled=1
 gpgcheck=0
 
 [rhel-x86_64-server-extras-7]
 name=Red Hat Enterprise Linux 7 Extras
-baseurl=http://www.opentlc.com/repos/rhel-x86_64-server-extras-7
+baseurl=http://www.opentlc.com/repos/rhel-7-server-extras-rpms
 enabled=1
 gpgcheck=0
 
 [rhel-x86_64-server-optional-7]
 name=Red Hat Enterprise Linux 7 Optional
-baseurl=http://www.opentlc.com/repos/rhel-x86_64-server-optional-7
+baseurl=http://www.opentlc.com/repos/rhel-7-server-optional-rpms
 enabled=1
 gpgcheck=0
 
+# This repo is added for the OPENTLC environment not OSE
+[rhel-x86_64-server-rh-common-7]
+name=Red Hat Enterprise Linux 7 Common
+baseurl=http://www.opentlc.com/repos/rhel-x86_64-server-rh-common-7
+enabled=1
+gpgcheck=0
 EOF
 
 #Add the OpenShift repository mirror to the master host:
 cat << EOF >> /etc/yum.repos.d/open.repo
-[rhel-7-server-ose-3.0-rpms]
-name=Red Hat Enterprise Linux 7 OSE 3
-baseurl=http://www.opentlc.com/repos/rhel-7-server-ose-3.0-rpms
+[rhel-7-server-ose-3.1-rpms]
+name=Red Hat Enterprise Linux 7 OSE 3.1
+baseurl=http://www.opentlc.com/repos/rhel-7-server-ose-3.1-rpms
 enabled=1
 gpgcheck=0
-
 EOF
 
 echo "List the available repositories on the master host:"
@@ -121,6 +123,12 @@ for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com n
 echo "Install Misc tools and utilities on the master"
 yum -y install wget git net-tools bind-utils iptables-services bridge-utils python-virtualenv gcc bash-completion
 
+echo "Run yum update on all the nodes"
+ssh infranode00-$guid.oslab.opentlc.com "yum update -y > /dev/null" &
+ssh node00-$guid.oslab.opentlc.com "yum update -y > /dev/null" &
+ssh node01-$guid.oslab.opentlc.com "yum update -y > /dev/null" &
+
+yum -y update
 
 echo "=== Install Docker"
 
@@ -132,7 +140,7 @@ for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com n
 
 
 echo "Configure the *Docker* registry on the *master*:"
-sed -i "s/OPTIONS.*/OPTIONS='--selinux-enabled --insecure-registry 172.30.0.0\/0'/" /etc/sysconfig/docker
+sed -i "s/OPTIONS.*/OPTIONS='--selinux-enabled --insecure-registry 172.30.0.16\/0'/" /etc/sysconfig/docker
 
 echo "Do the same for the rest of the nodes"
 
@@ -141,113 +149,105 @@ for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com n
 echo "=== Configure Docker Storage"
 
 rm -rf /var/lib/docker/*
-
-echo "Do the same for the rest of the nodes"
-for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do ssh $node "rm -rf /var/lib/docker/*"  ; done
-pvcreate /dev/vdb
-vgextend `vgs | grep rhel | awk '{print $1}'` /dev/vdb
+cat <<EOF > /etc/sysconfig/docker-storage-setup
+DEVS=/dev/vdb
+VG=docker-vg
+EOF
 docker-storage-setup
 
 echo "Do the same for the rest of the nodes"
 
-for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com
-do
-  ssh $node "pvcreate /dev/vdb ; vgextend `vgs | grep rhel | awk '{print $1}'` /dev/vdb; docker-storage-setup ; "
-  ssh $node "systemctl enable docker; reboot "
-done
-
+for node in infranode00-$guid.oslab.opentlc.com \
+ node00-$guid.oslab.opentlc.com \
+ node01-$guid.oslab.opentlc.com; \
+ do
+   echo Configuring Docker Storage and rebooting $node
+   scp /etc/sysconfig/docker-storage-setup ${node}:/etc/sysconfig/docker-storage-setup
+   ssh $node "
+         docker-storage-setup ;
+         systemctl enable docker;
+         reboot"
+ done
 
 systemctl enable docker
 
 #reboot
 echo "Sleep 60 to wait for the nodes to come up"
-sleep 60
+sleep 120
 echo "=== Populate local Docker registry"
+for node in   master00-$guid.oslab.opentlc.com \
+ infranode00-$guid.oslab.opentlc.com \
+ node00-$guid.oslab.opentlc.com \
+ node01-$guid.oslab.opentlc.com; \
+ do
+   echo Checking docker status on $node
+   ssh $node "
+         systemctl status docker | grep Active"
+ done
 
-# We could add an & at the end of the ssh command to make this go faster.
-for node in node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com
+REGISTRY="registry.access.redhat.com";PTH="openshift3"
+for node in  node00-$guid.oslab.opentlc.com \
+node01-$guid.oslab.opentlc.com; \
 do
-ssh $node "docker pull registry.access.redhat.com/openshift3/ose-deployer:v3.0.0.1 ; \
-docker pull registry.access.redhat.com/openshift3/ose-sti-builder:v3.0.0.1 ; \
-docker pull registry.access.redhat.com/openshift3/ose-sti-image-builder:v3.0.0.1 ; \
-docker pull registry.access.redhat.com/openshift3/ose-docker-builder:v3.0.0.1 ; \
-docker pull registry.access.redhat.com/openshift3/ose-pod:v3.0.0.1 ; \
-docker pull registry.access.redhat.com/openshift3/ose-keepalived-ipfailover:v3.0.0.1 ; \
-docker pull registry.access.redhat.com/openshift3/ruby-20-rhel7 ; \
-docker pull registry.access.redhat.com/openshift3/mysql-55-rhel7 ; \
-docker pull openshift/hello-openshift:v0.4.3"
-
+ssh $node "
+docker pull $REGISTRY/$PTH/ose-deployer:v3.1.0.4 ; \
+docker pull $REGISTRY/$PTH/ose-sti-builder:v3.1.0.4 ; \
+docker pull $REGISTRY/$PTH/ose-sti-image-builder:v3.1.0.4 ; \
+docker pull $REGISTRY/$PTH/ose-docker-builder:v3.1.0.4 ; \
+docker pull $REGISTRY/$PTH/ose-pod:v3.1.0.4 ; \
+docker pull $REGISTRY/$PTH/ose-keepalived-ipfailover:v3.1.0.4 ; \
+docker pull $REGISTRY/$PTH/ruby-20-rhel7 ; \
+docker pull $REGISTRY/$PTH/mysql-55-rhel7 ; \
+docker pull openshift/hello-openshift:v1.0.6
+"
 done
 
-
-echo On the *Infranode00*, Installer pull the *Registry* and *Router* images.
-ssh infranode00-$guid.oslab.opentlc.com "docker pull registry.access.redhat.com/openshift3/ose-haproxy-router:v3.0.0.1 ; \
-docker pull registry.access.redhat.com/openshift3/ose-deployer:v3.0.0.1 ; \
-docker pull registry.access.redhat.com/openshift3/ose-docker-registry:v3.0.0.1 ;"
+REGISTRY="registry.access.redhat.com";PTH="openshift3"
+ssh infranode00-$guid.oslab.opentlc.com "
+docker pull $REGISTRY/$PTH/ose-haproxy-router:v3.1.0.4  ; \
+docker pull $REGISTRY/$PTH/ose-deployer:v3.1.0.4 ; \
+docker pull $REGISTRY/$PTH/ose-pod:v3.1.0.4 ; \
+docker pull $REGISTRY/$PTH/ose-docker-registry:v3.1.0.4 ;"
 
 echo "=== Download the Installer"
-curl -o oo-install-ose.tgz http://www.opentlc.com/download/ose_implementation/oo-install-ose.tgz
+ yum -y install atomic-openshift-utils
 
-tar -zxf oo-install-ose.tgz
-
-for node in master00-$guid.oslab.opentlc.com infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do echo $node ; done
-
-mkdir -p  .config/openshift/
-mkdir -p /tmp/oo-install-ose-20150710-0833/lib/python2.7/site-packages/ooinstall/
-
-cat << EOF >> .config/openshift/installer.cfg.yml
-Description: This is the configuration file for the OpenShift Ansible-Based Installer.
-Name: OpenShift Ansible-Based Installer Configuration
-Subscription: {type: none}
-Vendor: OpenShift Community
-Version: 0.0.1
-ansible_config: /tmp/oo-install-ose-20150710-0833/lib/python2.7/site-packages/ooinstall/ansible.cfg
-ansible_inventory_directory: /root/.config/openshift/.ansible
-ansible_log_path: /tmp/oo-install-ose-20150710-0833.log
-ansible_plugins_directory: /tmp/oo-install-ose-20150710-0833/lib/python2.7/site-packages/ooinstall/ansible_plugins
-ansible_ssh_user: root
-masters: [master00-${guid}.oslab.opentlc.com]
-nodes: [master00-${guid}.oslab.opentlc.com, infranode00-${guid}.oslab.opentlc.com, node00-${guid}.oslab.opentlc.com,
-  node01-${guid}.oslab.opentlc.com]
-validated_facts:
-  infranode00-${guid}.oslab.opentlc.com: {hostname: infranode00-${guid}.oslab.opentlc.com,
-    ip: 192.168.0.101, public_hostname: infranode00-${guid}.oslab.opentlc.com, public_ip: 192.168.0.101}
-  master00-${guid}.oslab.opentlc.com: {hostname: master00-${guid}.oslab.opentlc.com, ip: 192.168.0.100,
-    public_hostname: master00-${guid}.oslab.opentlc.com, public_ip: 192.168.0.100}
-  node00-${guid}.oslab.opentlc.com: {hostname: node00-${guid}.oslab.opentlc.com, ip: 192.168.0.200,
-    public_hostname: node00-${guid}.oslab.opentlc.com, public_ip: 192.168.0.200}
-  node01-${guid}.oslab.opentlc.com: {hostname: node01-${guid}.oslab.opentlc.com, ip: 192.168.0.201,
-    public_hostname: node01-${guid}.oslab.opentlc.com, public_ip: 192.168.0.201}
-
+cat << EOF >> /root/.config/openshift/installer.cfg.yml
+ ansible_config: /usr/share/atomic-openshift-utils/ansible.cfg
+ ansible_log_path: /tmp/ansible.log
+ ansible_ssh_user: root
+ hosts:
+ - connect_to: master00-GUID.oslab.opentlc.com
+   hostname: master00-GUID.oslab.opentlc.com
+   ip: 192.168.0.100
+   master: true
+   node: true
+   public_hostname: master00-GUID.oslab.opentlc.com
+   public_ip: 192.168.0.100
+ - connect_to: infranode00-GUID.oslab.opentlc.com
+   hostname: infranode00-GUID.oslab.opentlc.com
+   ip: 192.168.0.101
+   node: true
+   public_hostname: infranode00-GUID.oslab.opentlc.com
+   public_ip: 192.168.0.101
+ - connect_to: node00-GUID.oslab.opentlc.com
+   hostname: node00-GUID.oslab.opentlc.com
+   ip: 192.168.0.200
+   node: true
+   public_hostname: node00-GUID.oslab.opentlc.com
+   public_ip: 192.168.0.200
+ - connect_to: node01-GUID.oslab.opentlc.com
+   hostname: node01-GUID.oslab.opentlc.com
+   ip: 192.168.0.201
+   node: true
+   public_hostname: node01-GUID.oslab.opentlc.com
+   public_ip: 192.168.0.201
+ variant: openshift-enterprise
+ variant_version: '3.1'
+ version: v1
 EOF
 
-echo "########################################################################"
-echo "########################################################################"
-echo "########################################################################"
-echo "We will now start the installer, make sure you answer 'y' when the installer asks you to."
-echo "#You will see:
-Preparing to install.  This can take a minute or two..."
-echo "#Question 1, Answer 'y':
-Are you ready to continue?  y/Y to confirm, or n/N to abort [n]: y"
-echo "#Question 2, Answer 'root' or press enter:
-User for ssh access [root]:"
-echo "#Question 3, Answer 'y':
-Proceed? y/Y to confirm, or n/N to exit [y]: y"
-echo "The installer takes a minute or so to start, dont press any key (other than 'y') after it starts otherwise it will abort"
-echo "Now, to continue and start the installer, press any key (but just once)"
-echo "This should be clear, right?"
-echo "########################################################################"
-echo "########################################################################"
-echo "########################################################################"
-read x;
-
-./oo-install-ose
-
-echo "Add the Default route to the OpenShift master configuration file"
-
-
-sed -i "s/router.default.local/cloudapps-${GUID}.oslab.opentlc.com/g" /etc/openshift/master/master-config.yaml
-systemctl restart openshift-master
+sed -i s/GUID/${GUID}/g /root/.config/openshift/installer.cfg.yml
 
 
 echo "== Lab: OpenShift Configuration and Setup"

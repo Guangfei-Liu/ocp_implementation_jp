@@ -33,6 +33,10 @@ CAUTION: This file is for internal task management and note taking, it should no
 - 07_Template_Overview
 - 18_New_Configuration_From_Template
 - Slides 19,20,21,22 "Wiring Templates Together" renamed : Processing Template Parameters
+=== Module 07
+- 06_Deployments, Just added callouts to slide text.
+- 19_Strategies, Added Callouts to narrator
+
 
 == Changes on Course that require Audio Recording
 
@@ -61,6 +65,13 @@ CAUTION: This file is for internal task management and note taking, it should no
 - 07_Template_Overview
 - 18_New_Configuration_From_Template Record again with additions.
 - Slides 19,20,21,22 "Wiring Templates Together" renamed : Processing Template Parameters
+
+=== Module 07 
+- 19_Strategies, Added Callouts to narrator
+
+
+
+
 
 == Changes in ose_fastrax
 

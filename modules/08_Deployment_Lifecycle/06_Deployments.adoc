@@ -29,6 +29,9 @@ spec:
     type: Rolling      <3>
 ----
 
+. The `ConfigChange` trigger
+. The `ImageChange` trigger
+. The default `Rolling` strategy
 
 ifdef::showscript[]
 === Transcript

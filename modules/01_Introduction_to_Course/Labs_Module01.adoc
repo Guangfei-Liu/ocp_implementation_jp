@@ -2,12 +2,24 @@
 :data-uri:
 :toc2:
 :icons: images/icons
-
-== Set Up the Lab Environment
-
 :numbered:
-== Provision Your Lab Environment
 
+= Labs: Introduction to the course
+
+toc::[]
+
+== Labs Overview
+
+
+* Lab: Provision Your Lab Environment
+- Lab Scenario: In this lab we will use the OPENTLC Cloudforms Appliance (At
+   link:https://labs.opentlc.com[https://labs.opentlc.com]) to deploy our Lab
+    environment.
+
+
+== Lab: Provision Your Lab Environment
+
+=== Overview
 To complete the labs for this course, you must provision the lab environment with all the components required to perform the labs.
 
 . Go to https://labs.opentlc.com and use your credentials to log in to the OPENTLC labs provisioning system, which is built on top of Red Hat CloudForms to provide a self-service portal.
@@ -24,7 +36,7 @@ If you forgot your username or password, go to https://www.opentlc.com/pwm to re
 In a few minutes you receive an email describing how to connect to the environment.
 +
 [WARNING]
-Do not select *App Control* -> *Start* after ordering the lab. The lab is already starting. Selecting *Start* may corrupt the lab environment or cause other complications. 
+Do not select *App Control* -> *Start* after ordering the lab. The lab is already starting. Selecting *Start* may corrupt the lab environment or cause other complications.
 . Wait about 20 minutes to allow your environment to build.
 . (Optional) Select *Status* to receive an email with the status of your environment.
 
@@ -32,7 +44,7 @@ Do not select *App Control* -> *Start* after ordering the lab. The lab is alread
 The lab environment is cloud based, so you can access it over the WAN from anywhere. Do not, however, expect performance to match a bare-metal environment.
 
 
-== Set Up SSH
+=== Set Up SSH Connection
 
 To access any of your lab systems via SSH, you must use your personal OPENTLC SSO username and public SSH key. Unless otherwise noted, you cannot use SSH to connect directly as `root`.
 

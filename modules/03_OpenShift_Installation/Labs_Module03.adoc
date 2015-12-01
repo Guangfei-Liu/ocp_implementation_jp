@@ -76,11 +76,11 @@ NOTE: Through the labs in this section we will be using "oselab" host as our DNS
  and NFS Server, and our provisioning/staging host to run remote commands on our
   OpenShift Environment.
 
-NOTE: "oselab" host is not an OpenShift Cluster memeber, and is not part of the
+NOTE: "oselab" host is not an OpenShift Cluster member, and is not part of the
 OpenShift environment, it mimics our client's infrastructure or our
  laptop/desktop connected to the client's LAN.
 
-=== Important information and clearafications
+=== Important information
 
 .Following instructions
 
@@ -125,7 +125,7 @@ OpenShift Enterprise requires a "wildcard DNS A record". The "wildcard A record"
  should point to the publicly available IP of a node or nodes that are hosting
  the OpenShift Default Router container.
 
-NOTE: In our environemnt the OpenShift Default Router will be deployed on the
+NOTE: In our environment the OpenShift Default Router will be deployed on the
  "infranode00" host.
 
 . Connect to your administration host `oselab-GUID.oslab.opentlc.com` (your private key location may vary).
@@ -134,7 +134,7 @@ NOTE: In our environemnt the OpenShift Default Router will be deployed on the
 yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-GUID.oslab.opentlc.com
 ----
 
-. Here is an example of a succesful connection:
+. Here is an example of a successful connection:
 +
 ----
 [sborenst@desktop01 ~]$ ssh shacharb-redhat.com@oselab-c0fe.oslab.opentlc.com
@@ -510,7 +510,7 @@ NOTE: If this does not work on the first try, wait a short while and try again.
                                     node01-$guid.oslab.opentlc.com; \
                                     do \
                                     echo removing NetworkManager on $node ; \
-                                      ssh -o StrictHostKeyChecking=no $node "yum -y  remove NetworkManager*"
+                                      ssh $node "yum -y  remove NetworkManager*"
                                    done
 ----
 
@@ -763,7 +763,6 @@ DOCKER_STORAGE_OPTIONS=--storage-driver devicemapper --storage-opt dm.fs=xfs --s
                                     node01-$guid.oslab.opentlc.com; \
                                     do
                                       echo Checking docker status on $node
-                                      scp /etc/sysconfig/docker-storage-setup ${node}:/etc/sysconfig/docker-storage-setup
                                       ssh $node "
                                             systemctl status docker | grep Active"
                                     done
@@ -773,16 +772,12 @@ DOCKER_STORAGE_OPTIONS=--storage-driver devicemapper --storage-opt dm.fs=xfs --s
 +
 ----
 Checking docker status on master00-c0fe.oslab.opentlc.com
-/etc/sysconfig/docker-storage-setup: No such file or directory
    Active: active (running) since Thu 2015-11-26 01:03:14 EST; 2min 24s ago
 Checking docker status on infranode00-c0fe.oslab.opentlc.com
-/etc/sysconfig/docker-storage-setup: No such file or directory
    Active: active (running) since Thu 2015-11-26 01:02:15 EST; 3min 24s ago
 Checking docker status on node00-c0fe.oslab.opentlc.com
-/etc/sysconfig/docker-storage-setup: No such file or directory
    Active: active (running) since Thu 2015-11-26 01:02:17 EST; 3min 23s ago
 Checking docker status on node01-c0fe.oslab.opentlc.com
-/etc/sysconfig/docker-storage-setup: No such file or directory
    Active: active (running) since Thu 2015-11-26 01:02:20 EST; 3min 21s ago
 
 ----
@@ -1072,11 +1067,9 @@ Are you ready to continue? [y/N]: y
 . Enter *y* to confirm the collected facts and answer *y* again to continue
  after learning the location of the configuration file location.
 +
-----
-
 . Watch the installer run:
 +
-----
+
 [Omitted long output]
 
 PLAY RECAP ********************************************************************
@@ -1274,7 +1267,7 @@ apiVersion: v1
 kind: Namespace
 metadata:
   annotations:
-    openshift.io/node-selector: region=infra <1>
+    openshift.io/node-selector: region=infra
     openshift.io/sa.initialized-roles: "true"
     openshift.io/sa.scc.mcs: s0:c3,c2
     openshift.io/sa.scc.supplemental-groups: 1000010000/10000
@@ -1314,6 +1307,9 @@ You might want to run this on the other nodes, but you do not need the
 
 === Configure Authentication
 
+CAUTION: This next section is case sensitive, it might take a few tried to get
+the file to be parsed correctly if you are new to YAML.
+
 . Create a copy of your master's configuration file.
 +
 ----
@@ -1334,7 +1330,7 @@ oauthConfig:
     provider:
       apiVersion: v1
       kind: HTPasswdPasswordIdentityProvider
-      file: /etc/openshift/openshift-passwd
+      file: /etc/origin/openshift-passwd
   masterPublicURL: https://master00-GUID.oslab.opentlc.com:8443
   masterURL: https://master00-GUID.oslab.opentlc.com:8443
   sessionConfig:
@@ -1347,7 +1343,11 @@ oauthConfig:
 ----
 
 CAUTION: Make sure you replace "GUID" with your GUID number.
-
+. Use the sed command to replace the GUID with your actual GUID:
++
+----
+[root@master00-GUID ~]# sed -i s/GUID/${guid}/g  /etc/origin/master/master-config.yaml
+----
 
 === Add Development Users
 
@@ -1363,6 +1363,9 @@ In the real world, your developers are likely to use the OpenShift Enterprise
 [root@master00-GUID ~]# useradd andrew
 [root@master00-GUID ~]# useradd marina
 ----
+
+NOTE: Feel free to create these users on any machine that has the "oc" command
+ available.
 
 === Configure `htpasswd` Authentication
 
@@ -1381,7 +1384,7 @@ To start, you need the `htpasswd` binary available in the `httpd-tools` package.
 +
 ----
 [root@master00-GUID ~]# htpasswd -cb /etc/origin/openshift-passwd andrew r3dh4t1!
-[root@master00-GUID ~]#htpasswd -b /etc/origin/openshift-passwd marina r3dh4t1!
+[root@master00-GUID ~]# htpasswd -b /etc/origin/openshift-passwd marina r3dh4t1!
 ----
 
 . Restart `atomic-openshift-master` for changes to take effect

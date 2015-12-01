@@ -1069,7 +1069,7 @@ Are you ready to continue? [y/N]: y
 +
 . Watch the installer run:
 +
-
+----
 [Omitted long output]
 
 PLAY RECAP ********************************************************************

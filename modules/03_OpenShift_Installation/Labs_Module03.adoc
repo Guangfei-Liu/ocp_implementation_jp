@@ -1453,7 +1453,7 @@ NOTE: If we wanted to pin down the registry to a specific region we could do
 
  . To test the status of the of Registry you can use the *curl* command to
   communicate to the Registry service port (Example : curl -v 172.30.41.32:5000/healthz).
- .. you can use this commands to
+ .. you can use these commands to test your registry for connectivity
  +
  ----
  [root@master00-GUID ~]# echo `oc get service docker-registry --template '{{.spec.portalIP}}:{{index .spec.ports 0 "port"}}/healthz'`

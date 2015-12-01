@@ -1408,14 +1408,15 @@ In the scenario you are simulating in the lab, you are using `infranode00` as
 ----
 [root@master00-GUID ~]# oadm registry --create --credentials=/etc/origin/master/openshift-registry.kubeconfig
 ----
-
++
 NOTE: If we wanted to pin down the registry to a specific region we could do
  that with the "--selector" flag, we don't need to do this because we set the
  "default" namespace default `nodeSelector`.
 
- . You can look at the status of your pod using the following commands, This can take a few minutes the first time around as the images are being pulled from the registry:
- +
- ----
+ . You can look at the status of your pod using the following commands, This can
+  take a few minutes the first time around as the images are being pulled from the registry:
++
+----
  [root@master00-GUID ~]# oc get pods
  NAME                       READY     STATUS    RESTARTS   AGE
  docker-registry-1-deploy   1/1       Pending   0          11s
@@ -1432,12 +1433,12 @@ NOTE: If we wanted to pin down the registry to a specific region we could do
  NAME                      READY     STATUS    RESTARTS   AGE
  docker-registry-1-diqlc   1/1       Running   0          14s
 
- ----
+----
 
  . Run the "oc status" command
  +
- ----
- [root@master00-GUID master]# oc status
+----
+[root@master00-GUID master]# oc status
  In project default on server https://master00-GUID.oslab.opentlc.com:8443
 
  svc/docker-registry - 172.30.41.32:5000
@@ -1449,21 +1450,21 @@ NOTE: If we wanted to pin down the registry to a specific region we could do
  To see more, use 'oc describe <resource>/<name>'.
  You can use 'oc get all' to see a list of other objects.
 
- ----
+----
 
  . To test the status of the of Registry you can use the *curl* command to
   communicate to the Registry service port (Example : curl -v 172.30.41.32:5000/healthz).
  .. you can use these commands to test your registry for connectivity
- +
- ----
++
+----
  [root@master00-GUID ~]# echo `oc get service docker-registry --template '{{.spec.portalIP}}:{{index .spec.ports 0 "port"}}/healthz'`
  172.30.42.118:5000/healthz
  [root@master00-GUID ~]# curl -v `oc get service docker-registry --template '{{.spec.portalIP}}:{{index .spec.ports 0 "port"}}/healthz'`
- ----
+----
 
  . You should see something similar to this:
  +
- ----
+----
  * About to connect() to 172.30.42.118 port 5000 (#0)
 *   Trying 172.30.42.118...
 * Connected to 172.30.42.118 (172.30.42.118) port 5000 (#0)
@@ -1481,7 +1482,7 @@ NOTE: If we wanted to pin down the registry to a specific region we could do
 {}
 * Connection #0 to host 172.30.42.118 left intact
 
- ----
+----
 
 .Deploy the default router
 

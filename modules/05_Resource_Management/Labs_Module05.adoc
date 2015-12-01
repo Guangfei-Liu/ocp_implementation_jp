@@ -895,13 +895,6 @@ NOTE: You'll see that the prompt suggests that you are using the *infranode*
 .. Run `cat haproxy.config` to see your empty configuration file.
 +
 ----
-
-.. Run the *id* command
-.. Run *pwd* and *ls*, what directory are you in?
-.. Run *cat haproxy.config* to see your empty configuration file.
-+
-----
-
 [root@infranode00-GUID conf]# id
 uid=0(root) gid=0(root) groups=0(root)
 

@@ -222,7 +222,7 @@ and review the changes to a service when scaling an application.
     database backend connection.
 
 
-=== Module 07 - Templates
+=== Module 08 - Deployment Lifecycle
 
 .Topics Covered
 

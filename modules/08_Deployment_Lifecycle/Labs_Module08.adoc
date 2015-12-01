@@ -8,19 +8,15 @@ toc::[]
 == Labs Overview
 
 * Lab: Rollback and Code Lifecycle
-- Lab Scenario:
+- Lab Scenario: In this lab you will manage the various phases of the deployment
+ lifecycle.
 
 * Lab: Using Webhooks
-- Lab Scenario:
-In this lab you manage the various phases of the deployment lifecycle.
+- Lab Scenario: In this lab you will create a git web-hook and start a new build
+ and a new deployment automatically by pushing a code change in your git
+  repository.
 
-* Roll Back/Activate and Code Lifecycle
-* Use Webhooks
-
-
-
-
-== Roll Back/Activate and Code Lifecycle
+== Lab: Roll Back/Activate and Code Lifecycle
 
 Because no one always codes perfectly, sometimes you want to roll back to a
  previous incarnation of your application. And sometimes you want to go forward
@@ -325,7 +321,7 @@ https://master00-GUID.oslab.opentlc.com:8443/osapi/v1/namespaces/lifecycle/build
 . The output will look similar to the following. Use the `secret` value in your configuration in Git.
 +
 ----
-.... Cropped Output ....
+... Cropped Output ...
   triggers:
   - github:
       secret: xTah2lioO2Bz9JZT9dPf
@@ -333,7 +329,7 @@ https://master00-GUID.oslab.opentlc.com:8443/osapi/v1/namespaces/lifecycle/build
   - generic:
       secret: B5h3ARS88HD7S3LOcbRZ
     type: Generic
-.... Cropped Output ....
+... Cropped Output ...
 ----
 
 . In the GitHub repository that you forked, go to *Settings -> Webhooks and Services*.
@@ -353,7 +349,9 @@ To test your webhook, you make a change to the code, commit, and then push the
 If you know how, you can do this the "normal" way by cloning your repository
  locally, making changes, and pushing them to the repository.
 
-. GitHub's web interface lets you edit files. Go to your forked repository (eg: https://github.com/marina/ruby-hello-world), and find the file `main.erb` in the `views` folder.
+. GitHub's web interface lets you edit files. Go to your forked repository (eg:
+   https://github.com/marina/ruby-hello-world), and find the file `main.erb` in
+    the `views` folder.
 
 . Change the following HTML:
 +
@@ -379,20 +377,26 @@ If you know how, you can do this the "normal" way by cloning your repository
 . Check to see whether a build has been triggered.
 +
 [CAUTION]
-If a build is currently running, your latest build might fail because both builds are pushing to the registry. Either stop the older build using `oc delete build`, or retry the failed build using `oc start-build`.
+If a build is currently running, your latest build might fail because both
+ builds are pushing to the registry. Either stop the older build using
+  `oc delete build`, or retry the failed build using `oc start-build`.
 
-. Check the web interface (logged in as `marina`) to see that the build is running.
-. After the build has completed, point your web browser at the application: http://ruby-hello-world.lifecycle.cloudapps-GUID.oslab.opentlc.com/.
+. Check the web interface (logged in as `marina`) to see that the build is
+ running.
+. After the build has completed, point your web browser at the application:
+ http://ruby-hello-world.lifecycle.cloudapps-GUID.oslab.opentlc.com/.
 
 * You should see your output, including the typo.
 +
 [NOTE]
-It can take a minute for your service endpoint to get updated. You might get a `503` error if you try to access the application before the update.
+It can take a minute for your service endpoint to get updated. You might get a
+ `503` error if you try to access the application before the update.
 
 
 === Roll Back Your Application
 
-Because you failed to properly test your application, and your typo made it into production, you need to revert to the previous version of your application.
+Because you failed to properly test your application, and your typo made it into
+ production, you need to revert to the previous version of your application.
 
 . Log in to the web console as `marina`.
 . Find the *Deployments* section of the *Browse* menu.
@@ -408,7 +412,9 @@ You can also see this information from the CLI:
 
 ----
 
-The semantics of this syntax state that a `DeploymentConfig` ensures a `ReplicationController` is created to manage the deployment of the built `Image` from the `ImageStream`.
+The semantics of this syntax state that a `DeploymentConfig` ensures a
+ `ReplicationController` is created to manage the deployment of the built
+  `Image` from the `ImageStream`.
 ====
 
 . Using the CLI, roll back a deployment.
@@ -418,7 +424,8 @@ The semantics of this syntax state that a `DeploymentConfig` ensures a `Replicat
 [marina@master00~] oc get builds
 
 ----
-.. Choose a deployment, and check what a rollback to `ruby-hello-world-X` would look like.
+.. Choose a deployment, and check what a rollback to `ruby-hello-world-X` would
+ look like.
 +
 ----
 
@@ -450,8 +457,10 @@ Warning: the following images triggers were disabled: ruby-hello-world
 
 ----
 
-. Look at the *Browse* tab of your project, and observe that you have a new pod in the *Pods* section.
-. After a few minutes, go back to the application in your web browser, and you should see the old "Welcome..." text.
+. Look at the *Browse* tab of your project, and observe that you have a new pod
+ in the *Pods* section.
+. After a few minutes, go back to the application in your web browser, and you
+ should see the old "Welcome..." text.
 
 === Roll Your Application Forward
 

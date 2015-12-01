@@ -1,0 +1,69 @@
+
+== Changes in ose_fastrax
+
+* Metrics
+* The Kubelet now exposes statistics from cAdvisor securely via cluster permissions to view metrics
+* The web console will now display metrics from pods when metrics integration has been enabled
+* Screen shots and command line outputs
+
+== Changes to ose_implementation
+
+* What's new slides
+** New Fields available for deployments
+** Routes can now specify which port they wish to route to - by default, all callers that might point to multi-port services should set spec.port.targetPort to the port on the Pod (or external service) to target.
+** HorizontalPodAutoscalers allow deployment configs and replication controllers to be autoscaled based on their load
+*** https://github.com/openshift/openshift-docs/blob/899156c3efac73071dc5bb6a8b9716738d3f20fb/dev_guide/pod_autoscaling.adoc
+** oc rsync ~/myfolder :/home/user/test
+* Add Keystone as an identity provider
+** Multi-tenant pod networks
+
+
+
+* Small changes
+** Deployment hooks may now leverage volumes from the original pod
+** Screen shots and command line outputs
+** what is storage dynamic provisioning
+** Add "oc status" somewhere
+** Add  oc log dc/NAME and oc log build/NAME
+** oc get builds --all-namespaces
+
+* Install module
+** Refresh Install Process
+** Editing the "default" name space to use infra region
+** Router deployment, Creating a wildcard certificate
+** Project administration minor changes
+** oc edit template/default-project-requestoc edit template/default-project-request
+** Update the wiring lab to be done correctly
+
+
+* Multi-tenant pod networks
+** The multi-tenant SDN plugin can be used to isolate projects from each other. Each project is isolated, and administrators can bind projects together with oadm pod-network join-project or expose the pods within a project to all other projects.
+
+* Logs
+** Additional filtering options are available on oc log - controlling the amount of logs displayed, show timestamps, view contents from a historical time (relative or by date)
+** The web console will show logs for pods and builds, allowing you to view the current or previous container's state
+
+* Volumes
+** Supplemental groups for use with volumes are now allocated to each project, matching the range of UIDs. Volumes in a pod will be set to be owned by the first group in the range.
+** Ensure that volumes are assigned the pod SELinux context on startup
+
+* Builds
+** A binary build can be triggered by passing a file, directory, or local Git repository path to the oc start-build command with --from-file, --from-dir, or --from-repo. The contents will
+** When a build fails, information about that failure is recorded with the build and displayed in the CLI and UI
+** Build logs can now be displayed via oc logs build/<buildname> and oc logs bc/<buildconfig name>
+
+== Changes to ose_advanced
+LDAP group synchronization added under oadm group-sync for enforcing group membership from external LDAP directories
+* Screen shots and command line outputs
+
+
+cd modules
+for folder in `ls -d 0*` ; do
+  complete_file=${folder}/`ls ${folder} | grep 00`
+  echo "Completed File is ${complete_file}"
+  echo mv ${complete_file} ./${complete_file}.old
+  for slide in `ls $folder/*.adoc | grep -v 00_ | grep -vi Labs | sort`  ; do
+    echo "Copying Slide  ${slide} to ${complete_file}"
+    echo cat ${slide} >> ${complete_file}
+  done
+done

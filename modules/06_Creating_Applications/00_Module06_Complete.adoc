@@ -1319,7 +1319,6 @@ endif::showscript[]
 * To create application from stored template:
 +
 ----
-$ oc create -f examples/sample-app/application-template-stibuild.json
 $ oc new-app ruby-helloworld-sample
 ----
 

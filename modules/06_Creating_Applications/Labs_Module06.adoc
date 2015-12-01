@@ -15,8 +15,8 @@ toc::[]
 
 * Lab: Create Customized Build script
 - Lab Scenario: In this lab you will create an application from a forked git
-   repository, you will inject a custom build script and, start a rebuild from the
-    web console and follow the logs to review your custom script messages. lab you will create a customized build script
+   repository, you will inject a custom build script and, start a rebuild from
+    the web console and follow the logs to review your custom script messages.
 
 == Lab: Deploy an Application Using the Web Console
 

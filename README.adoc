@@ -220,3 +220,23 @@ and review the changes to a service when scaling an application.
 - Lab Scenario: In this lab you will create two separate template instances, in
    two separate projects and use template parameters establish a frontend to
     database backend connection.
+
+
+=== Module 07 - Templates
+
+.Topics Covered
+
+- Deployments
+- Strategies
+- Lifecycle Hooks
+- Build Triggers
+
+.Module Labs
+* Lab: Rollback and Code Lifecycle
+- Lab Scenario: In this lab you will manage the various phases of the deployment
+ lifecycle.
+
+* Lab: Using Webhooks
+- Lab Scenario: In this lab you will create a git web-hook and start a new build
+ and a new deployment automatically by pushing a code change in your git
+  repository.

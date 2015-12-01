@@ -1230,7 +1230,6 @@ pv21               <none>    5Gi        RWO           Available                 
 pv22               <none>    5Gi        RWO           Available                       20h
 pv23               <none>    5Gi        RWO           Available                       20h
 registry-storage   <none>    15Gi       RWX           Available                       43s
-^^^^^^^^^^^^^^^^
 
 . Create a `registry-volume-claim.json` claim definition file to claim your volume.
 +

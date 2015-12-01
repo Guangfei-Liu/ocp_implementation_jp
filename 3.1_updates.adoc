@@ -8,6 +8,7 @@ CAUTION: This file is for internal task management and note taking, it should no
 - Slides 34-47 were added and did not exist before
 
 === Module 03 :
+
 - 04_Installation_Methods.adoc
 - 08_Host_Preparation.adoc
 - 12_Host_Preparation
@@ -15,25 +16,35 @@ CAUTION: This file is for internal task management and note taking, it should no
 - Slides 24,25,26,27 OpenShift Population
 - Slides 28,29,30,31 - Persistent_Storage_Using_NFS
 - Many changes in Labs
+
 === Module 04 :
+
 - Slide 50_Routers
 - Slide 51_Routers
 - Slides 12-19 Pods_and_Services
 - 49_Replication_Controllers
+
 === Module 05 :
+
 - 10_Client_Tool_Authentication
 - 39_Persistent_Volumes
 - Many changes in Labs
+
 === Module 06 :
+
 - Slide 02_Module_Topics
 - 04_Source-to-Image and 11_Source-to-Image, Waiting for confirmation about incremental builds from EJ
 - Completely re-done the lab, consider it a first time review.
+
 === Module 07 :
+
 - 05_Template_Overview
 - 07_Template_Overview
 - 18_New_Configuration_From_Template
 - Slides 19,20,21,22 "Wiring Templates Together" renamed : Processing Template Parameters
+
 === Module 08 :
+
 - 06_Deployments, Just added callouts to slide text.
 - 19_Strategies, Added Callouts to narrator
 - Review lab, Many changes
@@ -42,11 +53,13 @@ CAUTION: This file is for internal task management and note taking, it should no
 == Changes on Course that require Audio Recording
 
 === Module 02 :
+
 - Slides 34-47 were added and did not exist before
 - Slide 48_Summary.adoc needs to be renamed and line added to Audio
 - 08_Host_Preparation.adoc -
 
 === Module 03 :
+
 - 04_Installation_Methods.adoc - Needs to be recorded from scratch.
 - 08_Host_Preparation.adoc - Needs to be recorded from scratch.
 - 12_Host_Preparation
@@ -54,18 +67,22 @@ CAUTION: This file is for internal task management and note taking, it should no
 - Slides 24,25,26,27
 
 === Module 04 :
+
 - 17_Pods_and_Services, replace "docker-registry=default" line with new example
 - Slide 50_Routers
 - Slide 51_Routers
 
 === Module 05 :
+
 - 39_Persistent_Volumes
 
 === Module 07 :
+
 - 05_Template_Overview
 - 07_Template_Overview
 - 18_New_Configuration_From_Template Record again with additions.
 - Slides 19,20,21,22 "Wiring Templates Together" renamed : Processing Template Parameters
 
 === Module 08
+
 - 19_Strategies, Added Callouts to narrator

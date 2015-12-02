@@ -966,7 +966,7 @@ simple-openshift-sinatra-sti-1   S2I       Running   simple-openshift-sinatra-st
 * To follow the build process, use `oc build-logs`:
 +
 ----
-oc build-logs sin-simple-openshift-sinatra-sti-1
+oc logs build/sin-simple-openshift-sinatra-sti-1
 ----
 
 ifdef::showscript[]

@@ -9,7 +9,7 @@ toc::[]
 
 
 * Lab: Deploy an Application Using the Web Console
-- Lab Scenario: In this lab you will deploy an application based on a code
+- Lab Scenario: In lab you will deploy an application based on a code
  repository follow the build logs using the OpenShift Enterprise Web Console and
   CLI.
 
@@ -134,11 +134,11 @@ You can find more information on the scripts, their execution during the
 ----
 [root@master00-GUID ~]# su - marina
 [marina@master00-GUID ~]$ oc login -u marina --insecure-skip-tls-verify --server=https://master00-${guid}.oslab.opentlc.com:8443
-----
+
 
 [marina@master00-GUID ~]$ oc new-project custom-s2i-script --display-name="Custom S2I Build Script" \
     --description="This is the project we use to learn how to create a customized build script"
-
+----
 
 === Fork the Repository
 

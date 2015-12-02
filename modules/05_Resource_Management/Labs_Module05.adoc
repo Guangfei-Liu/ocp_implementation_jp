@@ -64,6 +64,7 @@ and review the changes to a service when scaling an application.
 
 NOTE: Andrew can create his own project using the "oc new-project" command,
  later in this training we will experiment with that option as well.
++
 NOTE: Defining the "--node-selector" is optional, especially since we already
  defined the default node-selector in a previous lab.
 === View Resources in the Web Console
@@ -871,7 +872,7 @@ hello-openshift-1-g3xow   1/1       Running   0          2m
 NAME                      READY     REASON    RESTARTS   AGE
 docker-registry-2-snarn   1/1       Running   0          17h
 trainingrouter-1-jm5zk    1/1       Running   0          18h
-[root@master00-GUID ~]# oc exec -ti -p trainingrouter-1-jm5zk /bin/bash
+[root@master00-GUID ~]# oc exec -ti trainingrouter-1-jm5zk /bin/bash
 
 #Another option is:
 [root@master00-GUID ~]#  oc exec -ti `oc get pods |  awk '/route/ { print $1; }'` "/bin/bash"
@@ -1031,7 +1032,7 @@ I1120 02:19:58.237018       1 sti.go:233] Successfully pushed 172.30.41.32:5000/
 
 . As `root`, execute the "bash" shell inside the registry container by using the
  `oc exec`  command and the docker-registry pod name:
-++
++
 ----
 [root@master00-GUID ~]#  oc exec -ti  `oc get pods |  awk '/registry/ { print $1; }'` /bin/bash
 

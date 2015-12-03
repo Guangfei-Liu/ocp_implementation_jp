@@ -11,7 +11,7 @@ toc::[]
 * Lab: Prepare to Deploy OpenShift Enterprise
 - Lab Scenario: In this lab we will prepare our hosts for the OpenShift Enerprise Installation,
  We will configure DNS and NFS ervers on our Administration Host, Configure the
-  network settings and Install docker.
+  settings and Install docker.
 
 * Lab: Install OpenShift Enterprise
 - Lab Scenario: In this lab we will Install OpenShift Enterprise by using the
@@ -442,7 +442,7 @@ repolist: 8,998
                                     node00-$guid.oslab.opentlc.com \
                                     node01-$guid.oslab.opentlc.com; \
                                     do \
-                                      echo Copying open.repot to $node ; \
+                                      echo Copying open.repo to $node ; \
                                       scp /etc/yum.repos.d/open.repo ${node}:/etc/yum.repos.d/open.repo ;
                                       yum repolist
                                    done
@@ -1307,7 +1307,7 @@ You might want to run this on the other nodes, but you do not need the
 
 === Configure Authentication
 
-CAUTION: This next section is case sensitive, it might take a few tried to get
+CAUTION: This next section is case sensitive, it might take a few tries to get
 the file to be parsed correctly if you are new to YAML.
 
 . Create a copy of your master's configuration file.

@@ -146,7 +146,7 @@ Quickstarts are great, but sometimes a developer wants to build the various
 
 .Deploy an ephemeral mysql database
 
-. From the "database-backend" Project "Overview" screen, click "Add to project"
+. From the "template" Project "Overview" screen, click "Add to project"
 .. Scroll down to "Databases" or type "mysql" in the search bar
 .. Select the "mysql-ephemeral" database template
 

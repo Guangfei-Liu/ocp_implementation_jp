@@ -26,6 +26,52 @@ toc::[]
 - Lab Scenario: In this lab we will prepare the OpenShift Cluster to use NFS
  storage as a `Persistent Volume` provider.
 
+== Lab Notes
+
+IMPORTANT: Please read these notes, they will help you navigate the lab
+ successfully
+
+* In this lab you will be running many commands remotly, from the *oselab* host
+ or the *master00* host.
+** instructions and command line prompt will always specify which host you
+ should be running the commands from.
+* Many times, you will run a command on a host (usually "master00") and then use
+  a for-loop to run the same set of commands on the rest of the nodes.
+** Make sure that you look at the output of each of those command that that they
+ complete correctly.
+* This lab is especially long and extremely important as all the future labs
+ will depend on the success of your deployment
+* Depending on your screen size, resolution and browser, some commands might
+ lose their intended formating, introducing extra line breaks, we try our best
+ to avoid this but sometimes the formating will "break" the command. Pay
+  attention to the command you are pasting in the CLI and correct the formating
+   if needed.
+
+=== Known Issues
+
+[cols="1,5,5"]
+|=======================================================================
+|Issue | Description | Workaround
+|Docker Storage Fail
+| Some students have reported issues with the "docker-storage-setup" step, pay
+ close attention to the output of the command and the status of the docker
+  daemon after applying the storage configuration. Sometimes our hosting
+   platform re-uses disks by accident, this results in failure to use the disks
+    by the docker daemon.
+| Use lvremove, vgremove and pvremove to free the /dev/vdb disks, then use fdisk
+ to delete the /dev/vdb1 partition. Run docker-storage-setup again and restart
+  the docker daemon.
+|Infranode00 Containers fail
+|Router/Registry (containers on infranode00) stop responding or will not deploy
+ - sometimes after automatic vm shutdown, sometimes at random.
+|Reboot "infranode00" and re-deploy the containers.
+| Master Daemon doesn't start after authentication config step
+| Openshift master daemon does not start after authentication configurations,
+ this is not a bug but probably due to YAML's space sensitivity.
+|Revert to original configuration (we create a copy before) and try again,
+ YAML is "space sensitive" and might take a couple of tries to get right.
+|=======================================================================
+
 
 == Lab: Prepare to Deploy OpenShift Enterprise
 
@@ -44,7 +90,7 @@ In this lab we will Deploy OpenShift Enterprise on a Master and 2 Nodes.
 * Install Docker on all the hosts
 
 [NOTE]
-A reminder: You are only allowed to use SSH to access the administration host
+A reminder: *You are only allowed to use SSH to access the administration host*
  from outside the lab environment. All other hosts have external SSH blocked.
   Once on the administration host, you can use SSH to access the other hosts
    internally. As described earlier, you must use your private SSH key and
@@ -119,7 +165,7 @@ TIP: It is highly recommended that you use a terminal multiplexing tool such as
 TIP: To enter "scroll mode" in `tmux` press CTRL+B and then use "PgUp" and
  "PgDn" buttons to scroll and "ESC" to exit scroll mode.
 
-=== Configure Wildcard DNS on "oselab" host to Service the OpenShift Environment
+=== Configure Wildcard DNS entry on "oselab" host to Service the OpenShift Environment
 
 OpenShift Enterprise requires a "wildcard DNS A record". The "wildcard A record"
  should point to the publicly available IP of a node or nodes that are hosting
@@ -128,7 +174,8 @@ OpenShift Enterprise requires a "wildcard DNS A record". The "wildcard A record"
 NOTE: In our environment the OpenShift Default Router will be deployed on the
  "infranode00" host.
 
-. Connect to your administration host `oselab-GUID.oslab.opentlc.com` (your private key location may vary).
+. Connect to your administration host `oselab-GUID.oslab.opentlc.com` (your
+   private key location may vary).
 +
 ----
 yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-GUID.oslab.opentlc.com
@@ -174,14 +221,16 @@ Environment Deployment Is Completed : Wed Nov 25 20:03:55 EST 2015
 GUID is c0fe and guid is c0fe
 ----
 
-.. If the $GUID and $guid environment variables are not set, use the following commands:
+.. If the $GUID and $guid environment variables are not set, use the following
+ commands:
 +
 ----
 [root@oselab-GUID ~]# export GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
 [root@oselab-GUID ~]# export guid=`hostname|cut -f2 -d-|cut -f1 -d.`
 
 ----
-. On the administration host, collect and define the environment's information. You define the public IP of `InfraNode00` as the target of the wildcard record.
+. On the administration host, collect and define the environment's information.
+ You define the public IP of `InfraNode00` as the target of the wildcard record.
 +
 ----
 [root@oselab-GUID ~]# host infranode00-$GUID.oslab.opentlc.com  ipa.opentlc.com |grep infranode | awk '{print $4}'
@@ -189,7 +238,8 @@ GUID is c0fe and guid is c0fe
 [root@oselab-GUID ~]# domain="cloudapps-$GUID.oslab.opentlc.com"
 ----
 
-. On the administration host, create the zone file with the wildcard DNS.
+. On the administration host, "oselab", create the zone file with the wildcard
+ DNS entry:
 +
 ----
 [root@oselab-GUID ~]# mkdir /var/named/zones
@@ -305,7 +355,8 @@ In this lab you create and install an SSH key pair on the *"oselab"* host and
 NOTE: In different environments you may use a non-root user that has "sudo"
  capabilities, for example, in AWS you would use the "ec2-user" user.
 
-. On the "oselab" host, locally add the public SSH key to `/root/.ssh/authorized_keys`.
+. On the "oselab" host, locally add the public SSH key to
+ `/root/.ssh/authorized_keys`.
 +
 ----
 [root@oselab-GUID ~]# cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys
@@ -477,7 +528,8 @@ master00-GUID.oslab.opentlc.com
 [root@master00-GUID ~]# ip address show dev eth0|grep "inet "|awk '{print $2}'|cut -f1 -d/
 ----
 
-. Make sure the master host's internal DNS entry matches the internal IP address.
+. Make sure the master host's internal DNS entry matches the internal IP
+ address.
 +
 ----
 [root@master00-GUID ~]# host `hostname -f`
@@ -489,7 +541,8 @@ master00-GUID.oslab.opentlc.com
 [root@master00-GUID ~]# curl http://www.opentlc.com/getip
 ----
 
-. Make sure the master host's external DNS entry matches the external IP address.
+. Make sure the master host's external DNS entry matches the external IP
+ address.
 +
 ----
 [root@master00-GUID ~]# host `hostname -f` 8.8.8.8
@@ -514,7 +567,8 @@ NOTE: If this does not work on the first try, wait a short while and try again.
                                    done
 ----
 
-NOTE: It is possible to configure `NetworkManager`  so it doesn't need to be removed.
+NOTE: It is possible to configure `NetworkManager`  so it doesn't need to be
+ removed.
 
 . Install the following tools and utilities on the "master00" host
 +
@@ -522,7 +576,8 @@ NOTE: It is possible to configure `NetworkManager`  so it doesn't need to be rem
 [root@oselab-GUID ~]# ssh master00-$guid "yum -y install wget git net-tools bind-utils iptables-services bridge-utils python-virtualenv gcc"
 ----
 
-. Its highly recommended to also install "bash-completion" on the "oselab" host and the "master" host
+. Its highly recommended to also install "bash-completion" on the "oselab" host
+ and the "master" host
 ----
 [root@oselab-GUID ~]# yum -y install "bash-completion"
 [root@oselab-GUID ~]# ssh master00-$guid "yum -y install bash-completion"
@@ -736,7 +791,9 @@ DOCKER_STORAGE_OPTIONS=--storage-driver devicemapper --storage-opt dm.fs=xfs --s
                                             reboot"
                                     done
 ----
-
++
+NOTE: "Broken Pipeline" messages in the output are expected and *are not* an
+ indication that there is anything wrong.
 . Enable, start, and get status for the Docker service on the master host.
 +
 ----
@@ -748,6 +805,9 @@ DOCKER_STORAGE_OPTIONS=--storage-driver devicemapper --storage-opt dm.fs=xfs --s
 -----
 [root@master00-GUID ~]# reboot
 -----
+
+IMPORTANT: Please refer to the known issues section in the beginning of the lab
+ if you have any issues with the docker storage setup.
 
 === Populate the Local Docker Registry
 
@@ -785,7 +845,7 @@ Checking docker status on node01-c0fe.oslab.opentlc.com
 [NOTE]
 Make sure the status is `enabled` and `active (running)`.
 
-. From the "oselab" host, pre-fetch the Docker images to all the nodes in the
+. From the "oselab" host, pull down the Docker images to *all the nodes* in the
  primary region (`node00` and `node01`).
 +
 ----
@@ -796,7 +856,6 @@ do
 ssh $node "
 docker pull $REGISTRY/$PTH/ose-deployer:v3.1.0.4 ; \
 docker pull $REGISTRY/$PTH/ose-sti-builder:v3.1.0.4 ; \
-docker pull $REGISTRY/$PTH/ose-sti-image-builder:v3.1.0.4 ; \
 docker pull $REGISTRY/$PTH/ose-docker-builder:v3.1.0.4 ; \
 docker pull $REGISTRY/$PTH/ose-pod:v3.1.0.4 ; \
 docker pull $REGISTRY/$PTH/ose-keepalived-ipfailover:v3.1.0.4 ; \
@@ -810,12 +869,12 @@ TIP: We are only downloading these images to save time later, if a node doesn't
 have an image locally it will try to download it. (unless otherwise configured)
 +
 [NOTE]
-This will take about 10 minutes to complete on *each node*, you don't have to wait
-for this to complete, just connect to each node, run the pull and continue with
-other tasks.
+This will take about 10 minutes to complete on *each node*, you don't have to
+ wait for this to complete, just connect to each node, run the pull and continue
+  with other tasks.
 
-. On *Infranode00*, pull only the basic images and the *Registry* and *Router*
- images.
+. From the "oselab" host, pull only the basic images and the *Registry* and *Router*
+ images to the *Infranode00* host:
 +
 ----
 [root@oselab-GUID ~]# REGISTRY="registry.access.redhat.com";PTH="openshift3"
@@ -833,7 +892,7 @@ do run any containers.
 . Examine Docker pool info on the `node0X` (i.e., `node00`, `node01`, etc.) host.
 +
 ----
-[root@oselab-GUID ~]# ssh node00-$guid docker info
+[root@oselab-GUID ~]# ssh node00-$guid "docker info"
 ----
 
 * You should see something similar to the following:
@@ -873,7 +932,8 @@ ID: RXVI:JKOO:3U4X:LHDE:QXPN:FSQC:TTBL:UCWP:MCEH:2KU6:GWSD:IRIN
 [root@oselab-GUID ~]# ssh node00-$guid.oslab.opentlc.com "lvs"
 ----
 
-* You should see something similar to the following:
+* You should see something similar to the following, note that the docker-pool
+ LV has some date in it now:
 +
 ----
 LV          VG                    Attr       LSize  Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
@@ -886,13 +946,18 @@ swap        rhel_host2cc260760b15 -wi-ao----  2.00g
 
 === Download the Installer
 
+In this lab we will run our installer from the "oselab" host, in a real scenario
+ this could be a laptop, a staging or provisioning server. no packages are being
+  deployed directly from the oselab host to the openshift nodes/master.
+
 . On the "oselab" host, install the Openshift utility package.
 +
 ----
 [root@oselab-GUID ~]# yum -y install atomic-openshift-utils
 ----
 
-. (Optional) Copy and paste the master and node names to a local file:
+. (Optional) Copy and paste the master and node names to a local file on your
+ workstation so you could easily copy-paste them later on:
 +
 ----
 [root@oselab-GUID ~]#  for node in master00-$guid.oslab.opentlc.com \
@@ -901,11 +966,6 @@ swap        rhel_host2cc260760b15 -wi-ao----  2.00g
                                     node01-$guid.oslab.opentlc.com; do
                                     echo $node ;
                                     done
-master00-GUID.oslab.opentlc.com
-infranode00-GUID.oslab.opentlc.com
-node00-GUID.oslab.opentlc.com
-node01-GUID.oslab.opentlc.com
-
 ----
 
 === Run the Installer
@@ -1342,20 +1402,20 @@ oauthConfig:
     authorizeTokenMaxAgeSeconds: 500
 ----
 
-CAUTION: Make sure you replace "GUID" with your GUID number.
 . Use the sed command to replace the GUID with your actual GUID:
 +
 ----
 [root@master00-GUID ~]# sed -i s/GUID/${guid}/g  /etc/origin/master/master-config.yaml
 ----
 
+
+
 === Add Development Users
 
 In the real world, your developers are likely to use the OpenShift Enterprise
  tools (`oc` and the web console) on their own machines . For this course,
   you create user accounts for two nonprivileged OpenShift Enterprise users,
-   `andrew` and `marina`, on the master. You do this both for convenience and
-    because you are using `htpasswd` for authentication.
+   `andrew` and `marina`, on the master.
 
 . On the master host, add two Linux accounts.
 +
@@ -1365,7 +1425,7 @@ In the real world, your developers are likely to use the OpenShift Enterprise
 ----
 
 NOTE: Feel free to create these users on any machine that has the "oc" command
- available.
+ available. The master's API port (8443) is available to the public network.
 
 === Configure `htpasswd` Authentication
 
@@ -1393,7 +1453,21 @@ To start, you need the `htpasswd` binary available in the `httpd-tools` package.
 [root@master00-GUID ~]# systemctl restart atomic-openshift-master
 ----
 
+. Check the status of your `atomic-openshift-master` daemon:
++
+----
+[root@master00-GUID ~]# systemctl status atomic-openshift-master
+----
 
+. Check that you can authenticate as "andrew" in the OpenShift web-console:
+.. Connect to: link:https://master00-GUID.oslab.opentlc.com[https://master00-GUID.oslab.opentlc.com]
+.. Authenticate as "andrew" with the password: "r3dh4t1!"
+.. Do not create any projects or applications yet, we will do that soon.
++
+NOTE: Many students have issues with the section, please refer to the known
+ issues section in the beginning of this lab for help, also, remember that you
+  created a copy of the `master-config.yaml` (master-config-yaml.original) and
+   you can always revert to the original and try again.
 
 
 === The Registy and Router
@@ -1414,7 +1488,8 @@ NOTE: If we wanted to pin down the registry to a specific region we could do
  "default" namespace default `nodeSelector`.
 
 . You can look at the status of your pod using the following commands, This can
-  take a few minutes the first time around as the images are being pulled from the registry:
+  take a few minutes the first time around as the images are being pulled from
+   the registry:
 +
 ----
  [root@master00-GUID ~]# oc get pods
@@ -1509,7 +1584,6 @@ NOTE: If we wanted to pin down the registry to a specific region we could do
 [root@master00-GUID ~]#  oadm router trainingrouter --replicas=1 \
   --credentials='/etc/origin/master/openshift-router.kubeconfig' \
   --service-account=router --stats-password='r3dh@t1!'
-
 ----
 
 
@@ -1535,7 +1609,7 @@ router-1-mpzxx            1/1       Running   0          23s
 
 .. You would probably also have the Docker registry pods listed in the output above.
 
-.. Press *CTRL+C* to exit the watch on `oc get pods`.
+.. Press *CTRL+C* to exit the "watch" on `oc get pods`.
 
 
 
@@ -1578,8 +1652,8 @@ Having a database for development is nice, but what if you actually want the
   ephemeral, and, by default, so is their storage. For shared or persistent
    storage, you need a way to specify that pods should use external volumes.
 
-For the purposes of this training, we will just demonstrate the *oselab* host
- exporting an NFS volume for use as storage by the database.
+For the purposes of this training, you will use the *oselab* host as your NFS
+  server exporting NFS mounts to be used as PersistentVolume targets.
 
 === Prepare for NFS Persistent Storage back-end
 
@@ -1807,5 +1881,6 @@ pv23               <none>    5368709120    RWO           Available
 Although this process is fairly manual now, one could easily automate this
  process to create a volume on request.
 
-NOTE: At this point, you have created the infrastructure for using persistent volumes
- but have not used it. You will use these exports (volumes) in upcoming labs.
+NOTE: At this point, you have created the infrastructure for using persistent
+ volumes but have not used it. You will use these exports (volumes) in future
+  labs.

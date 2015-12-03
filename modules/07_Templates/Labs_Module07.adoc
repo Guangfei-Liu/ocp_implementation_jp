@@ -152,14 +152,14 @@ Quickstarts are great, but sometimes a developer wants to build the various
 
 . Set the template parameters:
 .. *DATABASE_SERVICE_NAME*: `database`
-.. *MYSQL_USER*: `root`
+.. *MYSQL_USER*: `mysqluser`
 .. *MYSQL_PASSWORD*: `redhat`
 .. *MYSQL_DATABASE*: `mydb`
 
 . Click the "Create" button, and then click "continue to overview"
 +
 TIP: You could have used the command line to create this template instance:
- "oc new-app --template=mysql-ephemeral --param=MYSQL_USER=root,MYSQL_PASSWORD=redhat,MYSQL_DATABASE=mydb,DATABASE_SERVICE_NAME=database"
+ "oc new-app --template=mysql-ephemeral --param=MYSQL_USER=mysqluser,MYSQL_PASSWORD=redhat,MYSQL_DATABASE=mydb,DATABASE_SERVICE_NAME=database"
 
 . As "marina", switch to the "templates" project in the command line:
 +
@@ -187,7 +187,7 @@ NOTE: that a Deployment Configuration has been created for our instance and
 ----
 [marina@master00-GUID ~]$ oc env dc database --list
 # deploymentconfigs mydb-service, container mysql
-MYSQL_USER=root
+MYSQL_USER=mysqluser
 MYSQL_PASSWORD=redhat
 MYSQL_DATABASE=mydb
 ----
@@ -198,9 +198,12 @@ MYSQL_DATABASE=mydb
 +
 ----
 [marina@master00-GUID ~]$ oc new-app -i openshift/ruby https://github.com/openshift/ruby-hello-world \
-                          --param=MYSQL_USER=root,MYSQL_PASSWORD=redhat,MYSQL_DATABASE=mydb
+                          MYSQL_USER=mysqluser MYSQL_PASSWORD=redhat MYSQL_DATABASE=mydb
 ----
-
++
+NOTE: We are not using the '--param' flag because in this case we are not
+ creating a template.
++
 . Check that your service was created:
 +
 ----

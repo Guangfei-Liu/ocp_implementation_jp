@@ -31,3 +31,5 @@ During the scaling-up process, if the replica count of the deployment is greater
 
 When executing a `post` lifecycle hook, all failures are ignored regardless of
  the failure policy specified in the hook.
+
+endif::showscript[]

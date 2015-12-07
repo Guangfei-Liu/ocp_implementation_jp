@@ -77,13 +77,14 @@ IMPORTANT: Please read these notes, they will help you navigate the lab
 
 === Overview
 * Lab: Prepare to Deploy OpenShift Enterprise
-- Lab Scenario: In this lab we will prepare our hosts for the OpenShift Enerprise Installation,
- We will configure DNS and NFS ervers on our Administration Host, Configure the
-  network settings and Install docker.
+- Lab Scenario: In this lab we will prepare our hosts for the OpenShift
+ Enerprise Installation, We will configure DNS and NFS ervers on our
+  Administration Host, Configure the network settings and Install docker.
 
 In this lab we will Deploy OpenShift Enterprise on a Master and 2 Nodes.
 
-* Configure a DNS on the `oselab` server to serve your OpenShift Enterprise environment
+* Configure a DNS on the `oselab` server to serve your OpenShift Enterprise
+ environment
 * Configure SSH keys
 * Configure repositories
 * Configure network settings
@@ -423,26 +424,26 @@ Normally you obtain these repositories via `subscription-manager` but we have
 cat << EOF > /etc/yum.repos.d/open.repo
 [rhel-x86_64-server-7]
 name=Red Hat Enterprise Linux 7
-baseurl=http://www.opentlc.com/repos/rhel-7-server-rpms
+baseurl=http://www.opentlc.com/repos/ose/3.1/rhel-7-server-rpms
 enabled=1
 gpgcheck=0
 
 [rhel-x86_64-server-extras-7]
 name=Red Hat Enterprise Linux 7 Extras
-baseurl=http://www.opentlc.com/repos/rhel-7-server-extras-rpms
+baseurl=http://www.opentlc.com/repos/ose/3.1/rhel-7-server-extras-rpms
 enabled=1
 gpgcheck=0
 
 [rhel-x86_64-server-optional-7]
 name=Red Hat Enterprise Linux 7 Optional
-baseurl=http://www.opentlc.com/repos/rhel-7-server-optional-rpms
+baseurl=http://www.opentlc.com/repos/ose/3.1/rhel-7-server-optional-rpms
 enabled=1
 gpgcheck=0
 
 # This repo is added for the OPENTLC environment not OSE
 [rhel-x86_64-server-rh-common-7]
 name=Red Hat Enterprise Linux 7 Common
-baseurl=http://www.opentlc.com/repos/rhel-x86_64-server-rh-common-7
+baseurl=http://www.opentlc.com/repos/ose/3.1/rhel-7-server-rh-common-rpms
 enabled=1
 gpgcheck=0
 
@@ -455,7 +456,7 @@ EOF
 [root@oselab-GUID ~]# cat << EOF >> /etc/yum.repos.d/open.repo
 [rhel-7-server-ose-3.1-rpms]
 name=Red Hat Enterprise Linux 7 OSE 3.1
-baseurl=http://www.opentlc.com/repos/rhel-7-server-ose-3.1-rpms
+baseurl=http://www.opentlc.com/repos/ose/3.1/rhel-7-server-ose-3.1-rpms
 enabled=1
 gpgcheck=0
 

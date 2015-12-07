@@ -6,89 +6,42 @@
 #####################################################################################
 #####################################################################################
 #####################################################################################
-
-hostname | grep master
+export HOST=oselab
+export VERSION="3.1"
+hostname | grep $HOST
 if [ $? -ne 0 ]
 then
-echo "Not on Master, Quiting"
+echo "Not on $HOST, Quiting"
 exit;
 fi
 
 export guid=`hostname|cut -f2 -d-|cut -f1 -d.`
 export GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
 
-#In this lab we will Deploy OpenShift Enterprise on a single host (in later labs we will add more nodes).
-##* Configure a DNS on our *oselab* server to serve our OpenShift environment.
-##* Configure SSH Keys
-##* Configure Repositories
-##* Configure Network Settings
-##* Install Docker on our host
-##* Configure and Install OpenShift Enterprise
-##* Test deployment.
-
-##=== Lab Environment Architecture and Important Information
-
-##The lab environment consists of 4 VMs:
-
-##* `oselab-GUID.oslab.opentlc.com` (administration host)
-
-##* `master00-GUID.oslab.opentlc.com` (master host, contains Etcd and the management console)
-
-##* `infranode00-GUID.oslab.opentlc.com` (infranode host, Will run our infrastructure containers: Registry and Router)
-
-##* `node00-GUID.oslab.opentlc.com` (node host, Region: Primary, Zone: East. )
-
-##* `node01-GUID.oslab.opentlc.com` (node host, Region: Primary, Zone: West. )
-
-##As a reminder you will only be allowed to SSH to the administration host from the outside of the lab environment, all other hosts have external SSH blocked.  Once on the administration host, you can SSH to the other hosts internally.  As described earlier, you will have to use your private SSH key and OPENTLC login to access the system (not root!).
-##Each student lab is assigned a global unique identifier (GUID) that consists of 4 characters.  This GUID is provided to you in the provisioning email that will be sent to you when you provision your lab environment.  *Anywhere you see GUID from this point on, you will replace it with your lab's GUID.*
-
-
-
-#=== Configure Wildcard DNS to Service the OpenShift Environment.
-
-#OpenShift requires a wildcard DNS A record.  The wildcard A record should point to the publicly available (external) IP address of the OpenShift router.  For this training, we will ensure that the router will end up on the OpenShift server that is running the master.  It is advisable to use a low TTL for this record in order for DNS client caches to expire quicker so that changes become available quicker.  The DNS server runs on the administration host.
-
-#. Connect to your administration host `oselab-GUID.oslab.opentlc.com` (your private key location may vary):
-
-#
 echo Configure `/etc/ssh/ssh_conf` to disable `StrictHostKeyChecking` on the master host:
 
 echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
 
 ssh root@oselab-$GUID.oslab.opentlc.com "bash /root/oselab.dns.installer.sh"
 
-echo "=== Configure SSH Keys:"
-##The OpenShift installer uses SSH to configure hosts.  In this lab we create and install an SSH key pair on the master host and add the public key to the `authorized_hosts` file.
-#. SSH to the master host from the admin host and create an SSH key pair for the `root` user.
-
-#rm -rf /root/.ssh/*
-#ssh-keygen -f /root/.ssh/id_rsa -N ''
-#/usr/bin/cp -f /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
-
-
-#echo Copy the SSH key to the rest of the nodes in the environment
-#echo "for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do ssh-copy-id root@$node ; done"
-#for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do ssh-copy-id root@$node ; done
-
 echo "=== Configure the Repositories on the Master Host"
 echo " On the master host set up the yum repository configuration file /etc/yum.repos.d/open.repo"
 cat << EOF > /etc/yum.repos.d/open.repo
 [rhel-x86_64-server-7]
 name=Red Hat Enterprise Linux 7
-baseurl=http://www.opentlc.com/repos/rhel-7-server-rpms
+baseurl=http://www.opentlc.com/repos/ose/${VERSION}/rhel-7-server-rpms
 enabled=1
 gpgcheck=0
 
 [rhel-x86_64-server-extras-7]
 name=Red Hat Enterprise Linux 7 Extras
-baseurl=http://www.opentlc.com/repos/rhel-7-server-extras-rpms
+baseurl=http://www.opentlc.com/repos/ose/${VERSION}/rhel-7-server-extras-rpms
 enabled=1
 gpgcheck=0
 
 [rhel-x86_64-server-optional-7]
 name=Red Hat Enterprise Linux 7 Optional
-baseurl=http://www.opentlc.com/repos/rhel-7-server-optional-rpms
+baseurl=http://www.opentlc.com/repos/ose/${VERSION}/rhel-7-server-optional-rpms
 enabled=1
 gpgcheck=0
 
@@ -98,78 +51,108 @@ name=Red Hat Enterprise Linux 7 Common
 baseurl=http://www.opentlc.com/repos/rhel-x86_64-server-rh-common-7
 enabled=1
 gpgcheck=0
+
 EOF
+
 
 #Add the OpenShift repository mirror to the master host:
 cat << EOF >> /etc/yum.repos.d/open.repo
-[rhel-7-server-ose-3.1-rpms]
-name=Red Hat Enterprise Linux 7 OSE 3.1
-baseurl=http://www.opentlc.com/repos/rhel-7-server-ose-3.1-rpms
+[rhel-7-server-ose-${VERSION}-rpms]
+name=Red Hat Enterprise Linux 7 OSE ${VERSION}
+baseurl=http://www.opentlc.com/repos/ose/${VERSION}/rhel-7-server-ose-${VERSION}-rpms
 enabled=1
 gpgcheck=0
 EOF
 
-echo "List the available repositories on the master host:"
+echo "List the available repositories on the $HOST host:"
 
 yum repolist
 
 #The Nodes require to be configures as well, for the sake of simplicity we will copy the repo file to all the nodes directly from the the master
-for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do scp /etc/yum.repos.d/open.repo ${node}:/etc/yum.repos.d/open.repo ; done
 
+for node in master00-$guid.oslab.opentlc.com \
+                                    infranode00-$guid.oslab.opentlc.com \
+                                    node00-$guid.oslab.opentlc.com \
+                                    node01-$guid.oslab.opentlc.com; \
+                                    do \
+                                      echo Copying open.repo to $node ; \
+                                      scp /etc/yum.repos.d/open.repo ${node}:/etc/yum.repos.d/open.repo ;
+                                      yum repolist
+                                   done
 echo "Remove NetworkManager:"
-yum -y remove NetworkManager*
-echo "Do the same for the rest of the nodes"
-for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do ssh $node "yum -y  remove NetworkManager*"  ; done
-echo "Install Misc tools and utilities on the master"
-yum -y install wget git net-tools bind-utils iptables-services bridge-utils python-virtualenv gcc bash-completion
+for node in   master00-$guid.oslab.opentlc.com \
+                                    infranode00-$guid.oslab.opentlc.com \
+                                    node00-$guid.oslab.opentlc.com \
+                                    node01-$guid.oslab.opentlc.com; \
+                                    do \
+                                    echo removing NetworkManager on $node ; \
+                                      ssh $node "yum -y  remove NetworkManager*"
+                                   done
+echo "yum update all hosts"
+for node in   master00-$guid.oslab.opentlc.com \
+                                    infranode00-$guid.oslab.opentlc.com \
+                                    node00-$guid.oslab.opentlc.com \
+                                    node01-$guid.oslab.opentlc.com; \
+                                    do \
+                                    echo removing NetworkManager on $node ; \
+                                      ssh $node "yum update -y"
+                                   done
 
-echo "Run yum update on all the nodes"
-ssh infranode00-$guid.oslab.opentlc.com "yum update -y > /dev/null" &
-ssh node00-$guid.oslab.opentlc.com "yum update -y > /dev/null" &
-ssh node01-$guid.oslab.opentlc.com "yum update -y > /dev/null" &
+echo Installing packages on master
+ssh master00-$guid "yum -y install wget git net-tools bind-utils iptables-services bridge-utils python-virtualenv gcc  bash-completion"
 
-yum -y update
 
 echo "=== Install Docker"
 
 echo "Install the docker package on the master host"
-yum -y install docker
-
 echo "Do the same for the rest of the nodes"
-for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do ssh $node "yum -y install docker"  ; done
-
+for node in   master00-$guid.oslab.opentlc.com \
+                                    infranode00-$guid.oslab.opentlc.com \
+                                    node00-$guid.oslab.opentlc.com \
+                                    node01-$guid.oslab.opentlc.com; \
+                                    do \
+                                    echo removing NetworkManager on $node ; \
+                                      ssh $node "yum -y install docker"
+                                   done
 
 echo "Configure the *Docker* registry on the *master*:"
-sed -i "s/OPTIONS.*/OPTIONS='--selinux-enabled --insecure-registry 172.30.0.16\/0'/" /etc/sysconfig/docker
+scp master00-$guid.oslab.opentlc.com:/etc/sysconfig/docker /tmp
+sed -i "s/OPTIONS.*/OPTIONS='--selinux-enabled --insecure-registry 172.30.0.0\/16'/" /tmp/docker
 
 echo "Do the same for the rest of the nodes"
 
-for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do scp  /etc/sysconfig/docker $node:/etc/sysconfig/docker ; done
-
+for node in    master00-$guid.oslab.opentlc.com \
+                                    infranode00-$guid.oslab.opentlc.com \
+                                    node00-$guid.oslab.opentlc.com \
+                                    node01-$guid.oslab.opentlc.com; \
+                                    do \
+                                    echo Overwriting docker configuration file on $node ; \
+                                    scp  /tmp/docker $node:/etc/sysconfig/docker ;
+                                    done
 echo "=== Configure Docker Storage"
 
-rm -rf /var/lib/docker/*
-cat <<EOF > /etc/sysconfig/docker-storage-setup
+cat <<EOF > /tmp/docker-storage-setup
 DEVS=/dev/vdb
 VG=docker-vg
 EOF
-docker-storage-setup
 
 echo "Do the same for the rest of the nodes"
 
-for node in infranode00-$guid.oslab.opentlc.com \
- node00-$guid.oslab.opentlc.com \
- node01-$guid.oslab.opentlc.com; \
+for node in  master00-$guid.oslab.opentlc.com \
+                  infranode00-$guid.oslab.opentlc.com \
+                  node00-$guid.oslab.opentlc.com \
+                  node01-$guid.oslab.opentlc.com; \
  do
    echo Configuring Docker Storage and rebooting $node
-   scp /etc/sysconfig/docker-storage-setup ${node}:/etc/sysconfig/docker-storage-setup
+   scp /tmp/docker-storage-setup ${node}:/etc/sysconfig/docker-storage-setup
    ssh $node "
-         docker-storage-setup ;
-         systemctl enable docker;
-         reboot"
+      rm -rf /var/lib/docker/*
+       docker-storage-setup ;
+       systemctl enable docker;
+       reboot"
  done
 
-systemctl enable docker
+
 
 #reboot
 echo "Sleep 60 to wait for the nodes to come up"
@@ -183,6 +166,7 @@ for node in   master00-$guid.oslab.opentlc.com \
    echo Checking docker status on $node
    ssh $node "
          systemctl status docker | grep Active"
+         lvs
  done
 
 REGISTRY="registry.access.redhat.com";PTH="openshift3"
@@ -210,9 +194,24 @@ docker pull $REGISTRY/$PTH/ose-pod:v3.1.0.4 ; \
 docker pull $REGISTRY/$PTH/ose-docker-registry:v3.1.0.4 ;"
 
 echo "=== Download the Installer"
- yum -y install atomic-openshift-utils
 
-cat << EOF >> /root/.config/openshift/installer.cfg.yml
+for node in   master00-$guid.oslab.opentlc.com \
+                                    infranode00-$guid.oslab.opentlc.com \
+                                    node00-$guid.oslab.opentlc.com \
+                                    node01-$guid.oslab.opentlc.com; \
+                                    do \
+                                    echo removing NetworkManager on $node ; \
+
+                                      ssh $node "
+                                      yum clean all;
+                                      yum update -y;
+                                      "
+                                   done
+
+yum -y install atomic-openshift-utils
+
+mkdir -p /root/.config/openshift
+cat << EOF > /root/.config/openshift/installer.cfg.yml
  ansible_config: /usr/share/atomic-openshift-utils/ansible.cfg
  ansible_log_path: /tmp/ansible.log
  ansible_ssh_user: root
@@ -248,8 +247,12 @@ cat << EOF >> /root/.config/openshift/installer.cfg.yml
 EOF
 
 sed -i s/GUID/${GUID}/g /root/.config/openshift/installer.cfg.yml
+master00-ae0b.oslab.opentlc.com
+infranode00-ae0b.oslab.opentlc.com
+node00-ae0b.oslab.opentlc.com
+node01-ae0b.oslab.opentlc.com
 
-
+atomic-openshift-installer -u install
 echo "== Lab: OpenShift Configuration and Setup"
 
 echo "=== Set Regions and Zones"

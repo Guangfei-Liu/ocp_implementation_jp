@@ -3,7 +3,7 @@
 
 
 .Replication Layer
-* Ensures number of instances/pods defined in store layer actually exist
+* Ensures number of instances/pods defined in store layer actually exists
 
 +
 image::images/04Replication.png[]
@@ -14,7 +14,7 @@ ifdef::showscript[]
 
 The replication layer contains the replication controller, whose role is to make
  sure that the number of instances/pods defined in the store layer actually
-  exist.
+  exists.
 The replication controller instantiates (creates) or kills pods according to
 the desired state definition.
 

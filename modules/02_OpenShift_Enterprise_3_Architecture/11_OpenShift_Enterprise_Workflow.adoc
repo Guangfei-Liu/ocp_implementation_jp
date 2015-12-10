@@ -7,7 +7,7 @@
 * Application needs to be scaled up to accommodate overall increase or upcoming
  spike in traffic
 * Request could be:
-** Manual API call/Command Line
+** Manual API call/command line
 ** Initiated by external monitoring agent
 
 * OpenShift Enterprise workflow:

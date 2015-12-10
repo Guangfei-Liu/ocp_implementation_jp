@@ -5,7 +5,7 @@
 * *Virtual machine (VM)*: Each virtualized machine includes application,
  binaries, libraries, guest operating system
 
-* *Container (Docker)*: Contains application, binaries and libraries only
+* *Container (Docker)*: Contains application, binaries, and libraries only
 +
 image::images/VMvsContainer.png[]
 

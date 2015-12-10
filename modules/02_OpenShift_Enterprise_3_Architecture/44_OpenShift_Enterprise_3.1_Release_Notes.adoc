@@ -1,16 +1,19 @@
-== OpenShift Enterprise 3.1 Release Notes
 :noaudio:
 
+== OpenShift Enterprise 3.1 Release Notes
 
 
-* Jenkins is Now Available:
-** A Jenkins image is now available for deployment on OpenShift.
-** Integration between Jenkins masters and Jenkins slaves running on OpenShift
-has improved.
+
+
+* Jenkins
+** Jenkins image now available for deployment on OpenShift
+** Improved integration between Jenkins masters and slaves running on OpenShift
 
 ifdef::showscript[]
 === Transcript
 
+A Jenkins image is now available for deployment on OpenShift.
+In addition, integration between Jenkins masters and Jenkins slaves running on OpenShift has improved.
+
+
 endif::showscript[]
-
-

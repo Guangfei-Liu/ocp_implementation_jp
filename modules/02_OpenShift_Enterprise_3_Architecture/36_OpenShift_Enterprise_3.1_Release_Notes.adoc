@@ -1,20 +1,28 @@
-== OpenShift Enterprise 3.1 Release Notes
 :noaudio:
-* Docker version update require
-** Docker version 1.8.2 is required. This contains the fix to let the
-*_/etc/groups_* file use supplementary groups.
 
-* LDAP Synchronization:
-** OpenShift now allows you to sync LDAP records with OpenShift, so that you can
- manage groups easily.
+== OpenShift Enterprise 3.1 Release Notes
 
-* F5 Availability:
-** You can now configure an F5 load-balancer for use with your OpenShift
- Enterprise environment.
+
+* Docker version update
+** Docker version 1.8.2 required
+** Contains fix to let `_/etc/groups_` use supplementary groups
+
+* LDAP synchronization
+** Can now sync LDAP records with OpenShift
+** Lets you manage groups easily
+
+* F5 availability
+** Can now configure F5 load balancer for use with OpenShift Enterprise environment
 
 ifdef::showscript[]
 === Transcript
 
+OpenShift Enterprise 3.1 requires a Docker update to version 1.8.2. This version contains the fix to allow the `_/etc/groups_` file to use supplementary groups.
+
+OpenShift Enterprise 3.1 also offers LDAP synchronization and F5 availability.
+
+OpenShift now allows you to sync LDAP records with OpenShift, so that you can manage groups easily.
+
+You can also now configure an F5 load balancer for use with your OpenShift Enterprise environment.
+
 endif::showscript[]
-
-

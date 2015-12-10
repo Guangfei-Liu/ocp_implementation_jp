@@ -35,4 +35,6 @@ Enterprise registry and third-party registries
 * A discussion of builds and OpenShift Enterprise S2I images, including what an
  S2I build is and reasons to use it
 
+* A description of the new features in OpenShift Enterprise 3.1
+
 endif::showscript[]

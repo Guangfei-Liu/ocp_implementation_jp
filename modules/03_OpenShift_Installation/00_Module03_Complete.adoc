@@ -1,18 +1,11 @@
-
-
-
+:noaudio:
 
 ifdef::revealjs_slideshow[]
 
 [#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"]
 
 == &nbsp;
-
-
-ifdef::revealjs_slideshow[]
-
-[#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"]
-
+:noaudio:
 
 [#cover-h1]
 Red Hat OpenShift Enterprise Implementation
@@ -26,7 +19,6 @@ image::{revealjs_cover_image}[]
 endif::[]
 
 == Module Topics
-
 
 * Installation Scenario
 * Installation Methods
@@ -53,7 +45,6 @@ This module reviews the installation process and shows how to configure the
 
 endif::showscript[]
 == Installation Scenario
-
 
 [cols="1,1,4,2"]
 |=======================================================================
@@ -99,10 +90,7 @@ The two remaining *nodes* are hosts that you use to run containers (pods) in the
    single region and possibly two cloud availability zones.
 
 endif::showscript[]
-
-
 == Installation Methods
-
 
 .Quick Install
 ** Lets you use interactive CLI utility to install OpenShift across set of hosts
@@ -113,7 +101,8 @@ endif::showscript[]
 ** Does not assume familiarity with Ansible
 
 .Advanced Install
-** For complex environments requiring deeper customization of installation and maintenance
+** For complex environments requiring deeper customization of installation and
+ maintenance
 ** Uses Ansible playbooks
 ** Assumes familiarity with Ansible
 
@@ -142,7 +131,6 @@ This module focuses on the Quick Install method.
 
 endif::showscript[]
 == Installation Workflow
-
 
 * Prerequisites
 ** System requirements
@@ -175,7 +163,6 @@ Finally, you deploy some containerized infrastructure components such as the
 
 endif::showscript[]
 == Prerequisites
-
 
 .System Requirements
 
@@ -210,7 +197,6 @@ To lower costs, the servers in the learning environment are not configured with
 
 endif::showscript[]
 == Prerequisites
-
 
 .DNS Setup
 
@@ -252,10 +238,7 @@ For example, you can use the code shown here to create a wildcard DNS entry for
    deployed.
 
 endif::showscript[]
-
-
 == Host Preparation
-
 
 .Overview
 
@@ -303,12 +286,12 @@ If you want to create a scalable environment, you should create an image
 endif::showscript[]
 == Host Preparation
 
-
 .Password-Less Communication
 
 * Ensure installer has password-less access to hosts
 ** Ansible requires user with access to all hosts
-** To run installer as non-root user, configure password-less `sudo` rights on each destination host
+** To run installer as non-root user, configure password-less `sudo` rights on
+ each destination host
 * Example: To generate SSH key on host where you invoke installation process:
 +
 ----
@@ -340,7 +323,6 @@ An easy way to distribute your SSH keys is by using a bash loop.
 
 endif::showscript[]
 == Host Preparation
-
 
 .Firewalls: Component Communication
 
@@ -393,9 +375,7 @@ Also note that the master is running a local DNS server. Do not confuse this
     locally.
 
 endif::showscript[]
-
 == Host Preparation
-
 
 .Firewalls: External Access
 
@@ -435,7 +415,6 @@ Consider a topology where only the infrastructure _nodes_ are running in a DMZ
 endif::showscript[]
 == Host Preparation
 
-
 .Networking and Miscellaneous
 
 * Install software packages:
@@ -461,11 +440,11 @@ ifdef::showscript[]
 You need to install the software packages shown here and run a `yum` update on
  your master before using the installer and installing OpenShift Enterprise 3.
 
-Red Hat highly recommends installing `bash-completion` so that commands can be completed simply by pressing the  *Tab* key.
+Red Hat highly recommends installing `bash-completion` so that commands can be
+ completed simply by pressing the  *Tab* key.
 
 endif::showscript[]
 == Docker Installation
-
 
 .Installing Docker
 
@@ -512,7 +491,6 @@ You will deploy your local registry under this subnet.
 endif::showscript[]
 == Docker Installation
 
-
 .Docker Storage Configuration
 
 * Docker default loopback storage mechanism:
@@ -543,7 +521,6 @@ The script reads configuration options from the
 
 endif::showscript[]
 == Docker Installation
-
 
 .Storage Options
 
@@ -598,7 +575,6 @@ Then you use an existing volume group, in this example `docker-vg`, to create a
 endif::showscript[]
 == Docker Installation
 
-
 .Storage Options: Example
 
 * Use unpartitioned block device to create new volume group and thin-pool:
@@ -646,7 +622,6 @@ After you verify the setup, restart the `Docker` daemon.
 endif::showscript[]
 == OpenShift Enterprise Installation
 
-
 * Install OpenShift `utils` package that includes installer:
 +
 ----
@@ -662,7 +637,8 @@ $ atomic-openshift-installer install
 * Follow onscreen instructions to install OpenShift Enterprise
 ** Installer asks for hostnames or IPs of masters and nodes and configures them
  accordingly
-** Configuration file with all information provided is saved in `~/.config/openshift/installer.cfg.yml`
+** Configuration file with all information provided is saved in
+ `~/.config/openshift/installer.cfg.yml`
 *** Can use this as _answer file_
 
 ifdef::showscript[]
@@ -674,17 +650,17 @@ To install OpenShift
   and run the installer CLI utility on a host that has SSH access to your
    intended master and nodes.
 
-The installer asks for the hostnames or IPs of the masters and nodes and configures them
- accordingly.
+The installer asks for the hostnames or IPs of the masters and nodes and
+ configures them accordingly.
 
-A configuration file with all the information provided is saved in  `~/.config/openshift/installer.cfg.yml`.
+A configuration file with all the information provided is saved in
+ `~/.config/openshift/installer.cfg.yml`.
 You can use this as an _answer file_
   for future installations.
 
 
 endif::showscript[]
 == Regions and Zones
-
 
 * After installation, need to label nodes
 ** Lets scheduler use _logic_ defined in `scheduler.json` when provisioning pods
@@ -734,7 +710,6 @@ The labels on the nodes handle the assignments of _regions_ and _zones_ at the
 endif::showscript[]
 == Registry Deployment
 
-
 .Registry Container
 
 * OpenShift Enterprise:
@@ -770,7 +745,6 @@ To control where your registry is deployed, you use the `--selector` flag to
 
 endif::showscript[]
 == Registry Deployment
-
 
 .Deploying Registry
 
@@ -815,7 +789,6 @@ To ensure that the `registry` pod is hosted only in the `infra` region, run the
 
 endif::showscript[]
 == Registry Deployment
-
 
 .NFS Storage for the Registry
 
@@ -865,7 +838,6 @@ The `--mount-host` option mounts a directory from the node on which the registry
 endif::showscript[]
 == Default HAProxy Router Deployment
 
-
 * `Default Router` (aka `Default HA-Proxy Router`, other names):
 ** Modified deployment of HAProxy
 ** Entry point for traffic destined for services in OpenShift Enterprise
@@ -909,7 +881,6 @@ The default router’s pod listens on its host's network interface on ports 80 a
 endif::showscript[]
 == OpenShift Enterprise Population
 
-
 * Can populate OpenShift Enterprise installation with Red Hat-provided
  _image streams_ and _templates_
 ** Make it easy to create new applications
@@ -939,7 +910,6 @@ An _image stream_ is similar to a Docker image repository in that it contains
 
 endif::showscript[]
 == OpenShift Enterprise Population
-
 
 * Core set of image streams defines:
 ** Images you can use to build applications:
@@ -971,7 +941,6 @@ The core set of image streams defines images you can sue to build Node.js,
 
 endif::showscript[]
 == OpenShift Enterprise Population
-
 
 .Image Streams
 
@@ -1016,7 +985,6 @@ Use the code shown here to create or delete the core set, xPaaS and JBoss image
 endif::showscript[]
 == OpenShift Enterprise Population
 
-
 .Database Service Templates
 
 * Database service templates make it easy to run database instance
@@ -1052,7 +1020,6 @@ After you create the templates, you can easily instantiate them. This gives the
 
 endif::showscript[]
 == OpenShift Enterprise Population
-
 
 .QuickStart Templates
 
@@ -1092,14 +1059,15 @@ Use the code shown here to create or delete the core QuickStart templates.
 endif::showscript[]
 == Persistent Storage Using NFS
 
-
 .Overview
 
 * Can provision OpenShift Enterprise cluster with persistent storage using NFS
 * `Persistent Volume` framework:
 ** Lets administrators provision cluster with persistent storage
-** Gives users access to resources without knowledge of underlying infrastructure
-* Storage must exist in underlying infrastructure before mounting as volume in OpenShift Enterprise
+** Gives users access to resources without knowledge of underlying
+ infrastructure
+* Storage must exist in underlying infrastructure before mounting as volume in
+ OpenShift Enterprise
 
 NOTE: There are many other supported storage back ends; they will be covered
  later in the training. In our lab we use NFS for persistent storage.
@@ -1121,7 +1089,6 @@ Storage must exist in the underlying infrastructure before you can mount it as
 
 endif::showscript[]
 == Persistent Storage Using NFS
-
 
 * To create a persistent volume that can be claimed by a pod, you must
  create a `PersistentVolume` object in pod's `Project`
@@ -1157,8 +1124,9 @@ ifdef::showscript[]
 
 To create a persistent volume that can be claimed by a pod, you must create
  a `PersistentVolume` object in the pod's `Project`.
-After a `PersistentVolume` is created, a `PersistentVolumeClaim` must also be created
- to ensure that other pods and projects do not try to use the `PersistentVolume`.
+After a `PersistentVolume` is created, a `PersistentVolumeClaim` must also be
+ created to ensure that other pods and projects do not try to use the
+  `PersistentVolume`.
 
 Here is the definition of the `Persistent Volume` object.
 
@@ -1166,7 +1134,6 @@ You must specify the storage capacity, access mode, and details of your NFS host
 
 endif::showscript[]
 == Persistent Storage Using NFS
-
 
 .Volume Security
 
@@ -1192,7 +1159,6 @@ Each NFS volume must be mountable by all nodes in the cluster.
 
 endif::showscript[]
 == Persistent Storage Using NFS
-
 
 .SELinux and NFS Export Settings
 
@@ -1224,20 +1190,26 @@ ifdef::showscript[]
 
 You need to configure your NFS server exports.
 
-By default, SELinux does not allow writing from a pod to a remote NFS server. The NFS volume mounts correctly, but is read-only.
+By default, SELinux does not allow writing from a pod to a remote NFS server.
+ The NFS volume mounts correctly, but is read-only.
 
-To configure SElinux to let the nodes use NFS in the way required for OpenShift Enterprise `Persistent Volumes`, use the `setsebool` command on each node, as shown in the first example here.
+To configure SElinux to let the nodes use NFS in the way required for OpenShift
+ Enterprise `Persistent Volumes`, use the `setsebool` command on each node, as
+  shown in the first example here.
 
 
-In addition, configure each exported volume on the NFS server itself so that each export option is set in the `/etc/exports` file, as shown in the second example here, and each export is owned by `nfsnobody` and has the permissions shown in the third example here.
+In addition, configure each exported volume on the NFS server itself so that
+ each export option is set in the `/etc/exports` file, as shown in the second
+  example here, and each export is owned by `nfsnobody` and has the permissions
+   shown in the third example here.
 
 endif::showscript[]
 == Persistent Storage Using NFS
 
-
 .Resource Reclamation
 * OpenShift Enterprise implements Kubernetes `Recyclable` plug-in interface
-** Reclamation tasks based on policies set by `persistentVolumeReclaimPolicy` key in `PersistentVolume` object definition
+** Reclamation tasks based on policies set by `persistentVolumeReclaimPolicy`
+ key in `PersistentVolume` object definition
 * Can _reclaim_ volume after it is released from claim
 
 * Can set `persistentVolumeReclaimPolicy` to `Retain` or `Recycle`:
@@ -1250,17 +1222,24 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise implements the Kubernetes `Recyclable` plug-in interface. Reclamation tasks are based on policies set by the `persistentVolumeReclaimPolicy` key in the `PersistentVolume` object definition. After a volume is released from its claim--that is, after the user delete the `PersistentVolumeClaim` bound to the volume--the volume can be _reclaimed_.
+OpenShift Enterprise implements the Kubernetes `Recyclable` plug-in interface.
+ Reclamation tasks are based on policies set by the
+  `persistentVolumeReclaimPolicy` key in the `PersistentVolume` object
+   definition. After a volume is released from its claim--that is, after the
+    user delete the `PersistentVolumeClaim` bound to the volume--the volume
+     can be _reclaimed_.
 
 You can set the `persistentVolumeReclaimPolicy` key to `Retain` or `Recycle`.
 
-By default, persistent volumes are set to `Retain`. In this case, volumes are not deleted.
+By default, persistent volumes are set to `Retain`. In this case, volumes are
+ not deleted.
 
-NFS volumes set to `Recycle` are scrubbed--that is, `rm -rf` is run on the volume--after being released from their claim. After you recycle an NFS volume, you can bind it to a new claim.
+NFS volumes set to `Recycle` are scrubbed--that is, `rm -rf` is run on the
+ volume--after being released from their claim. After you recycle an NFS volume,
+  you can bind it to a new claim.
 
 endif::showscript[]
 == Persistent Storage Using NFS
-
 
 .Automation
 
@@ -1278,19 +1257,22 @@ ifdef::showscript[]
 
 === Transcript
 
-The preceding sections have discussed the ways you can provision OpenShift Enterprise clusters with persistent storage using NFS:
+The preceding sections have discussed the ways you can provision OpenShift
+ Enterprise clusters with persistent storage using NFS:
 
 * Use disk partitions to enforce storage quotas
-* Enforce security by restricting volumes to the namespace that has a claim to them
+* Enforce security by restricting volumes to the namespace that has a claim to
+ them
 * Configure reclamation of discarded resources for each persistent volume
 
-After you set up your OpenShift Enterprise environment and clusters to use persistent storage, it is easy to create scripts to automate these tasks.
+After you set up your OpenShift Enterprise environment and clusters to use
+ persistent storage, it is easy to create scripts to automate these tasks.
 
-To help you get started, see the example Ansible playbook at the web address shown here.
+To help you get started, see the example Ansible playbook at the web address
+ shown here.
 
 endif::showscript[]
 == Persistent Storage Using NFS
-
 
 .SELinux and NFS Export Settings
 
@@ -1323,16 +1305,20 @@ ifdef::showscript[]
 
 You need to configure your NFS server exports.
 
-By default, SELinux does not allow writing from a pod to a remote NFS server. The NFS volume mounts correctly, but is read-only.
+By default, SELinux does not allow writing from a pod to a remote NFS server.
+ The NFS volume mounts correctly, but is read-only.
 
-To configure SElinux to let the nodes use NFS in the way required for OpenShift Enterprise `Persistent Volumes`, use the *setsebool* command as displayed here on each node.
+To configure SElinux to let the nodes use NFS in the way required for OpenShift
+ Enterprise `Persistent Volumes`, use the *setsebool* command as displayed here
+  on each node.
 
 
-In addition, configure each exported volume on the NFS server itself so that each export option is set as shown here in the `/etc/exports` file, and each export is owned by `nfsnobody` and has the permissions shown here.
+In addition, configure each exported volume on the NFS server itself so that
+ each export option is set as shown here in the `/etc/exports` file, and each
+  export is owned by `nfsnobody` and has the permissions shown here.
 
 endif::showscript[]
 == Summary
-
 
 * Installation Scenario
 * Installation Methods
@@ -1352,6 +1338,8 @@ ifdef::showscript[]
 
 === Transcript
 
-This module reviewed the OpenShift Enterprise 3 installation process and showed how to configure the scheduler, registry, and router containers, as well as how to set up persistent storage.
+This module reviewed the OpenShift Enterprise 3 installation process and showed
+ how to configure the scheduler, registry, and router containers, as well as how
+  to set up persistent storage.
 
 endif::showscript[]

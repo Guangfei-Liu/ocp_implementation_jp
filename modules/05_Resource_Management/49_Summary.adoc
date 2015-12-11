@@ -1,6 +1,4 @@
-:noaudio:
 == Summary
-
 
 * Resource Types
 * OpenShift Enterprise Resources

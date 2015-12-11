@@ -1,6 +1,4 @@
-:noaudio:
 == Persistent Volumes
-
 
 .Volume and Claim Binding
 * `PersistentVolume`: Specific resource

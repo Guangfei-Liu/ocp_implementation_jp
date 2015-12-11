@@ -1,5 +1,4 @@
 == Persistent Volumes
-:noaudio:
 
 .Disk Quota Enforcement
 
@@ -32,4 +31,3 @@ Enforcing quotas this way lets a user request a specific amount of persistent
 
 
 endif::showscript[]
-

@@ -1,6 +1,4 @@
-:noaudio:
 == Persistent Volumes
-
 
 .Requesting Storage: `PersistentVolumeClaim` Definition
 

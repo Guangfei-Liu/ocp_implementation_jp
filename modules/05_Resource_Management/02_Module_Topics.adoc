@@ -1,6 +1,4 @@
-:noaudio:
 == Module Topics
-
 
 * Resource Types
 * OpenShift Enterprise Resources

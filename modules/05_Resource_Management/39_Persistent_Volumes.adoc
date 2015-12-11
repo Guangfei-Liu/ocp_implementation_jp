@@ -1,6 +1,4 @@
-:noaudio:
 == Persistent Volumes
-
 
 .Overview
 * `PersistentVolume` object: Storage resource in OpenShift Enterprise cluster

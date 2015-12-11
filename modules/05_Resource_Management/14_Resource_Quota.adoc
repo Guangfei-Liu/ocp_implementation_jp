@@ -1,6 +1,4 @@
-:noaudio:
 == Resource Quota
-
 
 .Quota Enforcement: Usage Changes
 

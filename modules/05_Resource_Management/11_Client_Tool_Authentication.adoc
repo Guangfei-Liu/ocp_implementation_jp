@@ -1,6 +1,4 @@
-:noaudio:
 == Client Tool Authentication
-
 
 .CLI Authentication: `oc login` Options
 

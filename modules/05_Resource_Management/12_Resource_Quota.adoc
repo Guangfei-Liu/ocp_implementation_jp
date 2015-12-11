@@ -1,6 +1,4 @@
-:noaudio:
 == Resource Quota
-
 
 .What Is `ResourceQuota`?
 * OpenShift Enterprise can limit:

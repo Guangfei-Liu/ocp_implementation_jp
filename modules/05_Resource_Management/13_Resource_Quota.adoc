@@ -1,6 +1,4 @@
-:noaudio:
 == Resource Quota
-
 
 .Quota Enforcement
 * After quota created in project:

@@ -1,6 +1,4 @@
-:noaudio:
 == Routes
-
 
 .Route Types
 * Routes can be secured or unsecured

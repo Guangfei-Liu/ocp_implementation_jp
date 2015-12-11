@@ -1,6 +1,4 @@
-:noaudio:
 == Routes
-
 
 .Route Types: Path-Based Routes
 

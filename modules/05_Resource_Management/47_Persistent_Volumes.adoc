@@ -1,5 +1,4 @@
 == Persistent Volumes
-:noaudio:
 
 .Resource Reclamation
 * OpenShift Enterprise implements Kubernetes `Recyclable` plug-in interface

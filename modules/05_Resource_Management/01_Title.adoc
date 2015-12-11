@@ -1,4 +1,3 @@
-
 :noaudio:
 
 ifdef::revealjs_slideshow[]
@@ -21,4 +20,3 @@ Resource Management
 image::{revealjs_cover_image}[]
 
 endif::[]
-

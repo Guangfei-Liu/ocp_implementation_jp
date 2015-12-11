@@ -15,14 +15,14 @@ ifdef::showscript[]
 === Transcript
 
 A pod corresponds to a co-located group of applications running with a shared
-context.  Within that context, the applications may also have individual cgroup
+context. Within that context, the applications may also have individual group
 isolations applied. A pod models an application-specific logical host in a
 containerized environment.
 
 A pod may contain one or more tightly coupled applications that in a
 pre-container world would have executed on the same physical or virtual
 host.
-For example, a pod could contain a web server and a _file puller/syncer_. .
+For example, a pod could contain a web server and a _file puller/syncer_.
 
 In Kubernetes, pods, not individual application containers, are the
 smallest deployable units that you can create, schedule, and manage.

@@ -35,13 +35,13 @@ Labels are simple key/value pairs that you can use in almost every type of
 Labels provide an easy way to manage resources as groups, rather than
  individually.
 
-For example, say you have two separate pods. One is a `nginx` Docker container,
+For example, say you have two separate pods. One is a `nginx` Docker container
  and the other is an `Apache httpd` Docker container. If both are tagged with a
   `role=webserver` label, the service or replication controller defined to use
    pods with the `role=webserver` label treats both pods as part of the same
     group.
 
-The second example here shows how labeling a group of components with
+The second example here shows how labeling a group of components with the
  `app=mytest` label lets you delete all of them in one command rather than
   having to locate and delete each component manually.
 

@@ -28,7 +28,7 @@ To make the OpenShift Enterprise environment accessible externally, you create a
  wildcard DNS entry that points to the _node_ that is hosting the
   _Default Router Container_.
 
-In this lab and examples this is the `infranode00` server. If your environment
+In this lab and examples, this is the `infranode00` server. If your environment
  uses multiple _routers_ (HAProxy instances), which is likely, you use an
   external load balancer or round-robin setting to use them.
 

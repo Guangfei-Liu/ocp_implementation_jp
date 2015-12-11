@@ -8,7 +8,7 @@ distributed applications
 * Main support components:
 ** *Docker Engine*: Portable, lightweight runtime and packaging tool
 ** *Docker Hub*: Cloud service for sharing applications and automating
- work-flows
+ workflows
 * Benefits:
 ** Multi-version packaging format and isolation
 ** Simplified container API (Docker `libcontainer`)
@@ -27,6 +27,6 @@ ship, and run distributed applications. The main components are the Docker
 
 The Docker Engine is a portable, lightweight runtime and packaging tool. The
  Docker Hub is a cloud service for sharing applications and automating
-  work-flows.
+  workflows.
 
 endif::showscript[]

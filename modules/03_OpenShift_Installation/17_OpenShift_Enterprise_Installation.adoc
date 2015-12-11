@@ -1,13 +1,13 @@
 == OpenShift Enterprise Installation
 :noaudio:
 
-* Install the OpenShift Utils package that includes the installer
+* Install OpenShift `utils` package that includes installer:
 +
 ----
 # yum -y install atomic-openshift-utils
 ----
 
-* Run the following on host that has SSH access to intended master and nodes:
+* Run following on host that has SSH access to intended master and nodes:
 +
 ----
 $ atomic-openshift-installer install
@@ -15,24 +15,25 @@ $ atomic-openshift-installer install
 
 * Follow onscreen instructions to install OpenShift Enterprise
 ** Installer asks for hostnames or IPs of masters and nodes and configures them
- accordingly.
-** A configuration file with all the information provided would be saved in:
- `~/.config/openshift/installer.cfg.yml` - This can be used as an "Answer file".
+ accordingly
+** Configuration file with all information provided is saved in `~/.config/openshift/installer.cfg.yml`
+*** Can use this as _answer file_
 
 ifdef::showscript[]
 
 === Transcript
-The latest installer is available from the link shown here. To install OpenShift
- Enterprise 3, Install the OpenShift Utils package that includes the installer,
+
+To install OpenShift
+ Enterprise 3, install the OpenShift `utils` package that includes the installer,
   and run the installer CLI utility on a host that has SSH access to your
    intended master and nodes.
 
-The installer asks for hostnames or IPs of masters and nodes and configures them
+The installer asks for the hostnames or IPs of the masters and nodes and configures them
  accordingly.
 
-A configuration file with all the information provided would be saved in:
-  `~/.config/openshift/installer.cfg.yml`, this can be used as an "Answer file"
-  for future installs.
+A configuration file with all the information provided is saved in  `~/.config/openshift/installer.cfg.yml`.
+You can use this as an _answer file_
+  for future installations.
 
 
 endif::showscript[]

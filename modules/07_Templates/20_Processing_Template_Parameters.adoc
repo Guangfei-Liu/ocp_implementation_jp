@@ -5,7 +5,7 @@
 .Process `frontend`
 
 * First stand up front end of application
-* Process `frontend` template and create configuration file.
+* Process `frontend` template and create configuration file:
 +
 ----
 $ oc process -f frontend-template.json > frontend-config.json
@@ -17,7 +17,7 @@ $ oc process -f frontend-template.json > frontend-config.json
 $ oc create -f frontend-config.json
 ----
 
-** When this command is run, resources are created and build is started
+** When command is run, resources are created and build started
 
 
 
@@ -27,5 +27,7 @@ ifdef::showscript[]
 
 The first step is to create the front end of your application and process the
  `frontend` template to create the configuration file.
+
+When you run the command, resources are created and the build is started.
 
 endif::showscript[]

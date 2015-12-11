@@ -3,8 +3,8 @@
 
 
 * *Masters*: Responsible for managing system state
-** Provides a REST endpoint for interacting with the system.
-** Hosts the Web Console for developer access
+** Provide a REST endpoint for interacting with system
+** Host the web console for developer access
 
 * *Nodes*: Act as hosts to run containers, based on desired state defined by
  master

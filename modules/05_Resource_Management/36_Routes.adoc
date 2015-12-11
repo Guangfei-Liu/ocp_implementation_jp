@@ -23,7 +23,7 @@ spec:
     name: service-name
 ----
 
-. This specifies the externally reachable hostname used to expose a service.
+<1> Specifies externally reachable hostname used to expose service
 
 
 ifdef::showscript[]
@@ -35,5 +35,6 @@ To expose services externally, an OpenShift Enterprise route lets you associate
 
 The example here shows a route with a specified host.
 
+. This specifies the externally reachable hostname used to expose a service.
 
 endif::showscript[]

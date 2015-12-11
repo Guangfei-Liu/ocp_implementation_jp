@@ -1,4 +1,4 @@
-== Lifecycle Hooks
+== Life-cycle Hooks
 
 
 .Failure Policy
@@ -15,7 +15,7 @@
 
 WARNING: Some hook points for a strategy might support only a subset of failure
  policy values. For example, the `Recreate` and `Rolling` strategies do not
-  support the `Abort` policy for a `post` deployment lifecycle hook.
+  support the `Abort` policy for a `post` deployment life-cycle hook.
 
 
 ifdef::showscript[]
@@ -25,6 +25,6 @@ Every hook has a failure policy that defines the action the strategy should take
 
 Note that some hook points for a strategy might support only a subset of failure
  policy values. For example, the `Recreate` and `Rolling` strategies do not
-  currently support the `Abort` policy for a `post` deployment lifecycle hook.
+  currently support the `Abort` policy for a `post` deployment life-cycle hook.
 
 endif::showscript[]

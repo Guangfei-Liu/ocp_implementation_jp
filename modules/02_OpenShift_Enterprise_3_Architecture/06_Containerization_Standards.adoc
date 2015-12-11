@@ -26,7 +26,7 @@ Isolation with Linux containers isolates applications on the host operating
 
 In Docker-formatted containers, Docker is the interface for communications,
  configuration, data persistence, and provisioning. Docker containers are
-  content- and infrastructure-agnostic; They can handle any kind
+  content- and infrastructure-agnostic. They can handle any kind
    of content and are not tied to any particular infrastructure.
 
 endif::showscript[]

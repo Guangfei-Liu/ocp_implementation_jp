@@ -3,8 +3,8 @@
 
 
 .CLI Authentication
-* Download client from Red Hat Product Downloads or install the
- "atomic-openshift-clients" rpm package.
+* Download client from Red Hat Product Downloads or install
+ `atomic-openshift-clients` rpm package
 * After installing, use `oc login` to authenticate from command line:
 +
 ----
@@ -16,28 +16,32 @@ $ oc login -u andrew --server="https://master09-c3po.oslab.opentlc.com:8443"
 
 * Example: Authenticate as OpenShift Enterprise cluster administrator (usually
    `root` user):
-** system:admin user is a password-less user that requires a token.
+** `system:admin` user is password-free user that requires token
 +
 ----
 $ oc login -u system:admin -n openshift
 ----
 +
-** You set username and _project_ (_namespace_) to log in to
+** Set username and _project_ (_namespace_) to log in to
 
 
 ifdef::showscript[]
 
 === Transcript
 
-You can download the CLI client from Red Hat Product Downloads.
+You can download the CLI client from Red Hat Product Downloads. Alternatively, you can install the
+ `atomic-openshift-clients` rpm package.
 
 After you extract the software, you can authenticate from the command line using
- the CLI command `oc login`.
+ the CLI `oc login` command.
 
 The command's interactive flow helps you establish a session to an OpenShift
  Enterprise server with the provided credentials.
 
-Note that you set the user name and the _project_ (_namespace_) to log in to by
- using the "-n" flag
+In the example shown here, you authenticate as an OpenShift Enterprise cluster administrator, usually the
+   `root` user. The `system:admin` user is a password-free user that requires a token.
+
+Note that you set the username and the _project_ (_namespace_) to log in to by
+ using the `-n` flag.
 
 endif::showscript[]

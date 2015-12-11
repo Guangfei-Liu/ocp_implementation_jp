@@ -1,4 +1,4 @@
-== Lifecycle Hooks
+== Life-cycle Hooks
 
 
 .Simplified Deployment Configuration
@@ -53,6 +53,22 @@
   }
 }
 ----
+<1> `pre` hook executes in new pod using `openshift/origin-ruby-sample` image from  `helloworld` container
+
+<2> Because hook failure policy is `Abort`, deployment fails if hook fails
+
+<3> `helloworld` name refers to `spec.template.spec.containers[0].name`
+
+<4> hook container command is `/usr/bin/command arg1 arg2`, which overrides any `ENTRYPOINT` defined by `openshift/origin-ruby-sample` image
+
+<5> `env` section contains optional environment variables
+  for hook container, such as `CUSTOM_VAR1=custom_value1`
+
+ifdef::showscript[]
+=== Transcript
+This simplified example deployment configuration uses the `Rolling` strategy.
+ Triggers and some other minor details are omitted for brevity.
+
 Note the following call-outs in the example:
 
 . The `pre` hook is executed in a new pod using the
@@ -69,12 +85,6 @@ Note the following call-outs in the example:
 . The hook container will have the `CUSTOM_VAR1=custom_value1` environment
  variable. The `env` section contains an optional set of environment variables
   for the hook container.
-
-ifdef::showscript[]
-=== Transcript
-This simplified example deployment configuration uses the `Rolling` strategy.
- Triggers and some other minor details are omitted for brevity.
-
 
 
 

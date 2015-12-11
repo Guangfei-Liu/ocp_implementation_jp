@@ -22,7 +22,10 @@ ifdef::showscript[]
 You use labels to organize, group, or choose API objects.
 
 For example, if you tag _pods_ with labels, _services_ can use label selectors
- to identify the pods which they represent.
+ to identify the pods that they represent.
+
+This lets services reference groups of pods and lets you treat pods with different Docker containers as related entities.
+
 
 Most objects can include labels in their metadata, so you can use labels to
  group arbitrarily related objects. For example, you can group all of a

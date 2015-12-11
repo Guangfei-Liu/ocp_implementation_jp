@@ -19,12 +19,11 @@
        name: default-token-br6yz
        readOnly: true
 ----
+<1> Each container in pod is instantiated from its own Docker image
+<2> Container can bind to ports, which are available on pod's IP
+<3> Container's _security context_ specifies whether it can run as privileged container
+<4> External storage volumes should be mounted within container
 
-. Each container in the pod is instantiated from its own Docker image.
-. The container can bind to ports, which are available on the pod's IP.
-. _security context_ for containers that specifies whether they can run as
- privileged containers.
-. External storage volumes should be mounted within the container.
 
 ifdef::showscript[]
 
@@ -40,7 +39,7 @@ Here you see a container definition:
    administrators can modify this as needed.
 . The container specifies where external storage volumes should be mounted
  within the container. In this case, one volume stores the registry's data,
-  another provides access to credentials the registry needs to make requests
+  another provides access to credentials that the registry needs to make requests
    against the OpenShift Enterprise API.
 
 endif::showscript[]

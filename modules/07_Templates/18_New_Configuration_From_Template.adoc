@@ -25,10 +25,13 @@ $ oc process -f <filename>
 $ oc process -f my_template_file.json -v ADMIN_USERNAME=root,MYSQL_DATABASE=admin
 ----
 
-.Creating an application from template
-* `new-app` can instantiate template from stored template or template file
+//ISSUE: Looks like too much info for one slide. Recommend splitting it here.
+
+.Creating an Application From a Template
+
+* `oc new-app` can instantiate template from stored template or template file
 * To instantiate stored template, specify template name as argument
-* To create application from stored template or a template file:
+* To create application from stored template or template file:
 +
 ----
 # Create an application based on a stored template, explicitly setting a parameter value
@@ -50,12 +53,11 @@ Alternatively, you can pipe both commands together to create from a template
  without uploading it to the template library.
 
 You can also override any parameters defined in the template file by adding the
- `-v` optionn and any desired parameters. For example, you can override the
+ `-v` option and any desired parameters. For example, you can override the
   `ADMIN_USERNAME` and `MYSQL_DATABASE` parameters to create a configuration
    with customized environment variables.
 
-the "oc new-app" command can be used to deploy templates from a local template
- file or from a stored template, the commands provided show how to create a new
-  application and override the template parameter value for MYSQL_USER.
+You can use the `oc new-app` command to deploy templates from a local template
+ file or a stored template. To instantiate a stored template, specify the template name as an argument. The example here shows  how to create a new application and override the template parameter value for `MYSQL_USER`.
 
 endif::showscript[]

@@ -18,7 +18,7 @@ ifdef::showscript[]
 
 === Transcript
 
-An S2I, or Source-to-Image, build is a process in which a developer points to a
+A Source-to-Image, or S2I, build is a process in which a developer points to a
  code repository in a supported framework and selects a _builder_ image that
   contains the operating system and framework to support the code.
 

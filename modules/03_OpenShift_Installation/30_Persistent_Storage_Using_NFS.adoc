@@ -17,12 +17,10 @@ ifdef::showscript[]
 You create `PersistentVolume` objects in the context of a specific _project_.
 
 A user can request storage with a `PersistentVolumeClaim` object in the same
- _project_. The claim lives in the user's namespace, or project and can be
+ _project_. The claim lives in the user's namespace or project, and can be
   referenced only by a pod within that same namespace. Any attempt to access a
    persistent volume across a project causes the pod to fail.
 
 Each NFS volume must be mountable by all nodes in the cluster.
 
 endif::showscript[]
-
-

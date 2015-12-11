@@ -19,7 +19,7 @@
 ** Minimum 8 GB RAM
 ** Minimum 15 GB hard disk space
 ** An additional minimum 15 GB unallocated space to be configured using
- docker-storage-setup;
+ `docker-storage-setup;`
 
 
 

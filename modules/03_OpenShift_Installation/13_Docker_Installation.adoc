@@ -22,10 +22,11 @@ OPTIONS=--selinux-enabled --insecure-registry 172.30.0.0/16
 ----
 +
 [NOTE]
+====
 ** `--insecure-registry` instructs Docker daemon to trust any
 Docker registry on `172.30.0.0/16` subnet
 ** Will deploy local registry under this subnet
-
+====
 
 ifdef::showscript[]
 

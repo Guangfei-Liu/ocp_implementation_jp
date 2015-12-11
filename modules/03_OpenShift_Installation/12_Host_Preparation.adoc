@@ -15,13 +15,17 @@
 # yum update -y
 ----
 
-TIP: Its highly recommended to install "bash-completion" for command completion
-when tapping the Tab button.
+[NOTE]
+Red Hat highly recommends installing `bash-completion` to enable command completion
+with the *Tab* key.
+
 ifdef::showscript[]
 
 === Transcript
 
 You need to install the software packages shown here and run a `yum` update on
  your master before using the installer and installing OpenShift Enterprise 3.
+
+Red Hat highly recommends installing `bash-completion` so that commands can be completed simply by pressing the  *Tab* key.
 
 endif::showscript[]

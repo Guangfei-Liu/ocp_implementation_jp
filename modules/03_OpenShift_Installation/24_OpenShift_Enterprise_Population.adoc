@@ -1,32 +1,32 @@
 == OpenShift Enterprise Population
 :noaudio:
 
-* Core set of image streams define images you can use to build applications:
-** Node.js
-** Perl
-** PHP
-** Python
-** Ruby
+* Core set of image streams defines:
+** Images you can use to build applications:
+*** Node.js
+*** Perl
+*** PHP
+*** Python
+*** Ruby
 
-* Defines images for databases:
-** MongoDB
-** MySQL
-** PostgreSQL
+** Images for databases:
+*** MongoDB
+*** MySQL
+*** PostgreSQL
 
-NOTE: These image streams and others are *installed automatically* by the
- install utility.
+[NOTE]
+The install utility installs these image streams and others automatically.
 
 
 ifdef::showscript[]
 
 === Transcript
 
-The core set of image streams define images that can be used to build Node.js,
+The core set of image streams defines images you can sue to build Node.js,
  Perl, PHP, Python, and Ruby applications. It also defines images for MongoDB,
   MySQL, and PostgreSQL databases.
 
-  These image streams and others are *installed automatically* by the install
-   utility.
+  The install utility installs these image streams and others automatically.
 
 
 endif::showscript[]

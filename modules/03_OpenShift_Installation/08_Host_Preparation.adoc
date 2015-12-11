@@ -1,5 +1,7 @@
-== Host Preparation
 :noaudio:
+
+== Host Preparation
+
 
 .Overview
 
@@ -14,8 +16,8 @@
 ** Manage services:
 *** Disable `firewalld`
 *** Enable `iptables-services`
-**  Docker 1.8.2 or later
-** Host password-less communication
+**  Install Docker 1.8.2 or later
+** Make sure master does not require password for communication
 
 ifdef::showscript[]
 
@@ -33,11 +35,11 @@ The basic steps for preparing hosts are as follows:
 * Install some utility packages, including `git`, `net-tools`, `bind-utils`, and
  `iptables-services`.
 * Disable `firewalld` and enable `iptables-services`.
-* Install Docker 1.8.2 or later and configure the storage back-end for images.
+* Install Docker 1.8.2 or later and configure the storage back end for images.
 * Make sure that the master hosts can issue remote commands on the nodes
  without requiring a password.
 
-TIP: If you want to create a scalable environment, you should create an image
+If you want to create a scalable environment, you should create an image
  template for the node--depending on your infrastructure provider--and then, to
   save time, spin up a new instance or VM in which these steps have already been
    performed. You should then run the installer script to add the new node to

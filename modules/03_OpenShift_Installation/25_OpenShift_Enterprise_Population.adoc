@@ -31,12 +31,12 @@ ifdef::showscript[]
 
 === Transcript
 
-Red Hat provides xPaas middleware image streams for  Red Hat JBoss Enterprise
+Red Hat provides xPaaS middleware image streams for Red Hat JBoss Enterprise
  Application Platform, Red Hat JBoss Web Server, and Red Hat JBoss A-MQ.
 
 You can use the image streams to build application for these platforms.
 
-Use the code shown here to create or delete the core set, xPaas and JBoss image
+Use the code shown here to create or delete the core set, xPaaS and JBoss image
  streams.
 
 

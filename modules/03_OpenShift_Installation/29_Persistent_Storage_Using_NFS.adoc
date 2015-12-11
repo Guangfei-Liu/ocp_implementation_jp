@@ -1,10 +1,10 @@
 == Persistent Storage Using NFS
 :noaudio:
 
-* To create a Persistent Volume that could be claimed by a Pod, we need to
- create a `PersistentVolume` object in the `Pod's` `Project`
-* After a `PersistentVolume` is created a `PersistentVolumeClaim` must be
- created to ensure that no other `Pods/Projects` try to use the `PersistentVolume`
+* To create a persistent volume that can be claimed by a pod, you must
+ create a `PersistentVolume` object in pod's `Project`
+* After `PersistentVolume` is created, a `PersistentVolumeClaim` must be
+ created to ensure other pods and projects do not try to use `PersistentVolume`
 
 .Persistent Volume Object Definition
 [source,yaml]
@@ -33,14 +33,13 @@ ifdef::showscript[]
 
 === Transcript
 
-To create a Persistent Volume that could be claimed by a Pod, we need to create
- a `PersistentVolume` object in the `Pod's` `Project`
-After a `PersistentVolume` is created a `PersistentVolumeClaim` must be created
- to ensure that no other `Pods/Projects` try to use the `PersistentVolume`
+To create a persistent volume that can be claimed by a pod, you must create
+ a `PersistentVolume` object in the pod's `Project`.
+After a `PersistentVolume` is created, a `PersistentVolumeClaim` must also be created
+ to ensure that other pods and projects do not try to use the `PersistentVolume`.
 
 Here is the definition of the `Persistent Volume` object.
 
 You must specify the storage capacity, access mode, and details of your NFS host.
 
 endif::showscript[]
-

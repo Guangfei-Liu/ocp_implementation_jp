@@ -1,17 +1,18 @@
-== Installation Methods
 :noaudio:
+
+== Installation Methods
+
 
 .Quick Install
 ** Lets you use interactive CLI utility to install OpenShift across set of hosts
-** Installer made available by installing the utility package
- ("atomic-openshift-utils") on the provisioning host.
+** Installer made available by installing utility package
+ (`atomic-openshift-utils`) on provisioning host
 ** https://install.openshift.com
-** Uses Ansible playbooks under the covers
-** Does not assume any Ansible familiarity
+** Uses Ansible playbooks in background
+** Does not assume familiarity with Ansible
 
 .Advanced Install
-** For complex environments requiring deeper customization of installation and
- maintenance
+** For complex environments requiring deeper customization of installation and maintenance
 ** Uses Ansible playbooks
 ** Assumes familiarity with Ansible
 
@@ -23,9 +24,12 @@ ifdef::showscript[]
 
 There are two ways to install OpenShift Enterprise 3.
 The Quick Install method uses an interactive CLI utility to install OpenShift
- across a set of hosts. the installer is made available by installing the
-  utility package ("atomic-openshift-utils"), available in the OpenShift
+ across a set of hosts. The installer is made available by installing the
+  utility package `atomic-openshift-utils`, available in the OpenShift
    Repository, on the provisioning host.
+
+The Quick Install method uses Ansible in the background of the
+ interactive CLI utility.
 
 For more complex environments where deeper customization of installation and
  maintenance is required, an Advanced Install method using Ansible playbooks is
@@ -33,7 +37,6 @@ For more complex environments where deeper customization of installation and
 
 This module focuses on the Quick Install method.
 
-Note that the Quick Install method uses Ansible in the background of the
- interactive CLI utility.
+
 
 endif::showscript[]

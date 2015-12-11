@@ -1,3 +1,4 @@
+:noaudio:
 == Routes
 
 
@@ -21,4 +22,3 @@ The table shown here provides example routes and their accessibility.
 
 endif::showscript[]
 
-:noaudio:

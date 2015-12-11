@@ -1,3 +1,4 @@
+:noaudio:
 == Processing Template Parameters
 
 
@@ -35,4 +36,3 @@ For an existing deployment, you can extract these values with the `oc env`
  command.
 
 endif::showscript[]
-:noaudio:

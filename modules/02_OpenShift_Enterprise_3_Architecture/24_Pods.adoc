@@ -1,3 +1,4 @@
+:noaudio:
 == Pods
 
 
@@ -29,4 +30,3 @@ In terms of Docker constructs, a pod consists of a co-located group of Docker
 containers.
 
 endif::showscript[]
-:noaudio:

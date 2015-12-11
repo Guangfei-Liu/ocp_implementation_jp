@@ -33,4 +33,3 @@ To help you get started, see the example Ansible playbook at the web address
 
 endif::showscript[]
 
-:noaudio:

@@ -1,3 +1,4 @@
+:noaudio:
 == Containerization Standards
 
 
@@ -29,4 +30,3 @@ In Docker-formatted containers, Docker is the interface for communications,
    of content and are not tied to any particular infrastructure.
 
 endif::showscript[]
-:noaudio:

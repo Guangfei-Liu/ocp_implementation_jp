@@ -1,3 +1,4 @@
+:noaudio:
 == Template File Creation
 
 
@@ -44,4 +45,3 @@ Note that there are two `imagestream` objects in this template, one for the
   that will be created for this deployment.
 
 endif::showscript[]
-:noaudio:

@@ -1,3 +1,4 @@
+:noaudio:
 == Projects and Users
 
 
@@ -56,4 +57,3 @@ There is also an anonymous system user that is used by default for
  unauthenticated requests.
 
 endif::showscript[]
-:noaudio:

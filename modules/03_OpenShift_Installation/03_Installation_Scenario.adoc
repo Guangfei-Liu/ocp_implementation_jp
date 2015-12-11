@@ -45,5 +45,3 @@ The two remaining *nodes* are hosts that you use to run containers (pods) in the
    single region and possibly two cloud availability zones.
 
 endif::showscript[]
-:noaudio:
-

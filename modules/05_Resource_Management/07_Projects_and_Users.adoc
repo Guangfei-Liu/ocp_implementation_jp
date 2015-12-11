@@ -1,3 +1,4 @@
+:noaudio:
 == Projects and Users
 
 
@@ -32,4 +33,3 @@ Most objects in the system are scoped by namespace, but some are excepted and
  have no namespace. Examples of excepted objects include nodes and users.
 
 endif::showscript[]
-:noaudio:

@@ -1,3 +1,4 @@
+:noaudio:
 == Processing Template Parameters
 
 
@@ -30,4 +31,3 @@ The first step is to create the front end of your application and process the
 When you run the command, resources are created and the build is started.
 
 endif::showscript[]
-:noaudio:

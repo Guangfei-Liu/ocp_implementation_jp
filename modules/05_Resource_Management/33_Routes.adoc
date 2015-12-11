@@ -1,3 +1,4 @@
+:noaudio:
 == Routes
 
 
@@ -35,4 +36,3 @@ Note the following:
 
 
 endif::showscript[]
-:noaudio:

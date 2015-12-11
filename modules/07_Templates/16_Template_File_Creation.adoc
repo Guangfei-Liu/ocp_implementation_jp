@@ -1,3 +1,4 @@
+:noaudio:
 == Template File Creation
 
 
@@ -50,4 +51,3 @@ This slide shows the template `parameters` generated from expressions.
  Parameters are essentially variables that the entire template can access.
 
 endif::showscript[]
-:noaudio:

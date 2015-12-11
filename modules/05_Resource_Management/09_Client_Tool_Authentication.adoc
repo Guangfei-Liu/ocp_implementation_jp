@@ -1,3 +1,4 @@
+:noaudio:
 == Client Tool Authentication
 
 
@@ -29,4 +30,3 @@ You provide your login credentials to obtain a token to make API calls. After
  you log in, you use the web console to navigate through your projects.
 
 endif::showscript[]
-:noaudio:

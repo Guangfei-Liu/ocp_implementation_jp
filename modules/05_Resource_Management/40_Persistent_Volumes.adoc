@@ -1,3 +1,4 @@
+:noaudio:
 == Persistent Volumes
 
 .Requesting Storage
@@ -16,4 +17,3 @@ To make a request for storage resources, use a `PersistentVolumeClaim` object.
  The claim is paired with a volume that can fulfill your request.
 
 endif::showscript[]
-:noaudio:

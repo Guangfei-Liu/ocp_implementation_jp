@@ -1,3 +1,4 @@
+:noaudio:
 == Template File Creation
 
 
@@ -45,4 +46,3 @@ This section shows the service named `frontend`.
 
 
 endif::showscript[]
-:noaudio:

@@ -1,3 +1,4 @@
+:noaudio:
 == Resource Quota
 
 
@@ -16,4 +17,3 @@ To create a quota and apply it to a project, use the `oc create` command and
  specify the `--namespace` or `-n` flag with the project name.
 
 endif::showscript[]
-:noaudio:

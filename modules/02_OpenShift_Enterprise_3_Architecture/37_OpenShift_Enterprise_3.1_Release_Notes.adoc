@@ -1,3 +1,5 @@
+:noaudio:
+
 == OpenShift Enterprise 3.1 Release Notes
 
 
@@ -31,5 +33,3 @@ Finally, the `job` object type is now available, meaning that you can now execut
 
 
 endif::showscript[]
-:noaudio:
-

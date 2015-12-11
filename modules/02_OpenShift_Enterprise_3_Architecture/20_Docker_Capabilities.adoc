@@ -1,3 +1,4 @@
+:noaudio:
 == Docker Capabilities
 
 
@@ -21,4 +22,3 @@ In OpenShift Enterprise 3, we create our own _integrated registry_ to store
  and distribute images created locally.
 
 endif::showscript[]
-:noaudio:

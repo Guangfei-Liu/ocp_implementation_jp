@@ -1,3 +1,4 @@
+:noaudio:
 == Containerization Standards
 
 
@@ -18,4 +19,3 @@ endif::showscript[]
 
 
 
-:noaudio:

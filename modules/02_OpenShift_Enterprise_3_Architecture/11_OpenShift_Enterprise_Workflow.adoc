@@ -1,3 +1,4 @@
+:noaudio:
 == OpenShift Enterprise Workflow
 
 
@@ -53,4 +54,3 @@ OpenShift Enterprise then schedules three more instances and places them for
 
 
 endif::showscript[]
-:noaudio:

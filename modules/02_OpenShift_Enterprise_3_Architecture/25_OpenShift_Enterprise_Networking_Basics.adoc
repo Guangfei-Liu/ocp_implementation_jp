@@ -1,3 +1,4 @@
+:noaudio:
 == OpenShift Enterprise Networking Basics
 
 
@@ -17,4 +18,3 @@ You can also integrate OpenShift Enterprise with third-party SDN solutions, as
  well as your existing DNS, routing, and load-balancing methods.
 
 endif::showscript[]
-:noaudio:

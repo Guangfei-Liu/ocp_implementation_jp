@@ -1,3 +1,4 @@
+:noaudio:
 == OpenShift Enterprise Version 3
 
 
@@ -30,4 +31,3 @@ The OpenShift Enterprise version 3 stack features the following:
 
 
 endif::showscript[]
-:noaudio:

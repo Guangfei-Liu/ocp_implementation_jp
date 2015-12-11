@@ -1,3 +1,4 @@
+:noaudio:
 == Client Tool Authentication
 
 
@@ -51,4 +52,3 @@ Review the options for the `oc login` command shown in the table. Pay special
    the master with a TLS certificate.
 
 endif::showscript[]
-:noaudio:

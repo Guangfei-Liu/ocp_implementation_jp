@@ -1,3 +1,4 @@
+:noaudio:
 == Template File Creation
 
 
@@ -43,4 +44,3 @@ This slide shows the database Service object.
 endif::showscript[]
 
 
-:noaudio:

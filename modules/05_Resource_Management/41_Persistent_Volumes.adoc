@@ -1,3 +1,4 @@
+:noaudio:
 == Persistent Volumes
 
 
@@ -41,4 +42,3 @@ A cluster administrator needs to define and _create_ the `pv` in the project to
 This example shows a `PersistentVolume` definition file.
 
 endif::showscript[]
-:noaudio:

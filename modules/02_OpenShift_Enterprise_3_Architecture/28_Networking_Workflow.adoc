@@ -1,3 +1,4 @@
+:noaudio:
 == Networking Workflow
 
 :number:
@@ -27,4 +28,3 @@ The `Default Router` then selects the a pod from the list of pods listed by the
  application service and acts as a proxy for the pod.
 
 endif::showscript[]
-:noaudio:

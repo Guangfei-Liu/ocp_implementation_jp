@@ -1,3 +1,4 @@
+:noaudio:
 == Template Overview
 
 
@@ -29,4 +30,3 @@ Resources and pods are "tagged" with labels, and services and replication
     entities.
 
 endif::showscript[]
-:noaudio:

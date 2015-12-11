@@ -1,3 +1,4 @@
+:noaudio:
 == Routes
 
 
@@ -53,4 +54,3 @@ Note the following:
 Because TLS is terminated at the router, connections from the router to the endpoints over the internal network are not encrypted.
 
 endif::showscript[]
-:noaudio:

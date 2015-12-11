@@ -1,3 +1,4 @@
+:noaudio:
 == What Is an S2I Build
 
 [.noredheader,cols="<2,^3"]
@@ -21,4 +22,3 @@ OpenShift Enterprise then creates an image based on the builder image containing
 the selected code.
 
 endif::showscript[]
-:noaudio:

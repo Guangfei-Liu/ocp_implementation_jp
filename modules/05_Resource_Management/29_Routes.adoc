@@ -1,3 +1,4 @@
+:noaudio:
 == Routes
 
 
@@ -26,4 +27,3 @@ TLS termination in OpenShift Enterprise relies on SNI  for serving custom
    hostname, resulting in validation errors.
 
 endif::showscript[]
-:noaudio:

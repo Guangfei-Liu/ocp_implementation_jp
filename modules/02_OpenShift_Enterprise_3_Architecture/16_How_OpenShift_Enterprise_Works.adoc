@@ -1,3 +1,4 @@
+:noaudio:
 == How OpenShift Enterprise Works
 
 
@@ -18,4 +19,3 @@ this. This is called _scheduling_.
 You can configure the priorities and rules for the scheduler logic.
 
 endif::showscript[]
-:noaudio:

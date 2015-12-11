@@ -1,3 +1,4 @@
+:noaudio:
 == Routes
 
 
@@ -46,4 +47,3 @@ As you can see,  you use the `oc expose` command to create a `route` for
 The second example shows how to display the `routes` in your current project.
 
 endif::showscript[]
-:noaudio:

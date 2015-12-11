@@ -1,3 +1,4 @@
+:noaudio:
 == Routes
 
 
@@ -21,4 +22,3 @@ Thus the full path of the connection is encrypted, even over the internal
  network.
 
 endif::showscript[]
-:noaudio:

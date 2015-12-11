@@ -1,3 +1,4 @@
+:noaudio:
 == Container Registry
 
 
@@ -29,4 +30,3 @@ third parties, and the integrated OpenShift Enterprise registry.
 
 
 endif::showscript[]
-:noaudio:

@@ -60,11 +60,5 @@ include::30_Persistent_Storage_Using_NFS.adoc[]
 
 include::31_Persistent_Storage_Using_NFS.adoc[]
 
-include::32_Persistent_Storage_Using_NFS.adoc[]
-
-include::33_Persistent_Storage_Using_NFS.adoc[]
-
-include::34_Persistent_Storage_Using_NFS.adoc[]
-
-include::35_Summary.adoc[]
+include::32_Summary.adoc[]
 

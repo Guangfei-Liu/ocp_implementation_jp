@@ -1,3 +1,4 @@
+:noaudio:
 == OpenShift Enterprise Networking Basics
 
 
@@ -28,4 +29,3 @@ and permanent IP for a group of pods.
 The default IPs for pods and services are shown here.
 
 endif::showscript[]
-:noaudio:

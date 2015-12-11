@@ -1,3 +1,4 @@
+:noaudio:
 == OpenShift Enterprise Model
 
 
@@ -43,4 +44,3 @@ All members of the OpenShift Enterprise environment/cluster are also members of
 
 
 endif::showscript[]
-:noaudio:

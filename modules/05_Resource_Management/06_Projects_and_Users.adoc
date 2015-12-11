@@ -1,3 +1,4 @@
+:noaudio:
 == Projects and Users
 
 
@@ -31,4 +32,3 @@ Some service accounts are created automatically when the project is first
 Service accounts are represented with the `ServiceAccount` object.
 
 endif::showscript[]
-:noaudio:

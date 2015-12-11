@@ -1,3 +1,4 @@
+:noaudio:
 == How OpenShift Enterprise Works
 
 
@@ -23,4 +24,3 @@ The service part provides a list of IPs for the pods it represents. The routing
 endif::showscript[]
 
 
-:noaudio:

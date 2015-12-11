@@ -1,3 +1,4 @@
+:noaudio:
 == Persistent Volumes
 
 
@@ -25,4 +26,3 @@ As shown in the example here, you can tell whether a claim or volume is bound by
 endif::showscript[]
 
 
-:noaudio:

@@ -22,4 +22,3 @@ image::{revealjs_cover_image}[]
 
 endif::[]
 
-:noaudio:

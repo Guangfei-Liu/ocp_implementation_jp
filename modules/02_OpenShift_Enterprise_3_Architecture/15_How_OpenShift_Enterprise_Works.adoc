@@ -1,3 +1,4 @@
+:noaudio:
 == How OpenShift Enterprise Works
 
 
@@ -18,4 +19,3 @@ The replication controller instantiates (creates) or kills pods according to
 the desired state definition.
 
 endif::showscript[]
-:noaudio:

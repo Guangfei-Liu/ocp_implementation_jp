@@ -1,3 +1,5 @@
+:noaudio:
+
 == OpenShift Enterprise 3.1 Release Notes
 
 
@@ -20,5 +22,3 @@ OpenShift Enterprise 3.1 offers a number of web console enhancements:
 * When you are in the *Builds* tab, you can now connect to a container using a remote shell connection.
 
 endif::showscript[]
-:noaudio:
-

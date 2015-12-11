@@ -41,5 +41,3 @@ For example, you can use the code shown here to create a wildcard DNS entry for
    deployed.
 
 endif::showscript[]
-:noaudio:
-

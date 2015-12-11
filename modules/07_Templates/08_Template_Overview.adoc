@@ -1,3 +1,4 @@
+:noaudio:
 == Template Overview
 
 
@@ -20,4 +21,3 @@ The next few slides show sections of a sample template, which illustrate most of
 
 
 endif::showscript[]
-:noaudio:

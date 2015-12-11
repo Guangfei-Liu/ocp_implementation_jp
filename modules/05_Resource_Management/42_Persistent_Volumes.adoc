@@ -1,3 +1,4 @@
+:noaudio:
 == Persistent Volumes
 
 
@@ -36,4 +37,3 @@ After you define a `PersistentVolume` in your project, you can claim the volume
 The example here shows a `PersistentVolumeClaim` definition file.
 
 endif::showscript[]
-:noaudio:

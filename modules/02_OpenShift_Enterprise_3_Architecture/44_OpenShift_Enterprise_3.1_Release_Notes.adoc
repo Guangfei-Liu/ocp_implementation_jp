@@ -1,3 +1,5 @@
+:noaudio:
+
 == OpenShift Enterprise 3.1 Release Notes
 
 
@@ -15,5 +17,3 @@ In addition, integration between Jenkins masters and Jenkins slaves running on O
 
 
 endif::showscript[]
-:noaudio:
-

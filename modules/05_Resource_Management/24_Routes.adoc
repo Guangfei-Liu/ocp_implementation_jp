@@ -1,3 +1,4 @@
+:noaudio:
 == Routes
 
 
@@ -30,4 +31,3 @@ Secure routes let you use several types of TLS termination to serve certificates
 The `Default Router` supports edge, passthrough, and re-encryption termination.
 
 endif::showscript[]
-:noaudio:

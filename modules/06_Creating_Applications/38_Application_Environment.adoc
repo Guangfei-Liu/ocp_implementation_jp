@@ -1,6 +1,5 @@
 == Application Environment
 
-
 .Specifying Labels
 
 * When generating applications from _source_, _images_, and _templates_, use

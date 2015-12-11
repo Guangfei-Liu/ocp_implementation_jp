@@ -1,6 +1,5 @@
 == Overview
 
-
 * Users can create new OpenShift Enterprise application using web console or
  `oc new-app` command
 ** Users can specify application creation from _source code_, _image_, or

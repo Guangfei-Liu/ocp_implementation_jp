@@ -1,6 +1,5 @@
 == Advanced Application Creation
 
-
 .Multiple Components and Grouping
 
 * `new-app` can create multiple applications at same time from _source_,

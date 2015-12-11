@@ -1,7 +1,5 @@
 == Source-to-Image Builds
 
-
-
 .S2I Build
 * S2I builds replace the developer experience and build process of OpenShift
  Enterprise 2

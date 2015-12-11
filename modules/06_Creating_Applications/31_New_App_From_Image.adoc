@@ -1,6 +1,5 @@
 == New App From Image
 
-
 .Specifying an Image
 
 * `new-app` generates artifacts to deploy existing image as application

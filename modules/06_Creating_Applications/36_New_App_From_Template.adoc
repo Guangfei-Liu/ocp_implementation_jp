@@ -1,6 +1,5 @@
 == New App From Template
 
-
 .Template Parameters
 
 * When creating application based on _template_, use `-p|--param` argument to

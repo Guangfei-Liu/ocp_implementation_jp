@@ -1,6 +1,5 @@
 == Application Creation
 
-
 .Overview
 
 * Create new OpenShift Enterprise application using web console or `oc new-app`

@@ -1,6 +1,5 @@
 == Application Environment
 
-
 .Command Output
 
 * `new-app` generates OpenShift Enterprise resources that _build_, _deploy_, and

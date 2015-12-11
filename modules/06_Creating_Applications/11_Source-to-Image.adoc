@@ -1,6 +1,5 @@
 == Source-to-Image
 
-
 .Build Strategies
 
 * OpenShift Enterprise build system provides extensible support for build
@@ -37,8 +36,3 @@ S2I is a tool for building reproducible Docker images.
 
 
 endif::showscript[]
-
-// ISSUE: Added after 3.1 updates, Waiting for answer from EJ
-// Supports incremental builds that reuse downloaded dependencies, built artifacts, etc.
-// S2I supports incremental builds that reuse previously downloaded dependencies,
-// previously built artifacts, and so on.

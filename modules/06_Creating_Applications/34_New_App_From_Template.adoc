@@ -1,6 +1,5 @@
 == New App From Template
 
-
 .Specifying a Template
 
 * `new-app` can instantiate template from stored template or template file

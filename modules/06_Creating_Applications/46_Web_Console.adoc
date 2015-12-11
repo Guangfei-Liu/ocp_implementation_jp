@@ -1,8 +1,5 @@
 == Web Console
 
-//ISSUE:I will have to speak to Bob to do something with this slide, its very
- long. Maybe we can do a "hover over object" to see text solution.
-
 * Modify settings in new application screen to configure resources to support
  application
 +
@@ -29,6 +26,3 @@ Modify settings in the new application screen to configure the resources to
 
 
 endif::showscript[]
-
-
-// ISSUE: I need to get new screenshots here for 3.1

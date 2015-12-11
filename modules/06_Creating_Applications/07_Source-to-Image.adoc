@@ -1,6 +1,5 @@
 == Source-to-Image
 
-
 .Build Process
 
 * *Build*: Process of creating runnable OpenShift Enterprise _image_

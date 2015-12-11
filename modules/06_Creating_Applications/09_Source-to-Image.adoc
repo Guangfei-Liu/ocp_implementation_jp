@@ -1,6 +1,5 @@
 == Source-to-Image
 
-
 .`BuildConfig` Triggers
 
 * Three trigger types:

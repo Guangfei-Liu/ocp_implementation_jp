@@ -1,6 +1,5 @@
 == Source-to-Image Builds
 
-
 .Watching the S2I Build
 
 * To see builds and their status:

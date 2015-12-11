@@ -1,6 +1,5 @@
 == Source-to-Image
 
-
 .Build and Deployment Automation
 
 * Integrated Docker registry and automated _image builds_

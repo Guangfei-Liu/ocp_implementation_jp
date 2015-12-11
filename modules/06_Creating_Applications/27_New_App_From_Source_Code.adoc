@@ -1,6 +1,5 @@
 == New App From Source Code
 
-
 .Build Strategy Detection
 
 * If `new-app` finds a _Dockerfile_ in the repository, it uses `docker` build

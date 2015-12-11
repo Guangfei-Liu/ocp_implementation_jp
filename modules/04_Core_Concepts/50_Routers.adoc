@@ -7,14 +7,14 @@
  OpenShift Enterprise cluster
 * Let external clients use `route` resources created by developers
 
-* Routers provide external hostname mapping and load-balancing to applications
+* Routers provide external hostname mapping and load balancing to applications
  over protocols that pass distinguishing information directly to router
 
-* Currently, OpenShift Enterprise Routers support the following protocols:
-- HTTP
-- HTTPS (with SNI)
-- WebSockets
-- TLS with SNI
+* Currently, OpenShift Enterprise routers support these protocols:
+** HTTP
+** HTTPS (with SNI)
+** WebSockets
+** TLS with SNI
 
 ifdef::showscript[]
 
@@ -25,14 +25,15 @@ An OpenShift Enterprise administrator can deploy _routers_ (like the HAProxy
     clients to use `route` resources created by developers.
 
 OpenShift Enterprise routers provide external hostname mapping and
- load-balancing to applications over protocols that pass distinguishing
+ load balancing to applications over protocols that pass distinguishing
   information directly to the router.
 
-* Currently, OpenShift Enterprise Routers support the following protocols:
-- HTTP
-- HTTPS (with SNI)
-- WebSockets
-- TLS with SNI
+Currently, OpenShift Enterprise routers support the following protocols:
+
+* HTTP
+* HTTPS (with SNI)
+* WebSockets
+* TLS with SNI
 
 
 

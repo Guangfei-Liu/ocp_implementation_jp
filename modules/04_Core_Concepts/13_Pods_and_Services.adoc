@@ -20,11 +20,6 @@
        value: https://master.example.com:8443
 ----
 
-. `containers` specifies an array of container definitions--in this case
- (as with most), just one.
-. You can specify variables (`env`) to pass necessary values to each container.
- For example, these can be credentials and database connection details.
-
 ifdef::showscript[]
 
 === Transcript

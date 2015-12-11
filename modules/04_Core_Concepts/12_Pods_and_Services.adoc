@@ -21,10 +21,6 @@
 
 ----
 
-. Labels used to select and manage groups of pods in a single operation.
-. Base name, `generateName`, is used in generating a unique pod name.
-
-
 ifdef::showscript[]
 
 === Transcript

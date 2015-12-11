@@ -18,9 +18,6 @@
        secretName: default-token-br6yz
 ----
 
-. Service Account name
-. volumes that the pod can use
-
 
 ifdef::showscript[]
 

@@ -1,4 +1,3 @@
-:noaudio:
 == OpenShift Enterprise Networking Basics
 
 
@@ -30,3 +29,4 @@ You need to configure a DNS entry in the client's DNS server to resolve a
  wildcard entry such as `*.cloudapps.companynameexample.com`.
 
 endif::showscript[]
+:noaudio:

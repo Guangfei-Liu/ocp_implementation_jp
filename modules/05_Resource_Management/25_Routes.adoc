@@ -1,4 +1,3 @@
-:noaudio:
 == Routes
 
 
@@ -26,3 +25,4 @@ This example shows an unsecured route object YAML definition.
 
 endif::showscript[]
 
+:noaudio:

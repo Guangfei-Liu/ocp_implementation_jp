@@ -1,4 +1,3 @@
-:noaudio:
 == How OpenShift Enterprise Works
 
 
@@ -19,3 +18,4 @@ OpenShift Enterprise 3 supports a number of mechanisms for authentication.
 The simplest use case for testing purposes is `htpasswd`-based authentication.
 
 endif::showscript[]
+:noaudio:

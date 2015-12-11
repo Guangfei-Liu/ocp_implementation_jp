@@ -1,4 +1,3 @@
-:noaudio:
 == Client Tool Authentication
 
 
@@ -45,3 +44,4 @@ Note that you set the username and the _project_ (_namespace_) to log in to by
  using the `-n` flag.
 
 endif::showscript[]
+:noaudio:

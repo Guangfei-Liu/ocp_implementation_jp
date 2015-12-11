@@ -1,4 +1,3 @@
-:noaudio:
 == Persistent Volumes
 
 
@@ -37,3 +36,4 @@ A `PersistentVolume` object is a storage resource in an OpenShift Enterprise
 When you define a `PersistentVolume`, you must associate it with a project.
 
 endif::showscript[]
+:noaudio:

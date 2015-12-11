@@ -1,4 +1,3 @@
-:noaudio:
 == Routes
 
 
@@ -29,3 +28,4 @@ Each route consists of a route name, a service selector, and, optionally, a
  security configuration.
 
 endif::showscript[]
+:noaudio:

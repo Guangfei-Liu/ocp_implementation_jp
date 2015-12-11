@@ -1,4 +1,3 @@
-:noaudio:
 == What Is Kubernetes
 
 
@@ -27,3 +26,4 @@ Kubernetes is lean, portable, extensible, and self-healing. Kubernetes builds
 upon more than 15 years of experience at Google.
 
 endif::showscript[]
+:noaudio:

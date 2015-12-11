@@ -1,4 +1,3 @@
-:noaudio:
 == New Configuration From Template
 
 
@@ -38,3 +37,4 @@ After you upload the template, you can configure it using the web console
  or the CLI.
 
 endif::showscript[]
+:noaudio:

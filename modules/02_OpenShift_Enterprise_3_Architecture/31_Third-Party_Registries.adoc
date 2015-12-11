@@ -1,4 +1,3 @@
-:noaudio:
 == Third-Party Registries
 
 
@@ -21,3 +20,4 @@ creators.
 
 
 endif::showscript[]
+:noaudio:

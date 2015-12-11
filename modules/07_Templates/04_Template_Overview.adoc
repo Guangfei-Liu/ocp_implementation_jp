@@ -1,4 +1,3 @@
-:noaudio:
 == Template Overview
 
 
@@ -18,3 +17,4 @@ A template can use preset variables or randomize values (like passwords).
 
 
 endif::showscript[]
+:noaudio:

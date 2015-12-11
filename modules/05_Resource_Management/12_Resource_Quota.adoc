@@ -1,4 +1,3 @@
-:noaudio:
 == Resource Quota
 
 
@@ -35,3 +34,4 @@ A `ResourceQuota` object enumerates hard resource usage limits _per project_.
 
 
 endif::showscript[]
+:noaudio:

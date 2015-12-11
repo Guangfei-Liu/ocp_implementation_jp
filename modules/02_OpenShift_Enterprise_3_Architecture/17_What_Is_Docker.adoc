@@ -1,4 +1,3 @@
-:noaudio:
 == What Is Docker
 
 
@@ -30,3 +29,4 @@ The Docker Engine is a portable, lightweight runtime and packaging tool. The
   workflows.
 
 endif::showscript[]
+:noaudio:

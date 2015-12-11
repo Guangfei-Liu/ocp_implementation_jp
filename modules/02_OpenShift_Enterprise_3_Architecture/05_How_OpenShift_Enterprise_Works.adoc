@@ -1,4 +1,3 @@
-:noaudio:
 == How OpenShift Enterprise Works
 
 
@@ -35,3 +34,4 @@ It also maintains state and manages pods and services.
 
 
 endif::showscript[]
+:noaudio:

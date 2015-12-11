@@ -1,5 +1,3 @@
-:noaudio:
-
 == OpenShift Enterprise 3.1 Release Notes
 
 * OpenShift Enterprise version 3.1 now available
@@ -20,3 +18,5 @@ Make sure that you properly follow the instructions on upgrading your OpenShift 
 Go to the web address shown here for instructions on upgrading your OpenShift cluster, including any additional steps that may be required for a specific release.
 
 endif::showscript[]
+:noaudio:
+

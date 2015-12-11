@@ -1,4 +1,3 @@
-:noaudio:
 == Template Overview
 
 .What Is a Template?
@@ -26,3 +25,4 @@ Each template is a parameterized list that OpenShift Enterprise uses to create a
 A template also defines a set of labels to apply to every resource it creates.
 
 endif::showscript[]
+:noaudio:

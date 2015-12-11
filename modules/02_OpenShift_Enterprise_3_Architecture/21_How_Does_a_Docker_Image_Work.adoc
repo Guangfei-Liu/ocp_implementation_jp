@@ -1,4 +1,3 @@
-:noaudio:
 == How Does a Docker Image Work
 
 
@@ -31,3 +30,4 @@ new version--a new layer gets built. You only need to distribute the update, not
 
 
 endif::showscript[]
+:noaudio:

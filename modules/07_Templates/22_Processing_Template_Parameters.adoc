@@ -1,4 +1,3 @@
-:noaudio:
 == Processing Template Parameters
 
 
@@ -47,3 +46,4 @@ In this example you process and create the `db` template while
 You can also process and create the application in a single step, or use the `oc new-app` command to achieve the same result.
 
 endif::showscript[]
+:noaudio:

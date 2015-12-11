@@ -1,4 +1,3 @@
-:noaudio:
 == How Containers Differ From VMs
 
 
@@ -29,3 +28,4 @@ sharing the kernel with other containers. As a result, it enjoys the resource
   efficient.
 
 endif::showscript[]
+:noaudio:

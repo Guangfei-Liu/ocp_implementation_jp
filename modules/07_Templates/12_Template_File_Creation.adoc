@@ -1,4 +1,3 @@
-:noaudio:
 == Template File Creation
 
 
@@ -34,3 +33,4 @@ endif::showscript[]
 
 
 
+:noaudio:

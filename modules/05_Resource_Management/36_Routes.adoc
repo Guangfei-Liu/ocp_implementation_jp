@@ -1,4 +1,3 @@
-:noaudio:
 == Routes
 
 
@@ -38,3 +37,4 @@ The example here shows a route with a specified host.
 . This specifies the externally reachable hostname used to expose a service.
 
 endif::showscript[]
+:noaudio:

@@ -1,4 +1,3 @@
-:noaudio:
 == Module Topics
 
 * Template Overview
@@ -17,3 +16,4 @@ In this module you learn about the various sections of a template; how to
 and how to "wire" templates together.
 
 endif::showscript[]
+:noaudio:

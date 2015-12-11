@@ -1,4 +1,3 @@
-:noaudio:
 == Routes
 
 
@@ -26,3 +25,4 @@ The front end of the router serves the TLS certificates, so they must be
   for TLS termination.
 
 endif::showscript[]
+:noaudio:

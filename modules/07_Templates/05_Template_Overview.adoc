@@ -1,4 +1,3 @@
-:noaudio:
 == Template Overview
 
 
@@ -58,3 +57,4 @@ This sample template file is constructed from the following elements:
 . `object` lists resources to create, like pods, services, and routes.
 
 endif::showscript[]
+:noaudio:

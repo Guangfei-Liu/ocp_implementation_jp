@@ -1,5 +1,3 @@
-:noaudio:
-
 == OpenShift Enterprise 3.1 Release Notes
 
 * Installation utility updates: Multiple enhancements made to Ansible-based installation
@@ -20,4 +18,6 @@ Multiple enhancements have been made to the Ansible-based installation utility. 
 
 endif::showscript[]
 
+
+:noaudio:
 

@@ -1,4 +1,3 @@
-:noaudio:
 == Routes
 
 
@@ -34,3 +33,4 @@ The generated hostname is of the form of `$routename[.$namespace].$suffix`.
 The example here shows a route definition without a host.
 
 endif::showscript[]
+:noaudio:

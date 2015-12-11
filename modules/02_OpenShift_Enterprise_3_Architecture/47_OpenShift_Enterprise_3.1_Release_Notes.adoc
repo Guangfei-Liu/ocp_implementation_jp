@@ -1,5 +1,3 @@
-:noaudio:
-
 == OpenShift Enterprise 3.1 Release Notes
 
 
@@ -29,3 +27,4 @@ Some features in this release are currently in Technology Preview. These experim
 For information on the scope of support via the Red Hat Customer Portal for Technology Preview features, go to the web address shown here.
 
 endif::showscript[]
+:noaudio:

@@ -1,4 +1,3 @@
-:noaudio:
 == Routes
 
 
@@ -44,3 +43,4 @@ Using the definition from the preceding slide, with your new default subdomain,
 
 
 endif::showscript[]
+:noaudio:

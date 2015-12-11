@@ -1,4 +1,3 @@
-:noaudio:
 == Important Projects in OpenShift Enterprise
 
 
@@ -38,3 +37,4 @@ OpenShift Enterprise helps manage large developer organizations. It adds source
    scale; and tracks teams and users.
 
 endif::showscript[]
+:noaudio:

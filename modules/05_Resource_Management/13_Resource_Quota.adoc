@@ -1,4 +1,3 @@
-:noaudio:
 == Resource Quota
 
 
@@ -29,3 +28,4 @@ If your modification to the project exceeds a quota usage limit, the master
    usage statistics.
 
 endif::showscript[]
+:noaudio:

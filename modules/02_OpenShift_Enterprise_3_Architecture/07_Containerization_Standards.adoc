@@ -1,4 +1,3 @@
-:noaudio:
 == Containerization Standards
 
 
@@ -23,3 +22,4 @@ manages container state, and schedules across hosts.
 endif::showscript[]
 
 
+:noaudio:

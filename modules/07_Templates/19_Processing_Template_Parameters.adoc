@@ -1,4 +1,3 @@
-:noaudio:
 == Processing Template Parameters
 
 
@@ -29,3 +28,4 @@ You can take these two separate templates and wire them together. First, process
     extracted from the `frontend` configuration file.
 
 endif::showscript[]
+:noaudio:

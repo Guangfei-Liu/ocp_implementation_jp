@@ -1,4 +1,3 @@
-:noaudio:
 == Projects and Users
 
 
@@ -44,3 +43,4 @@ Each project scopes its own set of objects, policies, constraints, and service
 
 
 endif::showscript[]
+:noaudio:

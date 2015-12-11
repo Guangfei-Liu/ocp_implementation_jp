@@ -1,5 +1,3 @@
-:noaudio:
-
 == OpenShift Enterprise 3.1 Release Notes
 
 
@@ -26,3 +24,5 @@ OpenShift now allows you to sync LDAP records with OpenShift, so that you can ma
 You can also now configure an F5 load balancer for use with your OpenShift Enterprise environment.
 
 endif::showscript[]
+:noaudio:
+

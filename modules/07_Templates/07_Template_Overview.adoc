@@ -1,4 +1,3 @@
-:noaudio:
 == Template Overview
 
 
@@ -47,3 +46,4 @@ In the example shown here, you set the `generate` field to `expression` to speci
 
 
 endif::showscript[]
+:noaudio:

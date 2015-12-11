@@ -1,4 +1,3 @@
-:noaudio:
 == Template File Creation
 
 
@@ -28,3 +27,4 @@ This slide shows the `metadata` section of a sample template.
 
 
 endif::showscript[]
+:noaudio:

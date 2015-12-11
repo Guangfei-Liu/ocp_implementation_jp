@@ -1,4 +1,3 @@
-:noaudio:
 == Routes
 
 
@@ -26,3 +25,4 @@ The destination pod is responsible for serving certificates for the traffic at
  the endpoint.
 
 endif::showscript[]
+:noaudio:

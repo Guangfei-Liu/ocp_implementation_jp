@@ -1,4 +1,3 @@
-:noaudio:
 == Resource Types
 
 * Working with applications means manipulating OpenShift resources in background:
@@ -29,3 +28,4 @@ OpenShift Enterprise 3 includes different resource types. In this context,
    pods, services, and replication controllers.
 
 endif::showscript[]
+:noaudio:

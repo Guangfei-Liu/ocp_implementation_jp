@@ -1,4 +1,3 @@
-:noaudio:
 == Routes
 
 
@@ -39,3 +38,4 @@ Path-based routing is not available when using passthrough TLS, as the router
 . The path is the only added attribute for a path-based route.  
 
 endif::showscript[]
+:noaudio:

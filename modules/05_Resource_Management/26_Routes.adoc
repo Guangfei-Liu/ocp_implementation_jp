@@ -1,4 +1,3 @@
-:noaudio:
 == Routes
 
 
@@ -21,3 +20,4 @@ Path-based routes specify a path component that can be compared against a URL so
 This requires that the traffic for the route be HTTP-based.
 
 endif::showscript[]
+:noaudio:

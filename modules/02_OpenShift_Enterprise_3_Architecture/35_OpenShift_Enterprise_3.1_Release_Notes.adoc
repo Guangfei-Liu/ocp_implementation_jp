@@ -1,5 +1,3 @@
-:noaudio:
-
 == OpenShift Enterprise 3.1 Release Notes
 
 
@@ -29,3 +27,5 @@ ifdef::showscript[]
 A number of services, packages, file names, and directories have been renamed in OpenShift Enterprise 3.1. This table shows the name changes.
 
 endif::showscript[]
+:noaudio:
+

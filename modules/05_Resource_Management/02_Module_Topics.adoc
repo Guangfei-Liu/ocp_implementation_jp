@@ -1,4 +1,3 @@
-:noaudio:
 == Module Topics
 
 
@@ -23,3 +22,4 @@ This module discusses various OpenShift Enterprise resources and how to use them
 
 
 endif::showscript[]
+:noaudio:

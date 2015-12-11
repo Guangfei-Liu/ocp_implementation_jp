@@ -1,4 +1,3 @@
-:noaudio:
 == Kubernetes Concepts
 
 
@@ -35,3 +34,4 @@ You use labels to organize and select groups of objects based on key-value pairs
 
 endif::showscript[]
 
+:noaudio:

@@ -1,4 +1,3 @@
-:noaudio:
 == Integrated Registry
 
 
@@ -30,3 +29,4 @@ Various pieces of OpenShift Enterprise react to the new images by creating new
 builds and deployments.
 
 endif::showscript[]
+:noaudio:

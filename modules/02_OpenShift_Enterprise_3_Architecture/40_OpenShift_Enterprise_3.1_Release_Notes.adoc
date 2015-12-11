@@ -1,5 +1,3 @@
-:noaudio:
-
 == OpenShift Enterprise 3.1 Release Notes
 
 * New parameter for port destination
@@ -27,7 +25,7 @@ You can now specify the port to send routes to. Any services that are
 pointing to multiple ports should have the `spec.port.targetPort` parameter on the pod set to the desired port.
 
 It also contains a new remote access command, project binding command, and host configurations validation commands.
- 
+
 The `oc rsync` command can copy local directories into a remote pod.
 
 You can use `oadm pod-network join-project` to bind isolated projects together.
@@ -35,3 +33,5 @@ You can use `oadm pod-network join-project` to bind isolated projects together.
 And you can use `openshift ex validate master-config` and `openshift ex validate node-config` to validate master and node configuration files, respectively.
 
 endif::showscript[]
+:noaudio:
+

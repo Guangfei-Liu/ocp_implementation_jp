@@ -1,13 +1,14 @@
 == Persistent Storage Using NFS
-:noaudio:
 
 .Overview
 
 * Can provision OpenShift Enterprise cluster with persistent storage using NFS
 * `Persistent Volume` framework:
 ** Lets administrators provision cluster with persistent storage
-** Gives users access to resources without knowledge of underlying infrastructure
-* Storage must exist in underlying infrastructure before mounting as volume in OpenShift Enterprise
+** Gives users access to resources without knowledge of underlying
+ infrastructure
+* Storage must exist in underlying infrastructure before mounting as volume in
+ OpenShift Enterprise
 
 NOTE: There are many other supported storage back ends; they will be covered
  later in the training. In our lab we use NFS for persistent storage.

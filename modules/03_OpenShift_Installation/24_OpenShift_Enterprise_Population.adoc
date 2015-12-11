@@ -1,5 +1,4 @@
 == OpenShift Enterprise Population
-:noaudio:
 
 * Core set of image streams defines:
 ** Images you can use to build applications:

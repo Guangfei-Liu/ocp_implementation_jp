@@ -1,5 +1,5 @@
-
 :noaudio:
+
 
 ifdef::revealjs_slideshow[]
 
@@ -7,6 +7,7 @@ ifdef::revealjs_slideshow[]
 
 == &nbsp;
 :noaudio:
+
 
 ifdef::revealjs_slideshow[]
 
@@ -23,4 +24,3 @@ OpenShift 3 Installation
 image::{revealjs_cover_image}[]
 
 endif::[]
-

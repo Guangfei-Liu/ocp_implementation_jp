@@ -1,13 +1,13 @@
 
 
-:noaudio:
+
 
 ifdef::revealjs_slideshow[]
 
 [#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"]
 
 == &nbsp;
-:noaudio:
+
 
 ifdef::revealjs_slideshow[]
 
@@ -26,7 +26,7 @@ image::{revealjs_cover_image}[]
 endif::[]
 
 == Module Topics
-:noaudio:
+
 
 * Installation Scenario
 * Installation Methods
@@ -53,7 +53,7 @@ This module reviews the installation process and shows how to configure the
 
 endif::showscript[]
 == Installation Scenario
-:noaudio:
+
 
 [cols="1,1,4,2"]
 |=======================================================================
@@ -99,7 +99,7 @@ The two remaining *nodes* are hosts that you use to run containers (pods) in the
    single region and possibly two cloud availability zones.
 
 endif::showscript[]
-:noaudio:
+
 
 == Installation Methods
 
@@ -142,7 +142,7 @@ This module focuses on the Quick Install method.
 
 endif::showscript[]
 == Installation Workflow
-:noaudio:
+
 
 * Prerequisites
 ** System requirements
@@ -175,7 +175,7 @@ Finally, you deploy some containerized infrastructure components such as the
 
 endif::showscript[]
 == Prerequisites
-:noaudio:
+
 
 .System Requirements
 
@@ -210,7 +210,7 @@ To lower costs, the servers in the learning environment are not configured with
 
 endif::showscript[]
 == Prerequisites
-:noaudio:
+
 
 .DNS Setup
 
@@ -252,7 +252,7 @@ For example, you can use the code shown here to create a wildcard DNS entry for
    deployed.
 
 endif::showscript[]
-:noaudio:
+
 
 == Host Preparation
 
@@ -302,7 +302,7 @@ If you want to create a scalable environment, you should create an image
 
 endif::showscript[]
 == Host Preparation
-:noaudio:
+
 
 .Password-Less Communication
 
@@ -340,7 +340,7 @@ An easy way to distribute your SSH keys is by using a bash loop.
 
 endif::showscript[]
 == Host Preparation
-:noaudio:
+
 
 .Firewalls: Component Communication
 
@@ -395,7 +395,7 @@ Also note that the master is running a local DNS server. Do not confuse this
 endif::showscript[]
 
 == Host Preparation
-:noaudio:
+
 
 .Firewalls: External Access
 
@@ -434,7 +434,7 @@ Consider a topology where only the infrastructure _nodes_ are running in a DMZ
 
 endif::showscript[]
 == Host Preparation
-:noaudio:
+
 
 .Networking and Miscellaneous
 
@@ -465,7 +465,7 @@ Red Hat highly recommends installing `bash-completion` so that commands can be c
 
 endif::showscript[]
 == Docker Installation
-:noaudio:
+
 
 .Installing Docker
 
@@ -511,7 +511,7 @@ You will deploy your local registry under this subnet.
 
 endif::showscript[]
 == Docker Installation
-:noaudio:
+
 
 .Docker Storage Configuration
 
@@ -543,7 +543,7 @@ The script reads configuration options from the
 
 endif::showscript[]
 == Docker Installation
-:noaudio:
+
 
 .Storage Options
 
@@ -597,7 +597,7 @@ Then you use an existing volume group, in this example `docker-vg`, to create a
 
 endif::showscript[]
 == Docker Installation
-:noaudio:
+
 
 .Storage Options: Example
 
@@ -645,7 +645,7 @@ After you verify the setup, restart the `Docker` daemon.
 
 endif::showscript[]
 == OpenShift Enterprise Installation
-:noaudio:
+
 
 * Install OpenShift `utils` package that includes installer:
 +
@@ -684,7 +684,7 @@ You can use this as an _answer file_
 
 endif::showscript[]
 == Regions and Zones
-:noaudio:
+
 
 * After installation, need to label nodes
 ** Lets scheduler use _logic_ defined in `scheduler.json` when provisioning pods
@@ -733,7 +733,7 @@ The labels on the nodes handle the assignments of _regions_ and _zones_ at the
 
 endif::showscript[]
 == Registry Deployment
-:noaudio:
+
 
 .Registry Container
 
@@ -770,7 +770,7 @@ To control where your registry is deployed, you use the `--selector` flag to
 
 endif::showscript[]
 == Registry Deployment
-:noaudio:
+
 
 .Deploying Registry
 
@@ -815,7 +815,7 @@ To ensure that the `registry` pod is hosted only in the `infra` region, run the
 
 endif::showscript[]
 == Registry Deployment
-:noaudio:
+
 
 .NFS Storage for the Registry
 
@@ -864,7 +864,7 @@ The `--mount-host` option mounts a directory from the node on which the registry
 
 endif::showscript[]
 == Default HAProxy Router Deployment
-:noaudio:
+
 
 * `Default Router` (aka `Default HA-Proxy Router`, other names):
 ** Modified deployment of HAProxy
@@ -908,7 +908,7 @@ The default router’s pod listens on its host's network interface on ports 80 a
 
 endif::showscript[]
 == OpenShift Enterprise Population
-:noaudio:
+
 
 * Can populate OpenShift Enterprise installation with Red Hat-provided
  _image streams_ and _templates_
@@ -939,7 +939,7 @@ An _image stream_ is similar to a Docker image repository in that it contains
 
 endif::showscript[]
 == OpenShift Enterprise Population
-:noaudio:
+
 
 * Core set of image streams defines:
 ** Images you can use to build applications:
@@ -971,7 +971,7 @@ The core set of image streams defines images you can sue to build Node.js,
 
 endif::showscript[]
 == OpenShift Enterprise Population
-:noaudio:
+
 
 .Image Streams
 
@@ -1015,7 +1015,7 @@ Use the code shown here to create or delete the core set, xPaaS and JBoss image
 
 endif::showscript[]
 == OpenShift Enterprise Population
-:noaudio:
+
 
 .Database Service Templates
 
@@ -1052,7 +1052,7 @@ After you create the templates, you can easily instantiate them. This gives the
 
 endif::showscript[]
 == OpenShift Enterprise Population
-:noaudio:
+
 
 .QuickStart Templates
 
@@ -1091,7 +1091,7 @@ Use the code shown here to create or delete the core QuickStart templates.
 
 endif::showscript[]
 == Persistent Storage Using NFS
-:noaudio:
+
 
 .Overview
 
@@ -1121,7 +1121,7 @@ Storage must exist in the underlying infrastructure before you can mount it as
 
 endif::showscript[]
 == Persistent Storage Using NFS
-:noaudio:
+
 
 * To create a persistent volume that can be claimed by a pod, you must
  create a `PersistentVolume` object in pod's `Project`
@@ -1166,7 +1166,7 @@ You must specify the storage capacity, access mode, and details of your NFS host
 
 endif::showscript[]
 == Persistent Storage Using NFS
-:noaudio:
+
 
 .Volume Security
 
@@ -1192,7 +1192,7 @@ Each NFS volume must be mountable by all nodes in the cluster.
 
 endif::showscript[]
 == Persistent Storage Using NFS
-:noaudio:
+
 
 .SELinux and NFS Export Settings
 
@@ -1233,7 +1233,7 @@ In addition, configure each exported volume on the NFS server itself so that eac
 
 endif::showscript[]
 == Persistent Storage Using NFS
-:noaudio:
+
 
 .Resource Reclamation
 * OpenShift Enterprise implements Kubernetes `Recyclable` plug-in interface
@@ -1260,7 +1260,7 @@ NFS volumes set to `Recycle` are scrubbed--that is, `rm -rf` is run on the volum
 
 endif::showscript[]
 == Persistent Storage Using NFS
-:noaudio:
+
 
 .Automation
 
@@ -1290,7 +1290,7 @@ To help you get started, see the example Ansible playbook at the web address sho
 
 endif::showscript[]
 == Persistent Storage Using NFS
-:noaudio:
+
 
 .SELinux and NFS Export Settings
 
@@ -1332,7 +1332,7 @@ In addition, configure each exported volume on the NFS server itself so that eac
 
 endif::showscript[]
 == Summary
-:noaudio:
+
 
 * Installation Scenario
 * Installation Methods

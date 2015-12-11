@@ -1,5 +1,4 @@
 == Host Preparation
-:noaudio:
 
 .Firewalls: External Access
 

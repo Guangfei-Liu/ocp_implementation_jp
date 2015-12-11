@@ -1,5 +1,4 @@
 == Host Preparation
-:noaudio:
 
 .Networking and Miscellaneous
 
@@ -26,6 +25,7 @@ ifdef::showscript[]
 You need to install the software packages shown here and run a `yum` update on
  your master before using the installer and installing OpenShift Enterprise 3.
 
-Red Hat highly recommends installing `bash-completion` so that commands can be completed simply by pressing the  *Tab* key.
+Red Hat highly recommends installing `bash-completion` so that commands can be
+ completed simply by pressing the  *Tab* key.
 
 endif::showscript[]

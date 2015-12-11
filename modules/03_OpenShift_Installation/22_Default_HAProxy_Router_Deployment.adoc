@@ -1,5 +1,4 @@
 == Default HAProxy Router Deployment
-:noaudio:
 
 * `Default Router` (aka `Default HA-Proxy Router`, other names):
 ** Modified deployment of HAProxy

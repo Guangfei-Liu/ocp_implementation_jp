@@ -1,11 +1,11 @@
 == Host Preparation
-:noaudio:
 
 .Password-Less Communication
 
 * Ensure installer has password-less access to hosts
 ** Ansible requires user with access to all hosts
-** To run installer as non-root user, configure password-less `sudo` rights on each destination host
+** To run installer as non-root user, configure password-less `sudo` rights on
+ each destination host
 * Example: To generate SSH key on host where you invoke installation process:
 +
 ----

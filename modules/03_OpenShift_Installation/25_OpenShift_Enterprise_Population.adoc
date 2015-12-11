@@ -1,5 +1,4 @@
 == OpenShift Enterprise Population
-:noaudio:
 
 .Image Streams
 

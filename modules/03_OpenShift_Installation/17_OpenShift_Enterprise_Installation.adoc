@@ -1,5 +1,4 @@
 == OpenShift Enterprise Installation
-:noaudio:
 
 * Install OpenShift `utils` package that includes installer:
 +
@@ -16,7 +15,8 @@ $ atomic-openshift-installer install
 * Follow onscreen instructions to install OpenShift Enterprise
 ** Installer asks for hostnames or IPs of masters and nodes and configures them
  accordingly
-** Configuration file with all information provided is saved in `~/.config/openshift/installer.cfg.yml`
+** Configuration file with all information provided is saved in
+ `~/.config/openshift/installer.cfg.yml`
 *** Can use this as _answer file_
 
 ifdef::showscript[]
@@ -28,10 +28,11 @@ To install OpenShift
   and run the installer CLI utility on a host that has SSH access to your
    intended master and nodes.
 
-The installer asks for the hostnames or IPs of the masters and nodes and configures them
- accordingly.
+The installer asks for the hostnames or IPs of the masters and nodes and
+ configures them accordingly.
 
-A configuration file with all the information provided is saved in  `~/.config/openshift/installer.cfg.yml`.
+A configuration file with all the information provided is saved in
+ `~/.config/openshift/installer.cfg.yml`.
 You can use this as an _answer file_
   for future installations.
 

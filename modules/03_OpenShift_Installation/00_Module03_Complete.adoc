@@ -1,3 +1,5 @@
+
+
 :noaudio:
 
 ifdef::revealjs_slideshow[]
@@ -93,24 +95,25 @@ While *Infranode* is a regular node like the others, you dedicate it to be used
 
 The two remaining *nodes* are hosts that you use to run containers (pods) in the
  OpenShift Enterprise environment. You label the two nodes to be in the same
-  region but different zones. This simulates the use-case of an environment in a
+  region but different zones. This simulates the use case of an environment in a
    single region and possibly two cloud availability zones.
 
 endif::showscript[]
-== Installation Methods
 :noaudio:
+
+== Installation Methods
+
 
 .Quick Install
 ** Lets you use interactive CLI utility to install OpenShift across set of hosts
-** Installer made available by installing the utility package
- ("atomic-openshift-utils") on the provisioning host.
+** Installer made available by installing utility package
+ (`atomic-openshift-utils`) on provisioning host
 ** https://install.openshift.com
-** Uses Ansible playbooks under the covers
-** Does not assume any Ansible familiarity
+** Uses Ansible playbooks in background
+** Does not assume familiarity with Ansible
 
 .Advanced Install
-** For complex environments requiring deeper customization of installation and
- maintenance
+** For complex environments requiring deeper customization of installation and maintenance
 ** Uses Ansible playbooks
 ** Assumes familiarity with Ansible
 
@@ -122,9 +125,12 @@ ifdef::showscript[]
 
 There are two ways to install OpenShift Enterprise 3.
 The Quick Install method uses an interactive CLI utility to install OpenShift
- across a set of hosts. the installer is made available by installing the
-  utility package ("atomic-openshift-utils"), available in the OpenShift
+ across a set of hosts. The installer is made available by installing the
+  utility package `atomic-openshift-utils`, available in the OpenShift
    Repository, on the provisioning host.
+
+The Quick Install method uses Ansible in the background of the
+ interactive CLI utility.
 
 For more complex environments where deeper customization of installation and
  maintenance is required, an Advanced Install method using Ansible playbooks is
@@ -132,8 +138,7 @@ For more complex environments where deeper customization of installation and
 
 This module focuses on the Quick Install method.
 
-Note that the Quick Install method uses Ansible in the background of the
- interactive CLI utility.
+
 
 endif::showscript[]
 == Installation Workflow
@@ -190,7 +195,7 @@ endif::showscript[]
 ** Minimum 8 GB RAM
 ** Minimum 15 GB hard disk space
 ** An additional minimum 15 GB unallocated space to be configured using
- docker-storage-setup;
+ `docker-storage-setup;`
 
 
 
@@ -234,7 +239,7 @@ To make the OpenShift Enterprise environment accessible externally, you create a
  wildcard DNS entry that points to the _node_ that is hosting the
   _Default Router Container_.
 
-In this lab and examples this is the `infranode00` server. If your environment
+In this lab and examples, this is the `infranode00` server. If your environment
  uses multiple _routers_ (HAProxy instances), which is likely, you use an
   external load balancer or round-robin setting to use them.
 
@@ -247,8 +252,10 @@ For example, you can use the code shown here to create a wildcard DNS entry for
    deployed.
 
 endif::showscript[]
-== Host Preparation
 :noaudio:
+
+== Host Preparation
+
 
 .Overview
 
@@ -263,8 +270,8 @@ endif::showscript[]
 ** Manage services:
 *** Disable `firewalld`
 *** Enable `iptables-services`
-**  Docker 1.8.2 or later
-** Host password-less communication
+**  Install Docker 1.8.2 or later
+** Make sure master does not require password for communication
 
 ifdef::showscript[]
 
@@ -282,11 +289,11 @@ The basic steps for preparing hosts are as follows:
 * Install some utility packages, including `git`, `net-tools`, `bind-utils`, and
  `iptables-services`.
 * Disable `firewalld` and enable `iptables-services`.
-* Install Docker 1.8.2 or later and configure the storage back-end for images.
+* Install Docker 1.8.2 or later and configure the storage back end for images.
 * Make sure that the master hosts can issue remote commands on the nodes
  without requiring a password.
 
-TIP: If you want to create a scalable environment, you should create an image
+If you want to create a scalable environment, you should create an image
  template for the node--depending on your infrastructure provider--and then, to
   save time, spin up a new instance or VM in which these steps have already been
    performed. You should then run the installer script to add the new node to
@@ -443,14 +450,18 @@ endif::showscript[]
 # yum update -y
 ----
 
-TIP: Its highly recommended to install "bash-completion" for command completion
-when tapping the Tab button.
+[NOTE]
+Red Hat highly recommends installing `bash-completion` to enable command completion
+with the *Tab* key.
+
 ifdef::showscript[]
 
 === Transcript
 
 You need to install the software packages shown here and run a `yum` update on
  your master before using the installer and installing OpenShift Enterprise 3.
+
+Red Hat highly recommends installing `bash-completion` so that commands can be completed simply by pressing the  *Tab* key.
 
 endif::showscript[]
 == Docker Installation
@@ -477,10 +488,11 @@ OPTIONS=--selinux-enabled --insecure-registry 172.30.0.0/16
 ----
 +
 [NOTE]
+====
 ** `--insecure-registry` instructs Docker daemon to trust any
 Docker registry on `172.30.0.0/16` subnet
 ** Will deploy local registry under this subnet
-
+====
 
 ifdef::showscript[]
 
@@ -635,13 +647,13 @@ endif::showscript[]
 == OpenShift Enterprise Installation
 :noaudio:
 
-* Install the OpenShift Utils package that includes the installer
+* Install OpenShift `utils` package that includes installer:
 +
 ----
 # yum -y install atomic-openshift-utils
 ----
 
-* Run the following on host that has SSH access to intended master and nodes:
+* Run following on host that has SSH access to intended master and nodes:
 +
 ----
 $ atomic-openshift-installer install
@@ -649,24 +661,25 @@ $ atomic-openshift-installer install
 
 * Follow onscreen instructions to install OpenShift Enterprise
 ** Installer asks for hostnames or IPs of masters and nodes and configures them
- accordingly.
-** A configuration file with all the information provided would be saved in:
- `~/.config/openshift/installer.cfg.yml` - This can be used as an "Answer file".
+ accordingly
+** Configuration file with all information provided is saved in `~/.config/openshift/installer.cfg.yml`
+*** Can use this as _answer file_
 
 ifdef::showscript[]
 
 === Transcript
-The latest installer is available from the link shown here. To install OpenShift
- Enterprise 3, Install the OpenShift Utils package that includes the installer,
+
+To install OpenShift
+ Enterprise 3, install the OpenShift `utils` package that includes the installer,
   and run the installer CLI utility on a host that has SSH access to your
    intended master and nodes.
 
-The installer asks for hostnames or IPs of masters and nodes and configures them
+The installer asks for the hostnames or IPs of the masters and nodes and configures them
  accordingly.
 
-A configuration file with all the information provided would be saved in:
-  `~/.config/openshift/installer.cfg.yml`, this can be used as an "Answer file"
-  for future installs.
+A configuration file with all the information provided is saved in  `~/.config/openshift/installer.cfg.yml`.
+You can use this as an _answer file_
+  for future installations.
 
 
 endif::showscript[]
@@ -928,32 +941,32 @@ endif::showscript[]
 == OpenShift Enterprise Population
 :noaudio:
 
-* Core set of image streams define images you can use to build applications:
-** Node.js
-** Perl
-** PHP
-** Python
-** Ruby
+* Core set of image streams defines:
+** Images you can use to build applications:
+*** Node.js
+*** Perl
+*** PHP
+*** Python
+*** Ruby
 
-* Defines images for databases:
-** MongoDB
-** MySQL
-** PostgreSQL
+** Images for databases:
+*** MongoDB
+*** MySQL
+*** PostgreSQL
 
-NOTE: These image streams and others are *installed automatically* by the
- install utility.
+[NOTE]
+The install utility installs these image streams and others automatically.
 
 
 ifdef::showscript[]
 
 === Transcript
 
-The core set of image streams define images that can be used to build Node.js,
+The core set of image streams defines images you can sue to build Node.js,
  Perl, PHP, Python, and Ruby applications. It also defines images for MongoDB,
   MySQL, and PostgreSQL databases.
 
-  These image streams and others are *installed automatically* by the install
-   utility.
+  The install utility installs these image streams and others automatically.
 
 
 endif::showscript[]
@@ -990,12 +1003,12 @@ ifdef::showscript[]
 
 === Transcript
 
-Red Hat provides xPaas middleware image streams for  Red Hat JBoss Enterprise
+Red Hat provides xPaaS middleware image streams for Red Hat JBoss Enterprise
  Application Platform, Red Hat JBoss Web Server, and Red Hat JBoss A-MQ.
 
 You can use the image streams to build application for these platforms.
 
-Use the code shown here to create or delete the core set, xPaas and JBoss image
+Use the code shown here to create or delete the core set, xPaaS and JBoss image
  streams.
 
 
@@ -1086,18 +1099,17 @@ endif::showscript[]
 * `Persistent Volume` framework:
 ** Lets administrators provision cluster with persistent storage
 ** Gives users access to resources without knowledge of underlying infrastructure
-* Storage must exist in underlying infrastructure before mounting as volume in
- OpenShift Enterprise
+* Storage must exist in underlying infrastructure before mounting as volume in OpenShift Enterprise
 
-NOTE: There are many other supported storage back-end, they will be covered
- later in the training. In our lab we will use NFS for persistent storage.
+NOTE: There are many other supported storage back ends; they will be covered
+ later in the training. In our lab we use NFS for persistent storage.
 
 ifdef::showscript[]
 
 === Transcript
 You can provision your OpenShift Enterprise cluster with persistent storage
- using NFS. There are many other supported storage back-end, they will be
-  covered later in the training. In our lab we will use NFS for persistent
+ using NFS. There are many other supported storage back ends; they will be
+  covered later in the training. In our lab we use NFS for persistent
    storage.
 
 A `Persistent Volume` framework lets administrators provision a cluster with
@@ -1108,14 +1120,13 @@ Storage must exist in the underlying infrastructure before you can mount it as
  a volume in OpenShift Enterprise.
 
 endif::showscript[]
-
 == Persistent Storage Using NFS
 :noaudio:
 
-* To create a Persistent Volume that could be claimed by a Pod, we need to
- create a `PersistentVolume` object in the `Pod's` `Project`
-* After a `PersistentVolume` is created a `PersistentVolumeClaim` must be
- created to ensure that no other `Pods/Projects` try to use the `PersistentVolume`
+* To create a persistent volume that can be claimed by a pod, you must
+ create a `PersistentVolume` object in pod's `Project`
+* After `PersistentVolume` is created, a `PersistentVolumeClaim` must be
+ created to ensure other pods and projects do not try to use `PersistentVolume`
 
 .Persistent Volume Object Definition
 [source,yaml]
@@ -1144,17 +1155,16 @@ ifdef::showscript[]
 
 === Transcript
 
-To create a Persistent Volume that could be claimed by a Pod, we need to create
- a `PersistentVolume` object in the `Pod's` `Project`
-After a `PersistentVolume` is created a `PersistentVolumeClaim` must be created
- to ensure that no other `Pods/Projects` try to use the `PersistentVolume`
+To create a persistent volume that can be claimed by a pod, you must create
+ a `PersistentVolume` object in the pod's `Project`.
+After a `PersistentVolume` is created, a `PersistentVolumeClaim` must also be created
+ to ensure that other pods and projects do not try to use the `PersistentVolume`.
 
 Here is the definition of the `Persistent Volume` object.
 
 You must specify the storage capacity, access mode, and details of your NFS host.
 
 endif::showscript[]
-
 == Persistent Storage Using NFS
 :noaudio:
 
@@ -1174,15 +1184,111 @@ ifdef::showscript[]
 You create `PersistentVolume` objects in the context of a specific _project_.
 
 A user can request storage with a `PersistentVolumeClaim` object in the same
- _project_. The claim lives in the user's namespace, or project and can be
+ _project_. The claim lives in the user's namespace or project, and can be
   referenced only by a pod within that same namespace. Any attempt to access a
    persistent volume across a project causes the pod to fail.
 
 Each NFS volume must be mountable by all nodes in the cluster.
 
 endif::showscript[]
+== Persistent Storage Using NFS
+:noaudio:
+
+.SELinux and NFS Export Settings
+
+* Default: SELinux does not allow writing from pod to remote NFS server
+** NFS volume mounts correctly but is read-only
+* To enable writing in SELinux on each node:
++
+----
+# setsebool -P virt_use_nfs 1
+----
+
+* Each exported volume on NFS server should conform to following:
+** Set each export option in `/etc/exports` as follows:
++
+----
+/example_fs *(rw,all_squash)
+----
+
+** Each export must be owned by `nfsnobody` and have following permissions:
++
+----
+# chown -R nfsnobody:nfsnobody /example_fs
+# chmod 777
+----
+
+ifdef::showscript[]
+
+=== Transcript
+
+You need to configure your NFS server exports.
+
+By default, SELinux does not allow writing from a pod to a remote NFS server. The NFS volume mounts correctly, but is read-only.
+
+To configure SElinux to let the nodes use NFS in the way required for OpenShift Enterprise `Persistent Volumes`, use the `setsebool` command on each node, as shown in the first example here.
 
 
+In addition, configure each exported volume on the NFS server itself so that each export option is set in the `/etc/exports` file, as shown in the second example here, and each export is owned by `nfsnobody` and has the permissions shown in the third example here.
+
+endif::showscript[]
+== Persistent Storage Using NFS
+:noaudio:
+
+.Resource Reclamation
+* OpenShift Enterprise implements Kubernetes `Recyclable` plug-in interface
+** Reclamation tasks based on policies set by `persistentVolumeReclaimPolicy` key in `PersistentVolume` object definition
+* Can _reclaim_ volume after it is released from claim
+
+* Can set `persistentVolumeReclaimPolicy` to `Retain` or `Recycle`:
+** `Retain`: Volumes not deleted
+*** Default setting for key
+** `Recycle`: Volumes scrubbed after being released from claim
+* Once recycled, can bind NFS volume to new claim
+
+ifdef::showscript[]
+
+=== Transcript
+
+OpenShift Enterprise implements the Kubernetes `Recyclable` plug-in interface. Reclamation tasks are based on policies set by the `persistentVolumeReclaimPolicy` key in the `PersistentVolume` object definition. After a volume is released from its claim--that is, after the user delete the `PersistentVolumeClaim` bound to the volume--the volume can be _reclaimed_.
+
+You can set the `persistentVolumeReclaimPolicy` key to `Retain` or `Recycle`.
+
+By default, persistent volumes are set to `Retain`. In this case, volumes are not deleted.
+
+NFS volumes set to `Recycle` are scrubbed--that is, `rm -rf` is run on the volume--after being released from their claim. After you recycle an NFS volume, you can bind it to a new claim.
+
+endif::showscript[]
+== Persistent Storage Using NFS
+:noaudio:
+
+.Automation
+
+* Can provision OpenShift Enterprise clusters with persistent storage using NFS:
+** Use disk partitions to enforce storage quotas
+** Enforce security by restricting volumes to namespace that has claim to them
+** Configure reclamation of discarded resources for each persistent volume
+
+* Can use scripts to automate these tasks
+* See sample Ansible playbook:
+https://github.com/openshift/openshift-ansible/tree/master/roles/kube_nfs_volumes
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+The preceding sections have discussed the ways you can provision OpenShift Enterprise clusters with persistent storage using NFS:
+
+* Use disk partitions to enforce storage quotas
+* Enforce security by restricting volumes to the namespace that has a claim to them
+* Configure reclamation of discarded resources for each persistent volume
+
+After you set up your OpenShift Enterprise environment and clusters to use persistent storage, it is easy to create scripts to automate these tasks.
+
+To help you get started, see the example Ansible playbook at the web address shown here.
+
+endif::showscript[]
 == Persistent Storage Using NFS
 :noaudio:
 

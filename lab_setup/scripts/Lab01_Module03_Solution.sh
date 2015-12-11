@@ -247,10 +247,7 @@ cat << EOF > /root/.config/openshift/installer.cfg.yml
 EOF
 
 sed -i s/GUID/${GUID}/g /root/.config/openshift/installer.cfg.yml
-master00-ae0b.oslab.opentlc.com
-infranode00-ae0b.oslab.opentlc.com
-node00-ae0b.oslab.opentlc.com
-node01-ae0b.oslab.opentlc.com
+
 
 atomic-openshift-installer -u install
 echo "== Lab: OpenShift Configuration and Setup"

@@ -1,4 +1,5 @@
 
+
 :noaudio:
 
 ifdef::revealjs_slideshow[]
@@ -12,32 +13,31 @@ ifdef::revealjs_slideshow[]
 Red Hat OpenShift Enterprise
 
 [#cover-h2]
-OpenShift 3 Application Lifecycle
+OpenShift 3 Application Life Cycle
 [#cover-logo]
 image::{revealjs_cover_image}[]
 
 endif::[]
-
 == Module Topics
 
 :numbered!:
 
 * Deployments
 * Strategies
-* Lifecycle Hooks
+* Life-cycle Hooks
 * Build Triggers
 
 
 ifdef::showscript[]
 
 === Transcript
-Welcome to Module 8 of the OpenShift Enterprise Implementation course.
+Welcome to module eight of the OpenShift Enterprise Implementation course.
 
 In this module you learn about the value of deployments to the developer and to
  operational workflows, and you learn the different strategies you can use to
   deploy a new version of your application.
 
-Lifecycle hooks are covered, including how to use them as build triggers, and
+Life-cycle hooks are covered, including how to use them as build triggers, and
  you learn some practical commands to manage a redeployment or rollback.
 
 endif::showscript[]
@@ -89,7 +89,7 @@ endif::showscript[]
 .Deployments and Deployment Configurations
 
 * With concept of _deployments_, OpenShift Enterprise adds expanded support for
- software development and deployment lifecycle
+ software development and deployment life cycle
 
 * Deployment creates new replication controller and lets it start up pods
 
@@ -102,7 +102,7 @@ ifdef::showscript[]
 
 Building on replication controllers, with this concept of deployments, OpenShift
  Enterprise adds expanded support for the software development and deployment
-  lifecycle.
+  life cycle.
 
 In the simplest sense, a deployment just creates a new replication controller
  and lets it start up pods.
@@ -122,7 +122,7 @@ endif::showscript[]
 ** Elements of `ReplicationController` definition
 ** Triggers for creating new deployment automatically
 ** Strategy for transitioning between deployments
-** Lifecycle hooks
+** Life-cycle hooks
 
 * Each time deployment is triggered (manual or automatic), deployer pod manages
  deployment:
@@ -143,14 +143,14 @@ The OpenShift Enterprise `DeploymentConfig` object defines the following details
 * The elements of a `ReplicationController` definition
 * Triggers for creating a new deployment automatically
 * The strategy for transitioning between deployments
-* Lifecycle hooks
+* Life-cycle hooks
 
 Each time a deployment is triggered, whether manually or automatically, a
  deployer pod manages the deployment, including scaling down the old replication
   controller, scaling up the new one, and running hooks.
 
 When a deployment is superseded by another, the previous replication controller
- is retained and set to "relica=0" to enable easy rollback if needed.
+ is retained and set to "replica=0" to enable easy rollback if needed.
 
 endif::showscript[]
 == Deployments
@@ -184,13 +184,14 @@ spec:
     type: Rolling      <3>
 ----
 
-. The `ConfigChange` trigger
-. The `ImageChange` trigger
-. The default `Rolling` strategy
+. `ConfigChange` trigger
+. `ImageChange` trigger
+. Default `Rolling` strategy
 
 ifdef::showscript[]
 === Transcript
-This is an example `DeploymentConfig` definition with some omissions and items
+
+This is an example `DeploymentConfig` definition, with some omissions and items
  called out.
 
 Note the following:
@@ -201,10 +202,9 @@ Note the following:
 . The `ImageChange` trigger causes a new deployment to be created each time a
  new version of the backing image is available in the named image stream.
 
-. And the default `Rolling` strategy provides a downtime-free transition between
+. The default `Rolling` strategy provides a downtime-free transition between
  deployments.
 
-Deployment strategies are covered in more depth later in the training.
 
 endif::showscript[]
 == Deployments
@@ -215,7 +215,7 @@ endif::showscript[]
 * _Deployment configuration_ consists of:
 - _Replication controller_ template describing application to be deployed
 - Default _replica_ count for deployment
-- Deployment _strategy_ used to execute the deployment
+- Deployment _strategy_ used to execute deployment
 - Set of _triggers_ that cause deployments to be created automatically
 
 * Deployment configuration is `deploymentConfig` OpenShift Enterprise API
@@ -301,6 +301,12 @@ endif::showscript[]
 }
 ----
 
+<1> Replication controller template named `frontend`, which describes a simple Ruby
+ application
+<2> Creates 5 replicas of `frontend` by default
+<3> If replication controller template changes, configuration change trigger creates new deployment
+<4> If new version of `origin-ruby-sample:latest` image repository is available, image change trigger creates new deployment
+<5> `Rolling` is default strategy and may be omitted
 
 ifdef::showscript[]
 
@@ -353,7 +359,7 @@ $ oc describe dc <deployment_config>
 ifdef::showscript[]
 === Transcript
 Here are some examples of how to manage a deployment. When trying to deploy the
- latest deployment version, using the `--latest flag`, the new deployment starts
+ latest deployment version, using the `--latest` flag, the new deployment starts
   only if no other deployment is in progress.
 
 For more detailed information about a deployment configuration and the latest
@@ -574,7 +580,7 @@ endif::showscript[]
 
 .`Rolling` Strategy
 
-* Performs rolling update and supports lifecycle hooks for injecting code into
+* Performs rolling update and supports life-cycle hooks for injecting code into
  deployment process
 
 * `Rolling` strategy:
@@ -594,12 +600,12 @@ endif::showscript[]
 ifdef::showscript[]
 === Transcript
 
-The `Rolling` strategy performs a rolling update and supports lifecycle hooks
+The `Rolling` strategy performs a rolling update and supports life-cycle hooks
  for injecting code into the deployment process.
 
 In the example, `timeoutSeconds` is optional. The default value is 120.
 
- `pre`  and `post` are lifecycle hooks that happen before or after the
+ `pre`  and `post` are life-cycle hooks that happen before or after the
  deployment
 
 endif::showscript[]
@@ -607,19 +613,19 @@ endif::showscript[]
 
 
 * `Rolling` strategy:
-** Executes `pre` lifecycle hooks
+** Executes `pre` life-cycle hooks
 ** Scales up new deployment by one
 ** Scales down old deployment by one
 ** Repeats scaling until:
 *** New deployment reaches specified replica count
 *** Old deployment is scaled to zero
-** Executes `post` lifecycle hooks
+** Executes `post` life-cycle hooks
 
 WARNING: During scale up, if replica count of the deployment is greater than
  one, the first deployment replica is validated for readiness before fully
   scaling up the deployment. If this validation fails, the deployment fails.
 
-NOTE: When executing a `post` lifecycle hook, all failures are ignored
+NOTE: When executing a `post` life-cycle hook, all failures are ignored
  regardless of the failure policy specified in the hook.
 
 ifdef::showscript[]
@@ -627,12 +633,12 @@ ifdef::showscript[]
 
 The `Rolling` strategy:
 
-- Executes any `pre` lifecycle hooks.
+- Executes any `pre` life-cycle hooks.
 - Scales up the new deployment by one.
 - Scales down the old deployment by one.
 - Repeats this scaling until the new deployment reaches the specified replica
 count and the old deployment is scaled to zero.
-- Executes any `post` lifecycle hooks.
+- Executes any `post` life-cycle hooks.
 
 
 During the scaling-up process, if the replica count of the deployment is greater
@@ -640,7 +646,7 @@ During the scaling-up process, if the replica count of the deployment is greater
   fully scaling up the deployment. If the validation of the first replica fails,
    the deployment is considered a failure.
 
-When executing a `post` lifecycle hook, all failures are ignored regardless of
+When executing a `post` life-cycle hook, all failures are ignored regardless of
  the failure policy specified in the hook.
 
 
@@ -650,7 +656,7 @@ endif::showscript[]
 
 .`Recreate` Strategy
 
-* Has basic rollout behavior and supports lifecycle hooks for injecting code
+* Has basic rollout behavior and supports life-cycle hooks for injecting code
  into deployment process
 
 * `Recreate` strategy:
@@ -668,58 +674,56 @@ endif::showscript[]
 
 ifdef::showscript[]
 === Transcript
-The `Recreate` strategy has basic rollout behavior and supports lifecycle hooks
+The `Recreate` strategy has basic rollout behavior and supports life-cycle hooks
  for injecting code into the deployment process.
 
 In the example, `recreateParams` are optional. `pre` and `post` are both
- lifecycle hooks that happen before and after the deployment.
+ life-cycle hooks that happen before and after the deployment.
 
 endif::showscript[]
 == Strategies
 
 
 * `Recreate` strategy:
-** Executes `pre` lifecycle hooks
+** Executes `pre` life-cycle hooks
 ** Scales down previous deployment to zero
 ** Scales up new deployment
-** Executes `post` lifecycle hooks
+** Executes `post` life-cycle hooks
 
 
 WARNING: During scale up, if the replica count of the deployment is greater than
  one, the first deployment replica is validated for readiness before fully
   scaling up the deployment. If this validation fails, the deployment fails.
 
-NOTE: When executing a `post` lifecycle hook, all failures are ignored
+NOTE: When executing a `post` life-cycle hook, all failures are ignored
  regardless of the failure policy specified in the hook.
 
 ifdef::showscript[]
 === Transcript
 
 * The `Recreate` strategy:
-- Executes any `pre` lifecycle hooks
+- Executes any `pre` life-cycle hooks
 - Scales down the previous deployment to zero
 - Scales up the new deployment.
-- Executes any `post` lifecycle hooks
+- Executes any `post` life-cycle hooks
 
 
 During the scaling-up process, if the replica count of the deployment is greater
  than one, the first deployment replica is validated for readiness before fully
   scaling up the deployment. If this validation fails, the deployment fails.
 
-When executing a `post` lifecycle hook, all failures are ignored regardless of
+When executing a `post` life-cycle hook, all failures are ignored regardless of
  the failure policy specified in the hook.
 
 endif::showscript[]
-
-
 == Strategies
 
 
 .`Custom` Strategy
 
-* Allows you to define deployment behavior
+* Lets you define deployment behavior
 
-* `Custom` strategy:
+* Example `Custom` strategy:
 +
 ----
 "strategy": {
@@ -736,17 +740,18 @@ endif::showscript[]
   }
 }
 ----
-. The `organization/strategy` Docker image provides deployment behavior.
-. The optional `command` array overrides the `CMD` directive specified in image
- Dockerfile.
-. The optional environment variables are added to the execution environment.
-
+<1> `organization/strategy` Docker image provides deployment behavior
+<2> Optional `command` array overrides `CMD` directive specified in image Dockerfile
+<3> Optional environment variables added to execution environment
 
 ifdef::showscript[]
 === Transcript
-The `Custom` strategy allows you to provide your own deployment behavior.
+The `Custom` strategy lets you provide your own deployment behavior.
+
+Here is an example `Custom` strategy. Note the following:
+
 . The `organization/strategy` Docker image provides deployment behavior.
-. The optional `command` array overrides the `CMD` directive specified in image
+. The optional `command` array overrides the `CMD` directive specified in the image
  Dockerfile.
 . The optional environment variables are added to the execution environment.
 
@@ -774,15 +779,15 @@ OpenShift Enterprise provides these two environment variables for use with the
 
 
 endif::showscript[]
-== Lifecycle Hooks
+== Life-cycle Hooks
 
 
 .Overview
 
-* `Recreate` and `Rolling` strategies support lifecycle hooks
+* `Recreate` and `Rolling` strategies support life-cycle hooks
 ** Allow behavior to be injected into deployment process at predefined points
 
-* `pre` lifecycle hook:
+* `pre` life-cycle hook:
 +
 ----
 "pre": {
@@ -791,22 +796,22 @@ endif::showscript[]
 }
 ----
 
-** `execNewPod` is pod-based lifecycle hook
+** `execNewPod` is pod-based life-cycle hook
 * Every hook has `failurePolicy`
 
 ifdef::showscript[]
 === Transcript
-The `Recreate` and `Rolling` strategies support lifecycle hooks, which allow
+The `Recreate` and `Rolling` strategies support life-cycle hooks, which allow
  behavior to be injected into the deployment process at predefined points in the
   strategy.
 
-The example shows a `pre` lifecycle hook.
-`execNewPod` is a pod-based lifecycle hook.
+The example shows a `pre` life-cycle hook.
+`execNewPod` is a pod-based life-cycle hook.
 
 Every hook has a failure policy.
 
 endif::showscript[]
-== Lifecycle Hooks
+== Life-cycle Hooks
 
 
 .Failure Policy
@@ -823,7 +828,7 @@ endif::showscript[]
 
 WARNING: Some hook points for a strategy might support only a subset of failure
  policy values. For example, the `Recreate` and `Rolling` strategies do not
-  support the `Abort` policy for a `post` deployment lifecycle hook.
+  support the `Abort` policy for a `post` deployment life-cycle hook.
 
 
 ifdef::showscript[]
@@ -833,26 +838,26 @@ Every hook has a failure policy that defines the action the strategy should take
 
 Note that some hook points for a strategy might support only a subset of failure
  policy values. For example, the `Recreate` and `Rolling` strategies do not
-  currently support the `Abort` policy for a `post` deployment lifecycle hook.
+  currently support the `Abort` policy for a `post` deployment life-cycle hook.
 
 endif::showscript[]
-== Lifecycle Hooks
+== Life-cycle Hooks
 
 
-.Pod-Based Lifecycle Hook
+.Pod-Based Life-cycle Hook
 
 * Hooks have type-specific field that describes how to execute hook
 
 * Pod-based hooks are only supported type
 ** Specified in `execNewPod` field
-* Pod-based lifecycle hooks execute hook code in new pod derived from deployment
+* Pod-based life-cycle hooks execute hook code in new pod derived from deployment
  configuration template
 
 ifdef::showscript[]
 === Transcript
 Hooks have a type-specific field that describes how to execute the hook.
 
-Pod-based lifecycle hooks execute hook code in a new pod derived from the
+Pod-based life-cycle hooks execute hook code in a new pod derived from the
  deployment configuration template.
 
 
@@ -860,7 +865,7 @@ Pod-based lifecycle hooks execute hook code in a new pod derived from the
 endif::showscript[]
 
 //ISSUE: Update this in 3.1
-== Lifecycle Hooks
+== Life-cycle Hooks
 
 
 .Simplified Deployment Configuration
@@ -915,6 +920,22 @@ endif::showscript[]
   }
 }
 ----
+<1> `pre` hook executes in new pod using `openshift/origin-ruby-sample` image from  `helloworld` container
+
+<2> Because hook failure policy is `Abort`, deployment fails if hook fails
+
+<3> `helloworld` name refers to `spec.template.spec.containers[0].name`
+
+<4> hook container command is `/usr/bin/command arg1 arg2`, which overrides any `ENTRYPOINT` defined by `openshift/origin-ruby-sample` image
+
+<5> `env` section contains optional environment variables
+  for hook container, such as `CUSTOM_VAR1=custom_value1`
+
+ifdef::showscript[]
+=== Transcript
+This simplified example deployment configuration uses the `Rolling` strategy.
+ Triggers and some other minor details are omitted for brevity.
+
 Note the following call-outs in the example:
 
 . The `pre` hook is executed in a new pod using the
@@ -931,12 +952,6 @@ Note the following call-outs in the example:
 . The hook container will have the `CUSTOM_VAR1=custom_value1` environment
  variable. The `env` section contains an optional set of environment variables
   for the hook container.
-
-ifdef::showscript[]
-=== Transcript
-This simplified example deployment configuration uses the `Rolling` strategy.
- Triggers and some other minor details are omitted for brevity.
-
 
 
 
@@ -1171,7 +1186,7 @@ endif::showscript[]
 
 ifdef::showscript[]
 === Transcript
-This example defines an image change trigger that monitors the image-stream and
+This example defines an image change trigger that monitors the image stream and
  tag as defined by the `from` field.
 
 When a change occurs, a new build is triggered and is supplied with a static
@@ -1188,7 +1203,7 @@ endif::showscript[]
 
 * Deployments
 * Strategies
-* Lifecycle Hooks
+* Life-cycle Hooks
 * Build Triggers
 
 
@@ -1198,7 +1213,7 @@ In this module you learned about the the value of deployments to the developer
  and to operational workflows. You learned the different strategies that you can
   use to deploy a new version of your application.
 
-Lifecycle hooks were covered, including how to use them as build triggers, and
+Life-cycle hooks were covered, including how to use them as build triggers, and
  finally, you learned some practical commands to manage a redeployment or
   rollback.
 

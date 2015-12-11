@@ -1,3 +1,5 @@
+
+
 :noaudio:
 
 ifdef::revealjs_slideshow[]
@@ -376,9 +378,9 @@ endif::showscript[]
    generateName: example-name-1-       <2>
 
 ----
+<1> Labels used to select and manage groups of pods in single operation
+<2> Base name, `generateName`, used to generate unique pod name
 
-. Labels used to select and manage groups of pods in a single operation.
-. Base name, `generateName`, is used in generating a unique pod name.
 
 
 ifdef::showscript[]
@@ -426,10 +428,11 @@ endif::showscript[]
        value: https://master.example.com:8443
 ----
 
-. `containers` specifies an array of container definitions--in this case
- (as with most), just one.
-. You can specify variables (`env`) to pass necessary values to each container.
- For example, these can be credentials and database connection details.
+<1> `containers` specifies an array of container definitions--one in this case
+<2> `env` uses variables to pass necessary values to each container, such as credentials and database connection details
+
+
+
 
 ifdef::showscript[]
 
@@ -464,12 +467,11 @@ endif::showscript[]
        name: default-token-br6yz
        readOnly: true
 ----
+<1> Each container in pod is instantiated from its own Docker image
+<2> Container can bind to ports, which are available on pod's IP
+<3> Container's _security context_ specifies whether it can run as privileged container
+<4> External storage volumes should be mounted within container
 
-. Each container in the pod is instantiated from its own Docker image.
-. The container can bind to ports, which are available on the pod's IP.
-. _security context_ for containers that specifies whether they can run as
- privileged containers.
-. External storage volumes should be mounted within the container.
 
 ifdef::showscript[]
 
@@ -485,7 +487,7 @@ Here you see a container definition:
    administrators can modify this as needed.
 . The container specifies where external storage volumes should be mounted
  within the container. In this case, one volume stores the registry's data,
-  another provides access to credentials the registry needs to make requests
+  another provides access to credentials that the registry needs to make requests
    against the OpenShift Enterprise API.
 
 endif::showscript[]
@@ -508,9 +510,8 @@ endif::showscript[]
      secret:
        secretName: default-token-br6yz
 ----
-
-. Service Account name
-. volumes that the pod can use
+<1> Service account name
+<2> Volumes that pod can use
 
 
 ifdef::showscript[]
@@ -536,9 +537,9 @@ endif::showscript[]
 
 .Services
 
-* Kubernetes service serves as *"internal"* load-balancer
+* Kubernetes service serves as internal load balancer
 ** Identifies set of replicated pods
-** Proxy connections it receives to identified pods
+** Proxies connections it receives to identified pods
 * Can add or remove backing pods to or from service while service remains
  consistently available
 ** Lets anything depending on service refer to it at consistent internal address
@@ -549,17 +550,20 @@ endif::showscript[]
  network service on certain port
 * Can access server by IP address and DNS name
 ** Name created and resolved by local DNS server on master
++
+[NOTE]
+When you use the `Default Router` (HAProxy), you bypass service load balancing. You use the service only to find out which pods the service represents. `Default Router` does the load balancing.
 
 ifdef::showscript[]
 
 === Transcript
 
-A Kubernetes _service_ serves as an internal load-balancer. It identifies a set
+A Kubernetes _service_ serves as an internal load balancer. It identifies a set
  of replicated _pods_ and then proxies the connections it receives to those pods.
 
 You can add or remove backing pods to or from a service arbitrarily while the
  service remains consistently available. This lets anything that depends on the
-  service refer to it at a consistent Interal IP address.
+  service refer to it at a consistent interal IP address.
 
 You assign services an IP address and port pair that, when accessed, proxy to
  an appropriate backing pod.
@@ -567,9 +571,11 @@ You assign services an IP address and port pair that, when accessed, proxy to
 A service uses a label selector to find all the running containers that provide
  a certain network service on a certain port.
 
+You can access the server by IP address and DNS name. The name is created and resolved by the local DNS server on the master.
+
 Note that when you use the `Default Router` (HAProxy), you bypass the service
- load-balancing. You use the service only to find out which pods the service
-  represents. The `Default Router` does the load-balancing.
+ load balancing. You use the service only to find out which pods the service
+  represents. The `Default Router` does the load balancing.
 
 endif::showscript[]
 == Pods and Services
@@ -596,11 +602,11 @@ endif::showscript[]
      protocol: TCP
      targetPort: 5000         <4>
 ----
+<1> `selector` identifies all pods with specified label: `example-label: example-value`
+<2> `portalIP` specifies assigned service IP
+<3> `Port` specifies port on which service listens
+<4> `targetPort` specifies port used to forward connections to backing pods
 
-. The label selector identifies all pods with the `example-label: example-value`
- `PortalIP` the assigned service IP
-. The `Port` line specifies the port on which the service listens.
-. `targetPort` is the port used to forward connections to the backing pods.
 
 
 ifdef::showscript[]
@@ -610,14 +616,16 @@ ifdef::showscript[]
 Like pods, services are REST objects. The example shown here provides the
  definition of a service for the pod defined above.
 
+Note the following:
+
 . The label selector identifies all pods with the `example-label: example-value`
  label as the `Pods` represented by the `service`
 . When the service is created, it automatically receives a virtual IP,
  `PortalIP`, chosen from a pool of internal IPs. When you define a new service,
-  you leave this blank to get assigned a random IP.
+  you leave this blank to be assigned a random IP.
 . The `Port` line specifies the port on which the service listens.
 . The service uses the `targetPort` to forward connections to the backing pods.
- Those pods should "listen" on that port.
+ Those pods should listen on that port.
 
 endif::showscript[]
 == Pods and Services
@@ -644,7 +652,10 @@ ifdef::showscript[]
 You use labels to organize, group, or choose API objects.
 
 For example, if you tag _pods_ with labels, _services_ can use label selectors
- to identify the pods which they represent.
+ to identify the pods that they represent.
+
+This lets services reference groups of pods and lets you treat pods with different Docker containers as related entities.
+
 
 Most objects can include labels in their metadata, so you can use labels to
  group arbitrarily related objects. For example, you can group all of a
@@ -689,13 +700,13 @@ Labels are simple key/value pairs that you can use in almost every type of
 Labels provide an easy way to manage resources as groups, rather than
  individually.
 
-For example, say you have two separate pods. One is a `nginx` Docker container,
+For example, say you have two separate pods. One is a `nginx` Docker container
  and the other is an `Apache httpd` Docker container. If both are tagged with a
   `role=webserver` label, the service or replication controller defined to use
    pods with the `role=webserver` label treats both pods as part of the same
     group.
 
-The second example here shows how labeling a group of components with
+The second example here shows how labeling a group of components with the
  `app=mytest` label lets you delete all of them in one command rather than
   having to locate and delete each component manually.
 
@@ -1414,7 +1425,7 @@ endif::showscript[]
 ** *Custom builds*: Resulting objects are whatever author of builder image
  specifies
 
-* For list of build commands, see Developer's Guide: links:https://docs.openshift.com/enterprise/latest/architecture/core_concepts/builds_and_image_streams.html[https://docs.openshift.com/enterprise/latest/architecture/core_concepts/builds_and_image_streams.html]
+* For list of build commands, see Developer's Guide: https://docs.openshift.com/enterprise/latest/architecture/core_concepts/builds_and_image_streams.html
 
 ifdef::showscript[]
 
@@ -1790,25 +1801,24 @@ spec:
           protocol: TCP
       restartPolicy: Always
 ----
+<1> Number of copies of pod to run
+<2> Label selector of pod to run
+<3> Template for pod that controller creates
+<4> Labels on pod should include label from label selector
 
 
 ifdef::showscript[]
-
-. The number of copies of the pod to run.
-. The label selector of the pod to run.
-. A template for the pod the controller creates.
-. Labels on the pod should include those from the label selector.
 
 === Transcript
 
 Replication controllers are a core Kubernetes object, `ReplicationController`.
 
 Here is a sample `ReplicationController` definition with some omissions and
- callouts.
+ callouts. Note the following:
 
-. The number of copies of the pod to run.
-. The label selector of the pod to run.
-. A template for the pod the controller creates.
+. This is the number of copies of the pod to run.
+. This is the label selector of the pod to run.
+. This is a template for the pod that the controller creates.
 . Labels on the pod should include those from the label selector.
 
 endif::showscript[]
@@ -1821,14 +1831,14 @@ endif::showscript[]
  OpenShift Enterprise cluster
 * Let external clients use `route` resources created by developers
 
-* Routers provide external hostname mapping and load-balancing to applications
+* Routers provide external hostname mapping and load balancing to applications
  over protocols that pass distinguishing information directly to router
 
-* Currently, OpenShift Enterprise Routers support the following protocols:
-- HTTP
-- HTTPS (with SNI)
-- WebSockets
-- TLS with SNI
+* Currently, OpenShift Enterprise routers support these protocols:
+** HTTP
+** HTTPS (with SNI)
+** WebSockets
+** TLS with SNI
 
 ifdef::showscript[]
 
@@ -1839,14 +1849,15 @@ An OpenShift Enterprise administrator can deploy _routers_ (like the HAProxy
     clients to use `route` resources created by developers.
 
 OpenShift Enterprise routers provide external hostname mapping and
- load-balancing to applications over protocols that pass distinguishing
+ load balancing to applications over protocols that pass distinguishing
   information directly to the router.
 
-* Currently, OpenShift Enterprise Routers support the following protocols:
-- HTTP
-- HTTPS (with SNI)
-- WebSockets
-- TLS with SNI
+Currently, OpenShift Enterprise routers support the following protocols:
+
+* HTTP
+* HTTPS (with SNI)
+* WebSockets
+* TLS with SNI
 
 
 
@@ -1861,15 +1872,15 @@ endif::showscript[]
 * Uses `openshift3/OpenShift Enterprise-haproxy-router` image to run HAProxy
  instance alongside template router plug-in
 * Supports unsecured, edge terminated, re-encryption terminated,
-  and passthrough terminated routes matching on HTTP vhost and request path.
+  and passthrough terminated routes matching on HTTP vhost and request path
 
 .F5 Router
-* The F5 router plug-in integrates with an existing F5 BIG-IP® system in your
- environment.
+* Integrates with existing F5 BIG-IP® system in your
+ environment
 * Supports unsecured, edge terminated, re-encryption terminated,
-  and passthrough terminated routes matching on HTTP vhost and request path.
+  and passthrough terminated routes matching on HTTP vhost and request path
 * Has feature parity with the HAProxy template route and some additional
- features.
+ features
 
 
 
@@ -1882,14 +1893,17 @@ The HAProxy default router implementation is the reference implementation for a
   `openshift3/OpenShift Enterprise-haproxy-router` image to run an HAProxy
    instance alongside the template router plug-in.
 
+It supports unsecured, edge terminated, re-encryption terminated,
+  and passthrough terminated routes matching on HTTP vhost and request path.
+
+
 The F5 router plug-in integrates with an existing F5 BIG-IP® system in your
- environment. F5 BIG-IP® version 11.4 or newer is required in order to have the
+ environment. F5 BIG-IP® version 11.4 or newer is required to have the
   F5 iControl REST API. The F5 router supports unsecured, edge terminated,
    re-encryption terminated, and passthrough terminated routes matching on HTTP
     vhost and request path.
 
-   The F5 router has feature parity with the HAProxy template router, which
-    means it has feature parity, and then additional features
+   The F5 router has feature parity with the HAProxy template router, along with some additional features.
 
 
 endif::showscript[]

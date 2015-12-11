@@ -14,7 +14,7 @@
 ** Ceph RBD
 ** iSCSI
 ** Fiber Channel
-* Must associate `PersistentVolume` with `project`
+* Must associate `PersistentVolume` with project
 
 
 ifdef::showscript[]
@@ -28,11 +28,11 @@ A `PersistentVolume` object is a storage resource in an OpenShift Enterprise
 * NFS mounts: This is the supported method.
 * GCE Persistent Disks (Google Compute).
 * EBS Volumes (Amazon Elastic Block Stores).
-* GlusterFS
-* OpenStack Cinder
-* Ceph RBD
-* iSCSI
-* Fiber Channel
+* GlusterFS.
+* OpenStack Cinder.
+* Ceph RBD.
+* iSCSI.
+* Fiber Channel.
 
 When you define a `PersistentVolume`, you must associate it with a project.
 

@@ -1,6 +1,5 @@
 == Pods and Services
 
-
 .Pods Definition File/Manifest: Requests and Storage Volumes
 
 [source,yaml]

@@ -1,6 +1,5 @@
 == Scheduler
 
-
 .Configurable Priority Functions
 
 * User can configure by providing certain parameters.

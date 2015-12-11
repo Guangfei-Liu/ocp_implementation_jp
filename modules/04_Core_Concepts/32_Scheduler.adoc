@@ -1,6 +1,5 @@
 == Scheduler
 
-
 .Use Cases
 
 * Important use case for scheduling within OpenShift Enterprise: Support

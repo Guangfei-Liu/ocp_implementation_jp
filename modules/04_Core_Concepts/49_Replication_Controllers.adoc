@@ -1,6 +1,5 @@
 == Replication Controllers
 
-
 .Replication Controllers Definition File/Manifest
 
 [source,yaml]

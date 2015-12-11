@@ -1,6 +1,5 @@
 == Pods and Services
 
-
 .Labels
 
 * Use labels to organize, group, choose API objects

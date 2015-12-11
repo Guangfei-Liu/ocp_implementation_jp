@@ -1,6 +1,5 @@
 == Scheduler
 
-
 .Topology Example 3
 
 * Only use nodes with `region` label defined

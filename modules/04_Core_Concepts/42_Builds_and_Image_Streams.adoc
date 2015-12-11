@@ -1,6 +1,5 @@
 == Builds and Image Streams
 
-
 .S2I Advantages
 
 [horizontal]

@@ -1,6 +1,5 @@
 == Pods and Services
 
-
 .Service Definition File/Manifest
 
 * Like pods, services are REST objects

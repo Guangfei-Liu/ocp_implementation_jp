@@ -1,6 +1,5 @@
 == Pods and Services
 
-
 .Pods Definition File/Manifest
 
 * Example definition of pod:

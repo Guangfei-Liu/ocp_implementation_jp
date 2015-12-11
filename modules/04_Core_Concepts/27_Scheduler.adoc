@@ -1,6 +1,5 @@
 == Scheduler
 
-
 .Configurable Predicates
 
 * User can configure to tweak function

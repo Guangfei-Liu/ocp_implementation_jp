@@ -1,6 +1,5 @@
 == Containers and Images
 
-
 .Containers
 
 * Basic units of OpenShift Enterprise applications

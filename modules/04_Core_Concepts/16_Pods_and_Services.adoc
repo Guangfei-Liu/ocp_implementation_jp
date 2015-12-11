@@ -1,6 +1,5 @@
 == Pods and Services
 
-
 .Services
 
 * Kubernetes service serves as internal load balancer

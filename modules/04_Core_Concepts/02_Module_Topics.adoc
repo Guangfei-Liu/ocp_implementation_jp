@@ -1,6 +1,5 @@
 == Module Topics
 
-
 * Overview
 * Containers and Images
 * Pods and Services

@@ -1,6 +1,5 @@
 == Pods and Services
 
-
 .Pods Definition File/Manifest: Container
 [source,yaml]
 ----

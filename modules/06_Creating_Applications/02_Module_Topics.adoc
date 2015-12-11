@@ -16,7 +16,7 @@ ifdef::showscript[]
 
 === Transcript
 
-Welcome to Module 6 of the OpenShift Enterprise Implementation course.
+Welcome to module six of the OpenShift Enterprise Implementation course.
 
 This module covers the following topics:
 

@@ -1,6 +1,5 @@
 == Life-cycle Hooks
 
-
 .Pod-Based Life-cycle Hook
 
 * Hooks have type-specific field that describes how to execute hook

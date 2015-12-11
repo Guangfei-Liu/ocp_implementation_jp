@@ -1,6 +1,5 @@
 == Deployments
 
-
 .Deployments and Deployment Configurations
 
 * With concept of _deployments_, OpenShift Enterprise adds expanded support for

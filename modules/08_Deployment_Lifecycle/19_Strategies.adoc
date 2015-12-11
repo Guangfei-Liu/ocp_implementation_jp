@@ -1,6 +1,5 @@
 == Strategies
 
-
 .`Custom` Strategy
 
 * Lets you define deployment behavior

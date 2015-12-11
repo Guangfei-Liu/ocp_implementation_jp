@@ -1,6 +1,5 @@
 == Life-cycle Hooks
 
-
 .Overview
 
 * `Recreate` and `Rolling` strategies support life-cycle hooks

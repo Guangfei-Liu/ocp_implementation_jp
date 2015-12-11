@@ -1,6 +1,5 @@
 == Strategies
 
-
 .Overview
 
 * _Deployment configuration_ declares _strategy_ responsible for executing

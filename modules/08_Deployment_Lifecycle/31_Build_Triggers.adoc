@@ -1,7 +1,5 @@
 == Build Triggers
 
-
-
 * Image change trigger:
 +
 ----

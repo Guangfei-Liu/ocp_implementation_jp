@@ -1,6 +1,5 @@
 == Deployments
 
-
 .Creating a Deployment Configuration
 
 * _Deployment configuration_ consists of:

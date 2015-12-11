@@ -1,6 +1,5 @@
 == Strategies
 
-
 * `Rolling` strategy:
 ** Executes `pre` life-cycle hooks
 ** Scales up new deployment by one

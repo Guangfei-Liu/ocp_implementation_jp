@@ -1,6 +1,5 @@
 == Build Triggers
 
-
 .Generic Webhook Triggers
 
 * Can be invoked from any system that can make web request

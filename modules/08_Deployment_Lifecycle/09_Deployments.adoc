@@ -1,6 +1,5 @@
 == Deployments
 
-
 .Managing Deployments
 
 * To start new deployment manually:

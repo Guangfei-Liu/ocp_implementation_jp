@@ -1,6 +1,5 @@
 == Deployments
 
-
 .`ImageChange` Trigger
 
 * Results in new deployment whenever value of image stream tag changes

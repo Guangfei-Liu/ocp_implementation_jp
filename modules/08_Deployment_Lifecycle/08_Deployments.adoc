@@ -1,6 +1,5 @@
 == Deployments
 
-
 .Deployment Configuration Example
 
 ----

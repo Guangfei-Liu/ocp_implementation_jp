@@ -1,6 +1,5 @@
 == Build Triggers
 
-
 * Control circumstances in which `buildConfig` runs
 
 * Two types of triggers:

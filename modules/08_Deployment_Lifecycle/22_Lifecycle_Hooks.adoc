@@ -1,6 +1,5 @@
 == Life-cycle Hooks
 
-
 .Failure Policy
 
 * `failurePolicy` defines action strategy takes when hook fails

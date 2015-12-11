@@ -1,6 +1,5 @@
 == Deployments
 
-
 .Rolling Back a Deployment
 
 * Rollbacks revert application to previous deployment

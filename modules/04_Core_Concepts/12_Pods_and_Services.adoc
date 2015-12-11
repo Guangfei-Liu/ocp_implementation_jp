@@ -20,6 +20,10 @@
    generateName: example-name-1-       <2>
 
 ----
+<1> Labels used to select and manage groups of pods in single operation
+<2> Base name, `generateName`, used to generate unique pod name
+
+
 
 ifdef::showscript[]
 

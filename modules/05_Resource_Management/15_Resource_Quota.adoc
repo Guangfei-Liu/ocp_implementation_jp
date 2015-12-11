@@ -24,13 +24,13 @@
 }
 ----
 
-. This is the name of this quota document
-. This is the total amount of memory consumed across all containers. It cannot exceed 1 GB.
-. This is the total amount of CPU usage consumed across all containers. It cannot exceed 20 Kubernetes compute units.
-. This is the total number of pods in the project.
-. This is the total number of services in the project.
-. This is the total number of replication controllers in the project.
-. This is the total number of resource quota documents in the project.
+<1> Name of quota document
+<2> Total memory consumed across all containers, which cannot exceed 1 GB
+<3> Total CPU usage consumed across all containers, which cannot exceed 20 Kubernetes compute units
+<4> Total number of pods in project
+<5> Total number of services in project
+<6> Total number of replication controllers in project
+<7> Total number of resource quota documents in project
 
 ifdef::showscript[]
 
@@ -38,5 +38,12 @@ ifdef::showscript[]
 
 Here is an example of a quota definition file.
 
+. This is the name of this quota document
+. This is the total amount of memory consumed across all containers. It cannot exceed 1 GB.
+. This is the total amount of CPU usage consumed across all containers. It cannot exceed 20 Kubernetes compute units.
+. This is the total number of pods in the project.
+. This is the total number of services in the project.
+. This is the total number of replication controllers in the project.
+. This is the total number of resource quota documents in the project.
 
 endif::showscript[]

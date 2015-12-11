@@ -19,6 +19,11 @@
        name: default-token-br6yz
        readOnly: true
 ----
+<1> Each container in pod is instantiated from its own Docker image
+<2> Container can bind to ports, which are available on pod's IP
+<3> Container's _security context_ specifies whether it can run as privileged container
+<4> External storage volumes should be mounted within container
+
 
 ifdef::showscript[]
 

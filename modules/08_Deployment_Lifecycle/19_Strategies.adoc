@@ -22,6 +22,9 @@
   }
 }
 ----
+<1> `organization/strategy` Docker image provides deployment behavior
+<2> Optional `command` array overrides `CMD` directive specified in image Dockerfile
+<3> Optional environment variables added to execution environment
 
 ifdef::showscript[]
 === Transcript

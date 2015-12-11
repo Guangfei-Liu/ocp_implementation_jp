@@ -17,6 +17,8 @@
      secret:
        secretName: default-token-br6yz
 ----
+<1> Service account name
+<2> Volumes that pod can use
 
 
 ifdef::showscript[]

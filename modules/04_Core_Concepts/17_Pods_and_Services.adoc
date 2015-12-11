@@ -22,6 +22,11 @@
      protocol: TCP
      targetPort: 5000         <4>
 ----
+<1> `selector` identifies all pods with specified label: `example-label: example-value`
+<2> `portalIP` specifies assigned service IP
+<3> `Port` specifies port on which service listens
+<4> `targetPort` specifies port used to forward connections to backing pods
+
 
 
 ifdef::showscript[]

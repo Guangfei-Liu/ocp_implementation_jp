@@ -37,6 +37,13 @@
 
 ----
 
+<1> `name`: Name of template
+<2> `description`: Optional description for template
+<3> `parameters`: List of parameters, like username, passwords, and others
+<4> `labels`: List of labels to apply to resources created by template
+<5> `object`: List of resources to create, such as pods, services, and routes
+
+
 ifdef::showscript[]
 
 === Transcript

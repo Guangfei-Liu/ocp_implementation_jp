@@ -31,11 +31,11 @@ spec:
       END
 ----
 
-. The `termination` field is `edge` for edge termination.
-. The `certificate` field is the contents of the PEM format certificate file.
-. The `key` field is the contents of the PEM format key file.
-. An optional CA certificate may be required to establish a certificate chain
- for validation.
+<1> `termination` field is `edge` for edge termination.
+<2> `key` field is contents of PEM format key file
+<3> `certificate` field is contents of PEM format certificate file
+<4> An optional CA certificate may be required to establish certificate chain
+ for validation
 
 ifdef::showscript[]
 
@@ -45,7 +45,11 @@ Here is an example of a secured route definition using edge termination.
 
 Note the following:
 
-
+. The `termination` field is `edge` for edge termination.
+. The `key` field is the contents of the PEM format key file.
+. The `certificate` field is the contents of the PEM format certificate file.
+. An optional CA certificate may be required to establish a certificate chain
+ for validation.
 
 Because TLS is terminated at the router, connections from the router to the endpoints over the internal network are not encrypted.
 

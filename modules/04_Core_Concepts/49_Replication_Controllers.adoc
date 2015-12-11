@@ -26,6 +26,10 @@ spec:
           protocol: TCP
       restartPolicy: Always
 ----
+<1> Number of copies of pod to run
+<2> Label selector of pod to run
+<3> Template for pod that controller creates
+<4> Labels on pod should include label from label selector
 
 
 ifdef::showscript[]

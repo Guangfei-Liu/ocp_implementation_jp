@@ -7,7 +7,7 @@
 * Module 05: Resource Management
 * Module 06: Creating Applications
 * Module 07: Templates
-* Module 08: Deployment Lifecycle
+* Module 08: Deployment Life cycle
 * Module 09: Managing Security
 
 ifdef::showscript[]
@@ -18,6 +18,3 @@ The course includes the modules listed here.
 Each module introduces you to new topics and provides an in-depth review of previous topics.
 
 endif::showscript[]
-
-
-

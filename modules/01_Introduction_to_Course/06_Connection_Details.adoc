@@ -32,7 +32,8 @@ The infranode host is a regular node to host _pods_ and _containers_.
 In this training it is used for infrastructure-related applications such as the
  router and Docker registry.
 
-The `GUID` is a four-character generated unique identifier assigned to your lab environment. The provisioning email also provides your GUID.
+The `GUID` is a four-character generated unique identifier assigned to your lab
+ environment. The provisioning email also provides your GUID.
 
 
 endif::showscript[]

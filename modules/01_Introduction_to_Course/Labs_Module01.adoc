@@ -20,33 +20,46 @@ toc::[]
 == Lab: Provision Your Lab Environment
 
 === Overview
-To complete the labs for this course, you must provision the lab environment with all the components required to perform the labs.
+To complete the labs for this course, you must provision the lab environment
+ with all the components required to perform the labs.
 
-. Go to https://labs.opentlc.com and use your credentials to log in to the OPENTLC labs provisioning system, which is built on top of Red Hat CloudForms to provide a self-service portal.
+. Go to https://labs.opentlc.com and use your credentials to log in to the
+ OPENTLC labs provisioning system, which is built on top of Red Hat CloudForms
+  to provide a self-service portal.
 +
 [TIP]
-If you forgot your username or password, go to https://www.opentlc.com/pwm to reset your password or obtain a username reminder.
+If you forgot your username or password, go to https://www.opentlc.com/pwm to
+ reset your password or obtain a username reminder.
 
-. Navigate to *Services* -> *Catalogs* -> *All Services* -> *OPENTLC Cloud Infrastructure Labs*.
+. Navigate to *Services* -> *Catalogs* -> *All Services* ->
+ *OPENTLC Cloud Infrastructure Labs*.
 
-. On the left side of the screen, locate *OpenShift 3 Implementation Lab*, and then click  *Order* on the right side of the screen.
+. On the left side of the screen, locate *OpenShift 3.1 Implementation Lab*, and
+ then click  *Order* on the right side of the screen.
 
 . Click *Submit* (in the lower right) to order your environment.
 +
-In a few minutes you receive an email describing how to connect to the environment.
+In a few minutes you receive an email describing how to connect to the
+ environment.
 +
 [WARNING]
-Do not select *App Control* -> *Start* after ordering the lab. The lab is already starting. Selecting *Start* may corrupt the lab environment or cause other complications.
+Do not select *App Control* -> *Start* after ordering the lab. The lab is
+ already starting. Selecting *Start* may corrupt the lab environment or cause
+  other complications.
 . Wait about 20 minutes to allow your environment to build.
-. (Optional) Select *Status* to receive an email with the status of your environment.
+. (Optional) Select *Status* to receive an email with the status of your
+ environment.
 
 [NOTE]
-The lab environment is cloud based, so you can access it over the WAN from anywhere. Do not, however, expect performance to match a bare-metal environment.
+The lab environment is cloud based, so you can access it over the WAN from
+ anywhere. Do not, however, expect performance to match a bare-metal environment.
 
 
 === Set Up SSH Connection
 
-To access any of your lab systems via SSH, you must use your personal OPENTLC SSO username and public SSH key. Unless otherwise noted, you cannot use SSH to connect directly as `root`.
+To access any of your lab systems via SSH, you must use your personal OPENTLC
+ SSO username and public SSH key. Unless otherwise noted, you cannot use SSH to
+  connect directly as `root`.
 
 [NOTE]
 If you have not already done so, you must provide a public SSH key.
@@ -55,9 +68,11 @@ If you have not already done so, you must provide a public SSH key.
 
 . Paste your public key in that location.
 
-. Connect to your administration host via SSH using your OPENTLC username and private SSH key.
+. Connect to your administration host via SSH using your OPENTLC username and
+ private SSH key.
 
-** Replace _GUID_ in the example below with your personal GUID, which is provided at the top of the lab provisioning email.
+** Replace _GUID_ in the example below with your personal GUID, which is
+ provided at the top of the lab provisioning email.
 ** Example using UNIX/Linux
 +
 [subs="verbatim,macros"]
@@ -67,7 +82,8 @@ ssh -i ~/.ssh/yourprivatekey.key opentlc-username.com@oselab-pass:quotes[*_GUID_
 +
 [NOTE]
 ====
-* If you are using Windows, use a terminal program such as PuTTY instead of the command shown here.
+* If you are using Windows, use a terminal program such as PuTTY instead of the
+ command shown here.
 
 * For more information on using SSH and keys, see https://www.opentlc.com/ssh.html.
 ====

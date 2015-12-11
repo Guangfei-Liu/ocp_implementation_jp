@@ -1,5 +1,4 @@
 
-
 :noaudio:
 
 ifdef::revealjs_slideshow[]
@@ -18,9 +17,6 @@ Introduction to Course and Learning Environment
 image::{revealjs_cover_image}[]
 
 endif::[]
-
-
-
 == Course Goals
 
 * Review OpenShift Enterprise by Red Hat version 3 architecture
@@ -60,7 +56,7 @@ endif::showscript[]
 * Module 05: Resource Management
 * Module 06: Creating Applications
 * Module 07: Templates
-* Module 08: Deployment Lifecycle
+* Module 08: Deployment Life cycle
 * Module 09: Managing Security
 
 ifdef::showscript[]
@@ -71,9 +67,6 @@ The course includes the modules listed here.
 Each module introduces you to new topics and provides an in-depth review of previous topics.
 
 endif::showscript[]
-
-
-
 == Prerequisites
 
 
@@ -100,7 +93,7 @@ endif::showscript[]
 ** *Master host*: One VM serves as OpenShift Enterprise environment master
 ** *Node hosts*: Three VMs serve as OpenShift Enterprise environment node
 ** *`oselab` host*: One VM for admin purposes (DNS server, NFS server, SSH jump box, more)
-* Red Hat Enterprise Linux 7.1 preinstalled and configured for deployment
+* Red Hat Enterprise Linux 7.2 preinstalled and configured for deployment
 * Connection details arrive via email after provisioning environment
 
 
@@ -109,13 +102,13 @@ ifdef::showscript[]
 === Transcript
 
 This class uses a cloud-based environment. You will provision the following
-virtual machine hosts for your OpenShift Enterprise environment: 
+virtual machine hosts for your OpenShift Enterprise environment:
 
 * A single master host
 * Three node hosts, one of which is dedicated for infrastructure components
 * One admin host, `oselab`, to act as your DNS server, NFS server, and SSH jump box
 
-Red Hat Enterprise Linux 7.1 is preinstalled and configured for deployment.
+Red Hat Enterprise Linux 7.2 is preinstalled and configured for deployment.
 
 After you provision the environment, you should receive connection details via
 email. This can take a few minutes. If you do not receive
@@ -123,8 +116,6 @@ the email within 10 minutes of making the environment provisioning request, chec
 
 
 endif::showscript[]
-
-
 == Connection Details
 
 
@@ -159,7 +150,8 @@ The infranode host is a regular node to host _pods_ and _containers_.
 In this training it is used for infrastructure-related applications such as the
  router and Docker registry.
 
-The `GUID` is a four-character generated unique identifier assigned to your lab environment. The provisioning email also provides your GUID.
+The `GUID` is a four-character generated unique identifier assigned to your lab
+ environment. The provisioning email also provides your GUID.
 
 
 endif::showscript[]
@@ -183,7 +175,8 @@ ifdef::showscript[]
 
 === Transcript
 
-You use the node servers to run your _pods_. The nodes are firewalled, and are completely blocked, from external access.
+You use the node servers to run your _pods_. The nodes are firewalled, and are
+ completely blocked, from external access.
 
 endif::showscript[]
 == Connection Details

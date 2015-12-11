@@ -1,5 +1,4 @@
 
-
 :noaudio:
 
 ifdef::revealjs_slideshow[]
@@ -22,10 +21,7 @@ Resource Management
 image::{revealjs_cover_image}[]
 
 endif::[]
-
-:noaudio:
 == Module Topics
-
 
 * Resource Types
 * OpenShift Enterprise Resources
@@ -48,7 +44,6 @@ This module discusses various OpenShift Enterprise resources and how to use them
 
 
 endif::showscript[]
-:noaudio:
 == Resource Types
 
 * Working with applications means manipulating OpenShift resources in background:
@@ -79,7 +74,6 @@ OpenShift Enterprise 3 includes different resource types. In this context,
    pods, services, and replication controllers.
 
 endif::showscript[]
-:noaudio:
 == OpenShift Enterprise Resources
 
 * Can define most OpenShift Enterprise resources with .JSON or .YAML file
@@ -95,9 +89,7 @@ You can define most OpenShift Enterprise resources with a .JSON or .YAML file.
   OpenShift Enterprise API.
 
 endif::showscript[]
-:noaudio:
 == Projects and Users
-
 
 .Users and User Types
 
@@ -154,9 +146,7 @@ There is also an anonymous system user that is used by default for
  unauthenticated requests.
 
 endif::showscript[]
-:noaudio:
 == Projects and Users
-
 
 .Users and User Types: Service Accounts
 
@@ -188,9 +178,7 @@ Some service accounts are created automatically when the project is first
 Service accounts are represented with the `ServiceAccount` object.
 
 endif::showscript[]
-:noaudio:
 == Projects and Users
-
 
 .Namespaces
 
@@ -223,9 +211,7 @@ Most objects in the system are scoped by namespace, but some are excepted and
  have no namespace. Examples of excepted objects include nodes and users.
 
 endif::showscript[]
-:noaudio:
 == Projects and Users
-
 
 .Projects
 * *Project*: Kubernetes namespace with additional annotations
@@ -269,9 +255,7 @@ Each project scopes its own set of objects, policies, constraints, and service
 
 
 endif::showscript[]
-:noaudio:
 == Client Tool Authentication
-
 
 * Every user must authenticate to access OpenShift Enterprise
 * Requests lacking valid authentication authenticated as anonymous system user
@@ -301,9 +285,7 @@ You provide your login credentials to obtain a token to make API calls. After
  you log in, you use the web console to navigate through your projects.
 
 endif::showscript[]
-:noaudio:
 == Client Tool Authentication
-
 
 .CLI Authentication
 * Download client from Red Hat Product Downloads or install
@@ -332,7 +314,8 @@ ifdef::showscript[]
 
 === Transcript
 
-You can download the CLI client from Red Hat Product Downloads. Alternatively, you can install the
+You can download the CLI client from Red Hat Product Downloads. Alternatively,
+ you can install the
  `atomic-openshift-clients` rpm package.
 
 After you extract the software, you can authenticate from the command line using
@@ -341,16 +324,16 @@ After you extract the software, you can authenticate from the command line using
 The command's interactive flow helps you establish a session to an OpenShift
  Enterprise server with the provided credentials.
 
-In the example shown here, you authenticate as an OpenShift Enterprise cluster administrator, usually the
-   `root` user. The `system:admin` user is a password-free user that requires a token.
+In the example shown here, you authenticate as an OpenShift Enterprise cluster
+ administrator, usually the
+   `root` user. The `system:admin` user is a password-free user that requires a
+    token.
 
 Note that you set the username and the _project_ (_namespace_) to log in to by
  using the `-n` flag.
 
 endif::showscript[]
-:noaudio:
 == Client Tool Authentication
-
 
 .CLI Authentication: `oc login` Options
 
@@ -402,9 +385,7 @@ Review the options for the `oc login` command shown in the table. Pay special
    the master with a TLS certificate.
 
 endif::showscript[]
-:noaudio:
 == Resource Quota
-
 
 .What Is `ResourceQuota`?
 * OpenShift Enterprise can limit:
@@ -439,9 +420,7 @@ A `ResourceQuota` object enumerates hard resource usage limits _per project_.
 
 
 endif::showscript[]
-:noaudio:
 == Resource Quota
-
 
 .Quota Enforcement
 * After quota created in project:
@@ -470,9 +449,7 @@ If your modification to the project exceeds a quota usage limit, the master
    usage statistics.
 
 endif::showscript[]
-:noaudio:
 == Resource Quota
-
 
 .Quota Enforcement: Usage Changes
 
@@ -502,9 +479,7 @@ When you create resources, your quota usage is incremented immediately upon the
      when you delete resources.
 
 endif::showscript[]
-:noaudio:
 == Resource Quota
-
 
 .Sample Quota Definition File
 
@@ -530,7 +505,8 @@ endif::showscript[]
 
 <1> Name of quota document
 <2> Total memory consumed across all containers, which cannot exceed 1 GB
-<3> Total CPU usage consumed across all containers, which cannot exceed 20 Kubernetes compute units
+<3> Total CPU usage consumed across all containers, which cannot exceed 20
+ Kubernetes compute units
 <4> Total number of pods in project
 <5> Total number of services in project
 <6> Total number of replication controllers in project
@@ -543,17 +519,17 @@ ifdef::showscript[]
 Here is an example of a quota definition file.
 
 . This is the name of this quota document
-. This is the total amount of memory consumed across all containers. It cannot exceed 1 GB.
-. This is the total amount of CPU usage consumed across all containers. It cannot exceed 20 Kubernetes compute units.
+. This is the total amount of memory consumed across all containers. It cannot
+ exceed 1 GB.
+. This is the total amount of CPU usage consumed across all containers. It
+ cannot exceed 20 Kubernetes compute units.
 . This is the total number of pods in the project.
 . This is the total number of services in the project.
 . This is the total number of replication controllers in the project.
 . This is the total number of resource quota documents in the project.
 
 endif::showscript[]
-:noaudio:
 == Resource Quota
-
 
 .Applying a Quota to a Project
 
@@ -570,9 +546,7 @@ To create a quota and apply it to a project, use the `oc create` command and
  specify the `--namespace` or `-n` flag with the project name.
 
 endif::showscript[]
-:noaudio:
 == Service Accounts
-
 
 .Overview
 
@@ -607,9 +581,7 @@ Service accounts provide a flexible way to control API access without sharing a
  regular user's credentials.
 
 endif::showscript[]
-:noaudio:
 == Service Accounts
-
 
 .Usernames and Groups
 
@@ -637,9 +609,7 @@ This example shows how to add the `view` role to the `monitor-agent` service
  account in the `monitored-project` project.
 
 endif::showscript[]
-:noaudio:
 == Service Accounts
-
 
 .Usernames and Groups: Service Account Groups
 
@@ -681,9 +651,7 @@ The second example shows how to allow all service accounts in the
  `monitor project` to edit resources in the `monitored-project` project.
 
 endif::showscript[]
-:noaudio:
 == Service Accounts
-
 
 .Enable Service Account Authentication
 
@@ -709,7 +677,11 @@ serviceAccountConfig:
 <2> Private RSA key file for token signing
 <3> Public RSA key files for token verification
 
-NOTE: If the code provides private key files, then you use the public key component. You can specify multiple public key files, and a token will be accepted if one of the public keys can validate it. This allows you to rotate the signing key, while still accepting tokens generated by the previous signer.
+NOTE: If the code provides private key files, then you use the public key
+ component. You can specify multiple public key files, and a token will be
+  accepted if one of the public keys can validate it. This allows you to rotate
+   the signing key, while still accepting tokens generated by the previous
+    signer.
 
 ifdef::showscript[]
 
@@ -733,9 +705,7 @@ To enable service account token generation, update the master configuration
     still accepting tokens generated by the previous signer.
 
 endif::showscript[]
-:noaudio:
 == Service Accounts
-
 
 .Managed Service Accounts
 
@@ -789,11 +759,9 @@ All service accounts in a project are given the `system:image-puller` role,
    modifying replication controllers and pods in the project.
  . All other pods use a `default` service account unless they specify a different
   service account.
-  
-endif::showscript[]
-:noaudio:
-== Routes
 
+endif::showscript[]
+== Routes
 
 .Overview
 
@@ -822,9 +790,7 @@ Each route consists of a route name, a service selector, and, optionally, a
  security configuration.
 
 endif::showscript[]
-:noaudio:
 == Routes
-
 
 .Creating Routes With the Command Line
 
@@ -871,9 +837,7 @@ As you can see,  you use the `oc expose` command to create a `route` for
 The second example shows how to display the `routes` in your current project.
 
 endif::showscript[]
-:noaudio:
 == Routes
-
 
 .Route Types
 * Routes can be secured or unsecured
@@ -904,9 +868,7 @@ Secure routes let you use several types of TLS termination to serve certificates
 The `Default Router` supports edge, passthrough, and re-encryption termination.
 
 endif::showscript[]
-:noaudio:
 == Routes
-
 
 .Route Types: Unsecured Route Object YAML Definition
 
@@ -931,10 +893,7 @@ ifdef::showscript[]
 This example shows an unsecured route object YAML definition.
 
 endif::showscript[]
-
-:noaudio:
 == Routes
-
 
 .Route Types: Path-Based Routes
 
@@ -955,10 +914,7 @@ Path-based routes specify a path component that can be compared against a URL so
 This requires that the traffic for the route be HTTP-based.
 
 endif::showscript[]
-:noaudio:
 == Routes
-
-
 
 [cols="3*", options="header"]
 |===
@@ -978,10 +934,7 @@ ifdef::showscript[]
 The table shown here provides example routes and their accessibility.
 
 endif::showscript[]
-
-:noaudio:
 == Routes
-
 
 .Route Types: An Unsecured Route With a Path
 
@@ -1016,13 +969,11 @@ Here is an example of an unsecured route using a path:
 Path-based routing is not available when using passthrough TLS, as the router
  does not terminate TLS in that case and cannot read the contents of the
   request.
-  
-. The path is the only added attribute for a path-based route.  
+
+. The path is the only added attribute for a path-based route.
 
 endif::showscript[]
-:noaudio:
 == Routes
-
 
 .Route Types: Secured Routes
 
@@ -1049,9 +1000,7 @@ TLS termination in OpenShift Enterprise relies on SNI  for serving custom
    hostname, resulting in validation errors.
 
 endif::showscript[]
-:noaudio:
 == Routes
-
 
 .Secured TLS Termination Types: Edge Termination
 
@@ -1077,9 +1026,7 @@ The front end of the router serves the TLS certificates, so they must be
   for TLS termination.
 
 endif::showscript[]
-:noaudio:
 == Routes
-
 
 .Secured TLS Termination Types: Edge Termination Route Definition
 
@@ -1133,9 +1080,7 @@ Note the following:
 Because TLS is terminated at the router, connections from the router to the endpoints over the internal network are not encrypted.
 
 endif::showscript[]
-:noaudio:
 == Routes
-
 
 .Secured TLS Termination Types: Passthrough Termination
 
@@ -1161,9 +1106,7 @@ The destination pod is responsible for serving certificates for the traffic at
  the endpoint.
 
 endif::showscript[]
-:noaudio:
 == Routes
-
 
 .Secured TLS Termination Types: Passthrough Termination Route Definition
 
@@ -1199,9 +1142,7 @@ Note the following:
 
 
 endif::showscript[]
-:noaudio:
 == Routes
-
 
 .Secured TLS Termination Types: Re-encryption Termination
 
@@ -1223,9 +1164,7 @@ Thus the full path of the connection is encrypted, even over the internal
  network.
 
 endif::showscript[]
-:noaudio:
 == Routes
-
 
 .Secured TLS Termination Types: Re-encryption Termination Route Definition
 
@@ -1271,9 +1210,7 @@ Note the following:
   the destination.
 
 endif::showscript[]
-:noaudio:
 == Routes
-
 
 .Routes With Hostnames
 
@@ -1311,9 +1248,7 @@ The example here shows a route with a specified host.
 . This specifies the externally reachable hostname used to expose a service.
 
 endif::showscript[]
-:noaudio:
 == Routes
-
 
 .Routes Without Hostnames
 
@@ -1347,9 +1282,7 @@ The generated hostname is of the form of `$routename[.$namespace].$suffix`.
 The example here shows a route definition without a host.
 
 endif::showscript[]
-:noaudio:
 == Routes
-
 
 .Custom Default Routing Subdomain
 
@@ -1393,9 +1326,7 @@ Using the definition from the preceding slide, with your new default subdomain,
 
 
 endif::showscript[]
-:noaudio:
 == Persistent Volumes
-
 
 .Overview
 * `PersistentVolume` object: Storage resource in OpenShift Enterprise cluster
@@ -1432,7 +1363,6 @@ A `PersistentVolume` object is a storage resource in an OpenShift Enterprise
 When you define a `PersistentVolume`, you must associate it with a project.
 
 endif::showscript[]
-:noaudio:
 == Persistent Volumes
 
 .Requesting Storage
@@ -1451,9 +1381,7 @@ To make a request for storage resources, use a `PersistentVolumeClaim` object.
  The claim is paired with a volume that can fulfill your request.
 
 endif::showscript[]
-:noaudio:
 == Persistent Volumes
-
 
 .Requesting Storage: Prerequisite
 * For user to _claim_ a volume (`PersistentVolumeClaim`), a `PersistentVolume`
@@ -1495,9 +1423,7 @@ A cluster administrator needs to define and _create_ the `pv` in the project to
 This example shows a `PersistentVolume` definition file.
 
 endif::showscript[]
-:noaudio:
 == Persistent Volumes
-
 
 .Requesting Storage: `PersistentVolumeClaim` Definition
 
@@ -1534,9 +1460,7 @@ After you define a `PersistentVolume` in your project, you can claim the volume
 The example here shows a `PersistentVolumeClaim` definition file.
 
 endif::showscript[]
-:noaudio:
 == Persistent Volumes
-
 
 .Volume and Claim Binding
 * `PersistentVolume`: Specific resource
@@ -1562,9 +1486,7 @@ This lets you use the claim as a volume in a pod. OpenShift Enterprise finds the
  volume backing the claim and mounts it into the pod.
 
 endif::showscript[]
-:noaudio:
 == Persistent Volumes
-
 
 .Volume and Claim Binding: Status
 
@@ -1588,11 +1510,7 @@ As shown in the example here, you can tell whether a claim or volume is bound by
  using the CLI to submit a query.
 
 endif::showscript[]
-
-
-:noaudio:
 == Persistent Volumes
-
 
 .Claims as Volumes in Pods
 
@@ -1648,9 +1566,7 @@ OpenShift Enterprise finds the claim in the same namespace
 The example here shows a pod definition with a claim.
 
 endif::showscript[]
-
 == Persistent Volumes
-:noaudio:
 
 .Disk Quota Enforcement
 
@@ -1683,9 +1599,7 @@ Enforcing quotas this way lets a user request a specific amount of persistent
 
 
 endif::showscript[]
-
 == Persistent Volumes
-:noaudio:
 
 .Resource Reclamation
 * OpenShift Enterprise implements Kubernetes `Recyclable` plug-in interface
@@ -1721,7 +1635,6 @@ NFS volumes set to `Recycle` are scrubbed--that is, `rm -rf` is run on the
 
 endif::showscript[]
 == Persistent Volumes
-:noaudio:
 
 .Automation
 
@@ -1754,10 +1667,7 @@ To help you get started, see the example Ansible playbook at the web address
  shown here.
 
 endif::showscript[]
-
-:noaudio:
 == Summary
-
 
 * Resource Types
 * OpenShift Enterprise Resources

@@ -1,4 +1,4 @@
-== Lifecycle Hooks
+== Life-cycle Hooks
 
 
 .Simplified Deployment Configuration

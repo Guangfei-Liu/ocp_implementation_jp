@@ -12,9 +12,8 @@ ifdef::revealjs_slideshow[]
 Red Hat OpenShift Enterprise
 
 [#cover-h2]
-OpenShift 3 Application Lifecycle
+OpenShift 3 Application Life Cycle
 [#cover-logo]
 image::{revealjs_cover_image}[]
 
 endif::[]
-

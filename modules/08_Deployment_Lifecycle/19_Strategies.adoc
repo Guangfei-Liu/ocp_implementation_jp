@@ -3,9 +3,9 @@
 
 .`Custom` Strategy
 
-* Allows you to define deployment behavior
+* Lets you define deployment behavior
 
-* `Custom` strategy:
+* Example `Custom` strategy:
 +
 ----
 "strategy": {
@@ -22,17 +22,15 @@
   }
 }
 ----
-. The `organization/strategy` Docker image provides deployment behavior.
-. The optional `command` array overrides the `CMD` directive specified in image
- Dockerfile.
-. The optional environment variables are added to the execution environment.
-
 
 ifdef::showscript[]
 === Transcript
-The `Custom` strategy allows you to provide your own deployment behavior.
+The `Custom` strategy lets you provide your own deployment behavior.
+
+Here is an example `Custom` strategy. Note the following:
+
 . The `organization/strategy` Docker image provides deployment behavior.
-. The optional `command` array overrides the `CMD` directive specified in image
+. The optional `command` array overrides the `CMD` directive specified in the image
  Dockerfile.
 . The optional environment variables are added to the execution environment.
 

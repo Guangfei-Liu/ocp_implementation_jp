@@ -6,7 +6,7 @@
 * _Deployment configuration_ consists of:
 - _Replication controller_ template describing application to be deployed
 - Default _replica_ count for deployment
-- Deployment _strategy_ used to execute the deployment
+- Deployment _strategy_ used to execute deployment
 - Set of _triggers_ that cause deployments to be created automatically
 
 * Deployment configuration is `deploymentConfig` OpenShift Enterprise API

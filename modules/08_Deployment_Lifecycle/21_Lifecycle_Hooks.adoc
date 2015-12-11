@@ -1,12 +1,12 @@
-== Lifecycle Hooks
+== Life-cycle Hooks
 
 
 .Overview
 
-* `Recreate` and `Rolling` strategies support lifecycle hooks
+* `Recreate` and `Rolling` strategies support life-cycle hooks
 ** Allow behavior to be injected into deployment process at predefined points
 
-* `pre` lifecycle hook:
+* `pre` life-cycle hook:
 +
 ----
 "pre": {
@@ -15,17 +15,17 @@
 }
 ----
 
-** `execNewPod` is pod-based lifecycle hook
+** `execNewPod` is pod-based life-cycle hook
 * Every hook has `failurePolicy`
 
 ifdef::showscript[]
 === Transcript
-The `Recreate` and `Rolling` strategies support lifecycle hooks, which allow
+The `Recreate` and `Rolling` strategies support life-cycle hooks, which allow
  behavior to be injected into the deployment process at predefined points in the
   strategy.
 
-The example shows a `pre` lifecycle hook.
-`execNewPod` is a pod-based lifecycle hook.
+The example shows a `pre` life-cycle hook.
+`execNewPod` is a pod-based life-cycle hook.
 
 Every hook has a failure policy.
 

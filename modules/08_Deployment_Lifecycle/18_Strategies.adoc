@@ -2,34 +2,34 @@
 
 
 * `Recreate` strategy:
-** Executes `pre` lifecycle hooks
+** Executes `pre` life-cycle hooks
 ** Scales down previous deployment to zero
 ** Scales up new deployment
-** Executes `post` lifecycle hooks
+** Executes `post` life-cycle hooks
 
 
 WARNING: During scale up, if the replica count of the deployment is greater than
  one, the first deployment replica is validated for readiness before fully
   scaling up the deployment. If this validation fails, the deployment fails.
 
-NOTE: When executing a `post` lifecycle hook, all failures are ignored
+NOTE: When executing a `post` life-cycle hook, all failures are ignored
  regardless of the failure policy specified in the hook.
 
 ifdef::showscript[]
 === Transcript
 
 * The `Recreate` strategy:
-- Executes any `pre` lifecycle hooks
+- Executes any `pre` life-cycle hooks
 - Scales down the previous deployment to zero
 - Scales up the new deployment.
-- Executes any `post` lifecycle hooks
+- Executes any `post` life-cycle hooks
 
 
 During the scaling-up process, if the replica count of the deployment is greater
  than one, the first deployment replica is validated for readiness before fully
   scaling up the deployment. If this validation fails, the deployment fails.
 
-When executing a `post` lifecycle hook, all failures are ignored regardless of
+When executing a `post` life-cycle hook, all failures are ignored regardless of
  the failure policy specified in the hook.
 
 endif::showscript[]

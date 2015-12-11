@@ -31,7 +31,7 @@ $ oc describe dc <deployment_config>
 ifdef::showscript[]
 === Transcript
 Here are some examples of how to manage a deployment. When trying to deploy the
- latest deployment version, using the `--latest flag`, the new deployment starts
+ latest deployment version, using the `--latest` flag, the new deployment starts
   only if no other deployment is in progress.
 
 For more detailed information about a deployment configuration and the latest

@@ -1,0 +1,32 @@
+== Life-cycle Hooks
+
+
+.Overview
+
+* `Recreate` and `Rolling` strategies support life-cycle hooks
+** Allow behavior to be injected into deployment process at predefined points
+
+* `pre` life-cycle hook:
++
+----
+"pre": {
+  "failurePolicy": "Abort",
+  "execNewPod": {}
+}
+----
+
+** `execNewPod` is pod-based life-cycle hook
+* Every hook has `failurePolicy`
+
+ifdef::showscript[]
+=== Transcript
+The `Recreate` and `Rolling` strategies support life-cycle hooks, which allow
+ behavior to be injected into the deployment process at predefined points in the
+  strategy.
+
+The example shows a `pre` life-cycle hook.
+`execNewPod` is a pod-based life-cycle hook.
+
+Every hook has a failure policy.
+
+endif::showscript[]

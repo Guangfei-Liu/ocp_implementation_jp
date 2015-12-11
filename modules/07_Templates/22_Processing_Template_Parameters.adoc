@@ -1,6 +1,4 @@
-:noaudio:
 == Processing Template Parameters
-
 
 .Process `db`
 
@@ -44,6 +42,7 @@ Now that you know the values used to create the `frontend` template, you can use
 In this example you process and create the `db` template while
  overriding the `mysql` credentials' variables.
 
-You can also process and create the application in a single step, or use the `oc new-app` command to achieve the same result.
+You can also process and create the application in a single step, or use the
+ `oc new-app` command to achieve the same result.
 
 endif::showscript[]

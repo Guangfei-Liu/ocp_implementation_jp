@@ -1,6 +1,4 @@
-:noaudio:
 == Template File Creation
-
 
 .Example Template
 - `objects:` `ImageStream` `ruby-sample` and `ruby-20-rhel7`

@@ -1,6 +1,4 @@
-:noaudio:
 == New Configuration From Template
-
 
 .Uploading a Template
 

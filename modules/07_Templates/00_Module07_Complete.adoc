@@ -1,5 +1,4 @@
 
-
 :noaudio:
 
 ifdef::revealjs_slideshow[]
@@ -7,7 +6,7 @@ ifdef::revealjs_slideshow[]
 [#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"]
 
 == &nbsp;
-
+:noaudio:
 
 [#cover-h1]
 Red Hat OpenShift Enterprise Implementation
@@ -18,9 +17,6 @@ Templates
 image::{revealjs_cover_image}[]
 
 endif::[]
-
-
-:noaudio:
 == Module Topics
 
 * Template Overview
@@ -39,7 +35,6 @@ In this module you learn about the various sections of a template; how to
 and how to "wire" templates together.
 
 endif::showscript[]
-:noaudio:
 == Template Overview
 
 .What Is a Template?
@@ -67,9 +62,7 @@ Each template is a parameterized list that OpenShift Enterprise uses to create a
 A template also defines a set of labels to apply to every resource it creates.
 
 endif::showscript[]
-:noaudio:
 == Template Overview
-
 
 .What Are Templates For?
 
@@ -87,9 +80,7 @@ A template can use preset variables or randomize values (like passwords).
 
 
 endif::showscript[]
-:noaudio:
 == Template Overview
-
 
 .Template Elements
 
@@ -147,9 +138,7 @@ This sample template file is constructed from the following elements:
 . `object` lists resources to create, like pods, services, and routes.
 
 endif::showscript[]
-:noaudio:
 == Template Overview
-
 
 .Labels
 
@@ -179,9 +168,7 @@ Resources and pods are "tagged" with labels, and services and replication
     entities.
 
 endif::showscript[]
-:noaudio:
 == Template Overview
-
 
 .Parameters
 
@@ -228,9 +215,7 @@ In the example shown here, you set the `generate` field to `expression` to speci
 
 
 endif::showscript[]
-:noaudio:
 == Template Overview
-
 
 .Objects
 
@@ -251,9 +236,7 @@ The next few slides show sections of a sample template, which illustrate most of
 
 
 endif::showscript[]
-:noaudio:
 == Template File Creation
-
 
 .Example Template
 - `metadata`
@@ -281,9 +264,7 @@ This slide shows the `metadata` section of a sample template.
 
 
 endif::showscript[]
-:noaudio:
 == Template File Creation
-
 
 .Example Template
 - `objects:` `Service` `frontend` / `web`
@@ -329,9 +310,7 @@ This section shows the service named `frontend`.
 
 
 endif::showscript[]
-:noaudio:
 == Template File Creation
-
 
 .Example Template
 - `objects:`  `Service` `database`
@@ -373,11 +352,7 @@ ifdef::showscript[]
 
 This slide shows the database Service object.
 endif::showscript[]
-
-
-:noaudio:
 == Template File Creation
-
 
 .Example Template
 - `objects:` `Route`
@@ -408,12 +383,7 @@ ifdef::showscript[]
 This slide shows the `frontend` `route` object, and the hostname defined.
 
 endif::showscript[]
-
-
-
-:noaudio:
 == Template File Creation
-
 
 .Example Template
 - `objects:` `ImageStream` `ruby-sample` and `ruby-20-rhel7`
@@ -458,9 +428,7 @@ Note that there are two `imagestream` objects in this template, one for the
   that will be created for this deployment.
 
 endif::showscript[]
-:noaudio:
 == Template File Creation
-
 
 .Example Template
 - `objects:` `DeploymentConfig` `frontend`
@@ -575,9 +543,7 @@ Notice that the `env` parameters for MySQL access are set. You see them again in
  the next part of the template.
 
 endif::showscript[]
-:noaudio:
 == Template File Creation
-
 
 .Template Example - `objects:` `DeploymentConfig` `database`
 [subs="verbatim,macros"]
@@ -667,9 +633,7 @@ Notice that the `env` parameters for MySQL access are set the same as they were
  in the `frontend` `DeploymentConfig` object.
 
 endif::showscript[]
-:noaudio:
 == Template File Creation
-
 
 .Example Template - `parameters`
 
@@ -720,9 +684,7 @@ This slide shows the template `parameters` generated from expressions.
  Parameters are essentially variables that the entire template can access.
 
 endif::showscript[]
-:noaudio:
 == New Configuration From Template
-
 
 .Uploading a Template
 
@@ -760,9 +722,7 @@ After you upload the template, you can configure it using the web console
  or the CLI.
 
 endif::showscript[]
-:noaudio:
 == New Configuration From Template
-
 
 .Generating a Configuration
 
@@ -823,9 +783,7 @@ You can use the `oc new-app` command to deploy templates from a local template
  file or a stored template. To instantiate a stored template, specify the template name as an argument. The example here shows  how to create a new application and override the template parameter value for `MYSQL_USER`.
 
 endif::showscript[]
-:noaudio:
 == Processing Template Parameters
-
 
 .Overview
 
@@ -854,9 +812,7 @@ You can take these two separate templates and wire them together. First, process
     extracted from the `frontend` configuration file.
 
 endif::showscript[]
-:noaudio:
 == Processing Template Parameters
-
 
 .Process `frontend`
 
@@ -887,9 +843,7 @@ The first step is to create the front end of your application and process the
 When you run the command, resources are created and the build is started.
 
 endif::showscript[]
-:noaudio:
 == Processing Template Parameters
-
 
 .Extract Configuration File Values
 
@@ -925,9 +879,7 @@ For an existing deployment, you can extract these values with the `oc env`
  command.
 
 endif::showscript[]
-:noaudio:
 == Processing Template Parameters
-
 
 .Process `db`
 
@@ -971,12 +923,11 @@ Now that you know the values used to create the `frontend` template, you can use
 In this example you process and create the `db` template while
  overriding the `mysql` credentials' variables.
 
-You can also process and create the application in a single step, or use the `oc new-app` command to achieve the same result.
+You can also process and create the application in a single step, or use the
+ `oc new-app` command to achieve the same result.
 
 endif::showscript[]
-:noaudio:
 == Summary
-
 
 * Template Overview
 * Template File Creation

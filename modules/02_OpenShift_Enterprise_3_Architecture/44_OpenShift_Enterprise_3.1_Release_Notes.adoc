@@ -1,9 +1,4 @@
-:noaudio:
-
 == OpenShift Enterprise 3.1 Release Notes
-
-
-
 
 * Jenkins
 ** Jenkins image now available for deployment on OpenShift

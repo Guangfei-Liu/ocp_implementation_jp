@@ -1,6 +1,4 @@
-:noaudio:
 == Kubernetes Concepts
-
 
 * *Nodes*: Compute resources on top of which containers are built
 * *Pods*: Co-located group of containers
@@ -34,4 +32,3 @@ can come and go, the service provides a _front end_ for the pods it represents.
 You use labels to organize and select groups of objects based on key-value pairs.
 
 endif::showscript[]
-

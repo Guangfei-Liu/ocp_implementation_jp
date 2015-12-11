@@ -1,6 +1,4 @@
-:noaudio:
 == Pods
-
 
 * Correspond to co-located group of applications running with shared context
 * Model application-specific logical hosts in containerized environment

@@ -1,6 +1,4 @@
-:noaudio:
 == What Is Kubernetes
-
 
 * Open source system for managing containerized applications
 across multiple hosts

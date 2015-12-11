@@ -1,6 +1,4 @@
-:noaudio:
 == What Is Docker
-
 
 * Open platform for developers and administrators to build, ship, and run
 distributed applications

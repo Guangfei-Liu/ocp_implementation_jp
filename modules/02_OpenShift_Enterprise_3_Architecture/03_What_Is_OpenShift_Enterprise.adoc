@@ -1,6 +1,4 @@
-:noaudio:
 == What Is OpenShift Enterprise
-
 
 * Platform-as-a-Service (PaaS)
 * Uses industry standards
@@ -30,6 +28,3 @@ OpenShift Enterprise enables collaboration between developers on projects and
 
 
 endif::showscript[]
-
-
-

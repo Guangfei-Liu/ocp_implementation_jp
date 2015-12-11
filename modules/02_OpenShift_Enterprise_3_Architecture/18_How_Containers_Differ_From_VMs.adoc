@@ -1,6 +1,4 @@
-:noaudio:
 == How Containers Differ From VMs
-
 
 * *Virtual machine (VM)*: Each virtualized machine includes application,
  binaries, libraries, guest operating system

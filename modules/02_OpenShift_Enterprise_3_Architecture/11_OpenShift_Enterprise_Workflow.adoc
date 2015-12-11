@@ -1,7 +1,4 @@
-:noaudio:
 == OpenShift Enterprise Workflow
-
-
 
 .Scenario
 * Application needs to be scaled up to accommodate overall increase or upcoming

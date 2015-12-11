@@ -15,6 +15,7 @@ ifdef::showscript[]
 === Transcript
 
 The course includes the modules listed here.
-Each module introduces you to new topics and provides an in-depth review of previous topics.
+Each module introduces you to new topics and provides an in-depth review of
+ previous topics.
 
 endif::showscript[]

@@ -1,5 +1,4 @@
 == Persistent Storage Using NFS
-:noaudio:
 
 .SELinux and NFS Export Settings
 
@@ -31,11 +30,17 @@ ifdef::showscript[]
 
 You need to configure your NFS server exports.
 
-By default, SELinux does not allow writing from a pod to a remote NFS server. The NFS volume mounts correctly, but is read-only.
+By default, SELinux does not allow writing from a pod to a remote NFS server.
+ The NFS volume mounts correctly, but is read-only.
 
-To configure SElinux to let the nodes use NFS in the way required for OpenShift Enterprise `Persistent Volumes`, use the `setsebool` command on each node, as shown in the first example here.
+To configure SElinux to let the nodes use NFS in the way required for OpenShift
+ Enterprise `Persistent Volumes`, use the `setsebool` command on each node, as
+  shown in the first example here.
 
 
-In addition, configure each exported volume on the NFS server itself so that each export option is set in the `/etc/exports` file, as shown in the second example here, and each export is owned by `nfsnobody` and has the permissions shown in the third example here.
+In addition, configure each exported volume on the NFS server itself so that
+ each export option is set in the `/etc/exports` file, as shown in the second
+  example here, and each export is owned by `nfsnobody` and has the permissions
+   shown in the third example here.
 
 endif::showscript[]

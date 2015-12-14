@@ -1,6 +1,4 @@
-:noaudio:
 == Containerization Standards
-
 
 .Isolation With Linux Containers
 * Isolates applications on host operating system

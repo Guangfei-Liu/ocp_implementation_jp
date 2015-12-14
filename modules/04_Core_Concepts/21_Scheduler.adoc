@@ -1,6 +1,5 @@
 == Scheduler
 
-
 .Scheduler Extensibility
 
 * Scheduler built using plug-in model

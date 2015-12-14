@@ -1,6 +1,5 @@
 == New App From Source Code
 
-
 .Specifying Source Code - Examples
 
 * To create application using Git repository at current directory:

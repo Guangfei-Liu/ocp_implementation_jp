@@ -1,6 +1,5 @@
 == Strategies
 
-
 .`Rolling` Strategy
 
 * Performs rolling update and supports life-cycle hooks for injecting code into

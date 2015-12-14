@@ -1,5 +1,4 @@
 == Prerequisites
-:noaudio:
 
 .System Requirements
 

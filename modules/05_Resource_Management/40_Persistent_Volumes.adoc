@@ -1,4 +1,3 @@
-:noaudio:
 == Persistent Volumes
 
 .Requesting Storage

@@ -1,6 +1,4 @@
-:noaudio:
 == Client Tool Authentication
-
 
 * Every user must authenticate to access OpenShift Enterprise
 * Requests lacking valid authentication authenticated as anonymous system user

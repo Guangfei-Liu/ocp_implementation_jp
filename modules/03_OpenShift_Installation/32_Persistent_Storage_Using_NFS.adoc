@@ -1,9 +1,9 @@
 == Persistent Storage Using NFS
-:noaudio:
 
 .Resource Reclamation
 * OpenShift Enterprise implements Kubernetes `Recyclable` plug-in interface
-** Reclamation tasks based on policies set by `persistentVolumeReclaimPolicy` key in `PersistentVolume` object definition
+** Reclamation tasks based on policies set by `persistentVolumeReclaimPolicy`
+ key in `PersistentVolume` object definition
 * Can _reclaim_ volume after it is released from claim
 
 * Can set `persistentVolumeReclaimPolicy` to `Retain` or `Recycle`:
@@ -16,12 +16,20 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise implements the Kubernetes `Recyclable` plug-in interface. Reclamation tasks are based on policies set by the `persistentVolumeReclaimPolicy` key in the `PersistentVolume` object definition. After a volume is released from its claim--that is, after the user delete the `PersistentVolumeClaim` bound to the volume--the volume can be _reclaimed_.
+OpenShift Enterprise implements the Kubernetes `Recyclable` plug-in interface.
+ Reclamation tasks are based on policies set by the
+  `persistentVolumeReclaimPolicy` key in the `PersistentVolume` object
+   definition. After a volume is released from its claim--that is, after the
+    user delete the `PersistentVolumeClaim` bound to the volume--the volume
+     can be _reclaimed_.
 
 You can set the `persistentVolumeReclaimPolicy` key to `Retain` or `Recycle`.
 
-By default, persistent volumes are set to `Retain`. In this case, volumes are not deleted.
+By default, persistent volumes are set to `Retain`. In this case, volumes are
+ not deleted.
 
-NFS volumes set to `Recycle` are scrubbed--that is, `rm -rf` is run on the volume--after being released from their claim. After you recycle an NFS volume, you can bind it to a new claim.
+NFS volumes set to `Recycle` are scrubbed--that is, `rm -rf` is run on the
+ volume--after being released from their claim. After you recycle an NFS volume,
+  you can bind it to a new claim.
 
 endif::showscript[]

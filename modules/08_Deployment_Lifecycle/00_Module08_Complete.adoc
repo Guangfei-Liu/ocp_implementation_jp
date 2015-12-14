@@ -1,5 +1,4 @@
 
-
 :noaudio:
 
 ifdef::revealjs_slideshow[]
@@ -7,7 +6,7 @@ ifdef::revealjs_slideshow[]
 [#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"]
 
 == &nbsp;
-
+:noaudio:
 
 [#cover-h1]
 Red Hat OpenShift Enterprise
@@ -42,7 +41,6 @@ Life-cycle hooks are covered, including how to use them as build triggers, and
 
 endif::showscript[]
 == Deployments
-
 
 .Overview
 
@@ -85,7 +83,6 @@ The deployment configuration contains a version number that is incremented each
 endif::showscript[]
 == Deployments
 
-
 .Deployments and Deployment Configurations
 
 * With concept of _deployments_, OpenShift Enterprise adds expanded support for
@@ -113,7 +110,6 @@ OpenShift Enterprise deployments also provide the ability to transition from an
 
 endif::showscript[]
 == Deployments
-
 
 .Deployments and Deployment Configurations
 
@@ -154,7 +150,6 @@ When a deployment is superseded by another, the previous replication controller
 
 endif::showscript[]
 == Deployments
-
 
 .Deployment Configuration Definition File/Manifest
 
@@ -209,7 +204,6 @@ Note the following:
 endif::showscript[]
 == Deployments
 
-
 .Creating a Deployment Configuration
 
 * _Deployment configuration_ consists of:
@@ -239,7 +233,6 @@ A deployment configuration is a `deploymentConfig` OpenShift Enterprise API
 
 endif::showscript[]
 == Deployments
-
 
 .Deployment Configuration Example
 
@@ -328,7 +321,6 @@ This is an example of a `deploymentConfig` resource. Note the following in the
 endif::showscript[]
 == Deployments
 
-
 .Managing Deployments
 
 * To start new deployment manually:
@@ -367,7 +359,6 @@ For more detailed information about a deployment configuration and the latest
 
 endif::showscript[]
 == Deployments
-
 
 .Canceling and Retrying a Deployment
 * To cancel running or stuck deployment:
@@ -412,7 +403,6 @@ Retrying a deployment restarts the deployment; it does not create a new
 endif::showscript[]
 == Deployments
 
-
 .Rolling Back a Deployment
 
 * Rollbacks revert application to previous deployment
@@ -450,7 +440,6 @@ Image change triggers on the deployment configuration are disabled as part of
 
 endif::showscript[]
 == Deployments
-
 
 .Deployment Configuration Triggers
 
@@ -494,7 +483,6 @@ If a `ConfigChange` trigger is defined in a deployment configuration, the first
 
 endif::showscript[]
 == Deployments
-
 
 .`ImageChange` Trigger
 
@@ -545,7 +533,6 @@ Note that if the `automatic` option is set to `false`, the trigger is disabled.
 endif::showscript[]
 == Strategies
 
-
 .Overview
 
 * _Deployment configuration_ declares _strategy_ responsible for executing
@@ -576,7 +563,6 @@ The `Rolling` strategy is the default strategy if a deployment configuration
 
 endif::showscript[]
 == Strategies
-
 
 .`Rolling` Strategy
 
@@ -610,7 +596,6 @@ In the example, `timeoutSeconds` is optional. The default value is 120.
 
 endif::showscript[]
 == Strategies
-
 
 * `Rolling` strategy:
 ** Executes `pre` life-cycle hooks
@@ -653,7 +638,6 @@ When executing a `post` life-cycle hook, all failures are ignored regardless of
 endif::showscript[]
 == Strategies
 
-
 .`Recreate` Strategy
 
 * Has basic rollout behavior and supports life-cycle hooks for injecting code
@@ -682,7 +666,6 @@ In the example, `recreateParams` are optional. `pre` and `post` are both
 
 endif::showscript[]
 == Strategies
-
 
 * `Recreate` strategy:
 ** Executes `pre` life-cycle hooks
@@ -717,7 +700,6 @@ When executing a `post` life-cycle hook, all failures are ignored regardless of
 
 endif::showscript[]
 == Strategies
-
 
 .`Custom` Strategy
 
@@ -762,7 +744,6 @@ Here is an example `Custom` strategy. Note the following:
 endif::showscript[]
 == Strategies
 
-
 * OpenShift Enterprise provides two environment variables for strategy process:
 
 [cols="2"]
@@ -780,7 +761,6 @@ OpenShift Enterprise provides these two environment variables for use with the
 
 endif::showscript[]
 == Life-cycle Hooks
-
 
 .Overview
 
@@ -813,7 +793,6 @@ Every hook has a failure policy.
 endif::showscript[]
 == Life-cycle Hooks
 
-
 .Failure Policy
 
 * `failurePolicy` defines action strategy takes when hook fails
@@ -843,7 +822,6 @@ Note that some hook points for a strategy might support only a subset of failure
 endif::showscript[]
 == Life-cycle Hooks
 
-
 .Pod-Based Life-cycle Hook
 
 * Hooks have type-specific field that describes how to execute hook
@@ -866,7 +844,6 @@ endif::showscript[]
 
 //ISSUE: Update this in 3.1
 == Life-cycle Hooks
-
 
 .Simplified Deployment Configuration
 
@@ -958,7 +935,6 @@ Note the following call-outs in the example:
 endif::showscript[]
 == Build Triggers
 
-
 * Control circumstances in which `buildConfig` runs
 
 * Two types of triggers:
@@ -976,7 +952,6 @@ There are two types of triggers: webhooks and image change.
 
 endif::showscript[]
 == Build Triggers
-
 
 .Webhook Triggers
 
@@ -1005,7 +980,6 @@ Webhook triggers trigger a new build by sending a request to the OpenShift
 
 endif::showscript[]
 == Build Triggers
-
 
 .GitHub Webhook Triggers
 
@@ -1046,7 +1020,6 @@ The first example is a JSON `buildConfig` trigger definition, and the second is
 endif::showscript[]
 == Build Triggers
 
-
 .Generic Webhook Triggers
 
 * Can be invoked from any system that can make web request
@@ -1081,7 +1054,6 @@ As with a GitHub webhook, you must specify a value for `secret` when defining
 
 endif::showscript[]
 == Build Triggers
-
 
 .Image Change Triggers
 
@@ -1122,8 +1094,6 @@ Image change triggers allow your build to be automatically invoked when a new
 endif::showscript[]
 == Build Triggers
 
-
-
 * To define build with strategy that consumes image stream:
 +
 ----
@@ -1150,8 +1120,6 @@ This example defines a build with a strategy that consumes the image stream
  `ruby-20-rhel7`.
 endif::showscript[]
 == Build Triggers
-
-
 
 * Image change trigger:
 +
@@ -1205,7 +1173,6 @@ endif::showscript[]
 * Strategies
 * Life-cycle Hooks
 * Build Triggers
-
 
 ifdef::showscript[]
 === Transcript

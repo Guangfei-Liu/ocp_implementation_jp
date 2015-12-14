@@ -1,5 +1,4 @@
 
-
 :noaudio:
 
 ifdef::revealjs_slideshow[]
@@ -61,7 +60,6 @@ This module covers the following topics:
 endif::showscript[]
 == Overview
 
-
 * Users can create new OpenShift Enterprise application using web console or
  `oc new-app` command
 ** Users can specify application creation from _source code_, _image_, or
@@ -94,7 +92,6 @@ In this module you start by learning the manual way of creating each of these
 
 endif::showscript[]
 == Source-to-Image
-
 
 .What Is S2I?
 
@@ -132,8 +129,6 @@ endif::showscript[]
 // https://docs.openshift.com/enterprise/3.1/architecture/core_concepts/builds_and_image_streams.html
 == Source-to-Image
 
-
-
 image::images/DockerVsS2IBuilds.png[]
 
 ifdef::showscript[]
@@ -145,7 +140,6 @@ This illustration shows the key difference between a Docker build and an S2I
 
 endif::showscript[]
 == Source-to-Image
-
 
 .Build and Deployment Automation
 
@@ -166,7 +160,6 @@ OpenShift Enterprise offers an integrated Docker registry and automated image
 
 endif::showscript[]
 == Source-to-Image
-
 
 .Build Process
 
@@ -199,7 +192,6 @@ The custom strategy lets you build with a user-defined process, possibly
 endif::showscript[]
 == Source-to-Image
 
-
 .`BuildConfig` Object
 
 * Defines single build and set of triggers that start the build
@@ -221,7 +213,6 @@ The `BuildConfig` object is the definition of the entire build process. It
 
 endif::showscript[]
 == Source-to-Image
-
 
 .`BuildConfig` Triggers
 
@@ -251,7 +242,6 @@ There are three types of triggers.
 endif::showscript[]
 == Source-to-Image
 
-
 .`BuildConfig` Parameters
 
 * Three parameter types:
@@ -277,7 +267,6 @@ There are three parameter types.
 
 endif::showscript[]
 == Source-to-Image
-
 
 .Build Strategies
 
@@ -315,14 +304,7 @@ S2I is a tool for building reproducible Docker images.
 
 
 endif::showscript[]
-
-// ISSUE: Added after 3.1 updates, Waiting for answer from EJ
-// Supports incremental builds that reuse downloaded dependencies, built artifacts, etc.
-// S2I supports incremental builds that reuse previously downloaded dependencies,
-// previously built artifacts, and so on.
 == Source-to-Image Builds
-
-
 
 .S2I Build
 * S2I builds replace the developer experience and build process of OpenShift
@@ -344,7 +326,6 @@ S2I builds are a replacement for the build process of OpenShift Enterprise
 
 endif::showscript[]
 == Source-to-Image Builds
-
 
 .S2I Build Example
 
@@ -375,7 +356,6 @@ The section also shows the process of running the new image in a pod, including
 
 endif::showscript[]
 == Source-to-Image Builds
-
 
 .Creating the Build File
 
@@ -409,7 +389,6 @@ You can edit the JSON file before you create the build.
 
 endif::showscript[]
 == Source-to-Image Builds
-
 
 .JSON Build File
 
@@ -630,7 +609,6 @@ This is a generated JSON build file. It contains some familiar items and some
 endif::showscript[]
 == Source-to-Image Builds
 
-
 .JSON Build File - `Service`
 
 * Describes _service_ to be created to support application
@@ -676,7 +654,6 @@ The `Service` section describes the service to be created to support the built
 
 endif::showscript[]
 == Source-to-Image Builds
-
 
 .JSON Build File - `ImageStream`
 
@@ -726,7 +703,6 @@ Using `ImageStreams` lets OpenShift Enterprise _listen_ or _poll_ for changes in
 
 endif::showscript[]
 == Source-to-Image Builds
-
 
 .JSON Build File - `BuildConfig`
 
@@ -805,7 +781,6 @@ The `BuildConfig` section defines the triggers that start a rebuild of your
 endif::showscript[]
 == Source-to-Image Builds
 
-
 .JSON Build File - `DeploymentConfig`
 
 * Defines:
@@ -861,7 +836,6 @@ In the `DeploymentConfig` section, you define more triggers that can start a
 endif::showscript[]
 == Source-to-Image Builds
 
-
 .JSON Build File - `Template`
 
 * Defines container _deployment template_
@@ -906,7 +880,6 @@ The `template` section defines different aspects of your application--for
 endif::showscript[]
 == Source-to-Image Builds
 
-
 .Deploying an S2I Build Image
 
 * In basic S2I process, OpenShift Enterprise:
@@ -927,7 +900,6 @@ Essentially, the S2I process is as follows: OpenShift Enterprise sets up various
 
 endif::showscript[]
 == Source-to-Image Builds
-
 
 .Creating the Build Environment
 
@@ -961,7 +933,6 @@ Most of the time Red Hat recommends using `oc new-app`. This `oc create` method
 endif::showscript[]
 == Source-to-Image Builds
 
-
 .Watching the S2I Build
 
 * To see builds and their status:
@@ -991,7 +962,6 @@ To follow the build process by checking the log created for your build, use the
 endif::showscript[]
 == Application Creation
 
-
 .Overview
 
 * Create new OpenShift Enterprise application using web console or `oc new-app`
@@ -1018,7 +988,6 @@ You can create a new OpenShift Enterprise application using the web console or
 
 endif::showscript[]
 == New App From Source Code
-
 
 .Specifying Source Code
 
@@ -1047,7 +1016,6 @@ The `new-app` command allows you to create applications using source code from a
 
 endif::showscript[]
 == New App From Source Code
-
 
 .Specifying Source Code - Examples
 
@@ -1085,7 +1053,6 @@ These examples show how to create an application based on a local or remote Git
 endif::showscript[]
 == New App From Source Code
 
-
 .Build Strategy Detection
 
 * If `new-app` finds a _Dockerfile_ in the repository, it uses `docker` build
@@ -1113,7 +1080,6 @@ To use a specific strategy, set the `--strategy` flag to either `source` or
 
 endif::showscript[]
 == New App From Source Code
-
 
 .Language Detection
 
@@ -1151,7 +1117,6 @@ Shown here is a list of languages `new-app` can detect and the files associated
  with them.
 endif::showscript[]
 == New App From Source Code
-
 
 .Language Detection
 
@@ -1208,7 +1173,6 @@ To override the image that `new-app` uses as the builder for a particular source
 endif::showscript[]
 == New App From Image
 
-
 .Specifying an Image
 
 * `new-app` generates artifacts to deploy existing image as application
@@ -1246,7 +1210,6 @@ If you specify an image from your local Docker repository, you must ensure that
 
 endif::showscript[]
 == New App From Image
-
 
 .Specifying an Image - Examples
 
@@ -1287,8 +1250,6 @@ The second example shows creating an application from a local registry.
 endif::showscript[]
 == New App From Image
 
-
-
 * To create application from existing image stream, specify:
 ** Namespace (optional)
 ** Name
@@ -1315,7 +1276,6 @@ The example shows creating an application from an image stream with a specific
 
 endif::showscript[]
 == New App From Template
-
 
 .Specifying a Template
 
@@ -1347,7 +1307,6 @@ The example shows creating an application from a template.
 endif::showscript[]
 == New App From Template
 
-
 * To use template in file system directly, without first storing it in OpenShift
  Enterprise:
 ** Use `-f|--file` argument
@@ -1369,7 +1328,6 @@ To use a template in the file system directly, without first storing it in
 
 endif::showscript[]
 == New App From Template
-
 
 .Template Parameters
 
@@ -1396,7 +1354,6 @@ This topic is covered in depth in the next module.
 
 endif::showscript[]
 == Application Environment
-
 
 .Specifying Environment Variables
 
@@ -1426,7 +1383,6 @@ The example shows setting environment variables when creating an application for
 
 endif::showscript[]
 == Application Environment
-
 
 .Specifying Labels
 
@@ -1458,7 +1414,6 @@ The example shows using the label flag to label objects created by
 
 endif::showscript[]
 == Application Environment
-
 
 .Command Output
 
@@ -1507,7 +1462,6 @@ To see a dry run of what `new-app` will create, use the `-o|--output` flag with
 endif::showscript[]
 == Application Environment
 
-
 .Object Names
 
 * `new-app` objects normally named after source repository or image
@@ -1551,7 +1505,6 @@ Normally `new-app` creates objects in the current project. To tell it to create
 
 endif::showscript[]
 == Application Environment
-
 
 .Objects Created
 
@@ -1597,7 +1550,6 @@ The set of artifacts/objects created by `new-app` depends on the artifacts
 endif::showscript[]
 == Advanced Application Creation
 
-
 .Multiple Components and Grouping
 
 * `new-app` can create multiple applications at same time from _source_,
@@ -1636,7 +1588,6 @@ The `new-app` command allows creating multiple applications at once from source,
 
 endif::showscript[]
 == Advanced Application Creation
-
 
 .Grouping Images and Source in Single Pod
 * `new-app` can deploy multiple images in single _pod_
@@ -1677,7 +1628,6 @@ To group the image built from a source repository with other images, specify
 endif::showscript[]
 == Web Console
 
-
 * Can also create applications using web console
 
 * While in desired project, click *Create*
@@ -1703,7 +1653,6 @@ endif::showscript[]
 // ISSUE: I need to get new screenshots here for 3.1
 == Web Console
 
-
 * Select builder image from list of images in your project or from global
  library
 +
@@ -1721,9 +1670,6 @@ endif::showscript[]
 
 // ISSUE: I need to get new screenshots here for 3.1
 == Web Console
-
-//ISSUE:I will have to speak to Bob to do something with this slide, its very
- long. Maybe we can do a "hover over object" to see text solution.
 
 * Modify settings in new application screen to configure resources to support
  application
@@ -1751,11 +1697,7 @@ Modify settings in the new application screen to configure the resources to
 
 
 endif::showscript[]
-
-
-// ISSUE: I need to get new screenshots here for 3.1
 == Summary
-
 
 * Overview
 * Source-to-Image

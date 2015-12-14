@@ -1,6 +1,5 @@
 == Scheduler
 
-
 .Sample Policy Configuration
 
 ----

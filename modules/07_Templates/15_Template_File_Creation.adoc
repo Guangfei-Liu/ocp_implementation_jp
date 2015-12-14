@@ -1,6 +1,4 @@
-:noaudio:
 == Template File Creation
-
 
 .Template Example - `objects:` `DeploymentConfig` `database`
 [subs="verbatim,macros"]

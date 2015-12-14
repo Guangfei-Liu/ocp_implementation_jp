@@ -1,6 +1,5 @@
 == Builds and Image Streams
 
-
 .Image Streams
 
 * _Image stream_ similar to Docker image repository

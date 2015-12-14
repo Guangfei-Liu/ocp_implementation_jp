@@ -1,6 +1,4 @@
-:noaudio:
 == Template Overview
-
 
 .Parameters
 

@@ -1,8 +1,4 @@
-:noaudio:
 == How OpenShift Enterprise Works
-
-
-//This section would be a candidate for Bob to do an animation with the various layers moving out as they're explained.
 
 .Service and Routing Layer
 * Takes care of internal and external requests from the applications running on
@@ -22,5 +18,3 @@ The service part provides a list of IPs for the pods it represents. The routing
  part directs traffic from the outside world to the correct pod's IP and port.
 
 endif::showscript[]
-
-

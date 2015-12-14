@@ -1,6 +1,4 @@
-:noaudio:
 == OpenShift Enterprise Networking Basics
-
 
 * One or more OpenShift Enterprise nodes host the `Default Router`:
 ** `Default Router`: An HA-Proxy instance running inside a container to "route"

@@ -1,6 +1,5 @@
 == Scheduler
 
-
 .Anti-Affinity
 
 * Administrators can configure scheduler to specify anti-affinity at any

@@ -1,6 +1,5 @@
 == Life-cycle Hooks
 
-
 .Simplified Deployment Configuration
 
 ----

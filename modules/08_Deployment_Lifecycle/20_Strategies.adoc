@@ -1,6 +1,5 @@
 == Strategies
 
-
 * OpenShift Enterprise provides two environment variables for strategy process:
 
 [cols="2"]

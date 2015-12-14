@@ -1,6 +1,5 @@
 == Scheduler
 
-
 .Configurable Predicates: `ServiceAffinity` and `LabelsPresence`
 
 * `ServiceAffinity`: Filters out nodes that do not belong to topological level

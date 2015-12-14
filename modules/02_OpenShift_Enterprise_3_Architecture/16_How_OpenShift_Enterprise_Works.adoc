@@ -1,6 +1,4 @@
-:noaudio:
 == How OpenShift Enterprise Works
-
 
 .Scheduler Layer
 * Determines where to create new pods

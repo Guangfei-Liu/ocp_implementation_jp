@@ -1,6 +1,5 @@
 == New App From Template
 
-
 * To use template in file system directly, without first storing it in OpenShift
  Enterprise:
 ** Use `-f|--file` argument

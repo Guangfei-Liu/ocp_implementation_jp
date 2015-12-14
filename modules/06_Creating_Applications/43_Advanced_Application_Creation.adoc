@@ -1,6 +1,5 @@
 == Advanced Application Creation
 
-
 .Grouping Images and Source in Single Pod
 * `new-app` can deploy multiple images in single _pod_
 

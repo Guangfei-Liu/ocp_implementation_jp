@@ -1,7 +1,5 @@
 == Source-to-Image
 
-
-
 image::images/DockerVsS2IBuilds.png[]
 
 ifdef::showscript[]

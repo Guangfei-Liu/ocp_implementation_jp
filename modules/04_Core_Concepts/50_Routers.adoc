@@ -1,6 +1,5 @@
 == Routers
 
-
 .Routers: Overview
 
 * Administrators can deploy _routers_ (like HAProxy `Default Router`) in

@@ -1,6 +1,4 @@
-:noaudio:
 == Integrated Registry
-
 
 * Provides an integrated Docker registry
 * Provides place for builds to push images

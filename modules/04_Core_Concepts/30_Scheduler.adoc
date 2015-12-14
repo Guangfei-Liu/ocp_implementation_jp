@@ -1,6 +1,5 @@
 == Scheduler
 
-
 .Static Priority Functions
 
 * Do not take configuration parameters or inputs from user

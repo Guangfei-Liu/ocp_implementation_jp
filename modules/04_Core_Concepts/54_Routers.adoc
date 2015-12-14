@@ -1,6 +1,5 @@
 == Routers
 
-
 .Sticky Sessions
 
 * Underlying router configuration determines sticky session implementation

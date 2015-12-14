@@ -1,6 +1,5 @@
 == Strategies
 
-
 .`Recreate` Strategy
 
 * Has basic rollout behavior and supports life-cycle hooks for injecting code

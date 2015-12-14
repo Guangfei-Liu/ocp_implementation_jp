@@ -1,6 +1,5 @@
 == Build Triggers
 
-
 .Image Change Triggers
 
 * Allow your build to be automatically invoked when new upstream image is

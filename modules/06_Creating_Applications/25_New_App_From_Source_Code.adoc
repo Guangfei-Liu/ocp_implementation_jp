@@ -1,6 +1,5 @@
 == New App From Source Code
 
-
 .Specifying Source Code
 
 * `new-app` can use _source code_ from local or remote Git repository

@@ -1,6 +1,5 @@
 == Scheduler
 
-
 .Topology Example 2
 * Example: Three topological levels
 ** Levels: `city` (affinity) -> `building` (anti-affinity) -> `room` (anti-affinity)

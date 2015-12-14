@@ -1,6 +1,5 @@
 == Application Environment
 
-
 .Objects Created
 
 * Artifacts/objects created by `new-app` depend on artifacts passed as input:

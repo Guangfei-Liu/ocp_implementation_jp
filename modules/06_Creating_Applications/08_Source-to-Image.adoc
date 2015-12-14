@@ -1,6 +1,5 @@
 == Source-to-Image
 
-
 .`BuildConfig` Object
 
 * Defines single build and set of triggers that start the build

@@ -1,6 +1,5 @@
 == Deployments
 
-
 .Deployments and Deployment Configurations
 
 * `DeploymentConfig` object defines deployment:

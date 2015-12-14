@@ -1,6 +1,5 @@
 == Source-to-Image
 
-
 .`BuildConfig` Parameters
 
 * Three parameter types:

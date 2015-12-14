@@ -1,6 +1,4 @@
-:noaudio:
 == Containerization Standards
-
 
 .Registry and Container Discovery
 * Finds and consumes trusted container images
@@ -16,6 +14,3 @@ and consume trusted container images and federate consumption libraries. This
  promotes consistency and reuse.
 
 endif::showscript[]
-
-
-

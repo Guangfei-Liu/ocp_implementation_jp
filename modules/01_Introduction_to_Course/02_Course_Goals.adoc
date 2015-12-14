@@ -16,15 +16,15 @@ ifdef::showscript[]
 
 Welcome to the OpenShift Enterprise by Red Hat Implementation course.
 
-This course shows you how to set up and configure various aspects of the OpenShift Enterprise 3 environment, including the following:
+This course shows you how to set up and configure various aspects of the
+ OpenShift Enterprise 3 environment, including the following:
 
 * The installation process
 * Scheduling, or placement of pods
 * Persistent storage
 * And authentication to the OpenShift Enterprise 3 environment.
 
-This course also reviews how to manage applications and deployments and how to apply security restrictions and permissions.
+This course also reviews how to manage applications and deployments and how to
+ apply security restrictions and permissions.
 
 endif::showscript[]
-
-

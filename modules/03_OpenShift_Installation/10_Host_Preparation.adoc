@@ -1,5 +1,4 @@
 == Host Preparation
-:noaudio:
 
 .Firewalls: Component Communication
 
@@ -52,4 +51,3 @@ Also note that the master is running a local DNS server. Do not confuse this
     locally.
 
 endif::showscript[]
-

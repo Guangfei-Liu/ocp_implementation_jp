@@ -1,7 +1,5 @@
 == Build Triggers
 
-
-
 * To define build with strategy that consumes image stream:
 +
 ----

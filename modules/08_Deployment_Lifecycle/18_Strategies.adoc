@@ -1,6 +1,5 @@
 == Strategies
 
-
 * `Recreate` strategy:
 ** Executes `pre` life-cycle hooks
 ** Scales down previous deployment to zero

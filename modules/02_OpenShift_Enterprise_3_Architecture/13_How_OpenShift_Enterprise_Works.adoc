@@ -1,6 +1,4 @@
-:noaudio:
 == How OpenShift Enterprise Works
-
 
 .Authentication Layer
 * Provides framework for collaboration and quota management

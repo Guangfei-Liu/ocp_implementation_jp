@@ -1,6 +1,5 @@
 == Source-to-Image Builds
 
-
 .S2I Build Example
 
 * Example in this section creates image using S2I process

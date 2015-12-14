@@ -1,6 +1,4 @@
-:noaudio:
 == Template File Creation
-
 
 .Example Template
 - `objects:`  `Service` `database`
@@ -42,5 +40,3 @@ ifdef::showscript[]
 
 This slide shows the database Service object.
 endif::showscript[]
-
-

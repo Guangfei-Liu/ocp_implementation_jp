@@ -1,6 +1,5 @@
 == New App From Source Code
 
-
 .Language Detection
 
 * After language is detected, `new-app` searches OpenShift Enterprise server

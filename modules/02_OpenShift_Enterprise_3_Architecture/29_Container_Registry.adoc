@@ -1,6 +1,4 @@
-:noaudio:
 == Container Registry
-
 
 * Fully integrated Docker v2 registry
 * Authentication and access control to images

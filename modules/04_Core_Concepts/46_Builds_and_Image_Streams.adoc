@@ -1,6 +1,5 @@
 == Builds and Image Streams
 
-
 .Image Pull Policy
 
 * Each container in pod has Docker image

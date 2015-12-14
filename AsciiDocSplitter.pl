@@ -57,8 +57,7 @@ foreach $line (<SOURCEFILE>)
 
 		if ($current_page_name =~ /Title/)
 		{
-			print CURRENTFILE '
-:noaudio:
+			print CURRENTFILE ':noaudio:
 
 ifdef::revealjs_slideshow[]
 

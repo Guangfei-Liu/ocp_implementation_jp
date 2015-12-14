@@ -1,6 +1,5 @@
 == Pods and Services
 
-
 .Pod Changes and Management
 
 * OpenShift Enterprise treats pods as _static_ objects

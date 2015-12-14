@@ -1,6 +1,5 @@
 == New App From Image
 
-
 .Specifying an Image - Examples
 
 * To create application using image in a private registry, use full Docker image

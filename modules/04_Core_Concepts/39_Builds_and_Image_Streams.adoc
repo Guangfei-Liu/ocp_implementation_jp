@@ -1,6 +1,5 @@
 == Builds and Image Streams
 
-
 .Builds Overview
 
 * *Build*: Process of transforming input parameters into resulting object

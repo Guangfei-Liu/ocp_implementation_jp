@@ -1,5 +1,4 @@
 
-
 :noaudio:
 
 ifdef::revealjs_slideshow[]
@@ -19,9 +18,7 @@ OpenShift 3 Core Concepts
 image::{revealjs_cover_image}[]
 
 endif::[]
-
 == Module Topics
-
 
 * Overview
 * Containers and Images
@@ -45,7 +42,6 @@ It also reviews builds, image streams, deployments, routes, and templates.
 
 endif::showscript[]
 == Overview
-
 
 [cols="2,3"]
 |===================================================================
@@ -97,7 +93,6 @@ This module discusses the following:
 endif::showscript[]
 == Containers and Images
 
-
 .Containers
 
 * Basic units of OpenShift Enterprise applications
@@ -128,7 +123,6 @@ Typically, each container provides a single service (often called a
 
 endif::showscript[]
 == Containers and Images
-
 
 .Containers: Docker
 
@@ -161,7 +155,6 @@ Note that although you do not directly interact with Docker tools when using
 
 endif::showscript[]
 == Containers and Images
-
 
 .Docker Images
 
@@ -196,7 +189,6 @@ By deploying the same image in multiple containers across multiple hosts and
 
 endif::showscript[]
 == Containers and Images
-
 
 .Building and Naming Images
 
@@ -235,7 +227,6 @@ Rather than version numbers, Docker lets you apply tags to the image name to
 endif::showscript[]
 == Containers and Images
 
-
 .Docker Registry
 
 * Service for storing and retrieving Docker images
@@ -270,7 +261,6 @@ In OpenShift Enterprise 3, you usually create your own registry, referred to
 endif::showscript[]
 == Pods and Services
 
-
 .Pods Overview
 
 * OpenShift Enterprise leverages Kubernetes concept of _pod_
@@ -301,7 +291,6 @@ Each pod is allocated its own internal IP address, thus owning its entire port
 
 endif::showscript[]
 == Pods and Services
-
 
 .Pod Changes and Management
 
@@ -339,7 +328,6 @@ Because of this, you use higher-level _controllers_, such as
 endif::showscript[]
 == Pods and Services
 
-
 .Pods Lifecycle
 
 * Lifecycle:
@@ -357,7 +345,6 @@ Pods have the following lifecycle: They are _defined_, then they are _assigned_
 
 endif::showscript[]
 == Pods and Services
-
 
 .Pods Definition File/Manifest
 
@@ -408,7 +395,6 @@ Note the following:
 endif::showscript[]
 == Pods and Services
 
-
 .Pods Definition File/Manifest: `containers` and `env`
 
 [source,yaml]
@@ -447,7 +433,6 @@ This example illustrates the `containers` and `env` components:
 
 endif::showscript[]
 == Pods and Services
-
 
 .Pods Definition File/Manifest: Container
 [source,yaml]
@@ -493,7 +478,6 @@ Here you see a container definition:
 endif::showscript[]
 == Pods and Services
 
-
 .Pods Definition File/Manifest: Requests and Storage Volumes
 
 [source,yaml]
@@ -533,7 +517,6 @@ You can learn more about using _secrets_ in the developer guide documentation.
 
 endif::showscript[]
 == Pods and Services
-
 
 .Services
 
@@ -579,7 +562,6 @@ Note that when you use the `Default Router` (HAProxy), you bypass the service
 
 endif::showscript[]
 == Pods and Services
-
 
 .Service Definition File/Manifest
 
@@ -630,7 +612,6 @@ Note the following:
 endif::showscript[]
 == Pods and Services
 
-
 .Labels
 
 * Use labels to organize, group, choose API objects
@@ -664,7 +645,6 @@ Most objects can include labels in their metadata, so you can use labels to
 
 endif::showscript[]
 == Pods and Services
-
 
 .Labels: Examples
 
@@ -713,7 +693,6 @@ The second example here shows how labeling a group of components with the
 endif::showscript[]
 == Scheduler
 
-
 .Overview
 
 * The scheduler:
@@ -740,7 +719,6 @@ It does not modify the pod. It simply creates a binding that ties the pod to
 
 endif::showscript[]
 == Scheduler
-
 
 .Scheduler Extensibility
 
@@ -787,7 +765,6 @@ The scheduler code has a clean separation that watches new pods as they get
 
 endif::showscript[]
 == Scheduler
-
 
 .Generic Scheduler
 
@@ -840,7 +817,6 @@ By default, the scheduler considers every priority function to be equally
 endif::showscript[]
 == Scheduler
 
-
 .Scheduler Policy
 * Selection of predicates and priority functions defines scheduler _policy_
 * Administrators can provide JSON file that specifies predicates and priority
@@ -871,7 +847,6 @@ In the absence of the scheduler policy file, the default configuration is
 endif::showscript[]
 == Scheduler
 
-
 .Default Scheduler Policy
 
 * Includes following predicates:
@@ -901,7 +876,6 @@ The default scheduler policy includes the _predicates_ and _priority functions_
 endif::showscript[]
 == Scheduler
 
-
 .Available Predicates
 
 * OpenShift Enterprise 3 provides predicates out of the box
@@ -925,7 +899,6 @@ There are two kinds of predicates, _static_ and _configurable_. The next few
 
 endif::showscript[]
 == Scheduler
-
 
 .Static Predicates
 
@@ -957,7 +930,6 @@ Kubernetes provides the static predicates shown here out of the box.
 endif::showscript[]
 == Scheduler
 
-
 .Configurable Predicates
 
 * User can configure to tweak function
@@ -983,7 +955,6 @@ A user working with configurable predicates can configure multiple predicates
 
 endif::showscript[]
 == Scheduler
-
 
 .Configurable Predicates: `ServiceAffinity` and `LabelsPresence`
 
@@ -1023,7 +994,6 @@ If the pod specifies a value for the labels in its `NodeSelector`, then the
 endif::showscript[]
 == Scheduler
 
-
 .Available Priority Functions
 
 * Can specify custom set of priority functions to configure scheduler
@@ -1048,7 +1018,6 @@ You can also combine multiple priority functions and give them different weights
 
 endif::showscript[]
 == Scheduler
-
 
 .Static Priority Functions
 
@@ -1085,7 +1054,6 @@ The available static priority functions are shown here.
 
 endif::showscript[]
 == Scheduler
-
 
 .Configurable Priority Functions
 
@@ -1126,7 +1094,6 @@ A user can give a configurable priority function any user-defined name. The
 
 endif::showscript[]
 == Scheduler
-
 
 .Use Cases
 
@@ -1170,7 +1137,6 @@ The examples shown here use `region`, `zone`, and `rack`. However, you can use
 endif::showscript[]
 == Scheduler
 
-
 .Affinity
 
 * Administrators can configure scheduler to specify affinity at any topological
@@ -1202,7 +1168,6 @@ This handles any latency requirements of applications by letting administrators
 endif::showscript[]
 == Scheduler
 
-
 .Anti-Affinity
 
 * Administrators can configure scheduler to specify anti-affinity at any
@@ -1231,7 +1196,6 @@ The scheduler tries to balance the service pods across all applicable nodes as
 
 endif::showscript[]
 == Scheduler
-
 
 .Sample Policy Configuration
 
@@ -1263,7 +1227,6 @@ The configuration shown here specifies the default scheduler configuration, as
 
 endif::showscript[]
 == Scheduler
-
 
 .Topology Example 1
 
@@ -1309,7 +1272,6 @@ Note that in all of the sample configurations provided here, the list of
 endif::showscript[]
 == Scheduler
 
-
 .Topology Example 2
 * Example: Three topological levels
 ** Levels: `city` (affinity) -> `building` (anti-affinity) -> `room` (anti-affinity)
@@ -1342,7 +1304,6 @@ This three-level topology example keeps the pods in the same `city` and spreads
 endif::showscript[]
 == Scheduler
 
-
 .Topology Example 3
 
 * Only use nodes with `region` label defined
@@ -1374,7 +1335,6 @@ In this example, the policy means that a _node_ must have a _region_ label, and
 
 endif::showscript[]
 == Builds and Image Streams
-
 
 .Builds Overview
 
@@ -1417,7 +1377,6 @@ OpenShift Enterprise supports Docker and S2I builds by default.
 endif::showscript[]
 == Builds and Image Streams
 
-
 .Builds Overview: Resulting Objects
 
 * Resulting object of build depends on type of builder used
@@ -1445,7 +1404,6 @@ For a list of build commands, see the Developer's Guide at the web address shown
 
 endif::showscript[]
 == Builds and Image Streams
-
 
 .Docker Build
 
@@ -1480,7 +1438,6 @@ S2I supports incremental builds, which reuse previously downloaded dependencies,
 
 endif::showscript[]
 == Builds and Image Streams
-
 
 .S2I Advantages
 
@@ -1531,7 +1488,6 @@ With regard to patchability, S2I lets you rebuild an image quickly if the base
 
 endif::showscript[]
 == Builds and Image Streams
-
 
 [horizontal]
 Operational efficiency::
@@ -1589,7 +1545,6 @@ With regard to ecosystem efficiency, S2I encourages a shared ecosystem of images
 endif::showscript[]
 == Builds and Image Streams
 
-
 .Custom Build
 
 * Custom build strategy lets you define builder image
@@ -1613,7 +1568,6 @@ The builder can call out to an external system, such as Jenkins or any other
 
 endif::showscript[]
 == Builds and Image Streams
-
 
 .Image Streams
 
@@ -1659,7 +1613,6 @@ OpenShift Enterprise components such as builds and deployments can watch an
 endif::showscript[]
 == Builds and Image Streams
 
-
 .Image Pull Policy
 
 * Each container in pod has Docker image
@@ -1704,7 +1657,6 @@ If a container's `imagePullPolicy` parameter is not specified, OpenShift
 endif::showscript[]
 == Replication Controllers
 
-
 .Replication Controllers Overview
 
 * Replication controller ensures specified number of pod replicas running at all
@@ -1730,7 +1682,6 @@ If there are more pods running than desired, the replication
 
 endif::showscript[]
 == Replication Controllers
-
 
 .Replication Controllers Definition
 
@@ -1774,7 +1725,6 @@ It is _not_ the replication controller's job to perform auto-scaling based on
 
 endif::showscript[]
 == Replication Controllers
-
 
 .Replication Controllers Definition File/Manifest
 
@@ -1824,7 +1774,6 @@ Here is a sample `ReplicationController` definition with some omissions and
 endif::showscript[]
 == Routers
 
-
 .Routers: Overview
 
 * Administrators can deploy _routers_ (like HAProxy `Default Router`) in
@@ -1863,7 +1812,6 @@ Currently, OpenShift Enterprise routers support the following protocols:
 
 endif::showscript[]
 == Routers
-
 
 .HAProxy Default Router
 
@@ -1909,7 +1857,6 @@ The F5 router plug-in integrates with an existing F5 BIG-IP® system in your
 endif::showscript[]
 == Routers
 
-
 .Routers and Routes
 
 * `route` object describes `service` to expose and host FQDN
@@ -1954,7 +1901,6 @@ You can deploy custom routers to communicate modifications of API objects to
 endif::showscript[]
 == Routers
 
-
 .Routers and Routes: Requests
 
 * To reach a router, requests for hostnames must resolve via DNS to a router or
@@ -1979,7 +1925,6 @@ In this approach, you need to configure the DNS for each address outside the
 
 endif::showscript[]
 == Routers
-
 
 .Sticky Sessions
 
@@ -2017,7 +1962,6 @@ The specific configuration for this router implementation is stored in the
 
 endif::showscript[]
 == Summary
-
 
 * Overview
 * Containers and Images

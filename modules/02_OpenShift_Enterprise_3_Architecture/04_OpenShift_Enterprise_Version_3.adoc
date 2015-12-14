@@ -1,7 +1,4 @@
-:noaudio:
 == OpenShift Enterprise Version 3
-
-
 
 [.noredheader,cols="<,^"]
 |======

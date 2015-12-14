@@ -5,7 +5,6 @@
 * Life-cycle Hooks
 * Build Triggers
 
-
 ifdef::showscript[]
 === Transcript
 In this module you learned about the the value of deployments to the developer

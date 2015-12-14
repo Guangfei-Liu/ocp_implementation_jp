@@ -1,6 +1,4 @@
-:noaudio:
 == Docker Capabilities
-
 
 * Build Docker images that hold applications
 * Create containers from images to run applications

@@ -1,6 +1,5 @@
 == Scheduler
 
-
 .Topology Example 1
 
 

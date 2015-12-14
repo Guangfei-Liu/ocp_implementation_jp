@@ -1,6 +1,4 @@
-:noaudio:
 == OpenShift Enterprise Networking Basics
-
 
 * OpenShift Enterprise 3 networking basic concepts:
 ** Every host in OpenShift Enterprise 3 environment/cluster is member of SDN

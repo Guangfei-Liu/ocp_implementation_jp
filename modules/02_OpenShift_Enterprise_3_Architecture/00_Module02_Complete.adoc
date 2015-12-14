@@ -1,5 +1,6 @@
 
 :noaudio:
+
 ifdef::revealjs_slideshow[]
 
 [#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"]
@@ -20,7 +21,6 @@ image::{revealjs_cover_image}[]
 endif::[]
 
 :numbered!:
-:noaudio:
 == Module Topics
 
 * Overview and design concepts in OpenShift Enterprise by Red Hat version 3
@@ -60,9 +60,7 @@ Enterprise registry and third-party registries
 * A description of the new features in OpenShift Enterprise 3.1
 
 endif::showscript[]
-:noaudio:
 == What Is OpenShift Enterprise
-
 
 * Platform-as-a-Service (PaaS)
 * Uses industry standards
@@ -92,13 +90,7 @@ OpenShift Enterprise enables collaboration between developers on projects and
 
 
 endif::showscript[]
-
-
-
-:noaudio:
 == OpenShift Enterprise Version 3
-
-
 
 [.noredheader,cols="<,^"]
 |======
@@ -128,9 +120,7 @@ The OpenShift Enterprise version 3 stack features the following:
 
 
 endif::showscript[]
-:noaudio:
 == How OpenShift Enterprise Works
-
 
 * *Containers*: Run languages/framework, middleware, database, and other
  runtimes
@@ -165,9 +155,7 @@ It also maintains state and manages pods and services.
 
 
 endif::showscript[]
-:noaudio:
 == Containerization Standards
-
 
 .Isolation With Linux Containers
 * Isolates applications on host operating system
@@ -197,9 +185,7 @@ In Docker-formatted containers, Docker is the interface for communications,
    of content and are not tied to any particular infrastructure.
 
 endif::showscript[]
-:noaudio:
 == Containerization Standards
-
 
 .Orchestration With Kubernetes
 * Orchestrates containers at scale
@@ -220,11 +206,7 @@ manages container state, and schedules across hosts.
 
 
 endif::showscript[]
-
-
-:noaudio:
 == Containerization Standards
-
 
 .Registry and Container Discovery
 * Finds and consumes trusted container images
@@ -240,12 +222,7 @@ and consume trusted container images and federate consumption libraries. This
  promotes consistency and reuse.
 
 endif::showscript[]
-
-
-
-:noaudio:
 == Important Projects in OpenShift Enterprise
-
 
 * *Kubernetes*: http://kubernetes.io/
 
@@ -283,9 +260,7 @@ OpenShift Enterprise helps manage large developer organizations. It adds source
    scale; and tracks teams and users.
 
 endif::showscript[]
-:noaudio:
 == OpenShift Enterprise Model
-
 
 * *Masters*: Responsible for managing system state
 ** Provide a REST endpoint for interacting with system
@@ -329,10 +304,7 @@ All members of the OpenShift Enterprise environment/cluster are also members of
 
 
 endif::showscript[]
-:noaudio:
 == OpenShift Enterprise Workflow
-
-
 
 .Scenario
 * Application needs to be scaled up to accommodate overall increase or upcoming
@@ -385,11 +357,7 @@ OpenShift Enterprise then schedules three more instances and places them for
 
 
 endif::showscript[]
-:noaudio:
 == How OpenShift Enterprise Works
-
-
-//This section would be a candidate for Bob to do an animation with the various layers moving out as they're explained.
 
 .Service and Routing Layer
 * Takes care of internal and external requests from the applications running on
@@ -409,11 +377,7 @@ The service part provides a list of IPs for the pods it represents. The routing
  part directs traffic from the outside world to the correct pod's IP and port.
 
 endif::showscript[]
-
-
-:noaudio:
 == How OpenShift Enterprise Works
-
 
 .Authentication Layer
 * Provides framework for collaboration and quota management
@@ -432,9 +396,7 @@ OpenShift Enterprise 3 supports a number of mechanisms for authentication.
 The simplest use case for testing purposes is `htpasswd`-based authentication.
 
 endif::showscript[]
-:noaudio:
 == How OpenShift Enterprise Works
-
 
 .Store Layer
 * Holds current state, desired state, and configuration information of
@@ -451,10 +413,7 @@ The store layer holds the current state, the desired state, and configuration
 information about the environment.
 
 endif::showscript[]
-
-:noaudio:
 == How OpenShift Enterprise Works
-
 
 .Replication Layer
 * Ensures number of instances/pods defined in store layer actually exists
@@ -473,9 +432,7 @@ The replication controller instantiates (creates) or kills pods according to
 the desired state definition.
 
 endif::showscript[]
-:noaudio:
 == How OpenShift Enterprise Works
-
 
 .Scheduler Layer
 * Determines where to create new pods
@@ -494,9 +451,7 @@ this. This is called _scheduling_.
 You can configure the priorities and rules for the scheduler logic.
 
 endif::showscript[]
-:noaudio:
 == What Is Docker
-
 
 * Open platform for developers and administrators to build, ship, and run
 distributed applications
@@ -526,9 +481,7 @@ The Docker Engine is a portable, lightweight runtime and packaging tool. The
   workflows.
 
 endif::showscript[]
-:noaudio:
 == How Containers Differ From VMs
-
 
 * *Virtual machine (VM)*: Each virtualized machine includes application,
  binaries, libraries, guest operating system
@@ -557,9 +510,7 @@ sharing the kernel with other containers. As a result, it enjoys the resource
   efficient.
 
 endif::showscript[]
-:noaudio:
 == Docker Components
-
 
 * *Docker daemon*: Runs on host machine
 * *Docker client*: Primary user interface to Docker
@@ -589,10 +540,7 @@ Each container is created from a Docker image. You can start, run, terminate, an
  delete Docker containers.
 
 endif::showscript[]
-
-:noaudio:
 == Docker Capabilities
-
 
 * Build Docker images that hold applications
 * Create containers from images to run applications
@@ -614,10 +562,7 @@ In OpenShift Enterprise 3, we create our own _integrated registry_ to store
  and distribute images created locally.
 
 endif::showscript[]
-:noaudio:
 == How Does a Docker Image Work
-
-
 
 * Containers launched from read-only templates
 * Image consists of series of layers
@@ -647,9 +592,7 @@ new version--a new layer gets built. You only need to distribute the update, not
 
 
 endif::showscript[]
-:noaudio:
 == What Is Kubernetes
-
 
 * Open source system for managing containerized applications
 across multiple hosts
@@ -676,9 +619,7 @@ Kubernetes is lean, portable, extensible, and self-healing. Kubernetes builds
 upon more than 15 years of experience at Google.
 
 endif::showscript[]
-:noaudio:
 == Kubernetes Concepts
-
 
 * *Nodes*: Compute resources on top of which containers are built
 * *Pods*: Co-located group of containers
@@ -712,10 +653,7 @@ can come and go, the service provides a _front end_ for the pods it represents.
 You use labels to organize and select groups of objects based on key-value pairs.
 
 endif::showscript[]
-
-:noaudio:
 == Pods
-
 
 * Correspond to co-located group of applications running with shared context
 * Model application-specific logical hosts in containerized environment
@@ -745,9 +683,7 @@ In terms of Docker constructs, a pod consists of a co-located group of Docker
 containers.
 
 endif::showscript[]
-:noaudio:
 == OpenShift Enterprise Networking Basics
-
 
 * Container networking based on integrated Open vSwitch
 * Platform-wide routing tier
@@ -765,9 +701,7 @@ You can also integrate OpenShift Enterprise with third-party SDN solutions, as
  well as your existing DNS, routing, and load-balancing methods.
 
 endif::showscript[]
-:noaudio:
 == OpenShift Enterprise Networking Basics
-
 
 * OpenShift Enterprise 3 networking basic concepts:
 ** Every host in OpenShift Enterprise 3 environment/cluster is member of SDN
@@ -796,9 +730,7 @@ and permanent IP for a group of pods.
 The default IPs for pods and services are shown here.
 
 endif::showscript[]
-:noaudio:
 == OpenShift Enterprise Networking Basics
-
 
 * One or more OpenShift Enterprise nodes host the `Default Router`:
 ** `Default Router`: An HA-Proxy instance running inside a container to "route"
@@ -828,9 +760,7 @@ You need to configure a DNS entry in the client's DNS server to resolve a
  wildcard entry such as `*.cloudapps.companynameexample.com`.
 
 endif::showscript[]
-:noaudio:
 == Networking Workflow
-
 :number:
 
 .Scenario: Client Points Browser to `http://myApp.MyDomain.org:80`
@@ -858,9 +788,7 @@ The `Default Router` then selects the a pod from the list of pods listed by the
  application service and acts as a proxy for the pod.
 
 endif::showscript[]
-:noaudio:
 == Container Registry
-
 
 * Fully integrated Docker v2 registry
 * Authentication and access control to images
@@ -890,9 +818,7 @@ third parties, and the integrated OpenShift Enterprise registry.
 
 
 endif::showscript[]
-:noaudio:
 == Integrated Registry
-
 
 * Provides an integrated Docker registry
 * Provides place for builds to push images
@@ -922,9 +848,7 @@ Various pieces of OpenShift Enterprise react to the new images by creating new
 builds and deployments.
 
 endif::showscript[]
-:noaudio:
 == Third-Party Registries
-
 
 * Provide builder images, complete application images, more
 * Supportability falls on creators
@@ -945,7 +869,6 @@ creators.
 
 
 endif::showscript[]
-:noaudio:
 == What Is an S2I Build
 
 [.noredheader,cols="<2,^3"]
@@ -969,7 +892,6 @@ OpenShift Enterprise then creates an image based on the builder image containing
 the selected code.
 
 endif::showscript[]
-:noaudio:
 == Why Use S2I Builds
 
 * Provides a developer-centric flow
@@ -1011,8 +933,6 @@ endif::showscript[]
 
 
 
-:noaudio:
-
 == OpenShift Enterprise 3.1 Release Notes
 
 * OpenShift Enterprise version 3.1 now available
@@ -1033,8 +953,6 @@ Make sure that you properly follow the instructions on upgrading your OpenShift 
 Go to the web address shown here for instructions on upgrading your OpenShift cluster, including any additional steps that may be required for a specific release.
 
 endif::showscript[]
-:noaudio:
-
 == OpenShift Enterprise 3.1 Release Notes
 
 
@@ -1064,8 +982,6 @@ ifdef::showscript[]
 A number of services, packages, file names, and directories have been renamed in OpenShift Enterprise 3.1. This table shows the name changes.
 
 endif::showscript[]
-:noaudio:
-
 == OpenShift Enterprise 3.1 Release Notes
 
 
@@ -1092,8 +1008,6 @@ OpenShift now allows you to sync LDAP records with OpenShift, so that you can ma
 You can also now configure an F5 load balancer for use with your OpenShift Enterprise environment.
 
 endif::showscript[]
-:noaudio:
-
 == OpenShift Enterprise 3.1 Release Notes
 
 
@@ -1127,8 +1041,6 @@ Finally, the `job` object type is now available, meaning that you can now execut
 
 
 endif::showscript[]
-:noaudio:
-
 == OpenShift Enterprise 3.1 Release Notes
 
 * Installation utility updates: Multiple enhancements made to Ansible-based installation
@@ -1148,10 +1060,6 @@ Multiple enhancements have been made to the Ansible-based installation utility. 
 * Uninstall existing OpenShift clusters
 
 endif::showscript[]
-
-
-:noaudio:
-
 == OpenShift Enterprise 3.1 Release Notes
 
 
@@ -1183,8 +1091,6 @@ Large amounts of events being stored in `etcd` can lead to excessive memory grow
 You can now set the `event-ttl` parameter in the master configuration file to a lower value--for example, `15m`--to prevent memory growth.
 
 endif::showscript[]
-:noaudio:
-
 == OpenShift Enterprise 3.1 Release Notes
 
 * New parameter for port destination
@@ -1220,10 +1126,7 @@ You can use `oadm pod-network join-project` to bind isolated projects together.
 And you can use `openshift ex validate master-config` and `openshift ex validate node-config` to validate master and node configuration files, respectively.
 
 endif::showscript[]
-:noaudio:
-
 == OpenShift Enterprise 3.1 Release Notes
-
 
 * New tag deletion command
 ** Can now delete tags from image stream using `oc tag <tag_name> -d`
@@ -1250,11 +1153,7 @@ You may also need to remove `v1beta3` from the `apiLevels` field.
 
 
 endif::showscript[]
-:noaudio:
-
 == OpenShift Enterprise 3.1 Release Notes
-
-
 
 * Web console enhancements
 ** Extended resource information now available
@@ -1274,11 +1173,7 @@ OpenShift Enterprise 3.1 offers a number of web console enhancements:
 * When you are in the *Builds* tab, you can now connect to a container using a remote shell connection.
 
 endif::showscript[]
-:noaudio:
-
 == OpenShift Enterprise 3.1 Release Notes
-
-
 
 * Aggregating logging with the EFK stack
 ** Elasticsearch, Fluentd, Kibana (AKA _EFK stack_) now
@@ -1296,12 +1191,7 @@ Elasticsearch, Fluentd, and Kibana--together known as the EFK stack--are now ava
 In addition, you can now use the Heapster interface and metric data model with OpenShift.
 
 endif::showscript[]
-:noaudio:
-
 == OpenShift Enterprise 3.1 Release Notes
-
-
-
 
 * Jenkins
 ** Jenkins image now available for deployment on OpenShift
@@ -1315,11 +1205,7 @@ In addition, integration between Jenkins masters and Jenkins slaves running on O
 
 
 endif::showscript[]
-:noaudio:
-
 == OpenShift Enterprise 3.1 Release Notes
-
-
 
 * `oc build-logs <build_name>` deprecated
 ** Replaced by `oc logs build/<build_name>`
@@ -1335,11 +1221,7 @@ The `oc build-logs <build_name>` command is now deprecated and replaced by `oc l
 The `spec.rollingParams.updatePercent` field in deployment configurations has been replaced with `maxUnavailable` and `maxSurge`.
 
 endif::showscript[]
-:noaudio:
-
 == OpenShift Enterprise 3.1 Release Notes
-
-
 
 * Images now editable
 ** Can edit images to set fields such as `labels` or `annotations`
@@ -1353,10 +1235,7 @@ You can now edit images to set fields such as `labels` or `annotations`.
 
 
 endif::showscript[]
-:noaudio:
-
 == OpenShift Enterprise 3.1 Release Notes
-
 
 * Some features in Technology Preview
 * Not intended for production use
@@ -1384,7 +1263,6 @@ Some features in this release are currently in Technology Preview. These experim
 For information on the scope of support via the Red Hat Customer Portal for Technology Preview features, go to the web address shown here.
 
 endif::showscript[]
-:noaudio:
 == Summary
 
 

@@ -1,6 +1,4 @@
-:noaudio:
 == Routes
-
 
 .Routes Without Hostnames
 

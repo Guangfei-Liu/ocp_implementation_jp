@@ -1,6 +1,5 @@
 == Builds and Image Streams
 
-
 [horizontal]
 Operational efficiency::
 

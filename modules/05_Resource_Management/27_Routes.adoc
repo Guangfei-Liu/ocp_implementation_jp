@@ -1,7 +1,4 @@
-:noaudio:
 == Routes
-
-
 
 [cols="3*", options="header"]
 |===
@@ -21,4 +18,3 @@ ifdef::showscript[]
 The table shown here provides example routes and their accessibility.
 
 endif::showscript[]
-

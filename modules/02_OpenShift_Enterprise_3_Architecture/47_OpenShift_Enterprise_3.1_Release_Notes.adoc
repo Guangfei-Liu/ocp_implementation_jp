@@ -1,7 +1,4 @@
-:noaudio:
-
 == OpenShift Enterprise 3.1 Release Notes
-
 
 * Some features in Technology Preview
 * Not intended for production use

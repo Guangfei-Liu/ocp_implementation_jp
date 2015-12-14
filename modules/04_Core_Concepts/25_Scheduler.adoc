@@ -1,6 +1,5 @@
 == Scheduler
 
-
 .Available Predicates
 
 * OpenShift Enterprise 3 provides predicates out of the box

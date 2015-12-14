@@ -1,6 +1,5 @@
 == Scheduler
 
-
 .Default Scheduler Policy
 
 * Includes following predicates:

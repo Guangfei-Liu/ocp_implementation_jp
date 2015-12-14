@@ -1,6 +1,5 @@
 == Builds and Image Streams
 
-
 .Builds Overview: Resulting Objects
 
 * Resulting object of build depends on type of builder used

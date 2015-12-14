@@ -1,6 +1,5 @@
 == Containers and Images
 
-
 .Docker Images
 
 * Docker containers based on Docker images

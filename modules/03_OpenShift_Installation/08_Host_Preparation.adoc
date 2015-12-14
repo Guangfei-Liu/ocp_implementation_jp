@@ -1,7 +1,4 @@
-:noaudio:
-
 == Host Preparation
-
 
 .Overview
 

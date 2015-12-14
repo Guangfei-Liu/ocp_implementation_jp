@@ -1,6 +1,5 @@
 == Replication Controllers
 
-
 .Replication Controllers Overview
 
 * Replication controller ensures specified number of pod replicas running at all

@@ -1,7 +1,4 @@
-:noaudio:
 == How Does a Docker Image Work
-
-
 
 * Containers launched from read-only templates
 * Image consists of series of layers

@@ -1,6 +1,4 @@
-:noaudio:
 == Docker Components
-
 
 * *Docker daemon*: Runs on host machine
 * *Docker client*: Primary user interface to Docker
@@ -30,4 +28,3 @@ Each container is created from a Docker image. You can start, run, terminate, an
  delete Docker containers.
 
 endif::showscript[]
-

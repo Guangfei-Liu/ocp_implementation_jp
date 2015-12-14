@@ -1,6 +1,5 @@
 == Deployments
 
-
 .Deployment Configuration Triggers
 
 * Drive creation of new deployment in response to events

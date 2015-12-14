@@ -1,5 +1,4 @@
 == Registry Deployment
-:noaudio:
 
 .NFS Storage for the Registry
 

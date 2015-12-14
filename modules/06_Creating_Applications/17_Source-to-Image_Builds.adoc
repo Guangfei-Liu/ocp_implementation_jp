@@ -1,6 +1,5 @@
 == Source-to-Image Builds
 
-
 .JSON Build File - `ImageStream`
 
 * Describes `ImageStream` resource to be created to support application

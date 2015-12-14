@@ -1,6 +1,4 @@
-:noaudio:
 == How OpenShift Enterprise Works
-
 
 .Replication Layer
 * Ensures number of instances/pods defined in store layer actually exists

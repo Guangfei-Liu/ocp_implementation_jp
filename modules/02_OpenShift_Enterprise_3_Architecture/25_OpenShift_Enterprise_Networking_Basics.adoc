@@ -1,6 +1,4 @@
-:noaudio:
 == OpenShift Enterprise Networking Basics
-
 
 * Container networking based on integrated Open vSwitch
 * Platform-wide routing tier

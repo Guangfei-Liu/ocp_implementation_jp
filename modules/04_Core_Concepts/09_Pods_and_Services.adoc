@@ -1,6 +1,5 @@
 == Pods and Services
 
-
 .Pods Overview
 
 * OpenShift Enterprise leverages Kubernetes concept of _pod_

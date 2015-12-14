@@ -1,6 +1,4 @@
-:noaudio:
 == Summary
-
 
 * Template Overview
 * Template File Creation

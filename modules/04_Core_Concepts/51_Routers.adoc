@@ -1,6 +1,5 @@
 == Routers
 
-
 .HAProxy Default Router
 
 * HAProxy default router implementation: Reference implementation for template

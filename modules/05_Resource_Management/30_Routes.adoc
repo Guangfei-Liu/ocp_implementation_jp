@@ -1,6 +1,4 @@
-:noaudio:
 == Routes
-
 
 .Secured TLS Termination Types: Edge Termination
 

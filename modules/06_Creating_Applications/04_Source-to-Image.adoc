@@ -1,6 +1,5 @@
 == Source-to-Image
 
-
 .What Is S2I?
 
 * Tool for building reproducible Docker images

@@ -1,7 +1,4 @@
-:noaudio:
-
 == Installation Methods
-
 
 .Quick Install
 ** Lets you use interactive CLI utility to install OpenShift across set of hosts
@@ -12,7 +9,8 @@
 ** Does not assume familiarity with Ansible
 
 .Advanced Install
-** For complex environments requiring deeper customization of installation and maintenance
+** For complex environments requiring deeper customization of installation and
+ maintenance
 ** Uses Ansible playbooks
 ** Assumes familiarity with Ansible
 

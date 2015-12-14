@@ -1,6 +1,4 @@
-:noaudio:
 == Third-Party Registries
-
 
 * Provide builder images, complete application images, more
 * Supportability falls on creators

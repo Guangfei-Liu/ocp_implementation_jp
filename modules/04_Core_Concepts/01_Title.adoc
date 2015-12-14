@@ -1,4 +1,3 @@
-
 :noaudio:
 
 ifdef::revealjs_slideshow[]
@@ -18,4 +17,3 @@ OpenShift 3 Core Concepts
 image::{revealjs_cover_image}[]
 
 endif::[]
-

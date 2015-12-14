@@ -1,6 +1,5 @@
 == Build Triggers
 
-
 .GitHub Webhook Triggers
 
 * Handle call made by GitHub when repository is updated

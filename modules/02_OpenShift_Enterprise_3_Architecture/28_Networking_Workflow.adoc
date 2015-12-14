@@ -1,6 +1,4 @@
-:noaudio:
 == Networking Workflow
-
 :number:
 
 .Scenario: Client Points Browser to `http://myApp.MyDomain.org:80`

@@ -5,7 +5,7 @@
 * Install software packages:
 +
 ----
-# yum install wget git net-tools iptables-services python-virtualenv gcc
+# yum install wget git net-tools bind-utils iptables-services bridge-utils bash-completion
 ----
 
 *  Update software before installation:

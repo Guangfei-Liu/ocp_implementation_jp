@@ -356,7 +356,7 @@ endif::showscript[]
 | |`4001` | Used for embedded etcd (non-clustered) to accept changes in state.
 |=======================================================================
 
-NOTE: The OpenShift installer will open most of these ports for you. 
+NOTE: The OpenShift installer will open most of these ports for you.
 
 ifdef::showscript[]
 
@@ -422,7 +422,7 @@ endif::showscript[]
 * Install software packages:
 +
 ----
-# yum install wget git net-tools iptables-services python-virtualenv gcc
+# yum install wget git net-tools bind-utils iptables-services bridge-utils bash-completion
 ----
 
 *  Update software before installation:

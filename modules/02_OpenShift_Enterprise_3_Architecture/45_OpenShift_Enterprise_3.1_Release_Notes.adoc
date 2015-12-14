@@ -1,16 +1,14 @@
 == OpenShift Enterprise 3.1 Release Notes
 
-* `oc build-logs <build_name>` deprecated
-** Replaced by `oc logs build/<build_name>`
+* Images now editable
+** Can edit images to set fields such as `labels` or `annotations`
 
-* `spec.rollingParams.updatePercent` replaced
-** Replaced by `maxUnavailable` and `maxSurge` in deployment configurations
 
 ifdef::showscript[]
 === Transcript
 
-The `oc build-logs <build_name>` command is now deprecated and replaced by `oc logs build/<build_name>`.
 
-The `spec.rollingParams.updatePercent` field in deployment configurations has been replaced with `maxUnavailable` and `maxSurge`.
+You can now edit images to set fields such as `labels` or `annotations`.
+
 
 endif::showscript[]

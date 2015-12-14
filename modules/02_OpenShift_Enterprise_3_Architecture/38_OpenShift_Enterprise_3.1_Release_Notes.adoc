@@ -17,3 +17,4 @@ Multiple enhancements have been made to the Ansible-based installation utility. 
 * Uninstall existing OpenShift clusters
 
 endif::showscript[]
+

@@ -1060,37 +1060,7 @@ Multiple enhancements have been made to the Ansible-based installation utility. 
 * Uninstall existing OpenShift clusters
 
 endif::showscript[]
-== OpenShift Enterprise 3.1 Release Notes
 
-
-* Custom CA certificates
-** Can now specify own CA certificate during installation
-** Developers do not need to specify OpenShift-generated CA to obtain secure connections
-
-* DNS service name change
-** DNS name for service SRV discovery changed
-** Services without search paths resulted in long load times to resolve DNS
-** Change reduces load times
-
-* New parameter preventing memory overload
-** Large amounts of events stored in `etcd` can lead to excessive memory growth
-** Can now set `event-ttl` in master configuration file to lower value--e.g., `15m`
-** Prevents memory growth
-
-ifdef::showscript[]
-=== Transcript
-
-OpenShift Enterprise 3.1 offers custom CA certificates.
-You can now specify your own CA certificate during the installation, so that application developers do not need to specify the OpenShift-generated CA to obtain secure connections.
-
-It also contains a DNS service name change.
-The DNS name for service SRV discovery has changed. Services without search paths resulted in long load times to resolve DNS. The change reduces load times.
-
-Finally, OpenShift Enterprise 3.1 contains a new parameter that prevents memory overload.
-Large amounts of events being stored in `etcd` can lead to excessive memory growth.
-You can now set the `event-ttl` parameter in the master configuration file to a lower value--for example, `15m`--to prevent memory growth.
-
-endif::showscript[]
 == OpenShift Enterprise 3.1 Release Notes
 
 * New parameter for port destination

@@ -90,7 +90,5 @@ include::45_OpenShift_Enterprise_3.1_Release_Notes.adoc[]
 
 include::46_OpenShift_Enterprise_3.1_Release_Notes.adoc[]
 
-include::47_OpenShift_Enterprise_3.1_Release_Notes.adoc[]
-
-include::48_Summary.adoc[]
+include::47_Summary.adoc[]
 

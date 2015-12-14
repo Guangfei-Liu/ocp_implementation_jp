@@ -6,6 +6,7 @@
 * Must be running, and following ports must be open
 * Allows communication between components
 
+
 [cols="2,1,5"]
 |=======================================================================
 |Communication |Port |Description
@@ -31,6 +32,7 @@
 | |`4001` | Used for embedded etcd (non-clustered) to accept changes in state.
 |=======================================================================
 
+NOTE: The OpenShift installer will open most of these ports for you. 
 
 ifdef::showscript[]
 

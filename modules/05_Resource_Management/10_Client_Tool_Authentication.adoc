@@ -6,7 +6,7 @@
 * After installing, use `oc login` to authenticate from command line:
 +
 ----
-$ oc login -u andrew --server="https://master09-c3po.oslab.opentlc.com:8443"
+$ oc login -u andrew --server="https://YourOpenShiftMasterFQDN:8443"
 ----
 
 * Command's interactive flow helps establish session to OpenShift Enterprise

@@ -1572,7 +1572,7 @@ endif::showscript[]
 ** Contains _Docker images_ identified by tags
 ** Presents single virtual view of related images
 ** May contain images from:
-*** Own image repository in OpenShift Enterprise's integrated Docker Registry
+*** Own image in OpenShift's integrated Docker Registry
 *** Other image streams
 *** Docker image repositories from external registries
 
@@ -1582,7 +1582,7 @@ endif::showscript[]
 * OpenShift Enterprise images immutable
 
 * OpenShift Enterprise components can:
-** Watch image stream
+** Watch for updates in an image stream
 ** Receive notifications when new images added
 ** React by performing build or deployment
 

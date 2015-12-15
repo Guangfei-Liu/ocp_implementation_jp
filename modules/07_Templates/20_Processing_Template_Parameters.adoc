@@ -17,8 +17,10 @@ $ oc create -f frontend-config.json
 
 ** When command is run, resources are created and build started
 
-
-
+NOTE: Remember we could also use `oc new-app` to create the app in a single
+ command. We are using `oc process` to generate a file, modify/review it before
+  we create the application.
+  
 ifdef::showscript[]
 
 === Transcript

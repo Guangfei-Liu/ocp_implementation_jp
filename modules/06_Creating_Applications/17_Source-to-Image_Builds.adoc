@@ -3,8 +3,9 @@
 .JSON Build File - `ImageStream`
 
 * Describes `ImageStream` resource to be created to support application
-* Lets OpenShift Enterprise _listen_ or _poll_ for changes in image, such as
- security patches
+* OpenShift components such as builds and deployments can watch an image stream
+ to receive notifications when new images are added and react by performing a
+  build or a deployment.
 ** OpenShift Enterprise _rebuilds_ when a change like this occurs
 +
 [subs="verbatim,macros"]
@@ -42,8 +43,9 @@ ifdef::showscript[]
 The `ImageStream` section describes the `ImageStream` resource to be created to
  support the built application.
 
-Using `ImageStreams` lets OpenShift Enterprise _listen_ or _poll_ for changes in
- the image, such as security patches. OpenShift Enterprise _rebuilds_ when a
+ OpenShift components such as builds and deployments can watch an image stream
+  to receive notifications when new images are added and react by performing a
+   build or a deployment. OpenShift Enterprise _rebuilds_ when a
   change like this occurs.
 
 endif::showscript[]

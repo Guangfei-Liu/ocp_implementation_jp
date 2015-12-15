@@ -15,6 +15,7 @@ $ oc login -u andrew --server="https://YourOpenShiftMasterFQDN:8443"
 * Example: Authenticate as OpenShift Enterprise cluster administrator (usually
    `root` user):
 ** `system:admin` user is password-free user that requires token
+** Requires the root user's ``~/.kube/config` file, on the master.
 +
 ----
 $ oc login -u system:admin -n openshift

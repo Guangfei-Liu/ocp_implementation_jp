@@ -1,133 +1,112 @@
 :toc2:
 :icons: images/icons
+
+== Creating Applications Lab
+
+This lab includes the following sections:
+
+* *Deploy Application on Web Console*
++
+In this section, you deploy an application from a code repository and follow the build logs on the OpenShift Enterprise web console and CLI.
+
+* *Customize Build Script*
+
+- Create an application from a forked Git repository, inject a custom build script, and start a rebuild from the web console. 
+
+- Review your custom script messages in the logs.
+
 :numbered:
-= Labs: Creating Applications
 
-toc::[]
+== Deploy Application on Web Console
 
-== Labs Overview
+Here, you connect to and become familiar with the web console, create a project and an application, and scale a deployment and the topology view.
 
+=== Connect To and Explore Web Console
 
-* Lab: Deploy an Application Using the Web Console
-- Lab Scenario: In lab you will deploy an application based on a code
- repository follow the build logs using the OpenShift Enterprise Web Console and
-  CLI.
+. Use your browser to go to the OpenShift web console at `https://master00-GUID.oslab.opentlc.com:8443`.
++
+NOTE: If you have not done so already, accept the untrusted certificate.
 
-* Lab: Create Customized Build script
-- Lab Scenario: In this lab you will create an application from a forked git
-   repository, you will inject a custom build script and, start a rebuild from
-    the web console and follow the logs to review your custom script messages.
+. Log in as `andrew` with the password `r3dh4t1!`.
 
-== Lab: Deploy an Application Using the Web Console
+. Take a few minutes to browse your projects.
 
-* Lab: Deploy an Application Using the Web Console
-- Lab Scenario: In this lab you will deploy an application based on a code
- repository follow the build logs using the OpenShift Enterprise Web Console and
-  CLI.
+=== Create New Project
 
+. Click *Projects* and select *View all projects* to return to the Projects view.
 
+. Click the blue *New Project* button in the top right corner.
 
-=== Create an Application using the OpenShift Web Console
+. Give the new project a name, display name, and description:
+* *Name*: `my-ruby-project`
+* *Display Name*: `My Ruby Example Project`
+* *Description*: An explanation of your choice
 
-.Connect and explore the Web Console
+Once the project is in place, the *Select Image or Template* screen is displayed.
 
-. Use your browser to connect to the OpenShift Web Console at : link:https://master00-GUID.oslab.opentlc.com:8443[https://master00-GUID.oslab.opentlc.com:8443]
+=== Create New Application
 
-.. If you haven't already, accept the "Untrusted Certificate"
+. In the *Select Image or Template* screen, type `ruby` in the search field to filter the available instant apps, templates, and builder images.
 
-. Authenticate as "andrew" with the password "r3dh4t1!"
+. Select the `ruby:2.0` builder image on the right.
 
-. Take a 3 minutes to explore your existing projects.
+. Specify the name and Git repository URL:
+* *Name*: `my-ruby-hello-world`.
+* *Git Repository URL*: `https://github.com/openshift/ruby-hello-world`.
 
-
-
-.Create a new project
-
-. To return to the Projects view, click the "Projects drop down list and select
- "View all projects".
-
-. Click the blue "New Project" button in the top right corner.
-
-. Enter Project Name, Display Name and Description
-.. For "Name" enter: my-ruby-project
-.. For "Display Name" enter: My Ruby Example Project
-.. For "Description" enter: what ever you want.
-
-. Once the project is created, you will be directed to the "Select Image or
- Template" screen.
-
-.Create a new Application
-
-. In the "Select Image or Template" screen, type the word "ruby" into the search
-
- bar to filter the available Instant Apps, Templates and Builder Images.
-. Select the "ruby:2.0" builder image from the right hand side.
-
-. Enter the Name and Git Repository URL
-.. For "Name" enter: my-ruby-hello-world
-.. For "Git Repository URL" enter: https://github.com/openshift/ruby-hello-world
-
-. Click "Show advanced build and deployment options" and explore the options
-...Note that you can decide if you want a route create for your application.
-.. Note that you can define triggers and environment variables for the deployment.
-.. Change the Scaling parameter to 3
-.. Enter a label : "environment" with the value "dev"
+. Click *Show advanced build and deployment options* and select the following options:
+.. Decide if you want a route for your application.
+.. Optionally, define the triggers and environment variables for the deployment.
+.. Change the scaling parameter to 3.
+.. Create a label for `environment` by typing `dev`.
 
 . Accept and start the application.
-.. Review the information presented.
 
-. Click "Go to Overview", you will be directed to the application overview screen.
-. You can see a build is in progress, press "View Logs"
-.. Review the log as the build progresses.
-TIP: If we wanted to do this in the command line we would have run:
- `oc new-app https://github.com/openshift/ruby-hello-world -l  environment=dev`
-  and `oc scale` to increase the number of replicas.
+. Review the information that is displayed.
 
-.Scalling a deployment and the Topology View
+. Click *Go to Overview* to go to the application's *Overview* screen.
 
-. Go back to your application's "Overview" screen by pressing the "Overview"
- button on the upper left side.
-. Click the "^" button twice to increase the number of replicas to "5"
-.. The button is next to the circle with the current number of pods (3 pods
-   before scaling)
-. Hover over "Browse" and select "Pods", Have a look at your new pods.
+. Click *View Logs* to verify that a build is in progress.
 
-. Go back to your application's "Overview" screen by pressing the "Overview"
- button on the upper left side.
-. The current and default view is of the "Overview" screen is the "Tile view",
- to switch to the "Topology View" click the button on the upper right hand side
-  that looks like this "<" character or like a social media type "share button"
-   (it isn't)
-.. Click the different objects and consider their relationships.
+. Review the log as the build progresses. 
 
+[TIP]
+==== 
+* You can also use the command line to create a new application: `oc new-app https://github.com/openshift/ruby-hello-world -l  environment=dev`.
 
+* To change scaling from the command line, use `oc scale`.
+====
 
-== Lab: Create Customized Build script
+=== Scale Deployment and Topology View
 
-* Lab: Create Customized Build script
-- Lab Scenario: In this lab you will create an application from a forked git
- repository, you will inject a custom build script and, start a rebuild from the
-  web console and follow the logs to review your custom script messages.
+. Go back to your application's *Overview* screen by clicking *Overview* at the upper left side.
+
+. Observe the circle that shows the current number of pods, which is 3. You can increase that number by clicking the `^` button next to it.
+
+. Click the `^` button twice to increase the number of replicas to 5.
+
+. Hover over *Browse* and select *Pods* to take a look at your new pods.
+
+. Go back to your application's *Overview* screen by clicking *Overview* again.
+
+* The current and default view of the *Overview* screen is the *Tile View*. 
+* To switch to the *Topology View*, click the button on the upper right hand side that looks like the *`<`* character or a social-media Share button, which it is not.
+
+. Click the objects and consider their relationships.
 
 
-NOTE: OpenShift Enterprise 3 supports customization of both the build and run
- processes. Generally speaking, this involves modifying the various S2I scripts
-  from the builder image. When OpenShift Enterprise builds your code, it checks
-   to see if any of the scripts in the `.sti/bin` folder of your repository
-    override or supercede the builder image's scripts. If so, it executes the
-     repository script instead.
+== Customize Build Script
 
-You can find more information on the scripts, their execution during the
- process, and customization at
-  link:https://docs.openshift.com/enterprise/3.1/creating_images/index.html[https://docs.openshift.com/enterprise/3.1/creating_images/index.html]
+OpenShift Enterprise 3 supports customization of both the build and run processes. Generally speaking, this involves modifying the S2I scripts from the builder image. While building your code, OpenShift Enterprise checks the scripts in your repository's `.sti/bin` folder to see if they override or supersede the builder image's scripts. If it finds scripts that do so, it executes those scripts.
+
+For details on the scripts and their execution and customization, go to `https://docs.openshift.com/enterprise/3.1/creating_images`.
 
 
-=== Clone a repository and launch application from a local copy
+=== Clone Repository and Launch Application from Local Copy
 
-. Authenticate as "marina" to OpenShift Enterprise
-.. Connect to the OpenShift Enterprise master following the same steps you used
- previously.
-.. When prompted, enter the following username and a password:
+. Log in to OpenShift Enterprise as `marina`:
+.. Connect to the OpenShift Enterprise master by following the same steps as before.
+.. When prompted, type the username and password:
 ** *Username*: `marina`
 ** *Password*: `r3dh4t1!`
 +
@@ -135,30 +114,21 @@ You can find more information on the scripts, their execution during the
 [root@master00-GUID ~]# su - marina
 [marina@master00-GUID ~]$ oc login -u marina --insecure-skip-tls-verify --server=https://master00-${guid}.oslab.opentlc.com:8443
 
-
 [marina@master00-GUID ~]$ oc new-project custom-s2i-script --display-name="Custom S2I Build Script" \
     --description="This is the project we use to learn how to create a customized build script"
 ----
 
-=== Fork the Repository
+=== Fork Repository
 
-NOTE: This lab requires a github account, if you don't have one you can create
- one quickly, they are free and very useful.
+IMPORTANT: This section requires a GitHub account. Create one if you do not have one already. It is free and useful.
 
-. Using the Git web interface, fork the following Git repository:
-link:https://github.com/openshift/ruby-hello-world[https://github.com/openshift/ruby-hello-world.]
+. From the GitHub web UI, fork the `https://github.com/openshift/ruby-hello-world` Git repository into your own Git account by clicking *Fork* in the upper right corner.
 
-. To fork this into your own account, click *Fork* in the upper-right corner of
- the GitHub web UI.
-.. You should now have a repository called under your account, something similar
- to :  "https://github.com/yourname/ruby-hello-world/", where "yourname" would
-  be your git user name.
+* This creates a repository in your Git account with a name similar to `https://github.com/yourname/ruby-hello-world/`, where _yourname_ is your Git username.
 
-. Clone the "https://github.com/yourname/ruby-hello-world" repository, so we
- can make changes to it locally and use it to test our customized script.
+. Clone this `https://github.com/yourname/ruby-hello-world` repository so that you can edit it locally and test a Red Hat-customized script with it:
 +
-CAUTION: Make sure you replace "yourname" with you git account user name in the
- commands bellow.
+CAUTION: Be sure to replace _yourname_ with your Git username.
 +
 ----
 [marina@master00-c0fe ~]$ git clone https://github.com/yourname/ruby-hello-world
@@ -169,14 +139,14 @@ Receiving objects: 100% (249/249), 36.79 KiB | 0 bytes/s, done.
 Resolving deltas: 100% (86/86), done.
 ----
 
-. Create an application using the "oc new-app" using the local repository
+. Create an application by running `oc new-app` in the local repository:
 +
 ----
 [marina@master00-c0fe ~]$ cd ruby-hello-world/
 [marina@master00-c0fe ruby-hello-world]$ oc new-app .
 ----
 
-. View the current build status and build logs.
+. View the current build status and build logs:
 +
 ----
 [marina@master00-c0fe]$ oc get builds
@@ -184,7 +154,7 @@ NAME                 TYPE      FROM         STATUS    STARTED         DURATION
 ruby-hello-world-1   Docker    Git@master   Running   9 seconds ago   9s
 ----
 
-. View the build log.
+. View the build log:
 +
 ----
 [marina@master00-c0fe ]$ oc logs -f builds/ruby-hello-world-1
@@ -197,7 +167,7 @@ I1127 02:41:37.640510       1 docker.go:86] Pushing image 172.30.42.118:5000/cus
 I1127 02:44:25.867627       1 docker.go:90] Push successful
 ----
 
-. Check to see that your pod has deployed
+. Verify that your pod has deployed:
 +
 ----
 [marina@master00-c0fe ]$ oc get pods
@@ -207,58 +177,53 @@ ruby-hello-world-1-build   0/1       Completed   0          9m
 ----
 
 
-=== Add a Script to the repository
+=== Add Script to Repository
 
-. In a new tab in your web browser, open the following URL and copy all of the
- text: link:http://www.opentlc.com/download/ose_implementation/resources/3.1/assemble[http://www.opentlc.com/download/ose_implementation/resources/3.1/assemble]
+. Open a new tab in your browser, go to `http://www.opentlc.com/download/ose_implementation/resources/3.1/assemble`, and copy all of the text there.
 
-. Go to your GitHub repository for your application from the previous lab.
+. Go to your GitHub repository for your application from the previous section.
 
 . In the GitHub web UI, navigate to the `.sti/bin` folder.
 
-. Click the *+* button at the top (to the right of `bin` in the breadcrumbs).
+. Click the *+* button at the top (to the right of `bin` in the breadcrumb).
 
 . Name your file `assemble`.
 
-. In the GitHub UI, paste the contents you copied earlier into the text area.
+. In the GitHub web UI, paste the content you copied earlier into the text area.
 
-. Enter a commit message.
+. Type a commit message in the text field.
 
 . Click *Commit*.
 
 
+=== Create Application From Repository With Custom Build Script
 
-=== Create a new application from your repository using the custom build script.
-
-. Use your browser to connect to the OpenShift Web Console at :
-link:https://master00-GUID.oslab.opentlc.com:8443[https://master00-GUID.oslab.opentlc.com:8443]
-.. If you haven't already, accept the "Untrusted Certificate"
-
-. Authenticate as "marina" with the password "r3dh4t1!"
-. Select the "Custom S2I Build Script" project
-Click the blue "New Project" button in the top right corner.
-
-. Enter Project Name, Display Name and Description
-.. For "Name" enter: my-custom
-.. For "Display Name" enter: My custom assemble script project
-.. For "Description" enter: what ever you want.
-
-. Once the project is created, you will be directed to the "Select Image or
-Template" screen.
-
-. In the "Select Image or Template" screen, type the word "ruby" into the search
- bar to filter the available Instant Apps, Templates and Builder Images.
-. Select the "ruby:2.0" builder image from the right hand side.
-
-. Enter the Name and Git Repository URL
-.. For "Name" enter: my-custom-builder-test
-.. For "Git Repository URL" enter: https://github.com/yourname/ruby-hello-world
+. From your browser, go to the OpenShift web console at `https://master00-GUID.oslab.opentlc.com:8443`.
 +
-CAUTION: Make sure you replace "yourname" with you git account user name in the
- commands bellow.
+NOTE: If prompted, accept the untrusted certificate.
 
-. Follow the logs of the build process
-.. Watch for your custom assemble script message to confirm the custom script was used:
+. Log in as `marina` with the password `r3dh4t1!`.
+
+. Select the *Custom S2I Build Script* project and click the blue *New Project* button in the top right corner.
+
+. Specify the project name, display name, and description:
+* *Name*: `my-custom`
+* *Display Name*: `My custom assemble script project`
+* *Description*: An explanation of your choice
+
+** Once the project is in place, the *Select Image or Template* screen is displayed.
+
+. In the *Select Image or Template* screen, type `ruby` in the search field to filter the available Instant Apps, Templates, and Builder Images.
+
+. Select the `ruby:2.0` builder image from the right hand side.
+
+. Specify the name and Git repository URL:
+* *Name*: `my-custom-builder-test`
+* *Git Repository URL*: `https://github.com/yourname/ruby-hello-world`
++
+CAUTION: Remember to replace _yourname_ with your Git username in the above command.
+
+. Follow the build process logs and watch for this custom assemble script message, which confirms that the custom script ran:
 +
 ----
 2015-04-27T22:23:24.110630393Z ---> CUSTOM S2I ASSEMBLE COMPLETE

@@ -350,7 +350,7 @@ If you know how, you can do this the "normal" way by cloning your repository
  locally, making changes, and pushing them to the repository.
 
 . GitHub's web interface lets you edit files. Go to your forked repository (eg:
-   https://github.com/marina/ruby-hello-world), and find the file `main.erb` in
+   https://github.com/marina/ruby-hello-world ), and find the file `main.erb` in
     the `views` folder.
 
 . Change the following HTML:

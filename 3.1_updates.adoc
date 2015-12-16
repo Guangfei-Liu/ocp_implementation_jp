@@ -65,7 +65,7 @@ CAUTION: This file is for internal task management and note taking, it should no
 - 12_Host_Preparation
 - 17_OpenShift_Enterprise_Installation
 - Slides 24,25,26,27
-
+- 09_Pods_and_Services - Remove bullet point about cartridges.
 === Module 04 :
 
 - 17_Pods_and_Services, replace "docker-registry=default" line with new example

@@ -747,8 +747,6 @@ $ oc process -f <filename>
 $ oc process -f my_template_file.json -v ADMIN_USERNAME=root,MYSQL_DATABASE=admin
 ----
 
-//ISSUE: Looks like too much info for one slide. Recommend splitting it here.
-
 .Creating an Application From a Template
 
 * `oc new-app` can instantiate template from stored template or template file
@@ -831,8 +829,10 @@ $ oc create -f frontend-config.json
 
 ** When command is run, resources are created and build started
 
-
-
+NOTE: Remember we could also use `oc new-app` to create the app in a single
+ command. We are using `oc process` to generate a file, modify/review it before
+  we create the application.
+  
 ifdef::showscript[]
 
 === Transcript

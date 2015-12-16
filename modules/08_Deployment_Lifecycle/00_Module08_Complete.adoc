@@ -212,8 +212,7 @@ endif::showscript[]
 - Deployment _strategy_ used to execute deployment
 - Set of _triggers_ that cause deployments to be created automatically
 
-* Deployment configuration is `deploymentConfig` OpenShift Enterprise API
- resource
+* Deployment configuration is `deploymentConfig` OpenShift Enterprise object
 ** Can be managed with `oc` command like any other resource
 
 ifdef::showscript[]
@@ -227,8 +226,8 @@ A _deployment configuration_ consists of the following key parts:
 * A deployment strategy, which will be used to execute the deployment
 * A set of triggers, which cause deployments to be created automatically
 
-A deployment configuration is a `deploymentConfig` OpenShift Enterprise API
- resource that can be managed with the `oc` command like any other resource.
+A deployment configuration is a `deploymentConfig` OpenShift Enterprise resource
+ that can be managed with the `oc` command like any other resource.
 
 
 endif::showscript[]

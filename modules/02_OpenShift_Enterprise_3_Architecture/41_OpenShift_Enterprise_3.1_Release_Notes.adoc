@@ -1,27 +1,20 @@
 == OpenShift Enterprise 3.1 Release Notes
 
-* New tag deletion command
-** Can now delete tags from image stream using `oc tag <tag_name> -d`
-
-* `v1beta3` no longer supported as endpoint
-** `etcdStorageConfig.kubernetesStorageVersion` and
-`etcdStorageConfig.openShiftStorageVersion` values in master configuration file must be `v1`
-* May also need to remove `v1beta3` from `apiLevel`
-* `/api/v1beta3` and `/osapi/v1beta3` disabled
-
+* Web console enhancements
+** Extended resource information now available
+** Can now trigger deployment and rollback from console
+** Logs for builds and pods displayed in real time
+** Can enable display of pod metrics
+** In *Builds* tab, can use shell connection to connect to container
 
 ifdef::showscript[]
 === Transcript
 
-OpenShift Enterprise 3.1 includes a new tag deletion command.
-You can now delete tags from an image stream using `oc tag <tag_name> -d`.
-
-Using `v1beta3` as an endpoint in configuration files is no longer supported.
-The `etcdStorageConfig.kubernetesStorageVersion` and
-`etcdStorageConfig.openShiftStorageVersion` values in the master
-configuration file must be `v1`.
-You may also need to remove `v1beta3` from the `apiLevels` field.
-`/api/v1beta3` and `/osapi/v1beta3` are now disabled.
-
+OpenShift Enterprise 3.1 offers a number of web console enhancements:
+* Extended resource information is now available on the web console.
+* The ability to trigger a deployment and rollback from the console has been added.
+* Logs for builds and pods are now displayed on the web console in real time.
+* When enabled, the web console now displays pod metrics.
+* When you are in the *Builds* tab, you can now connect to a container using a remote shell connection.
 
 endif::showscript[]

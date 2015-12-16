@@ -1,14 +1,16 @@
 == OpenShift Enterprise 3.1 Release Notes
 
-* Jenkins
-** Jenkins image now available for deployment on OpenShift
-** Improved integration between Jenkins masters and slaves running on OpenShift
+* `oc build-logs <build_name>` deprecated
+** Replaced by `oc logs build/<build_name>`
+
+* `spec.rollingParams.updatePercent` replaced
+** Replaced by `maxUnavailable` and `maxSurge` in deployment configurations
 
 ifdef::showscript[]
 === Transcript
 
-A Jenkins image is now available for deployment on OpenShift.
-In addition, integration between Jenkins masters and Jenkins slaves running on OpenShift has improved.
+The `oc build-logs <build_name>` command is now deprecated and replaced by `oc logs build/<build_name>`.
 
+The `spec.rollingParams.updatePercent` field in deployment configurations has been replaced with `maxUnavailable` and `maxSurge`.
 
 endif::showscript[]

@@ -293,7 +293,7 @@ endif::showscript[]
 * After installing, use `oc login` to authenticate from command line:
 +
 ----
-$ oc login -u andrew --server="https://master09-c3po.oslab.opentlc.com:8443"
+$ oc login -u andrew --server="https://YourOpenShiftMasterFQDN:8443"
 ----
 
 * Command's interactive flow helps establish session to OpenShift Enterprise
@@ -302,6 +302,7 @@ $ oc login -u andrew --server="https://master09-c3po.oslab.opentlc.com:8443"
 * Example: Authenticate as OpenShift Enterprise cluster administrator (usually
    `root` user):
 ** `system:admin` user is password-free user that requires token
+** Requires the root user's ``~/.kube/config` file, on the master.
 +
 ----
 $ oc login -u system:admin -n openshift
@@ -363,7 +364,7 @@ a|* Correctly and securely authenticates with OpenShift Enterprise
 server that uses HTTPS
 * Must provide path to certificate authority file
 |`--insecure-skip-tls-verify`
-a|* Allows interaction with HTTPS server while bypassing server
+a|* Allows interacti on with HTTPS server while bypassing server
 certificate checks
 * Not secure if
 ** You `oc
@@ -847,9 +848,10 @@ endif::showscript[]
 ** Connections remain private
 ** Let you use several types of TLS termination to serve certificates to client
 * `Default Router` supports:
-** Edge
-** Passthrough
-** Re-encryption termination
+** Undesecured routes
+** Edge secured routes
+** Passthrough secured routes
+** Re-encryption termination  secured routes
 
 
 ifdef::showscript[]
@@ -1093,6 +1095,7 @@ endif::showscript[]
 * Currently only method that supports requiring client certificates
 ** AKA _two-way authentication_
 
+NOTE: Remembe, TLS termination in OpenShift Enterprise relies on SNI (Server Name Indication)
 
 ifdef::showscript[]
 

@@ -9,8 +9,8 @@ OSEIMPLEMENTATION|OSEIMPLEMENTATION503|1|The 'Service' resource does the followi
 OSEIMPLEMENTATION|OSEIMPLEMENTATION503|1|The 'Service' resource does the following:|||Provides an up-to-date list of IPs and ports of the pods that the service represents|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION503|1|The 'Service' Resource does the following:|||Load Balances between the pods|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION503|1|The 'Service' Resource does the following:|||None of the above|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION504|1|Which of the following could trigger a deployment to re-deploy (if so configured)?|||A Git event such as a “git push”|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION504|1|Which of the following could trigger a deployment to re-deploy (if so configured)?|||A webhook with the correct “secret” parameter|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION504|1|Which of the following could trigger a deployment to re-deploy (if so configured)?|||A Git event such as a "git push"|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION504|1|Which of the following could trigger a deployment to re-deploy (if so configured)?|||A webhook with the correct "secret" parameter|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION504|1|Which of the following could trigger a deployment to re-deploy (if so configured)?|||A new image is available for the registered image stream|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION504|1|Which of the following could trigger a deployment to re-deploy (if so configured)?|||All of the above|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION505|1|Which one of the following is NOT found in the Replication Controller?|||The number of replicas desired (which can be adjusted at runtime)|||0|0|||

@@ -23,8 +23,6 @@ $ oc process -f <filename>
 $ oc process -f my_template_file.json -v ADMIN_USERNAME=root,MYSQL_DATABASE=admin
 ----
 
-//ISSUE: Looks like too much info for one slide. Recommend splitting it here.
-
 .Creating an Application From a Template
 
 * `oc new-app` can instantiate template from stored template or template file

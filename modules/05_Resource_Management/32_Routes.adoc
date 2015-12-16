@@ -11,6 +11,7 @@
 * Currently only method that supports requiring client certificates
 ** AKA _two-way authentication_
 
+NOTE: Remembe, TLS termination in OpenShift Enterprise relies on SNI (Server Name Indication)
 
 ifdef::showscript[]
 

@@ -1,31 +1,35 @@
 == OpenShift Enterprise 3.1 Release Notes
 
+* New parameter for port destination
+** Can now specify port to send routes to
+** Any services pointing to multiple ports should have `spec.port.targetPort` on pod set to desired port
 
-* Custom CA certificates
-** Can now specify own CA certificate during installation
-** Developers do not need to specify OpenShift-generated CA to obtain secure connections
+* New remote access command
+** `oc rsync` now available
+** Use to copy local directories into remote pod
 
-* DNS service name change
-** DNS name for service SRV discovery changed
-** Services without search paths resulted in long load times to resolve DNS
-** Change reduces load times
+* Project binding command
+** Use `oadm pod-network join-project` to bind isolated projects together
 
-* New parameter preventing memory overload
-** Large amounts of events stored in `etcd` can lead to excessive memory growth
-** Can now set `event-ttl` in master configuration file to lower value--e.g., `15m`
-** Prevents memory growth
+* Host configuration validation commands
+** New commands to:
+*** Validate master configuration files: `openshift ex validate master-config`
+*** Validate node configuration files: `openshift ex validate node-config`
+
 
 ifdef::showscript[]
 === Transcript
 
-OpenShift Enterprise 3.1 offers custom CA certificates.
-You can now specify your own CA certificate during the installation, so that application developers do not need to specify the OpenShift-generated CA to obtain secure connections.
+OpenShift Enterprise 3.1 contains a new parameter for port destination.
+You can now specify the port to send routes to. Any services that are
+pointing to multiple ports should have the `spec.port.targetPort` parameter on the pod set to the desired port.
 
-It also contains a DNS service name change.
-The DNS name for service SRV discovery has changed. Services without search paths resulted in long load times to resolve DNS. The change reduces load times.
+It also contains a new remote access command, project binding command, and host configurations validation commands.
 
-Finally, OpenShift Enterprise 3.1 contains a new parameter that prevents memory overload.
-Large amounts of events being stored in `etcd` can lead to excessive memory growth.
-You can now set the `event-ttl` parameter in the master configuration file to a lower value--for example, `15m`--to prevent memory growth.
+The `oc rsync` command can copy local directories into a remote pod.
+
+You can use `oadm pod-network join-project` to bind isolated projects together.
+
+And you can use `openshift ex validate master-config` and `openshift ex validate node-config` to validate master and node configuration files, respectively.
 
 endif::showscript[]

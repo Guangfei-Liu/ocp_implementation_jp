@@ -267,9 +267,7 @@ endif::showscript[]
 * *Pod*: One or more containers deployed together on host
 ** Smallest compute unit you can define, deploy, manage
 
-* Pods are the rough equivalent of OpenShift Enterprise 2.0 _gears_
-* Containers are the rough equivalent of OpenShift Enterprise 2.0
- _cartridge instances_
+* Pods are the rough equivalent of OpenShift Enterprise 2 _gears_
 
 * Each pod allocated own internal IP address, owns entire port range
 * Containers within pods can share local storage and networking
@@ -282,8 +280,7 @@ OpenShift Enterprise leverages the Kubernetes concept of a _pod_, which is one
  or more containers deployed together on one host. A pod is the smallest compute
   unit that you can define, deploy, and manage.
 
-Pods are the rough equivalent of  _gears_ in OpenShift Enterprise 2, and
- containers are the rough equivalent of _cartridge instances_.
+Pods are the rough equivalent of  _gears_ in OpenShift Enterprise 2
 
 Each pod is allocated its own internal IP address, thus owning its entire port
  range. Containers within pods can share their local storage and networking.
@@ -1575,7 +1572,7 @@ endif::showscript[]
 ** Contains _Docker images_ identified by tags
 ** Presents single virtual view of related images
 ** May contain images from:
-*** Own image repository in OpenShift Enterprise's integrated Docker Registry
+*** Own image in OpenShift's integrated Docker Registry
 *** Other image streams
 *** Docker image repositories from external registries
 
@@ -1585,7 +1582,7 @@ endif::showscript[]
 * OpenShift Enterprise images immutable
 
 * OpenShift Enterprise components can:
-** Watch image stream
+** Watch for updates in an image stream
 ** Receive notifications when new images added
 ** React by performing build or deployment
 

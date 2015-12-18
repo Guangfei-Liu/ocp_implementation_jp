@@ -28,9 +28,10 @@ The `Default Router`, also known as the `Default HA-Proxy Router` and many other
 
 An HAProxy-based router implementation is provided as the default template
  router plug-in. It uses the `openshift3/ose-haproxy-router` image to run an
-  HAProxy instance alongside and a router plug-in. The router currently supports
-   HTTP(S) traffic and TLS-enabled traffic via SNI only. Like the registry and
-    any other workload, it is hosted inside OpenShift Enterprise.
+  HAProxy instance alongside the template router plug-in. 
+  The router currently supports HTTP(S) traffic and TLS-enabled traffic via
+   SNI only. Like the registry and any other workload, it is hosted inside
+    OpenShift Enterprise.
 
 While it is called a _router_, it is essentially a _proxy_.
 

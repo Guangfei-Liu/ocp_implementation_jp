@@ -33,9 +33,8 @@ OpenShift Enterprise 2.0 introduced the specific concepts of _regions_ and
    depending on the way you configure OpenShift Enterprise, you can make
     different regions accessible to users.
 
-OpenShift Enterprise 3 is not based on your topology. It is _topology-agnostic_.
- OpenShift Enterprise 3 provides advanced controls for implementing whatever
-  topologies you create.
+OpenShift Enterprise 3 is _topology-agnostic_ and  provides advanced controls
+ for implementing whatever topologies you create.
 
 The example shown here uses the concept the _regions_ and _zones_.
 

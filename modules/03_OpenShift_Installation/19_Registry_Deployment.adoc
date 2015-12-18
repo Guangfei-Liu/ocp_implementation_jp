@@ -33,4 +33,6 @@ After successful deployment, a pod is created with a name similar to
 To control where your registry is deployed, you use the `--selector` flag to
  specify your target by picking the labels you want to match.
 
+You can also edit the "default" project/namespace to select the default node
+ selector.
 endif::showscript[]

@@ -28,12 +28,12 @@ ifdef::showscript[]
 === Transcript
 
 You can deploy the _Registry container_ anywhere in the OpenShift Environment.
- In your environment, you created a region called `infra` and dedicated the
-  `infranode00` host for it.
+ In your lab environment, you will create a region called `infra` and dedicate
+  the `infranode00` host for it.
 
 This is a good practice for a highly scalable environment. You might want to use
- better-performing servers for these nodes or place them in the DMZ so only the
-  external network can access them.
+ better-performing servers for these nodes or place them in the DMZ so they can
+ be accessed by external networks.
 
 To deploy a registry anywhere in the environment, run the first command shown
  here.

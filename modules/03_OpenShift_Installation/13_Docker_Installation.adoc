@@ -30,8 +30,8 @@ Docker registry on `172.30.0.0/16` subnet
 ifdef::showscript[]
 
 === Transcript
-Each node requires Docker to be installed and configured. You must use version
- 1.8.2, which you can obtain from the OpenShift repository.
+Each node, including the master, requires Docker to be installed and configured.
+ You must use version 1.8.2 or later of the docker software.
 
 Use the commands shown here to install Docker and add the `--insecure-registry`
  option to the `OPTIONS` parameter.

@@ -23,10 +23,9 @@ ifdef::showscript[]
 
 === Transcript
 
-To install OpenShift
- Enterprise 3, install the OpenShift `utils` package that includes the installer,
-  and run the installer CLI utility on a host that has SSH access to your
-   intended master and nodes.
+To install OpenShift Enterprise 3, install the OpenShift `utils` package that
+ includes the installer, and run the installer CLI utility on a host that has
+  password-less SSH access to your intended master and nodes.
 
 The installer asks for the hostnames or IPs of the masters and nodes and
  configures them accordingly.

@@ -6,8 +6,8 @@
 * *Template*: Set of resources you can customize and process to produce
  configuration
 ** Defines list of parameters you can modify for consumption by containers
-* *Image Stream*: Similar to Docker image repository
-** Contains Docker images identified by tags
+* *Image Stream*:
+** Comprises of one or more Docker images identified by tags
 ** Presents single virtual view of related images
 
 ifdef::showscript[]
@@ -23,8 +23,7 @@ A _template_ describes a set of resources intended to be used together that you
   list of parameters that you can modify for consumption by a container. This is
    somewhat similar to a OpenShift Enterprise 2.0 _quickstart_.
 
-An _image stream_ is similar to a Docker image repository in that it contains
- one or more Docker images identified by tags. An image stream presents a single
-  virtual view of related images.
+An _image stream_ comprises of one or more Docker images identified by tags. An
+ image stream presents a single virtual view of related images.
 
 endif::showscript[]

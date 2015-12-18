@@ -21,7 +21,7 @@ ifdef::showscript[]
 
 === Transcript
 
-The core set of image streams defines images you can sue to build Node.js,
+The core set of image streams defines images you can use to build Node.js,
  Perl, PHP, Python, and Ruby applications. It also defines images for MongoDB,
   MySQL, and PostgreSQL databases.
 

@@ -1,3 +1,4 @@
+
 :noaudio:
 
 ifdef::revealjs_slideshow[]
@@ -243,7 +244,7 @@ endif::showscript[]
 .Overview
 
 * To prepare your hosts for OpenShift Enterprise 3:
-** Install Red Hat Enterprise Linux 7.1
+** Install Red Hat Enterprise Linux 7.2
 ** Register hosts with `subscription-manager`
 ** Manage base packages:
 *** `git`
@@ -265,7 +266,7 @@ To prepare the hosts to use with OpenShift Enterprise, consult the
 
 The basic steps for preparing hosts are as follows:
 
-* Perform a base installation of Red Hat Enterprise Linux 7.1 for master and
+* Perform a base installation of Red Hat Enterprise Linux 7.2 for master and
  node hosts.
 * Use `subscription-manager` to register all the hosts to Red Hat Enterprise
  Linux 7.1 and OpenShift Enterprise 3 repositories.
@@ -439,11 +440,11 @@ ifdef::showscript[]
 
 === Transcript
 
-You need to install the software packages shown here and run a `yum` update on
- your master before using the installer and installing OpenShift Enterprise 3.
+You need to install the software packages shown here on your master and run a
+ `yum` update on your hosts before using the installer and installing OpenShift
+  Enterprise 3.
 
-Red Hat highly recommends installing `bash-completion` so that commands can be
- completed simply by pressing the  *Tab* key.
+
 
 endif::showscript[]
 == Docker Installation
@@ -478,8 +479,8 @@ Docker registry on `172.30.0.0/16` subnet
 ifdef::showscript[]
 
 === Transcript
-Each node requires Docker to be installed and configured. You must use version
- 1.8.2, which you can obtain from the OpenShift repository.
+Each node, including the master, requires Docker to be installed and configured.
+ You must use version 1.8.2 or later of the docker software.
 
 Use the commands shown here to install Docker and add the `--insecure-registry`
  option to the `OPTIONS` parameter.
@@ -647,10 +648,9 @@ ifdef::showscript[]
 
 === Transcript
 
-To install OpenShift
- Enterprise 3, install the OpenShift `utils` package that includes the installer,
-  and run the installer CLI utility on a host that has SSH access to your
-   intended master and nodes.
+To install OpenShift Enterprise 3, install the OpenShift `utils` package that
+ includes the installer, and run the installer CLI utility on a host that has
+  password-less SSH access to your intended master and nodes.
 
 The installer asks for the hostnames or IPs of the masters and nodes and
  configures them accordingly.
@@ -697,9 +697,8 @@ OpenShift Enterprise 2.0 introduced the specific concepts of _regions_ and
    depending on the way you configure OpenShift Enterprise, you can make
     different regions accessible to users.
 
-OpenShift Enterprise 3 is not based on your topology. It is _topology-agnostic_.
- OpenShift Enterprise 3 provides advanced controls for implementing whatever
-  topologies you create.
+OpenShift Enterprise 3 is _topology-agnostic_ and  provides advanced controls
+ for implementing whatever topologies you create.
 
 The example shown here uses the concept the _regions_ and _zones_.
 
@@ -745,6 +744,8 @@ After successful deployment, a pod is created with a name similar to
 To control where your registry is deployed, you use the `--selector` flag to
  specify your target by picking the labels you want to match.
 
+You can also edit the "default" project/namespace to select the default node
+ selector.
 endif::showscript[]
 == Registry Deployment
 
@@ -776,12 +777,12 @@ ifdef::showscript[]
 === Transcript
 
 You can deploy the _Registry container_ anywhere in the OpenShift Environment.
- In your environment, you created a region called `infra` and dedicated the
-  `infranode00` host for it.
+ In your lab environment, you will create a region called `infra` and dedicate
+  the `infranode00` host for it.
 
 This is a good practice for a highly scalable environment. You might want to use
- better-performing servers for these nodes or place them in the DMZ so only the
-  external network can access them.
+ better-performing servers for these nodes or place them in the DMZ so they can
+ be accessed by external networks.
 
 To deploy a registry anywhere in the environment, run the first command shown
  here.
@@ -868,9 +869,10 @@ The `Default Router`, also known as the `Default HA-Proxy Router` and many other
 
 An HAProxy-based router implementation is provided as the default template
  router plug-in. It uses the `openshift3/ose-haproxy-router` image to run an
-  HAProxy instance alongside and a router plug-in. The router currently supports
-   HTTP(S) traffic and TLS-enabled traffic via SNI only. Like the registry and
-    any other workload, it is hosted inside OpenShift Enterprise.
+  HAProxy instance alongside the template router plug-in. 
+  The router currently supports HTTP(S) traffic and TLS-enabled traffic via
+   SNI only. Like the registry and any other workload, it is hosted inside
+    OpenShift Enterprise.
 
 While it is called a _router_, it is essentially a _proxy_.
 
@@ -889,8 +891,8 @@ endif::showscript[]
 * *Template*: Set of resources you can customize and process to produce
  configuration
 ** Defines list of parameters you can modify for consumption by containers
-* *Image Stream*: Similar to Docker image repository
-** Contains Docker images identified by tags
+* *Image Stream*:
+** Comprises of one or more Docker images identified by tags
 ** Presents single virtual view of related images
 
 ifdef::showscript[]
@@ -906,9 +908,8 @@ A _template_ describes a set of resources intended to be used together that you
   list of parameters that you can modify for consumption by a container. This is
    somewhat similar to a OpenShift Enterprise 2.0 _quickstart_.
 
-An _image stream_ is similar to a Docker image repository in that it contains
- one or more Docker images identified by tags. An image stream presents a single
-  virtual view of related images.
+An _image stream_ comprises of one or more Docker images identified by tags. An
+ image stream presents a single virtual view of related images.
 
 endif::showscript[]
 == OpenShift Enterprise Population
@@ -934,7 +935,7 @@ ifdef::showscript[]
 
 === Transcript
 
-The core set of image streams defines images you can sue to build Node.js,
+The core set of image streams defines images you can use to build Node.js,
  Perl, PHP, Python, and Ruby applications. It also defines images for MongoDB,
   MySQL, and PostgreSQL databases.
 
@@ -1272,52 +1273,6 @@ After you set up your OpenShift Enterprise environment and clusters to use
 
 To help you get started, see the example Ansible playbook at the web address
  shown here.
-
-endif::showscript[]
-== Persistent Storage Using NFS
-
-.SELinux and NFS Export Settings
-
-* Default: SELinux does not allow writing from pod to remote NFS server
-** NFS volume mounts correctly but is read-only
-* To enable writing in SELinux on each node:
-+
-----
-# setsebool -P virt_use_nfs 1
-----
-
-* Each exported volume on NFS server should conform to
-the following:
-** Set each export option in `/etc/exports` as folows:
-+
-----
-/example_fs *(rw,all_squash)
-----
-
-** Each export must be owned by `nfsnobody` and have the following permissions:
-+
-----
-# chown -R nfsnobody:nfsnobody /example_fs
-# chmod 777
-----
-
-ifdef::showscript[]
-
-=== Transcript
-
-You need to configure your NFS server exports.
-
-By default, SELinux does not allow writing from a pod to a remote NFS server.
- The NFS volume mounts correctly, but is read-only.
-
-To configure SElinux to let the nodes use NFS in the way required for OpenShift
- Enterprise `Persistent Volumes`, use the *setsebool* command as displayed here
-  on each node.
-
-
-In addition, configure each exported volume on the NFS server itself so that
- each export option is set as shown here in the `/etc/exports` file, and each
-  export is owned by `nfsnobody` and has the permissions shown here.
 
 endif::showscript[]
 == Summary

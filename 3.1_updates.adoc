@@ -52,13 +52,13 @@ CAUTION: This file is for internal task management and note taking, it should no
 
 == Changes on Course that require Audio Recording
 
-=== Module 02 :
+=== Module 02 : RECORDED
 
-- Slides 34-47 were added and did not exist before
-- Slide 48_Summary.adoc needs to be renamed and line added to Audio
+- Slides 34-46 were added and did not exist before
+- Slide 47_Summary.adoc needs to be renamed and line added to Audio
 - 08_Host_Preparation.adoc -
 
-=== Module 03 :
+=== Module 03 : RECORDED
 
 - 04_Installation_Methods.adoc - Needs to be recorded from scratch.
 - 08_Host_Preparation.adoc - Needs to be recorded from scratch.

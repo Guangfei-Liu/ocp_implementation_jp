@@ -940,7 +940,9 @@ endif::showscript[]
 ** Including release-specific steps
 
 [NOTE]
-For instructions on upgrading your OpenShift cluster, including any release-specific steps, see https://docs.openshift.com/enterprise/3.1/install_config/upgrades.html.
+For instructions on upgrading your OpenShift cluster, including any
+ release-specific steps, see
+  https://docs.openshift.com/enterprise/3.1/install_config/upgrades.html.
 
 ifdef::showscript[]
 
@@ -948,9 +950,12 @@ ifdef::showscript[]
 
 OpenShift Enterprise version 3.1 is now available.
 
-Make sure that you properly follow the instructions on upgrading your OpenShift cluster, including steps specific to this release.
+Make sure that you properly follow the instructions on upgrading your OpenShift
+ cluster, including steps specific to this release.
 
-Go to the web address shown here for instructions on upgrading your OpenShift cluster, including any additional steps that may be required for a specific release.
+Go to the web address shown here for instructions on upgrading your OpenShift
+ cluster, including any additional steps that may be required for a specific
+  release.
 
 endif::showscript[]
 == OpenShift Enterprise 3.1 Release Notes
@@ -979,7 +984,8 @@ endif::showscript[]
 ifdef::showscript[]
 === Transcript
 
-A number of services, packages, file names, and directories have been renamed in OpenShift Enterprise 3.1. This table shows the name changes.
+A number of services, packages, file names, and directories have been renamed in
+ OpenShift Enterprise 3.1. This table shows the name changes.
 
 endif::showscript[]
 == OpenShift Enterprise 3.1 Release Notes
@@ -994,18 +1000,22 @@ endif::showscript[]
 ** Lets you manage groups easily
 
 * F5 availability
-** Can now configure F5 load balancer for use with OpenShift Enterprise environment
+** Can now configure F5 load balancer for use with OpenShift Enterprise
+ environment
 
 ifdef::showscript[]
 === Transcript
 
-OpenShift Enterprise 3.1 requires a Docker update to version 1.8.2. This version contains the fix to allow the `_/etc/groups_` file to use supplementary groups.
+OpenShift Enterprise 3.1 requires a Docker update to version 1.8.2. This version
+ contains the fix to allow the `_/etc/groups_` file to use supplementary groups.
 
 OpenShift Enterprise 3.1 also offers LDAP synchronization and F5 availability.
 
-OpenShift now allows you to sync LDAP records with OpenShift, so that you can manage groups easily.
+OpenShift now allows you to sync LDAP records with OpenShift, so that you can
+ manage groups easily.
 
-You can also now configure an F5 load balancer for use with your OpenShift Enterprise environment.
+You can also now configure an F5 load balancer for use with your OpenShift
+ Enterprise environment.
 
 endif::showscript[]
 == OpenShift Enterprise 3.1 Release Notes
@@ -1014,7 +1024,6 @@ endif::showscript[]
 * More persistent storage options
 ** Several persistent storage options available:
 *** Red Hat GlusterFS and Ceph RBD
-//ISSUE: Check storage product names. If these are the RH products, I think these should be Red Hat Gluster Storage and Red Hat Ceph Storage. Ditto in script.
 *** AWS
 *** Google Compute Engine
 ** NFS storage supplemented by iSCSI- and Fibre Channel-based volumes
@@ -1033,17 +1042,23 @@ endif::showscript[]
 ifdef::showscript[]
 === Transcript
 
-OpenShift Enterprise 3.1 offers several more persistent storage options, including Red Hat's GlusterFS and Ceph RBD, AWS, and Google Compute Engine. Also, NFS storage is now supplemented by iSCSI- and Fibre Channel-based volumes.
+OpenShift Enterprise 3.1 offers several more persistent storage options,
+ including Red Hat's GlusterFS and Ceph RBD, AWS, and Google Compute Engine.
+  Also, NFS storage is now supplemented by iSCSI- and Fibre Channel-based
+   volumes.
 
-It also offers several more middleware options, including JBoss Data Grid and JBoss BRMS, as well as a supported JBoss Developer Studio and Eclipse plug-in.
+It also offers several more middleware options, including JBoss Data Grid and
+ JBoss BRMS, as well as a supported JBoss Developer Studio and Eclipse plug-in.
 
-Finally, the `job` object type is now available, meaning that you can now execute finite jobs on the cluster.
+Finally, the `job` object type is now available, meaning that you can now
+ execute finite jobs on the cluster.
 
 
 endif::showscript[]
 == OpenShift Enterprise 3.1 Release Notes
 
-* Installation utility updates: Multiple enhancements made to Ansible-based installation
+* Installation utility updates: Multiple enhancements made to Ansible-based
+ installation
 * Can now:
 ** Perform container-based installations (Technology Preview)
 ** Install active-active, highly available clusters
@@ -1053,19 +1068,20 @@ endif::showscript[]
 ifdef::showscript[]
 === Transcript
 
-Multiple enhancements have been made to the Ansible-based installation utility. The utility can now:
+Multiple enhancements have been made to the Ansible-based installation utility.
+ The utility can now:
 
 * Perform container-based installations (Technology Preview)
 * Install active-active, highly available clusters
 * Uninstall existing OpenShift clusters
 
 endif::showscript[]
-
 == OpenShift Enterprise 3.1 Release Notes
 
 * New parameter for port destination
 ** Can now specify port to send routes to
-** Any services pointing to multiple ports should have `spec.port.targetPort` on pod set to desired port
+** Any services pointing to multiple ports should have `spec.port.targetPort`
+ on pod set to desired port
 
 * New remote access command
 ** `oc rsync` now available
@@ -1085,15 +1101,19 @@ ifdef::showscript[]
 
 OpenShift Enterprise 3.1 contains a new parameter for port destination.
 You can now specify the port to send routes to. Any services that are
-pointing to multiple ports should have the `spec.port.targetPort` parameter on the pod set to the desired port.
+pointing to multiple ports should have the `spec.port.targetPort` parameter on
+ the pod set to the desired port.
 
-It also contains a new remote access command, project binding command, and host configurations validation commands.
+It also contains a new remote access command, project binding command, and host
+ configurations validation commands.
 
 The `oc rsync` command can copy local directories into a remote pod.
 
 You can use `oadm pod-network join-project` to bind isolated projects together.
 
-And you can use `openshift ex validate master-config` and `openshift ex validate node-config` to validate master and node configuration files, respectively.
+And you can use `openshift ex validate master-config` and
+ `openshift ex validate node-config` to validate master and node configuration
+  files, respectively.
 
 endif::showscript[]
 == OpenShift Enterprise 3.1 Release Notes
@@ -1103,7 +1123,8 @@ endif::showscript[]
 
 * `v1beta3` no longer supported as endpoint
 ** `etcdStorageConfig.kubernetesStorageVersion` and
-`etcdStorageConfig.openShiftStorageVersion` values in master configuration file must be `v1`
+`etcdStorageConfig.openShiftStorageVersion` values in master configuration file
+ must be `v1`
 * May also need to remove `v1beta3` from `apiLevel`
 * `/api/v1beta3` and `/osapi/v1beta3` disabled
 
@@ -1115,9 +1136,7 @@ OpenShift Enterprise 3.1 includes a new tag deletion command.
 You can now delete tags from an image stream using `oc tag <tag_name> -d`.
 
 Using `v1beta3` as an endpoint in configuration files is no longer supported.
-The `etcdStorageConfig.kubernetesStorageVersion` and
-`etcdStorageConfig.openShiftStorageVersion` values in the master
-configuration file must be `v1`.
+
 You may also need to remove `v1beta3` from the `apiLevels` field.
 `/api/v1beta3` and `/osapi/v1beta3` are now disabled.
 
@@ -1137,10 +1156,12 @@ ifdef::showscript[]
 
 OpenShift Enterprise 3.1 offers a number of web console enhancements:
 * Extended resource information is now available on the web console.
-* The ability to trigger a deployment and rollback from the console has been added.
+* The ability to trigger a deployment and rollback from the console has been
+ added.
 * Logs for builds and pods are now displayed on the web console in real time.
 * When enabled, the web console now displays pod metrics.
-* When you are in the *Builds* tab, you can now connect to a container using a remote shell connection.
+* When you are in the *Builds* tab, you can now connect to a container using a
+ remote shell connection.
 
 endif::showscript[]
 == OpenShift Enterprise 3.1 Release Notes
@@ -1156,9 +1177,11 @@ ifdef::showscript[]
 === Transcript
 
 OpenShift Enterprise 3.1 lets you aggregate logging with the EFK stack.
-Elasticsearch, Fluentd, and Kibana--together known as the EFK stack--are now available for logging consumption.
+Elasticsearch, Fluentd, and Kibana--together known as the EFK stack--are now
+ available for logging consumption.
 
-In addition, you can now use the Heapster interface and metric data model with OpenShift.
+In addition, you can now use the Heapster interface and metric data model with
+ OpenShift.
 
 endif::showscript[]
 == OpenShift Enterprise 3.1 Release Notes
@@ -1171,7 +1194,8 @@ ifdef::showscript[]
 === Transcript
 
 A Jenkins image is now available for deployment on OpenShift.
-In addition, integration between Jenkins masters and Jenkins slaves running on OpenShift has improved.
+In addition, integration between Jenkins masters and Jenkins slaves running on
+ OpenShift has improved.
 
 
 endif::showscript[]
@@ -1186,9 +1210,11 @@ endif::showscript[]
 ifdef::showscript[]
 === Transcript
 
-The `oc build-logs <build_name>` command is now deprecated and replaced by `oc logs build/<build_name>`.
+The `oc build-logs <build_name>` command is now deprecated and replaced by
+ `oc logs build/<build_name>`.
 
-The `spec.rollingParams.updatePercent` field in deployment configurations has been replaced with `maxUnavailable` and `maxSurge`.
+The `spec.rollingParams.updatePercent` field in deployment configurations has
+ been replaced with `maxUnavailable` and `maxSurge`.
 
 endif::showscript[]
 == OpenShift Enterprise 3.1 Release Notes
@@ -1214,23 +1240,28 @@ endif::showscript[]
 *** OpenShift compares pod CPU usage as percentage of requested CPU
 *** Scales up to indicated threshold
 ** Support for OpenShift Enterprise running on Atomic Host
-** Containerized installations, i.e., all OpenShift Enterprise components running in containers
+** Containerized installations, i.e., all OpenShift Enterprise components
+ running in containers
 
 [NOTE]
-For information on the scope of support via the Red Hat Customer Portal for Technology Preview features, go to:
+For information on the scope of support via the Red Hat Customer Portal for
+ Technology Preview features, go to:
  https://access.redhat.com/support/offerings/techpreview
 
 ifdef::showscript[]
 === Transcript
 
-Some features in this release are currently in Technology Preview. These experimental features, which are not intended for production use, include the following:
+Some features in this release are currently in Technology Preview. These
+ experimental features, which are not intended for production use, include the
+  following:
 
 * Binary builds and the Dockerfile source type for builds.
-* Pod autoscaling, using the `HorizontalPodAutoscaler` object. In pod autoscaling, OpenShift compares pod CPU usage as a percentage of requested CPU, and scales accordingly to up to an indicated threshold.
+* Pod autoscaling, using the `HorizontalPodAutoscaler` object. In pod
+ autoscaling, OpenShift compares pod CPU usage as a percentage of requested CPU,
+  and scales accordingly to up to an indicated threshold.
 * Support for OpenShift Enterprise running on Atomic Host.
-* Containerized installations, meaning all OpenShift Enterprise components running in containers.
-
-For information on the scope of support via the Red Hat Customer Portal for Technology Preview features, go to the web address shown here.
+* Containerized installations, meaning all OpenShift Enterprise components
+ running in containers.
 
 endif::showscript[]
 == Summary
@@ -1249,19 +1280,22 @@ ifdef::showscript[]
 
 === Transcript
 
-This module presented an overview of and design concepts in OpenShift Enterprise 3, including the
-OpenShift Enterprise stack, how OpenShift Enterprise works, standards, important projects, workflows,
-and how the various components work together.
+This module presented an overview of and design concepts in OpenShift Enterprise
+ 3, including the OpenShift Enterprise stack, how OpenShift Enterprise works,
+  standards, important projects, workflows, and how the various components work
+   together.
 
 It introduced Docker, noted the difference between containers and VMs,
 and described Docker components and capabilities.
 
-It covered Kubernetes features and concepts, with an emphasis on pods, followed by an overview of networking in OpenShift Enterprise 3
+It covered Kubernetes features and concepts, with an emphasis on pods, followed
+ by an overview of networking in OpenShift Enterprise 3
 
-The Image registry section described the integrated OpenShift Enterprise registry and
-third-party registries.
+The Image registry section described the integrated OpenShift Enterprise
+ registry and third-party registries.
 
-The module concluded by briefly explaining builds and OpenShift Enterprise S2I images, including what an
-S2I build is and reasons to use it, and then by describing the new features in OpenShift Enterprise 3.1.
+The module concluded by briefly explaining builds and OpenShift Enterprise S2I
+ images, including what an S2I build is and reasons to use it, and then by
+  describing the new features in OpenShift Enterprise 3.1.
 
 endif::showscript[]

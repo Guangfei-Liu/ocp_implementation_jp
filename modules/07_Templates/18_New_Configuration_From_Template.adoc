@@ -54,6 +54,8 @@ You can also override any parameters defined in the template file by adding the
    with customized environment variables.
 
 You can use the `oc new-app` command to deploy templates from a local template
- file or a stored template. To instantiate a stored template, specify the template name as an argument. The example here shows  how to create a new application and override the template parameter value for `MYSQL_USER`.
+ file or a stored template. To instantiate a stored template, specify the
+  template name as an argument. The example here shows  how to create a new
+   application and override the template parameter value for `MYSQL_USER`.
 
 endif::showscript[]

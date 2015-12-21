@@ -37,8 +37,7 @@ Like pods, services are REST objects. The example shown here provides the
 
 Note the following:
 
-. The label selector identifies all pods with the `example-label: example-value`
- label as the `Pods` represented by the `service`
+. The label selector identifies all `Pods` represented by the `service`
 . When the service is created, it automatically receives a virtual IP,
  `PortalIP`, chosen from a pool of internal IPs. When you define a new service,
   you leave this blank to be assigned a random IP.

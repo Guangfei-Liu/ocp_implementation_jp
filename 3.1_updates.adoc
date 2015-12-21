@@ -66,23 +66,23 @@ CAUTION: This file is for internal task management and note taking, it should no
 - 17_OpenShift_Enterprise_Installation
 - Slides 24,25,26,27
 - 09_Pods_and_Services - Remove bullet point about cartridges.
-=== Module 04 :
+=== Module 04 : RECORDED
 
 - 17_Pods_and_Services, replace "docker-registry=default" line with new example
 - Slide 50_Routers
 - Slide 51_Routers
 
-=== Module 05 :
+=== Module 05 : RECORDED
 
 - 39_Persistent_Volumes
 
-=== Module 07 :
+=== Module 07 : RECORDED
 
 - 05_Template_Overview
 - 07_Template_Overview
 - 18_New_Configuration_From_Template Record again with additions.
 - Slides 19,20,21,22 "Wiring Templates Together" renamed : Processing Template Parameters
 
-=== Module 08
+=== Module 08  RECORDED
 
 - 19_Strategies, Added Callouts to narrator

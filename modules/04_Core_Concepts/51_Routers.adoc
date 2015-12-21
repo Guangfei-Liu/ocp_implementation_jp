@@ -33,10 +33,7 @@ It supports unsecured, edge terminated, re-encryption terminated,
 
 
 The F5 router plug-in integrates with an existing F5 BIG-IP® system in your
- environment. F5 BIG-IP® version 11.4 or newer is required to have the
-  F5 iControl REST API. The F5 router supports unsecured, edge terminated,
-   re-encryption terminated, and passthrough terminated routes matching on HTTP
-    vhost and request path.
+ environment. 
 
    The F5 router has feature parity with the HAProxy template router, along with some additional features.
 

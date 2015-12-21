@@ -31,8 +31,7 @@ Currently, OpenShift Enterprise routers support the following protocols:
 
 * HTTP
 * HTTPS (with SNI)
-* WebSockets
-* TLS with SNI
+
 
 
 

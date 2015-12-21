@@ -7,22 +7,27 @@
 *** OpenShift compares pod CPU usage as percentage of requested CPU
 *** Scales up to indicated threshold
 ** Support for OpenShift Enterprise running on Atomic Host
-** Containerized installations, i.e., all OpenShift Enterprise components running in containers
+** Containerized installations, i.e., all OpenShift Enterprise components
+ running in containers
 
 [NOTE]
-For information on the scope of support via the Red Hat Customer Portal for Technology Preview features, go to:
+For information on the scope of support via the Red Hat Customer Portal for
+ Technology Preview features, go to:
  https://access.redhat.com/support/offerings/techpreview
 
 ifdef::showscript[]
 === Transcript
 
-Some features in this release are currently in Technology Preview. These experimental features, which are not intended for production use, include the following:
+Some features in this release are currently in Technology Preview. These
+ experimental features, which are not intended for production use, include the
+  following:
 
 * Binary builds and the Dockerfile source type for builds.
-* Pod autoscaling, using the `HorizontalPodAutoscaler` object. In pod autoscaling, OpenShift compares pod CPU usage as a percentage of requested CPU, and scales accordingly to up to an indicated threshold.
+* Pod autoscaling, using the `HorizontalPodAutoscaler` object. In pod
+ autoscaling, OpenShift compares pod CPU usage as a percentage of requested CPU,
+  and scales accordingly to up to an indicated threshold.
 * Support for OpenShift Enterprise running on Atomic Host.
-* Containerized installations, meaning all OpenShift Enterprise components running in containers.
-
-For information on the scope of support via the Red Hat Customer Portal for Technology Preview features, go to the web address shown here.
+* Containerized installations, meaning all OpenShift Enterprise components
+ running in containers.
 
 endif::showscript[]

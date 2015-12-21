@@ -11,8 +11,10 @@ ifdef::showscript[]
 === Transcript
 
 OpenShift Enterprise 3.1 lets you aggregate logging with the EFK stack.
-Elasticsearch, Fluentd, and Kibana--together known as the EFK stack--are now available for logging consumption.
+Elasticsearch, Fluentd, and Kibana--together known as the EFK stack--are now
+ available for logging consumption.
 
-In addition, you can now use the Heapster interface and metric data model with OpenShift.
+In addition, you can now use the Heapster interface and metric data model with
+ OpenShift.
 
 endif::showscript[]

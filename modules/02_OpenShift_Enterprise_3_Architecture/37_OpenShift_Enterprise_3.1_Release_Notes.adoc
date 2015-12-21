@@ -4,7 +4,6 @@
 * More persistent storage options
 ** Several persistent storage options available:
 *** Red Hat GlusterFS and Ceph RBD
-//ISSUE: Check storage product names. If these are the RH products, I think these should be Red Hat Gluster Storage and Red Hat Ceph Storage. Ditto in script.
 *** AWS
 *** Google Compute Engine
 ** NFS storage supplemented by iSCSI- and Fibre Channel-based volumes
@@ -23,11 +22,16 @@
 ifdef::showscript[]
 === Transcript
 
-OpenShift Enterprise 3.1 offers several more persistent storage options, including Red Hat's GlusterFS and Ceph RBD, AWS, and Google Compute Engine. Also, NFS storage is now supplemented by iSCSI- and Fibre Channel-based volumes.
+OpenShift Enterprise 3.1 offers several more persistent storage options,
+ including Red Hat's GlusterFS and Ceph RBD, AWS, and Google Compute Engine.
+  Also, NFS storage is now supplemented by iSCSI- and Fibre Channel-based
+   volumes.
 
-It also offers several more middleware options, including JBoss Data Grid and JBoss BRMS, as well as a supported JBoss Developer Studio and Eclipse plug-in.
+It also offers several more middleware options, including JBoss Data Grid and
+ JBoss BRMS, as well as a supported JBoss Developer Studio and Eclipse plug-in.
 
-Finally, the `job` object type is now available, meaning that you can now execute finite jobs on the cluster.
+Finally, the `job` object type is now available, meaning that you can now
+ execute finite jobs on the cluster.
 
 
 endif::showscript[]

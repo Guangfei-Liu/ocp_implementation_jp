@@ -8,7 +8,8 @@ ifdef::showscript[]
 === Transcript
 
 A Jenkins image is now available for deployment on OpenShift.
-In addition, integration between Jenkins masters and Jenkins slaves running on OpenShift has improved.
+In addition, integration between Jenkins masters and Jenkins slaves running on
+ OpenShift has improved.
 
 
 endif::showscript[]

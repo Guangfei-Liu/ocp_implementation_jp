@@ -5,7 +5,9 @@
 ** Including release-specific steps
 
 [NOTE]
-For instructions on upgrading your OpenShift cluster, including any release-specific steps, see https://docs.openshift.com/enterprise/3.1/install_config/upgrades.html.
+For instructions on upgrading your OpenShift cluster, including any
+ release-specific steps, see
+  https://docs.openshift.com/enterprise/3.1/install_config/upgrades.html.
 
 ifdef::showscript[]
 
@@ -13,8 +15,11 @@ ifdef::showscript[]
 
 OpenShift Enterprise version 3.1 is now available.
 
-Make sure that you properly follow the instructions on upgrading your OpenShift cluster, including steps specific to this release.
+Make sure that you properly follow the instructions on upgrading your OpenShift
+ cluster, including steps specific to this release.
 
-Go to the web address shown here for instructions on upgrading your OpenShift cluster, including any additional steps that may be required for a specific release.
+Go to the web address shown here for instructions on upgrading your OpenShift
+ cluster, including any additional steps that may be required for a specific
+  release.
 
 endif::showscript[]

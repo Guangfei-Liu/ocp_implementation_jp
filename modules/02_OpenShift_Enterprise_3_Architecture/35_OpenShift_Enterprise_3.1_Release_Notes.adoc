@@ -24,6 +24,7 @@
 ifdef::showscript[]
 === Transcript
 
-A number of services, packages, file names, and directories have been renamed in OpenShift Enterprise 3.1. This table shows the name changes.
+A number of services, packages, file names, and directories have been renamed in
+ OpenShift Enterprise 3.1. This table shows the name changes.
 
 endif::showscript[]

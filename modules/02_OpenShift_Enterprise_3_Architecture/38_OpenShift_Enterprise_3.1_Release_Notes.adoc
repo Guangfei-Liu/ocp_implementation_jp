@@ -1,6 +1,7 @@
 == OpenShift Enterprise 3.1 Release Notes
 
-* Installation utility updates: Multiple enhancements made to Ansible-based installation
+* Installation utility updates: Multiple enhancements made to Ansible-based
+ installation
 * Can now:
 ** Perform container-based installations (Technology Preview)
 ** Install active-active, highly available clusters
@@ -10,11 +11,11 @@
 ifdef::showscript[]
 === Transcript
 
-Multiple enhancements have been made to the Ansible-based installation utility. The utility can now:
+Multiple enhancements have been made to the Ansible-based installation utility.
+ The utility can now:
 
 * Perform container-based installations (Technology Preview)
 * Install active-active, highly available clusters
 * Uninstall existing OpenShift clusters
 
 endif::showscript[]
-

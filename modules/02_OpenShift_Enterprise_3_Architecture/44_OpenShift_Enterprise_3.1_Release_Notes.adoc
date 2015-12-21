@@ -9,8 +9,10 @@
 ifdef::showscript[]
 === Transcript
 
-The `oc build-logs <build_name>` command is now deprecated and replaced by `oc logs build/<build_name>`.
+The `oc build-logs <build_name>` command is now deprecated and replaced by
+ `oc logs build/<build_name>`.
 
-The `spec.rollingParams.updatePercent` field in deployment configurations has been replaced with `maxUnavailable` and `maxSurge`.
+The `spec.rollingParams.updatePercent` field in deployment configurations has
+ been replaced with `maxUnavailable` and `maxSurge`.
 
 endif::showscript[]

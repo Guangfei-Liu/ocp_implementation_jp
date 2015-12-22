@@ -2,22 +2,16 @@
 :data-uri:
 :toc2:
 :icons: images/icons
+
+
+
+== Introduction to Course and Learning Environment Labs
+
 :numbered:
 
-= Labs: Introduction to the course
+== Provision Your Lab Environment
 
-toc::[]
-
-== Labs Overview
-
-
-* Lab: Provision Your Lab Environment
-- Lab Scenario: In this lab we will use the OPENTLC Cloudforms Appliance (At
-   link:https://labs.opentlc.com[https://labs.opentlc.com]) to deploy our Lab
-    environment.
-
-
-== Lab: Provision Your Lab Environment
+In this lab you use the OPENTLC CloudForms appliance (at https://labs.opentlc.com) to deploy your lab environment.
 
 === Overview
 To complete the labs for this course, you must provision the lab environment

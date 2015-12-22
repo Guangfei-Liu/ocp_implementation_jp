@@ -1576,7 +1576,7 @@ endif::showscript[]
 * Use disk partitions to enforce disk quotas and size constraints
 ** Each partition can be own export
 ** Each export = one persistent volume
-* Unique names enforces for persistent volumes
+* OpenShift enforces unique names for persistent volumes,
 ** Administrator determines uniqueness of NFS volume server and path
 
 * Enforcing quotas lets user:
@@ -1593,7 +1593,7 @@ To define disk quotas, you need to use disk partitions to create size constraint
 
 Each partition can be its own export, and each export is one persistent volume.
 
-Using unique names enforces for persistent volumes. However, the administrator
+OpenShift enforces unique names for persistent volumes, the administrator
  determines the uniqueness of the NFS volume's server and path.
 
 Enforcing quotas this way lets a user request a specific amount of persistent
@@ -1635,58 +1635,5 @@ By default, persistent volumes are set to `Retain`. In this case, volumes are
 NFS volumes set to `Recycle` are scrubbed--that is, `rm -rf` is run on the
  volume--after being released from their claim. After you recycle an NFS volume,
   you can bind it to a new claim.
-
-endif::showscript[]
-== Persistent Volumes
-
-.Automation
-
-* Can provision OpenShift Enterprise clusters with persistent storage using NFS:
-** Use disk partitions to enforce storage quotas
-** Enforce security by restricting volumes to namespace that has claim to them
-** Configure reclamation of discarded resources for each persistent volume
-
-* Can use scripts to automate these tasks
-* See sample Ansible playbook:
-https://github.com/openshift/openshift-ansible/tree/master/roles/kube_nfs_volumes
-
-
-ifdef::showscript[]
-
-=== Transcript
-
-The preceding sections have discussed the ways you can provision OpenShift
- Enterprise clusters with persistent storage using NFS:
-
-* Use disk partitions to enforce storage quotas
-* Enforce security by restricting volumes to the namespace that has a claim to
- them
-* Configure reclamation of discarded resources for each persistent volume
-
-After you set up your OpenShift Enterprise environment and clusters to use
- persistent storage, it is easy to create scripts to automate these tasks.
-
-To help you get started, see the example Ansible playbook at the web address
- shown here.
-
-endif::showscript[]
-== Summary
-
-* Resource Types
-* OpenShift Enterprise Resources
-* Projects and Users
-* Client Tool Authentication
-* Resource Quota
-* Service Accounts
-* Routes
-* Persistent Volumes
-
-ifdef::showscript[]
-
-=== Transcript
-
-This module discussed various OpenShift Enterprise resources and how to use them
- to configure and manage your environment.
-
 
 endif::showscript[]

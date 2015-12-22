@@ -5,7 +5,7 @@
 * Use disk partitions to enforce disk quotas and size constraints
 ** Each partition can be own export
 ** Each export = one persistent volume
-* Unique names enforces for persistent volumes
+* OpenShift enforces unique names for persistent volumes,
 ** Administrator determines uniqueness of NFS volume server and path
 
 * Enforcing quotas lets user:
@@ -22,7 +22,7 @@ To define disk quotas, you need to use disk partitions to create size constraint
 
 Each partition can be its own export, and each export is one persistent volume.
 
-Using unique names enforces for persistent volumes. However, the administrator
+OpenShift enforces unique names for persistent volumes, the administrator
  determines the uniqueness of the NFS volume's server and path.
 
 Enforcing quotas this way lets a user request a specific amount of persistent

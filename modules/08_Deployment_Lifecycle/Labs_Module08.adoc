@@ -11,21 +11,28 @@ In this section, you manage the various phases of the deployment's life cycle.
 
 * *Create and Use Web Hooks*
 +
-In this section, you create a Git webhook and start a new build and a new deployment automatically by pushing a code change in your Git repository.
+In this section, you create a Git webhook and start a new build and a new
+ deployment automatically by pushing a code change in your Git repository.
 
 :numbered:
 
 == Roll Back, Activate, and Code Life Cycle
 
-No one codes correctly all the time. On occasion, you may want to revert to a previous incarnation of your application to restart a programming task. Other times, you may want to move to a newer version.
+No one codes correctly all the time. On occasion, you may want to revert to a
+ previous incarnation of your application to restart a programming task. Other
+  times, you may want to move to a newer version.
 
-In this section, you take user `marina`'s `hello-ruby` application, modify its front end, and then rebuild. Afterwards, you revert to the original version and then go on to your rebuilt version.
+In this section, you take user `marina`'s `hello-ruby` application, modify its
+ front end, and then rebuild. Afterwards, you revert to the original version and
+  then go on to your rebuilt version.
 
 The next sections require a GitHub account.
 
 === Fork Repository
 
-From the Git web interface, click *Fork* in the upper right corner of the GitHub web UI to fork the Git repository `https://github.com/openshift/ruby-hello-world` into your own account.
+If you have not done so already: from the Git web interface, click *Fork* in the
+ upper right corner of the GitHub web UI to fork the Git repository
+  `https://github.com/openshift/ruby-hello-world` into your own account.
 
 === Create Your Application
 
@@ -44,7 +51,6 @@ Remember that `buildconfig` (the build-configuration file) instructs OpenShift E
 +
 ----
 [root@master00 ~]# su - marina
-[marina@master00 ~]$ oc login -u marina --insecure-skip-tls-verify --server=https://master00-${guid}.oslab.opentlc.com:8443
 [marina@master00 ~]$ oc project lifecycle
 ----
 
@@ -60,7 +66,7 @@ The `--strategy=source` option forces `oc new-app` to adopt the S2I strategy. A 
 . Run `oc env` to add the environment variables for a database to be used later:
 +
 ----
-[marina@master00~]$ oc env dc/ruby-hello-world MYSQL_USER=root \
+[marina@master00~]$ oc env dc/ruby-hello-world MYSQL_USER=mysqluser \
   MYSQL_PASSWORD=redhat MYSQL_DATABASE=mydb
 ----
 
@@ -143,8 +149,10 @@ status:
 [IMPORTANT]
 Replace `GitHubUsername` with your actual GitHub username. For example, if your GitHub username is `jeandeaux`, the name of your GitHub repository is `'https://github.com/jeandeaux/ruby-hello-world`.
 
-
 .. Save and exit `vi` by typing *:wq*.
++
+NOTE: There are other ways to achieve this outcome, this way is used to cover
+ the `oc edit` and the `oc start-build` commands.
 
 
 . Run `oc get buildconfig ruby-hello-world -o yaml` again. Notice that `uri` has been updated.
@@ -165,12 +173,12 @@ ruby-hello-world   Docker    https://github.com/YOURUSERNAME/ruby-hello-world
 [marina@master00~]$ oc start-build ruby-hello-world
 ruby-hello-world-2
 
-[marina@master00~]$ watch oc get builds
-NAME                 TYPE      STATUS     POD
-ruby-hello-world-1   Source    Complete   ruby-hello-world-1-build
-ruby-hello-world-2   Source    Complete   ruby-hello-world-2-build
+[marina@master00~]$ oc get builds -w
+NAME                 TYPE      FROM	 STATUS     STARTED              DURATION
+ruby-hello-world-1   Source    Git	 Complete   16 minutes ago	 4m25s
+ruby-hello-world-2   Source    Git	 Complete   About a minute ago   1m46s
 
-[marina@master00~]$ oc build-logs ruby-hello-world-X # Replace X with proper number from oc start-build output
+[marina@master00~]$ oc logs -f bc/ruby-hello-world
 I0709 23:41:08.493756       1 docker.go:69] Starting Docker build from justanother1/ruby-hello-world-7 BuildConfig ...
 I0709 23:41:08.508448       1 tar.go:133] Adding to tar: /tmp/docker-build062004796/.gitignore as .gitignore
 I0709 23:41:08.509588       1 tar.go:133] Adding to tar: /tmp/docker-build062004796/.sti/bin/README as .sti/bin/README
@@ -236,7 +244,7 @@ mysql
 +
 ----
 [marina@master00~]$ oc new-app --template=mysql-ephemeral \
-                    --param=MYSQL_USER=dbuser,MYSQL_PASSWORD=redhat,MYSQL_DATABASE=mydb,DATABASE_SERVICE_NAME=database
+                    --param=MYSQL_USER=mysqluser,MYSQL_PASSWORD=redhat,MYSQL_DATABASE=mydb,DATABASE_SERVICE_NAME=database
 ----
 
 . Verify that your values were processed correctly:
@@ -247,21 +255,35 @@ mysql
 +
 ----
 # deploymentconfigs database, container mysql
-MYSQL_USER=dbuser
+MYSQL_USER=mysqluser
 MYSQL_PASSWORD=redhat
 MYSQL_DATABASE=mydb
 ----
 
-. You must redeploy your front end so that it checks for the database again. You can either delete just the pod, or you can redeploy the application:
+. You must redeploy your front end so that it checks for the database again. You
+ can either delete just the pod, or you can redeploy the application:
 +
 ----
 [marina@master00-GUID ~]$ oc deploy ruby-hello-world --latest
 ----
 
-
+. You can see the logs for your latest deployment if you use the `oc logs` command this way:
++
+----
+[marina@master00~]$  oc logs -f dc/ruby-hello-world
+I1222 01:54:45.485814       1 deployer.go:198] Deploying from lifecycle/ruby-hello-world-3 to lifecycle/ruby-hello-world-4 (replicas: 1)
+I1222 01:54:46.913895       1 rolling.go:232] RollingUpdater: Continuing update with existing controller ruby-hello-world-4.
+I1222 01:54:47.019320       1 rolling.go:232] RollingUpdater: Scaling up ruby-hello-world-4 from 0 to 1, scaling down ruby-hello-world-3 from 1 to 0 (keep 0 pods available, don't exceed 2 pods)
+I1222 01:54:47.020399       1 rolling.go:232] RollingUpdater: Scaling ruby-hello-world-4 up to 1
+I1222 01:54:51.372703       1 rolling.go:232] RollingUpdater: Scaling ruby-hello-world-3 down to 0
+----
 == Create and Use Web Hooks
 
-With webhooks, you can integrate external systems into your OpenShift Enterprise environment so that they can start OpenShift Enterprise builds. Generally speaking, you make code changes and update the code repository, after which a process hits OpenShift Enterprise's webhook URL to start a build with the new code.
+With webhooks, you can integrate external systems into your OpenShift Enterprise
+ environment so that they can start OpenShift Enterprise builds. Generally
+  speaking, you make code changes and update the code repository, after which a
+   process hits OpenShift Enterprise's webhook URL to start a build with the new
+    code.
 
 === Create a Webhook
 
@@ -286,7 +308,7 @@ https://master00-GUID.oslab.opentlc.com:8443/osapi/v1/namespaces/lifecycle/build
 [marina@master00~]$ oc get bc ruby-hello-world -o yaml
 ----
 
-* The output looks similar to the following. 
+* The output looks similar to the following.
 
 * Note the `secret` value in your configuration in Git.
 +
@@ -346,11 +368,11 @@ If another build is already running, this latest build may fail because both bui
 
 . Log in as `marina` and check the web UI to verify that the build is running.
 
-. Wait for the build to complete. It can take a minute for your service endpoint to update. 
-. Use your browser to go to the application at `http://ruby-hello-world.lifecycle.cloudapps-GUID.oslab.opentlc.com/`. 
+. Wait for the build to complete. It can take a minute for your service endpoint to update.
+. Use your browser to go to the application at `http://ruby-hello-world.lifecycle.cloudapps-GUID.oslab.opentlc.com/`.
 
 * The output includes the deliberately misspelled `crustom`.
-* If you try to access the application before the update is complete, you may see a `503` error. 
+* If you try to access the application before the update is complete, you may see a `503` error.
 
 
 === Roll Back Your Application

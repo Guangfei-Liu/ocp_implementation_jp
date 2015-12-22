@@ -1,7 +1,7 @@
 :toc2:
 :icons: images/icons
 
-== Resource Management Lab 
+== Resource Management Lab
 
 In this lab, you learn how to manage OpenShift Enterprise resources.
 
@@ -127,7 +127,7 @@ Namespace:		resourcemanagement
 Resource		Used	Hard
 --------		----	----
 cpu			0	20
-memory			0	1Gi
+memory			0	512Mi
 pods			0	3
 replicationcontrollers	0	5
 resourcequotas		1	1
@@ -224,7 +224,7 @@ NOTE: You are running commands as the Linux users `andrew` and `root` in a lab e
 
 . Authenticate to OpenShift Enterprise and choose your project:
 
-.. Connect to the OpenShift Enterprise master according to the procedure you followed 
+.. Connect to the OpenShift Enterprise master according to the procedure you followed
  previously.
 
 .. When prompted, type the username and password:
@@ -245,7 +245,7 @@ Using project "resourcemanagement".
 Welcome! See 'oc help' to get started.
 ----
 +
-NOTE: This lab shows you the manual, step-by-step method of creating each object. There are easier ways to create a deployment and its components. One of those ways is the `oc new-app` command, which is covered later in this lab. 
+NOTE: This lab shows you the manual, step-by-step method of creating each object. There are easier ways to create a deployment and its components. One of those ways is the `oc new-app` command, which is covered later in this lab.
 
 . Create the `hello-pod.json` pod definition file:
 +
@@ -316,6 +316,7 @@ hello-openshift   1/1       Running   0          8s
 . Run `oc describe` for details on your pod:
 +
 ----
+[andrew@master00-GUID ~]$ oc describe pod hello-openshift
 Name:				hello-openshift
 Namespace:			resourcemanagement
 Image(s):			openshift/hello-openshift:v1.0.6
@@ -389,7 +390,7 @@ Hello OpenShift!
 [andrew@master00-GUID ~]$ oc delete -f hello-pod.json
 ----
 +
-TIP: You can also delete a pod using the following command format: +oc delete pod hello-__podname__+. 
+TIP: You can also delete a pod using the following command format: +oc delete pod hello-__podname__+.
 
 . Create a new definition file that launches four `hello-openshift` pods:
 +
@@ -607,13 +608,13 @@ Because you defined a quota before, `oc create` created three pods only instead 
     --description="This is the project we use to learn about services"
 ----
 
-* The output looks like this: 
+* The output looks like this:
 +
 ----
 Now using project "svcslab" on server "https://master00-GUID.oslab.opentlc.com:8443".
 ----
 +
-TIP: To switch between projects, run `oc project _projectname_`. 
+TIP: To switch between projects, run `oc project _projectname_`.
 
 . Create the `hello-service.json` file:
 +
@@ -880,7 +881,7 @@ root        342    243  0 22:16 ?        00:00:00 ps -ef
 [root@infranode00-GUID conf]# cat haproxy.config
 ----
 
-.. Examine the output, which looks like this: 
+.. Examine the output, which looks like this:
 +
 ----
 backend be_http_explore-example_hello-openshift
@@ -954,7 +955,7 @@ backend be_http_explore-example_hello-openshift
   server 10.1.2.11:8080 10.1.2.11:8080 check inter 5000ms cookie 10.1.2.11:8080
 ----
 
-* All of your pods within the `haproxy` configuration are listed. 
+* All of your pods within the `haproxy` configuration are listed.
 
 NOTE: Remember, the router routes proxy connections to the pods directly and not through the service. The router uses the service only to obtain a list of the pod endpoints (IP addresses).
 
@@ -990,7 +991,7 @@ This step takes a while on the lab environment's hardware. If the build is not y
 . Do the following:
 .. Run `id`.
 .. Run `pwd` and `ls` and note the directory you are in.
-.. Run `cat config.yml`  to verify that your configuration file is empty. 
+.. Run `cat config.yml`  to verify that your configuration file is empty.
 +
 ----
 bash-4.2$ id
@@ -1025,7 +1026,7 @@ bash-4.2$
 ----
 bash-4.2$  cd /registry/docker/registry/v2/repositories
 bash-4.2$ ls
-explore-example  svcslab
+explore-example
 bash-4.2$ ls explore-example/sinatra-example/_layers/
 sha256
 bash-4.2$ ls explore-example/sinatra-example/_layers/sha256/
@@ -1093,7 +1094,7 @@ Your pod names and output differ slightly.
 
 == Create Persistent Volume for Registry
 
-You learn in this lab how to create an NFS export for the registry and to attach the persistent volume to the registry. 
+You learn in this lab how to create an NFS export for the registry and to attach the persistent volume to the registry.
 
 === Create NFS Export for Registry
 
@@ -1119,10 +1120,11 @@ You learn in this lab how to create an NFS export for the registry and to attach
 ----
 
 
-. On the master host, create a persistent volume-definition file named `registry-volume.json`:
+. As `root` on the `master` host, create a persistent volume-definition file named `registry-volume.json`:
 +
 [source,json]
 ----
+[root@oselab-GUID ~]# ssh master00-$guid
 [root@master00-GUID ~]# cat << EOF > registry-volume.json
     {
       "apiVersion": "v1",
@@ -1250,9 +1252,10 @@ trainingrouter-1-xcz9o    1/1       Running   0          21h
 +
 NOTE: Along with the deletion of the first `docker-registry` container, all the images it stored were also deleted. Now that your registry contains a persistent volume, images are saved even if you delete or replace the `docker-registry` pod.
 
-. As `andrew`, start an application based on the `https://github.com/openshift/sti-php` repository that would require an S2I build:
+. As `andrew` on the `master` host, start an application based on the `https://github.com/openshift/sti-php` repository that would require an S2I build:
 +
 ----
+[root@master00-GUID ~]# su - andrew
 [andrew@master00-GUID ~]$ oc new-app openshift/php~https://github.com/openshift/sti-php -l "todelete=yes"
 --> Found image 355eabc (2 weeks old) in image stream "php in project openshift" under tag :latest for "openshift/php"
     * A source build using source code from https://github.com/openshift/sti-php will be created
@@ -1332,3 +1335,6 @@ TIP: The `-f` flag sets `oc logs` to "follow" the log, similar to `tail -f`.
 /var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/56/561fd3acac303de8a9c4de202a2e3169bb47f5c03586358d13d374832e983df5/data
 
 ----
+
+NOTE: You can see that previously created images are not in the registry, they
+ were created before the registry was restarted and given a persistent volume.

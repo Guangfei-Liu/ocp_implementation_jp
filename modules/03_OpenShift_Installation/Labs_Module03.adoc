@@ -49,7 +49,7 @@ IMPORTANT: Read these notes. They help you successfully navigate the lab.
 |The master daemon does not start after you have configured authentication.
 |This problem is most likely due to YAML's space sensitivity.
 |Revert to the original configuration (a copy is available from before) and try again. YAML is space sensitive and might take a couple of tries to work.
-|======================================================================= 
+|=======================================================================
 
 :numbered:
 
@@ -64,7 +64,7 @@ In this section, you deploy OpenShift Enterprise on a master and two nodes, as f
 * Install Docker on all the hosts.
 
 [NOTE]
-*Reminder: The administration host is the only host you can access outside the lab environment with SSH.* External SSH for all other hosts is blocked on all other hosts. Once on the administration host, you can access the other hosts internally through SSH. As described earlier, you must access the system (not `root`) with your private SSH key and OPENTLC login. 
+*Reminder: The administration host is the only host you can access outside the lab environment with SSH.* External SSH for all other hosts is blocked on all other hosts. Once on the administration host, you can access the other hosts internally through SSH. As described earlier, you must access the system (not `root`) with your private SSH key and OPENTLC login.
 
 Each lab is assigned a global unique identifier (GUID) with four characters, which you receive by email while provisioning your lab environment. *From this point on, replace GUID with your lab's GUID.*
 
@@ -87,7 +87,7 @@ Each lab is assigned a global unique identifier (GUID) with four characters, whi
 * `oselab` is *not* an OpenShift Cluster member or part of the OpenShift environment. That host mimics your client's infrastructure or your laptop or desktop that is connected to the client's local area network (LAN).
 
 
-.Important Details 
+.Important Details
 
 * Run most, *but not all*, of your commands from the `oselab` host.
 * When executing instructions on all the nodes or hosts:
@@ -96,7 +96,7 @@ Each lab is assigned a global unique identifier (GUID) with four characters, whi
  to save time and effort.
 - In some cases, in the interest of time, feel free to run the commands directly on the nodes or hosts instead of using the `for` loop.
 * The `$guid/$GUID` environment variables are already defined on all the hosts.
-- For the GUID variable in links or file definitions, replace GUID with its value. 
+- For the GUID variable in links or file definitions, replace GUID with its value.
 - Here is an administration host example:
 +
 ----
@@ -132,7 +132,7 @@ yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-GUID.oslab.opentlc.c
 * Here is an example of a successful connection:
 +
 ----
-[sborenst@desktop01 ~]$ ssh shacharb-redhat.com@oselab-c0fe.oslab.opentlc.com
+[sborenst@desktop01 ~]$ ssh -i ~/.ssh/id_rsa shacharb-redhat.com@oselab-c0fe.oslab.opentlc.com
 #############################################################################
 #############################################################################
 #############################################################################
@@ -169,7 +169,7 @@ Environment Deployment Is Completed : Wed Nov 25 20:03:55 EST 2015
 GUID is c0fe and guid is c0fe
 ----
 
-* If you have not set the `$GUID` and `$guid` environment variables, run the following commands:
+* If the environment variables `$GUID` and `$guid` *are not set*, run the following commands:
 +
 ----
 [root@oselab-GUID ~]# export GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
@@ -355,29 +355,29 @@ Normally, you obtain those repositories through `subscription-manager`. For the 
  `/etc/yum.repos.d/open.repo` with the following repositories:
 +
 ----
-cat << EOF > /etc/yum.repos.d/open.repo
+[root@oselab-GUID ~]# cat << EOF > /etc/yum.repos.d/open.repo
 [rhel-x86_64-server-7]
 name=Red Hat Enterprise Linux 7
-baseurl=http://www.opentlc.com/repos/rhel-7-server-rpms
+baseurl=http://www.opentlc.com/repos/ose/3.1/rhel-7-server-rpms
 enabled=1
 gpgcheck=0
 
 [rhel-x86_64-server-extras-7]
 name=Red Hat Enterprise Linux 7 Extras
-baseurl=http://www.opentlc.com/repos/rhel-7-server-extras-rpms
+baseurl=http://www.opentlc.com/repos/ose/3.1/rhel-7-server-extras-rpms
 enabled=1
 gpgcheck=0
 
 [rhel-x86_64-server-optional-7]
 name=Red Hat Enterprise Linux 7 Optional
-baseurl=http://www.opentlc.com/repos/rhel-7-server-optional-rpms
+baseurl=http://www.opentlc.com/repos/ose/3.1/rhel-7-server-optional-rpms
 enabled=1
 gpgcheck=0
 
 # This repo is added for the OPENTLC environment not OSE
 [rhel-x86_64-server-rh-common-7]
 name=Red Hat Enterprise Linux 7 Common
-baseurl=http://www.opentlc.com/repos/rhel-x86_64-server-rh-common-7
+baseurl=http://www.opentlc.com/repos/ose/3.1/rhel-7-server-rh-common-rpms
 enabled=1
 gpgcheck=0
 
@@ -390,7 +390,7 @@ EOF
 [root@oselab-GUID ~]# cat << EOF >> /etc/yum.repos.d/open.repo
 [rhel-7-server-ose-3.1-rpms]
 name=Red Hat Enterprise Linux 7 OSE 3.1
-baseurl=http://www.opentlc.com/repos/rhel-7-server-ose-3.1-rpms
+baseurl=http://www.opentlc.com/repos/ose/3.1/rhel-7-server-ose-3.1-rpms
 enabled=1
 gpgcheck=0
 
@@ -400,7 +400,7 @@ EOF
 . List the repositories on the `oselab` host:
 +
 -----
-[root@oselab-GUID ~]# yum repolist
+[root@oselab-GUID ~]# yum clean all ; yum repolist
 -----
 
 * The output is as follows:
@@ -430,6 +430,7 @@ repolist: 8,998
                                     do \
                                       echo Copying open.repot to $node ; \
                                       scp /etc/yum.repos.d/open.repo ${node}:/etc/yum.repos.d/open.repo ;
+                                      yum clean all
                                       yum repolist
                                    done
 -----
@@ -450,7 +451,7 @@ Here, you verify that the master host is correctly configured for resolving inte
 [root@master00-GUID ~]# hostname -f
 ----
 
-* The output is as follows: 
+* The output is as follows:
 +
 ----
 master00-GUID.oslab.opentlc.com
@@ -497,7 +498,7 @@ NOTE: If errors occur on your first try, try again after a short while. It may t
                                    done
 ----
 +
-NOTE: You can configure `NetworkManager` so you need not remove it. 
+NOTE: You can configure `NetworkManager` so you need not remove it.
 
 . Install the following tools and utilities on the `master00` host:
 +
@@ -544,6 +545,13 @@ OpenShift Enterprise stores and manages container images on Docker. Install Dock
 [root@master00-GUID ~]# yum -y install docker
 ----
 
+. Configure the Docker registry on the master host to allow insecure
+ (no-certificate) connections to the Docker registries within your network:
++
+----
+[root@master00-GUID ~]# sed -i "s/OPTIONS.*/OPTIONS='--selinux-enabled --insecure-registry 172.30.0.0\/16'/" /etc/sysconfig/docker
+----
+
 . Install the `docker` package on the other nodes:
 +
 ----
@@ -554,13 +562,6 @@ OpenShift Enterprise stores and manages container images on Docker. Install Dock
                                     echo Installing docker on $node ; \
                                     ssh $node "yum -y install docker"  ;
                                     done
-----
-
-. Configure the Docker registry on the master host to allow insecure
- (no-certificate) connections to the Docker registries within your network:
-+
-----
-[root@master00-GUID ~]# sed -i "s/OPTIONS.*/OPTIONS='--selinux-enabled --insecure-registry 172.30.0.0\/16'/" /etc/sysconfig/docker
 ----
 +
 [NOTE]
@@ -710,9 +711,10 @@ DOCKER_STORAGE_OPTIONS=--storage-driver devicemapper --storage-opt dm.fs=xfs --s
                                     done
 ----
 +
-NOTE: `Broken Pipeline` messages in the output are normal and not an indication of errors.
+NOTE: `Broken Pipeline` messages in the output are normal and not an indication
+ of errors.
 
-. Enable, start, and obtain the status of the Docker service on the master host:
+. Enable Docker service on the master host:
 +
 ----
 [root@master00-GUID ~]# systemctl enable docker
@@ -724,13 +726,15 @@ NOTE: `Broken Pipeline` messages in the output are normal and not an indication 
 [root@master00-GUID ~]# reboot
 -----
 
-IMPORTANT: See the _<<Known Issues>>_ section if you have problems with Docker's storage setup.
+IMPORTANT: See the _<<Known Issues>>_ section if you have problems with Docker's
+ storage setup.
 
 === Populate Local Docker Registry
 
 . Log back in to the `osehost` host after rebooting the nodes and the master.
 
-. Verify that the Docker service has started on all the nodes:
+. Verify that the Docker service has started on all the nodes, you might have to
+ wait for hosts to finish rebooting and for the docker daemon to start:
 +
 ----
 [root@oselab-GUID ~]# for node in   master00-$guid.oslab.opentlc.com \
@@ -744,7 +748,7 @@ IMPORTANT: See the _<<Known Issues>>_ section if you have problems with Docker's
                                     done
 ----
 
-* The output is as follows: 
+* The output is as follows:
 +
 ----
 Checking docker status on master00-c0fe.oslab.opentlc.com
@@ -771,12 +775,11 @@ do
 ssh $node "
 docker pull $REGISTRY/$PTH/ose-deployer:v3.1.0.4 ; \
 docker pull $REGISTRY/$PTH/ose-sti-builder:v3.1.0.4 ; \
-docker pull $REGISTRY/$PTH/ose-sti-image-builder:v3.1.0.4 ; \
 docker pull $REGISTRY/$PTH/ose-pod:v3.1.0.4 ; \
 docker pull $REGISTRY/$PTH/ose-keepalived-ipfailover:v3.1.0.4 ; \
 docker pull $REGISTRY/$PTH/ruby-20-rhel7 ; \
 docker pull $REGISTRY/$PTH/mysql-55-rhel7 ; \
-docker pull openshift/hello-openshift:v1.0.6
+docker pull openshift/hello-openshift:v1.0.6 ;
 "
 done
 ----
@@ -789,7 +792,8 @@ This process takes about 10 minutes to complete on *each node*. For the sake of 
 +
 ----
 [root@oselab-GUID ~]# REGISTRY="registry.access.redhat.com";PTH="openshift3"
-[root@oselab-GUID ~]# ssh infranode00-$guid.oslab.opentlc.com "
+[root@oselab-GUID ~]# node=infranode00-$guid.oslab.opentlc.com
+[root@oselab-GUID ~]# ssh $node "
 docker pull $REGISTRY/$PTH/ose-haproxy-router:v3.1.0.4  ; \
 docker pull $REGISTRY/$PTH/ose-deployer:v3.1.0.4 ; \
 docker pull $REGISTRY/$PTH/ose-pod:v3.1.0.4 ; \
@@ -843,7 +847,7 @@ ID: RXVI:JKOO:3U4X:LHDE:QXPN:FSQC:TTBL:UCWP:MCEH:2KU6:GWSD:IRIN
 [root@oselab-GUID ~]# ssh node00-$guid.oslab.opentlc.com "lvs"
 ----
 
-* The output is similar to below. Note that the `docker-pool` LV now contains data.  
+* The output is similar to below. Note that the `docker-pool` LV now contains data.
 +
 ----
 LV          VG                    Attr       LSize  Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
@@ -912,7 +916,7 @@ Are you ready to continue? [y/N]:
 
 ----
 
-. Type `y`. The output is as follows. Type `root` at the prompt `User for ssh access [root]`. 
+. Type `y`. The output is as follows. Type `root` at the prompt `User for ssh access [root]`.
 +
 ----
 
@@ -928,11 +932,11 @@ User for ssh access [root]: root
 CAUTION: Pay attention while typing your input. If you make a mistake, type *Ctrl+C*
  to exit the Installer and try again.
 
-* The output is as follows: 
+* The output is as follows:
 +
 ----
 
-***Master Configuration***
+***Host Configuration***
 
 The OpenShift Master serves the API and web console.  It also coordinates the
 jobs that have to run across the environment.  It can even run the datastore.
@@ -950,18 +954,16 @@ host the required services to be managed by the Master.
 http://docs.openshift.com/enterprise/latest/architecture/infrastructure_components/kubernetes_infrastructure.html#master
 http://docs.openshift.com/enterprise/latest/architecture/infrastructure_components/kubernetes_infrastructure.html#node
 
-Enter hostname or IP address: []: master00-GUID.oslab.opentlc.com
+Enter hostname or IP address: []: master00-3191.oslab.opentlc.com
 Will this host be an OpenShift Master? [y/N]: y
 Do you want to add additional hosts? [y/N]: y
-Enter hostname or IP address: []: infranode00-GUID.oslab.opentlc.com
-Will this host be an OpenShift Master? [y/N]: n
+Enter hostname or IP address: []: infranode00-3191.oslab.opentlc.com
 Do you want to add additional hosts? [y/N]: y
-Enter hostname or IP address: []: node00-GUID.oslab.opentlc.com
-Will this host be an OpenShift Master? [y/N]: n
+Enter hostname or IP address: []: node00-3191.oslab.opentlc.com
 Do you want to add additional hosts? [y/N]: y
-Enter hostname or IP address: []: node01-GUID.oslab.opentlc.com
-Will this host be an OpenShift Master? [y/N]: n
+Enter hostname or IP address: []: node01-3191.oslab.opentlc.com
 Do you want to add additional hosts? [y/N]: n
+
 
 
 ----
@@ -971,16 +973,13 @@ Do you want to add additional hosts? [y/N]: n
 .. Type `y` to confirm that this host is an OpenShift Master.
 .. Type `y` to add more hosts.
 .. Paste or type the name of your `infra` host `infranode00-GUID.oslab.opentlc.com`.
-.. Type `n` to confirm that this host is not an OpenShift Master.
 .. Type `y` to add more hosts.
 .. Paste or type the name of your `node00` host `node00-GUID.oslab.opentlc.com`.
-.. Type `n` to confirm that this host is not an OpenShift Master.
 .. Type `y` to add more hosts.
 .. Paste or type the name of your `node01` host `node01-GUID.oslab.opentlc.com`
-.. Type `n` to confirm that this host is not an OpenShift Master.
 .. Type `n` to stop adding OpenShift hosts.
 
-. Type `2` to choose OpenShift Enterprise 3.1 as the variant: 
+. Type `2` to choose OpenShift Enterprise 3.1 as the variant:
 +
 ----
 Which variant would you like to install?
@@ -1112,10 +1111,13 @@ version: v1
                                       ssh $node "reboot"
                                    done
 ----
++
+NOTE: `Broken Pipeline` messages in the output are normal and not an indication
+ of errors.
 
 === Verify Your Environment
 
-. Connect to the `master00` host:
+. After the hosts finish rebooting, connect to the `master00` host:
 +
 ----
 [root@oselab-GUID ~]# ssh master00-$guid
@@ -1132,6 +1134,8 @@ master00-GUID.oslab.opentlc.com      kubernetes.io/hostname=192.168.0.100   Read
 node00-GUID.oslab.opentlc.com        kubernetes.io/hostname=192.168.0.200   Ready                      1m
 node01-GUID.oslab.opentlc.com        kubernetes.io/hostname=192.168.0.201   Ready                      1m
 ----
++
+NOTE: If you see an error message that connection to the master host cannot be established, wait a few more seconds for the master daemon to start.
 
 . Use your browser to connect to the OpenShift web console at link:https://master00-GUID.oslab.opentlc.com:8443[`https://master00-GUID.oslab.opentlc.com:8443`] and accept the Untrusted Certificate.
 
@@ -1139,17 +1143,12 @@ NOTE: You cannot log in yet because you have yet to set up authentication.
 
 == Configure and Set Up OpenShift Enterprise
 
-In this section, you establish regions and zones, configure OpenShift Enterprise, set up authentication, add development users, and configure `htpasswd` authentication. Subsequently, you deploy the registry and router and populate OpenShift Enterprise. 
+In this section, you establish regions and zones, configure OpenShift
+ Enterprise, set up authentication, add development users, and configure
+  `htpasswd` authentication. Subsequently, you deploy the registry and router
+   and populate OpenShift Enterprise.
 
 === Set Regions and Zones
-
-Labels on the nodes handle the assignments of _regions_ and _zones_ at the node level.
-
-. Connect to the `master00` host:
-+
-----
-[root@oselab-GUID ~]# ssh master00-$guid
-----
 
 . Label the nodes:
 +
@@ -1180,9 +1179,16 @@ node01-GUID.oslab.opentlc.com        kubernetes.io/hostname=192.168.0.201,region
 
 ----
 
-You now have a running OpenShift Enterprise environment across three hosts with one master and three nodes, divided into two regions: infra and primary. From here, you deploy applications and other resources into OpenShift Enterprise.
+You now have a running OpenShift Enterprise environment across three hosts with
+ one master and three nodes, divided into two regions: infra and primary.
 
 === OpenShift Enterprise Configuration Tips
+
+. Create a copy of your master's configuration file:
++
+----
+[root@master00-GUID ~]# cp /etc/origin/master/master-config.yaml /etc/origin/master/master-config.yaml.original
+----
 
 .Setting the Default Subdomain
 * To set a default Route, change the `routingConfig` attribute's `subdomain` command:
@@ -1201,9 +1207,17 @@ You now have a running OpenShift Enterprise environment across three hosts with 
 ----
 [root@master00-GUID ~]# sed -i 's/defaultNodeSelector: ""/defaultNodeSelector: "region=primary"/' /etc/origin/master/master-config.yaml
 [root@master00-GUID ~]# systemctl restart atomic-openshift-master
+[root@master00-GUID ~]# systemctl status atomic-openshift-master
+tomic-openshift-master.service - Atomic OpenShift Master
+   Loaded: loaded (/usr/lib/systemd/system/atomic-openshift-master.service; enabled)
+   Active: active (running) since Mon 2015-12-21 20:19:58 EST; 19s ago
+     Docs: https://github.com/openshift/origin
+ Main PID: 2948 (openshift)
+   CGroup: /system.slice/atomic-openshift-master.service
+           └─2948 /usr/bin/openshift start master --config=/etc/origin/master/master-config.yaml --loglevel=2
 ----
 
-.Configuring the Default Namespace to Use the `infra` Region 
+.Configuring the Default Namespace to Use the `infra` Region
 
 . In annotations section, add the following line in the default namespace object:
 +
@@ -1242,6 +1256,32 @@ status:
   phase: Active
 ----
 
+. Check that your changes were updated in the "default" `namespace`.
++
+----
+[root@master00-GUID ~]# oc get namespace default -o yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    openshift.io/node-selector: region=infra
+    openshift.io/sa.initialized-roles: "true"
+    openshift.io/sa.scc.mcs: s0:c5,c0
+    openshift.io/sa.scc.supplemental-groups: 1000020000/10000
+    openshift.io/sa.scc.uid-range: 1000020000/10000
+  creationTimestamp: 2015-12-22T01:00:48Z
+  name: default
+  resourceVersion: "752"
+  selfLink: /api/v1/namespaces/default
+  uid: 70779bd0-a847-11e5-b12e-2cc2605128d8
+spec:
+  finalizers:
+  - kubernetes
+  - openshift.io/origin
+status:
+  phase: Active
+----
+
 .Setting Up Processes for Logs (Reference Only)
 * Because the `systemd` and `journal` commands are for browsing logs in Red Hat Enterprise Linux 7, do not browse them with `/var/log/messages`. Run `journalctl` instead.
 
@@ -1259,10 +1299,10 @@ To run the above commands on the other nodes, you do not need the `atomic-opensh
 
 CAUTION: The commands in this section are case-sensitive. If you are new to YAML, it may take a few tries for the configuration file to parse correctly.
 
-. Create a copy of your master's configuration file:
+. Create another copy of your master's configuration file:
 +
 ----
-[root@master00-GUID ~]# cp /etc/origin/master/master-config.yaml /etc/origin/master/master-config.yaml.original
+[root@master00-GUID ~]# cp /etc/origin/master/master-config.yaml /etc/origin/master/master-config.yaml.preauth.original
 ----
 
 . Edit the `/etc/origin/master/master-config.yaml` file so that the `oauthConfig` section reads as follows:
@@ -1299,7 +1339,7 @@ oauthConfig:
 
 === Add Development Users
 
-Real-world developers are likely to use the OpenShift Enterprise tools (`oc` and the web console) on their own machines. In this course, you create accounts for two nonprivileged OpenShift Enterprise users, `andrew` and `marina`, on the master. 
+Real-world developers are likely to use the OpenShift Enterprise tools (`oc` and the web console) on their own machines. In this course, you create accounts for two nonprivileged OpenShift Enterprise users, `andrew` and `marina`, on the master.
 
 On the master host, add two Linux accounts:
 
@@ -1342,10 +1382,10 @@ As a preliminary requirement, you need the `htpasswd` binary in the `httpd-tools
 ----
 
 . Verify that you can authenticate as `andrew` in the OpenShift web console:
-.. Connect to `https://master00-GUID.oslab.opentlc.com`.
+.. Connect to `https://master00-GUID.oslab.opentlc.com:8443/`.
 .. Log in as `andrew` with the password `r3dh4t1!`.
 
-* Do not create any projects or applications yet. That comes later. 
+* Do not create any projects or applications yet. That comes later.
 
 [NOTE]
 Many students have encountered problems with this section. For help, see the _<<Known Issues>>_ section near the top. Also, remember that you created a copy of `master-config.yaml` called `master-config-yaml.original`, to which you can always revert and then try again.
@@ -1406,7 +1446,7 @@ This process may take a few minutes the first time around because the images are
 
 . Test the status of the registry with the `curl` command to communicate with the registry's service port, for example, `curl -v 172.30.41.32:5000/healthz`.
 +
-To test the registry for connectivity, run these commands: 
+To test the registry for connectivity, run these commands:
 +
 ----
  [root@master00-GUID ~]# echo `oc get service docker-registry --template '{{.spec.portalIP}}:{{index .spec.ports 0 "port"}}/healthz'`
@@ -1518,9 +1558,11 @@ oc create|delete -f /usr/share/openshift/examples/quickstart-templates -n opensh
 
 Having a database for development is handy, but what if you actually want the data you store to persist after redeploying the database pod? Pods are ephemeral and, by default, so is their storage. For shared or persistent storage, you must be able to mandate that pods use external volumes.
 
-For the purpose of this course, you learn how to have `oselab` act as your NFS server to export NFS mounts as `PersistentVolume` targets. 
+For the purpose of this course, you learn how to have `oselab` act as your NFS server to export NFS mounts as `PersistentVolume` targets.
 
 === Prepare for NFS Persistent Storage Back End
+
+CAUTION: Notice that we are switching to the `oselab` host
 
 As `root` on the `oselab` host, ensure that `nfs-utils` is installed on *all* the nodes:
 
@@ -1574,7 +1616,7 @@ NOTE: The volume is owned by `nfsnobody` and access by all remote users is "squa
 
 === Allow NFS Access in SELinux Policy
 
-By policy default, containers cannot write to NFS-mounted directories. However in your lab environment, you want to allow write access for some of your pods. 
+By policy default, containers cannot write to NFS-mounted directories. However in your lab environment, you want to allow write access for some of your pods.
 
 . Run the following to allow containers to write to NFS-mounted directories on all the nodes where the pod could land (that is, all of them):
 +
@@ -1708,7 +1750,7 @@ echo "Created def file for ${volume}";
 done;
 ----
 
-. Allocate three of the 5-GB volumes--`pv21`, `pv22`, and `pv23`--to the default project: 
+. Allocate three of the 5-GB volumes--`pv21`, `pv22`, and `pv23`--to the default project:
 +
 ----
 [root@master00-GUID ~]# cd /root/pvs

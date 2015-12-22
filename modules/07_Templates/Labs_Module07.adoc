@@ -75,7 +75,7 @@ The template configuration screen is displayed. Here, you can specify certain op
 
 . Click *Create* to instantiate the services, pods, replication controllers, etc.
 
-* The build starts immediately. 
+* The build starts immediately.
 . Wait for the build to finish. You can browse the build logs to follow the progress.
 
 === Use Application
@@ -114,15 +114,18 @@ Alternatively, perform this step from the command line:
 
 . Deploy an ephemeral MySQL database:
 
-.. From the `database-backend` project's *Overview* screen, click *Add to project*.
+.. From the `templates` project's *Overview* screen, click *Add to project*.
 .. Scroll down to *Databases* or type `mysql` in the search field.
 .. Select the `mysql-ephemeral` database template.
 
 .. Set the template parameters:
 * *`DATABASE_SERVICE_NAME`*: `database`
-* *`MYSQL_USER`*: `root`
+* *`MYSQL_USER`*: `mysqluser`
 * *`MYSQL_PASSWORD`*: `redhat`
 * *`MYSQL_DATABASE`*: `mydb`
++
+CAUTION: Make sure you set these values correctly, otherwise the application
+ would not connect to the database backend.
 
 .. Click *Create* and then click *Continue to overview*.
 +
@@ -130,10 +133,11 @@ Alternatively, perform this step from the command line:
 Alternatively, create the template instance from the command line:
 +
 ----
-oc new-app --template=mysql-ephemeral --param=MYSQL_USER=root,MYSQL_PASSWORD=redhat,MYSQL_DATABASE=mydb,DATABASE_SERVICE_NAME=database
+[marina@master00-GUID ~]$ oc new-app --template=mysql-ephemeral --param=MYSQL_USER=mysqluser,MYSQL_PASSWORD=redhat,MYSQL_DATABASE=mydb,DATABASE_SERVICE_NAME=database
 ----
 
-.. As `marina`, examine the objects that were created as part of the `mysql-ephemeral` template:
+.. As `marina`, switch to the "templates" project and examine the objects that
+ were created as part of the `mysql-ephemeral` template.
 +
 ----
 [marina@master00-GUID ~]$ oc get projects
@@ -141,13 +145,16 @@ NAME                DISPLAY NAME                STATUS
 custom-s2i-script   Custom S2I Build Script     Active
 templates           Templates Testing Project   Active
 
+[marina@master00-GUID ~]$ oc project templates
+Now using project "templates" on server "https://master00-3191.oslab.opentlc.com:8443".
+
 [marina@master00-GUID ~]$ oc get dc
 NAME       TRIGGERS                    LATEST
 database   ConfigChange, ImageChange   1
 
 [marina@master00-GUID ~]$ oc get service
 NAME       CLUSTER_IP       EXTERNAL_IP   PORT(S)    SELECTOR        AGE
-database   172.30.213.227   <none>        3306/TCP   name=database   38s
+database   172.30.102.220   <none>        3306/TCP   name=database   1m
 ----
 +
 [NOTE]
@@ -157,8 +164,8 @@ A deployment configuration is available for your instance. The service name is t
 +
 ----
 [marina@master00-GUID ~]$ oc env dc database --list
-# deploymentconfigs mydb-service, container mysql
-MYSQL_USER=root
+# deploymentconfigs mysql, container mysql
+MYSQL_USER=mysqluser
 MYSQL_PASSWORD=redhat
 MYSQL_DATABASE=mydb
 ----
@@ -169,20 +176,19 @@ MYSQL_DATABASE=mydb
 +
 ----
 [marina@master00-GUID ~]$ oc new-app -i openshift/ruby https://github.com/openshift/ruby-hello-world \
-                          --param=MYSQL_USER=root,MYSQL_PASSWORD=redhat,MYSQL_DATABASE=mydb
+                          MYSQL_USER=mysqluser MYSQL_PASSWORD=redhat MYSQL_DATABASE=mydb
 ----
 
 . Verify that your service is in place:
 +
 ----
 [marina@master00-GUID ~]$ oc get service
-NAME               CLUSTER_IP       EXTERNAL_IP   PORT(S)    SELECTOR                                                 AGE
-database           172.30.213.227   <none>        3306/TCP   name=database                                            2m
-ruby-hello-world   172.30.46.194    <none>        8080/TCP   app=ruby-hello-world,deploymentconfig=ruby-hello-world   14s
+mysql              172.30.68.48    <none>        3306/TCP   name=mysql                                               4m
+ruby-hello-world   172.30.78.240   <none>        8080/TCP   app=ruby-hello-world,deploymentconfig=ruby-hello-world   8s
 ----
 
 . Create an external route to your front-end application.
- 
+
 * If you do not specify a host name, the default subdomain route creates the route.
 +
 ----
@@ -209,5 +215,5 @@ I1127 09:23:36.705738       1 sti.go:233] Successfully pushed 172.30.42.118:5000
 . Wait for the pods to start and verify that your application is running and connecting to the database:
 +
 ----
-http://ruby-hello-world-templates.cloudapps-c0fe.oslab.opentlc.com
+http://ruby-hello-world-templates.cloudapps-GUID.oslab.opentlc.com
 ----

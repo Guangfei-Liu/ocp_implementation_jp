@@ -45,7 +45,7 @@ foreach $line (<SOURCEFILE>)
 		# un comment this line if you have more than 100 slides. buy why would you.
 		#$page_counter = $page_counter + 1; if ($page_counter >= 10) {$page_counter = "0" . $page_counter;  } else {$page_counter = "00" . $page_counter;}
 		$page_counter = $page_counter + 1; if ($page_counter >= 10) {$page_counter = "" . $page_counter;  } else {$page_counter = "0" . $page_counter;}
-		$line =~ s/\?//g;
+		$line =~ s/\?//g; 	$line =~ s/\.//g;
 		$line =~ /^== (.*)$/;
 		$pretty_current_page_name = $current_page_name=$1;
 		if ($current_page_name =~ /nbsp/) {$pretty_current_page_name = $current_page_name = "Title" ; }

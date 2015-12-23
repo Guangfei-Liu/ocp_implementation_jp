@@ -53,3 +53,14 @@ do
     mv ${FILE}.killfirstline ${FILE}
 
 done
+
+for module in `ls -d [0-9]*` ; do
+  echo ${module}
+  cp ${module}/assessment.txt ${module}/assessment.csv
+done
+
+
+for module in `ls -d [0-9]*` ; do
+  echo ${module}
+  cp ${module}/assessment.csv ${module}/assessment.txt
+done

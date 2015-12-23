@@ -18,7 +18,7 @@ OSEIMPLEMENTATION|OSEIMPLEMENTATION605|1|Which of these statements best describe
 OSEIMPLEMENTATION|OSEIMPLEMENTATION605|1|Which of these statements best describes an STI/Source Build?|||Build with user-defined process, possibly integrated with existing CI/CD deployments like Jenkins|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION605|1|Which of these statements best describes an STI/Source Build?|||None of the above|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION606|5|If creating a source build, new-app tries to determine language to use based on files present in the repository root.|||TRUE|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION606|5|If creating a source build, new-app tries to determine language to use based on files present in the repository root.|||FALST|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION606|5|If creating a source build, new-app tries to determine language to use based on files present in the repository root.|||FALSE|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION607|1|Which Resource/Resources would be created when creating an application with oc new-app?|||A Deployment Configuration |||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION607|1|Which Resource/Resources would be created when creating an application with oc new-app?|||A Pod and a BuildConfig definition if using a source/STI Build|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION607|1|Which Resource/Resources would be created when creating an application with oc new-app?|||Replication Controller and Serivce|||0|0|||

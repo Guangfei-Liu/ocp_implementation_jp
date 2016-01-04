@@ -1,6 +1,5 @@
 == New App From Source Code
 
-
 .Language Detection
 
 * If creating `source` build, `new-app` tries to determine language to use based

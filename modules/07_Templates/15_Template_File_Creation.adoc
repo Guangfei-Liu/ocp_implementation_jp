@@ -1,6 +1,5 @@
 == Template File Creation
 
-
 .Template Example - `objects:` `DeploymentConfig` `database`
 [subs="verbatim,macros"]
 ----
@@ -45,7 +44,7 @@
                     "protocol": "TCP"
                   }
                 ],
-                pass:quotes["env": [
+                "env": [
                   {
                     "name": "MYSQL_USER",
                     "value": "${MYSQL_USER}"

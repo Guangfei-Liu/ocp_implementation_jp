@@ -1,14 +1,16 @@
 == Installation Methods
-:noaudio:
 
 .Quick Install
 ** Lets you use interactive CLI utility to install OpenShift across set of hosts
-** Utility is self-contained wrapper for use on Red Hat Enterprise Linux 7
-host
+** Installer made available by installing utility package
+ (`atomic-openshift-utils`) on provisioning host
 ** https://install.openshift.com
+** Uses Ansible playbooks in background
+** Does not assume familiarity with Ansible
 
 .Advanced Install
-** For complex environments requiring deeper customization of installation and maintenance
+** For complex environments requiring deeper customization of installation and
+ maintenance
 ** Uses Ansible playbooks
 ** Assumes familiarity with Ansible
 
@@ -18,12 +20,21 @@ ifdef::showscript[]
 
 === Transcript
 
-There are two ways to install OpenShift Enterprise 3.0. The Quick Install method uses an interactive CLI utility to install OpenShift across a set of hosts. The utility is a self-contained wrapper intended for usage on a Red Hat Enterprise Linux 7 host. It is available at the web address shown here.
+There are two ways to install OpenShift Enterprise 3.
+The Quick Install method uses an interactive CLI utility to install OpenShift
+ across a set of hosts. The installer is made available by installing the
+  utility package `atomic-openshift-utils`, available in the OpenShift
+   Repository, on the provisioning host.
 
-For more complex environments where deeper customization of installation and maintenance is required, an Advanced Install method using Ansible playbooks is available. This method assumes familiarity with Ansible,
+The Quick Install method uses Ansible in the background of the
+ interactive CLI utility.
+
+For more complex environments where deeper customization of installation and
+ maintenance is required, an Advanced Install method using Ansible playbooks is
+  available. This method assumes familiarity with Ansible.
 
 This module focuses on the Quick Install method.
 
-Note that the Quick Install method uses Ansible in the background of the interactive CLI utility.
+
 
 endif::showscript[]

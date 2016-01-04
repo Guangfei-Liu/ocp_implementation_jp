@@ -1,6 +1,5 @@
 == Routes
 
-
 .Secured TLS Termination Types: Edge Termination
 
 * Three types of TLS termination for secured routes

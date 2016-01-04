@@ -1,6 +1,5 @@
 == Persistent Volumes
 
-
 .Requesting Storage: `PersistentVolumeClaim` Definition
 
 * After defining a `PersistentVolume` in a project:

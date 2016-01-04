@@ -1,6 +1,5 @@
 == Scheduler
 
-
 .Static Predicates
 
 * Fixed names and configuration parameters that users cannot change

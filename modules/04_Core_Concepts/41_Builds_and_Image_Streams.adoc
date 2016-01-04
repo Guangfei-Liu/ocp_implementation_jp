@@ -1,6 +1,5 @@
 == Builds and Image Streams
 
-
 .Docker Build
 
 * Docker build strategy invokes plain `docker build` command

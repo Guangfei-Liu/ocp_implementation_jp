@@ -1,6 +1,5 @@
 == Persistent Volumes
 
-
 .Requesting Storage: Prerequisite
 * For user to _claim_ a volume (`PersistentVolumeClaim`), a `PersistentVolume`
  needs to be created

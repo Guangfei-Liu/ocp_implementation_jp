@@ -1,0 +1,30 @@
+== Container Registry
+
+* Fully integrated Docker v2 registry
+* Authentication and access control to images
+* Integrates with Red Hat Satellite Server container registry
+* Integrates with Docker Hub and other registries
+
+* Image source can be any server implementing Docker registry API:
+** Canonical Docker Hub
+** Private registries run by third parties
+** OpenShift Enterprise integrated registry
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+
+The image registry is a fully integrated Docker v2 registry.
+It provides authentication and access control to images.
+
+You can also integrate the registry with third-party providers such as Docker
+ Hub to leverage innovation from the community and ISVs.
+
+OpenShift Enterprise uses any server implementing the Docker registry API as a
+source of images, including canonical Docker Hub, private registries run by
+third parties, and the integrated OpenShift Enterprise registry.
+
+
+endif::showscript[]

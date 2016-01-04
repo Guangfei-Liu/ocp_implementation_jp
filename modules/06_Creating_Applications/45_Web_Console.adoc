@@ -1,6 +1,5 @@
 == Web Console
 
-
 * Select builder image from list of images in your project or from global
  library
 +

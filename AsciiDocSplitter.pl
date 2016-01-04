@@ -15,10 +15,22 @@ if (@ARGV <2)
 
 # VARS
 $AUTHORNAME="Shachar Borenstein";
-$DEBUG=0;
+$DEBUG=1;
 chomp ($SOURCEFILE=$ARGV[0]);
 chomp ($DEFAULT_OUTPUT_DIR=$ARGV[1]); system("mkdir -p $DEFAULT_OUTPUT_DIR");
 $current_index_file="${DEFAULT_OUTPUT_DIR}/AllSlides.txt";
+if (-e $current_index_file)
+	{
+	$DEBUG && print "Index file already exists\n";
+	system("rm $current_index_file");
+	open(CURRENTINDEXFILE,">>",$current_index_file);
+	}
+	else
+	{
+	$DEBUG && print "Creating new IndexFile: $INDEXNAME\n";
+	open(CURRENTINDEXFILE,">>",$current_index_file);
+
+	}
 print "Source file to parse : $SOURCEFILE \n";
 
 $page_counter="0";
@@ -33,7 +45,7 @@ foreach $line (<SOURCEFILE>)
 		# un comment this line if you have more than 100 slides. buy why would you.
 		#$page_counter = $page_counter + 1; if ($page_counter >= 10) {$page_counter = "0" . $page_counter;  } else {$page_counter = "00" . $page_counter;}
 		$page_counter = $page_counter + 1; if ($page_counter >= 10) {$page_counter = "" . $page_counter;  } else {$page_counter = "0" . $page_counter;}
-
+		$line =~ s/\?//g; 	$line =~ s/\.//g;
 		$line =~ /^== (.*)$/;
 		$pretty_current_page_name = $current_page_name=$1;
 		if ($current_page_name =~ /nbsp/) {$pretty_current_page_name = $current_page_name = "Title" ; }
@@ -41,35 +53,18 @@ foreach $line (<SOURCEFILE>)
 		$DEBUG && print "Found Page $page_counter: $line \n";
 		$current_file_name="${DEFAULT_OUTPUT_DIR}/${page_counter}_${current_page_name}.adoc";
 		$DEBUG && print "File will be named: $current_file_name\n";
-		open(CURRENTFILE,">>",$current_file_name) or die("could not open: $current_file_name\n");
-#		print CURRENTFILE "
-#:scrollbar:
-#:data-uri:
-#";
+		open(CURRENTFILE,">",$current_file_name) or die("could not open: $current_file_name\n");
 
-	if (-e $current_index_file)
+		if ($current_page_name =~ /Title/)
 		{
-		$DEBUG && print "Index file already exists\n";
-		open(CURRENTINDEXFILE,">>",$current_index_file);
+			print CURRENTFILE ':noaudio:
+
+ifdef::revealjs_slideshow[]
+
+[#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"]
+
+';
 		}
-		else
-		{
-		print "Creating new IndexFile: $INDEXNAME\n";
-		open(CURRENTINDEXFILE,">>",$current_index_file);
-		#print CURRENTINDEXFILE
-#"
-#:scriptsdir: scormdriver/auto-scripts
-#:script: AutoBookmark.js
-#:script: AutoCompleteSCO.js
-#:script: CourseExit.js
-
-
-#";
-
-		}
-
-
-
 
 		print CURRENTFILE "$line";
 		#Added file to index

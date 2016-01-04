@@ -1,6 +1,5 @@
 == Template Overview
 
-
 .Objects
 
 * Can be any resources that needs to be created for template

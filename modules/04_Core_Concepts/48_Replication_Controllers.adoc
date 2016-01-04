@@ -1,6 +1,5 @@
 == Replication Controllers
 
-
 .Replication Controllers Definition
 
 * Replication controller definition includes:

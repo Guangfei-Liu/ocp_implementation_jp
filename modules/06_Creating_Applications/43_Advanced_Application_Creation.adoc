@@ -1,6 +1,5 @@
 == Advanced Application Creation
 
-
 .Grouping Images and Source in Single Pod
 * `new-app` can deploy multiple images in single _pod_
 
@@ -8,7 +7,8 @@
 
 * Can also use `--group` argument to specify images to group
 
-* To group image built from source repository with other images, specify its _builder image_ in group
+* To group image built from source repository with other images, specify its
+ _builder image_ in group
 
 * To deploy two images in single pod:
 +

@@ -1,9 +1,10 @@
 == Docker Installation
-:noaudio:
 
 .Installing Docker
 
-* Must install Docker version 1.6 or later from `rhel-7-server-ose-3.0-rpms` and have it running on master and node hosts before installing OpenShift Enterprise:
+* Must install Docker version 1.8.2 or later from `rhel-7-server-ose-3.1-rpms`
+ and have it running on master and node hosts before installing OpenShift
+  Enterprise:
 
 ** Install Docker:
 +
@@ -20,19 +21,23 @@ OPTIONS=--selinux-enabled --insecure-registry 172.30.0.0/16
 ----
 +
 [NOTE]
+====
 ** `--insecure-registry` instructs Docker daemon to trust any
 Docker registry on `172.30.0.0/16` subnet
 ** Will deploy local registry under this subnet
-
+====
 
 ifdef::showscript[]
 
 === Transcript
-Each node requires Docker to be installed and configured. You must use version 1.6, which you can obtain from the OpenShift repository.
+Each node, including the master, requires Docker to be installed and configured.
+ You must use version 1.8.2 or later of the docker software.
 
-Use the commands shown here to install Docker and add the `--insecure-registry` option to the `OPTIONS` parameter.
+Use the commands shown here to install Docker and add the `--insecure-registry`
+ option to the `OPTIONS` parameter.
 
-The `--insecure-registry` option instructs the Docker daemon to trust any Docker registry on the `172.30.0.0/16` subnet, without requiring a certificate.
+The `--insecure-registry` option instructs the Docker daemon to trust any Docker
+ registry on the `172.30.0.0/16` subnet, without requiring a certificate.
 
 You will deploy your local registry under this subnet.
 

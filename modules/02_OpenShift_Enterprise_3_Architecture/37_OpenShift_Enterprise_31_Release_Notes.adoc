@@ -1,0 +1,37 @@
+== OpenShift Enterprise 3.1 Release Notes
+
+
+* More persistent storage options
+** Several persistent storage options available:
+*** Red Hat GlusterFS and Ceph RBD
+*** AWS
+*** Google Compute Engine
+** NFS storage supplemented by iSCSI- and Fibre Channel-based volumes
+
+* More middleware options
+** Several middleware services available:
+*** JBoss Data Grid
+*** JBoss BRMS
+*** Supported JBoss Developer Studio and Eclipse plug-in
+
+* Job controller
+** `job` object type now available
+** Can now execute finite jobs on cluster
+
+
+ifdef::showscript[]
+=== Transcript
+
+OpenShift Enterprise 3.1 offers several more persistent storage options,
+ including Red Hat's GlusterFS and Ceph RBD, AWS, and Google Compute Engine.
+  Also, NFS storage is now supplemented by iSCSI- and Fibre Channel-based
+   volumes.
+
+It also offers several more middleware options, including JBoss Data Grid and
+ JBoss BRMS, as well as a supported JBoss Developer Studio and Eclipse plug-in.
+
+Finally, the `job` object type is now available, meaning that you can now
+ execute finite jobs on the cluster.
+
+
+endif::showscript[]

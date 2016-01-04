@@ -1,6 +1,5 @@
 == Containers and Images
 
-
 .Building and Naming Images
 
 * You can use Docker directly to build images, but OpenShift also supplies

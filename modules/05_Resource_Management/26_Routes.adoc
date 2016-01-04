@@ -1,6 +1,5 @@
 == Routes
 
-
 .Route Types: Path-Based Routes
 
 * *Path-based routes*: Specify path component

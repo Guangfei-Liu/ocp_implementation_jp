@@ -1,11 +1,11 @@
 == Host Preparation
-:noaudio:
 
 .Password-Less Communication
 
 * Ensure installer has password-less access to hosts
 ** Ansible requires user with access to all hosts
-** To run installer as non-root user, configure password-less `sudo` rights on each destination host
+** To run installer as non-root user, configure password-less `sudo` rights on
+ each destination host
 * Example: To generate SSH key on host where you invoke installation process:
 +
 ----
@@ -21,11 +21,17 @@ Do not use password when generating key.
 ifdef::showscript[]
 
 === Transcript
-For the installation to succeed, the installer needs to run commands on each member in the OpenShift Enterprise environment without requiring a password every time.
+For the installation to succeed, the installer needs to run commands on each
+ member in the OpenShift Enterprise environment without requiring a password
+  every time.
 
-Ansible, which is used to run the installation process, requires a user that has access to all hosts. For running the installer as a non-root user, you must configure password-less `sudo` rights on each destination host.
+Ansible, which is used to run the installation process, requires a user that has
+ access to all hosts. For running the installer as a non-root user, you must
+  configure password-less `sudo` rights on each destination host.
 
-To achieve this, you generate a key and copy it to the root user's ID on each member of the OpenShift Enterprise cluster. Do not use a password when generating the key.
+To achieve this, you generate a key and copy it to the root user's ID on each
+ member of the OpenShift Enterprise cluster. Do not use a password when
+  generating the key.
 
 An easy way to distribute your SSH keys is by using a bash loop.
 

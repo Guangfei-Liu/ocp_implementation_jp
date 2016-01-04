@@ -1,6 +1,5 @@
 == Deployments
 
-
 .Overview
 
 * OpenShift Enterprise deployment is replication controller based on

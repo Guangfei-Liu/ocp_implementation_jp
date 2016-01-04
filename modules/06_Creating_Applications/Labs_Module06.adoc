@@ -1,219 +1,235 @@
-:scrollbar:
-:data-uri:
 :toc2:
 :icons: images/icons
 
-== Deploy an S2I Build
+== Creating Applications Lab
+
+This lab includes the following sections:
+
+* *Deploy Application on Web Console*
++
+In this section, you deploy an application from a code repository and follow the build logs on the OpenShift Enterprise web console and CLI.
+
+* *Customize Build Script*
+
+- Create an application from a forked Git repository, inject a custom build script, and start a rebuild from the web console.
+
+- Review your custom script messages in the logs.
 
 :numbered:
 
-In this lab, you create a simple S2I build. As part of this process, you create a `BuildConfig` object and build an image using the S2I build process. You also create the pod, service, and route for your S2I build image.
+== Deploy Application on Web Console
 
-* Authenticate to OpenShift Enterprise and Choose Your Project
-* Create Your S2I Description
-* Start Your Build
-* Create Your First Image (Sinatra)
-* Use the Web Console
+Here, you connect to and become familiar with the web console, create a project and an application, and scale a deployment and the topology view.
 
-== Authenticate to OpenShift Enterprise and Choose Your Project
+=== Connect To and Explore Web Console
 
-. On the `master` host, use `oadm` to create a project called `hello-s2i`, and assign an administrative user to it.
+. Use your browser to go to the OpenShift web console at `https://master00-GUID.oslab.opentlc.com:8443`.
++
+NOTE: If you have not done so already, accept the untrusted certificate.
+
+. Log in as `andrew` with the password `r3dh4t1!`.
+
+. Take a few minutes to browse your projects.
+
+=== Create New Project
+
+. Click *Projects* and select *View all projects* to return to the Projects view.
+
+. Click the blue *New Project* button in the top right corner.
+
+. Give the new project a name, display name, and description:
+* *Name*: `my-ruby-project`
+* *Display Name*: `My Ruby Example Project`
+* *Description*: An explanation of your choice
+
+Once the project is in place, the *Select Image or Template* screen is displayed.
+
+=== Create New Application
+
+. In the *Select Image or Template* screen, type `ruby` in the search field to filter the available instant apps, templates, and builder images.
+
+. Select the `ruby:2.0` builder image on the right.
+
+. Specify the name and Git repository URL:
+* *Name*: `my-ruby-hello-world`.
+* *Git Repository URL*: `https://github.com/openshift/ruby-hello-world`.
+
+. Click *Show advanced build and deployment options* and select the following options:
+.. Decide if you want a route for your application.
+.. Optionally, define the triggers and environment variables for the deployment.
+.. Change the scaling parameter to 3.
+.. Create a label for `environment` by typing `dev`.
+
+. Accept and start the application.
+
+. Review the information that is displayed.
+
+. Click *Continue to Overview* to go to the application's *Overview* screen.
+
+. Click *View Logs* to verify that a build is in progress.
+
+. Review the log as the build progresses.
+
+. Wait for the build to complete and use a browser to navigate to the
+ application route: link:http://my-ruby-hello-world-my-ruby-project.cloudapps-GUID.oslab.opentlc.com[http://my-ruby-hello-world-my-ruby-project.cloudapps-GUID.oslab.opentlc.com]
+.. The database for our application isn't running, so expect to see the web
+ page mention that.
++
+[TIP]
+====
+* You can also use the command line to create a new application: `oc new-app https://github.com/openshift/ruby-hello-world -l  environment=dev`.
+
+* To change scaling from the command line, use `oc scale`.
+====
+
+=== Scale Deployment and Topology View
+
+. Go back to your application's *Overview* screen by clicking *Overview* at the upper left side.
+
+. Observe the circle that shows the current number of pods, which is 3. You can increase that number by clicking the `^` button next to it.
+
+. Click the `^` button twice to increase the number of replicas to 5.
+
+. Hover over *Browse* and select *Pods* to take a look at your new pods.
+
+. Go back to your application's *Overview* screen by clicking *Overview* again.
+
+* The current and default view of the *Overview* screen is the *Tile View*.
+* To switch to the *Topology View*, click the button on the upper right hand side that looks like the *`<`* character or a social-media Share button, which it is not.
+
+. Click the objects and consider their relationships.
+
+
+== Customize Build Script
+
+OpenShift Enterprise 3 supports customization of both the build and run processes. Generally speaking, this involves modifying the S2I scripts from the builder image. While building your code, OpenShift Enterprise checks the scripts in your repository's `.sti/bin` folder to see if they override or supersede the builder image's scripts. If it finds scripts that do so, it executes those scripts.
+
+For details on the scripts and their execution and customization, go to `https://docs.openshift.com/enterprise/3.1/creating_images`.
+
+
+=== Clone Repository and Launch Application from Local Copy
+
+. Log in to OpenShift Enterprise as `marina`:
+.. Connect to the OpenShift Enterprise master by following the same steps as before.
+.. When prompted, type the username and password:
+** *Username*: `marina`
+** *Password*: `r3dh4t1!`
 +
 ----
+[root@master00-GUID ~]# su - marina
+[marina@master00-GUID ~]$ oc login -u marina --insecure-skip-tls-verify --server=https://master00-${guid}.oslab.opentlc.com:8443
 
-[root@master00-GUID ~]# oadm new-project hello-s2i --display-name="Hello Source2Image" \
-    --description="This is the project we use to learn about Source to Image builds" \
-      --node-selector='region=primary' --admin=andrew
+[marina@master00-GUID ~]$ oc new-project custom-s2i-script --display-name="Custom S2I Build Script" \
+    --description="This is the project we use to learn how to create a customized build script"
 ----
 
-. If you have not done so already, switch to user `andrew` and authenticate to OpenShift Enterprise as this user.
+=== Fork Repository
+
+IMPORTANT: This section requires a GitHub account. Create one if you do not have one already. It is free and useful.
+
+. From the GitHub web UI, fork the `https://github.com/openshift/ruby-hello-world` Git repository into your own Git account by clicking *Fork* in the upper right corner.
+
+* This creates a repository in your Git account with a name similar to `https://github.com/yourname/ruby-hello-world/`, where _yourname_ is your Git username.
+
+. Clone this `https://github.com/yourname/ruby-hello-world` repository so that you can edit it locally and test a Red Hat-customized script with it:
++
+CAUTION: Be sure to replace _yourname_ with your Git username.
 +
 ----
-
-[root@master00 ~]# su - andrew
-[andrew@master00 ~]$ guid=`hostname|cut -f2 -d-|cut -f1 -d.`
-[andrew@master00 ~]$ oc login -u andrew --insecure-skip-tls-verify --server=https://master00-${guid}.oslab.opentlc.com:8443
-
+[marina@master00-c0fe ~]$ git clone https://github.com/yourname/ruby-hello-world
+Cloning into 'ruby-hello-world'...
+remote: Counting objects: 249, done.
+remote: Total 249 (delta 0), reused 0 (delta 0), pack-reused 249
+Receiving objects: 100% (249/249), 36.79 KiB | 0 bytes/s, done.
+Resolving deltas: 100% (86/86), done.
 ----
 
-. Change the context to the `hello-s2i` project.
+. Create an application by running `oc new-app` in the local repository:
 +
 ----
-
-[andrew@master00 ~]$ oc project hello-s2i
-Now using project "hello-s2i" on server "https://master00-GUID.oslab.opentlc.com:8443".
-
+[marina@master00-c0fe ~]$ cd ruby-hello-world/
+[marina@master00-c0fe ruby-hello-world]$ oc new-app . --docker-image=registry.access.redhat.com/openshift3/ruby-20-rhel7
 ----
 
-. Check your current context by viewing `~/.kube/config` and running a quick test.
+. View the current build status and build logs:
 +
 ----
-
-[andrew@master00 ~]$ grep current ~/.kube/config
-current-context: hello-s2i/master00-GUID-oslab-opentlc-com:8443/andrew
-
+[marina@master00-c0fe]$ oc get builds
+NAME                 TYPE      FROM         STATUS    STARTED         DURATION
+ruby-hello-world-1   Docker    Git@master   Running   9 seconds ago   9s
 ----
 
-== Create Your S2I Description
-
-For this activity, you use a prebuilt and preconfigured code repository. This repository is an extremely simple application of the `Hello World` type.
-
-. Go to https://github.com/openshift/simple-openshift-sinatra-S2I. You will use this application's source code.
-
-. Take a minute to review the repository.
-. Create the instructions and configuration for your image using the default image suggested by the builder.
+. View the build log:
 +
 ----
-
-[andrew@master00 ~]$ oc new-app https://github.com/openshift/simple-openshift-sinatra-STI.git -o json | tee ~/simple-sinatra.json
+[marina@master00-c0fe ]$ oc logs -f builds/ruby-hello-world-1
+...                 ...
+... Omitted Output  ...
+...                 ...
+Removing intermediate container 049a12eb5ca5
+Successfully built 995028e8bee2
+I1127 02:41:37.640510       1 docker.go:86] Pushing image 172.30.42.118:5000/custom-s2i-script/ruby-hello-world:latest ...
+I1127 02:44:25.867627       1 docker.go:90] Push successful
 ----
 
-. Look at the JSON that you generated.
+. Verify that your pod has deployed:
 +
 ----
-[andrew@master00 ~]$ cat ~/simple-sinatra.json
-
+[marina@master00-c0fe ]$ oc get pods
+NAME                       READY     STATUS      RESTARTS   AGE
+ruby-hello-world-1-70mlb   1/1       Running     0          12s
+ruby-hello-world-1-build   0/1       Completed   0          9m
 ----
 
-== Start Your Build
+
+=== Add Script to Repository
+
+. Open a new tab in your browser, go to `http://www.opentlc.com/download/ose_implementation/resources/3.1/assemble`, and copy all of the text there.
+
+. Go to your GitHub repository for your application from the previous section.
+
+. In the GitHub web UI, navigate to the `.sti/bin` folder.
+
+. Click the *+* button at the top (to the right of `bin` in the breadcrumb).
+
+. Name your file `assemble`.
+
+. In the GitHub web UI, paste the content you copied earlier into the text area.
+
+. Type a commit message in the text field.
+
+. Click *Commit*.
 
 
-. Create the build components using `oc create` on the `BuildConfig` file.
+=== Create Application From Repository With Custom Build Script
+
+. From your browser, go to the OpenShift web console at `https://master00-GUID.oslab.opentlc.com:8443`.
++
+NOTE: If prompted, accept the untrusted certificate.
+
+. Log in as `marina` with the password `r3dh4t1!`.
+
+. Click the blue *New Project* button in the top right corner.
+
+. Specify the project name, display name, and description:
+* *Name*: `my-custom`
+* *Display Name*: `My custom assemble script project`
+* *Description*: An explanation of your choice
+
+** Once the project is in place, the *Select Image or Template* screen is displayed.
+
+. In the *Select Image or Template* screen, type `ruby` in the search field to filter the available Instant Apps, Templates, and Builder Images.
+
+. Select the `ruby:2.0` builder image from the right hand side.
+
+. Specify the name and Git repository URL:
+* *Name*: `my-custom-builder-test`
+* *Git Repository URL*: `https://github.com/yourname/ruby-hello-world`
++
+CAUTION: Remember to replace _yourname_ with your Git username in the above command.
+
+. Follow the build process logs and watch for this custom assemble script message, which confirms that the custom script ran:
 +
 ----
-
-[andrew@master00 ~]$ oc create -f ~/simple-sinatra.json
-
+2015-04-27T22:23:24.110630393Z ---> CUSTOM S2I ASSEMBLE COMPLETE
 ----
-
-. View the output of the last command.
-+
-----
-
-[andrew@master00 ~]$ for i in buildconfig deploymentconfig service; do echo $i; oc get $i; echo -e "\n\n"; done
-
-
-----
-
-* After the build is complete, you should see output similar to the following:
-+
-----
-NAME                           TYPE      SOURCE
-simple-openshift-sinatra-S2I   Source    https://github.com/openshift/simple-openshift-sinatra-S2I.git
-
-deploymentconfig
-NAME                           TRIGGERS                    LATEST VERSION
-simple-openshift-sinatra-S2I   ConfigChange, ImageChange   2
-
-service
-NAME                       LABELS    SELECTOR                                        IP(S)           PORT(S)
-simple-openshift-sinatra   <none>    deploymentconfig=simple-openshift-sinatra-S2I   172.30.64.255   8080/TCP
-
-----
-
-. View the running pods in real time.
-+
-----
-
-[andrew@master00 ~]$ watch oc get pods
-
-----
-
-* For the first few minutes, you will see the following error. It will soon resolve itself.
-+
-----
-
-NAME                                   READY     REASON                                                               RESTARTS   AGE
-simple-openshift-sinatra-S2I-1-o72am   0/1       Error: image library/simple-openshift-sinatra-S2I:latest not found   0          1m
-
-----
-
-* Eventually you will see something similar to the following:
-+
-----
-
-NAME                                   READY     REASON       RESTARTS   AGE
-simple-openshift-sinatra-S2I-1-build   0/1       ExitCode:0   0          2m
-simple-openshift-sinatra-S2I-2-cpp9t   1/1       Running      0          7m
-...
-CTRL+C
-
-----
-+
-[NOTE]
-If you see that the pod has failed to deploy, do not worry. This happens before your image is created and resolves itself after the image build process is complete.
-
-
-. View the current build status and build logs.
-+
-----
-
-[andrew@master00 ~]$ oc get builds
-NAME                             TYPE      STATUS     POD
-simple-openshift-sinatra-S2I-1   Source    Complete   simple-openshift-sinatra-S2I-1-build
-
-----
-
-. View the build log.
-+
-----
-[andrew@master00 ~]$ oc build-logs simple-openshift-sinatra-S2I-1
-....
-....
-....
-I0702 05:36:50.618747       1 S2I.go:246] Successfully built 172.30.133.153:5000/sinatra/simple-openshift-sinatra-S2I
-I0702 05:36:50.703511       1 cleanup.go:23] Removing temporary directory /tmp/S2I235763477
-I0702 05:36:50.703600       1 fs.go:99] Removing directory '/tmp/S2I235763477'
-I0702 05:36:50.727475       1 cfg.go:46] PUSH_DOCKERCFG_PATH=/var/run/secrets/openshift.io/push/.dockercfg
-I0702 05:36:50.733088       1 cfg.go:64] Using serviceaccount user for Docker authentication
-I0702 05:36:50.733130       1 S2I.go:96] Using provided push secret for pushing 172.30.133.153:5000/sinatra/simple-openshift-sinatra-S2I image
-I0702 05:36:50.733157       1 S2I.go:99] Pushing 172.30.133.153:5000/sinatra/simple-openshift-sinatra-S2I image ...
-I0702 05:39:46.967064       1 S2I.go:103] Successfully pushed 172.30.133.153:5000/sinatra/simple-openshift-sinatra-S2I
-
-
-
-----
-
-. Make sure to check the progress on the web console.
-
-== Create Your First Image (Sinatra)
-
-. After your build is complete, verify your pod and service.
-+
-----
-
-[andrew@master00 ~]$ curl `oc get services | grep sin | awk '{print $4":"$5}' | awk -F'/' '{print $1}'`
-Hello, Sinatra!
-
-----
-
-. Add a route to make the application publicly accessible.
-+
-----
-
-[andrew@master00 ~]$ oc expose service simple-openshift-sinatra \
-  --hostname=mysinatra.cloudapps-${guid}.oslab.opentlc.com
-
-
-
-[andrew@master00 ~]$ oc get routes
-NAME                       HOST/PORT                                        PATH      SERVICE                    LABELS
-simple-openshift-sinatra   mysinatra.cloudapps-f4fc.oslab.opentlc.com             simple-openshift-sinatra
-
-[andrew@master00 ~]$ curl http://mysinatra.cloudapps-${guid}.oslab.opentlc.com
-Hello, Sinatra!
-----
-
-== Use the Web Console
-
-Using what you learned, create an application using the web console and the command line.
-
-. Create a project called `nodejs`.
-. Go to the application repository at https://github.com/openshift/nodejs-ex.
-. Use the `nodejs:0.10` image.
-. Create a route and expose the service to the world under the name http://nodejs.cloudapps-GUID.oslab.opentlc.com/.
-. Try to explore the `oc edit route` command.
-. Make sure the application has for replicas.
-
-[NOTE]
-At this point, the web console can create a local route. To create an external route, use `oc expose` or edit the existing route with `oc edit route`.

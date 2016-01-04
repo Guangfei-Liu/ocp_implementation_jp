@@ -1,21 +1,21 @@
 == Template File Creation
 
-
-.Example Template - `objects:` `Service` `frontend` / `web`
+.Example Template
+- `objects:` `Service` `frontend` / `web`
 [subs="verbatim,macros"]
 ----
 "objects": [
     {
-     pass:quotes[*"kind": "Service",*]
+      "kind": "Service",
       "apiVersion": "v1",
       "metadata": {
-        pass:quotes[*"name": "frontend",*]
+      "name": "frontend",
         "creationTimestamp": null
       },
       "spec": {
         "ports": [
           {
-            pass:quotes[*"name": "web",*]
+            "name": "web",
             "protocol": "TCP",
             "port": 5432,
             "targetPort": 8080,

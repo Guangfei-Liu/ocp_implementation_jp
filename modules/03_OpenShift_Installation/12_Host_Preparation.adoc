@@ -1,12 +1,11 @@
 == Host Preparation
-:noaudio:
 
 .Networking and Miscellaneous
 
 * Install software packages:
 +
 ----
-# yum install wget git net-tools iptables-services python-virtualenv gcc
+# yum install wget git net-tools bind-utils iptables-services bridge-utils bash-completion
 ----
 
 *  Update software before installation:
@@ -15,10 +14,18 @@
 # yum update -y
 ----
 
+[NOTE]
+Red Hat highly recommends installing `bash-completion` to enable command completion
+with the *Tab* key.
+
 ifdef::showscript[]
 
 === Transcript
 
-You need to install the software packages shown here and run a `yum` update on your master before using the installer and installing OpenShift Enterprise 3.0.
+You need to install the software packages shown here on your master and run a
+ `yum` update on your hosts before using the installer and installing OpenShift
+  Enterprise 3.
+
+
 
 endif::showscript[]

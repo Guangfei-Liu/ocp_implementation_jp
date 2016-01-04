@@ -38,13 +38,13 @@ include::19_Strategies.adoc[]
 
 include::20_Strategies.adoc[]
 
-include::21_Lifecycle_Hooks.adoc[]
+include::21_Life-cycle_Hooks.adoc[]
 
-include::22_Lifecycle_Hooks.adoc[]
+include::22_Life-cycle_Hooks.adoc[]
 
-include::23_Lifecycle_Hooks.adoc[]
+include::23_Life-cycle_Hooks.adoc[]
 
-include::24_Lifecycle_Hooks.adoc[]
+include::24_Life-cycle_Hooks.adoc[]
 
 include::25_Build_Triggers.adoc[]
 
@@ -61,3 +61,4 @@ include::30_Build_Triggers.adoc[]
 include::31_Build_Triggers.adoc[]
 
 include::32_Summary.adoc[]
+

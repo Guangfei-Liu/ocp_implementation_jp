@@ -1,6 +1,5 @@
 == Scheduler
 
-
 .Scheduler Policy
 * Selection of predicates and priority functions defines scheduler _policy_
 * Administrators can provide JSON file that specifies predicates and priority

@@ -1,8 +1,10 @@
+
 :noaudio:
 
 ifdef::revealjs_slideshow[]
 
 [#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"]
+
 == &nbsp;
 :noaudio:
 [#cover-h1]
@@ -15,19 +17,16 @@ Introduction to Course and Learning Environment
 image::{revealjs_cover_image}[]
 
 endif::[]
-
-
-
 == Course Goals
-:noaudio:
-* Review OpenShift Enterprise by Red Hat version 3.0 architecture
-* Describe/review OpenShift Enterprise 3.0 components
+
+* Review OpenShift Enterprise by Red Hat version 3 architecture
+* Describe/review OpenShift Enterprise 3 components
 * Describe OpenShift Enterprise installation and configuration process
 ** Scheduling (placement)
 ** Persistent storage
 ** Authentication
 * Describe/review application lifecycle (deployment lifecycle)
-* Review management of OpenShift Enterprise 3.0 security restrictions/capabilities
+* Review management of OpenShift Enterprise 3 security restrictions/capabilities
 
 
 ifdef::showscript[]
@@ -36,12 +35,12 @@ ifdef::showscript[]
 
 Welcome to the OpenShift Enterprise by Red Hat Implementation course.
 
-This course shows you how to set up and configure various aspects of the OpenShift Enterprise 3.0 environment, including the following:
+This course shows you how to set up and configure various aspects of the OpenShift Enterprise 3 environment, including the following:
 
 * The installation process
 * Scheduling, or placement of pods
 * Persistent storage
-* And authentication to the OpenShift Enterprise 3.0 environment.
+* And authentication to the OpenShift Enterprise 3 environment.
 
 This course also reviews how to manage applications and deployments and how to apply security restrictions and permissions.
 
@@ -49,15 +48,15 @@ endif::showscript[]
 
 
 == Course Overview
-:noaudio:
+
 * Module 01: Introduction to Course and Learning Environment
-* Module 02: OpenShift Enterprise 3.0 Architecture
-* Module 03: OpenShift Enterprise 3.0 Installation
+* Module 02: OpenShift Enterprise 3 Architecture
+* Module 03: OpenShift Enterprise 3 Installation
 * Module 04: Core Concepts
 * Module 05: Resource Management
 * Module 06: Creating Applications
 * Module 07: Templates
-* Module 08: Deployment Lifecycle
+* Module 08: Deployment Life cycle
 * Module 09: Managing Security
 
 ifdef::showscript[]
@@ -68,11 +67,8 @@ The course includes the modules listed here.
 Each module introduces you to new topics and provides an in-depth review of previous topics.
 
 endif::showscript[]
-
-
-
 == Prerequisites
-:noaudio:
+
 
 * Knowledge of Red Hat Enterprise Linux 7
 * Completion of OpenShift 3.x FASTRAX training with labs
@@ -84,20 +80,20 @@ ifdef::showscript[]
 
 === Transcript
 
-Students taking this course should know Red Hat Enterprise Linux 7, have completed OpenShift 3 FASTRAX training and all its labs, and be able to read and modify some form of code. They also must have a workstation with an SSH client installed.
+Students taking this course should be familiar with Red Hat Enterprise Linux 7,
+have completed OpenShift 3 FASTRAX training and all it's labs, and be able to
+read and modify some form of code.
+They also must have a workstation with an SSH client installed.
 
 endif::showscript[]
-
-
-
 == Class Environment
-:noaudio:
+
 
 * Class labs and demonstrations require provisioning virtual machines (VMs):
 ** *Master host*: One VM serves as OpenShift Enterprise environment master
 ** *Node hosts*: Three VMs serve as OpenShift Enterprise environment node
 ** *`oselab` host*: One VM for admin purposes (DNS server, NFS server, SSH jump box, more)
-* Red Hat Enterprise Linux 7.1 preinstalled and configured for deployment
+* Red Hat Enterprise Linux 7.2 preinstalled and configured for deployment
 * Connection details arrive via email after provisioning environment
 
 
@@ -106,13 +102,13 @@ ifdef::showscript[]
 === Transcript
 
 This class uses a cloud-based environment. You will provision the following
-virtual machine hosts for your OpenShift Enterprise environment: 
+virtual machine hosts for your OpenShift Enterprise environment:
 
 * A single master host
 * Three node hosts, one of which is dedicated for infrastructure components
 * One admin host, `oselab`, to act as your DNS server, NFS server, and SSH jump box
 
-Red Hat Enterprise Linux 7.1 is preinstalled and configured for deployment.
+Red Hat Enterprise Linux 7.2 is preinstalled and configured for deployment.
 
 After you provision the environment, you should receive connection details via
 email. This can take a few minutes. If you do not receive
@@ -120,10 +116,8 @@ the email within 10 minutes of making the environment provisioning request, chec
 
 
 endif::showscript[]
-
-
 == Connection Details
-:noaudio:
+
 
 .Master and Infranode Hosts
 
@@ -142,26 +136,27 @@ ifdef::showscript[]
 
 === Transcript
 
-The tables on the next three slides show the connection details to use when setting up and
-connecting to the lab environment. This information is repeated in the labs as
-required.
+The tables on the next three slides show the connection details to use when
+setting up and connecting to the lab environment. This information is repeated
+in the labs as required.
 
-The lab provisioning email you receive after you provision the lab from `labs.opentlc.com` provides the external IPs.
+External IPs are provided by the lab provisioning email you receive after you
+provision the lab from `labs.opentlc.com`.
 
-You use the master host to manage the state of the OpenShift cluster/environment. It hosts the web console and the API endpoint.
+You use the master host to manage the state of the OpenShift cluster/environment.
+ It hosts the web console and the API endpoint.
 
-The infranode host is a regular node to host _pods_ and _containers_. You use it only for infrastructure-related applications such as the router and Docker registry.
+The infranode host is a regular node to host _pods_ and _containers_.
+In this training it is used for infrastructure-related applications such as the
+ router and Docker registry.
 
-The `GUID` is a four-character generated unique identifier assigned to your lab environment. The provisioning email also provides your GUID.
+The `GUID` is a four-character generated unique identifier assigned to your lab
+ environment. The provisioning email also provides your GUID.
 
 
 endif::showscript[]
-
-
-
-
 == Connection Details
-:noaudio:
+
 
 .Node Hosts
 
@@ -180,14 +175,12 @@ ifdef::showscript[]
 
 === Transcript
 
-You use the node servers to run your _pods_ and _applications_. The nodes are firewalled, or completely blocked, from external access.
+You use the node servers to run your _pods_. The nodes are firewalled, and are
+ completely blocked, from external access.
 
 endif::showscript[]
-
-
-
 == Connection Details
-:noaudio:
+
 
 .Administration and Support Host
 
@@ -196,7 +189,7 @@ endif::showscript[]
 [cols ="1,4",width="65%"]
 |=======================
 ||`oselab`
-|*Internal IP*|`192.168.0.200`
+|*Internal IP*|`192.168.0.254`
 |*External IP*|Provided
 |*DNS Name*|+oselab-**GUID**.oslab.opentlc.com+
 |*Credentials*|OPENTLC Credentials
@@ -206,8 +199,12 @@ ifdef::showscript[]
 
 === Transcript
 
-When you connect to your environment, use only your OPENTLC credentials and SSH key to connect directly into your administration VM. Do not use root or try to connect directly to the master or nodes.
+You can use your `oselab` administration VM as a jump box to connect to the
+other internal lab hosts via SSH.
 
-You can use your `oselab` administration VM as a jump box to connect to the other internal lab hosts via SSH.
+When you connect to your environment, use only your OPENTLC credentials and SSH
+ key to connect directly into your administration VM.
+
+
 
 endif::showscript[]

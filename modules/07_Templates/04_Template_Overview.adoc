@@ -1,6 +1,5 @@
 == Template Overview
 
-
 .What Are Templates For?
 
 * Can create instantly deployable applications for developers or customers

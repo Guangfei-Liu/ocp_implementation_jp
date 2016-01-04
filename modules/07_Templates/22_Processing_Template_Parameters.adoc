@@ -1,0 +1,48 @@
+== Processing Template Parameters
+
+.Process `db`
+
+* Values used to create `frontend` can be used to process `db` template
+
+* To process `db` template and create configuration file:
++
+----
+$ oc process -f db-template.json  -v MYSQL_USER=userMXG,MYSQL_PASSWORD=slDrggRv,MYSQL_DATABASE=root > db-config.json
+----
+
+** This example processes and creates `db` template while overriding `mysql`
+ credentials' variables
+
+* Create configuration:
++
+----
+$ oc create -f db-template.json
+----
+
+* Can also process and create application in single step:
++
+----
+oc process -f db-template.json \
+    -v MYSQL_USER=userMXG,MYSQL_PASSWORD=slDrggRv,MYSQL_DATABASE=root \
+    | oc create -f -
+----
++
+** Or, use `oc new-app` to achieve same result:
++
+----
+$ oc new-app --file=./db-template.json --param=MYSQL_USER=userMXG,MYSQL_PASSWORD=slDrggRv,MYSQL_DATABASE=root
+----
+ifdef::showscript[]
+
+=== Transcript
+
+Now that you know the values used to create the `frontend` template, you can use
+ them when the `db` template is processed.
+
+In this example you process and create the `db` template while
+ overriding the `mysql` credentials' variables.
+
+You can also process and create the application in a single step, or use the
+ `oc new-app` command to achieve the same result.
+
+endif::showscript[]

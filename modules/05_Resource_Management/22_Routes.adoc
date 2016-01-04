@@ -1,6 +1,5 @@
 == Routes
 
-
 .Overview
 
 * A *route*: Exposes _service_ by giving it externally reachable hostname

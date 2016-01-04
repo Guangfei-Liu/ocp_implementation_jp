@@ -1,6 +1,5 @@
 == Pods and Services
 
-
 .Service Definition File/Manifest
 
 * Like pods, services are REST objects
@@ -11,10 +10,10 @@
  apiVersion: v1
  kind: Service
  metadata:
-   name: docker-registry
+   name: example-name
  spec:
    selector:                  <1>
-     docker-registry: default
+     example-label: example-value
    portalIP: 172.30.136.123   <2>
    ports:
    - nodePort: 0
@@ -22,6 +21,11 @@
      protocol: TCP
      targetPort: 5000         <4>
 ----
+<1> `selector` identifies all pods with specified label: `example-label: example-value`
+<2> `portalIP` specifies assigned service IP
+<3> `Port` specifies port on which service listens
+<4> `targetPort` specifies port used to forward connections to backing pods
+
 
 
 ifdef::showscript[]
@@ -31,13 +35,14 @@ ifdef::showscript[]
 Like pods, services are REST objects. The example shown here provides the
  definition of a service for the pod defined above.
 
-. The label selector identifies all pods with the `docker-registry=default`
- label as the `Pods` represented by the `service`
+Note the following:
+
+. The label selector identifies all `Pods` represented by the `service`
 . When the service is created, it automatically receives a virtual IP,
  `PortalIP`, chosen from a pool of internal IPs. When you define a new service,
-  you leave this blank to get assigned a random IP.
+  you leave this blank to be assigned a random IP.
 . The `Port` line specifies the port on which the service listens.
 . The service uses the `targetPort` to forward connections to the backing pods.
- Those pods should "listen" on that port.
+ Those pods should listen on that port.
 
 endif::showscript[]

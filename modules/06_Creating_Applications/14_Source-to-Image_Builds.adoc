@@ -1,6 +1,5 @@
 == Source-to-Image Builds
 
-
 .Creating the Build File
 
 * `oc new-app`:

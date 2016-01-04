@@ -1,6 +1,5 @@
 == Scheduler
 
-
 .Available Priority Functions
 
 * Can specify custom set of priority functions to configure scheduler

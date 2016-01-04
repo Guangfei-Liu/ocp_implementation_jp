@@ -1,5 +1,4 @@
 == Host Preparation
-:noaudio:
 
 .Firewalls: External Access
 
@@ -8,7 +7,8 @@
 [cols="2,1,5"]
 |=======================================================================
 |Type |Port |Description
-|*External - Master* |`8443` a|* CLI and IDE plug-ins communicate via REST to this port
+|*External - Master* |`8443` a|* CLI and IDE plug-ins communicate via REST to
+ this port
 * Web console runs on this port
 |*External - Node* (or nodes) hosting `Default Router` (HAProxy) container |`80`, `443` a|* Ports opened and bound to `Default Router` container
 * Proxy
@@ -17,15 +17,22 @@ communication from external world to _pods_ (containers) internally.
 
 * Sample topology:
 ** Infrastructure _nodes_ running in DMZ
-** Application hosting _nodes_, master, other supporting infrastructure running in more secure network
+** Application hosting _nodes_, master, other supporting infrastructure running
+ in more secure network
 
 ifdef::showscript[]
 
 === Transcript
-To allow users from outside your LAN to access the web console or make API calls to OpenShift Enterprise, you need to expose the master's `8443` port to those users' networks.
+To allow users from outside your LAN to access the web console or make API calls
+ to OpenShift Enterprise, you need to expose the master's `8443` port to those
+  users' networks.
 
-The `Default Router` listens on its host's ports `80` and `443` for incoming requests. To allow external access to your pods, you only need to expose the node hosting the `Default Router`.
+The `Default Router` listens on its host's ports `80` and `443` for incoming
+ requests. To allow external access to your pods, you only need to expose the
+  node hosting the `Default Router`.
 
-Consider a topology where only the infrastructure _nodes_ are running in a DMZ and the application hosting _nodes_, master, and other supporting infrastructure are running in a more secure network.
+Consider a topology where only the infrastructure _nodes_ are running in a DMZ
+ and the application hosting _nodes_, master, and other supporting
+  infrastructure are running in a more secure network.
 
 endif::showscript[]

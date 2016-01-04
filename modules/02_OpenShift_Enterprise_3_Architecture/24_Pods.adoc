@@ -1,0 +1,30 @@
+== Pods
+
+* Correspond to co-located group of applications running with shared context
+* Model application-specific logical hosts in containerized environment
+** May contain tightly coupled applications
+** Example: Web server and _file puller/syncer_
+* Smallest deployable units that can be created, scheduled, managed
+* Consist of co-located group of Docker containers with shared volumes
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+A pod corresponds to a co-located group of applications running with a shared
+context. Within that context, the applications may also have individual group
+isolations applied. A pod models an application-specific logical host in a
+containerized environment.
+
+A pod may contain one or more tightly coupled applications that in a
+pre-container world would have executed on the same physical or virtual
+host.
+For example, a pod could contain a web server and a _file puller/syncer_.
+
+In Kubernetes, pods, not individual application containers, are the
+smallest deployable units that you can create, schedule, and manage.
+In terms of Docker constructs, a pod consists of a co-located group of Docker
+containers.
+
+endif::showscript[]

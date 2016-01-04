@@ -1,0 +1,22 @@
+== OpenShift Enterprise 3.1 Release Notes
+
+* Web console enhancements
+** Extended resource information now available
+** Can now trigger deployment and rollback from console
+** Logs for builds and pods displayed in real time
+** Can enable display of pod metrics
+** In *Builds* tab, can use shell connection to connect to container
+
+ifdef::showscript[]
+=== Transcript
+
+OpenShift Enterprise 3.1 offers a number of web console enhancements:
+* Extended resource information is now available on the web console.
+* The ability to trigger a deployment and rollback from the console has been
+ added.
+* Logs for builds and pods are now displayed on the web console in real time.
+* When enabled, the web console now displays pod metrics.
+* When you are in the *Builds* tab, you can now connect to a container using a
+ remote shell connection.
+
+endif::showscript[]

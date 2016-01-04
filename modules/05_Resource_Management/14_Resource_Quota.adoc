@@ -1,6 +1,5 @@
 == Resource Quota
 
-
 .Quota Enforcement: Usage Changes
 
 * After quota created and usage statistics are up-to-date:

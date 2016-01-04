@@ -1,6 +1,5 @@
 == Routes
 
-
 .Route Types: Secured Routes
 
 * *Secured routes*: Specify TLS termination of route

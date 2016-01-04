@@ -1,6 +1,5 @@
 == Routes
 
-
 .Secured TLS Termination Types: Re-encryption Termination Route Definition
 
 [source,yaml]
@@ -25,11 +24,10 @@ spec:
       END CERTIFICATE
 ----
 
-. The `termination` field is set to `reencrypt`. Other fields are the same as in
- edge termination.
-. Optionally, the `destinationCaCertificate` field specifies a CA certificate to
- validate the endpoint certificate, securing the connection from the router to
-  the destination.
+<1> `termination` field is set to `reencrypt`
+** Other fields are same as edge termination
+<2> Optional `destinationCaCertificate` field specifies CA certificate to
+ validate endpoint certificate, which secures connection from router to destination
 
 ifdef::showscript[]
 

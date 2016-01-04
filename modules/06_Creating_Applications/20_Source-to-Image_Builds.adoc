@@ -1,6 +1,5 @@
 == Source-to-Image Builds
 
-
 .JSON Build File - `Template`
 
 * Defines container _deployment template_

@@ -1,6 +1,5 @@
 == Persistent Volumes
 
-
 .Claims as Volumes in Pods
 
 * Pod uses a `PersistentVolumeClaim` as a volume

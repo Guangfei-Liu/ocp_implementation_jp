@@ -1,6 +1,5 @@
 == Application Environment
 
-
 .Object Names
 
 * `new-app` objects normally named after source repository or image

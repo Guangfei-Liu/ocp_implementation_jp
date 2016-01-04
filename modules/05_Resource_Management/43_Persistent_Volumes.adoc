@@ -1,6 +1,5 @@
 == Persistent Volumes
 
-
 .Volume and Claim Binding
 * `PersistentVolume`: Specific resource
 * `PersistentVolumeClaim`: Request for resource with specific attributes

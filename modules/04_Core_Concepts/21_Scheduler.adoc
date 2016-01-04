@@ -1,6 +1,5 @@
 == Scheduler
 
-
 .Scheduler Extensibility
 
 * Scheduler built using plug-in model
@@ -10,11 +9,13 @@
 ** Enhancements
 *** Add predicates and priority functions
 *** Can be contributed upstream or maintained separately
-*** Need to be registered with scheduler factory and specified in scheduler policy file
+*** Need to be registered with scheduler factory and specified in scheduler
+ policy file
 
 ** Replacement
 *** Replace scheduler with alternate implementation
-** Scheduler code watches pods as they are created and identifies most suitable node to host them
+** Scheduler code watches pods as they are created and identifies most suitable
+ node to host them
 *** Uses master API to create pod-to-node bindings for pods
 
 

@@ -1,6 +1,5 @@
 == Client Tool Authentication
 
-
 .CLI Authentication: `oc login` Options
 
 [options="nowrap"]
@@ -29,7 +28,7 @@ a|* Correctly and securely authenticates with OpenShift Enterprise
 server that uses HTTPS
 * Must provide path to certificate authority file
 |`--insecure-skip-tls-verify`
-a|* Allows interaction with HTTPS server while bypassing server
+a|* Allows interacti on with HTTPS server while bypassing server
 certificate checks
 * Not secure if
 ** You `oc

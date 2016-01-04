@@ -1,7 +1,5 @@
 == New App From Image
 
-
-
 * To create application from existing image stream, specify:
 ** Namespace (optional)
 ** Name

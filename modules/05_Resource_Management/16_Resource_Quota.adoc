@@ -1,6 +1,5 @@
 == Resource Quota
 
-
 .Applying a Quota to a Project
 
 ----

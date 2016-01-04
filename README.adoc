@@ -1,0 +1,242 @@
+:toc: macro
+
+= OpenShift Enterprise 3 Implementation
+
+toc::[]
+
+== Overview
+
+This repo contains the course material for the *OpenShift3 Implementation*
+ training.
+
+== Course Goals
+
+ * Review OpenShift Enterprise by Red Hat version 3 architecture
+ * Describe/review OpenShift Enterprise 3 components
+ * Describe OpenShift Enterprise installation and configuration process
+ ** Scheduling (placement)
+ ** Persistent storage
+ ** Authentication
+ * Describe/review application lifecycle (deployment lifecycle)
+ * Review management of OpenShift Enterprise 3 security restrictions/capabilities
+
+
+
+* Current Product Version
+- OpenShift Enterprise  3.1
+- RHEL 7.1
+
+=== Environment Details
+OpenShift Advanced
+- 1 x OpenShift Master (master00-guid.oselab.opentlc.com)
+- 1 x OpenShift Infrastructure Node (infranode0-guid.oselab.opentlc.com)
+- 2 x OpenShift Worker Node (node0{0,1}-guid.oselab.opentlc.com)
+
+=== Course Modules
+
+- Module 01 - Introduction to Course
+- Module 02 - OpenShift Enterprise 3 Architecture
+- Module 03 - OpenShift Installation
+- Module 04 - Core Concepts
+- Module 05 - Resource Management
+- Module 06 - Creating Applications
+- Module 07 - Templates
+- Module 08 - Deployment Lifecycle
+- Module 09 - Managing Security
+
+== Modules Detail
+
+=== Module 01 - Introduction to Course
+.Topics Covered
+- Course Goals
+- Course Overview
+- Prerequisites
+- Class Environment
+- Lab: Provision Your Lab Environment
+
+.Module Labs
+
+* Lab: Provision Your Lab Environment
+- Lab Scenario: In this lab we will use the OPENTLC Cloudforms Appliance (At
+    link:https://labs.opentlc.com[https://labs.opentlc.com]) to deploy our Lab
+     environment.
+
+
+=== Module 02 - OpenShift Enterprise 3 Architecture
+.Topics Covered
+- Overview and design concepts in OpenShift Enterprise by Red Hat version 3
+- Introduction to Docker
+- Introduction to Kubernetes infrastructure
+- Networking in OpenShift Enterprise 3
+- Image registry
+- Builds and OpenShift Enterprise S2I images
+- OpenShift Enterprise 3.1 Release Notes
+
+.Module Labs
+- There are no labs for this module.
+
+
+=== Module 03 - OpenShift Installation
+.Topics Covered
+
+- Installation Scenario
+- Installation Methods
+- Installation Workflow
+- Prerequisites
+- Host Preparation
+- Docker Installation
+- OpenShift Enterprise Installation
+- Regions and Zones
+- Registry Deployment
+- Default HAProxy Router Deployment
+- OpenShift Enterprise Population
+- Persistent Storage Using NFS
+- Lab: Provision Your Lab Environment
+- Lab: Prepare to Deploy OpenShift
+- Lab: Install OpenShift Enterprise
+- Lab: OpenShift Configuration and Setup
+- Lab: Setting Up Persistent Storage
+
+
+.Module Labs
+* Lab: Prepare to Deploy OpenShift
+- Lab Scenario: In this lab we will prepare our hosts for the OpenShift Enerprise Installation,
+ We will configure DNS and NFS ervers on our Administration Host, Configure the
+  network settings and Install docker.
+
+* Lab: Install OpenShift Enterprise
+- Lab Scenario: In this lab we will Install OpenShift Enterprise by using the
+ Quick installer.
+
+* Lab: OpenShift Configuration and Setup
+- Lab Scenario: In this lab we will configure OpenShift Enterise, We will
+ "label" our nodes, Configure Authentication and deploy the `Registry` and
+  `Default Router` containers on our "Infranode" node host.
+
+* Lab: Setting Up Persistent Storage
+- Lab Scenario: In this lab we will prepare the OpenShift Cluster to use NFS
+ storage as a `Persistent Volume` provider.
+
+
+=== Module 04 - Core Concepts
+
+.Topics Covered
+- Overview
+- Containers and Images
+- Pods and Services
+- Scheduler
+- Builds and Image Streams
+- Replication Controllers
+- Routers
+
+.Module Labs
+- There are no labs for this module.
+
+
+=== Module 05 - Resource Management
+
+.Topics Covered
+- Resource Types
+- OpenShift Enterprise Resources
+- Projects and Users
+- Client Tool Authentication
+- Resource Quota
+- Service Accounts
+- Routes
+- Persistent Volumes
+- Lab: Manage Users, Projects, and Quotas
+- Lab: Create Services and Routes
+- Lab: Exploring inside the containers
+- Lab: Create a Persistent Volume for the Registry
+
+.Module Labs
+
+* Lab: Manage Users, Projects, and Quotas
+- Lab Scenario: In this lab, you create Projects and test out the use of Quotas
+ and limites
+
+* Lab: Create Services and Routes
+- Lab Scenario: In this lab we manually create Services and Routes for our pods
+and review the changes to a service when scaling an application.
+
+* Lab: Exploring inside the containers
+- Lab Scenario : In this lab, you will learn to run commands within active pods
+ and explore the "docker-registry" and "Default Router" containers.
+
+* Lab: Create a Persistent Volume for the Registry
+- Lab Scenario: In this lab, you create a persistent volume for your registry,
+ attach it to the `deploymentConfiguration`, and redeploy the registry.
+
+=== Module 06 - Creating Applications
+
+.Topics Covered
+
+- Overview
+- Source-to-Image
+- Source-to-Image Builds
+- Application Creation
+- New App From Source Code
+- New App From Image
+- New App From Template
+- Application Environment
+- Advanced Application Creation
+- Web Console
+- Lab: Deploy an Application Using the Web Console
+- Lab: Create Customized Build script
+
+.Module Labs
+
+
+* Lab: Deploy an Application Using the Web Console
+- Lab Scenario: In this lab you will deploy an application based on a code
+  repository follow the build logs using the OpenShift Enterprise Web Console
+   and CLI.
+
+* Lab: Create Customized Build script
+- Lab Scenario: In this lab you will create an application from a forked git
+    repository, you will inject a custom build script and, start a rebuild from
+     the web console and follow the logs to review your custom script messages.
+
+
+=== Module 07 - Templates
+
+.Topics Covered
+
+- Template Overview
+- Template File Creation
+- New Configuration From Template
+- Processing Template Parameters
+- Lab: Create and upload a template
+- Lab: Using Templates and Template Parameters
+
+.Module Labs
+
+* Lab: Create and upload a template
+- Lab Scenario: In this lab you will create a template for a 2-tier application
+ (Frontend and Database), upload it into the shared namespace ("openshift"
+  project) and check that users can deploy it from the web console.
+
+* Lab: Using Templates and Template Parameters
+- Lab Scenario: In this lab you will create two separate template instances, in
+   two separate projects and use template parameters establish a frontend to
+    database backend connection.
+
+
+=== Module 08 - Deployment Lifecycle
+
+.Topics Covered
+
+- Deployments
+- Strategies
+- Lifecycle Hooks
+- Build Triggers
+
+.Module Labs
+* Lab: Rollback and Code Lifecycle
+- Lab Scenario: In this lab you will manage the various phases of the deployment
+ lifecycle.
+
+* Lab: Using Webhooks
+- Lab Scenario: In this lab you will create a git web-hook and start a new build
+ and a new deployment automatically by pushing a code change in your git
+  repository.

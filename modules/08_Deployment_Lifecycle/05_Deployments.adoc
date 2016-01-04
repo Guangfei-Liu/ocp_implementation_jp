@@ -1,6 +1,5 @@
 == Deployments
 
-
 .Deployments and Deployment Configurations
 
 * `DeploymentConfig` object defines deployment:
@@ -8,7 +7,7 @@
 ** Elements of `ReplicationController` definition
 ** Triggers for creating new deployment automatically
 ** Strategy for transitioning between deployments
-** Lifecycle hooks
+** Life-cycle hooks
 
 * Each time deployment is triggered (manual or automatic), deployer pod manages
  deployment:
@@ -29,13 +28,13 @@ The OpenShift Enterprise `DeploymentConfig` object defines the following details
 * The elements of a `ReplicationController` definition
 * Triggers for creating a new deployment automatically
 * The strategy for transitioning between deployments
-* Lifecycle hooks
+* Life-cycle hooks
 
 Each time a deployment is triggered, whether manually or automatically, a
  deployer pod manages the deployment, including scaling down the old replication
   controller, scaling up the new one, and running hooks.
 
 When a deployment is superseded by another, the previous replication controller
- is retained and set to "relica=0" to enable easy rollback if needed.
+ is retained and set to "replica=0" to enable easy rollback if needed.
 
 endif::showscript[]

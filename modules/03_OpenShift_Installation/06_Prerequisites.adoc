@@ -1,5 +1,4 @@
 == Prerequisites
-:noaudio:
 
 .System Requirements
 
@@ -14,19 +13,22 @@
 
 ** Physical or virtual system, or instance running on public IaaS
 ** Base OS: Red Hat Enterprise Linux 7.1 with _Minimal_ installation option
-** Docker 1.6 or later
+** Docker 1.8.2 or later
 ** One vCPU
 ** Minimum 8 GB RAM
 ** Minimum 15 GB hard disk space
-
+** An additional minimum 15 GB unallocated space to be configured using
+ `docker-storage-setup;`
 
 
 
 ifdef::showscript[]
 === Transcript
 
-These are the minimal requirements for a viable OpenShift Enterprise environment, for both masters and nodes.
+These are the minimal requirements for a viable OpenShift Enterprise
+ environment, for both masters and nodes.
 
-To lower costs, the servers in the learning environment are not configured with the recommended settings.
+To lower costs, the servers in the learning environment are not configured with
+ the recommended settings.
 
 endif::showscript[]

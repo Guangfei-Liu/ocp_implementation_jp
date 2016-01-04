@@ -1,6 +1,5 @@
 == Projects and Users
 
-
 .Namespaces
 
 * *Kubernetes namespace*: Provides mechanism to scope cluster resources

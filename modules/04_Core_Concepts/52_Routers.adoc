@@ -1,6 +1,5 @@
 == Routers
 
-
 .Routers and Routes
 
 * `route` object describes `service` to expose and host FQDN

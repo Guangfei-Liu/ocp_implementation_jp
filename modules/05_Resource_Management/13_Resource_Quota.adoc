@@ -1,6 +1,5 @@
 == Resource Quota
 
-
 .Quota Enforcement
 * After quota created in project:
 ** Project restricts ability to create resources that may violate quota

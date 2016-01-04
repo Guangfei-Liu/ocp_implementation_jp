@@ -1,6 +1,5 @@
 == Pods and Services
 
-
 .Pods Definition File/Manifest: Requests and Storage Volumes
 
 [source,yaml]
@@ -17,6 +16,8 @@
      secret:
        secretName: default-token-br6yz
 ----
+<1> Service account name
+<2> Volumes that pod can use
 
 
 ifdef::showscript[]

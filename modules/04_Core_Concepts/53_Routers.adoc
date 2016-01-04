@@ -1,6 +1,5 @@
 == Routers
 
-
 .Routers and Routes: Requests
 
 * To reach a router, requests for hostnames must resolve via DNS to a router or

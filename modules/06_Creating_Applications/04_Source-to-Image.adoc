@@ -1,6 +1,5 @@
 == Source-to-Image
 
-
 .What Is S2I?
 
 * Tool for building reproducible Docker images
@@ -18,7 +17,7 @@ ifdef::showscript[]
 
 === Transcript
 
-An S2I, or Source-to-Image, build is a process in which a developer points to a
+A Source-to-Image, or S2I, build is a process in which a developer points to a
  code repository in a supported framework and selects a _builder_ image that
   contains the operating system and framework to support the code.
 
@@ -30,7 +29,8 @@ To start an S2I build, your code must reside in a supported code repository, and
 
 
 endif::showscript[]
-// ISSUE: Removed until 3.1
+// ISSUE: Waiting for Erik to answer regarding  3.1
 //   * Supports incremental builds
 //   ** Reuses previous dependencies, built artifacts, etc.
 //S2I supports incremental builds and reuses previous dependencies, built artifacts, and so on.
+// https://docs.openshift.com/enterprise/3.1/architecture/core_concepts/builds_and_image_streams.html

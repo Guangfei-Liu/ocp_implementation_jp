@@ -1,5 +1,4 @@
 == Persistent Storage Using NFS
-:noaudio:
 
 .Automation
 
@@ -17,14 +16,18 @@ ifdef::showscript[]
 
 === Transcript
 
-The preceding sections have discussed the ways you can provision OpenShift Enterprise clusters with persistent storage using NFS:
+The preceding sections have discussed the ways you can provision OpenShift
+ Enterprise clusters with persistent storage using NFS:
 
 * Use disk partitions to enforce storage quotas
-* Enforce security by restricting volumes to the namespace that has a claim to them
+* Enforce security by restricting volumes to the namespace that has a claim to
+ them
 * Configure reclamation of discarded resources for each persistent volume
 
-After you set up your OpenShift Enterprise environment and clusters to use persistent storage, it is easy to create scripts to automate these tasks.
+After you set up your OpenShift Enterprise environment and clusters to use
+ persistent storage, it is easy to create scripts to automate these tasks.
 
-To help you get started, see the example Ansible playbook at the web address shown here.
+To help you get started, see the example Ansible playbook at the web address
+ shown here.
 
 endif::showscript[]

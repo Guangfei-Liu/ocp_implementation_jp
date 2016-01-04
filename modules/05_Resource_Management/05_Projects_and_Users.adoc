@@ -1,6 +1,5 @@
 == Projects and Users
 
-
 .Users and User Types
 
 * Interaction with OpenShift Enterprise associated with _user_
@@ -54,5 +53,5 @@ System users include a cluster administrator, who has access to everything;
 
 There is also an anonymous system user that is used by default for
  unauthenticated requests.
- 
+
 endif::showscript[]

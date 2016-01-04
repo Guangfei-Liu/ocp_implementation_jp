@@ -1,9 +1,8 @@
 == Strategies
 
-
 .`Recreate` Strategy
 
-* Has basic rollout behavior and supports lifecycle hooks for injecting code
+* Has basic rollout behavior and supports life-cycle hooks for injecting code
  into deployment process
 
 * `Recreate` strategy:
@@ -21,10 +20,10 @@
 
 ifdef::showscript[]
 === Transcript
-The `Recreate` strategy has basic rollout behavior and supports lifecycle hooks
+The `Recreate` strategy has basic rollout behavior and supports life-cycle hooks
  for injecting code into the deployment process.
 
 In the example, `recreateParams` are optional. `pre` and `post` are both
- lifecycle hooks that happen before and after the deployment. 
+ life-cycle hooks that happen before and after the deployment.
 
 endif::showscript[]

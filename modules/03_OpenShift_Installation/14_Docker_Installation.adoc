@@ -1,5 +1,4 @@
 == Docker Installation
-:noaudio:
 
 .Docker Storage Configuration
 
@@ -9,17 +8,24 @@
 * For production environments:
 ** Create thin-pool logical volume
 ** Reconfigure Docker to use volume
-* To do this use `docker-storage-setup` script after installing but before using Docker
+* To do this use `docker-storage-setup` script after installing but before using
+ Docker
 ** Script reads configuration options from `/etc/sysconfig/docker-storage-setup`
 
 ifdef::showscript[]
 
 === Transcript
 
-Docker’s default loopback storage mechanism is not supported for production use and is only appropriate for proof of concept environments. For production environments, you must create a thin-pool logical volume and reconfigure Docker to use that volume.
+Docker’s default loopback storage mechanism is not supported for production use
+ and is only appropriate for proof of concept environments. For production
+  environments, you must create a thin-pool logical volume and reconfigure
+   Docker to use that volume.
 
-You can use the `docker-storage-setup` script to create a thin-pool device and configure Docker’s storage driver after installing Docker. Do not use Docker until the storage driver is configured.
+You can use the `docker-storage-setup` script to create a thin-pool device and
+ configure Docker’s storage driver after installing Docker. Do not use Docker
+  until the storage driver is configured.
 
-The script reads configuration options from the `/etc/sysconfig/docker-storage-setup` file.
+The script reads configuration options from the
+ `/etc/sysconfig/docker-storage-setup` file.
 
 endif::showscript[]

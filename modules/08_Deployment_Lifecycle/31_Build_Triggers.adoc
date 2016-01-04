@@ -1,7 +1,5 @@
 == Build Triggers
 
-
-
 * Image change trigger:
 +
 ----
@@ -35,7 +33,7 @@
 
 ifdef::showscript[]
 === Transcript
-This example defines an image change trigger that monitors the image-stream and
+This example defines an image change trigger that monitors the image stream and
  tag as defined by the `from` field.
 
 When a change occurs, a new build is triggered and is supplied with a static

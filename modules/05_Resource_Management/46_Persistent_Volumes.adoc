@@ -1,0 +1,33 @@
+== Persistent Volumes
+
+.Disk Quota Enforcement
+
+* Use disk partitions to enforce disk quotas and size constraints
+** Each partition can be own export
+** Each export = one persistent volume
+* OpenShift enforces unique names for persistent volumes,
+** Administrator determines uniqueness of NFS volume server and path
+
+* Enforcing quotas lets user:
+** Request persistent storage by specific amount
+** Match with volume of equal or greater capacity
+
+
+
+ifdef::showscript[]
+
+=== Transcript
+
+To define disk quotas, you need to use disk partitions to create size constraints.
+
+Each partition can be its own export, and each export is one persistent volume.
+
+OpenShift enforces unique names for persistent volumes, the administrator
+ determines the uniqueness of the NFS volume's server and path.
+
+Enforcing quotas this way lets a user request a specific amount of persistent
+ storage--for example, 10GB--and be matched with a corresponding volume of equal
+  or greater capacity.
+
+
+endif::showscript[]

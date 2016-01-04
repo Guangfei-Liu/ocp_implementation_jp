@@ -1,6 +1,5 @@
 == Web Console
 
-
 * Can also create applications using web console
 
 * While in desired project, click *Create*

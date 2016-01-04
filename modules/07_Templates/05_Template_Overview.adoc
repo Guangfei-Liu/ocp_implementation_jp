@@ -1,6 +1,5 @@
 == Template Overview
 
-
 .Template Elements
 
 ----
@@ -36,6 +35,11 @@
 
 ----
 
+<1> `name`: Name of template
+<2> `description`: Optional description for template
+<3> `parameters`: List of parameters, like username, passwords, and others
+<4> `labels`: List of labels to apply to resources created by template
+<5> `object`: List of resources to create, such as pods, services, and routes
 
 
 ifdef::showscript[]
@@ -46,7 +50,7 @@ This sample template file is constructed from the following elements:
 
 . `name` is the name of the template.
 . `description` is an optional description for the template.
-. `parameters` is where you list of parameters like username, passwords, and
+. `parameters` is where you list parameters like username, passwords, and
  others.
 . `labels` is a list of labels to apply to resources created by the template.
 . `object` lists resources to create, like pods, services, and routes.

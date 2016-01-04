@@ -1,10 +1,10 @@
 == Builds and Image Streams
 
-
 [horizontal]
 Operational efficiency::
 
-* PaaS operator restricts build operations instead of allowing arbitrary actions, such as in `Dockerfile`
+* PaaS operator restricts build operations instead of allowing arbitrary
+ actions, such as in `Dockerfile`
 * Can avoid accidental or intentional abuses of build system
 
 Operational security::

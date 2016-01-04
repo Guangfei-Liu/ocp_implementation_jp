@@ -1,6 +1,5 @@
 == Routes
 
-
 .Custom Default Routing Subdomain
 
 * Cluster administrator can use OpenShift Enterprise master configuration file

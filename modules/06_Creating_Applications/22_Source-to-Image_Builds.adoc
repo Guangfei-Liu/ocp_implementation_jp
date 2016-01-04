@@ -1,6 +1,5 @@
 == Source-to-Image Builds
 
-
 .Creating the Build Environment
 
 * To create build environment and start the build, use `oc create` on `.json`

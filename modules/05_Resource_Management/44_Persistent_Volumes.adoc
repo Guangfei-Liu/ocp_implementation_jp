@@ -1,6 +1,5 @@
 == Persistent Volumes
 
-
 .Volume and Claim Binding: Status
 
 * To tell whether claim or volume is bound:
@@ -19,8 +18,7 @@ ifdef::showscript[]
 
 === Transcript
 
-As shown in the example here, you can tell whether a claim or volume is bound by using the CLI to submit a query.
+As shown in the example here, you can tell whether a claim or volume is bound by
+ using the CLI to submit a query.
 
 endif::showscript[]
-
-

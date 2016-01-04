@@ -1,11 +1,9 @@
 == Source-to-Image
 
-
 .Build and Deployment Automation
 
 * Integrated Docker registry and automated _image builds_
 * Source code deployments leveraging S2I build automation
-* Binary deployments integrated with existing build and CI infrastructure
 * Configurable deployment patterns--rolling, etc.
 
 ifdef::showscript[]

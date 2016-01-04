@@ -1,9 +1,8 @@
 == Source-to-Image Builds
 
-
 .Watching the S2I Build
 
-* To see builds and their status, use `oc get builds`:
+* To see builds and their status:
 +
 ----
 $ oc get builds
@@ -12,10 +11,10 @@ simple-openshift-sinatra-sti-1   S2I       Running   simple-openshift-sinatra-st
 
 ----
 
-* To follow the build process, use `oc build-logs`:
+* To follow build process:
 +
 ----
-oc build-logs sin-simple-openshift-sinatra-sti-1
+oc logs build/sin-simple-openshift-sinatra-sti-1
 ----
 
 ifdef::showscript[]
@@ -28,6 +27,3 @@ To follow the build process by checking the log created for your build, use the
  `oc build-logs` command.
 
 endif::showscript[]
-
-
-// ISSUE: I think this command has changed in 3.1, waiting for documentation 

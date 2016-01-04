@@ -1,6 +1,5 @@
 == Source-to-Image Builds
 
-
 .JSON Build File
 
 ----
@@ -14,19 +13,15 @@
             "apiVersion": "v1",
             "metadata": {
                 "name": "simple-openshift-sinatra-sti",
-                "creationTimestamp": null
+                "creationTimestamp": null,
+                "labels": {
+                    "app": "simple-openshift-sinatra-sti"
+                },
+                "annotations": {
+                    "openshift.io/generated-by": "OpenShiftNewApp"
+                }
             },
-            "spec": {
-                "tags": [
-                    {
-                        "name": "latest",
-                        "from": {
-                            "kind": "DockerImage",
-                            "name": "simple-openshift-sinatra-sti:latest"
-                        }
-                    }
-                ]
-            },
+            "spec": {},
             "status": {
                 "dockerImageRepository": ""
             }
@@ -36,21 +31,30 @@
             "apiVersion": "v1",
             "metadata": {
                 "name": "simple-openshift-sinatra-sti",
-                "creationTimestamp": null
+                "creationTimestamp": null,
+                "labels": {
+                    "app": "simple-openshift-sinatra-sti"
+                },
+                "annotations": {
+                    "openshift.io/generated-by": "OpenShiftNewApp"
+                }
             },
             "spec": {
                 "triggers": [
                     {
                         "type": "GitHub",
                         "github": {
-                            "secret": "egsfGzfgMcKPPCfL88oz"
+                            "secret": "9PATsUhFWasUl91pzW1B"
                         }
                     },
                     {
                         "type": "Generic",
                         "generic": {
-                            "secret": "8fcmnyr0RbkzLPCPY9Sv"
+                            "secret": "lVS9l8FY8WAgq4rRhaez"
                         }
+                    },
+                    {
+                        "type": "ConfigChange"
                     },
                     {
                         "type": "ImageChange",
@@ -90,11 +94,16 @@
             "apiVersion": "v1",
             "metadata": {
                 "name": "simple-openshift-sinatra-sti",
-                "creationTimestamp": null
+                "creationTimestamp": null,
+                "labels": {
+                    "app": "simple-openshift-sinatra-sti"
+                },
+                "annotations": {
+                    "openshift.io/generated-by": "OpenShiftNewApp"
+                }
             },
             "spec": {
                 "strategy": {
-                    "type": "Recreate",
                     "resources": {}
                 },
                 "triggers": [
@@ -117,28 +126,44 @@
                 ],
                 "replicas": 1,
                 "selector": {
+                    "app": "simple-openshift-sinatra-sti",
                     "deploymentconfig": "simple-openshift-sinatra-sti"
                 },
                 "template": {
                     "metadata": {
                         "creationTimestamp": null,
                         "labels": {
+                            "app": "simple-openshift-sinatra-sti",
                             "deploymentconfig": "simple-openshift-sinatra-sti"
+                        },
+                        "annotations": {
+                            "openshift.io/generated-by": "OpenShiftNewApp"
                         }
                     },
                     "spec": {
+                        "volumes": [
+                            {
+                                "name": "simple-openshift-sinatra-sti-volume-1",
+                                "emptyDir": {}
+                            }
+                        ],
                         "containers": [
                             {
                                 "name": "simple-openshift-sinatra-sti",
-                                "image": "simple-openshift-sinatra-sti:latest",
+                                "image": "library/simple-openshift-sinatra-sti:latest",
                                 "ports": [
                                     {
-                                        "name": "simple-openshift-sinatra-sti-tcp-8080",
                                         "containerPort": 8080,
                                         "protocol": "TCP"
                                     }
                                 ],
-                                "resources": {}
+                                "resources": {},
+                                "volumeMounts": [
+                                    {
+                                        "name": "simple-openshift-sinatra-sti-volume-1",
+                                        "mountPath": "/run"
+                                    }
+                                ]
                             }
                         ]
                     }
@@ -151,21 +176,27 @@
             "apiVersion": "v1",
             "metadata": {
                 "name": "simple-openshift-sinatra",
-                "creationTimestamp": null
+                "creationTimestamp": null,
+                "labels": {
+                    "app": "simple-openshift-sinatra-sti"
+                },
+                "annotations": {
+                    "openshift.io/generated-by": "OpenShiftNewApp"
+                }
             },
             "spec": {
                 "ports": [
                     {
-                        "name": "simple-openshift-sinatra-sti-tcp-8080",
+                        "name": "8080-tcp",
                         "protocol": "TCP",
                         "port": 8080,
-                        "targetPort": 8080,
+                        "targetPort": 8080
                     }
                 ],
                 "selector": {
+                    "app": "simple-openshift-sinatra-sti",
                     "deploymentconfig": "simple-openshift-sinatra-sti"
-                },
-                "portalIP": ""
+                }
             },
             "status": {
                 "loadBalancer": {}
@@ -173,6 +204,7 @@
         }
     ]
 }
+
 ----
 
 

@@ -1,6 +1,5 @@
 == Scheduler
 
-
 .Generic Scheduler
 
 * OpenShift Enterprise provides generic scheduler

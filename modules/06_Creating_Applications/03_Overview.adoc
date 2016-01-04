@@ -1,13 +1,16 @@
 == Overview
 
-
-* Can create new OpenShift Enterprise application using web console or `oc new-app` command
-** Can specify application creation from _source code_, _image_, or _template_
-* Application is set of deployed objects such as `DeploymentConfig`, `BuildConfig`, `ReplicationController`, `pod`, `service`, and others
+* Users can create new OpenShift Enterprise application using web console or
+ `oc new-app` command
+** Users can specify application creation from _source code_, _image_, or
+ _template_
+* Application is set of deployed objects such as `DeploymentConfig`,
+ `BuildConfig`, `ReplicationController`, `pod`, `service`, and others
 
 * `oc new-app` uses S2I (Source-to-Image) build process
 
-NOTE: You start by learning the manual way of creating objects and then the much simpler `oc new-app` method.
+NOTE: You start by learning the manual way of creating objects and then the much
+ simpler `oc new-app` method.
 
 
 ifdef::showscript[]

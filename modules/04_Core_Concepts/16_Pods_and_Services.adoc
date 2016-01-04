@@ -1,30 +1,34 @@
 == Pods and Services
 
-
 .Services
 
-* Kubernetes service serves as *"internal"* load-balancer
+* Kubernetes service serves as internal load balancer
 ** Identifies set of replicated pods
-** Proxy connections it receives to identified pods
-* Can add or remove backing pods to or from service while service remains consistently available
+** Proxies connections it receives to identified pods
+* Can add or remove backing pods to or from service while service remains
+ consistently available
 ** Lets anything depending on service refer to it at consistent internal address
 
 * Assign services IP address and port pair
 ** Proxy to appropriate backing pod when accessed
-* Service uses label selector to find running containers that provide certain network service on certain port
+* Service uses label selector to find running containers that provide certain
+ network service on certain port
 * Can access server by IP address and DNS name
 ** Name created and resolved by local DNS server on master
++
+[NOTE]
+When you use the `Default Router` (HAProxy), you bypass service load balancing. You use the service only to find out which pods the service represents. `Default Router` does the load balancing.
 
 ifdef::showscript[]
 
 === Transcript
 
-A Kubernetes _service_ serves as an internal load-balancer. It identifies a set
+A Kubernetes _service_ serves as an internal load balancer. It identifies a set
  of replicated _pods_ and then proxies the connections it receives to those pods.
 
 You can add or remove backing pods to or from a service arbitrarily while the
  service remains consistently available. This lets anything that depends on the
-  service refer to it at a consistent Interal IP address.
+  service refer to it at a consistent interal IP address.
 
 You assign services an IP address and port pair that, when accessed, proxy to
  an appropriate backing pod.
@@ -32,8 +36,10 @@ You assign services an IP address and port pair that, when accessed, proxy to
 A service uses a label selector to find all the running containers that provide
  a certain network service on a certain port.
 
+You can access the server by IP address and DNS name. The name is created and resolved by the local DNS server on the master.
+
 Note that when you use the `Default Router` (HAProxy), you bypass the service
- load-balancing. You use the service only to find out which pods the service
-  represents. The `Default Router` does the load-balancing.
+ load balancing. You use the service only to find out which pods the service
+  represents. The `Default Router` does the load balancing.
 
 endif::showscript[]

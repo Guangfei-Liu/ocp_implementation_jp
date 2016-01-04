@@ -1,6 +1,5 @@
 == Deployments
 
-
 .Deployment Configuration Example
 
 ----
@@ -61,6 +60,12 @@
 }
 ----
 
+<1> Replication controller template named `frontend`, which describes a simple Ruby
+ application
+<2> Creates 5 replicas of `frontend` by default
+<3> If replication controller template changes, configuration change trigger creates new deployment
+<4> If new version of `origin-ruby-sample:latest` image repository is available, image change trigger creates new deployment
+<5> `Rolling` is default strategy and may be omitted
 
 ifdef::showscript[]
 

@@ -1,6 +1,5 @@
 == Routes
 
-
 .Secured TLS Termination Types: Re-encryption Termination
 
 * _Re-encryption_ is variation on edge termination

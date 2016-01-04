@@ -1,6 +1,5 @@
 == Routes
 
-
 .Routes Without Hostnames
 
 * If hostname _not_ provided in route specification, OpenShift Enterprise

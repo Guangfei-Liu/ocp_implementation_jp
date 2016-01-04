@@ -1,5 +1,4 @@
 == Docker Installation
-:noaudio:
 
 .Storage Options: Example
 
@@ -8,7 +7,7 @@
 +
 ----
 # cat /etc/sysconfig/docker-storage-setup
-DEVS=/dev/vdc
+DEVS=/dev/vdb
 VG=docker-vg
 SETUP_LVM_THIN_POOL=yes
 # docker-storage-setup
@@ -24,8 +23,8 @@ LV                  VG        Attr       LSize  Pool Origin Data%  Meta% Move
 docker-pool         docker-vg twi-a-tz-- 48.95g             0.00   0.44
 
 # cat /etc/sysconfig/docker-storage
-DOCKER_STORAGE_OPTIONS=--storage-opt dm.fs=xfs --storage-opt
-dm.thinpooldev=/dev/mapper/docker--vg-docker--pool
+DOCKER_STORAGE_OPTIONS=--storage-driver devicemapper --storage-opt dm.fs=xfs --storage-opt dm.thinpooldev=/dev/mapper/docker--vg-docker--pool
+
 
 ----
 
@@ -35,9 +34,13 @@ ifdef::showscript[]
 
 === Transcript
 
-In this example, you use the `/dev/vdc` unpartitioned block device to create the `docker-vg` volume group that the `Docker` daemon will use.
+In this example, you use the `/dev/vdb` unpartitioned block device to create the
+ `docker-vg` volume group that the `Docker` daemon will use.
 
-To verify that the volume is created and configured, use the `lvs` command and view the `/etc/sysconfig/docker-storage` file. You should have a `dm.thinpooldev` value in the `/etc/sysconfig/docker-storage` file and a `docker-pool` device.
+To verify that the volume is created and configured, use the `lvs` command and
+ view the `/etc/sysconfig/docker-storage` file. You should have a
+ `dm.thinpooldev` value in the `/etc/sysconfig/docker-storage` file and a
+  `docker-pool` device.
 
 After you verify the setup, restart the `Docker` daemon.
 

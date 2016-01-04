@@ -1,6 +1,5 @@
 == Pods and Services
 
-
 .Pods Definition File/Manifest
 
 * Example definition of pod:
@@ -13,13 +12,17 @@
  kind: Pod
  metadata:
    annotations: { ... }
-   labels:                               // <1>
-     deployment: docker-registry-1
-     deploymentconfig: docker-registry
-     docker-registry: default
-   generateName: docker-registry-1-     //  <2>
+   labels:                               <1>
+     deployment: example-name-1
+     deploymentconfig: example-name
+     example-name: default
+   generateName: example-name-1-       <2>
 
 ----
+<1> Labels used to select and manage groups of pods in single operation
+<2> Base name, `generateName`, used to generate unique pod name
+
+
 
 ifdef::showscript[]
 

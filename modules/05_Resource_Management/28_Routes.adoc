@@ -1,6 +1,5 @@
 == Routes
 
-
 .Route Types: An Unsecured Route With a Path
 
 [source,yaml]
@@ -16,12 +15,13 @@ spec:
     kind: Service
     name: service-name
 ----
+<1> Path is only attribute added for path-based route
 
 * Path-based routing not available with passthrough TLS
 ** Router does not terminate TLS
 ** Cannot read request contents
 
-. The path is the only added attribute for a path-based route.
+
 
 ifdef::showscript[]
 
@@ -33,5 +33,7 @@ Here is an example of an unsecured route using a path:
 Path-based routing is not available when using passthrough TLS, as the router
  does not terminate TLS in that case and cannot read the contents of the
   request.
+
+. The path is the only added attribute for a path-based route.
 
 endif::showscript[]

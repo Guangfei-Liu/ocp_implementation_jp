@@ -1,6 +1,5 @@
 == Projects and Users
 
-
 .Users and User Types: Service Accounts
 
 * *Service accounts*: Special system users associated with a project

@@ -1,17 +1,20 @@
 == New App From Source Code
 
-
 .Specifying Source Code
 
 * `new-app` can use _source code_ from local or remote Git repository
-* If only source repository is specified, `new-app` tries to determine build strategy (`docker` or `source`)
+* If only source repository is specified, `new-app` tries to determine build
+ strategy (`docker` or `source`)
 ** For `source` builds, also tries to determine _builder image_
 
-* To tell `new-app` to use subdirectory of source code repository, use `--context-dir` flag
+* To tell `new-app` to use subdirectory of source code repository, use
+ `--context-dir` flag
 
-* When specifying remote URL, can specify Git reference to use by appending `#[reference]` to end of URL
+* When specifying remote URL, can specify Git reference to use by appending
+ `#[reference]` to end of URL
 
-NOTE: If you are using a local Git repository, the repository must have an _origin_ remote that points to a URL accessible by the OpenShift Enterprise cluster.
+NOTE: If you are using a local Git repository, the repository must have an
+ _origin_ remote that points to a URL accessible by the OpenShift Enterprise cluster.
 
 ifdef::showscript[]
 

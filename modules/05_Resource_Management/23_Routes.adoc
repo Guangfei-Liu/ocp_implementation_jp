@@ -1,6 +1,5 @@
 == Routes
 
-
 .Creating Routes With the Command Line
 
 * Can create routes using:

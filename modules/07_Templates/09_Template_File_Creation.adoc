@@ -1,13 +1,13 @@
 == Template File Creation
 
-
-.Example Template - `metadata`
+.Example Template
+- `metadata`
 [subs="verbatim,macros"]
 ----
 {
   "kind": "Template",
   "apiVersion": "v1",
-  pass:quotes[*"metadata": {*]
+  "metadata": {
     "name": "quickstart-keyvalue-application",
     "creationTimestamp": null,
     "annotations": {

@@ -1,6 +1,5 @@
 == Summary
 
-
 * Overview
 * Source-to-Image
 * Source-to-Image Builds

@@ -1,6 +1,5 @@
 == Projects and Users
 
-
 .Projects
 * *Project*: Kubernetes namespace with additional annotations
 ** Central vehicle for managing resource access for regular users

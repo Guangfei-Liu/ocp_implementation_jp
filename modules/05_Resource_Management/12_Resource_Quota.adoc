@@ -1,6 +1,5 @@
 == Resource Quota
 
-
 .What Is `ResourceQuota`?
 * OpenShift Enterprise can limit:
 ** Number of objects created in project

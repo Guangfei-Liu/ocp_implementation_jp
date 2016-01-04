@@ -1,8 +1,5 @@
 == Template Overview
 
-
-
-
 .What Is a Template?
 
 
@@ -13,7 +10,7 @@
 * Defines set of labels to apply to every resource created by template
 
 .Reference
-* http://docs.openshift.org/latest/dev_guide/templates.html
+* https://docs.openshift.com/enterprise/latest/dev_guide/templates.html
 
 ifdef::showscript[]
 

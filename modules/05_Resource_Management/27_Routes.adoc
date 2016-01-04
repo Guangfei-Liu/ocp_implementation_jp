@@ -1,7 +1,5 @@
 == Routes
 
-
-
 [cols="3*", options="header"]
 |===
 |Route |When Compared to |Accessible
@@ -20,4 +18,3 @@ ifdef::showscript[]
 The table shown here provides example routes and their accessibility.
 
 endif::showscript[]
-

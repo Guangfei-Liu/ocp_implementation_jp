@@ -1,6 +1,5 @@
 == Source-to-Image Builds
 
-
 .Deploying an S2I Build Image
 
 * In basic S2I process, OpenShift Enterprise:

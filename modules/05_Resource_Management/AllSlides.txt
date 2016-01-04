@@ -88,5 +88,7 @@ include::44_Persistent_Volumes.adoc[]
 
 include::45_Persistent_Volumes.adoc[]
 
-include::46_Summary.adoc[]
+include::46_Persistent_Volumes.adoc[]
+
+include::47_Persistent_Volumes.adoc[]
 

@@ -1,6 +1,5 @@
 == Routes
 
-
 .Route Types
 * Routes can be secured or unsecured
 * Unsecured routes simplest to configure
@@ -9,9 +8,10 @@
 ** Connections remain private
 ** Let you use several types of TLS termination to serve certificates to client
 * `Default Router` supports:
-** Edge
-** Passthrough
-** Re-encryption termination
+** Undesecured routes
+** Edge secured routes
+** Passthrough secured routes
+** Re-encryption termination  secured routes
 
 
 ifdef::showscript[]

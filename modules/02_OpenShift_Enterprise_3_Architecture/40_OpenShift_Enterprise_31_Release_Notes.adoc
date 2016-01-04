@@ -1,0 +1,26 @@
+== OpenShift Enterprise 3.1 Release Notes
+
+* New tag deletion command
+** Can now delete tags from image stream using `oc tag <tag_name> -d`
+
+* `v1beta3` no longer supported as endpoint
+** `etcdStorageConfig.kubernetesStorageVersion` and
+`etcdStorageConfig.openShiftStorageVersion` values in master configuration file
+ must be `v1`
+* May also need to remove `v1beta3` from `apiLevel`
+* `/api/v1beta3` and `/osapi/v1beta3` disabled
+
+
+ifdef::showscript[]
+=== Transcript
+
+OpenShift Enterprise 3.1 includes a new tag deletion command.
+You can now delete tags from an image stream using `oc tag <tag_name> -d`.
+
+Using `v1beta3` as an endpoint in configuration files is no longer supported.
+
+You may also need to remove `v1beta3` from the `apiLevels` field.
+`/api/v1beta3` and `/osapi/v1beta3` are now disabled.
+
+
+endif::showscript[]

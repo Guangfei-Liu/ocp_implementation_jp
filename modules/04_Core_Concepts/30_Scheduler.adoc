@@ -1,6 +1,5 @@
 == Scheduler
 
-
 .Static Priority Functions
 
 * Do not take configuration parameters or inputs from user
@@ -17,7 +16,8 @@
 * Calculates difference between consumed CPU and memory as fraction of capacity
 * Prioritizes nodes with smallest difference
 * Should always use with `LeastRequestedPriority`
-|`ServiceSpreadingPriority` |Spreads pods by minimizing number of pods belonging to same service onto same machine
+|`ServiceSpreadingPriority` |Spreads pods by minimizing number of pods belonging
+ to same service onto same machine
 |`EqualPriority` a|* Gives equal weight of *1* to all nodes
 * Not required/recommended outside of testing.
 |===================================================================

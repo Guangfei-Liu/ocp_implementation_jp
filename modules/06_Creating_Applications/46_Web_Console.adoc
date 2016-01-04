@@ -1,14 +1,9 @@
 == Web Console
 
-//ISSUE:I will have to speak to Bob to do something with this slide, its very
- long. Maybe we can do a "hover over object" to see text solution.
-
 * Modify settings in new application screen to configure resources to support
  application
 +
-
 image::images/create_from_image.png[]
-
 
 
 ifdef::showscript[]
@@ -20,8 +15,8 @@ Modify settings in the new application screen to configure the resources to
  . Builder image name and description
  . Application name used for generated OpenShift Enterprise resources
  . Routing configuration section for making the application publicly accessible
- . Deployment configuration section for customizing deployment triggers and image
-  environment variables
+ . Deployment configuration section for customizing deployment triggers and
+  image environment variables
  . Build configuration section for customizing build triggers
  . Replica scaling section for configuring the number of running instances of
   the application
@@ -31,6 +26,3 @@ Modify settings in the new application screen to configure the resources to
 
 
 endif::showscript[]
-
-
-// ISSUE: I need to get new screenshots here for 3.1

@@ -4,8 +4,9 @@
 * Class labs and demonstrations require provisioning virtual machines (VMs):
 ** *Master host*: One VM serves as OpenShift Enterprise environment master
 ** *Node hosts*: Three VMs serve as OpenShift Enterprise environment node
-** *`oselab` host*: One VM for admin purposes (DNS server, NFS server, SSH jump box, more)
-* Red Hat Enterprise Linux 7.1 preinstalled and configured for deployment
+** *`oselab` host*: One VM for admin purposes (DNS server, NFS server, SSH jump
+   box, more)
+* Red Hat Enterprise Linux 7.2 preinstalled and configured for deployment
 * Connection details arrive via email after provisioning environment
 
 
@@ -14,19 +15,19 @@ ifdef::showscript[]
 === Transcript
 
 This class uses a cloud-based environment. You will provision the following
-virtual machine hosts for your OpenShift Enterprise environment: 
+virtual machine hosts for your OpenShift Enterprise environment:
 
 * A single master host
 * Three node hosts, one of which is dedicated for infrastructure components
-* One admin host, `oselab`, to act as your DNS server, NFS server, and SSH jump box
+* One admin host, `oselab`, to act as your DNS server, NFS server, and SSH jump
+ box
 
-Red Hat Enterprise Linux 7.1 is preinstalled and configured for deployment.
+Red Hat Enterprise Linux 7.2 is preinstalled and configured for deployment.
 
 After you provision the environment, you should receive connection details via
 email. This can take a few minutes. If you do not receive
-the email within 10 minutes of making the environment provisioning request, check your spam folder.
+the email within 10 minutes of making the environment provisioning request,
+ check your spam folder.
 
 
 endif::showscript[]
-
-

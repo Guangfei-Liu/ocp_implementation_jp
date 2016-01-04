@@ -1,6 +1,5 @@
 == Application Environment
 
-
 .Specifying Environment Variables
 
 * When generating applications from _source_ or _image_, use `-e|--env` argument

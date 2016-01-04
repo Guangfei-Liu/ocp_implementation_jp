@@ -1,13 +1,12 @@
 == Client Tool Authentication
 
-
 * Every user must authenticate to access OpenShift Enterprise
 * Requests lacking valid authentication authenticated as anonymous system user
 * Policy determines what user is authorized to do
 
 .Web Console Authentication
 
-* Access web console at `_<master-public-addr>_:8443`
+* Access web console at `_<master-public-addr>_:8443` (By default)
 * Automatically redirected to login page
 * Provide login credentials to obtain token to make API calls
 * Use web console to navigate projects

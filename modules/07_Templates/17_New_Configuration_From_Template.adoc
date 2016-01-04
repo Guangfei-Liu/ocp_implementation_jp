@@ -1,10 +1,9 @@
 == New Configuration From Template
 
-
 .Uploading a Template
 
 * Can create configuration from template using CLI or management console
-** If management console, template must exist in project or global template
+** To use from web console, template must exist in project or global template
  library
 * Can create JSON template file, then upload it with CLI to project’s template
  library by passing file:
@@ -26,14 +25,14 @@ ifdef::showscript[]
 === Transcript
 
 You can create a configuration from a template file or the management console.
- Using the management console, however, requires the template to be uploaded to
+ Using the web console, however, requires the template to be uploaded to
 your project or global template library.
 
 You can create a JSON template file and then upload it to your project's
  template library with with the CLI as shown. If you want to upload the JSON
   file to a different project, use the `-n` option with the project's name.
 
-After you upload the template, you can configure it using the management console
+After you upload the template, you can configure it using the web console
  or the CLI.
 
 endif::showscript[]

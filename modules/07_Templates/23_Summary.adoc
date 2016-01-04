@@ -1,10 +1,9 @@
 == Summary
 
-
 * Template Overview
 * Template File Creation
 * New Configuration From Template
-* Wiring Templates Together
+* Processing Template Parameters
 
 
 

@@ -1,10 +1,9 @@
 == Deployments
 
-
 .Deployments and Deployment Configurations
 
 * With concept of _deployments_, OpenShift Enterprise adds expanded support for
- software development and deployment lifecycle
+ software development and deployment life cycle
 
 * Deployment creates new replication controller and lets it start up pods
 
@@ -17,7 +16,7 @@ ifdef::showscript[]
 
 Building on replication controllers, with this concept of deployments, OpenShift
  Enterprise adds expanded support for the software development and deployment
-  lifecycle.
+  life cycle.
 
 In the simplest sense, a deployment just creates a new replication controller
  and lets it start up pods.

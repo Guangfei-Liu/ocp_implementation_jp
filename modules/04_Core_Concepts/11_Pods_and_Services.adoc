@@ -1,6 +1,5 @@
 == Pods and Services
 
-
 .Pods Lifecycle
 
 * Lifecycle:

@@ -1,6 +1,5 @@
 == Template Overview
 
-
 .Labels
 
 * Used to manage generated resources

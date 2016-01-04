@@ -1,6 +1,5 @@
 == Template File Creation
 
-
 .Example Template - `parameters`
 
 [subs="verbatim,macros"]

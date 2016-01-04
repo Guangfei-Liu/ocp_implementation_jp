@@ -1,6 +1,5 @@
 == Routes
 
-
 .Secured TLS Termination Types: Passthrough Termination Route Definition
 
 [source,yaml]
@@ -18,8 +17,7 @@ spec:
     termination: passthrough     <1>
 ----
 
-. The `termination` field is set to `passthrough`. No other encryption fields
- are needed.
+<1> `termination` field is set to `passthrough` and no other encryption fields are needed
 
 ifdef::showscript[]
 
@@ -28,6 +26,7 @@ ifdef::showscript[]
 Here is an example of a secured route definition using passthrough termination.
 
 Note the following:
+
 . The `termination` field is set to `passthrough`. No other encryption fields
  are needed.
 

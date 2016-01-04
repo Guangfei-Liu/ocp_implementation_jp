@@ -1,0 +1,17 @@
+== How OpenShift Enterprise Works
+
+.Store Layer
+* Holds current state, desired state, and configuration information of
+ environment
+* `etcd` key value store is used for this layer
++
+image::images/03Store.png[]
+
+ifdef::showscript[]
+
+=== Transcript
+
+The store layer holds the current state, the desired state, and configuration
+information about the environment.
+
+endif::showscript[]

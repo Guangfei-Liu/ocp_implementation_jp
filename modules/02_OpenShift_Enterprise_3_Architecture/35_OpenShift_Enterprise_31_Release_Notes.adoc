@@ -1,0 +1,30 @@
+== OpenShift Enterprise 3.1 Release Notes
+
+
+* Renamed services, packages, file names, and directories:
+
+[cols="4,6"]
+|===
+|Previous Name
+|New Name
+|`openshift-master`
+|`atomic-openshift-master`
+|`openshift-node`
+|`atomic-openshift-node`
+|`_/etc/openshift/_`
+|`_/etc/origin/_`
+|`_/var/lib/openshift/_`
+|`_/var/lib/origin/_`
+|`_/etc/sysconfig/openshift-master_`
+|`_/etc/sysconfig/atomic-openshift-master_`
+|`_/etc/sysconfig/openshift-node_`
+|`_/etc/sysconfig/atomic-openshift-node_`
+|===
+
+ifdef::showscript[]
+=== Transcript
+
+A number of services, packages, file names, and directories have been renamed in
+ OpenShift Enterprise 3.1. This table shows the name changes.
+
+endif::showscript[]

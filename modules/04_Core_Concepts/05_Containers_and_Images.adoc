@@ -1,6 +1,5 @@
 == Containers and Images
 
-
 .Containers: Docker
 
 * In the past few years, Linux kernel advanced capabilities for container

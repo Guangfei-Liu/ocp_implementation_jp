@@ -64,31 +64,31 @@ include::32_What_Is_an_S2I_Build.adoc[]
 
 include::33_Why_Use_S2I_Builds.adoc[]
 
-include::34_OpenShift_Enterprise_3.1_Release_Notes.adoc[]
+include::34_OpenShift_Enterprise_31_Release_Notes.adoc[]
 
-include::35_OpenShift_Enterprise_3.1_Release_Notes.adoc[]
+include::35_OpenShift_Enterprise_31_Release_Notes.adoc[]
 
-include::36_OpenShift_Enterprise_3.1_Release_Notes.adoc[]
+include::36_OpenShift_Enterprise_31_Release_Notes.adoc[]
 
-include::37_OpenShift_Enterprise_3.1_Release_Notes.adoc[]
+include::37_OpenShift_Enterprise_31_Release_Notes.adoc[]
 
-include::38_OpenShift_Enterprise_3.1_Release_Notes.adoc[]
+include::38_OpenShift_Enterprise_31_Release_Notes.adoc[]
 
-include::39_OpenShift_Enterprise_3.1_Release_Notes.adoc[]
+include::39_OpenShift_Enterprise_31_Release_Notes.adoc[]
 
-include::40_OpenShift_Enterprise_3.1_Release_Notes.adoc[]
+include::40_OpenShift_Enterprise_31_Release_Notes.adoc[]
 
-include::41_OpenShift_Enterprise_3.1_Release_Notes.adoc[]
+include::41_OpenShift_Enterprise_31_Release_Notes.adoc[]
 
-include::42_OpenShift_Enterprise_3.1_Release_Notes.adoc[]
+include::42_OpenShift_Enterprise_31_Release_Notes.adoc[]
 
-include::43_OpenShift_Enterprise_3.1_Release_Notes.adoc[]
+include::43_OpenShift_Enterprise_31_Release_Notes.adoc[]
 
-include::44_OpenShift_Enterprise_3.1_Release_Notes.adoc[]
+include::44_OpenShift_Enterprise_31_Release_Notes.adoc[]
 
-include::45_OpenShift_Enterprise_3.1_Release_Notes.adoc[]
+include::45_OpenShift_Enterprise_31_Release_Notes.adoc[]
 
-include::46_OpenShift_Enterprise_3.1_Release_Notes.adoc[]
+include::46_OpenShift_Enterprise_31_Release_Notes.adoc[]
 
 include::47_Summary.adoc[]
 

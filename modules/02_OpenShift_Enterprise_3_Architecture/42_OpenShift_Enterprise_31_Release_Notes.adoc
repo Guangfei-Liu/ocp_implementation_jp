@@ -1,4 +1,4 @@
-== OpenShift Enterprise 3.1 Release Notes
+== OpenShift Enterprise 31 Release Notes
 
 * Aggregating logging with the EFK stack
 ** Elasticsearch, Fluentd, Kibana (AKA _EFK stack_) now

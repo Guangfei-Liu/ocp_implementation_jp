@@ -1,4 +1,4 @@
-== OpenShift Enterprise 3.1 Release Notes
+== OpenShift Enterprise 31 Release Notes
 
 * New tag deletion command
 ** Can now delete tags from image stream using `oc tag <tag_name> -d`

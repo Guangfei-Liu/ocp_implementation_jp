@@ -1,4 +1,4 @@
-== OpenShift Enterprise 3.1 Release Notes
+== OpenShift Enterprise 31 Release Notes
 
 * Some features in Technology Preview
 * Not intended for production use

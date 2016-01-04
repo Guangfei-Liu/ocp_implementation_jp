@@ -1,4 +1,4 @@
-== OpenShift Enterprise 3.1 Release Notes
+== OpenShift Enterprise 31 Release Notes
 
 
 * Renamed services, packages, file names, and directories:

@@ -1,4 +1,4 @@
-== OpenShift Enterprise 3.1 Release Notes
+== OpenShift Enterprise 31 Release Notes
 
 * New parameter for port destination
 ** Can now specify port to send routes to

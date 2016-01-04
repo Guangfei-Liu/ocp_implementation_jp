@@ -1,4 +1,4 @@
-== OpenShift Enterprise 3.1 Release Notes
+== OpenShift Enterprise 31 Release Notes
 
 * `oc build-logs <build_name>` deprecated
 ** Replaced by `oc logs build/<build_name>`

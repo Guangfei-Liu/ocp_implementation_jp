@@ -1,4 +1,4 @@
-== OpenShift Enterprise 3.1 Release Notes
+== OpenShift Enterprise 31 Release Notes
 
 * Jenkins
 ** Jenkins image now available for deployment on OpenShift

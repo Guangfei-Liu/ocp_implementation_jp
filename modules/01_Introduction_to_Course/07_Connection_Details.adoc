@@ -4,14 +4,14 @@
 .Node Hosts
 
 * Details for node hosts
-+
+
 [cols="3",width="65%"]
 |=======================
 ||Node00|Node01
-|*Internal IP*|`192.168.0.200`|`192.168.0.201`
-|*External IP*|Provided|Provided
-|*DNS Name*|+node00-**GUID**.oslab.opentlc.com+|+node01-**GUID**.oslab.opentlc.com+
-|*Credentials*|`root`/`r3dh4t1!`|`root`/`r3dh4t1!`
+|Internal IP|`192.168.0.200`|`192.168.0.201`
+|External IP|Provided|Provided
+|DNS Name|+node00-**GUID**.oslab.opentlc.com+|+node01-**GUID**.oslab.opentlc.com+
+|Credentials|`root`/`r3dh4t1!`|`root`/`r3dh4t1!`
 |=======================
 
 ifdef::showscript[]

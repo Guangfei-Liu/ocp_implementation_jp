@@ -1630,9 +1630,6 @@ By policy default, containers cannot write to NFS-mounted directories. However i
                                      ssh $node " setsebool -P virt_use_nfs=true;"
                                    done
 ----
-+
-[NOTE]
-Once the Ansible-based installer automatically performs this task, we will delete this step from the lab.
 
 . To ensure NFS Access, connect to a node and verify that you can mount a volume from the `oselab` host:
 +

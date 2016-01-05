@@ -850,7 +850,7 @@ NOTE: You are now running `bash` inside the container. Also, the prompt specifie
 . Do the following:
 .. Run `id`.
 .. Run `pwd` and `ls` and note the directory you are in.
-.. Run `grep SERVERID *`.
+.. Run `grep SERVERID` on the `haproxy.config` file.
 .. Run `cat haproxy.config` to verify that your configuration file is empty and then view the process status.
 +
 ----

@@ -1,7 +1,7 @@
 == OpenShift Enterprise 31 Release Notes
 
 * New tag deletion command
-** Can now delete tags from image stream using `oc tag <tag_name> -d`
+** Can now delete tags from image stream using `oc tag`
 
 * `v1beta3` no longer supported as endpoint
 ** `etcdStorageConfig.kubernetesStorageVersion` and

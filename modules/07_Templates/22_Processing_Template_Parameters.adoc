@@ -32,6 +32,7 @@ oc process -f db-template.json \
 ----
 $ oc new-app --file=./db-template.json --param=MYSQL_USER=userMXG,MYSQL_PASSWORD=slDrggRv,MYSQL_DATABASE=root
 ----
+
 ifdef::showscript[]
 
 === Transcript

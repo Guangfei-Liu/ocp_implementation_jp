@@ -11,6 +11,8 @@
 Although it is possible to deploy more than one container in a pod, it is
  almost always a good idea to have a single container in a pod for multiple
   reasons.
+
+
 ifdef::showscript[]
 
 === Transcript

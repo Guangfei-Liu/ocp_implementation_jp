@@ -832,7 +832,7 @@ $ oc create -f frontend-config.json
 NOTE: Remember we could also use `oc new-app` to create the app in a single
  command. We are using `oc process` to generate a file, modify/review it before
   we create the application.
-  
+
 ifdef::showscript[]
 
 === Transcript
@@ -913,6 +913,7 @@ oc process -f db-template.json \
 ----
 $ oc new-app --file=./db-template.json --param=MYSQL_USER=userMXG,MYSQL_PASSWORD=slDrggRv,MYSQL_DATABASE=root
 ----
+
 ifdef::showscript[]
 
 === Transcript

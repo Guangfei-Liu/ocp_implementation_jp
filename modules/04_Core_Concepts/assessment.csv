@@ -21,7 +21,7 @@ OSEIMPLEMENTATION|OSEIMPLEMENTATION406|1|Which of these statements are a descrip
 OSEIMPLEMENTATION|OSEIMPLEMENTATION406|1|Which of these statements are a description of the Scheduler ?|||Reads pod data and tries to find node that is good fit|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION406|1|Which of these statements are a description of the Scheduler ?|||Is independent, standalone, pluggable solution|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION406|1|Which of these statements are a description of the Scheduler ?|||All of the above|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION407|5|The Scheduler can support affinity and anti-affinity policies and have multiple layered topoligies.|||TRUE|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION407|5|The Scheduler can support affinity and anti-affinity policies and have multiple layered topoligies.|||FALSE|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION407|5|The Scheduler can support affinity and anti-affinity policies and have multiple layered topologies.|||TRUE|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION407|5|The Scheduler can support affinity and anti-affinity policies and have multiple layered topologies.|||FALSE|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION408|5|Replication Controllers ensures specified number of pod replicas running at all times.|||TRUE|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION408|5|Replication Controllers ensures specified number of pod replicas running at all times.|||FALSE|||0|0|||

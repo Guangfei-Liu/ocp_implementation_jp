@@ -9,10 +9,10 @@ OSEIMPLEMENTATION|OSEIMPLEMENTATION503|1|The 'Service' resource does the followi
 OSEIMPLEMENTATION|OSEIMPLEMENTATION503|1|The 'Service' resource does the following:|||Provides an up-to-date list of IPs and ports of the pods that the service represents|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION503|1|The 'Service' resource does the following:|||Holds application metadata|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION503|1|The 'Service' resource does the following:|||None of the above|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION504|1|Which backends are supported for OpenShift Persistent Volumes|||Only NFS|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION504|1|Which backends are supported for OpenShift Persistent Volumes|||Google compute GCE, Amazon EBS volumes, OpenStack Cinder|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION504|1|Which backends are supported for OpenShift Persistent Volumes|||GlusterFS, Ceph RBD, iSCSI and Fiber Channel|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION504|1|Which backends are supported for OpenShift Persistent Volumes|||All of the above|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION504|1|Which backends are supported for OpenShift Persistent Volumes?|||Only NFS|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION504|1|Which backends are supported for OpenShift Persistent Volumes?|||Google compute GCE, Amazon EBS volumes, OpenStack Cinder|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION504|1|Which backends are supported for OpenShift Persistent Volumes?|||GlusterFS, Ceph RBD, iSCSI and Fiber Channel|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION504|1|Which backends are supported for OpenShift Persistent Volumes?|||All of the above|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION505|1|Which one of the following is NOT found in the Replication Controller?|||The number of replicas desired (which can be adjusted at runtime)|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION505|1|Which one of the following is NOT found in the Replication Controller?|||The Git repository of a S2I built pod|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION505|1|Which one of the following is NOT found in the Replication Controller?|||A pod definition for creating a replicated pod|||0|0|||
@@ -23,10 +23,10 @@ OSEIMPLEMENTATION|OSEIMPLEMENTATION507|1|A Service Account is used when:|||OpenS
 OSEIMPLEMENTATION|OSEIMPLEMENTATION507|1|A Service Account is used when:|||An Administrator wants to manage resources quotas for a group of users|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION507|1|A Service Account is used when:|||A pod requires access to make an API call to OpenShift Enterprise master:|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION507|1|A Service Account is used when:|||None of the answers is correct|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION508|5|An Project and Namespace are very similar and serve similar functions|||TRUE|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION508|5|An Project and Namespace are very similar and serve similar functions|||FALSE|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION509|5|You can use the OpenShift Command Line utility (oc and oadm) ONLY from the master server|||TRUE|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION509|5|You can use the OpenShift Command Line utility (oc and oadm) ONLY from the master server|||FALSE|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION508|5|A Project and Namespace are very similar and serve similar functions.|||TRUE|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION508|5|A Project and Namespace are very similar and serve similar functions.|||FALSE|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION509|5|You can use the OpenShift Command Line utility (oc and oadm) ONLY from the master server.|||TRUE|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION509|5|You can use the OpenShift Command Line utility (oc and oadm) ONLY from the master server.|||FALSE|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION510|1|Which information would we NOT include when defining a route |||Hostname or FQDN|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION510|1|Which information would we NOT include when defining a route |||Service Selector |||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION510|1|Which information would we NOT include when defining a route |||Termination and Security information|||0|0|||
@@ -35,5 +35,5 @@ OSEIMPLEMENTATION|OSEIMPLEMENTATION511|1|When creating a secure route,  the Defa
 OSEIMPLEMENTATION|OSEIMPLEMENTATION511|1|When creating a secure route,  the Default Router can support: |||Edge secured routes|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION511|1|When creating a secure route,  the Default Router can support: |||Passthrough secured routes|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION511|1|When creating a secure route,  the Default Router can support: |||Re-encryption termination secured routes|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION512|5|You must associate PersistentVolume with project|||TRUE|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION512|5|You must associate PersistentVolume with project|||FALSE|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION512|5|You must associate PersistentVolume with a project.|||TRUE|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION512|5|You must associate PersistentVolume with a project.|||FALSE|||0|0|||

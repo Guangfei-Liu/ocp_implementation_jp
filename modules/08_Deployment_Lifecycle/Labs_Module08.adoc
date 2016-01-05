@@ -277,6 +277,7 @@ I1222 01:54:47.019320       1 rolling.go:232] RollingUpdater: Scaling up ruby-he
 I1222 01:54:47.020399       1 rolling.go:232] RollingUpdater: Scaling ruby-hello-world-4 up to 1
 I1222 01:54:51.372703       1 rolling.go:232] RollingUpdater: Scaling ruby-hello-world-3 down to 0
 ----
+
 == Create and Use Web Hooks
 
 With webhooks, you can integrate external systems into your OpenShift Enterprise

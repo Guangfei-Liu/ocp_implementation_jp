@@ -802,7 +802,7 @@ docker pull $REGISTRY/$PTH/ose-docker-registry:v3.1.0.4 ;
 
 NOTE:
 We aren't "pulling" any images on the Master host because it is not meant
-do run any containers.
+to run any containers.
 ----
 . Examine the information in the Docker pool on the `node0X` (`node00`, `node01`, etc.) host:
 +
@@ -1004,7 +1004,7 @@ these settings cannot be validated automatically.
 For some cloud providers the installer is able to gather metadata exposed in
 the instance so reasonable defaults will be provided.
 
-Plese confirm that they are correct before moving forward.
+Please confirm that they are correct before moving forward.
 
 
 master00-GUID.oslab.opentlc.com,192.168.0.100,192.168.0.100,master00-GUID.oslab.opentlc.com,master00-GUID.oslab.opentlc.com

@@ -961,7 +961,7 @@ NOTE: Remember, the router routes proxy connections to the pods directly and not
 
 === Explore Registry Container
 
-First, ensure that your build from earlier is complete.
+Ensure that your build from earlier is complete.
 
 . As user `andrew`, run the following to see the build:
 +

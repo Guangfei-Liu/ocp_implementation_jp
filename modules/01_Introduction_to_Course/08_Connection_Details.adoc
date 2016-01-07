@@ -4,14 +4,14 @@
 .Administration and Support Host
 
 * Details for the administration/support host
-+
+
 [cols ="1,4",width="65%"]
 |=======================
 ||`oselab`
-|*Internal IP*|`192.168.0.254`
-|*External IP*|Provided
-|*DNS Name*|+oselab-**GUID**.oslab.opentlc.com+
-|*Credentials*|OPENTLC Credentials
+|Internal IP|`192.168.0.254`
+|External IP|Provided
+|DNS Name|+oselab-**GUID**.oslab.opentlc.com+
+|Credentials|OPENTLC Credentials
 |=======================
 
 ifdef::showscript[]

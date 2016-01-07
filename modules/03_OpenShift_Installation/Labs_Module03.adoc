@@ -57,9 +57,9 @@ IMPORTANT: Read these notes. They help you successfully navigate the lab.
 
 In this section, you deploy OpenShift Enterprise on a master and two nodes, as follows:
 
-* Configure a DNS on the `oselab` server for your OpenShift Enterprise environment.
 * Configure the Secure Shell (SSH) keys.
 * Configure the repositories.
+* Configure a DNS on the `oselab` server for your OpenShift Enterprise environment.
 * Configure the network settings.
 * Install Docker on all the hosts.
 
@@ -116,12 +116,7 @@ Red Hat highly recommends that you use a terminal multiplexing tool, such as `tm
 
 To enter "scroll mode" in `tmux`, type *Ctrl+B*. Page up or down to scroll and use the *Esc* to exit scroll mode.
 ====
-
-=== Configure Wildcard DNS Entry on `oselab` for OpenShift
-
-OpenShift Enterprise requires a wildcard DNS A record, which must point to the publicly available IP address of a node or nodes that are hosting the OpenShift default router container.
-
-NOTE: In the OpenShift environment, the OpenShift default router is deployed on the `infranode00` host.
+=== Connect to your environment
 
 . Connect to your administration host `oselab-GUID.oslab.opentlc.com`. Note that your private key location may vary.
 +
@@ -148,8 +143,167 @@ Environment Deployment Is Completed : Wed Nov 25 20:03:55 EST 2015
 . Run `sudo` to become the `root` user on the administration host:
 +
 ----
--bash-4.2$ sudo bash
+-bash-4.2$ su - root
 ----
+
+=== Configure SSH Keys
+
+The OpenShift Enterprise installer configure hosts with SSH. In this section, you create and install an SSH key pair on the `oselab` host and add the public key to the `authorized_hosts` file on all the OpenShift hosts.
+
+. Create an SSH key pair for the `root` user and overwrite the existing key:
++
+----
+[root@oselab-GUID ~]# ssh-keygen -f /root/.ssh/id_rsa -N ''
+----
++
+NOTE: In a different environment, you can adopt a nonroot user with `sudo`
+ capabilities. For example, in Amazon Web Services (AWS), you adopt the `ec2-user` user.
+
+. On the `oselab` host, add the public SSH key locally to `/root/.ssh/authorized_keys`:
++
+----
+[root@oselab-GUID ~]# cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys
+----
+
+. Configure `/etc/ssh/ssh_conf` to disable `StrictHostKeyChecking` on the
+ `oselab` host and the master host:
++
+----
+[root@oselab-GUID ~]# echo StrictHostKeyChecking no >> /etc/ssh/ssh_config
+[root@oselab-GUID ~]# ssh master00-$guid "echo StrictHostKeyChecking no >> /etc/ssh/ssh_config"
+----
+NOTE: This configuration saves you having to disable strict host-checking and to reply yes when running remote commands on unknown hosts. You will run many commands from both the `oselab` and `master00` hosts.
++
+
+. On the `oselab` host, test the new SSH key by connecting it to itself over
+ the loopback interface without a keyboard prompt:
++
+----
+[root@oselab-GUID ~]# ssh 127.0.0.1
+...[output omitted]...
+[root@oselab-GUID ~]# exit
+----
+
+. Copy the SSH key to the rest of the nodes in the environment. When prompted, specify the root password for each of the nodes.
++
+----
+[root@oselab-GUID ~]# for node in   master00-$GUID.oslab.opentlc.com \
+                                    infranode00-$guid.oslab.opentlc.com \
+                                    node00-$guid.oslab.opentlc.com \
+                                    node01-$guid.oslab.opentlc.com; \
+                                    do \
+                                    ssh-copy-id root@$node ; \
+                                    done
+----
++
+[NOTE]
+*Remember:* The default `root` password is `r3dh4t1!`.
+
+=== Configure Repositories on All Hosts
+
+OpenShift Enterprise requires four software repositories:
+
+* `rhel-7-server-rpms`
+
+* `rhel-7-server-extras-rpms`
+
+* `rhel-7-server-optional-rpms`
+
+* `rhel-7-server-ose-3.x-rpms`
+
+Normally, you obtain those repositories through `subscription-manager`. For the sake of expediency, a mirror is available for you. Configure it as follows:
+
+. On the `oselab` host, set up the `yum` repository configuration file
+ `/etc/yum.repos.d/open.repo` with the following repositories:
++
+----
+[root@oselab-GUID ~]# cat << EOF > /etc/yum.repos.d/open.repo
+[rhel-x86_64-server-7]
+name=Red Hat Enterprise Linux 7
+baseurl=http://www.opentlc.com/repos/ose/3.1/rhel-7-server-rpms
+enabled=1
+gpgcheck=0
+
+[rhel-x86_64-server-extras-7]
+name=Red Hat Enterprise Linux 7 Extras
+baseurl=http://www.opentlc.com/repos/ose/3.1/rhel-7-server-extras-rpms
+enabled=1
+gpgcheck=0
+
+[rhel-x86_64-server-optional-7]
+name=Red Hat Enterprise Linux 7 Optional
+baseurl=http://www.opentlc.com/repos/ose/3.1/rhel-7-server-optional-rpms
+enabled=1
+gpgcheck=0
+
+# This repo is added for the OPENTLC environment not OSE
+[rhel-x86_64-server-rh-common-7]
+name=Red Hat Enterprise Linux 7 Common
+baseurl=http://www.opentlc.com/repos/ose/3.1/rhel-7-server-rh-common-rpms
+enabled=1
+gpgcheck=0
+
+EOF
+----
+
+. Add the OpenShift Enterprise repository mirror to the `oselab` host.
++
+----
+[root@oselab-GUID ~]# cat << EOF >> /etc/yum.repos.d/open.repo
+[rhel-7-server-ose-3.1-rpms]
+name=Red Hat Enterprise Linux 7 OSE 3.1
+baseurl=http://www.opentlc.com/repos/ose/3.1/rhel-7-server-ose-3.1-rpms
+enabled=1
+gpgcheck=0
+
+EOF
+----
+
+. List the repositories on the `oselab` host:
++
+-----
+[root@oselab-GUID ~]# yum clean all ; yum repolist
+-----
+
+* The output is as follows:
++
+----
+Loaded plugins: product-id
+...[output omitted]...
+repo id                                        repo name                                           status
+rhel-7-server-ose-3.1-rpms                     Red Hat Enterprise Linux 7 OSE 3                      323
+rhel-x86_64-server-7                           Red Hat Enterprise Linux 7                          4,391
+rhel-x86_64-server-extras-7                    Red Hat Enterprise Linux 7 Extras                      45
+rhel-x86_64-server-optional-7                  Red Hat Enterprise Linux 7 Optional                 4,220
+rhel-x86_64-server-rh-common-7                 Red Hat Enterprise Linux 7 Common                      19
+repolist: 8,998
+
+...[output omitted]...
+----
+
+. Configure the master nodes by copying the `open.repo` file to all the nodes
+ directly from the `oselab` host:
++
+-----
+[root@oselab-GUID ~]# for node in master00-$guid.oslab.opentlc.com \
+                                    infranode00-$guid.oslab.opentlc.com \
+                                    node00-$guid.oslab.opentlc.com \
+                                    node01-$guid.oslab.opentlc.com; \
+                                    do \
+                                      echo Copying open.repot to $node ; \
+                                      scp /etc/yum.repos.d/open.repo ${node}:/etc/yum.repos.d/open.repo ;
+                                      yum clean all
+                                      yum repolist
+                                   done
+-----
+
+
+=== Configure Wildcard DNS Entry on `oselab` for OpenShift
+
+OpenShift Enterprise requires a wildcard DNS A record, which must point to the publicly available IP address of a node or nodes that are hosting the OpenShift default router container.
+
+NOTE: In the OpenShift environment, the OpenShift default router is deployed on the `infranode00` host.
+
 
 . Install the `bind` and `bind-utils` packages on the administration host:
 +
@@ -283,157 +437,6 @@ The first time you query `8.8.8.8`, you might notice some lag and see the error 
 Desktop$ nslookup test.cloudapps-$GUID.oslab.opentlc.com
 ----
 
-=== Configure SSH Keys
-
-The OpenShift Enterprise installer configure hosts with SSH. In this section, you create and install an SSH key pair on the `oselab` host and add the public key to the `authorized_hosts` file on all the OpenShift hosts.
-
-. Create an SSH key pair for the `root` user and overwrite the existing key:
-+
-----
-[root@oselab-GUID ~]# ssh-keygen -f /root/.ssh/id_rsa -N ''
-----
-+
-NOTE: In a different environment, you can adopt a nonroot user with `sudo`
- capabilities. For example, in Amazon Web Services (AWS), you adopt the `ec2-user` user.
-
-. On the `oselab` host, add the public SSH key locally to `/root/.ssh/authorized_keys`:
-+
-----
-[root@oselab-GUID ~]# cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys
-----
-
-. Configure `/etc/ssh/ssh_conf` to disable `StrictHostKeyChecking` on the
- `oselab` host and the master host:
-+
-----
-[root@oselab-GUID ~]# echo StrictHostKeyChecking no >> /etc/ssh/ssh_config
-[root@oselab-GUID ~]# ssh master00-$guid "echo StrictHostKeyChecking no >> /etc/ssh/ssh_config"
-----
-NOTE: This configuration saves you having to disable strict host-checking and to reply yes when running remote commands on unknown hosts. You will run many commands from both the `oselab` and `master00` hosts.
-+
-
-. On the `oselab` host, test the new SSH key by connecting it to itself over
- the loopback interface without a keyboard prompt:
-+
-----
-[root@oselab-GUID ~]# ssh 127.0.0.1
-...[output omitted]...
-[root@oselab-GUID ~]# exit
-----
-
-. Copy the SSH key to the rest of the nodes in the environment. When prompted, specify the root password for each of the nodes.
-+
-----
-[root@oselab-GUID ~]# for node in   master00-$GUID.oslab.opentlc.com \
-                                    infranode00-$guid.oslab.opentlc.com \
-                                    node00-$guid.oslab.opentlc.com \
-                                    node01-$guid.oslab.opentlc.com; \
-                                    do \
-                                    ssh-copy-id root@$node ; \
-                                    done
-----
-+
-[NOTE]
-*Remember:* The default `root` password is `r3dh4t1!`.
-
-
-=== Configure Repositories on Master Host
-
-OpenShift Enterprise requires four software repositories:
-
-* `rhel-7-server-rpms`
-
-* `rhel-7-server-extras-rpms`
-
-* `rhel-7-server-optional-rpms`
-
-* `rhel-7-server-ose-3.x-rpms`
-
-Normally, you obtain those repositories through `subscription-manager`. For the sake of expediency, a mirror is available for you. Configure it as follows:
-
-. On the `oselab` host, set up the `yum` repository configuration file
- `/etc/yum.repos.d/open.repo` with the following repositories:
-+
-----
-[root@oselab-GUID ~]# cat << EOF > /etc/yum.repos.d/open.repo
-[rhel-x86_64-server-7]
-name=Red Hat Enterprise Linux 7
-baseurl=http://www.opentlc.com/repos/ose/3.1/rhel-7-server-rpms
-enabled=1
-gpgcheck=0
-
-[rhel-x86_64-server-extras-7]
-name=Red Hat Enterprise Linux 7 Extras
-baseurl=http://www.opentlc.com/repos/ose/3.1/rhel-7-server-extras-rpms
-enabled=1
-gpgcheck=0
-
-[rhel-x86_64-server-optional-7]
-name=Red Hat Enterprise Linux 7 Optional
-baseurl=http://www.opentlc.com/repos/ose/3.1/rhel-7-server-optional-rpms
-enabled=1
-gpgcheck=0
-
-# This repo is added for the OPENTLC environment not OSE
-[rhel-x86_64-server-rh-common-7]
-name=Red Hat Enterprise Linux 7 Common
-baseurl=http://www.opentlc.com/repos/ose/3.1/rhel-7-server-rh-common-rpms
-enabled=1
-gpgcheck=0
-
-EOF
-----
-
-. Add the OpenShift Enterprise repository mirror to the `oselab` host.
-+
-----
-[root@oselab-GUID ~]# cat << EOF >> /etc/yum.repos.d/open.repo
-[rhel-7-server-ose-3.1-rpms]
-name=Red Hat Enterprise Linux 7 OSE 3.1
-baseurl=http://www.opentlc.com/repos/ose/3.1/rhel-7-server-ose-3.1-rpms
-enabled=1
-gpgcheck=0
-
-EOF
-----
-
-. List the repositories on the `oselab` host:
-+
------
-[root@oselab-GUID ~]# yum clean all ; yum repolist
------
-
-* The output is as follows:
-+
-----
-Loaded plugins: product-id
-...[output omitted]...
-repo id                                        repo name                                           status
-rhel-7-server-ose-3.1-rpms                     Red Hat Enterprise Linux 7 OSE 3                      323
-rhel-x86_64-server-7                           Red Hat Enterprise Linux 7                          4,391
-rhel-x86_64-server-extras-7                    Red Hat Enterprise Linux 7 Extras                      45
-rhel-x86_64-server-optional-7                  Red Hat Enterprise Linux 7 Optional                 4,220
-rhel-x86_64-server-rh-common-7                 Red Hat Enterprise Linux 7 Common                      19
-repolist: 8,998
-
-...[output omitted]...
-----
-
-. Configure the master nodes by copying the `open.repo` file to all the nodes
- directly from the `oselab` host:
-+
------
-[root@oselab-GUID ~]# for node in master00-$guid.oslab.opentlc.com \
-                                    infranode00-$guid.oslab.opentlc.com \
-                                    node00-$guid.oslab.opentlc.com \
-                                    node01-$guid.oslab.opentlc.com; \
-                                    do \
-                                      echo Copying open.repot to $node ; \
-                                      scp /etc/yum.repos.d/open.repo ${node}:/etc/yum.repos.d/open.repo ;
-                                      yum clean all
-                                      yum repolist
-                                   done
------
 
 === Verify Network Configuration
 

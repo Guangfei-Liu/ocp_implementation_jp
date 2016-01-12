@@ -1,27 +1,27 @@
 QUESTIONBANKCODE|QUESTIONCODE|QUESTIONTYPE|QUESTIONTEXT|QUESTIONTEXTFORMAT|QUESTIONFEEDBACK|OPTION|RIGHTOPTION|OPTIONFEEDBACK|ISCORRECT|OPTIONWEIGHT|ISCASESENSITIVE|RANDOMIZEOPTIONS|STATUS
 OSEIMPLEMENTATION|OSEIMPLEMENTATION401|1|Which answer best describes Builds and Image Streams?|||Provide means for communities to organize and manage content together|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION401|1|Which answer best describes Builds and Image Streams?|||Let you build working images and react to new images|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION401|1|Which answer best describes Builds and Image Streams?|||Add support for software development and deployment lifecycle|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION401|1|Which answer best describes Builds and Image Streams?|||Add support for software development and deployment life cycle|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION401|1|Which answer best describes Builds and Image Streams?|||Let you create many objects at once based on parameters|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION402|1|Which answer best describes Deployments?|||Provide means for communities to organize and manage content together|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION402|1|Which answer best describes Deployments?|||Let you build working images and react to new images|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION402|1|Which answer best describes Deployments?|||Add support for software development and deployment lifecycle|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION402|1|Which answer best describes Deployments?|||Add support for software development and deployment life cycle|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION402|1|Which answer best describes Deployments?|||Let you create many objects at once based on parameters|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION403|1|Which answer best describes Templates?|||Provide means for communities to organize and manage content together|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION403|1|Which answer best describes Templates?|||Let you build working images and react to new images|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION403|1|Which answer best describes Templates?|||Add support for software development and deployment lifecycle|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION403|1|Which answer best describes Templates?|||Add support for software development and deployment life cycle|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION403|1|Which answer best describes Templates?|||Let you create many objects at once based on parameters|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION404|1|Which of these statements are a description of a Pod?|||One or more containers deployed together on host|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION404|1|Which of these statements are a description of a Pod?|||Smallest compute unit you can define, deploy, manage|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION404|1|Which of these statements are a description of a Pod?|||Each pod allocated own internal IP address, owns entire port range|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION404|1|Which of these statements are a description of a Pod?|||All of the above|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION405|5|OpenShift cannot change pod definition while running. To implement changes, OpenShift Enterprise: Terminates existing pod and recreates it with modified configuration.|||TRUE|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION405|5|OpenShift cannot change pod definition while running. To implement changes, OpenShift Enterprise: Terminates existing pod and recreates it with modified configuration.|||FALSE|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION406|1|Which of these statements are a description of the Scheduler ?|||Determines placement of new pods onto nodes within OpenShift Enterprise cluster|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION406|1|Which of these statements are a description of the Scheduler ?|||Reads pod data and tries to find node that is good fit|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION406|1|Which of these statements are a description of the Scheduler ?|||Is independent, standalone, pluggable solution|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION406|1|Which of these statements are a description of the Scheduler ?|||All of the above|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION404|1|Which answer best describes a Pod?|||One or more containers deployed together on the host|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION404|1|Which answer best describes a Pod?|||Smallest compute unit you can define, deploy, and manage|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION404|1|Which answer best describes a Pod?|||Each pod is allocated its own internal IP address, and owns an entire port range|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION404|1|Which answer best describes a Pod?|||All of the above|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION405|5|OpenShift cannot change a pod definition while the pod is running. To implement changes, OpenShift Enterprise terminates the existing pod and recreates it with a modified configuration.|||TRUE|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION405|5|OpenShift cannot change a pod definition while the pod is running. To implement changes, OpenShift Enterprise terminates the existing pod and recreates it with a modified configuration.|||FALSE|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION406|1|Which answer best describes the Scheduler?|||Determines placement of new pods onto nodes within an OpenShift Enterprise cluster|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION406|1|Which answer best describes the Scheduler?|||Reads pod data and tries to find a node that is a good fit|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION406|1|Which answer best describes the Scheduler?|||Provides independent, standalone, pluggable solution|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION406|1|Which answer best describes the Scheduler?|||All of the above|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION407|5|The Scheduler can support affinity and anti-affinity policies and have multiple layered topologies.|||TRUE|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION407|5|The Scheduler can support affinity and anti-affinity policies and have multiple layered topologies.|||FALSE|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION408|5|Replication Controllers ensures specified number of pod replicas running at all times.|||TRUE|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION408|5|Replication Controllers ensures specified number of pod replicas running at all times.|||FALSE|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION408|5|Replication Controllers ensure that a specified number of pod replicas are running at all times.|||TRUE|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION408|5|Replication Controllers ensure that a specified number of pod replicas are running at all times.|||FALSE|||0|0|||

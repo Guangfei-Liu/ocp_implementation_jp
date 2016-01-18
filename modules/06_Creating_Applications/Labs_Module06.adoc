@@ -86,9 +86,11 @@ Once the project is in place, the *Select Image or Template* screen is displayed
 
 . Go back to your application's *Overview* screen by clicking *Overview* at the upper left side.
 
-. Observe the circle that shows the current number of pods, which is 3. You can increase that number by clicking the `^` button next to it.
+. Observe the circle that shows the current number of pods, which is 1. You can increase that number by clicking the `^` button next to it.
 
-. Click the `^` button twice to increase the number of replicas to 5.
+image::images/ose_lab6_image1.png[]
+
+. Click the `^` button twice to increase the number of replicas to 3.
 
 . Hover over *Browse* and select *Pods* to take a look at your new pods.
 
@@ -96,6 +98,8 @@ Once the project is in place, the *Select Image or Template* screen is displayed
 
 * The current and default view of the *Overview* screen is the *Tile View*.
 * To switch to the *Topology View*, click the button on the upper right hand side that looks like the *`<`* character or a social-media Share button, which it is not.
+
+image::images/ose_lab6_image2.png[]
 
 . Click the objects and consider their relationships.
 

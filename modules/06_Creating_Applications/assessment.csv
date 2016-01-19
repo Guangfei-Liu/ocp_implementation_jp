@@ -3,25 +3,25 @@ OSEIMPLEMENTATION|OSEIMPLEMENTATION601|1|If you specify source code, new-app c
 OSEIMPLEMENTATION|OSEIMPLEMENTATION601|1|If you specify source code, new-app constructs:|||Deployment configuration that deploys image|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION601|1|If you specify source code, new-app constructs:|||Service to provide load-balanced access to deployment running image|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION601|1|If you specify source code, new-app constructs:|||All of the above|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION602|5|Users can create new OpenShift Enterprise application using web console or oc new-app command.|||TRUE|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION602|5|Users can create new OpenShift Enterprise application using web console or oc new-app command.|||FALSE|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION603|1|Which of these statements best describes a Docker Build?|||Invoke Docker build, expect repository with Dockerfile and directories required for Docker build process|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION603|1|Which of these statements best describes a Docker Build?|||Build reproducible Docker images from source code and builder image|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION603|1|Which of these statements best describes a Docker Build?|||Build with user-defined process, possibly integrated with existing CI/CD deployments like Jenkins|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION603|1|Which of these statements best describes a Docker Build?|||None of the above|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION604|1|Which of these statements best describes a Custom Build?|||Invoke Docker build, expect repository with Dockerfile and directories required for Docker build process|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION604|1|Which of these statements best describes a Custom Build?|||Build reproducible Docker images from source code and builder image|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION604|1|Which of these statements best describes a Custom Build?|||Build with user-defined process, possibly integrated with existing CI/CD deployments like Jenkins|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION604|1|Which of these statements best describes a Custom Build?|||None of the above|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION605|1|Which of these statements best describes an STI/Source Build?|||Invoke Docker build, expect repository with Dockerfile and directories required for Docker build process|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION605|1|Which of these statements best describes an STI/Source Build?|||Build reproducible Docker images from source code and builder image|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION605|1|Which of these statements best describes an STI/Source Build?|||Build with user-defined process, possibly integrated with existing CI/CD deployments like Jenkins|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION605|1|Which of these statements best describes an STI/Source Build?|||None of the above|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION606|5|If creating a source build, new-app tries to determine language to use based on files present in the repository root.|||TRUE|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION606|5|If creating a source build, new-app tries to determine language to use based on files present in the repository root.|||FALSE|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION607|1|Which Resource/Resources would be created when creating an application with oc new-app?|||A Deployment Configuration |||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION602|5|Users can create new OpenShift Enterprise application using web console or the oc new-app command.|||TRUE|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION602|5|Users can create new OpenShift Enterprise application using web console or the oc new-app command.|||FALSE|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION603|1|Which answer best describes a Docker Build?|||Invokes a Docker build, expects a repository with Dockerfile and directories required for the Docker build process|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION603|1|Which answer best describes a Docker Build?|||Builds reproducible Docker images from source code and a builder image|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION603|1|Which answer best describes a Docker Build?|||A build with a user-defined process, that is possibly integrated with existing CI/CD deployments, like Jenkins|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION603|1|Which answer best describes a Docker Build?|||None of the above|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION604|1|Which answer best describes a Custom Build?|||Invokes a Docker build, expects a repository with Dockerfile and directories required for the Docker build process|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION604|1|Which answer best describes a Custom Build?|||Builds reproducible Docker images from source code and a builder image|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION604|1|Which answer best describes a Custom Build?|||A build with a user-defined process, that is possibly integrated with existing CI/CD deployments, like Jenkins|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION604|1|Which answer best describes a Custom Build?|||None of the above|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION605|1|Which answer best describes an STI/Source Build?|||Invokes a Docker build, expect repository with Dockerfile and directories required for Docker build process|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION605|1|Which answer best describes an STI/Source Build?|||Builds reproducible Docker images from source code and a builder image|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION605|1|Which answer best describes an STI/Source Build?|||A build with a user-defined process, that is possibly integrated with existing CI/CD deployments, like Jenkins|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION605|1|Which answer best describes an STI/Source Build?|||None of the above|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION606|5|If creating a source build, new-app tries to determine which language to use based on the files that are present in the repository root.|||TRUE|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION606|5|If creating a source build, new-app tries to determine which language to use based on the files that are present in the repository root.|||FALSE|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION607|1|Which Resource/Resources would be created when creating an application with oc new-app?|||A Deployment Configuration|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION607|1|Which Resource/Resources would be created when creating an application with oc new-app?|||A Pod and a BuildConfig definition if using a source/STI Build|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION607|1|Which Resource/Resources would be created when creating an application with oc new-app?|||Replication Controller and Serivce|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION607|1|Which Resource/Resources would be created when creating an application with oc new-app?|||Replication Controller and Service|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION607|1|Which Resource/Resources would be created when creating an application with oc new-app?|||All of the above|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION608|5|The oc new-app command can be used to create applications but NOT templates.|||TRUE|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION608|5|The oc new-app command can be used to create applications but NOT templates.|||FALSE|||1|100|||

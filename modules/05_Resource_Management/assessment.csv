@@ -1,8 +1,8 @@
 QUESTIONBANKCODE|QUESTIONCODE|QUESTIONTYPE|QUESTIONTEXT|QUESTIONTEXTFORMAT|QUESTIONFEEDBACK|OPTION|RIGHTOPTION|OPTIONFEEDBACK|ISCORRECT|OPTIONWEIGHT|ISCASESENSITIVE|RANDOMIZEOPTIONS|STATUS
-OSEIMPLEMENTATION|OSEIMPLEMENTATION501|1|What is the reason to use projects/namespaces?|||Named resources to avoid basic naming collisions|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION501|1|What is the reason to use projects/namespaces?|||Delegated management authority to trusted users|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION501|1|What is the reason to use projects/namespaces?|||The ability to limit community resource consumption|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION501|1|What is the reason to use projects/namespaces?|||All of the above|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION501|1|Why should you use projects/namespaces?|||Named resources avoid basic naming collisions|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION501|1|Why should you use projects/namespaces?|||Provide delegated management authority to trusted users|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION501|1|Why should you use projects/namespaces?|||The ability to limit community resource consumption|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION501|1|Why should you use projects/namespaces?|||All of the above|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION502|5|OpenShift can limit both the number of objects created in a project, and the total amount of resources requested across objects in a namespace/project.|||TRUE|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION502|5|OpenShift can limit both the number of objects created in a Project, and the total amount of resources requested across objects in a namespace/project.|||FALSE|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION503|1|The 'Service' resource does the following:|||Routes between the different pods|||0|0|||
@@ -10,30 +10,30 @@ OSEIMPLEMENTATION|OSEIMPLEMENTATION503|1|The 'Service' resource does the followi
 OSEIMPLEMENTATION|OSEIMPLEMENTATION503|1|The 'Service' resource does the following:|||Holds application metadata|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION503|1|The 'Service' resource does the following:|||None of the above|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION504|1|Which backends are supported for OpenShift Persistent Volumes?|||Only NFS|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION504|1|Which backends are supported for OpenShift Persistent Volumes?|||Google compute GCE, Amazon EBS volumes, OpenStack Cinder|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION504|1|Which backends are supported for OpenShift Persistent Volumes?|||Google compute GCE, Amazon EBS volumes, and OpenStack Cinder|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION504|1|Which backends are supported for OpenShift Persistent Volumes?|||GlusterFS, Ceph RBD, iSCSI and Fiber Channel|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION504|1|Which backends are supported for OpenShift Persistent Volumes?|||All of the above|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION505|1|Which one of the following is NOT found in the Replication Controller?|||The number of replicas desired (which can be adjusted at runtime)|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION505|1|Which one of the following is NOT found in the Replication Controller?|||The Git repository of a S2I built pod|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION505|1|Which one of the following is NOT found in the Replication Controller?|||The Git repository of an S2I built pod|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION505|1|Which one of the following is NOT found in the Replication Controller?|||A pod definition for creating a replicated pod|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION505|1|Which one of the following is NOT found in the Replication Controller?|||A selector for identifying managed pods|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION506|5|Quotas can only be set on an individual Pod. Quotas cannot be set on an entire project.|||TRUE|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION506|5|Quotas can only be set on an individual Pod. Quotas cannot be set on an entire project.|||FALSE|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION507|1|A Service Account is used when:|||OpenShift internal components need to be managed by the same account|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION507|1|A Service Account is used when:|||An Administrator wants to manage resources quotas for a group of users|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION507|1|A Service Account is used when:|||An administrator wants to manage resources quotas for a group of users|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION507|1|A Service Account is used when:|||A pod requires access to make an API call to OpenShift Enterprise master:|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION507|1|A Service Account is used when:|||None of the answers is correct|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION507|1|A Service Account is used when:|||None of the above|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION508|5|A Project and Namespace are very similar and serve similar functions.|||TRUE|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION508|5|A Project and Namespace are very similar and serve similar functions.|||FALSE|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION509|5|You can use the OpenShift Command Line utility (oc and oadm) ONLY from the master server.|||TRUE|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION509|5|You can use the OpenShift Command Line utility (oc and oadm) ONLY from the master server.|||FALSE|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION510|1|Which information would we NOT include when defining a route |||Hostname or FQDN|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION510|1|Which information would we NOT include when defining a route |||Service Selector |||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION510|1|Which information would we NOT include when defining a route |||Termination and Security information|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION510|1|Which information would we NOT include when defining a route |||Pod IP and port |||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION511|1|When creating a secure route,  the Default Router can support: |||All of the above|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION511|1|When creating a secure route,  the Default Router can support: |||Edge secured routes|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION511|1|When creating a secure route,  the Default Router can support: |||Passthrough secured routes|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION511|1|When creating a secure route,  the Default Router can support: |||Re-encryption termination secured routes|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION510|1|When defining a route, an admin would NOT include which of the following:|||Hostname or FQDN|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION510|1|When defining a route, an admin would NOT include which of the following:|||Service Selector |||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION510|1|When defining a route, an admin would NOT include which of the following:|||Termination and Security information|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION510|1|When defining a route, an admin would NOT include which of the following:|||Pod IP and port |||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION511|1|When creating a secure route, the Default Router can support:|||All of the above|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION511|1|When creating a secure route, the Default Router can support:|||Edge secured routes|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION511|1|When creating a secure route, the Default Router can support:|||Passthrough secured routes|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION511|1|When creating a secure route, the Default Router can support:|||Re-encryption termination secured routes|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION512|5|You must associate PersistentVolume with a project.|||TRUE|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION512|5|You must associate PersistentVolume with a project.|||FALSE|||0|0|||

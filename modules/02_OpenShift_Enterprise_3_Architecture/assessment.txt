@@ -16,11 +16,11 @@ OSEIMPLEMENTATION|OSEIMPLEMENTATION204|1|What is the role of the Default router 
 OSEIMPLEMENTATION|OSEIMPLEMENTATION204|1|What is the role of the Default router and the routing layer?|||Determines where to create new pods|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION204|1|What is the role of the Default router and the routing layer?|||Holds current state, desired state, and configuration information in the environment|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION205|1|What is the role of the Replication Controller?|||Provides a framework for collaboration and quota management|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION205|1|What is the role of the Replication Controller?|||Ensures the number of instances/pods defined in store layer actually exist|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION205|1|What is the role of the Replication Controller?|||Ensures the number of instances/pods defined in the Store layer actually exist|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION205|1|What is the role of the Replication Controller?|||Determines where to create new pods|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION205|1|What is the role of the Replication Controller?|||Holds current state, desired state, and configuration information in the environment|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION206|1|What is the role of the Store layer (etcd)?|||Provides a framework for collaboration and quota management|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION206|1|What is the role of the Store layer (etcd)?|||Ensures the number of instances/pods defined in store layer actually exist|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION206|1|What is the role of the Store layer (etcd)?|||Ensures the number of instances/pods defined in Store layer actually exist|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION206|1|What is the role of the Store layer (etcd)?|||Determines where to create new pods|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION206|1|What is the role of the Store layer (etcd)?|||Holds current state, desired state, and configuration information in the environment|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION207|5|Unlike a virtual machine, a container stores just the application and its dependencies and not an entire operating system.|||TRUE|||1|100|||
@@ -35,7 +35,7 @@ OSEIMPLEMENTATION|OSEIMPLEMENTATION210|1|One of the benefits of S2I is that havi
 OSEIMPLEMENTATION|OSEIMPLEMENTATION210|1|One of the benefits of S2I is that having a strong separation between the source code and the runtime environment in the container image helps to migrate code between:|||Across major versions of a runtime|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION210|1|One of the benefits of S2I is that having a strong separation between the source code and the runtime environment in the container image helps to migrate code between:|||Across operating system versions|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION210|1|One of the benefits of S2I is that having a strong separation between the source code and the runtime environment in the container image helps to migrate code between:|||All of the above|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION211|1|In OpenShift, which component allows the use of private networks for each project and communications between containers, nodes and hosts?|||etcd and the store layer |||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION211|1|In OpenShift, which component allows the use of private networks for each project and communications between containers, nodes and hosts?|||The Openshift-sdn overlay network and the Router container (HAProxy)|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION211|1|In OpenShift, which component allows the use of private networks for each project and communications between containers, nodes and hosts?|||Kubernetes and Docker |||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION211|1|In OpenShift, which component allows the use of private networks for each project and communications between containers, nodes and hosts?|||Pods and Services|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION211|1|In OpenShift, which component allows the use of private networks for each project and communications between containers, nodes, and hosts?|||etcd and the Store layer |||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION211|1|In OpenShift, which component allows the use of private networks for each project and communications between containers, nodes, and hosts?|||The Openshift-sdn overlay network and the Router container (HAProxy)|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION211|1|In OpenShift, which component allows the use of private networks for each project and communications between containers, nodes, and hosts?|||Kubernetes and Docker |||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION211|1|In OpenShift, which component allows the use of private networks for each project and communications between containers, nodes, and hosts?|||Pods and Services|||0|0|||

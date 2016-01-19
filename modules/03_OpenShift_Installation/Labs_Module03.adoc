@@ -1131,7 +1131,7 @@ NOTE: `Broken Pipeline` messages in the output are normal and not an indication
 +
 ----
 
-[root@master-GUID ~]# oc get nodes
+[root@master00-GUID ~]# oc get nodes
 NAME                                 LABELS                                 STATUS                     AGE
 infranode00-GUID.oslab.opentlc.com   kubernetes.io/hostname=192.168.0.101   Ready                      1m
 master00-GUID.oslab.opentlc.com      kubernetes.io/hostname=192.168.0.100   Ready,SchedulingDisabled   1m
@@ -1167,7 +1167,7 @@ In this section, you establish regions and zones, configure OpenShift
 +
 ----
 
-[root@oselab-GUID ~]# oc get nodes
+[root@master00-GUID ~]# oc get nodes
 
 ----
 

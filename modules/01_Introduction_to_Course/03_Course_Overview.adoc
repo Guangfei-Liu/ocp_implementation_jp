@@ -8,7 +8,6 @@
 * Module 06: Creating Applications
 * Module 07: Templates
 * Module 08: Deployment Life cycle
-* Module 09: Managing Security
 
 ifdef::showscript[]
 

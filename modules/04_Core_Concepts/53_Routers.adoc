@@ -18,8 +18,5 @@ To reach a router in the first place, requests for hostnames must resolve via
 
 We recommend defining a cloud domain with a wildcard DNS entry pointing to a
  virtual IP backed by multiple router instances on designated nodes.
-
-In this approach, you need to configure the DNS for each address outside the
- cloud domain individually.
-
+ 
 endif::showscript[]

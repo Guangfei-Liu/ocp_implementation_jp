@@ -802,6 +802,7 @@ docker pull $REGISTRY/$PTH/ose-deployer:v3.1.0.4 ; \
 docker pull $REGISTRY/$PTH/ose-pod:v3.1.0.4 ; \
 docker pull $REGISTRY/$PTH/ose-docker-registry:v3.1.0.4 ;
 "
+----
 
 NOTE:
 We aren't "pulling" any images on the Master host because it is not meant

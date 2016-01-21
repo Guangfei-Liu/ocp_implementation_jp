@@ -1767,7 +1767,7 @@ done;
 [root@master00-GUID ~]# cat pv21 pv22 pv23 | oc create -f - -n default
 ----
 
-. Run `oc get pvs` to ensure that your `pvs` volumes have been added and are available:
+. Run `oc get pv` to ensure that your `pvs` volumes have been added and are available:
 +
 ----
 [root@master00-GUID pvs]# oc get pv

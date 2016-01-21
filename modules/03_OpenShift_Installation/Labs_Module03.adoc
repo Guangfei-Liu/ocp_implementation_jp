@@ -1228,16 +1228,20 @@ tomic-openshift-master.service - Atomic OpenShift Master
 
 .Configuring the Default Namespace to Use the `infra` Region
 
-. In annotations section, add the following line in the default namespace object:
+. Edit the default namespace with the following command:
 +
-----
-openshift.io/node-selector: region=infra
-----
-
-. Edit the default namespace with the following command. To exit, type `:wq`.
+NOTE: This will invoke an editor, add the line in the next step before exiting.
 +
 ----
 [root@master00-GUID ~]#  oc edit namespace default
+----
+
+. In the `annotations` section, add the following line in the default namespace object:
++
+NOTE: Be sure to use the correct spacing as the other lines in this section. To exit, type `:wq`.
++
+----
+openshift.io/node-selector: region=infra
 ----
 
 * Your object looks similar to this:

@@ -25,8 +25,8 @@ OSEIMPLEMENTATION|OSEIMPLEMENTATION206|1|What is the role of the Store layer (et
 OSEIMPLEMENTATION|OSEIMPLEMENTATION206|1|What is the role of the Store layer (etcd)?|||Holds current state, desired state, and configuration information in the environment|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION207|5|Unlike a virtual machine, a container stores just the application and its dependencies and not an entire operating system.|||TRUE|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION207|5|Unlike a virtual machine, a container stores just the application and its dependencies and not an entire operating system.|||FALSE|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION208|5|For an S2I, source-to-image build, you need source code and a builder/base image.|||TRUE|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION208|5|For an S2I, source-to-image build, you need source code and a builder/base image.|||FALSE|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION208|5|For an S2I, source-to-image build, you need source code and a builder/base image.|||TRUE|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION208|5|For an S2I, source-to-image build, you need source code and a builder/base image.|||FALSE|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION209|1|OpenShift can pull images from any server implementing Docker registry API, including:|||Canonical Docker Hub|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION209|1|OpenShift can pull images from any server implementing Docker registry API, including:|||Private registries managed by third parties|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION209|1|OpenShift can pull images from any server implementing Docker registry API, including:|||Integrated OpenShift Enterprise registry|||0|0|||

@@ -226,7 +226,7 @@ gpgcheck=0
 
 [rhel-x86_64-server-extras-7]
 name=Red Hat Enterprise Linux 7 Extras
-baseurl=http://www.opentlc.com/repos/ose/3.1/rhel-7-server-extras-rpms
+baseurl=http://www.opentlc.com/repos/ose_implementation/3.1/rhel-7-server-extras-rpms
 enabled=1
 gpgcheck=0
 
@@ -252,7 +252,7 @@ EOF
 [root@oselab-GUID ~]# cat << EOF >> /etc/yum.repos.d/open.repo
 [rhel-7-server-ose-3.1-rpms]
 name=Red Hat Enterprise Linux 7 OSE 3.1
-baseurl=http://www.opentlc.com/repos/ose/3.1/rhel-7-server-ose-3.1-rpms
+baseurl=http://www.opentlc.com/repos/ose_implementation/3.1/rhel-7-server-ose-3.1-rpms
 enabled=1
 gpgcheck=0
 

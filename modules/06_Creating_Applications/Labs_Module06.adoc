@@ -194,7 +194,7 @@ ruby-hello-world-1-build   0/1       Completed   0          9m
 
 . In the GitHub web UI, navigate to the `.sti/bin` folder.
 
-. Click the *+* button at the top (to the right of `bin` in the breadcrumb).
+. Click the *New File* button at the top right (to the right of `bin` in the breadcrumb).
 
 . Name your file `assemble`.
 

@@ -22,6 +22,9 @@ In this section, you configure OpenShift Enterprise: Label nodes, configure auth
 +
 In this section, you prepare the OpenShift Cluster to use NFS storage as a Persistent Volume provider.
 
+[NOTE]
+*Please Remember:* The default `root` password is `r3dh4t1!`.
+
 
 === Notes
 
@@ -445,7 +448,7 @@ Here, you verify that the master host is correctly configured for resolving inte
 . Connect to the `master00` host:
 +
 ----
-[root@oselab-GUID ~]# ssh master00-$guid
+[root@oselab-GUID ~]# ssh master00-$guid.oslab.opentlc.com
 ----
 
 . Verify the host name for the master host:

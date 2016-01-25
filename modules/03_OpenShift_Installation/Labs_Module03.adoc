@@ -815,7 +815,7 @@ docker pull $REGISTRY/$PTH/ose-docker-registry:v3.1.0.4 ;
 NOTE:
 We aren't "pulling" any images on the Master host because it is not meant
 to run any containers.
-----
+
 . Examine the information in the Docker pool on the `node0X` (`node00`, `node01`, etc.) host:
 +
 ----

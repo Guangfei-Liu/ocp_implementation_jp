@@ -1036,11 +1036,6 @@ bash-4.2$ ls explore-example/sinatra-example/_layers/sha256/
 e1e04a46f510bf9b3fb68e6cf3fc027100cec875a7ff02e6d0da5206fa7f6b8c
 ----
 
-+
-[NOTE]
-Alternatively, if you configured persistent storage for your registry before, view the same
- in `/var/export/registry-storage/docker/registry/v2/`.
-
 . As user `andrew`, look at one of the pods you started earlier:
 +
 ----

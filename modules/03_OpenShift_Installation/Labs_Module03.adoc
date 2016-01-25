@@ -168,7 +168,7 @@ NOTE: In a different environment, you can adopt a nonroot user with `sudo`
 [root@oselab-GUID ~]# cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys
 ----
 
-. Configure `/etc/ssh/ssh_conf` to disable `StrictHostKeyChecking` on the
+. Configure `/etc/ssh/ssh_config` to disable `StrictHostKeyChecking` on the
  `oselab` host and the master host:
 +
 ----
@@ -229,7 +229,7 @@ gpgcheck=0
 
 [rhel-x86_64-server-extras-7]
 name=Red Hat Enterprise Linux 7 Extras
-baseurl=http://www.opentlc.com/repos/ose/3.1/rhel-7-server-extras-rpms
+baseurl=http://www.opentlc.com/repos/ose_implementation/3.1/rhel-7-server-extras-rpms
 enabled=1
 gpgcheck=0
 
@@ -255,7 +255,7 @@ EOF
 [root@oselab-GUID ~]# cat << EOF >> /etc/yum.repos.d/open.repo
 [rhel-7-server-ose-3.1-rpms]
 name=Red Hat Enterprise Linux 7 OSE 3.1
-baseurl=http://www.opentlc.com/repos/ose/3.1/rhel-7-server-ose-3.1-rpms
+baseurl=http://www.opentlc.com/repos/ose_implementation/3.1/rhel-7-server-ose-3.1-rpms
 enabled=1
 gpgcheck=0
 
@@ -293,7 +293,7 @@ repolist: 8,998
                                     node00-$guid.oslab.opentlc.com \
                                     node01-$guid.oslab.opentlc.com; \
                                     do \
-                                      echo Copying open.repot to $node ; \
+                                      echo Copying open repos to $node ; \
                                       scp /etc/yum.repos.d/open.repo ${node}:/etc/yum.repos.d/open.repo ;
                                       yum clean all
                                       yum repolist
@@ -335,10 +335,13 @@ GUID is c0fe and guid is c0fe
 ----
 . On the administration host, `oselab`, collect and define the environment's information. Also, define the public IP address of `InfraNode00` as the target of the wildcard record:
 +
+NOTE: The following commands use the `host` command against the server `ipa.opentlc.com` to get the public IP address so should be run on the same line.
++
 ----
 [root@oselab-GUID ~]# host infranode00-$GUID.oslab.opentlc.com  ipa.opentlc.com |grep infranode | awk '{print $4}'
 [root@oselab-GUID ~]# HostIP=`host infranode00-$GUID.oslab.opentlc.com  ipa.opentlc.com |grep infranode | awk '{print $4}'`
 [root@oselab-GUID ~]# domain="cloudapps-$GUID.oslab.opentlc.com"
+[root@oselab-GUID ~]# echo $HostIP $domain
 ----
 +
 NOTE: Perform the steps below on the administration host.
@@ -360,6 +363,7 @@ ${domain} IN SOA master.${domain}.  root.${domain}.  (
 \$ORIGIN ${domain}.
 test A ${HostIP}
 * A ${HostIP}"  >  /var/named/zones/${domain}.db
+[root@oselab-GUID ~]# cat /var/named/zones/${domain}.db
 ----
 
 . Configure `named.conf`:
@@ -388,22 +392,23 @@ zone \"${domain}\" IN {
   file \"zones/${domain}.db\";
   allow-update { key ${domain} ; } ;
 };" > /etc/named.conf
+[root@oselab-GUID ~]# cat /etc/named.conf
 ----
 
 . Correct the file permissions and start the DNS server:
 +
 ----
 [root@oselab-GUID ~]#  chgrp named -R /var/named ; \
- chown named -R /var/named/zones ; \
- restorecon -R /var/named ; \
- chown root:named /etc/named.conf ; \
- restorecon /etc/named.conf ;
+ chown named -Rv /var/named/zones ; \
+ restorecon -Rv /var/named ; \
+ chown -v root:named /etc/named.conf ; \
+ restorecon -v /etc/named.conf ;
 ----
 
 . Enable and start `named`:
 +
 ----
-[root@oselab-GUID ~]# systemctl enable named ; \
+[root@oselab-GUID ~]# systemctl enable named && \
  systemctl start named
 ----
 
@@ -1226,16 +1231,20 @@ tomic-openshift-master.service - Atomic OpenShift Master
 
 .Configuring the Default Namespace to Use the `infra` Region
 
-. In annotations section, add the following line in the default namespace object:
+. Edit the default namespace with the following command:
 +
-----
-openshift.io/node-selector: region=infra
-----
-
-. Edit the default namespace with the following command. To exit, type `:wq`.
+NOTE: This will invoke an editor, add the line in the next step before exiting.
 +
 ----
 [root@master00-GUID ~]#  oc edit namespace default
+----
+
+. In the `annotations` section, add the following line in the default namespace object:
++
+NOTE: Be sure to use the correct spacing as the other lines in this section. To exit, type `:wq`.
++
+----
+openshift.io/node-selector: region=infra
 ----
 
 * Your object looks similar to this:
@@ -1761,7 +1770,7 @@ done;
 [root@master00-GUID ~]# cat pv21 pv22 pv23 | oc create -f - -n default
 ----
 
-. Run `oc get pvs` to ensure that your `pvs` volumes have been added and are available:
+. Run `oc get pv` to ensure that your `pvs` volumes have been added and are available:
 +
 ----
 [root@master00-GUID pvs]# oc get pv

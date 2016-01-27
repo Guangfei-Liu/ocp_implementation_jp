@@ -229,7 +229,7 @@ gpgcheck=0
 
 [rhel-x86_64-server-extras-7]
 name=Red Hat Enterprise Linux 7 Extras
-baseurl=http://www.opentlc.com/repos/ose_implementation/3.1/rhel-7-server-extras-rpms
+baseurl=http://www.opentlc.com/repos/ose/3.1/rhel-7-server-extras-rpms
 enabled=1
 gpgcheck=0
 
@@ -255,7 +255,7 @@ EOF
 [root@oselab-GUID ~]# cat << EOF >> /etc/yum.repos.d/open.repo
 [rhel-7-server-ose-3.1-rpms]
 name=Red Hat Enterprise Linux 7 OSE 3.1
-baseurl=http://www.opentlc.com/repos/ose_implementation/3.1/rhel-7-server-ose-3.1-rpms
+baseurl=http://www.opentlc.com/repos/ose/3.1/rhel-7-server-ose-3.1-rpms
 enabled=1
 gpgcheck=0
 
@@ -307,6 +307,7 @@ OpenShift Enterprise requires a wildcard DNS A record, which must point to the p
 
 NOTE: In the OpenShift environment, the OpenShift default router is deployed on the `infranode00` host.
 
+NOTE: You can skip the DNS section in this lab by running the script available at : link:http://www.opentlc.com/download/ose_implementation/resources/3.1/oselab.dns.installer.sh[http://www.opentlc.com/download/ose_implementation/resources/3.1/oselab.dns.installer.sh]
 
 . Install the `bind` and `bind-utils` packages on the administration host:
 +
@@ -445,54 +446,6 @@ The first time you query `8.8.8.8`, you might notice some lag and see the error 
 Desktop$ nslookup test.cloudapps-$GUID.oslab.opentlc.com
 ----
 
-
-=== Verify Network Configuration
-
-Here, you verify that the master host is correctly configured for resolving internal and external DNS names.
-
-. Connect to the `master00` host:
-+
-----
-[root@oselab-GUID ~]# ssh master00-$guid.oslab.opentlc.com
-----
-
-. Verify the host name for the master host:
-+
-----
-[root@master00-GUID ~]# hostname -f
-----
-
-* The output is as follows:
-+
-----
-master00-GUID.oslab.opentlc.com
-----
-
-. Take note of the master host's internal IP address:
-+
-----
-[root@master00-GUID ~]# ip address show dev eth0|grep "inet "|awk '{print $2}'|cut -f1 -d/
-----
-
-. Ensure that the master host's internal DNS entry matches the internal IP address:
-+
-----
-[root@master00-GUID ~]# host `hostname -f`
-----
-
-. Take note of the master host's external IP address:
-+
-----
-[root@master00-GUID ~]# curl http://www.opentlc.com/getip
-----
-
-. Ensure that the master host's external DNS entry matches the external IP address:
-+
-----
-[root@master00-GUID ~]# host `hostname -f` 8.8.8.8
-----
-+
-NOTE: If errors occur on your first try, try again after a short while. It may take some time for the global DNS servers to update.
 
 === Install and Remove Packages
 
@@ -706,6 +659,12 @@ swap        rhel_host2cc260760b15 -wi-ao----  2.00g
 DOCKER_STORAGE_OPTIONS=--storage-driver devicemapper --storage-opt dm.fs=xfs --storage-opt dm.thinpooldev=/dev/mapper/docker--vg-docker--pool
 ----
 
+. Enable Docker service on the master host:
++
+----
+[root@master00-GUID ~]# systemctl enable docker
+----
+
 . Run this `for` loop to configure docker storage on the other nodes, enable Docker, and restart the node:
 +
 ----
@@ -725,11 +684,6 @@ DOCKER_STORAGE_OPTIONS=--storage-driver devicemapper --storage-opt dm.fs=xfs --s
 NOTE: `Broken Pipeline` messages in the output are normal and not an indication
  of errors.
 
-. Enable Docker service on the master host:
-+
-----
-[root@master00-GUID ~]# systemctl enable docker
-----
 
 . Reboot the master host:
 +
@@ -966,14 +920,14 @@ host the required services to be managed by the Master.
 http://docs.openshift.com/enterprise/latest/architecture/infrastructure_components/kubernetes_infrastructure.html#master
 http://docs.openshift.com/enterprise/latest/architecture/infrastructure_components/kubernetes_infrastructure.html#node
 
-Enter hostname or IP address: []: master00-3191.oslab.opentlc.com
+Enter hostname or IP address: []: master00-GUID.oslab.opentlc.com
 Will this host be an OpenShift Master? [y/N]: y
 Do you want to add additional hosts? [y/N]: y
-Enter hostname or IP address: []: infranode00-3191.oslab.opentlc.com
+Enter hostname or IP address: []: infranode00-GUID.oslab.opentlc.com
 Do you want to add additional hosts? [y/N]: y
-Enter hostname or IP address: []: node00-3191.oslab.opentlc.com
+Enter hostname or IP address: []: node00-GUID.oslab.opentlc.com
 Do you want to add additional hosts? [y/N]: y
-Enter hostname or IP address: []: node01-3191.oslab.opentlc.com
+Enter hostname or IP address: []: node01-GUID.oslab.opentlc.com
 Do you want to add additional hosts? [y/N]: n
 
 

@@ -48,10 +48,9 @@ gpgcheck=0
 # This repo is added for the OPENTLC environment not OSE
 [rhel-x86_64-server-rh-common-7]
 name=Red Hat Enterprise Linux 7 Common
-baseurl=http://www.opentlc.com/repos/rhel-x86_64-server-rh-common-7
+baseurl=http://www.opentlc.com/repos/ose/${VERSION}/rhel-7-server-rh-common-rpms
 enabled=1
 gpgcheck=0
-
 EOF
 
 

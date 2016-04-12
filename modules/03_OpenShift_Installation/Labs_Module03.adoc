@@ -40,7 +40,7 @@ IMPORTANT: Read these notes. They help you successfully navigate the lab.
 
 === Known Issues
 
-[cols="1,5,5"]
+[cols="1,5,5",options="header"]
 |=======================================================================
 |Issue | Description | Workaround
 |Failure of Docker storage
@@ -748,6 +748,7 @@ docker pull openshift/hello-openshift:v1.0.6 ;
 "
 done
 ----
++
 TIP: You are downloading these images to save time later. Unless otherwise configured, if a node does not have a local image, it downloads it.
 +
 [NOTE]
@@ -765,9 +766,8 @@ docker pull $REGISTRY/$PTH/ose-pod:v3.1.0.4 ; \
 docker pull $REGISTRY/$PTH/ose-docker-registry:v3.1.0.4 ;
 "
 ----
-
-NOTE:
-We aren't "pulling" any images on the Master host because it is not meant
++
+NOTE: You are not "pulling" any images on the Master host because it is not meant
 to run any containers.
 
 . Examine the information in the Docker pool on the `node0X` (`node00`, `node01`, etc.) host:

@@ -12,9 +12,9 @@
 
 #### Variables
 export course="ose_implementation"
-export version="3.1"
+export version="3.2"
+export REPOVERSION="3.2"
 
-${version}
 #1. sed out mac address and uuid from ifcfg-eth0
 sed -i '/^HW/d' /etc/sysconfig/network-scripts/ifcfg-eth0
 sed -i '/^UUID/d' /etc/sysconfig/network-scripts/ifcfg-eth0
@@ -27,49 +27,55 @@ sed -i 's/disable_root:.*1$/disable_root: 0/' /etc/cloud/cloud.cfg
 sed -i 's/ssh_pwauth:.*0$/ssh_pwauth: 1/' /etc/cloud/cloud.cfg
 
 #3. insert open.repo
+echo "---- Add the Red Hat OpenShift Enterprise $REPOVERSION Repo" 2>&1 | tee -a $LOGFILE
+echo "-- Adding OSE3 Repository to  /etc/yum.repos.d/open.repo" 2>&1 | tee -a $LOGFILE
+# added the Repo to enable the Ravello Fix packages.
 cat << EOF > /etc/yum.repos.d/open.repo
-[rhel-x86_64-server-7]
+# Created by deployment script
+[rhel-7-server-rpms]
 name=Red Hat Enterprise Linux 7
-baseurl=http://www.opentlc.com/repos/ose/${version}/rhel-7-server-rpms
+baseurl=http://oselab.example.com/repos/${REPOVERSION}/rhel-7-server-rpms http://www.opentlc.com/repos/ose/${REPOVERSION}/rhel-7-server-rpms
 enabled=1
 gpgcheck=0
 
-[rhel-x86_64-server-extras-7]
-name=Red Hat Enterprise Linux 7 Extras
-baseurl=http://www.opentlc.com/repos/ose/${version}/rhel-7-server-extras-rpms
-enabled=1
-gpgcheck=0
-
-[rhel-x86_64-server-optional-7]
-name=Red Hat Enterprise Linux 7 Optional
-baseurl=http://www.opentlc.com/repos/ose/${version}/rhel-7-server-optional-rpms
-enabled=1
-gpgcheck=0
-
-# This repo is added for the OPENTLC environment not OSE
-[rhel-x86_64-server-rh-common-7]
+[rhel-7-server-rh-common-rpms]
 name=Red Hat Enterprise Linux 7 Common
-baseurl=http://www.opentlc.com/repos/ose/${version}/rhel-7-server-rh-common-rpms
+baseurl=http://oselab.example.com/repos/${REPOVERSION}/rhel-7-server-rh-common-rpms http://www.opentlc.com/repos/ose/${REPOVERSION}/rhel-7-server-rh-common-rpms
 enabled=1
 gpgcheck=0
 
-[rhel-7-server-ose-3.1-rpms]
-name=Red Hat Enterprise Linux 7 OSE 3.1
-baseurl=http://www.opentlc.com/repos/ose/${version}/rhel-7-server-ose-3.1-rpms
+[rhel-7-server-extras-rpms]
+name=Red Hat Enterprise Linux 7 Extras
+baseurl=http://oselab.example.com/repos/${REPOVERSION}/rhel-7-server-extras-rpms http://www.opentlc.com/repos/ose/${REPOVERSION}/rhel-7-server-extras-rpms
+enabled=1
+gpgcheck=0
+
+[rhel-7-server-optional-rpms]
+name=Red Hat Enterprise Linux 7 Optional
+baseurl=http://oselab.example.com/repos/${REPOVERSION}/rhel-7-server-optionak-rpms http://www.opentlc.com/repos/ose/${REPOVERSION}/rhel-7-server-optional-rpms
+enabled=1
+gpgcheck=0
+
+[rhel-7-server-ose-${version}-rpms]
+name=Red Hat Enterprise Linux 7 OSE $REPOVERSION
+baseurl=http://oselab.example.com/repos/${REPOVERSION}/rhel-7-server-ose-${version}-rpms http://www.opentlc.com/repos/ose/${REPOVERSION}/rhel-7-server-ose-${version}-rpms
 enabled=1
 gpgcheck=0
 
 
 EOF
 
+
 sed -i 's/enabled=1/enabled=0/' /etc/yum/pluginconf.d/subscription-manager.conf
 
 
 #4. install cloud init, tools and yum update
 yum clean all
+yum repolist
+
 yum install cloud-init curl -y
 yum -y install deltarpm
-yum -y install wget vim-enhanced net-tools bind-utils tmux git
+yum -y install wget vim-enhanced net-tools bind-utils tmux git bash-completion
 yum update -y
 yum clean all
 
@@ -79,8 +85,8 @@ yum clean all
 
 #6. Add the open-init.sh file
 
-echo curl --connect-timeout 120 -s http://www.opentlc.com/download/${course}/open-init.sh
-curl --connect-timeout 120 -s http://www.opentlc.com/download/${course}/open-init.sh > /usr/local/bin/open-init.sh;
+echo curl --connect-timeout 120 -s http://www.opentlc.com/download/${course}${version}/open-init.sh
+curl --connect-timeout 120 -s http://www.opentlc.com/download/${course}${version}/open-init.sh > /usr/local/bin/open-init.sh;
 chmod +x  /usr/local/bin/open-init.sh
 
 #7. configure ssh-keygen and ssh-copy-id
@@ -108,34 +114,39 @@ poweroff
 
 
 
-### 1MASTER00
-### master00-REPL.oslab.opentlc.com
+### 1MASTER1
+### master1-REPL.oslab.opentlc.com; master1.example.com
 ### Add one 10GB Virtio Disk
 ### 8443,22
-### 192.168.0.100
-###
-### 2INFRANODE
-### infranode00-REPL.oslab.opentlc.com
-### 80,443,1936 (Do I need ports 8443 and 8444 on infranode?)
-### Add one 25GB Virtio Disk
 ### 192.168.0.101
 ###
-### 3NODE00
-### node00-REPL.oslab.opentlc.com
-### No ports open to public network.
+### 2INFRANODE1
+### infranode1-REPL.oslab.opentlc.com; infranode1.example.com
+### 80,443,1936 (Do I need ports 8443 and 8444 on infranode?)
 ### Add one 25GB Virtio Disk
-### 192.168.0.200
+### 192.168.0.251
 ###
-### 4NODE01
-### node01-REPL.oslab.opentlc.com
+### 3NODE1
+### node1-REPL.oslab.opentlc.com; node1.example.com
 ### No ports open to public network.
 ### Add one 25GB Virtio Disk
 ### 192.168.0.201
 ###
-
+### 4NODE2
+### node2-REPL.oslab.opentlc.com; node2.example.com
+### No ports open to public network.
+### Add one 25GB Virtio Disk
+### 192.168.0.202
+###
+### 4NODE3
+### node3-REPL.oslab.opentlc.com; node3.example.com
+### No ports open to public network.
+### Add one 25GB Virtio Disk
+### 192.168.0.203
+###
 
 ### 0OSELAB
-### oselab-REPL.oslab.opentlc.com
+### oselab-REPL.oslab.opentlc.com; oselab.example.com
 ### 80,443
 ### 192.168.0.254
 ###

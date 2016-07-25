@@ -26,20 +26,20 @@ This example is, in effect, a "quick start" -- a predefined application that com
 . As `root` on the master host, download the template's definition file:
 +
 ----
-[root@master00-GUID ~]# wget http://www.opentlc.com/download/ose_implementation/3.1/resources/Template_Example.json
+[root@master1 ~]# wget http://www.opentlc.com/download/ose_implementation/3.1/resources/Template_Example.json
 ----
 
 . Create the template object in the shared `openshift` project. This is also referred to as _uploading_ the template.
 +
 ----
-[root@master00-GUID ~]# oc create -f Template_Example.json -n openshift
+[root@master1 ~]# oc create -f Template_Example.json -n openshift
 template "a-quickstart-keyvalue-application" created
 ----
 NOTE: The `Template_Example.json` file defines a template. By "creating" it, you added it to the `openshift` project. To make the template available only for limited projects, add it to them, not to the `openshift` project.
 
 === Create Instance of Template
 
-. On your browser, connect to the OpenShift web console at `https://master00-GUID.oslab.opentlc.com:8443`:
+. On your browser, connect to the OpenShift web console at `https://master1-GUID.oslab.opentlc.com:8443`:
 .. If prompted, accept the untrusted certificate.
 .. Log in as `andrew` with the password `r3dh4t1!`.
 
@@ -55,7 +55,7 @@ NOTE: The `Template_Example.json` file defines a template. By "creating" it, you
 Alternatively, perform this step from the command line:
 
 ----
-[root@master00-GUID ~]$ oadm new-project instant-app --display-name="instant app example project" \
+[root@master1 ~]$ oadm new-project instant-app --display-name="instant app example project" \
     --description='A demonstration of an instant-app/template' \
     --node-selector='region=primary' --admin=andrew
 ----
@@ -93,7 +93,7 @@ Quick starts are slick. But there are times when developers want to build the co
 
 . Create a project for the database back end:
 
-.. Use your browser to connect to the OpenShift web console at `https://master00-GUID.oslab.opentlc.com:8443`.
+.. Use your browser to connect to the OpenShift web console at `https://master1-GUID.oslab.opentlc.com:8443`.
 .. If prompted, accept the untrusted certificate.
 .. Log in as `marina` with the password `r3dh4t1!`.
 
@@ -107,7 +107,7 @@ Quick starts are slick. But there are times when developers want to build the co
 Alternatively, perform this step from the command line:
 +
 ----
-[root@master00-GUID ~]$ oadm new-project templates --display-name="Templates Testing Project" \
+[root@master1 ~]$ oadm new-project templates --display-name="Templates Testing Project" \
     --description='Project used to test templates' \
     --admin=marina
 ----
@@ -133,26 +133,26 @@ CAUTION: Make sure you set these values correctly, otherwise the application
 Alternatively, create the template instance from the command line:
 +
 ----
-[marina@master00-GUID ~]$ oc new-app --template=mysql-ephemeral --param=MYSQL_USER=mysqluser,MYSQL_PASSWORD=redhat,MYSQL_DATABASE=mydb,DATABASE_SERVICE_NAME=database
+[marina@master1 ~]$ oc new-app --template=mysql-ephemeral --param=MYSQL_USER=mysqluser,MYSQL_PASSWORD=redhat,MYSQL_DATABASE=mydb,DATABASE_SERVICE_NAME=database
 ----
 
 .. As `marina`, switch to the "templates" project and examine the objects that
  were created as part of the `mysql-ephemeral` template.
 +
 ----
-[marina@master00-GUID ~]$ oc get projects
+[marina@master1 ~]$ oc get projects
 NAME                DISPLAY NAME                STATUS
 custom-s2i-script   Custom S2I Build Script     Active
 templates           Templates Testing Project   Active
 
-[marina@master00-GUID ~]$ oc project templates
-Now using project "templates" on server "https://master00-3191.oslab.opentlc.com:8443".
+[marina@master1 ~]$ oc project templates
+Now using project "templates" on server "https://master1-3191.oslab.opentlc.com:8443".
 
-[marina@master00-GUID ~]$ oc get dc
+[marina@master1 ~]$ oc get dc
 NAME       TRIGGERS                    LATEST
 database   ConfigChange, ImageChange   1
 
-[marina@master00-GUID ~]$ oc get service
+[marina@master1 ~]$ oc get service
 NAME       CLUSTER_IP       EXTERNAL_IP   PORT(S)    SELECTOR        AGE
 database   172.30.102.220   <none>        3306/TCP   name=database   1m
 ----
@@ -163,7 +163,7 @@ A deployment configuration is available for your instance. The service name is t
 .. Verify that the values of the environment variables in the deployment configuration (`dc`) are correct:
 +
 ----
-[marina@master00-GUID ~]$ oc env dc database --list
+[marina@master1 ~]$ oc env dc database --list
 # deploymentconfigs mysql, container mysql
 MYSQL_USER=mysqluser
 MYSQL_PASSWORD=redhat
@@ -175,14 +175,14 @@ MYSQL_DATABASE=mydb
 . As `marina`, create an application with the `https://github.com/openshift/ruby-hello-world` Git repository:
 +
 ----
-[marina@master00-GUID ~]$ oc new-app -i openshift/ruby https://github.com/openshift/ruby-hello-world \
+[marina@master1 ~]$ oc new-app -i openshift/ruby https://github.com/openshift/ruby-hello-world \
                           MYSQL_USER=mysqluser MYSQL_PASSWORD=redhat MYSQL_DATABASE=mydb
 ----
 
 . Verify that your service is in place:
 +
 ----
-[marina@master00-GUID ~]$ oc get service
+[marina@master1 ~]$ oc get service
 mysql              172.30.68.48    <none>        3306/TCP   name=mysql                                               4m
 ruby-hello-world   172.30.78.240   <none>        8080/TCP   app=ruby-hello-world,deploymentconfig=ruby-hello-world   8s
 ----
@@ -192,10 +192,10 @@ ruby-hello-world   172.30.78.240   <none>        8080/TCP   app=ruby-hello-world
 * If you do not specify a host name, the default subdomain route creates the route.
 +
 ----
-[marina@master00-GUID ~]$ oc expose service ruby-hello-world
+[marina@master1 ~]$ oc expose service ruby-hello-world
 route "ruby-hello-world" exposed
 
-[marina@master00-GUID ~]$ oc get route
+[marina@master1 ~]$ oc get route
 NAME               HOST/PORT                                                     PATH      SERVICE            LABELS
 ruby-hello-world   ruby-hello-world-templates.cloudapps-GUID.oslab.opentlc.com             ruby-hello-world   app=ruby-hello-world
 ----
@@ -203,7 +203,7 @@ ruby-hello-world   ruby-hello-world-templates.cloudapps-GUID.oslab.opentlc.com  
 . Wait for the build to complete. Then test your environment:
 +
 ----
-[marina@master00-GUID ~]$ oc logs -f builds/ruby-hello-world-1
+[marina@master1 ~]$ oc logs -f builds/ruby-hello-world-1
 ... Omitted Output ...
 I1127 09:15:14.147821       1 cleanup.go:23] Removing temporary directory /tmp/s2i-build846159358
 I1127 09:15:14.148009       1 fs.go:99] Removing directory '/tmp/s2i-build846159358'

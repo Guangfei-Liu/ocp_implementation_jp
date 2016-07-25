@@ -31,7 +31,7 @@ oadm new-project wiring --display-name='Wiring' \
     --node-selector='region=primary' --admin=marina
 
 echo 'Enter password for Marina, r3dh4t1!'
-su - marina -c "oc login -u marina --insecure-skip-tls-verify --server=https://master00-${GUID}.oslab.opentlc.com:8443"
+su - marina -c "oc login -u marina --insecure-skip-tls-verify --server=https://master1-${GUID}.oslab.opentlc.com:8443"
 
 echo "Stand Up the Frontend"
 oc new-app -i openshift/ruby https://github.com/openshift/ruby-hello-world#beta4 -n wiring

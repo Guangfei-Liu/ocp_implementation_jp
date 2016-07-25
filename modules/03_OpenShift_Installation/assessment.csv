@@ -6,7 +6,7 @@ OSEIMPLEMENTATION|OSEIMPLEMENTATION301|1|What version of the operating system is
 OSEIMPLEMENTATION|OSEIMPLEMENTATION302|1|What kind of DNS record is required to point to OpenShift from a corporate DNS server?|||A wildcard record: *.cloudapps.example.com|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION302|1|What kind of DNS record is required to point to OpenShift from a corporate DNS server?|||A CNAME record: cloudapps.example.com|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION302|1|What kind of DNS record is required to point to OpenShift from a corporate DNS server?|||An NS record: cloudapps.example.com|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION302|1|What kind of DNS record is required to point to OpenShift from a corporate DNS server?|||An A record: mymaster00.cloudapps.example.com|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION302|1|What kind of DNS record is required to point to OpenShift from a corporate DNS server?|||An A record: mymaster1.cloudapps.example.com|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION303|1|When setting up DNS, where should an admin direct traffic to applications that are hosted on OpenShift? |||The OpenShift Master Server|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION303|1|When setting up DNS, where should an admin direct traffic to applications that are hosted on OpenShift? |||Any Node in the environment|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION303|1|When setting up DNS, where should an admin direct traffic to applications that are hosted on OpenShift? |||Wherever the default router (Haproxy) is located|||1|100|||

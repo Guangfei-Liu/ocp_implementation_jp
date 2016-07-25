@@ -118,7 +118,7 @@ poweroff
 ### master1-REPL.oslab.opentlc.com; master1.example.com
 ### Add one 10GB Virtio Disk
 ### 8443,22
-### 192.168.0.101
+### 192.168.0.251
 ###
 ### 2INFRANODE1
 ### infranode1-REPL.oslab.opentlc.com; infranode1.example.com
@@ -130,7 +130,7 @@ poweroff
 ### node1-REPL.oslab.opentlc.com; node1.example.com
 ### No ports open to public network.
 ### Add one 25GB Virtio Disk
-### 192.168.0.201
+### 192.168.0.202
 ###
 ### 4NODE2
 ### node2-REPL.oslab.opentlc.com; node2.example.com
@@ -148,5 +148,5 @@ poweroff
 ### 0OSELAB
 ### oselab-REPL.oslab.opentlc.com; oselab.example.com
 ### 80,443
-### 192.168.0.254
+### 192.168.0.3
 ###

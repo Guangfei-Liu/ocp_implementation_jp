@@ -3,7 +3,7 @@
 .Deploying Registry
 
 * Environment includes `infra` region and dedicated
-`infranode00` host
+`infranode1` host
 ** Good practice for highly scalable environment
 ** Use better-performing servers for nodes or place them in DMZ for external
  access only
@@ -29,7 +29,7 @@ ifdef::showscript[]
 
 You can deploy the _Registry container_ anywhere in the OpenShift Environment.
  In your lab environment, you will create a region called `infra` and dedicate
-  the `infranode00` host for it.
+  the `infranode1` host for it.
 
 This is a good practice for a highly scalable environment. You might want to use
  better-performing servers for these nodes or place them in the DMZ so they can

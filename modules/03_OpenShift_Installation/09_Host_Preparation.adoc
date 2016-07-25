@@ -10,7 +10,7 @@
 +
 ----
 # ssh-keygen
-# ssh-copy-id root@node00.example.com
+# ssh-copy-id root@node1.example.com
 ----
 +
 [NOTE]

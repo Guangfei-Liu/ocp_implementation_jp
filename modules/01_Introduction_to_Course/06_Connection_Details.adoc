@@ -7,11 +7,11 @@
 
 [cols="3",width="65%"]
 |=======================
-||Master00|InfraNode00
-|Internal IP|`192.168.0.100`|`192.168.0.101`
-|External IP|Provided|Provided
-|DNS Name|+master00-**GUID**.oslab.opentlc.com+|+infranode00-**GUID**.oslab.opentlc.com+
-|Credentials|`root`/`r3dh4t1!`|`root`/`r3dh4t1!`
+||Master1|InfraNode1
+|*Internal IP*|`192.168.0.101`|`192.168.0.251`
+|*External IP*|Provided|Provided
+|*DNS Name*|+master1.example.com+|+infranode1.example.com+
+|*Credentials*|`root`/`r3dh4t1!`|`root`/`r3dh4t1!`
 |=======================
 
 ifdef::showscript[]

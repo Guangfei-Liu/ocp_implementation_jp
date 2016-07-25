@@ -14,7 +14,7 @@ export guid=`hostname|cut -f2 -d-|cut -f1 -d.`
 
 echo "Become and authenticate to OpenShift Enterprise as user andrew:"
 
-oc login -u andrew --insecure-skip-tls-verify --server=https://master00-${guid}.oslab.opentlc.com:8443
+oc login -u andrew --insecure-skip-tls-verify --server=https://master1-${guid}.oslab.opentlc.com:8443
 
 echo "Change the context to the hello-s2i project:"
 

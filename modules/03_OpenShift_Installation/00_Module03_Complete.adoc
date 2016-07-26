@@ -178,7 +178,7 @@ endif::showscript[]
 
 ** Physical or virtual system, or instance running on public IaaS
 ** Base OS: Red Hat Enterprise Linux 7.1 with _Minimal_ installation option
-** Docker 1.8.2 or later
+** Docker 1.9.1 or later
 ** One vCPU
 ** Minimum 8 GB RAM
 ** Minimum 15 GB hard disk space
@@ -254,7 +254,7 @@ endif::showscript[]
 ** Manage services:
 *** Disable `firewalld`
 *** Enable `iptables-services`
-**  Install Docker 1.8.2 or later
+**  Install Docker 1.9.1 or later
 ** Make sure master does not require password for communication
 
 ifdef::showscript[]
@@ -273,7 +273,7 @@ The basic steps for preparing hosts are as follows:
 * Install some utility packages, including `git`, `net-tools`, `bind-utils`, and
  `iptables-services`.
 * Disable `firewalld` and enable `iptables-services`.
-* Install Docker 1.8.2 or later and configure the storage back end for images.
+* Install Docker 1.9.1 or later and configure the storage back end for images.
 * Make sure that the master hosts can issue remote commands on the nodes
  without requiring a password.
 
@@ -452,7 +452,7 @@ endif::showscript[]
 
 .Installing Docker
 
-* Must install Docker version 1.8.2 or later from `rhel-7-server-ose-3.1-rpms`
+* Must install Docker version 1.9.1 or later from `rhel-7-server-ose-3.2-rpms`
  and have it running on master and node hosts before installing OpenShift
   Enterprise:
 
@@ -481,7 +481,7 @@ ifdef::showscript[]
 
 === Transcript
 Each node, including the master, requires Docker to be installed and configured.
- You must use version 1.8.2 or later of the docker software.
+ You must use version 1.9.1 or later of the docker software.
 
 Use the commands shown here to install Docker and add the `--insecure-registry`
  option to the `OPTIONS` parameter.

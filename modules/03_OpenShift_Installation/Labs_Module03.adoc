@@ -253,9 +253,9 @@ EOF
 +
 ----
 [root@oselab-GUID ~]# cat << EOF >> /etc/yum.repos.d/open.repo
-[rhel-7-server-ose-3.1-rpms]
+[rhel-7-server-ose-3.2-rpms]
 name=Red Hat Enterprise Linux 7 OSE 3.1
-baseurl=http://www.opentlc.com/repos/ose/3.1/rhel-7-server-ose-3.1-rpms
+baseurl=http://www.opentlc.com/repos/ose/3.2/rhel-7-server-ose-3.2-rpms
 enabled=1
 gpgcheck=0
 
@@ -274,7 +274,7 @@ EOF
 Loaded plugins: product-id
 ...[output omitted]...
 repo id                                        repo name                                           status
-rhel-7-server-ose-3.1-rpms                     Red Hat Enterprise Linux 7 OSE 3                      323
+rhel-7-server-ose-3.2-rpms                     Red Hat Enterprise Linux 7 OSE 3                      323
 rhel-x86_64-server-7                           Red Hat Enterprise Linux 7                          4,391
 rhel-x86_64-server-extras-7                    Red Hat Enterprise Linux 7 Extras                      45
 rhel-x86_64-server-optional-7                  Red Hat Enterprise Linux 7 Optional                 4,220

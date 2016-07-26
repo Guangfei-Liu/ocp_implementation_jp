@@ -13,7 +13,7 @@
 
 ** Physical or virtual system, or instance running on public IaaS
 ** Base OS: Red Hat Enterprise Linux 7.1 with _Minimal_ installation option
-** Docker 1.8.2 or later
+** Docker 1.9.1 or later
 ** One vCPU
 ** Minimum 8 GB RAM
 ** Minimum 15 GB hard disk space

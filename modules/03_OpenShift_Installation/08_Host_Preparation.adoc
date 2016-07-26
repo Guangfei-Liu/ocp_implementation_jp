@@ -13,7 +13,7 @@
 ** Manage services:
 *** Disable `firewalld`
 *** Enable `iptables-services`
-**  Install Docker 1.8.2 or later
+**  Install Docker 1.9.1 or later
 ** Make sure master does not require password for communication
 
 ifdef::showscript[]
@@ -32,7 +32,7 @@ The basic steps for preparing hosts are as follows:
 * Install some utility packages, including `git`, `net-tools`, `bind-utils`, and
  `iptables-services`.
 * Disable `firewalld` and enable `iptables-services`.
-* Install Docker 1.8.2 or later and configure the storage back end for images.
+* Install Docker 1.9.1 or later and configure the storage back end for images.
 * Make sure that the master hosts can issue remote commands on the nodes
  without requiring a password.
 

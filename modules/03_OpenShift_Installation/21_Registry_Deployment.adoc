@@ -16,10 +16,10 @@
 ** Example: `--mount-host`:
 +
 ----
-$ oadm registry --config=admin.kubeconfig \
-    --credentials=openshift-registry.kubeconfig \
-	   --selector='region=infra' \
-     --mount-host host:/export/dirname
+$ oadm registry --service-account=registry \
+     --config=/etc/origin/master/admin.kubeconfig \
+     --selector='region=infra' \
+     --mount-host=<path>
 ----
 +
 *** Mounts directory from node on which registry container lives

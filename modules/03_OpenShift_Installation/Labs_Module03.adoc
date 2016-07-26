@@ -1369,7 +1369,7 @@ In this lab scenario, `infranode00` is the target for both the _registry_ and th
 . Deploy `registry`:
 +
 ----
-[root@master00-GUID ~]# oadm registry --create --credentials=/etc/origin/master/openshift-registry.kubeconfig
+[root@master1 ~]# oadm registry --config=/etc/origin/master/admin.kubeconfig --service-account=registry
 ----
 +
 NOTE: To pin down the registry for a specific region, specify the `--selector` flag. However, you can skip this step because you already set the default namespace to be the default `nodeSelector`.

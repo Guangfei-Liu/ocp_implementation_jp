@@ -738,13 +738,13 @@ Ensure the status is `enabled` and `active (running)`.
                                    node01-$guid.oslab.opentlc.com; \
 do
 ssh $node "
-docker pull $REGISTRY/$PTH/ose-deployer:v3.1.0.4 ; \
-docker pull $REGISTRY/$PTH/ose-sti-builder:v3.1.0.4 ; \
-docker pull $REGISTRY/$PTH/ose-pod:v3.1.0.4 ; \
-docker pull $REGISTRY/$PTH/ose-keepalived-ipfailover:v3.1.0.4 ; \
+docker pull $REGISTRY/$PTH/ose-deployer:v3.2.1.9 ; \
+docker pull $REGISTRY/$PTH/ose-sti-builder:v3.2.1.9 ; \
+docker pull $REGISTRY/$PTH/ose-pod:v3.2.1.9 ; \
+docker pull $REGISTRY/$PTH/ose-keepalived-ipfailover:v3.2.1.9 ; \
 docker pull $REGISTRY/$PTH/ruby-20-rhel7 ; \
 docker pull $REGISTRY/$PTH/mysql-55-rhel7 ; \
-docker pull openshift/hello-openshift:v1.0.6 ;
+docker pull openshift/hello-openshift:v1.10.3 ;
 "
 done
 ----
@@ -760,10 +760,10 @@ This process takes about 10 minutes to complete on *each node*. For the sake of 
 [root@oselab-GUID ~]# REGISTRY="registry.access.redhat.com";PTH="openshift3"
 [root@oselab-GUID ~]# node=infranode00-$guid.oslab.opentlc.com
 [root@oselab-GUID ~]# ssh $node "
-docker pull $REGISTRY/$PTH/ose-haproxy-router:v3.1.0.4  ; \
-docker pull $REGISTRY/$PTH/ose-deployer:v3.1.0.4 ; \
-docker pull $REGISTRY/$PTH/ose-pod:v3.1.0.4 ; \
-docker pull $REGISTRY/$PTH/ose-docker-registry:v3.1.0.4 ;
+docker pull $REGISTRY/$PTH/ose-haproxy-router:v3.2.1.9  ; \
+docker pull $REGISTRY/$PTH/ose-deployer:v3.2.1.9 ; \
+docker pull $REGISTRY/$PTH/ose-pod:v3.2.1.9 ; \
+docker pull $REGISTRY/$PTH/ose-docker-registry:v3.2.1.9 ;
 "
 ----
 +
@@ -1404,7 +1404,7 @@ This process may take a few minutes the first time around because the images are
  In project default on server https://master00-GUID.oslab.opentlc.com:8443
 
  svc/docker-registry - 172.30.41.32:5000
-   dc/docker-registry deploys docker.io/openshift3/ose-docker-registry:v3.1.0.4
+   dc/docker-registry deploys docker.io/openshift3/ose-docker-registry:v3.2.1.9
      #1 deployed 5 minutes ago - 1 pod
 
  svc/kubernetes - 172.30.0.1 ports 443, 53, 53

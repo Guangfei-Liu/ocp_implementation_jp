@@ -335,11 +335,11 @@ endif::showscript[]
 [cols="2,1,5"]
 |=======================================================================
 |Communication |Port |Description
-|*Node to Node* |`4789` (UDP) |Required between nodes for SDN communication
- between pods on separate
- hosts
-|*Node to Master* |`53` |Provides DNS services within the environment (not DNS
-   for external access)
+|*Node to Node* |`4789` (UDP) |Required for SDN communication between pods on
+ separate hosts.
+|*Node to Master* |`53` or `8053`|Provides DNS services within the environment (not DNS
+   for external access). New installations will use 8053 by default so that dnsmasq may
+ be configured.
 | |`4789` (UDP) |Required between nodes for SDN communication between pods on
  separate
  hosts
@@ -350,7 +350,8 @@ endif::showscript[]
  hosts
 |*Master to Master*  |`4789` (UDP) |Required between nodes for SDN communication
  between pods on separate hosts
-| |`53` |  Provides internal DNS services.
+| |`53` or `8053` |  Provides internal DNS services. New installations will use
+ 8053 by default so that dnsmasq may be configured.
 | |`2379` | Used for standalone etcd (clustered) to accept changes in state.
 | |`2380` | etcd requires this port be open between masters for leader election
  and peering connections when using standalone etcd (clustered).

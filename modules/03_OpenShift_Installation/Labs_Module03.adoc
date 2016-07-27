@@ -464,19 +464,20 @@ Desktop$ nslookup test.cloudapps-$GUID.oslab.opentlc.com
 +
 NOTE: You can configure `NetworkManager` so you need not remove it.
 
-. Install the following tools and utilities on the `master00` host:
+. Install the following tools and utilities on `oselab` host
 +
 ----
-[root@oselab-GUID ~]# ssh master00-$guid "yum -y install wget git net-tools bind-utils iptables-services bridge-utils python-virtualenv gcc"
+[root@oselab ~]# yum -y install wget git net-tools bind-utils iptables-services bridge-utils
 ----
 
-. Install `bash-completion` on both the `oselab` host and the master host. This step is highly recommended.
+. Install bash-completion on both the `oselab` host and the `master` host. This step is highly recommended.
 +
 ----
-[root@oselab-GUID ~]# yum -y install "bash-completion"
-[root@oselab-GUID ~]# ssh master00-$guid "yum -y install bash-completion"
+[root@oselab ~]# yum -y install bash-completion
+[root@oselab ~]# ssh master1.example.com yum -y install bash-completion
 ----
 +
+
 TIP: `bash-completion` becomes available for use only after you have restarted the `bash` shell.
 
 . Run `yum update` on the master and all the nodes:

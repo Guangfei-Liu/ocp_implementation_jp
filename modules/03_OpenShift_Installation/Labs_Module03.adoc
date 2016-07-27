@@ -497,50 +497,17 @@ TIP: `bash-completion` becomes available for use only after you have restarted t
 
 OpenShift Enterprise stores and manages container images on Docker. Install Docker as follows:
 
-. Connect to the `master00` host:
+. Install the `docker` package on the master and nodes:
 +
 ----
-[root@oselab-GUID ~]# ssh master00-$guid
-----
-
-. Install the `docker` package on the master host:
-+
-----
-[root@master00-GUID ~]# yum -y install docker
-----
-
-. Configure the Docker registry on the master host to allow insecure
- (no-certificate) connections to the Docker registries within your network:
-+
-----
-[root@master00-GUID ~]# sed -i "s/OPTIONS.*/OPTIONS='--selinux-enabled --insecure-registry 172.30.0.0\/16'/" /etc/sysconfig/docker
-----
-
-. Install the `docker` package on the other nodes:
-+
-----
-[root@master00-GUID ~]# for node in   infranode00-$guid.oslab.opentlc.com \
-                                    node00-$guid.oslab.opentlc.com \
-                                    node01-$guid.oslab.opentlc.com; \
-                                    do \
-                                    echo Installing docker on $node ; \
-                                    ssh $node "yum -y install docker"  ;
-                                    done
-----
-+
-[NOTE]
-The IP address of the Openshift default service network is `172.30.0.0`, which is in the above command line to deploy the local registry under that subnet.
-
-. Configure the Docker registry on the other nodes:
-+
-----
-[root@master00-GUID ~]# for node in infranode00-$guid.oslab.opentlc.com \
-                                    node00-$guid.oslab.opentlc.com \
-                                    node01-$guid.oslab.opentlc.com; \
-                                    do \
-                                    echo Overwriting docker configuration file on $node ; \
-                                    scp  /etc/sysconfig/docker $node:/etc/sysconfig/docker ;
-                                    done
+[root@oselab ~]# for node in master1.example.com \
+                             infranode1.example.com \
+                             node1.example.com \
+                             node2.example.com; \
+                             do \
+                             echo Installing docker on $node ; \
+                             ssh $node "yum -y install docker" ;
+                             done
 ----
 
 === Configure Docker Storage

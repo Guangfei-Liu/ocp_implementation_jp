@@ -223,26 +223,26 @@ Normally, you obtain those repositories through `subscription-manager`. For the 
 [root@oselab ~]# cat << EOF > /etc/yum.repos.d/open.repo
 [rhel-x86_64-server-7]
 name=Red Hat Enterprise Linux 7
-baseurl=http://www.opentlc.com/repos/ose/3.1/rhel-7-server-rpms
+baseurl=http://www.opentlc.com/repos/ose/3.2/rhel-7-server-rpms
 enabled=1
 gpgcheck=0
 
 [rhel-x86_64-server-extras-7]
 name=Red Hat Enterprise Linux 7 Extras
-baseurl=http://www.opentlc.com/repos/ose/3.1/rhel-7-server-extras-rpms
+baseurl=http://www.opentlc.com/repos/ose/3.2/rhel-7-server-extras-rpms
 enabled=1
 gpgcheck=0
 
 [rhel-x86_64-server-optional-7]
 name=Red Hat Enterprise Linux 7 Optional
-baseurl=http://www.opentlc.com/repos/ose/3.1/rhel-7-server-optional-rpms
+baseurl=http://www.opentlc.com/repos/ose/3.2/rhel-7-server-optional-rpms
 enabled=1
 gpgcheck=0
 
 # This repo is added for the OPENTLC environment not OSE
 [rhel-x86_64-server-rh-common-7]
 name=Red Hat Enterprise Linux 7 Common
-baseurl=http://www.opentlc.com/repos/ose/3.1/rhel-7-server-rh-common-rpms
+baseurl=http://www.opentlc.com/repos/ose/3.2/rhel-7-server-rh-common-rpms
 enabled=1
 gpgcheck=0
 
@@ -252,14 +252,9 @@ EOF
 . Add the OpenShift Enterprise repository mirror to the `oselab` host.
 +
 ----
-<<<<<<< HEAD
-[root@oselab-GUID ~]# cat << EOF >> /etc/yum.repos.d/open.repo
-[rhel-7-server-ose-3.2-rpms]
-=======
 [root@oselab ~]# cat << EOF >> /etc/yum.repos.d/open.repo
-[rhel-7-server-ose-3.1-rpms]
->>>>>>> 2044c898445444b81efd9bbb6b24a65b1019cc8c
-name=Red Hat Enterprise Linux 7 OSE 3.1
+[rhel-7-server-ose-3.2-rpms]
+name=Red Hat Enterprise Linux 7 OSE 3.2
 baseurl=http://www.opentlc.com/repos/ose/3.2/rhel-7-server-ose-3.2-rpms
 enabled=1
 gpgcheck=0
@@ -452,46 +447,86 @@ Desktop$ nslookup test.cloudapps-$GUID.oslab.opentlc.com
 ----
 
 
-=== Install and Remove Packages
+=== Install and Configure ansible 1.9.4 on oselab
 
-. Back on the `oselab` host, run the following `for` loop to remove `NetworkManager` from the master and all the nodes:
+install Ansible version 1.9.4, as the advanced installation method is based on Ansible playbooks and as such requires directly invoking Ansible.
+
+. Install from yum:
++
+----
+[root@oselab ~]# yum -y install ansible-1.9.4
+----
+
+. Create a simple Inventory file with groups used by ansible
+
+----
+[root@oselab ~]# cat << EOF > /etc/ansible/hosts
+[masters]
+master1.example.com
+
+[nodes]
+master1.example.com
+infranode1.example.com
+node1.example.com
+node2.example.com
+EOF
+[root@oselab ~]# cat /etc/ansible/hosts
+----
+
+. Test ansible configuration
+
+----
+[root@oselab ~]# ansible nodes -m ping
+master1.example.com | success >> {
+    "changed": false, 
+    "ping": "pong"
+}
+
+infranode1.example.com | success >> {
+    "changed": false, 
+    "ping": "pong"
+}
+
+node1.example.com | success >> {
+    "changed": false, 
+    "ping": "pong"
+}
+
+node2.example.com | success >> {
+    "changed": false, 
+    "ping": "pong"
+}
+----
+
+=== Install Packages
+
+. Back on the `oselab` host, run the following `for` loop to ensure `NetworkManager` is installed on the master and all the nodes:
 +
 ----
 [root@oselab ~]# for node in   master1.example.com \
-                                    infranode1.example.com \
-                                    node1.example.com \
-                                    node2.example.com; \
-                                    do \
-                                    echo removing NetworkManager on $node ; \
-                                      ssh $node "yum -y  remove NetworkManager*"
-                                   done
+                               infranode1.example.com \
+                               node1.example.com \
+                               node2.example.com; \
+                               do \
+                               echo installing NetworkManager on $node ; \
+                                 ssh $node "yum -y install NetworkManager"
+                               done
 ----
-+
-NOTE: You can configure `NetworkManager` so you need not remove it.
+TIP: You could also use the ansible command : `ansible nodes -a "yum -y install NetworkManager`.
 
-<<<<<<< HEAD
+NOTE: although NetworkManager could to be removed in earlier versions of OpenShift, it is recommended since version 3.2 and will be required in version 3.3.
+
 . Install the following tools and utilities on `oselab` host
 +
 ----
 [root@oselab ~]# yum -y install wget git net-tools bind-utils iptables-services bridge-utils
-=======
-. Install the following tools and utilities on the `master1` host:
-+
-----
-[root@oselab ~]# ssh master1.example.com "yum -y install wget git net-tools bind-utils iptables-services bridge-utils python-virtualenv gcc"
->>>>>>> 2044c898445444b81efd9bbb6b24a65b1019cc8c
 ----
 
 . Install bash-completion on both the `oselab` host and the `master` host. This step is highly recommended.
 +
 ----
-<<<<<<< HEAD
 [root@oselab ~]# yum -y install bash-completion
 [root@oselab ~]# ssh master1.example.com yum -y install bash-completion
-=======
-[root@oselab ~]# yum -y install "bash-completion"
-[root@oselab ~]# ssh master1.example.com "yum -y install bash-completion"
->>>>>>> 2044c898445444b81efd9bbb6b24a65b1019cc8c
 ----
 +
 
@@ -510,12 +545,12 @@ TIP: `bash-completion` becomes available for use only after you have restarted t
                                     done
 
 ----
+TIP: You could also use the ansible command : `ansible all -a "yum -y update"`.
 
 === Install Docker
 
 OpenShift Enterprise stores and manages container images on Docker. Install Docker as follows:
 
-<<<<<<< HEAD
 . Install the `docker` package on the master and nodes:
 +
 ----
@@ -527,53 +562,9 @@ OpenShift Enterprise stores and manages container images on Docker. Install Dock
                              echo Installing docker on $node ; \
                              ssh $node "yum -y install docker" ;
                              done
-=======
-. Connect to the `master1` host:
-+
-----
-[root@oselab ~]# ssh master1.example.com
 ----
 
-. Install the `docker` package on the master host:
-+
-----
-[root@master1 ~]# yum -y install docker
-----
-
-. Configure the Docker registry on the master host to allow insecure
- (no-certificate) connections to the Docker registries within your network:
-+
-----
-[root@master1 ~]# sed -i "s/OPTIONS.*/OPTIONS='--selinux-enabled --insecure-registry 172.30.0.0\/16'/" /etc/sysconfig/docker
-----
-
-. Install the `docker` package on the other nodes:
-+
-----
-[root@master1 ~]# for node in   infranode1.example.com \
-                                    node1.example.com \
-                                    node2.example.com; \
-                                    do \
-                                    echo Installing docker on $node ; \
-                                    ssh $node "yum -y install docker"  ;
-                                    done
-----
-+
-[NOTE]
-The IP address of the Openshift default service network is `172.30.0.0`, which is in the above command line to deploy the local registry under that subnet.
-
-. Configure the Docker registry on the other nodes:
-+
-----
-[root@master1 ~]# for node in infranode1.example.com \
-                                    node1.example.com \
-                                    node2.example.com; \
-                                    do \
-                                    echo Overwriting docker configuration file on $node ; \
-                                    scp  /etc/sysconfig/docker $node:/etc/sysconfig/docker ;
-                                    done
->>>>>>> 2044c898445444b81efd9bbb6b24a65b1019cc8c
-----
+TIP: You could also use the ansible command: `ansible nodes -a "yum -y install docker"`
 
 === Configure Docker Storage
 
@@ -584,25 +575,22 @@ NOTE: The default configuration of loopback devices for the Docker storage does 
 . Stop the Docker daemon and delete any files from `/var/lib/docker`:
 +
 ----
-[root@master1 ~]# systemctl stop docker
-[root@master1 ~]# rm -rf /var/lib/docker/*
+[root@oselab ~]# for node in master1.example.com \
+                             infranode1.example.com \
+                             node1.example.com \
+                             node2.example.com; \
+                             do
+                             echo Cleaning up Docker on $node ; \
+                             ssh $node "systemctl stop docker ; rm -rf /var/lib/docker/*"  ;
+                             done
 ----
 
-. Do the same for the other nodes:
-+
-----
-[root@master1 ~]# for node in infranode1.example.com \
-                                    node1.example.com \
-                                    node2.example.com; \
-                                    do
-                                    echo Cleaning up Docker on $node ; \
-                                    ssh $node "systemctl stop docker ; rm -rf /var/lib/docker/*"  ;
-                                    done
-----
+TIP: You could also use the ansible command: `ansible nodes -m shell -a "systemctl stop docker ; rm -rf /var/lib/docker/*"`
 
 . Specify the `/dev/vdb` hard drive as the Docker volume group for `docker-storage setup`:
 +
 ----
+[root@oselab ~]# ssh master1.example.com
 [root@master1 ~]# cat <<EOF > /etc/sysconfig/docker-storage-setup
 DEVS=/dev/vdb
 VG=docker-vg
@@ -614,7 +602,7 @@ EOF
  for Docker:
 +
 ----
-[root@master1 ~]#  docker-storage-setup
+[root@master1 ~]# docker-storage-setup
 ----
 
 * The output is as follows:
@@ -708,30 +696,22 @@ DOCKER_STORAGE_OPTIONS=--storage-driver devicemapper --storage-opt dm.fs=xfs --s
                                       scp /etc/sysconfig/docker-storage-setup ${node}:/etc/sysconfig/docker-storage-setup
                                       ssh $node "
                                             docker-storage-setup ;
-                                            systemctl enable docker;
-                                            reboot"
+                                            systemctl enable docker
+                                            systemctl start docker"
                                     done
 ----
-+
 NOTE: `Broken Pipeline` messages in the output are normal and not an indication
  of errors.
 
-
-. Reboot the master host:
-+
------
-[root@master1 ~]# reboot
------
+TIP: You could also use the ansible command from oselab: `ansible nodes -m copy -a 'dest=/etc/sysconfig/docker-storage-setup content="DEVS=/dev/vdb\nVG=docker-vg"' ;
+ansible nodes -m shell -a "docker-storage-setup; systemctl enable docker; systemctl start docker"`
 
 IMPORTANT: See the _<<Known Issues>>_ section if you have problems with Docker's
  storage setup.
 
 === Populate Local Docker Registry
 
-. Log back in to the `osehost` host after rebooting the nodes and the master.
-
-. Verify that the Docker service has started on all the nodes, you might have to
- wait for hosts to finish rebooting and for the docker daemon to start:
+. Verify that the Docker service has started on all the nodes:
 +
 ----
 [root@oselab ~]# for node in   master1.example.com \
@@ -744,6 +724,8 @@ IMPORTANT: See the _<<Known Issues>>_ section if you have problems with Docker's
                                             systemctl status docker | grep Active"
                                     done
 ----
+TIP: You could also use the ansible command: `ansible nodes -m shell -a "systemctl status docker | grep Active"`
+
 
 * The output is as follows:
 +
@@ -770,18 +752,27 @@ Ensure the status is `enabled` and `active (running)`.
                                    node2.example.com; \
 do
 ssh $node "
-docker pull $REGISTRY/$PTH/ose-deployer:v3.2.1.9 ; \
-docker pull $REGISTRY/$PTH/ose-sti-builder:v3.2.1.9 ; \
-docker pull $REGISTRY/$PTH/ose-pod:v3.2.1.9 ; \
-docker pull $REGISTRY/$PTH/ose-keepalived-ipfailover:v3.2.1.9 ; \
+docker pull $REGISTRY/$PTH/ose-deployer:v3.2.0.20 ; \
+docker pull $REGISTRY/$PTH/ose-sti-builder:v3.2.0.20 ; \
+docker pull $REGISTRY/$PTH/ose-pod:v3.2.0.20 ; \
+docker pull $REGISTRY/$PTH/ose-keepalived-ipfailover:v3.2.0.20 ; \
 docker pull $REGISTRY/$PTH/ruby-20-rhel7 ; \
 docker pull $REGISTRY/$PTH/mysql-55-rhel7 ; \
-docker pull openshift/hello-openshift:v1.10.3 ;
+docker pull openshift/hello-openshift:v1.2.1 ;
 "
 done
 ----
 +
 TIP: You are downloading these images to save time later. Unless otherwise configured, if a node does not have a local image, it downloads it.
++
+TIP: You could also use the ansible command: `REGISTRY="registry.access.redhat.com";PTH="openshift3"; ansible 'nodes:!masters:!infranode1.example.com' -m shell -a "
+docker pull $REGISTRY/$PTH/ose-deployer:v3.2.0.20 ;
+docker pull $REGISTRY/$PTH/ose-sti-builder:v3.2.0.20 ;
+docker pull $REGISTRY/$PTH/ose-pod:v3.2.0.20 ;
+docker pull $REGISTRY/$PTH/ose-keepalived-ipfailover:v3.2.0.20 ;
+docker pull $REGISTRY/$PTH/ruby-20-rhel7 ;
+docker pull $REGISTRY/$PTH/mysql-55-rhel7 ;
+docker pull openshift/hello-openshift:v1.2.1 ;"`
 +
 [NOTE]
 This process takes about 10 minutes to complete on *each node*. For the sake of efficiency, do not wait for the process to complete. Just connect to each node, run `pull`, and continue with the other tasks.
@@ -789,25 +780,22 @@ This process takes about 10 minutes to complete on *each node*. For the sake of 
 . On `oselab`, pull only the basic images and the registry and router images to the `Infranode1` host:
 +
 ----
-<<<<<<< HEAD
-[root@oselab-GUID ~]# REGISTRY="registry.access.redhat.com";PTH="openshift3"
-[root@oselab-GUID ~]# node=infranode00-$guid.oslab.opentlc.com
-[root@oselab-GUID ~]# ssh $node "
-docker pull $REGISTRY/$PTH/ose-haproxy-router:v3.2.1.9  ; \
-docker pull $REGISTRY/$PTH/ose-deployer:v3.2.1.9 ; \
-docker pull $REGISTRY/$PTH/ose-pod:v3.2.1.9 ; \
-docker pull $REGISTRY/$PTH/ose-docker-registry:v3.2.1.9 ;
-=======
 [root@oselab ~]# REGISTRY="registry.access.redhat.com";PTH="openshift3"
 [root@oselab ~]# node=infranode1.example.com
 [root@oselab ~]# ssh $node "
-docker pull $REGISTRY/$PTH/ose-haproxy-router:v3.1.0.4  ; \
-docker pull $REGISTRY/$PTH/ose-deployer:v3.1.0.4 ; \
-docker pull $REGISTRY/$PTH/ose-pod:v3.1.0.4 ; \
-docker pull $REGISTRY/$PTH/ose-docker-registry:v3.1.0.4 ;
->>>>>>> 2044c898445444b81efd9bbb6b24a65b1019cc8c
+docker pull $REGISTRY/$PTH/ose-haproxy-router:v3.2.0.20  ; \
+docker pull $REGISTRY/$PTH/ose-deployer:v3.2.0.20 ; \
+docker pull $REGISTRY/$PTH/ose-pod:v3.2.0.20 ; \
+docker pull $REGISTRY/$PTH/ose-docker-registry:v3.2.0.20 ;
 "
 ----
++
+TIP: You could also use the ansible command: `REGISTRY="registry.access.redhat.com";PTH="openshift3"; ansible infranode1.example.com -m shell -a "
+docker pull $REGISTRY/$PTH/ose-haproxy-router:v3.2.0.20  ;
+docker pull $REGISTRY/$PTH/ose-deployer:v3.2.0.20 ;
+docker pull $REGISTRY/$PTH/ose-pod:v3.2.0.20 ;
+docker pull $REGISTRY/$PTH/ose-docker-registry:v3.2.0.20 ;"`
+
 +
 NOTE: You are not "pulling" any images on the Master host because it is not meant
 to run any containers.
@@ -868,9 +856,9 @@ swap        rhel_host2cc260760b15 -wi-ao----  2.00g
 
 In this section, you download and install the installer and then verify your environment.
 
-=== Download Installer
+=== Download Ansible Playbook
 
-In this lab, you run the Installer from the `oselab` host, which, in a real-world scenario, could be a laptop or a staging or provisioning server. No packages are deployed directly from `oselab` to the OpenShift nodes or master.
+In this lab, you run the Ansible Playbook from the `oselab` host, which, in a real-world scenario, could be a laptop or a staging or provisioning server. No packages are deployed directly from `oselab` to the OpenShift nodes or master.
 
 . On the `oselab` host, install the OpenShift utility package:
 +
@@ -878,254 +866,106 @@ In this lab, you run the Installer from the `oselab` host, which, in a real-worl
 [root@oselab ~]# yum -y install atomic-openshift-utils
 ----
 
-. *(Optional)* Copy and paste the master and node names to a local file on your machine to save time and effort copying and pasting them in later steps.
+=== Create the Inventory file
+
+The /etc/ansible/hosts file is Ansible’s inventory file for the playbook to use during the installation. The inventory file describes the configuration for your OpenShift Enterprise cluster.
+
+. Write your Inventory file:
 +
 ----
-[root@oselab ~]#  for node in master1.example.com \
-                                    infranode1.example.com \
-                                    node1.example.com \
-                                    node2.example.com; do
-                                    echo $node ;
-                                    done
+[root@oselab ~]# cat << EOF > /etc/ansible/hosts
+[OSEv3:children]
+masters
+nodes
+nfs
+
+[OSEv3:vars]
+ansible_ssh_user=root
+deployment_type=openshift-enterprise
+openshift_release=v3.2
+
+openshift_master_cluster_method=native
+openshift_master_cluster_hostname=master1.example.com
+openshift_master_cluster_public_hostname=master1-${GUID}.oslab.opentlc.com
+
+os_sdn_network_plugin_name='redhat/openshift-ovs-multitenant'
+
+openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/master/htpasswd'}]
+#openshift_master_htpasswd_users={'andrew': '$apr1$cHkRDw5u$eU/ENgeCdo/ADmHF7SZhP/', 'marina': '$apr1$cHkRDw5u$eU/ENgeCdo/ADmHF7SZhP/'
+
+# default project node selector
+osm_default_node_selector='region=primary'
+openshift_hosted_router_selector='region=infra'
+openshift_hosted_router_replicas=1
+#openshift_hosted_router_certificate={"certfile": "/path/to/router.crt", "keyfile": "/path/to/router.key", "cafile": "/path/to/router-ca.crt"}
+openshift_hosted_registry_selector='region=infra'
+openshift_hosted_registry_replicas=1
+
+openshift_master_default_subdomain=cloudapps-${GUID}.oslab.opentlc.com
+
+#openshift_use_dnsmasq=False
+#openshift_node_dnsmasq_additional_config_file=/home/bob/ose-dnsmasq.conf
+
+openshift_hosted_registry_storage_kind=nfs
+openshift_hosted_registry_storage_access_modes=['ReadWriteMany']
+openshift_hosted_registry_storage_host=oselab.example.com
+openshift_hosted_registry_storage_nfs_directory=/exports
+openshift_hosted_registry_storage_volume_name=registry
+openshift_hosted_registry_storage_volume_size=5Gi
+
+[nfs]
+oselab.example.com
+
+[masters]
+master1.example.com openshift_hostname=master1.example.com openshift_public_hostname=master1.example.com
+
+[nodes]
+master1.example.com openshift_hostname=master1.example.com openshift_public_hostname=master1-${GUID}.oslab.opentlc.com openshift_node_labels="{'region': 'infra'}"
+infranode1.example.com openshift_hostname=infranode1.example.com openshift_public_hostname=infranode1-${GUID}.oslab.opentlc.com openshift_node_labels="{'region': 'infra', 'zone': 'infranodes'}"
+node1.example.com openshift_hostname=node1.example.com openshift_public_hostname=node1-${GUID}.oslab.opentlc.com openshift_node_labels="{'region': 'primary', 'zone': 'east'}"
+node2.example.com openshift_hostname=node2.example.com openshift_public_hostname=node2-${GUID}.oslab.opentlc.com openshift_node_labels="{'region': 'primary', 'zone': 'west'}"
+EOF
 ----
 
-=== Run Installer
-
-. Execute the installation utility to interactively configure one or more hosts:
 +
-----
-[root@oselab ~]# atomic-openshift-installer install
-----
-
-. Follow the instructions of the Installer:
-+
-----
-
-Welcome to the OpenShift Enterprise 3 installation.
-
-Please confirm that following prerequisites have been met:
-
-* All systems where OpenShift will be installed are running Red Hat Enterprise
-  Linux 7.
-* All systems are properly subscribed to the required OpenShift Enterprise 3
-  repositories.
-* All systems have run docker-storage-setup (part of the Red Hat docker RPM).
-* All systems have working DNS that resolves not only from the perspective of
-  the installer but also from within the cluster.
-
-When the process completes you will have a default configuration for Masters
-and Nodes.  For ongoing environment maintenance it's recommended that the
-official Ansible playbooks be used.
-
-For more information on installation prerequisites please see:
-https://docs.openshift.com/enterprise/latest/admin_guide/install/prerequisites.html
-
-Are you ready to continue? [y/N]:
-
-----
-
-. Type `y`. The output is as follows. Type `root` at the prompt `User for ssh access [root]`.
-+
-----
-
-This installation process will involve connecting to remote hosts via ssh.  Any
-account may be used however if a non-root account is used it must have
-passwordless sudo access.
-
-User for ssh access [root]: root
-
-
-----
-+
-CAUTION: Pay attention while typing your input. If you make a mistake, type *Ctrl+C*
- to exit the Installer and try again.
-
-* The output is as follows:
-+
-----
-
-***Host Configuration***
-
-The OpenShift Master serves the API and web console.  It also coordinates the
-jobs that have to run across the environment.  It can even run the datastore.
-For wizard based installations the database will be embedded.  It's possible to
-change this later using etcd from Red Hat Enterprise Linux 7.
-
-Any Masters configured as part of this installation process will also be
-configured as Nodes.  This is so that the Master will be able to proxy to Pods
-from the API.  By default this Node will be unscheduleable but this can be changed
-after installation with 'oadm manage-node'.
-
-The OpenShift Node provides the runtime environments for containers.  It will
-host the required services to be managed by the Master.
-
-http://docs.openshift.com/enterprise/latest/architecture/infrastructure_components/kubernetes_infrastructure.html#master
-http://docs.openshift.com/enterprise/latest/architecture/infrastructure_components/kubernetes_infrastructure.html#node
-
-Enter hostname or IP address: []: master1.example.com
-Will this host be an OpenShift Master? [y/N]: y
-Do you want to add additional hosts? [y/N]: y
-Enter hostname or IP address: []: infranode1.example.com
-Do you want to add additional hosts? [y/N]: y
-Enter hostname or IP address: []: node1.example.com
-Do you want to add additional hosts? [y/N]: y
-Enter hostname or IP address: []: node2.example.com
-Do you want to add additional hosts? [y/N]: n
-
-
-
-----
-+
-. Answer the questions at the bottom as follows:
-.. Paste or type the name of your master host `master1.example.com`.
-.. Type `y` to confirm that this host is an OpenShift Master.
-.. Type `y` to add more hosts.
-.. Paste or type the name of your `infra` host `infranode1.example.com`.
-.. Type `y` to add more hosts.
-.. Paste or type the name of your `node1` host `node1.example.com`.
-.. Type `y` to add more hosts.
-.. Paste or type the name of your `node2` host `node2.example.com`
-.. Type `n` to stop adding OpenShift hosts.
-
-. Type `2` to choose OpenShift Enterprise 3.1 as the variant:
-+
-----
-Which variant would you like to install?
-
-
-(1) OpenShift Enterprise 3.0
-(2) OpenShift Enterprise 3.1
-(3) Atomic Enterprise Platform 3.1
-Choose a variant from above:  [1]: 2
-----
-
-* The Installer then collects information on your environment and displays the following:
-+
-----
-Gathering information from hosts...
-...This might take a few minutes...
-A list of the facts gathered from the provided hosts follows. Because it is
-often the case that the hostname for a system inside the cluster is different
-from the hostname that is resolveable from command line or web clients
-these settings cannot be validated automatically.
-
-For some cloud providers the installer is able to gather metadata exposed in
-the instance so reasonable defaults will be provided.
-
-Please confirm that they are correct before moving forward.
-
-
-master1-GUID.oslab.opentlc.com,192.168.0.101,192.168.0.101,master1-GUID.oslab.opentlc.com,master1-GUID.oslab.opentlc.com
-infranode1-GUID.oslab.opentlc.com,192.168.0.251,192.168.0.251,infranode1-GUID.oslab.opentlc.com,infranode1-GUID.oslab.opentlc.com
-node1-GUID.oslab.opentlc.com,192.168.0.201,192.168.0.201,node1-GUID.oslab.opentlc.com,node1-GUID.oslab.opentlc.com
-node2-GUID.oslab.opentlc.com,192.168.0.202,192.168.0.202,node2-GUID.oslab.opentlc.com,node2-GUID.oslab.opentlc.com
-
-
-Format:
-
-connect_to,IP,public IP,hostname,public hostname
-
 Notes:
- * The installation host is the hostname from the installer's perspective.
- * The IP of the host should be the internal IP of the instance.
- * The public IP should be the externally accessible IP associated with the instance
- * The hostname should resolve to the internal IP from the instances
-   themselves.
- * The public hostname should resolve to the external ip from hosts outside of
-   the cloud.
 
-Do the above facts look correct? [y/N]: y
-Ready to run installation process.
-If changes are needed to the values recorded by the installer please update /root/.config/openshift/installer.cfg.yml.
-Are you ready to continue? [y/N]: y
+ * The openshift_hostname should resolve to the internal IP from the instances
+   themselves.
+ * The openshift_public_hostname hostname should resolve to the external ip from hosts outside of
+   the cloud.
+ * The openshift_master_default_subdomain set a default Subdomain for the route.
+ * The osm_default_node_selector set a Default NodeSelector.
+
+
+=== Run Ansible Playbook
+
+. After you have configured Ansible by defining an inventory file in /etc/ansible/hosts, you can run the installation using the following playbook:
++
+----
+[root@oselab ~]# ansible-playbook /usr/share/ansible/openshift-ansible/playbooks/byo/config.yml
 ----
 
-. Type `y` to confirm the collected facts and,  after the location of the configuration file is displayed, type `y` again to continue.
++
+
 
 +
-. Watch the Installer run:
+. Watch the Ansible Playbook run:
 +
 ----
 [Omitted long output]
 
 PLAY RECAP ********************************************************************
-infranode1.example.com : ok=58   changed=22   unreachable=0    failed=0
-localhost                  : ok=11   changed=0    unreachable=0    failed=0
-master1.example.com : ok=206  changed=58   unreachable=0    failed=0
-node1.example.com : ok=58   changed=22   unreachable=0    failed=0
-node2.example.com : ok=58   changed=22   unreachable=0    failed=0
-
-
-The installation was successful!
-
-If this is your first time installing please take a look at the Administrator
-Guide for advanced options related to routing, storage, authentication and much
-more:
-
-http://docs.openshift.com/enterprise/latest/admin_guide/overview.html
-
-Press any key to continue .
-
+infranode1.example.com     : ok=105  changed=29   unreachable=0    failed=0   
+localhost                  : ok=21   changed=0    unreachable=0    failed=0   
+master1.example.com        : ok=396  changed=73   unreachable=0    failed=0   
+node1.example.com          : ok=105  changed=29   unreachable=0    failed=0   
+node2.example.com          : ok=105  changed=29   unreachable=0    failed=0 
 ----
-
-. Read the install configuration file below. Note that you could have created this file instead of stepping through the interactive setup.
-+
-----
-[root@master1 ~]# cat  /root/.config/openshift/installer.cfg.yml
-ansible_config: /usr/share/atomic-openshift-utils/ansible.cfg
-ansible_log_path: /tmp/ansible.log
-ansible_ssh_user: root
-hosts:
-- connect_to: master1.example.com
-  hostname: master1.example.com
-  ip: 192.168.0.101
-  master: true
-  node: true
-  public_hostname: master1.example.com
-  public_ip: 192.168.0.101
-- connect_to: infranode1.example.com
-  hostname: infranode1.example.com
-  ip: 192.168.0.251
-  node: true
-  public_hostname: infranode1.example.com
-  public_ip: 192.168.0.251
-- connect_to: node1.example.com
-  hostname: node1.example.com
-  ip: 192.168.0.201
-  node: true
-  public_hostname: node1.example.com
-  public_ip: 192.168.0.201
-- connect_to: node2.example.com
-  hostname: node2.example.com
-  ip: 192.168.0.202
-  node: true
-  public_hostname: node2.example.com
-  public_ip: 192.168.0.202
-variant: openshift-enterprise
-variant_version: '3.1'
-version: v1
-
-----
-
-. Restart the master and all the nodes:
-+
-----
-[root@oselab ~]# for node in   master1-.example.com \
-                                    infranode1-.example.com \
-                                    node1-.example.com \
-                                    node2-.example.com; \
-                                    do \
-                                      echo Rebooting $node ; \
-                                      ssh $node "reboot"
-                                   done
-----
-+
-NOTE: `Broken Pipeline` messages in the output are normal and not an indication
- of errors.
 
 === Verify Your Environment
 
-. After the hosts finish rebooting, connect to the `master1` host:
+. Connect to the `master1` host:
 +
 ----
 [root@oselab ~]# ssh master1.example.com
@@ -1136,11 +976,11 @@ NOTE: `Broken Pipeline` messages in the output are normal and not an indication
 ----
 
 [root@master1 ~]# oc get nodes
-NAME                                 LABELS                                 STATUS                     AGE
-infranode1.example.com   kubernetes.io/hostname=192.168.0.251   Ready                      1m
-master1.example.com      kubernetes.io/hostname=192.168.0.101   Ready,SchedulingDisabled   1m
-node1.example.com        kubernetes.io/hostname=192.168.0.201   Ready                      1m
-node2.example.com        kubernetes.io/hostname=192.168.0.202   Ready                      1m
+NAME                     STATUS                     AGE
+infranode1.example.com   Ready                      1m
+master1.example.com      Ready,SchedulingDisabled   1m
+node1.example.com        Ready                      1m
+node2.example.com        Ready                      1m
 ----
 +
 NOTE: If you see an error message that connection to the master host cannot be established, wait a few more seconds for the master daemon to start.
@@ -1156,116 +996,41 @@ In this section, you establish regions and zones, configure OpenShift
   `htpasswd` authentication. Subsequently, you deploy the registry and router
    and populate OpenShift Enterprise.
 
-=== Set Regions and Zones
+=== Check Regions and Zones
 
-. Label the nodes:
-+
-----
-[root@master1 ~]# oc label node infranode1.example.com region="infra" zone="infranodes"
-[root@master1 ~]# oc label node node1.example.com region="primary" zone="east"
-[root@master1 ~]# oc label node node2.example.com region="primary" zone="west"
-----
 
-. On the `master1` host, run `oc get nodes` to learn how the labels were
+. On the `master1` host, run `oc get nodes --show-labels` to learn how the labels were
  implemented:
 +
 ----
 
-[root@master1 ~]# oc get nodes
+[root@master1 ~]# oc get nodes --show-labels
 
 ----
 
 * The output is as follows:
 +
 ----
-
-NAME                                 LABELS                                                              STATUS                     AGE
-infranode1.example.com   kubernetes.io/hostname=192.168.0.251,region=infra,zone=infranodes   Ready                      6m
-master1.example.com      kubernetes.io/hostname=192.168.0.101                                Ready,SchedulingDisabled   6m
-node1.example.com        kubernetes.io/hostname=192.168.0.201,region=primary,zone=east       Ready                      6m
-node2.example.com        kubernetes.io/hostname=192.168.0.202,region=primary,zone=west       Ready                      6m
+NAME                     STATUS                     AGE       LABELS
+infranode1.example.com   Ready                      6m       kubernetes.io/hostname=infranode1.example.com,region=infra,zone=infranodes
+master1.example.com      Ready,SchedulingDisabled   6m       kubernetes.io/hostname=master1.example.com,region=infra
+node1.example.com        Ready                      6m       kubernetes.io/hostname=node1.example.com,region=primary,zone=east
+node2.example.com        Ready                      6m       kubernetes.io/hostname=node2.example.com,region=primary,zone=west
 
 ----
+
+NOTE: You can add/overwrite labels with: `oc label node infranode1.example.com region="infra" zone="infranodes"`
 
 You now have a running OpenShift Enterprise environment across three hosts with
  one master and three nodes, divided into two regions: infra and primary.
 
 === OpenShift Enterprise Configuration Tips
 
-. Create a copy of your master's configuration file:
-+
-----
-[root@master1 ~]# cp /etc/origin/master/master-config.yaml /etc/origin/master/master-config.yaml.original
-----
-
-.Setting the Default Subdomain
-* To set a default Route, change the `routingConfig` attribute's `subdomain` command:
-+
-[source,bash]
-----
-[root@master1 ~]# sed  -i "s/subdomain:  \"\"/subdomain: \"cloudapps-${GUID}.oslab.opentlc.com\"/g" /etc/origin/master/master-config.yaml
-[root@master1 ~]# systemctl restart atomic-openshift-master
-
-----
-
-.Setting the Default NodeSelector
-* To set a default `NodeSelector`, change the `projectConfig` attribute's `defaultNodeSelector` command:
-+
-[source,bash]
-----
-[root@master1 ~]# sed -i 's/defaultNodeSelector: ""/defaultNodeSelector: "region=primary"/' /etc/origin/master/master-config.yaml
-[root@master1 ~]# systemctl restart atomic-openshift-master
-[root@master1 ~]# systemctl status atomic-openshift-master
-tomic-openshift-master.service - Atomic OpenShift Master
-   Loaded: loaded (/usr/lib/systemd/system/atomic-openshift-master.service; enabled)
-   Active: active (running) since Mon 2015-12-21 20:19:58 EST; 19s ago
-     Docs: https://github.com/openshift/origin
- Main PID: 2948 (openshift)
-   CGroup: /system.slice/atomic-openshift-master.service
-           └─2948 /usr/bin/openshift start master --config=/etc/origin/master/master-config.yaml --loglevel=2
-----
-
 .Configuring the Default Namespace to Use the `infra` Region
 
 . Edit the default namespace with the following command:
-+
-NOTE: This will invoke an editor, add the line in the next step before exiting.
-+
 ----
-[root@master1 ~]#  oc edit namespace default
-----
-
-. In the `annotations` section, add the following line in the default namespace object:
-+
-NOTE: Be sure to use the correct spacing as the other lines in this section. To exit, type `:wq`.
-+
-----
-openshift.io/node-selector: region=infra
-----
-
-* Your object looks similar to this:
-+
-----
-apiVersion: v1
-kind: Namespace
-metadata:
-  annotations:
-    openshift.io/node-selector: region=infra
-    openshift.io/sa.initialized-roles: "true"
-    openshift.io/sa.scc.mcs: s0:c3,c2
-    openshift.io/sa.scc.supplemental-groups: 1000010000/10000
-    openshift.io/sa.scc.uid-range: 1000010000/10000
-  creationTimestamp: 2015-11-20T02:10:35Z
-  name: default
-  resourceVersion: "217"
-  selfLink: /api/v1/namespaces/default
-  uid: e304c204-8f2b-11e5-9223-2cc260072896
-spec:
-  finalizers:
-  - kubernetes
-  - openshift.io/origin
-status:
-  phase: Active
+[root@master1 ~]# oc annotate namespace default openshift.io/node-selector='region=infra' --overwrite
 ----
 
 . Check that your changes were updated in the "default" `namespace`.
@@ -1278,14 +1043,14 @@ metadata:
   annotations:
     openshift.io/node-selector: region=infra
     openshift.io/sa.initialized-roles: "true"
-    openshift.io/sa.scc.mcs: s0:c5,c0
-    openshift.io/sa.scc.supplemental-groups: 1000020000/10000
-    openshift.io/sa.scc.uid-range: 1000020000/10000
-  creationTimestamp: 2015-12-22T01:00:48Z
+    openshift.io/sa.scc.mcs: s0:c1,c0
+    openshift.io/sa.scc.supplemental-groups: 1000000000/10000
+    openshift.io/sa.scc.uid-range: 1000000000/10000
+  creationTimestamp: 2016-07-27T14:40:21Z
   name: default
-  resourceVersion: "752"
+  resourceVersion: "18645"
   selfLink: /api/v1/namespaces/default
-  uid: 70779bd0-a847-11e5-b12e-2cc2605128d8
+  uid: 0b862f84-5408-11e6-b694-2cc2600a5748
 spec:
   finalizers:
   - kubernetes
@@ -1309,45 +1074,37 @@ To run the above commands on the other nodes, you do not need the `atomic-opensh
 
 === Configure Authentication
 
-CAUTION: The commands in this section are case-sensitive. If you are new to YAML, it may take a few tries for the configuration file to parse correctly.
-
-. Create another copy of your master's configuration file:
+. Check the `/etc/origin/master/master-config.yaml` file so that the `oauthConfig` section reads as follows:
 +
 ----
-[root@master1 ~]# cp /etc/origin/master/master-config.yaml /etc/origin/master/master-config.yaml.preauth.original
-----
-
-. Edit the `/etc/origin/master/master-config.yaml` file so that the `oauthConfig` section reads as follows:
-+
-----
+[root@master1 ~]# grep oauthConfig -A22 /etc/origin/master/master-config.yaml
 oauthConfig:
   assetPublicURL: https://master1-GUID.oslab.opentlc.com:8443/console/
   grantConfig:
     method: auto
   identityProviders:
-  - name: htpasswd_auth
-    challenge: true
+  - challenge: true
     login: true
+    mappingMethod: claim
+    name: htpasswd_auth
     provider:
       apiVersion: v1
+      file: /etc/origin/master/htpasswd
       kind: HTPasswdPasswordIdentityProvider
-      file: /etc/origin/openshift-passwd
+  masterCA: ca.crt
   masterPublicURL: https://master1-GUID.oslab.opentlc.com:8443
   masterURL: https://master1.example.com:8443
   sessionConfig:
     sessionMaxAgeSeconds: 3600
     sessionName: ssn
-    sessionSecretsFile:
+    sessionSecretsFile: /etc/origin/master/session-secrets.yaml
   tokenConfig:
     accessTokenMaxAgeSeconds: 86400
     authorizeTokenMaxAgeSeconds: 500
 ----
 
-. Run `sed` to replace GUID with its actual value.
 +
-----
-[root@master1 ~]# sed -i s/GUID/${guid}/g  /etc/origin/master/master-config.yaml
-----
+NOTE: GUID should match to your value
 
 === Add Development Users
 
@@ -1377,20 +1134,8 @@ As a preliminary requirement, you need the `htpasswd` binary in the `httpd-tools
 . Create a password for users `andrew` and `marina` on the master host:
 +
 ----
-[root@master1 ~]# htpasswd -cb /etc/origin/openshift-passwd andrew r3dh4t1!
-[root@master1 ~]# htpasswd -b /etc/origin/openshift-passwd marina r3dh4t1!
-----
-
-. Restart `atomic-openshift-master` for the changes to take effect:
-+
-----
-[root@master1 ~]# systemctl restart atomic-openshift-master
-----
-
-. Check the status of your `atomic-openshift-master` daemon:
-+
-----
-[root@master1 ~]# systemctl status atomic-openshift-master
+[root@master1 ~]# htpasswd -cb /etc/origin/master/htpasswd andrew r3dh4t1!
+[root@master1 ~]# htpasswd -b /etc/origin/master/htpasswd marina r3dh4t1!
 ----
 
 . Verify that you can authenticate as `andrew` in the OpenShift web console:
@@ -1399,23 +1144,16 @@ As a preliminary requirement, you need the `htpasswd` binary in the `httpd-tools
 
 * Do not create any projects or applications yet. That comes later.
 
-[NOTE]
-Many students have encountered problems with this section. For help, see the _<<Known Issues>>_ section near the top. Also, remember that you created a copy of `master-config.yaml` called `master-config-yaml.original`, to which you can always revert and then try again.
-
 === Registry and Router
 
 In this lab scenario, `infranode1` is the target for both the _registry_ and the _default router_.
 
 ==== Deploy Registry
 
-. Deploy `registry`:
+. Deploy `registry` (Reference Only):
 +
 ----
-<<<<<<< HEAD
 [root@master1 ~]# oadm registry --config=/etc/origin/master/admin.kubeconfig --service-account=registry
-=======
-[root@master1 ~]# oadm registry --create --credentials=/etc/origin/master/openshift-registry.kubeconfig
->>>>>>> 2044c898445444b81efd9bbb6b24a65b1019cc8c
 ----
 +
 NOTE: To pin down the registry for a specific region, specify the `--selector` flag. However, you can skip this step because you already set the default namespace to be the default `nodeSelector`.
@@ -1450,7 +1188,7 @@ This process may take a few minutes the first time around because the images are
  In project default on server https://master1-GUID.oslab.opentlc.com:8443
 
  svc/docker-registry - 172.30.41.32:5000
-   dc/docker-registry deploys docker.io/openshift3/ose-docker-registry:v3.2.1.9
+   dc/docker-registry deploys docker.io/openshift3/ose-docker-registry:v3.2.0.20
      #1 deployed 5 minutes ago - 1 pod
 
  svc/kubernetes - 172.30.0.1 ports 443, 53, 53
@@ -1491,7 +1229,16 @@ To test the registry for connectivity, run these commands:
 * Connection #0 to host 172.30.42.118 left intact
 ----
 
-==== Deploy Default router
+==== Re-deploy Default router
+
+In order to use a custom default certificat, delete the old router, create a
+ certificat and create a new router.
+
+. Delete the old Router
++
+----
+oc delete dc/router svc/router
+----
 
 . Create a `CA` Certificate for the default router:
 +
@@ -1509,12 +1256,12 @@ To test the registry for connectivity, run these commands:
 [root@master1 ~]# cat cloudapps.crt cloudapps.key $CA/ca.crt > /etc/origin/master/cloudapps.router.pem
 ----
 
-. Deploy the default router:
+. Deploy the default router :
 +
 ----
-[root@master1 ~]#  oadm router trainingrouter --replicas=1 \
-  --credentials='/etc/origin/master/openshift-router.kubeconfig' \
-  --service-account=router --stats-password='r3dh@t1!'
+[root@master1 ~]# oadm router trainingrouter --replicas=1 \
+    --default-cert=${CA}/cloudapps.router.pem \
+    --service-account=router --stats-password='r3dh@t1!'
 ----
 
 * The output is as follows:
@@ -1528,10 +1275,10 @@ Service "trainingrouter" created
 . On a separate terminal, watch the status of your pods:
 +
 ----
-[root@master1-06d0 ~]# oc get pods -w
+[root@master1 ~]# oc get pods -w
 NAME                      READY     STATUS    RESTARTS   AGE
 docker-registry-1-diqlc   1/1       Running   0          11m
-router-1-mpzxx            1/1       Running   0          23s
+trainingrouter-1-r00xl    1/1       Running   0          23s
 
 
 ----
@@ -1570,94 +1317,11 @@ oc create|delete -f /usr/share/openshift/examples/quickstart-templates -n opensh
 ----
 
 
-== Set Up Persistent Storage
+== Set Up Persistent Storage (Reference Only)
 
 Having a database for development is handy, but what if you actually want the data you store to persist after redeploying the database pod? Pods are ephemeral and, by default, so is their storage. For shared or persistent storage, you must be able to mandate that pods use external volumes.
 
 For the purpose of this course, you learn how to have `oselab` act as your NFS server to export NFS mounts as `PersistentVolume` targets.
-
-=== Prepare for NFS Persistent Storage Back End
-
-CAUTION: Notice that we are switching to the `oselab` host
-
-As `root` on the `oselab` host, ensure that `nfs-utils` is installed on *all* the nodes:
-
-----
-[root@oselab ~]# for node in infranode1.example.com \
-                                    node1.example.com \
-                                    node2.example.com; \
-                                    do \
-                                     echo installing nfs-utils on $node
-                                     ssh $node "yum -y install nfs-utils" ;
-                                    done
-----
-
-=== Export NFS Volume for Persistent Storage
-
-On the `oselab` administration host, create a directory for each volume that you wish to export through NFS.
-
-. Create 100 directory exports as persistent volumes:
-+
-----
-[root@oselab ~]# mkdir -p /var/export/pvs/pv{1..100}
-[root@oselab ~]# chown -R nfsnobody:nfsnobody /var/export/pvs/
-[root@oselab ~]# chmod -R 700 /var/export/pvs/
-
-----
-
-. Add a line for each export directory to `/etc/exports`:
-+
-----
-
-[root@oselab ~]# for volume in pv{1..100} ; do
-echo Creating export for volume $volume;
-echo "/var/export/pvs/${volume} 192.168.0.0/24(rw,sync,all_squash)" >> /etc/exports;
-done;
-
-----
-
-. Enable and start NFS services:
-+
-----
-
-[root@oselab ~]# systemctl enable rpcbind nfs-server
-[root@oselab ~]# systemctl start rpcbind nfs-server nfs-lock nfs-idmap
-[root@oselab ~]# systemctl stop firewalld
-[root@oselab ~]# systemctl disable firewalld
-
-----
-+
-NOTE: The volume is owned by `nfsnobody` and access by all remote users is "squashed" (through the `all_squash` command) for access by `nfsnobody`. Essentially, this scenario disables user permissions for clients who mount the volume. While another configuration may be preferable, one problem you may encounter is that the container cannot modify the permissions of the actual volume directory when mounted. In the case of MySQL below, MySQL desires that the volume belong to the `mysql` user and assumes that it is, which causes errors later. Arguably, the container should operate differently for the better. In the long run, Red Hat may present best practices for use of NFS from containers.
-
-
-=== Allow NFS Access in SELinux Policy
-
-By policy default, containers cannot write to NFS-mounted directories. However in your lab environment, you want to allow write access for some of your pods.
-
-. Run the following to allow containers to write to NFS-mounted directories on all the nodes where the pod could land (that is, all of them):
-+
-----
-
-[root@oselab ~]#  for node in infranode1.example.com \
-                                   node1.example.com \
-                                   node2.example.com; \
-                                   do
-                                     echo Setting SElinux Policy on $node
-                                     ssh $node " setsebool -P virt_use_nfs=true;"
-                                   done
-----
-
-. To ensure NFS Access, connect to a node and verify that you can mount a volume from the `oselab` host:
-+
-----
-[root@oselab ~]# ssh 192.168.0.20x
-[root@nodeX ~]# mkdir /tmp/test
-[root@nodeX ~]# mount -v 192.168.0.3:/var/export/pvs/pv98 /tmp/test
-# Check if any errors accure and unmount.
-[root@nodeX ~]# umount /tmp/test
-[root@nodeX ~]# exit
-----
-
 
 === Create Definition Files for Volumes
 
@@ -1667,13 +1331,6 @@ By policy default, containers cannot write to NFS-mounted directories. However i
 [root@oselab ~]# ssh master1.example.com
 ----
 
-. Create a `pvs` directory to store definition files for the persistent volumes in
- your environment:
-+
-----
-[root@master1 ~]# mkdir /root/pvs
-----
-. Create 25 instances of `PersistentVolume` (`pv1` to `pv25`) with a size of 5 GB:
 +
 ----
 

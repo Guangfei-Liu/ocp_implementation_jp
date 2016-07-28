@@ -23,7 +23,7 @@ Here, you connect to and become familiar with the web console, create a project 
 
 === Connect To and Explore Web Console
 
-. Use your browser to go to the OpenShift web console at `https://master00-GUID.oslab.opentlc.com:8443`.
+. Use your browser to go to the OpenShift web console at `https://master1-GUID.oslab.opentlc.com:8443`.
 +
 NOTE: If you have not done so already, accept the untrusted certificate.
 
@@ -120,10 +120,10 @@ For details on the scripts and their execution and customization, go to `https:/
 ** *Password*: `r3dh4t1!`
 +
 ----
-[root@master00-GUID ~]# su - marina
-[marina@master00-GUID ~]$ oc login -u marina --insecure-skip-tls-verify --server=https://master00-${guid}.oslab.opentlc.com:8443
+[root@master1 ~]# su - marina
+[marina@master1 ~]$ oc login -u marina --insecure-skip-tls-verify --server=https://master1-${guid}.oslab.opentlc.com:8443
 
-[marina@master00-GUID ~]$ oc new-project custom-s2i-script --display-name="Custom S2I Build Script" \
+[marina@master1 ~]$ oc new-project custom-s2i-script --display-name="Custom S2I Build Script" \
     --description="This is the project we use to learn how to create a customized build script"
 ----
 
@@ -140,7 +140,7 @@ IMPORTANT: This section requires a GitHub account. Create one if you do not have
 CAUTION: Be sure to replace _yourname_ with your Git username.
 +
 ----
-[marina@master00-GUID ~]$ git clone https://github.com/yourname/ruby-hello-world
+[marina@master1 ~]$ git clone https://github.com/yourname/ruby-hello-world
 Cloning into 'ruby-hello-world'...
 remote: Counting objects: 249, done.
 remote: Total 249 (delta 0), reused 0 (delta 0), pack-reused 249
@@ -151,14 +151,14 @@ Resolving deltas: 100% (86/86), done.
 . Create an application by running `oc new-app` in the local repository:
 +
 ----
-[marina@master00-GUID ~]$ cd ruby-hello-world/
-[marina@master00-GUID ruby-hello-world]$ oc new-app . --docker-image=registry.access.redhat.com/openshift3/ruby-20-rhel7
+[marina@master1 ~]$ cd ruby-hello-world/
+[marina@master1 ruby-hello-world]$ oc new-app . --docker-image=registry.access.redhat.com/openshift3/ruby-20-rhel7
 ----
 
 . View the current build status and build logs:
 +
 ----
-[marina@master00-GUID]$ oc get builds
+[marina@master1]$ oc get builds
 NAME                 TYPE      FROM         STATUS    STARTED         DURATION
 ruby-hello-world-1   Docker    Git@master   Running   9 seconds ago   9s
 ----
@@ -166,7 +166,7 @@ ruby-hello-world-1   Docker    Git@master   Running   9 seconds ago   9s
 . View the build log:
 +
 ----
-[marina@master00-GUID ]$ oc logs -f builds/ruby-hello-world-1
+[marina@master1 ]$ oc logs -f builds/ruby-hello-world-1
 ...                 ...
 ... Omitted Output  ...
 ...                 ...
@@ -179,7 +179,7 @@ I1127 02:44:25.867627       1 docker.go:90] Push successful
 . Verify that your pod has deployed:
 +
 ----
-[marina@master00-GUID ]$ oc get pods
+[marina@master1 ]$ oc get pods
 NAME                       READY     STATUS      RESTARTS   AGE
 ruby-hello-world-1-70mlb   1/1       Running     0          12s
 ruby-hello-world-1-build   0/1       Completed   0          9m
@@ -207,7 +207,7 @@ ruby-hello-world-1-build   0/1       Completed   0          9m
 
 === Create Application From Repository With Custom Build Script
 
-. From your browser, go to the OpenShift web console at `https://master00-GUID.oslab.opentlc.com:8443`.
+. From your browser, go to the OpenShift web console at `https://master1-GUID.oslab.opentlc.com:8443`.
 +
 NOTE: If prompted, accept the untrusted certificate.
 

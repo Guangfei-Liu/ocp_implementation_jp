@@ -28,9 +28,9 @@ This repo contains the course material for the *OpenShift3 Implementation*
 
 === Environment Details
 OpenShift Advanced
-- 1 x OpenShift Master (master00-guid.oselab.opentlc.com)
-- 1 x OpenShift Infrastructure Node (infranode0-guid.oselab.opentlc.com)
-- 2 x OpenShift Worker Node (node0{0,1}-guid.oselab.opentlc.com)
+- 1 x OpenShift Master (master1-guid.oselab.opentlc.com)
+- 1 x OpenShift Infrastructure Node (infranode1-guid.oselab.opentlc.com)
+- 2 x OpenShift Worker Node (node{1,2}-guid.oselab.opentlc.com)
 
 === Course Modules
 

@@ -42,7 +42,7 @@ Remember that `buildconfig` (the build-configuration file) instructs OpenShift E
 . As `root`, create a project for user `marina`:
 +
 ----
-[root@master00 ~]# oadm new-project lifecycle --display-name="Lifecycle Lab" \
+[root@master1 ~]# oadm new-project lifecycle --display-name="Lifecycle Lab" \
     --description="This is the project we use to learn about Lifecycle management" \
     --admin=marina --node-selector='region=primary'
 ----
@@ -50,14 +50,14 @@ Remember that `buildconfig` (the build-configuration file) instructs OpenShift E
 . Switch to user `marina` and use the `lifecycle` project:
 +
 ----
-[root@master00 ~]# su - marina
-[marina@master00 ~]$ oc project lifecycle
+[root@master1 ~]# su - marina
+[marina@master1 ~]$ oc project lifecycle
 ----
 
 . Create an application from the `https://github.com/openshift/ruby-hello-world` repository:
 +
 ----
-[marina@master00~]$ oc new-app https://github.com/openshift/ruby-hello-world --strategy=source
+[marina@master1~]$ oc new-app https://github.com/openshift/ruby-hello-world --strategy=source
 ----
 +
 [NOTE]
@@ -66,14 +66,14 @@ The `--strategy=source` option forces `oc new-app` to adopt the S2I strategy. A 
 . Run `oc env` to add the environment variables for a database to be used later:
 +
 ----
-[marina@master00~]$ oc env dc/ruby-hello-world MYSQL_USER=mysqluser \
+[marina@master1~]$ oc env dc/ruby-hello-world MYSQL_USER=mysqluser \
   MYSQL_PASSWORD=redhat MYSQL_DATABASE=mydb
 ----
 
 . Waiting for the build to finish. Meanwhile, expose your service to the world so that you can test it from your local browser:
 +
 ----
-[marina@master00~]$ oc expose service ruby-hello-world \
+[marina@master1~]$ oc expose service ruby-hello-world \
   --name="ruby-hello-world" \
   --hostname=ruby-hello-world.lifecycle.cloudapps-${guid}.oslab.opentlc.com
 ----
@@ -82,7 +82,7 @@ The `--strategy=source` option forces `oc new-app` to adopt the S2I strategy. A 
 +
 ----
 
-[marina@master00~]$ oc get buildconfig ruby-hello-world -o yaml
+[marina@master1~]$ oc get buildconfig ruby-hello-world -o yaml
 
 ----
 
@@ -140,7 +140,7 @@ status:
 +
 ----
 
-[marina@master00~]$  oc edit bc ruby-hello-world
+[marina@master1~]$  oc edit bc ruby-hello-world
 
 ----
 
@@ -160,25 +160,25 @@ NOTE: There are other ways to achieve this outcome, this way is used to cover
 . Run `oc get builds` to check if the new build has started:
 +
 ----
-[marina@master00~]$ oc get builds
+[marina@master1~]$ oc get builds
 ----
 +
 If the build has not started yet, you can start it yourself and then follow `build-log`:
 +
 ----
-[marina@master00~]$ oc get bc
+[marina@master1~]$ oc get bc
 NAME               TYPE      SOURCE
 ruby-hello-world   Docker    https://github.com/YOURUSERNAME/ruby-hello-world
 
-[marina@master00~]$ oc start-build ruby-hello-world
+[marina@master1~]$ oc start-build ruby-hello-world
 ruby-hello-world-2
 
-[marina@master00~]$ oc get builds -w
+[marina@master1~]$ oc get builds -w
 NAME                 TYPE      FROM	 STATUS     STARTED              DURATION
 ruby-hello-world-1   Source    Git	 Complete   16 minutes ago	 4m25s
 ruby-hello-world-2   Source    Git	 Complete   About a minute ago   1m46s
 
-[marina@master00~]$ oc logs -f bc/ruby-hello-world
+[marina@master1~]$ oc logs -f bc/ruby-hello-world
 I0709 23:41:08.493756       1 docker.go:69] Starting Docker build from justanother1/ruby-hello-world-7 BuildConfig ...
 I0709 23:41:08.508448       1 tar.go:133] Adding to tar: /tmp/docker-build062004796/.gitignore as .gitignore
 I0709 23:41:08.509588       1 tar.go:133] Adding to tar: /tmp/docker-build062004796/.sti/bin/README as .sti/bin/README
@@ -193,7 +193,7 @@ Cropped Output
 . Search for the available `mysql` applications (templates):
 +
 ----
-[marina@master00-82bc ~]$ oc new-app --search mysql
+[marina@master1-82bc ~]$ oc new-app --search mysql
 Templates (oc new-app --template=<template>)
 -----
 mysql-persistent
@@ -243,14 +243,14 @@ mysql
 . Create the `database` application by running `oc new-app`:
 +
 ----
-[marina@master00~]$ oc new-app --template=mysql-ephemeral \
+[marina@master1~]$ oc new-app --template=mysql-ephemeral \
                     --param=MYSQL_USER=mysqluser,MYSQL_PASSWORD=redhat,MYSQL_DATABASE=mydb,DATABASE_SERVICE_NAME=database
 ----
 
 . Verify that your values were processed correctly:
 +
 ----
-[marina@master00~]$ oc env dc/database --list
+[marina@master1~]$ oc env dc/database --list
 ----
 +
 ----
@@ -264,13 +264,13 @@ MYSQL_DATABASE=mydb
  can either delete just the pod, or you can redeploy the application:
 +
 ----
-[marina@master00-GUID ~]$ oc deploy ruby-hello-world --latest
+[marina@master1 ~]$ oc deploy ruby-hello-world --latest
 ----
 
 . You can see the logs for your latest deployment if you use the `oc logs` command this way:
 +
 ----
-[marina@master00~]$  oc logs -f dc/ruby-hello-world
+[marina@master1~]$  oc logs -f dc/ruby-hello-world
 I1222 01:54:45.485814       1 deployer.go:198] Deploying from lifecycle/ruby-hello-world-3 to lifecycle/ruby-hello-world-4 (replicas: 1)
 I1222 01:54:46.913895       1 rolling.go:232] RollingUpdater: Continuing update with existing controller ruby-hello-world-4.
 I1222 01:54:47.019320       1 rolling.go:232] RollingUpdater: Scaling up ruby-hello-world-4 from 0 to 1, scaling down ruby-hello-world-3 from 1 to 0 (keep 0 pods available, don't exceed 2 pods)
@@ -300,13 +300,13 @@ Your GitHub account can configure a webhook whenever you push a commit to a spec
 . Copy the generic URL, which looks like this:
 +
 ----
-https://master00-GUID.oslab.opentlc.com:8443/osapi/v1/namespaces/lifecycle/buildconfigs/ruby-hello-world/webhooks/ALNUyArydLb22JqdXYIb/generic
+https://master1-GUID.oslab.opentlc.com:8443/osapi/v1/namespaces/lifecycle/buildconfigs/ruby-hello-world/webhooks/ALNUyArydLb22JqdXYIb/generic
 ----
 
 . Obtain the `secret` password from `buildconfig`:
 +
 ----
-[marina@master00~]$ oc get bc ruby-hello-world -o yaml
+[marina@master1~]$ oc get bc ruby-hello-world -o yaml
 ----
 
 * The output looks similar to the following.
@@ -391,7 +391,7 @@ Because you failed to properly test your application and your typo made it into 
 Alternatively, view this information from the CLI:
 
 ----
-[marina@master00~]$ oc get replicationcontroller
+[marina@master1~]$ oc get replicationcontroller
 ----
 
 The semantics of this syntax state that `DeploymentConfig` ensures that `ReplicationController` is created to manage the deployment of the built `Image` from `ImageStream`.
@@ -402,7 +402,7 @@ The semantics of this syntax state that `DeploymentConfig` ensures that `Replica
 .. Determine which builds are available:
 +
 ----
-[marina@master00~] oc get builds
+[marina@master1~] oc get builds
 
 ----
 .. Choose a deployment and see what a rollback to `ruby-hello-world-X` would
@@ -410,7 +410,7 @@ The semantics of this syntax state that `DeploymentConfig` ensures that `Replica
 +
 ----
 
-[marina@master00~]$ oc rollback ruby-hello-world-X --dry-run # X is your desired deployment
+[marina@master1~]$ oc rollback ruby-hello-world-X --dry-run # X is your desired deployment
 Name:           ruby-hello-world
 Created:        39 minutes ago
 Labels:         <none>
@@ -433,7 +433,7 @@ Latest Deployment:      <none>
 +
 ----
 
-[marina@master00~]$ oc rollback ruby-hello-world-X # X is your desired deployment
+[marina@master1~]$ oc rollback ruby-hello-world-X # X is your desired deployment
 #oc get9 rolled back to ruby-hello-world-X
 Warning: the following images triggers were disabled: ruby-hello-world
   You can re-enable them with: oc deploy ruby-hello-world --enable-triggers
@@ -451,7 +451,7 @@ Warning: the following images triggers were disabled: ruby-hello-world
 To roll forward (activate) the typo-enabled application:
 
 ----
-[marina@master00~]$ oc rollback ruby-hello-world-X # X is your desired deployment
+[marina@master1~]$ oc rollback ruby-hello-world-X # X is your desired deployment
 #11 rolled back to ruby-hello-world-X
 Warning: the following images triggers were disabled: ruby-hello-world
   You can re-enable them with: oc deploy ruby-hello-world --enable-triggers

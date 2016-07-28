@@ -13,10 +13,10 @@
 ** Labels on nodes handle assignments of _regions_ and _zones_ at node level
 +
 ----
-# oc label node master00-$guid.oslab.opentlc.com region="infra" zone="na"
-# oc label node infranode00-$guid.oslab.opentlc.com region="infra" zone="infranodes"
-# oc label node node00-$guid.oslab.opentlc.com region="primary" zone="east"
-# oc label node node01-$guid.oslab.opentlc.com region="primary" zone="west"
+# oc label node master1.example.com region="infra" zone="na"
+# oc label node infranode1.example.com region="infra" zone="infranodes"
+# oc label node node1.example.com region="primary" zone="east"
+# oc label node node2.example.com region="primary" zone="west"
 ----
 
 ifdef::showscript[]

@@ -891,11 +891,15 @@ openshift_master_cluster_public_hostname=master1-${GUID}.oslab.opentlc.com
 os_sdn_network_plugin_name='redhat/openshift-ovs-multitenant'
 
 openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/master/htpasswd'}]
+#openshift_master_htpasswd_users={'andrew': '$apr1$cHkRDw5u$eU/ENgeCdo/ADmHF7SZhP/', 'marina': '$apr1$cHkRDw5u$eU/ENgeCdo/ADmHF7SZhP/'
 
 # default project node selector
 osm_default_node_selector='region=primary'
 openshift_hosted_router_selector='region=infra'
+openshift_hosted_router_replicas=1
+#openshift_hosted_router_certificate={"certfile": "/path/to/router.crt", "keyfile": "/path/to/router.key", "cafile": "/path/to/router-ca.crt"}
 openshift_hosted_registry_selector='region=infra'
+openshift_hosted_registry_replicas=1
 
 openshift_master_default_subdomain=cloudapps-${GUID}.oslab.opentlc.com
 
@@ -1022,12 +1026,6 @@ You now have a running OpenShift Enterprise environment across three hosts with
 
 === OpenShift Enterprise Configuration Tips
 
-. Create a copy of your master's configuration file:
-+
-----
-[root@master1 ~]# cp /etc/origin/master/master-config.yaml /etc/origin/master/master-config.yaml.original
-----
-
 .Configuring the Default Namespace to Use the `infra` Region
 
 . Edit the default namespace with the following command:
@@ -1076,45 +1074,37 @@ To run the above commands on the other nodes, you do not need the `atomic-opensh
 
 === Configure Authentication
 
-CAUTION: The commands in this section are case-sensitive. If you are new to YAML, it may take a few tries for the configuration file to parse correctly.
-
-. Create another copy of your master's configuration file:
+. Check the `/etc/origin/master/master-config.yaml` file so that the `oauthConfig` section reads as follows:
 +
 ----
-[root@master1 ~]# cp /etc/origin/master/master-config.yaml /etc/origin/master/master-config.yaml.preauth.original
-----
-
-. Edit the `/etc/origin/master/master-config.yaml` file so that the `oauthConfig` section reads as follows:
-+
-----
+[root@master1 ~]# grep oauthConfig -A22 /etc/origin/master/master-config.yaml
 oauthConfig:
   assetPublicURL: https://master1-GUID.oslab.opentlc.com:8443/console/
   grantConfig:
     method: auto
   identityProviders:
-  - name: htpasswd_auth
-    challenge: true
+  - challenge: true
     login: true
+    mappingMethod: claim
+    name: htpasswd_auth
     provider:
       apiVersion: v1
+      file: /etc/origin/master/htpasswd
       kind: HTPasswdPasswordIdentityProvider
-      file: /etc/origin/openshift-passwd
+  masterCA: ca.crt
   masterPublicURL: https://master1-GUID.oslab.opentlc.com:8443
   masterURL: https://master1.example.com:8443
   sessionConfig:
     sessionMaxAgeSeconds: 3600
     sessionName: ssn
-    sessionSecretsFile:
+    sessionSecretsFile: /etc/origin/master/session-secrets.yaml
   tokenConfig:
     accessTokenMaxAgeSeconds: 86400
     authorizeTokenMaxAgeSeconds: 500
 ----
 
-. Run `sed` to replace GUID with its actual value.
 +
-----
-[root@master1 ~]# sed -i s/GUID/${guid}/g  /etc/origin/master/master-config.yaml
-----
+NOTE: GUID should match to your value
 
 === Add Development Users
 
@@ -1144,20 +1134,8 @@ As a preliminary requirement, you need the `htpasswd` binary in the `httpd-tools
 . Create a password for users `andrew` and `marina` on the master host:
 +
 ----
-[root@master1 ~]# htpasswd -cb /etc/origin/openshift-passwd andrew r3dh4t1!
-[root@master1 ~]# htpasswd -b /etc/origin/openshift-passwd marina r3dh4t1!
-----
-
-. Restart `atomic-openshift-master` for the changes to take effect:
-+
-----
-[root@master1 ~]# systemctl restart atomic-openshift-master
-----
-
-. Check the status of your `atomic-openshift-master` daemon:
-+
-----
-[root@master1 ~]# systemctl status atomic-openshift-master
+[root@master1 ~]# htpasswd -cb /etc/origin/master/htpasswd andrew r3dh4t1!
+[root@master1 ~]# htpasswd -b /etc/origin/master/htpasswd marina r3dh4t1!
 ----
 
 . Verify that you can authenticate as `andrew` in the OpenShift web console:

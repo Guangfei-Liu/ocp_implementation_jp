@@ -1144,16 +1144,13 @@ As a preliminary requirement, you need the `htpasswd` binary in the `httpd-tools
 
 * Do not create any projects or applications yet. That comes later.
 
-[NOTE]
-Many students have encountered problems with this section. For help, see the _<<Known Issues>>_ section near the top. Also, remember that you created a copy of `master-config.yaml` called `master-config-yaml.original`, to which you can always revert and then try again.
-
 === Registry and Router
 
 In this lab scenario, `infranode1` is the target for both the _registry_ and the _default router_.
 
 ==== Deploy Registry
 
-. Deploy `registry`:
+. Deploy `registry` (Reference Only):
 +
 ----
 [root@master1 ~]# oadm registry --config=/etc/origin/master/admin.kubeconfig --service-account=registry
@@ -1232,7 +1229,16 @@ To test the registry for connectivity, run these commands:
 * Connection #0 to host 172.30.42.118 left intact
 ----
 
-==== Deploy Default router
+==== Re-deploy Default router
+
+In order to use a custom default certificat, delete the old router, create a
+ certificat and create a new router.
+
+. Delete the old Router
++
+----
+oc delete dc/router svc/router
+----
 
 . Create a `CA` Certificate for the default router:
 +
@@ -1250,12 +1256,12 @@ To test the registry for connectivity, run these commands:
 [root@master1 ~]# cat cloudapps.crt cloudapps.key $CA/ca.crt > /etc/origin/master/cloudapps.router.pem
 ----
 
-. Deploy the default router:
+. Deploy the default router :
 +
 ----
-[root@master1 ~]#  oadm router trainingrouter --replicas=1 \
-  --credentials='/etc/origin/master/openshift-router.kubeconfig' \
-  --service-account=router --stats-password='r3dh@t1!'
+[root@master1 ~]# oadm router trainingrouter --replicas=1 \
+    --default-cert=${CA}/cloudapps.router.pem \
+    --service-account=router --stats-password='r3dh@t1!'
 ----
 
 * The output is as follows:
@@ -1269,10 +1275,10 @@ Service "trainingrouter" created
 . On a separate terminal, watch the status of your pods:
 +
 ----
-[root@master1-06d0 ~]# oc get pods -w
+[root@master1 ~]# oc get pods -w
 NAME                      READY     STATUS    RESTARTS   AGE
 docker-registry-1-diqlc   1/1       Running   0          11m
-router-1-mpzxx            1/1       Running   0          23s
+trainingrouter-1-r00xl    1/1       Running   0          23s
 
 
 ----

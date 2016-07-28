@@ -877,6 +877,7 @@ The /etc/ansible/hosts file is Ansible’s inventory file for the playbook to us
 [OSEv3:children]
 masters
 nodes
+nfs
 
 [OSEv3:vars]
 ansible_ssh_user=root
@@ -900,18 +901,15 @@ openshift_hosted_registry_selector='region=infra'
 #openshift_use_dnsmasq=False
 #openshift_node_dnsmasq_additional_config_file=/home/bob/ose-dnsmasq.conf
 
-# Registry Storage Options
-#
-# External NFS Host
-# NFS volume must already exist with path "nfs_directory/_volume_name" on
-# the storage_host. For example, the remote volume path using these
-# options would be "nfs.example.com:/exports/registry"
-#openshift_hosted_registry_storage_kind=nfs
-#openshift_hosted_registry_storage_access_modes=['ReadWriteMany']
-#openshift_hosted_registry_storage_host=nfs.example.com
-#openshift_hosted_registry_storage_nfs_directory=/exports
-#openshift_hosted_registry_storage_volume_name=registry
-#openshift_hosted_registry_storage_volume_size=10Gi
+openshift_hosted_registry_storage_kind=nfs
+openshift_hosted_registry_storage_access_modes=['ReadWriteMany']
+openshift_hosted_registry_storage_host=oselab.example.com
+openshift_hosted_registry_storage_nfs_directory=/exports
+openshift_hosted_registry_storage_volume_name=registry
+openshift_hosted_registry_storage_volume_size=5Gi
+
+[nfs]
+oselab.example.com
 
 [masters]
 master1.example.com openshift_hostname=master1.example.com openshift_public_hostname=master1.example.com
@@ -1395,94 +1393,11 @@ oc create|delete -f /usr/share/openshift/examples/quickstart-templates -n opensh
 ----
 
 
-== Set Up Persistent Storage
+== Set Up Persistent Storage (Reference Only)
 
 Having a database for development is handy, but what if you actually want the data you store to persist after redeploying the database pod? Pods are ephemeral and, by default, so is their storage. For shared or persistent storage, you must be able to mandate that pods use external volumes.
 
 For the purpose of this course, you learn how to have `oselab` act as your NFS server to export NFS mounts as `PersistentVolume` targets.
-
-=== Prepare for NFS Persistent Storage Back End
-
-CAUTION: Notice that we are switching to the `oselab` host
-
-As `root` on the `oselab` host, ensure that `nfs-utils` is installed on *all* the nodes:
-
-----
-[root@oselab ~]# for node in infranode1.example.com \
-                                    node1.example.com \
-                                    node2.example.com; \
-                                    do \
-                                     echo installing nfs-utils on $node
-                                     ssh $node "yum -y install nfs-utils" ;
-                                    done
-----
-
-=== Export NFS Volume for Persistent Storage
-
-On the `oselab` administration host, create a directory for each volume that you wish to export through NFS.
-
-. Create 100 directory exports as persistent volumes:
-+
-----
-[root@oselab ~]# mkdir -p /var/export/pvs/pv{1..100}
-[root@oselab ~]# chown -R nfsnobody:nfsnobody /var/export/pvs/
-[root@oselab ~]# chmod -R 700 /var/export/pvs/
-
-----
-
-. Add a line for each export directory to `/etc/exports`:
-+
-----
-
-[root@oselab ~]# for volume in pv{1..100} ; do
-echo Creating export for volume $volume;
-echo "/var/export/pvs/${volume} 192.168.0.0/24(rw,sync,all_squash)" >> /etc/exports;
-done;
-
-----
-
-. Enable and start NFS services:
-+
-----
-
-[root@oselab ~]# systemctl enable rpcbind nfs-server
-[root@oselab ~]# systemctl start rpcbind nfs-server nfs-lock nfs-idmap
-[root@oselab ~]# systemctl stop firewalld
-[root@oselab ~]# systemctl disable firewalld
-
-----
-+
-NOTE: The volume is owned by `nfsnobody` and access by all remote users is "squashed" (through the `all_squash` command) for access by `nfsnobody`. Essentially, this scenario disables user permissions for clients who mount the volume. While another configuration may be preferable, one problem you may encounter is that the container cannot modify the permissions of the actual volume directory when mounted. In the case of MySQL below, MySQL desires that the volume belong to the `mysql` user and assumes that it is, which causes errors later. Arguably, the container should operate differently for the better. In the long run, Red Hat may present best practices for use of NFS from containers.
-
-
-=== Allow NFS Access in SELinux Policy
-
-By policy default, containers cannot write to NFS-mounted directories. However in your lab environment, you want to allow write access for some of your pods.
-
-. Run the following to allow containers to write to NFS-mounted directories on all the nodes where the pod could land (that is, all of them):
-+
-----
-
-[root@oselab ~]#  for node in infranode1.example.com \
-                                   node1.example.com \
-                                   node2.example.com; \
-                                   do
-                                     echo Setting SElinux Policy on $node
-                                     ssh $node " setsebool -P virt_use_nfs=true;"
-                                   done
-----
-
-. To ensure NFS Access, connect to a node and verify that you can mount a volume from the `oselab` host:
-+
-----
-[root@oselab ~]# ssh 192.168.0.20x
-[root@nodeX ~]# mkdir /tmp/test
-[root@nodeX ~]# mount -v 192.168.0.3:/var/export/pvs/pv98 /tmp/test
-# Check if any errors accure and unmount.
-[root@nodeX ~]# umount /tmp/test
-[root@nodeX ~]# exit
-----
-
 
 === Create Definition Files for Volumes
 
@@ -1492,13 +1407,6 @@ By policy default, containers cannot write to NFS-mounted directories. However i
 [root@oselab ~]# ssh master1.example.com
 ----
 
-. Create a `pvs` directory to store definition files for the persistent volumes in
- your environment:
-+
-----
-[root@master1 ~]# mkdir /root/pvs
-----
-. Create 25 instances of `PersistentVolume` (`pv1` to `pv25`) with a size of 5 GB:
 +
 ----
 

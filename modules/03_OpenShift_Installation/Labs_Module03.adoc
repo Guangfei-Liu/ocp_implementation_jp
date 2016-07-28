@@ -498,22 +498,23 @@ node2.example.com | success >> {
 }
 ----
 
-=== Install and Remove Packages
+=== Install Packages
 
-. Back on the `oselab` host, run the following `for` loop to remove `NetworkManager` from the master and all the nodes:
+. Back on the `oselab` host, run the following `for` loop to ensure `NetworkManager` is installed on the master and all the nodes:
 +
 ----
 [root@oselab ~]# for node in   master1.example.com \
-                                    infranode1.example.com \
-                                    node1.example.com \
-                                    node2.example.com; \
-                                    do \
-                                    echo removing NetworkManager on $node ; \
-                                      ssh $node "yum -y  remove NetworkManager*"
-                                   done
+                               infranode1.example.com \
+                               node1.example.com \
+                               node2.example.com; \
+                               do \
+                               echo installing NetworkManager on $node ; \
+                                 ssh $node "yum -y install NetworkManager"
+                               done
 ----
-+
-NOTE: You can configure `NetworkManager` so you need not remove it.
+TIP: You could also use the ansible command : `ansible nodes -a "yum -y install NetworkManager`.
+
+NOTE: although NetworkManager could to be removed in earlier versions of OpenShift, it is recommended since version 3.2 and will be required in version 3.3.
 
 . Install the following tools and utilities on `oselab` host
 +

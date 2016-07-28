@@ -69,61 +69,61 @@ yum repolist
 
 #The Nodes require to be configures as well, for the sake of simplicity we will copy the repo file to all the nodes directly from the the master
 
-for node in master00-$guid.oslab.opentlc.com \
-                                    infranode00-$guid.oslab.opentlc.com \
-                                    node00-$guid.oslab.opentlc.com \
-                                    node01-$guid.oslab.opentlc.com; \
+for node in master1.example.com \
+                                    infranode1.example.com \
+                                    node1.example.com \
+                                    node2.example.com; \
                                     do \
                                       echo Copying open.repo to $node ; \
                                       scp /etc/yum.repos.d/open.repo ${node}:/etc/yum.repos.d/open.repo ;
                                       yum repolist
                                    done
 echo "Remove NetworkManager:"
-for node in   master00-$guid.oslab.opentlc.com \
-                                    infranode00-$guid.oslab.opentlc.com \
-                                    node00-$guid.oslab.opentlc.com \
-                                    node01-$guid.oslab.opentlc.com; \
+for node in   master1.example.com \
+                                    infranode1.example.com \
+                                    node1.example.com \
+                                    node2.example.com; \
                                     do \
                                     echo removing NetworkManager on $node ; \
                                       ssh $node "yum -y  remove NetworkManager*"
                                    done
 echo "yum update all hosts"
-for node in   master00-$guid.oslab.opentlc.com \
-                                    infranode00-$guid.oslab.opentlc.com \
-                                    node00-$guid.oslab.opentlc.com \
-                                    node01-$guid.oslab.opentlc.com; \
+for node in   master1.example.com \
+                                    infranode1.example.com \
+                                    node1.example.com \
+                                    node2.example.com; \
                                     do \
                                     echo removing NetworkManager on $node ; \
                                       ssh $node "yum update -y"
                                    done
 
 echo Installing packages on master
-ssh master00-$guid "yum -y install wget git net-tools bind-utils iptables-services bridge-utils python-virtualenv gcc  bash-completion"
+ssh master1-$guid "yum -y install wget git net-tools bind-utils iptables-services bridge-utils python-virtualenv gcc  bash-completion"
 
 
 echo "=== Install Docker"
 
 echo "Install the docker package on the master host"
 echo "Do the same for the rest of the nodes"
-for node in   master00-$guid.oslab.opentlc.com \
-                                    infranode00-$guid.oslab.opentlc.com \
-                                    node00-$guid.oslab.opentlc.com \
-                                    node01-$guid.oslab.opentlc.com; \
+for node in   master1.example.com \
+                                    infranode1.example.com \
+                                    node1.example.com \
+                                    node2.example.com; \
                                     do \
                                     echo removing NetworkManager on $node ; \
                                       ssh $node "yum -y install docker"
                                    done
 
 echo "Configure the *Docker* registry on the *master*:"
-scp master00-$guid.oslab.opentlc.com:/etc/sysconfig/docker /tmp
+scp master1.example.com:/etc/sysconfig/docker /tmp
 sed -i "s/OPTIONS.*/OPTIONS='--selinux-enabled --insecure-registry 172.30.0.0\/16'/" /tmp/docker
 
 echo "Do the same for the rest of the nodes"
 
-for node in    master00-$guid.oslab.opentlc.com \
-                                    infranode00-$guid.oslab.opentlc.com \
-                                    node00-$guid.oslab.opentlc.com \
-                                    node01-$guid.oslab.opentlc.com; \
+for node in    master1.example.com \
+                                    infranode1.example.com \
+                                    node1.example.com \
+                                    node2.example.com; \
                                     do \
                                     echo Overwriting docker configuration file on $node ; \
                                     scp  /tmp/docker $node:/etc/sysconfig/docker ;
@@ -137,10 +137,10 @@ EOF
 
 echo "Do the same for the rest of the nodes"
 
-for node in  master00-$guid.oslab.opentlc.com \
-                  infranode00-$guid.oslab.opentlc.com \
-                  node00-$guid.oslab.opentlc.com \
-                  node01-$guid.oslab.opentlc.com; \
+for node in  master1.example.com \
+                  infranode1.example.com \
+                  node1.example.com \
+                  node2.example.com; \
  do
    echo Configuring Docker Storage and rebooting $node
    scp /tmp/docker-storage-setup ${node}:/etc/sysconfig/docker-storage-setup
@@ -157,10 +157,10 @@ for node in  master00-$guid.oslab.opentlc.com \
 echo "Sleep 60 to wait for the nodes to come up"
 sleep 120
 echo "=== Populate local Docker registry"
-for node in   master00-$guid.oslab.opentlc.com \
- infranode00-$guid.oslab.opentlc.com \
- node00-$guid.oslab.opentlc.com \
- node01-$guid.oslab.opentlc.com; \
+for node in   master1.example.com \
+ infranode1.example.com \
+ node1.example.com \
+ node2.example.com; \
  do
    echo Checking docker status on $node
    ssh $node "
@@ -169,8 +169,8 @@ for node in   master00-$guid.oslab.opentlc.com \
  done
 
 REGISTRY="registry.access.redhat.com";PTH="openshift3"
-for node in  node00-$guid.oslab.opentlc.com \
-node01-$guid.oslab.opentlc.com; \
+for node in  node1.example.com \
+node2.example.com; \
 do
 ssh $node "
 docker pull $REGISTRY/$PTH/ose-deployer:v3.1.0.4 ; \
@@ -186,7 +186,7 @@ docker pull openshift/hello-openshift:v1.0.6
 done
 
 REGISTRY="registry.access.redhat.com";PTH="openshift3"
-ssh infranode00-$guid.oslab.opentlc.com "
+ssh infranode1.example.com "
 docker pull $REGISTRY/$PTH/ose-haproxy-router:v3.1.0.4  ; \
 docker pull $REGISTRY/$PTH/ose-deployer:v3.1.0.4 ; \
 docker pull $REGISTRY/$PTH/ose-pod:v3.1.0.4 ; \
@@ -194,10 +194,10 @@ docker pull $REGISTRY/$PTH/ose-docker-registry:v3.1.0.4 ;"
 
 echo "=== Download the Installer"
 
-for node in   master00-$guid.oslab.opentlc.com \
-                                    infranode00-$guid.oslab.opentlc.com \
-                                    node00-$guid.oslab.opentlc.com \
-                                    node01-$guid.oslab.opentlc.com; \
+for node in   master1.example.com \
+                                    infranode1.example.com \
+                                    node1.example.com \
+                                    node2.example.com; \
                                     do \
                                     echo removing NetworkManager on $node ; \
 
@@ -215,31 +215,31 @@ cat << EOF > /root/.config/openshift/installer.cfg.yml
  ansible_log_path: /tmp/ansible.log
  ansible_ssh_user: root
  hosts:
- - connect_to: master00-GUID.oslab.opentlc.com
-   hostname: master00-GUID.oslab.opentlc.com
-   ip: 192.168.0.100
+ - connect_to: master1.example.com
+   hostname: master1.example.com
+   ip: 192.168.0.101
    master: true
    node: true
-   public_hostname: master00-GUID.oslab.opentlc.com
-   public_ip: 192.168.0.100
- - connect_to: infranode00-GUID.oslab.opentlc.com
-   hostname: infranode00-GUID.oslab.opentlc.com
-   ip: 192.168.0.101
-   node: true
-   public_hostname: infranode00-GUID.oslab.opentlc.com
+   public_hostname: master1.example.com
    public_ip: 192.168.0.101
- - connect_to: node00-GUID.oslab.opentlc.com
-   hostname: node00-GUID.oslab.opentlc.com
-   ip: 192.168.0.200
+ - connect_to: infranode1.example.com
+   hostname: infranode1.example.com
+   ip: 192.168.0.251
    node: true
-   public_hostname: node00-GUID.oslab.opentlc.com
-   public_ip: 192.168.0.200
- - connect_to: node01-GUID.oslab.opentlc.com
-   hostname: node01-GUID.oslab.opentlc.com
+   public_hostname: infranode1.example.com
+   public_ip: 192.168.0.251
+ - connect_to: node1.example.com
+   hostname: node1.example.com
    ip: 192.168.0.201
    node: true
-   public_hostname: node01-GUID.oslab.opentlc.com
+   public_hostname: node1.example.com
    public_ip: 192.168.0.201
+ - connect_to: node2.example.com
+   hostname: node2.example.com
+   ip: 192.168.0.202
+   node: true
+   public_hostname: node2.example.com
+   public_ip: 192.168.0.202
  variant: openshift-enterprise
  variant_version: '3.1'
  version: v1
@@ -253,13 +253,13 @@ echo "== Lab: OpenShift Configuration and Setup"
 
 echo "=== Set Regions and Zones"
 
-oc label node infranode00-$guid.oslab.opentlc.com region="infra" zone="infranodes"
-oc label node node00-$guid.oslab.opentlc.com region="primary" zone="east"
-oc label node node01-$guid.oslab.opentlc.com region="primary" zone="west"
+oc label node infranode1.example.com region="infra" zone="infranodes"
+oc label node node1.example.com region="primary" zone="east"
+oc label node node2.example.com region="primary" zone="west"
 
 oc get nodes
 
-oadm manage-node master00-$guid.oslab.opentlc.com  --schedulable=false
+oadm manage-node master1.example.com  --schedulable=false
 
 echo "SKIPPING create a default NodeSelector in master-config"
 #sed -i 's/defaultNodeSelector: ""/defaultNodeSelector: "region=primary"' /etc/openshift/master/master-config.yaml
@@ -316,9 +316,9 @@ systemctl status openshift-master
 echo "Export an NFS Volume for Persistent Storage"
 
 echo "As root on the master host ensure that nfs-utils is installed on the nodes:"
-for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do ssh $node "yum -y install nfs-utils" ; done
+for node in infranode1.example.com node1.example.com node2.example.com; do ssh $node "yum -y install nfs-utils" ; done
 
-ssh root@192.168.0.254 "
+ssh root@192.168.0.3 "
 mkdir -p /var/export/registry-storage
 chown -R nfsnobody:nfsnobody /var/export/registry-storage
 chmod -R 700 /var/export/registry-storage
@@ -330,7 +330,7 @@ systemctl disable firewalld
 "
 
 echo "Allow NFS Access in SELinux Policy on all nodes"
-for node in infranode00-$guid.oslab.opentlc.com node00-$guid.oslab.opentlc.com node01-$guid.oslab.opentlc.com; do setsebool -P virt_use_nfs=true ; done
+for node in infranode1.example.com node1.example.com node2.example.com; do setsebool -P virt_use_nfs=true ; done
 
 echo "Create a Persistent Volume for the Registry"
 
@@ -348,7 +348,7 @@ cat << EOF > registry-volume.json
         "accessModes": [ "ReadWriteMany" ],
         "nfs": {
             "path": "/var/export/registry-storage",
-            "server": "oselab-${GUID}.oslab.opentlc.com"
+            "server": "oselab.example.com"
         }
       }
     }

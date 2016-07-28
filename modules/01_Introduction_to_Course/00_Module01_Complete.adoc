@@ -124,10 +124,10 @@ endif::showscript[]
 +
 [cols="3",width="65%"]
 |=======================
-||Master00|InfraNode00
-|*Internal IP*|`192.168.0.100`|`192.168.0.101`
+||Master1|InfraNode1
+|*Internal IP*|`192.168.0.101`|`192.168.0.251`
 |*External IP*|Provided|Provided
-|*DNS Name*|+master00-**GUID**.oslab.opentlc.com+|+infranode00-**GUID**.oslab.opentlc.com+
+|*DNS Name*|+master1.example.com+|+infranode1.example.com+
 |*Credentials*|`root`/`r3dh4t1!`|`root`/`r3dh4t1!`
 |=======================
 
@@ -163,12 +163,13 @@ endif::showscript[]
 +
 [cols="3",width="65%"]
 |=======================
-||Node00|Node01
-|*Internal IP*|`192.168.0.200`|`192.168.0.201`
+||Node1|Node2
+|*Internal IP*|`192.168.0.201`|`192.168.0.202`
 |*External IP*|Provided|Provided
-|*DNS Name*|+node00-**GUID**.oslab.opentlc.com+|+node01-**GUID**.oslab.opentlc.com+
+|*DNS Name*|+node1.example.com+|+node2.example.com+
 |*Credentials*|`root`/`r3dh4t1!`|`root`/`r3dh4t1!`
 |=======================
+
 
 ifdef::showscript[]
 
@@ -188,9 +189,9 @@ endif::showscript[]
 [cols ="1,4",width="65%"]
 |=======================
 ||`oselab`
-|*Internal IP*|`192.168.0.254`
+|*Internal IP*|`192.168.0.3`
 |*External IP*|Provided
-|*DNS Name*|+oselab-**GUID**.oslab.opentlc.com+
+|*DNS Name*|+oselab.example.com+
 |*Credentials*|OPENTLC Credentials
 |=======================
 

@@ -3,24 +3,24 @@
 [cols="1,1,4,2"]
 |=======================================================================
 |Host |IP |Description |Labels
-|*Master00* |`192.168.0.100` a|* Hosts the web console, _API service_, and _etcd store_
+|*Master1* |`192.168.0.101` a|* Hosts the web console, _API service_, and _etcd store_
 * Cannot be scheduled
 * No need for label a|* *Region*: `NA`
 * *Zone*: `NA`
 * *Schedulable*: `false`
-|*InfraNode00* |`192.168.0.101` |Used only to host
+|*InfraNode1* |`192.168.0.251` |Used only to host
 _Infrastructure_ containers such as `Registry` and HAProxy `Router` a|* *Region*: `Infra`
 * *Zone*: `infranode`
 * *Schedulable*: `true`
-|*Node00* |`192.168.0.200` a|* Part of primary region
+|*Node1* |`192.168.0.201` a|* Part of primary region
 * Cohosts all user workloads a|* *Region*: `Primary`
 * *Zone*: `East`
 * *Schedulable*: `true`
-|*Node01* |`192.168.0.201` a|* Part of primary region
+|*Node2* |`192.168.0.202` a|* Part of primary region
 * Cohosts all user workloads a|* *Region*: `Primary`
 * *Zone*: `West`
 * *Schedulable*: `true`
-|`oselab` |`192.168.0.254` |Simulates the corporate DNS server
+|`oselab` |`192.168.0.3` |Simulates the corporate DNS server
 and NFS backend
 |=======================================================================
 

@@ -50,24 +50,24 @@ endif::showscript[]
 [cols="1,1,4,2"]
 |=======================================================================
 |Host |IP |Description |Labels
-|*Master00* |`192.168.0.100` a|* Hosts the web console, _API service_, and _etcd store_
+|*Master1* |`192.168.0.101` a|* Hosts the web console, _API service_, and _etcd store_
 * Cannot be scheduled
 * No need for label a|* *Region*: `NA`
 * *Zone*: `NA`
 * *Schedulable*: `false`
-|*InfraNode00* |`192.168.0.101` |Used only to host
+|*InfraNode1* |`192.168.0.251` |Used only to host
 _Infrastructure_ containers such as `Registry` and HAProxy `Router` a|* *Region*: `Infra`
 * *Zone*: `infranode`
 * *Schedulable*: `true`
-|*Node00* |`192.168.0.200` a|* Part of primary region
+|*Node1* |`192.168.0.201` a|* Part of primary region
 * Cohosts all user workloads a|* *Region*: `Primary`
 * *Zone*: `East`
 * *Schedulable*: `true`
-|*Node01* |`192.168.0.201` a|* Part of primary region
+|*Node2* |`192.168.0.202` a|* Part of primary region
 * Cohosts all user workloads a|* *Region*: `Primary`
 * *Zone*: `West`
 * *Schedulable*: `true`
-|`oselab` |`192.168.0.254` |Simulates the corporate DNS server
+|`oselab` |`192.168.0.3` |Simulates the corporate DNS server
 and NFS backend
 |=======================================================================
 
@@ -204,7 +204,7 @@ endif::showscript[]
 * To make environment accessible externally, create wildcard DNS entry
 ** Points to _node_ hosting _Default Router Container_
 ** Resolves to OpenShift router IP address
-* In lab and examples, this is `infranode00` server
+* In lab and examples, this is `infranode1` server
 ** If environment uses multiple _routers_ (HAProxy instances), use external load
  balancer or round-robin setting
 * Example: Create wildcard DNS entry for `cloudapps` in DNS server
@@ -226,7 +226,7 @@ To make the OpenShift Enterprise environment accessible externally, you create a
  wildcard DNS entry that points to the _node_ that is hosting the
   _Default Router Container_.
 
-In this lab and examples, this is the `infranode00` server. If your environment
+In this lab and examples, this is the `infranode1` server. If your environment
  uses multiple _routers_ (HAProxy instances), which is likely, you use an
   external load balancer or round-robin setting to use them.
 
@@ -297,7 +297,7 @@ endif::showscript[]
 +
 ----
 # ssh-keygen
-# ssh-copy-id root@node00.example.com
+# ssh-copy-id root@node1.example.com
 ----
 +
 [NOTE]
@@ -677,10 +677,10 @@ endif::showscript[]
 ** Labels on nodes handle assignments of _regions_ and _zones_ at node level
 +
 ----
-# oc label node master00-$guid.oslab.opentlc.com region="infra" zone="na"
-# oc label node infranode00-$guid.oslab.opentlc.com region="infra" zone="infranodes"
-# oc label node node00-$guid.oslab.opentlc.com region="primary" zone="east"
-# oc label node node01-$guid.oslab.opentlc.com region="primary" zone="west"
+# oc label node master1.example.com region="infra" zone="na"
+# oc label node infranode1.example.com region="infra" zone="infranodes"
+# oc label node node1.example.com region="primary" zone="east"
+# oc label node node2.example.com region="primary" zone="west"
 ----
 
 ifdef::showscript[]
@@ -752,7 +752,7 @@ endif::showscript[]
 .Deploying Registry
 
 * Environment includes `infra` region and dedicated
-`infranode00` host
+`infranode1` host
 ** Good practice for highly scalable environment
 ** Use better-performing servers for nodes or place them in DMZ for external
  access only
@@ -778,7 +778,7 @@ ifdef::showscript[]
 
 You can deploy the _Registry container_ anywhere in the OpenShift Environment.
  In your lab environment, you will create a region called `infra` and dedicate
-  the `infranode00` host for it.
+  the `infranode1` host for it.
 
 This is a good practice for a highly scalable environment. You might want to use
  better-performing servers for these nodes or place them in the DMZ so they can

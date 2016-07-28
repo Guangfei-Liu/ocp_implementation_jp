@@ -99,7 +99,7 @@ oc describe limitranges limits -n resourcemanagement
 
 echo "Running commands as Andrew"
 echo 'When asked for Password, Enter: r3dh4t1!'
-su - andrew -c "export guid=`hostname|cut -f2 -d-|cut -f1 -d.` ; oc login -u andrew --insecure-skip-tls-verify --server=https://master00-${guid}.oslab.opentlc.com:8443"
+su - andrew -c "export guid=`hostname|cut -f2 -d-|cut -f1 -d.` ; oc login -u andrew --insecure-skip-tls-verify --server=https://master1-${guid}.oslab.opentlc.com:8443"
 
 
 cat <<EOF > hello-pod.json

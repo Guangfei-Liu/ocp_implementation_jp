@@ -897,6 +897,7 @@ osm_default_node_selector='region=primary'
 openshift_hosted_router_selector='region=infra'
 openshift_hosted_registry_selector='region=infra'
 
+openshift_master_default_subdomain=cloudapps-${GUID}.oslab.opentlc.com
 
 #openshift_use_dnsmasq=False
 #openshift_node_dnsmasq_additional_config_file=/home/bob/ose-dnsmasq.conf
@@ -929,6 +930,8 @@ Notes:
    themselves.
  * The openshift_public_hostname hostname should resolve to the external ip from hosts outside of
    the cloud.
+ * The openshift_master_default_subdomain set a default Subdomain for the route.
+ * The osm_default_node_selector set a Default NodeSelector.
 
 
 === Run Ansible Playbook
@@ -1023,33 +1026,6 @@ You now have a running OpenShift Enterprise environment across three hosts with
 +
 ----
 [root@master1 ~]# cp /etc/origin/master/master-config.yaml /etc/origin/master/master-config.yaml.original
-----
-
-.Setting the Default Subdomain
-* To set a default Route, change the `routingConfig` attribute's `subdomain` command:
-+
-[source,bash]
-----
-[root@master1 ~]# sed  -i "s/subdomain:  \"\"/subdomain: \"cloudapps-${GUID}.oslab.opentlc.com\"/g" /etc/origin/master/master-config.yaml
-[root@master1 ~]# systemctl restart atomic-openshift-master
-
-----
-
-.Setting the Default NodeSelector
-* To set a default `NodeSelector`, change the `projectConfig` attribute's `defaultNodeSelector` command:
-+
-[source,bash]
-----
-[root@master1 ~]# sed -i 's/defaultNodeSelector: ""/defaultNodeSelector: "region=primary"/' /etc/origin/master/master-config.yaml
-[root@master1 ~]# systemctl restart atomic-openshift-master
-[root@master1 ~]# systemctl status atomic-openshift-master
-tomic-openshift-master.service - Atomic OpenShift Master
-   Loaded: loaded (/usr/lib/systemd/system/atomic-openshift-master.service; enabled)
-   Active: active (running) since Mon 2015-12-21 20:19:58 EST; 19s ago
-     Docs: https://github.com/openshift/origin
- Main PID: 2948 (openshift)
-   CGroup: /system.slice/atomic-openshift-master.service
-           └─2948 /usr/bin/openshift start master --config=/etc/origin/master/master-config.yaml --loglevel=2
 ----
 
 .Configuring the Default Namespace to Use the `infra` Region

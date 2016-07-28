@@ -917,7 +917,7 @@ openshift_hosted_registry_selector='region=infra'
 master1.example.com openshift_hostname=master1.example.com openshift_public_hostname=master1.example.com
 
 [nodes]
-master1.example.com openshift_hostname=master1.example.com openshift_public_hostname=master1-${GUID}.oslab.opentlc.com openshift_node_labels="{'region': 'infra', 'zone': 'na'}"
+master1.example.com openshift_hostname=master1.example.com openshift_public_hostname=master1-${GUID}.oslab.opentlc.com openshift_node_labels="{'region': 'infra'}"
 infranode1.example.com openshift_hostname=infranode1.example.com openshift_public_hostname=infranode1-${GUID}.oslab.opentlc.com openshift_node_labels="{'region': 'infra', 'zone': 'infranodes'}"
 node1.example.com openshift_hostname=node1.example.com openshift_public_hostname=node1-${GUID}.oslab.opentlc.com openshift_node_labels="{'region': 'primary', 'zone': 'east'}"
 node2.example.com openshift_hostname=node2.example.com openshift_public_hostname=node2-${GUID}.oslab.opentlc.com openshift_node_labels="{'region': 'primary', 'zone': 'west'}"
@@ -971,11 +971,11 @@ node2.example.com          : ok=105  changed=29   unreachable=0    failed=0
 ----
 
 [root@master1 ~]# oc get nodes
-NAME                                 LABELS                                 STATUS                     AGE
-infranode1.example.com   kubernetes.io/hostname=192.168.0.251   Ready                      1m
-master1.example.com      kubernetes.io/hostname=192.168.0.101   Ready,SchedulingDisabled   1m
-node1.example.com        kubernetes.io/hostname=192.168.0.201   Ready                      1m
-node2.example.com        kubernetes.io/hostname=192.168.0.202   Ready                      1m
+NAME                     STATUS                     AGE
+infranode1.example.com   Ready                      1m
+master1.example.com      Ready,SchedulingDisabled   1m
+node1.example.com        Ready                      1m
+node2.example.com        Ready                      1m
 ----
 +
 NOTE: If you see an error message that connection to the master host cannot be established, wait a few more seconds for the master daemon to start.
@@ -991,36 +991,30 @@ In this section, you establish regions and zones, configure OpenShift
   `htpasswd` authentication. Subsequently, you deploy the registry and router
    and populate OpenShift Enterprise.
 
-=== Set Regions and Zones
+=== Check Regions and Zones
 
-. Label the nodes:
-+
-----
-[root@master1 ~]# oc label node infranode1.example.com region="infra" zone="infranodes"
-[root@master1 ~]# oc label node node1.example.com region="primary" zone="east"
-[root@master1 ~]# oc label node node2.example.com region="primary" zone="west"
-----
 
-. On the `master1` host, run `oc get nodes` to learn how the labels were
+. On the `master1` host, run `oc get nodes --show-labels` to learn how the labels were
  implemented:
 +
 ----
 
-[root@master1 ~]# oc get nodes
+[root@master1 ~]# oc get nodes --show-labels
 
 ----
 
 * The output is as follows:
 +
 ----
-
-NAME                                 LABELS                                                              STATUS                     AGE
-infranode1.example.com   kubernetes.io/hostname=192.168.0.251,region=infra,zone=infranodes   Ready                      6m
-master1.example.com      kubernetes.io/hostname=192.168.0.101                                Ready,SchedulingDisabled   6m
-node1.example.com        kubernetes.io/hostname=192.168.0.201,region=primary,zone=east       Ready                      6m
-node2.example.com        kubernetes.io/hostname=192.168.0.202,region=primary,zone=west       Ready                      6m
+NAME                     STATUS                     AGE       LABELS
+infranode1.example.com   Ready                      6m       kubernetes.io/hostname=infranode1.example.com,region=infra,zone=infranodes
+master1.example.com      Ready,SchedulingDisabled   6m       kubernetes.io/hostname=master1.example.com,region=infra
+node1.example.com        Ready                      6m       kubernetes.io/hostname=node1.example.com,region=primary,zone=east
+node2.example.com        Ready                      6m       kubernetes.io/hostname=node2.example.com,region=primary,zone=west
 
 ----
+
+NOTE: You can add/overwrite labels with: `oc label node infranode1.example.com region="infra" zone="infranodes"`
 
 You now have a running OpenShift Enterprise environment across three hosts with
  one master and three nodes, divided into two regions: infra and primary.

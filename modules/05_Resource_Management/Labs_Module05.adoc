@@ -31,7 +31,7 @@ In this section, you create a persistent volume for your registry, attach it to 
 . Connect to the `master1` host:
 +
 ----
-[root@oselab ~]# ssh master1-$guid
+[root@oselab ~]# ssh master1.example.com
 ----
 
 . On the master host, run `oadm` to create and assign the administrative user `andrew` to a project:
@@ -117,7 +117,7 @@ test-quota   8s
 +
 ----
 
-[root@master1 ~]# oc describe quota test-quota -n resourcemanagement
+[root@master1 ~]# oc describe -n resourcemanagement quota test-quota
 
 ----
 +
@@ -233,7 +233,7 @@ NOTE: You are running commands as the Linux users `andrew` and `root` in a lab e
 +
 ----
 [root@master1 ~]# su - andrew
-[andrew@master1 ~]$ oc login -u andrew --insecure-skip-tls-verify --server=https://master1-${guid}.oslab.opentlc.com:8443
+[andrew@master1 ~]$ oc login -u andrew --insecure-skip-tls-verify --server=https://master1.example.com:8443
 ----
 
 * The output is as follows:
@@ -266,7 +266,7 @@ NOTE: This lab shows you the manual, step-by-step method of creating each object
     "containers": [
       {
         "name": "hello-openshift",
-        "image": "openshift/hello-openshift:v1.0.6",
+        "image": "openshift/hello-openshift:v1.2.1",
         "ports": [
           {
             "containerPort": 8080,
@@ -319,7 +319,7 @@ hello-openshift   1/1       Running   0          8s
 [andrew@master1 ~]$ oc describe pod hello-openshift
 Name:				hello-openshift
 Namespace:			resourcemanagement
-Image(s):			openshift/hello-openshift:v1.0.6
+Image(s):			openshift/hello-openshift:v1.2.1
 Node:				node1.example.com/192.168.0.201
 Start Time:			Thu, 26 Nov 2015 21:23:27 -0500
 Labels:				name=hello-openshift
@@ -331,7 +331,7 @@ Replication Controllers:	<none>
 Containers:
   hello-openshift:
     Container ID:	docker://e36321aabeb1cb64e3da054128818dedd8ec3891dbf8aa758c72a96fc1180eee
-    Image:		openshift/hello-openshift:v1.0.6
+    Image:		openshift/hello-openshift:v1.2.1
     Image ID:		docker://bba2117915baabfd05932dc916306bae2c51d15848592c3018e7af0308dee519
     QoS Tier:
       cpu:	Guaranteed
@@ -361,7 +361,7 @@ Events:
   4m		4m		1	{scheduler }							Scheduled	Successfully assigned hello-openshift to node1.example.com
   4m		4m		1	{kubelet node1.example.com}	implicitly required container POD	Created		Created with docker id f19fdc8fb3c8
   4m		4m		1	{kubelet node1.example.com}	implicitly required container POD	Started		Started with docker id f19fdc8fb3c8
-  4m		4m		1	{kubelet node1.example.com}	spec.containers{hello-openshift}	Pulled		Container image "openshift/hello-openshift:v1.0.6" already present on machine
+  4m		4m		1	{kubelet node1.example.com}	spec.containers{hello-openshift}	Pulled		Container image "openshift/hello-openshift:v1.2.1" already present on machine
   4m		4m		1	{kubelet node1.example.com}	spec.containers{hello-openshift}	Created		Created with docker id e36321aabeb1
   4m		4m		1	{kubelet node1.example.com}	spec.containers{hello-openshift}	Started		Started with docker id e36321aabeb1
 
@@ -417,7 +417,7 @@ TIP: You can also delete a pod using the following command format: +oc delete po
         "containers": [
           {
             "name": "hello-openshift",
-            "image": "openshift/hello-openshift:v1.0.6",
+            "image": "openshift/hello-openshift:v1.2.1",
             "ports": [
               {
                 "containerPort": 8080,
@@ -459,7 +459,7 @@ TIP: You can also delete a pod using the following command format: +oc delete po
         "containers": [
           {
             "name": "hello-openshift",
-            "image": "openshift/hello-openshift:v1.0.6",
+            "image": "openshift/hello-openshift:v1.2.1",
             "ports": [
               {
                 "containerPort": 8080,
@@ -501,7 +501,7 @@ TIP: You can also delete a pod using the following command format: +oc delete po
         "containers": [
           {
             "name": "hello-openshift",
-            "image": "openshift/hello-openshift:v1.0.6",
+            "image": "openshift/hello-openshift:v1.2.1",
             "ports": [
               {
                 "containerPort": 8080,
@@ -543,7 +543,7 @@ TIP: You can also delete a pod using the following command format: +oc delete po
         "containers": [
           {
             "name": "hello-openshift",
-            "image": "openshift/hello-openshift:v1.0.6",
+            "image": "openshift/hello-openshift:v1.2.1",
             "ports": [
               {
                 "containerPort": 8080,
@@ -783,9 +783,9 @@ Next, take a look at the route and registry containers.
 +
 ----
 
-[andrew@master1 ~]$ oc new-app --docker-image=openshift/hello-openshift:v1.0.6 -l "todelete=yes"
---> Found Docker image 7ce9d7b (10 weeks old) from Docker Hub for "openshift/hello-openshift:v1.0.6"
-    * An image stream will be created as "hello-openshift:v1.0.6" that will track this image
+[andrew@master1 ~]$ oc new-app --docker-image=openshift/hello-openshift:v1.2.1 -l "todelete=yes"
+--> Found Docker image 7ce9d7b (10 weeks old) from Docker Hub for "openshift/hello-openshift:v1.2.1"
+    * An image stream will be created as "hello-openshift:v1.2.1" that will track this image
     * This image will be deployed in deployment config "hello-openshift"
     * Ports 8080/tcp, 8888/tcp will be load balanced by service "hello-openshift"
 --> Creating resources with label todelete=yes ...
@@ -1119,7 +1119,7 @@ You learn in this lab how to create an NFS export for the registry and to attach
 +
 [source,json]
 ----
-[root@oselab ~]# ssh master1-$guid
+[root@oselab ~]# ssh master1.example.com
 [root@master1 ~]# cat << EOF > registry-volume.json
     {
       "apiVersion": "v1",

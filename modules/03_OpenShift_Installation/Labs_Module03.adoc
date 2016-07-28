@@ -1031,44 +1031,8 @@ You now have a running OpenShift Enterprise environment across three hosts with
 .Configuring the Default Namespace to Use the `infra` Region
 
 . Edit the default namespace with the following command:
-+
-NOTE: This will invoke an editor, add the line in the next step before exiting.
-+
 ----
-[root@master1 ~]#  oc edit namespace default
-----
-
-. In the `annotations` section, add the following line in the default namespace object:
-+
-NOTE: Be sure to use the correct spacing as the other lines in this section. To exit, type `:wq`.
-+
-----
-openshift.io/node-selector: region=infra
-----
-
-* Your object looks similar to this:
-+
-----
-apiVersion: v1
-kind: Namespace
-metadata:
-  annotations:
-    openshift.io/node-selector: region=infra
-    openshift.io/sa.initialized-roles: "true"
-    openshift.io/sa.scc.mcs: s0:c3,c2
-    openshift.io/sa.scc.supplemental-groups: 1000010000/10000
-    openshift.io/sa.scc.uid-range: 1000010000/10000
-  creationTimestamp: 2015-11-20T02:10:35Z
-  name: default
-  resourceVersion: "217"
-  selfLink: /api/v1/namespaces/default
-  uid: e304c204-8f2b-11e5-9223-2cc260072896
-spec:
-  finalizers:
-  - kubernetes
-  - openshift.io/origin
-status:
-  phase: Active
+[root@master1 ~]# oc annotate namespace default openshift.io/node-selector='region=infra' --overwrite
 ----
 
 . Check that your changes were updated in the "default" `namespace`.
@@ -1081,14 +1045,14 @@ metadata:
   annotations:
     openshift.io/node-selector: region=infra
     openshift.io/sa.initialized-roles: "true"
-    openshift.io/sa.scc.mcs: s0:c5,c0
-    openshift.io/sa.scc.supplemental-groups: 1000020000/10000
-    openshift.io/sa.scc.uid-range: 1000020000/10000
-  creationTimestamp: 2015-12-22T01:00:48Z
+    openshift.io/sa.scc.mcs: s0:c1,c0
+    openshift.io/sa.scc.supplemental-groups: 1000000000/10000
+    openshift.io/sa.scc.uid-range: 1000000000/10000
+  creationTimestamp: 2016-07-27T14:40:21Z
   name: default
-  resourceVersion: "752"
+  resourceVersion: "18645"
   selfLink: /api/v1/namespaces/default
-  uid: 70779bd0-a847-11e5-b12e-2cc2605128d8
+  uid: 0b862f84-5408-11e6-b694-2cc2600a5748
 spec:
   finalizers:
   - kubernetes

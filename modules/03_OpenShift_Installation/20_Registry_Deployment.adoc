@@ -11,16 +11,16 @@
 * To deploy registry anywhere in environment:
 +
 ----
-$ oadm registry --config=admin.kubeconfig \
-    --credentials=openshift-registry.kubeconfig
+$ oadm registry --config=/etc/origin/master/admin.kubeconfig \
+    --service-account=registry
 ----
 
 * To ensure `registry` pod is hosted in `infra` region only:
 +
 ----
-$ oadm registry --config=admin.kubeconfig \
-    --credentials=openshift-registry.kubeconfig \
-	   --selector='region=infra'
+$ oadm registry --config=/etc/origin/master/admin.kubeconfig \
+    --service-account=registry \
+    --selector='region=infra'
 ----
 
 ifdef::showscript[]

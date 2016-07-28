@@ -2,7 +2,7 @@
 
 .Installing Docker
 
-* Must install Docker version 1.8.2 or later from `rhel-7-server-ose-3.1-rpms`
+* Must install Docker version 1.9.1 or later from `rhel-7-server-ose-3.2-rpms`
  and have it running on master and node hosts before installing OpenShift
   Enterprise:
 
@@ -31,7 +31,7 @@ ifdef::showscript[]
 
 === Transcript
 Each node, including the master, requires Docker to be installed and configured.
- You must use version 1.8.2 or later of the docker software.
+ You must use version 1.9.1 or later of the docker software.
 
 Use the commands shown here to install Docker and add the `--insecure-registry`
  option to the `OPTIONS` parameter.

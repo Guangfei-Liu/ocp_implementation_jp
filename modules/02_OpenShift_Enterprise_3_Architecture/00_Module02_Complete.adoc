@@ -770,7 +770,7 @@ endif::showscript[]
 . DNS resolves to the FQDN as the `node` running the `Default Router` container
 . The request on port 80/443 goes reaches the `Default Router`
 . `Default Router` checks available `endpoints` (IPs) according to the FQDN
-. The `Default Router` proxies request to internal pod `IP:port` (`10.1.2.3:8080`)
+. The `Default Router` proxies request to internal pod `IP:port` (`10.1.0.2:8080`)
 +
 image::images/NetworkScenario01.png[]
 
@@ -935,22 +935,22 @@ endif::showscript[]
 
 
 
-== OpenShift Enterprise 3.1 Release Notes
+== OpenShift Enterprise 3.2 Release Notes
 
-* OpenShift Enterprise version 3.1 now available
+* OpenShift Enterprise version 3.2 now available
 * Be sure to follow instructions for upgrading OpenShift cluster properly
 ** Including release-specific steps
 
 [NOTE]
 For instructions on upgrading your OpenShift cluster, including any
  release-specific steps, see
-  https://docs.openshift.com/enterprise/3.1/install_config/upgrades.html.
+  https://docs.openshift.com/enterprise/3.2/install_config/upgrades.html.
 
 ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise version 3.1 is now available.
+OpenShift Enterprise version 3.2 is now available.
 
 Make sure that you properly follow the instructions on upgrading your OpenShift
  cluster, including steps specific to this release.

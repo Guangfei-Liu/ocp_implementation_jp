@@ -316,57 +316,49 @@ hello-openshift   1/1       Running   0          8s
 . Run `oc describe` for details on your pod:
 +
 ----
-[andrew@master1 ~]$ oc describe pod hello-openshift
-Name:				hello-openshift
-Namespace:			resourcemanagement
-Image(s):			openshift/hello-openshift:v1.2.1
-Node:				node1.example.com/192.168.0.201
-Start Time:			Thu, 26 Nov 2015 21:23:27 -0500
-Labels:				name=hello-openshift
-Status:				Running
-Reason:
-Message:
-IP:				10.1.2.2
-Replication Controllers:	<none>
+Name:           hello-openshift
+Namespace:      resourcemanagement
+Node:           node2.example.com/192.168.0.202
+Start Time:     Thu, 28 Jul 2016 09:50:48 -0400
+Labels:         name=hello-openshift
+Status:         Running
+IP:             10.1.1.2
+Controllers:    <none>
 Containers:
   hello-openshift:
-    Container ID:	docker://e36321aabeb1cb64e3da054128818dedd8ec3891dbf8aa758c72a96fc1180eee
-    Image:		openshift/hello-openshift:v1.2.1
-    Image ID:		docker://bba2117915baabfd05932dc916306bae2c51d15848592c3018e7af0308dee519
+    Container ID:       docker://87d7fc29e65bbb617a6cebe58d9ede3f73c75ff93d355d4060e96f7c2f36e744
+    Image:              openshift/hello-openshift:v1.2.1
+    Image ID:           docker://d11345b38f32ef5e52ef84be32324eb5314662fd9c446e1dd8765309d7cc0058
+    Port:               8080/TCP
     QoS Tier:
-      cpu:	Guaranteed
-      memory:	Guaranteed
+      memory:   Guaranteed
+      cpu:      Guaranteed
     Limits:
-      cpu:	100m
-      memory:	100Mi
+      memory:   100Mi
+      cpu:      100m
     Requests:
-      cpu:		100m
-      memory:		100Mi
-    State:		Running
-      Started:		Thu, 26 Nov 2015 21:23:32 -0500
-    Ready:		True
-    Restart Count:	0
+      cpu:              100m
+      memory:           100Mi
+    State:              Running
+      Started:          Thu, 28 Jul 2016 09:52:05 -0400
+    Ready:              True
+    Restart Count:      0
     Environment Variables:
 Conditions:
-  Type		Status
-  Ready 	True
+  Type          Status
+  Ready         True 
 Volumes:
-  default-token-rnadp:
-    Type:	Secret (a secret that should populate this volume)
-    SecretName:	default-token-rnadp
+  default-token-bky7y:
+    Type:       Secret (a volume populated by a Secret)
+    SecretName: default-token-bky7y
 Events:
-  FirstSeen	LastSeen	Count	From					SubobjectPath		Reason		Message
-  ─────────	────────	─────	────					─────────────		──────		───────
-  4m		4m		1	{kubelet node1.example.com}	implicitly required container POD	Pulled		Container image "openshift3/ose-pod:v3.1.0.4" already present on machine
-  4m		4m		1	{scheduler }							Scheduled	Successfully assigned hello-openshift to node1.example.com
-  4m		4m		1	{kubelet node1.example.com}	implicitly required container POD	Created		Created with docker id f19fdc8fb3c8
-  4m		4m		1	{kubelet node1.example.com}	implicitly required container POD	Started		Started with docker id f19fdc8fb3c8
-  4m		4m		1	{kubelet node1.example.com}	spec.containers{hello-openshift}	Pulled		Container image "openshift/hello-openshift:v1.2.1" already present on machine
-  4m		4m		1	{kubelet node1.example.com}	spec.containers{hello-openshift}	Created		Created with docker id e36321aabeb1
-  4m		4m		1	{kubelet node1.example.com}	spec.containers{hello-openshift}	Started		Started with docker id e36321aabeb1
-
-
-
+  FirstSeen     LastSeen        Count   From                            SubobjectPath                           Type            Reason          Message
+  ---------     --------        -----   ----                            -------------                           --------        ------          -------
+  6m            6m              1       {default-scheduler }                                                    Normal          Scheduled       Successfully assigned hello-openshift to node2.example.com
+  5m            5m              1       {kubelet node2.example.com}     spec.containers{hello-openshift}        Normal          Pulling         pulling image "openshift/hello-openshift:v1.2.1"
+  5m            5m              1       {kubelet node2.example.com}     spec.containers{hello-openshift}        Normal          Pulled          Successfully pulled image "openshift/hello-openshift:v1.2.1"
+  5m            5m              1       {kubelet node2.example.com}     spec.containers{hello-openshift}        Normal          Created         Created container with docker id 87d7fc29e65b
+  5m            5m              1       {kubelet node2.example.com}     spec.containers{hello-openshift}        Normal          Started         Started container with docker id 87d7fc29e65b
 ----
 +
 . Test that your pod is responding with `Hello OpenShift`:
@@ -611,7 +603,7 @@ Because you defined a quota before, `oc create` created three pods only instead 
 * The output looks like this:
 +
 ----
-Now using project "svcslab" on server "https://master1-GUID.oslab.opentlc.com:8443".
+Now using project "svcslab" on server "https://master1.example.com:8443".
 ----
 +
 TIP: To switch between projects, run `oc project _projectname_`.
@@ -733,7 +725,7 @@ No events.
 +
 ----
 
-[andrew@master1 ~]$ ip=`oc describe service hello-service|grep IP:|awk '{print $2}'`
+[andrew@master1 ~]$ ip=$(oc get service hello-service --template "{{ .spec.portalIP }}")
 [andrew@master1 ~]$ curl http://${ip}:8888
 Hello OpenShift!
 

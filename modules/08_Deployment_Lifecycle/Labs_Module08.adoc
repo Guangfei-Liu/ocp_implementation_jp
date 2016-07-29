@@ -300,13 +300,14 @@ Your GitHub account can configure a webhook whenever you push a commit to a spec
 .. Go to the web console.
 .. Navigate to your project.
 .. Click *Browse* and then click *Builds*.
+.. Select the ruby-hello-world app and clic on *Configuration*.
 
 * Two webhook URLs are displayed.
 
 . Copy the generic URL, which looks like this:
 +
 ----
-https://master1-GUID.oslab.opentlc.com:8443/osapi/v1/namespaces/lifecycle/buildconfigs/ruby-hello-world/webhooks/ALNUyArydLb22JqdXYIb/generic
+https://master1-GUID.oslab.opentlc.com:8443/oapi/v1/namespaces/lifecycle/buildconfigs/ruby-hello-world/webhooks/ALNUyArydLb22JqdXYIb/generic
 ----
 
 . Obtain the `secret` password from `buildconfig`:

@@ -413,12 +413,12 @@ zone \"${domain}\" IN {
  systemctl start named
 ----
 
-. Configure `firewalld` to allow inbound DNS queries:
+. Configure `iptables` to allow inbound DNS queries:
 +
 ----
-[root@oselab bin]# firewall-cmd --zone=public --add-service=dns --permanent ; \
- firewall-cmd --reload
-
+[root@oselab bin]# iptables -I INPUT 1 -p tcp --dport 53 -s 0.0.0.0/0 -j ACCEPT ; \
+iptables -I INPUT 1 -p udp --dport 53 -s 0.0.0.0/0 -j ACCEPT ; \
+iptables-save > /etc/sysconfig/iptables
 ----
 
 === Verify DNS Configuration

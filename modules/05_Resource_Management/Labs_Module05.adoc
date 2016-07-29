@@ -822,7 +822,7 @@ hello-openshift-1-g3xow   1/1       Running   0          2m
 
 ==== Connect to Default Router Container
 
-. As `root`, execute the `bash` shell inside the router with the `oc exec`
+. As `root`, execute the `bash` shell inside the router with the `oc rsh`
  command along with the default router's pod name. You have two options.
 +
 .Option 1
@@ -831,12 +831,12 @@ hello-openshift-1-g3xow   1/1       Running   0          2m
 NAME                      READY     REASON    RESTARTS   AGE
 docker-registry-2-snarn   1/1       Running   0          17h
 trainingrouter-1-jm5zk    1/1       Running   0          18h
-[root@master1 ~]# oc exec -ti trainingrouter-1-jm5zk /bin/bash
+[root@master1 ~]# oc rsh trainingrouter-1-jm5zk bash
 ----
 +
 .Option 2
 ----
-[root@master1 ~]#  oc exec -ti `oc get pods |  awk '/route/ { print $1; }'` "/bin/bash"
+[root@master1 ~]#  oc rsh $(oc get pods --selector="router=trainingrouter" --template='{{range .items}}{{.metadata.name}}{{end}}') bash
 ----
 
 * With either option, this prompt is displayed:
@@ -981,11 +981,10 @@ I1120 02:19:58.237018       1 sti.go:233] Successfully pushed 172.30.41.32:5000/
 [NOTE]
 This step takes a while on the lab environment's hardware. If the build is not yet complete, feel free to take a quick break here.
 
-. As `root`, execute the `bash` shell inside the registry container by running `oc exec` along with the `docker-registry` pod name:
+. As `root`, execute the `bash` shell inside the registry container by running `oc rsh` along with the `docker-registry` pod name:
 +
 ----
-[root@master1 ~]#  oc exec -ti  `oc get pods |  awk '/registry/ { print $1; }'` /bin/bash
-
+[root@master1 ~]#  oc rsh $(oc get pods --selector="deploymentconfig=docker-registry" --template='{{range .items}}{{.metadata.name}}{{end}}') bash
 ----
 
 . Do the following:
@@ -1053,7 +1052,7 @@ sinatra-example-1-yxyod   1/1       Running     0          8m
 . Connect to the container:
 +
 ----
-[andrew@master1 ~]$ oc exec -ti sinatra-example-1-yxyod "/bin/bash"
+[andrew@master1 ~]$ oc rsh sinatra-example-1-yxyod bash
 bash-4.2$
 ----
 

@@ -1082,6 +1082,22 @@ Your pod names and output differ slightly.
 
 You learn in this lab how to create an NFS export for the registry and to attach the persistent volume to the registry.
 
+NOTE: The registry is currently running with a small nfs persistent volume of 5Go. This volume was set by the following ansible config.
+----
+openshift_hosted_registry_storage_kind=nfs
+openshift_hosted_registry_storage_access_modes=['ReadWriteMany']
+openshift_hosted_registry_storage_host=oselab.example.com
+openshift_hosted_registry_storage_nfs_directory=/exports
+openshift_hosted_registry_storage_volume_name=registry
+openshift_hosted_registry_storage_volume_size=5Gi
+----
+
+=== Delete the existing Persistent Volume for Registry
+
+----
+[root@oselab ~]# ssh master1.example.com "oc delete pvc registry-claim ; oc delete pv registry-volume"
+----
+
 === Create NFS Export for Registry
 
 . As `root` on the `oselab` host, create a directory for your NFS export:

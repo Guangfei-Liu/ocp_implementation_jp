@@ -89,32 +89,38 @@ The `--strategy=source` option forces `oc new-app` to adopt the S2I strategy. A 
 . Verify that the output is similar to the following:
 +
 ----
-
 apiVersion: v1
 kind: BuildConfig
 metadata:
-  creationTimestamp: 2015-07-11T03:44:43Z
+  annotations:
+    openshift.io/generated-by: OpenShiftNewApp
+  creationTimestamp: 2016-07-29T09:47:05Z
+  labels:
+    app: ruby-hello-world
   name: ruby-hello-world
   namespace: lifecycle
-  resourceVersion: "10546"
-  selfLink: /osapi/v1beta3/namespaces/lifecycle/buildconfigs/ruby-hello-world
-  uid: 2ad8d8bc-277f-11e5-a5f8-2cc260072896
+  resourceVersion: "28797"
+  selfLink: /oapi/v1/namespaces/lifecycle/buildconfigs/ruby-hello-world
+  uid: 688ca0bc-5571-11e6-83dc-2cc2600a5748
 spec:
   output:
     to:
       kind: ImageStreamTag
       name: ruby-hello-world:latest
+  postCommit: {}
   resources: {}
   source:
     git:
+      ref: master
       uri: https://github.com/openshift/ruby-hello-world
+    secrets: []
     type: Git
   strategy:
-    dockerStrategy:
+    sourceStrategy:
       from:
         kind: ImageStreamTag
-        name: ruby-20-centos7:latest
-    type: Docker
+        name: ruby-20-rhel7:latest
+    type: Source
   triggers:
   - github:
       secret: jV5Ipwr7__4ae_sZG2Jm
@@ -122,12 +128,12 @@ spec:
   - generic:
       secret: ALNUyArydLb22JqdXYIb
     type: Generic
+  - type: ConfigChange
   - imageChange:
-      lastTriggeredImageID: openshift/ruby-20-centos7:latest
+      lastTriggeredImageID: registry.access.redhat.com/openshift3/ruby-20-rhel7:latest
     type: ImageChange
 status:
   lastVersion: 1
-
 ----
 
 . Observe that the current configuration points at the `openshift/ruby-hello-world` repository.
@@ -294,13 +300,14 @@ Your GitHub account can configure a webhook whenever you push a commit to a spec
 .. Go to the web console.
 .. Navigate to your project.
 .. Click *Browse* and then click *Builds*.
+.. Select the ruby-hello-world app and clic on *Configuration*.
 
 * Two webhook URLs are displayed.
 
 . Copy the generic URL, which looks like this:
 +
 ----
-https://master1-GUID.oslab.opentlc.com:8443/osapi/v1/namespaces/lifecycle/buildconfigs/ruby-hello-world/webhooks/ALNUyArydLb22JqdXYIb/generic
+https://master1-GUID.oslab.opentlc.com:8443/oapi/v1/namespaces/lifecycle/buildconfigs/ruby-hello-world/webhooks/ALNUyArydLb22JqdXYIb/generic
 ----
 
 . Obtain the `secret` password from `buildconfig`:

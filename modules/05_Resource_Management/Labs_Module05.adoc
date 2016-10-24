@@ -31,7 +31,7 @@ In this section, you create a persistent volume for your registry, attach it to 
 . Connect to the `master1` host:
 +
 ----
-[root@oselab ~]# ssh master1-$guid
+[root@oselab ~]# ssh master1.example.com
 ----
 
 . On the master host, run `oadm` to create and assign the administrative user `andrew` to a project:
@@ -117,7 +117,7 @@ test-quota   8s
 +
 ----
 
-[root@master1 ~]# oc describe quota test-quota -n resourcemanagement
+[root@master1 ~]# oc describe -n resourcemanagement quota test-quota
 
 ----
 +
@@ -233,7 +233,7 @@ NOTE: You are running commands as the Linux users `andrew` and `root` in a lab e
 +
 ----
 [root@master1 ~]# su - andrew
-[andrew@master1 ~]$ oc login -u andrew --insecure-skip-tls-verify --server=https://master1-${guid}.oslab.opentlc.com:8443
+[andrew@master1 ~]$ oc login -u andrew --insecure-skip-tls-verify --server=https://master1.example.com:8443
 ----
 
 * The output is as follows:
@@ -266,7 +266,7 @@ NOTE: This lab shows you the manual, step-by-step method of creating each object
     "containers": [
       {
         "name": "hello-openshift",
-        "image": "openshift/hello-openshift:v1.0.6",
+        "image": "openshift/hello-openshift:v1.2.1",
         "ports": [
           {
             "containerPort": 8080,
@@ -316,57 +316,49 @@ hello-openshift   1/1       Running   0          8s
 . Run `oc describe` for details on your pod:
 +
 ----
-[andrew@master1 ~]$ oc describe pod hello-openshift
-Name:				hello-openshift
-Namespace:			resourcemanagement
-Image(s):			openshift/hello-openshift:v1.0.6
-Node:				node1.example.com/192.168.0.201
-Start Time:			Thu, 26 Nov 2015 21:23:27 -0500
-Labels:				name=hello-openshift
-Status:				Running
-Reason:
-Message:
-IP:				10.1.2.2
-Replication Controllers:	<none>
+Name:           hello-openshift
+Namespace:      resourcemanagement
+Node:           node2.example.com/192.168.0.202
+Start Time:     Thu, 28 Jul 2016 09:50:48 -0400
+Labels:         name=hello-openshift
+Status:         Running
+IP:             10.1.1.2
+Controllers:    <none>
 Containers:
   hello-openshift:
-    Container ID:	docker://e36321aabeb1cb64e3da054128818dedd8ec3891dbf8aa758c72a96fc1180eee
-    Image:		openshift/hello-openshift:v1.0.6
-    Image ID:		docker://bba2117915baabfd05932dc916306bae2c51d15848592c3018e7af0308dee519
+    Container ID:       docker://87d7fc29e65bbb617a6cebe58d9ede3f73c75ff93d355d4060e96f7c2f36e744
+    Image:              openshift/hello-openshift:v1.2.1
+    Image ID:           docker://d11345b38f32ef5e52ef84be32324eb5314662fd9c446e1dd8765309d7cc0058
+    Port:               8080/TCP
     QoS Tier:
-      cpu:	Guaranteed
-      memory:	Guaranteed
+      memory:   Guaranteed
+      cpu:      Guaranteed
     Limits:
-      cpu:	100m
-      memory:	100Mi
+      memory:   100Mi
+      cpu:      100m
     Requests:
-      cpu:		100m
-      memory:		100Mi
-    State:		Running
-      Started:		Thu, 26 Nov 2015 21:23:32 -0500
-    Ready:		True
-    Restart Count:	0
+      cpu:              100m
+      memory:           100Mi
+    State:              Running
+      Started:          Thu, 28 Jul 2016 09:52:05 -0400
+    Ready:              True
+    Restart Count:      0
     Environment Variables:
 Conditions:
-  Type		Status
-  Ready 	True
+  Type          Status
+  Ready         True 
 Volumes:
-  default-token-rnadp:
-    Type:	Secret (a secret that should populate this volume)
-    SecretName:	default-token-rnadp
+  default-token-bky7y:
+    Type:       Secret (a volume populated by a Secret)
+    SecretName: default-token-bky7y
 Events:
-  FirstSeen	LastSeen	Count	From					SubobjectPath		Reason		Message
-  ─────────	────────	─────	────					─────────────		──────		───────
-  4m		4m		1	{kubelet node1.example.com}	implicitly required container POD	Pulled		Container image "openshift3/ose-pod:v3.1.0.4" already present on machine
-  4m		4m		1	{scheduler }							Scheduled	Successfully assigned hello-openshift to node1.example.com
-  4m		4m		1	{kubelet node1.example.com}	implicitly required container POD	Created		Created with docker id f19fdc8fb3c8
-  4m		4m		1	{kubelet node1.example.com}	implicitly required container POD	Started		Started with docker id f19fdc8fb3c8
-  4m		4m		1	{kubelet node1.example.com}	spec.containers{hello-openshift}	Pulled		Container image "openshift/hello-openshift:v1.0.6" already present on machine
-  4m		4m		1	{kubelet node1.example.com}	spec.containers{hello-openshift}	Created		Created with docker id e36321aabeb1
-  4m		4m		1	{kubelet node1.example.com}	spec.containers{hello-openshift}	Started		Started with docker id e36321aabeb1
-
-
-
+  FirstSeen     LastSeen        Count   From                            SubobjectPath                           Type            Reason          Message
+  ---------     --------        -----   ----                            -------------                           --------        ------          -------
+  6m            6m              1       {default-scheduler }                                                    Normal          Scheduled       Successfully assigned hello-openshift to node2.example.com
+  5m            5m              1       {kubelet node2.example.com}     spec.containers{hello-openshift}        Normal          Pulling         pulling image "openshift/hello-openshift:v1.2.1"
+  5m            5m              1       {kubelet node2.example.com}     spec.containers{hello-openshift}        Normal          Pulled          Successfully pulled image "openshift/hello-openshift:v1.2.1"
+  5m            5m              1       {kubelet node2.example.com}     spec.containers{hello-openshift}        Normal          Created         Created container with docker id 87d7fc29e65b
+  5m            5m              1       {kubelet node2.example.com}     spec.containers{hello-openshift}        Normal          Started         Started container with docker id 87d7fc29e65b
 ----
 +
 . Test that your pod is responding with `Hello OpenShift`:
@@ -417,7 +409,7 @@ TIP: You can also delete a pod using the following command format: +oc delete po
         "containers": [
           {
             "name": "hello-openshift",
-            "image": "openshift/hello-openshift:v1.0.6",
+            "image": "openshift/hello-openshift:v1.2.1",
             "ports": [
               {
                 "containerPort": 8080,
@@ -459,7 +451,7 @@ TIP: You can also delete a pod using the following command format: +oc delete po
         "containers": [
           {
             "name": "hello-openshift",
-            "image": "openshift/hello-openshift:v1.0.6",
+            "image": "openshift/hello-openshift:v1.2.1",
             "ports": [
               {
                 "containerPort": 8080,
@@ -501,7 +493,7 @@ TIP: You can also delete a pod using the following command format: +oc delete po
         "containers": [
           {
             "name": "hello-openshift",
-            "image": "openshift/hello-openshift:v1.0.6",
+            "image": "openshift/hello-openshift:v1.2.1",
             "ports": [
               {
                 "containerPort": 8080,
@@ -543,7 +535,7 @@ TIP: You can also delete a pod using the following command format: +oc delete po
         "containers": [
           {
             "name": "hello-openshift",
-            "image": "openshift/hello-openshift:v1.0.6",
+            "image": "openshift/hello-openshift:v1.2.1",
             "ports": [
               {
                 "containerPort": 8080,
@@ -611,7 +603,7 @@ Because you defined a quota before, `oc create` created three pods only instead 
 * The output looks like this:
 +
 ----
-Now using project "svcslab" on server "https://master1-GUID.oslab.opentlc.com:8443".
+Now using project "svcslab" on server "https://master1.example.com:8443".
 ----
 +
 TIP: To switch between projects, run `oc project _projectname_`.
@@ -733,7 +725,7 @@ No events.
 +
 ----
 
-[andrew@master1 ~]$ ip=`oc describe service hello-service|grep IP:|awk '{print $2}'`
+[andrew@master1 ~]$ ip=$(oc get service hello-service --template "{{ .spec.portalIP }}")
 [andrew@master1 ~]$ curl http://${ip}:8888
 Hello OpenShift!
 
@@ -783,9 +775,9 @@ Next, take a look at the route and registry containers.
 +
 ----
 
-[andrew@master1 ~]$ oc new-app --docker-image=openshift/hello-openshift:v1.0.6 -l "todelete=yes"
---> Found Docker image 7ce9d7b (10 weeks old) from Docker Hub for "openshift/hello-openshift:v1.0.6"
-    * An image stream will be created as "hello-openshift:v1.0.6" that will track this image
+[andrew@master1 ~]$ oc new-app --docker-image=openshift/hello-openshift:v1.2.1 -l "todelete=yes"
+--> Found Docker image 7ce9d7b (10 weeks old) from Docker Hub for "openshift/hello-openshift:v1.2.1"
+    * An image stream will be created as "hello-openshift:v1.2.1" that will track this image
     * This image will be deployed in deployment config "hello-openshift"
     * Ports 8080/tcp, 8888/tcp will be load balanced by service "hello-openshift"
 --> Creating resources with label todelete=yes ...
@@ -822,7 +814,7 @@ hello-openshift-1-g3xow   1/1       Running   0          2m
 
 ==== Connect to Default Router Container
 
-. As `root`, execute the `bash` shell inside the router with the `oc exec`
+. As `root`, execute the `bash` shell inside the router with the `oc rsh`
  command along with the default router's pod name. You have two options.
 +
 .Option 1
@@ -831,12 +823,12 @@ hello-openshift-1-g3xow   1/1       Running   0          2m
 NAME                      READY     REASON    RESTARTS   AGE
 docker-registry-2-snarn   1/1       Running   0          17h
 trainingrouter-1-jm5zk    1/1       Running   0          18h
-[root@master1 ~]# oc exec -ti trainingrouter-1-jm5zk /bin/bash
+[root@master1 ~]# oc rsh trainingrouter-1-jm5zk bash
 ----
 +
 .Option 2
 ----
-[root@master1 ~]#  oc exec -ti `oc get pods |  awk '/route/ { print $1; }'` "/bin/bash"
+[root@master1 ~]#  oc rsh $(oc get pods --selector="router=trainingrouter" --template='{{range .items}}{{.metadata.name}}{{end}}') bash
 ----
 
 * With either option, this prompt is displayed:
@@ -981,11 +973,10 @@ I1120 02:19:58.237018       1 sti.go:233] Successfully pushed 172.30.41.32:5000/
 [NOTE]
 This step takes a while on the lab environment's hardware. If the build is not yet complete, feel free to take a quick break here.
 
-. As `root`, execute the `bash` shell inside the registry container by running `oc exec` along with the `docker-registry` pod name:
+. As `root`, execute the `bash` shell inside the registry container by running `oc rsh` along with the `docker-registry` pod name:
 +
 ----
-[root@master1 ~]#  oc exec -ti  `oc get pods |  awk '/registry/ { print $1; }'` /bin/bash
-
+[root@master1 ~]#  oc rsh $(oc get pods --selector="deploymentconfig=docker-registry" --template='{{range .items}}{{.metadata.name}}{{end}}') bash
 ----
 
 . Do the following:
@@ -1053,7 +1044,7 @@ sinatra-example-1-yxyod   1/1       Running     0          8m
 . Connect to the container:
 +
 ----
-[andrew@master1 ~]$ oc exec -ti sinatra-example-1-yxyod "/bin/bash"
+[andrew@master1 ~]$ oc rsh sinatra-example-1-yxyod bash
 bash-4.2$
 ----
 
@@ -1091,6 +1082,22 @@ Your pod names and output differ slightly.
 
 You learn in this lab how to create an NFS export for the registry and to attach the persistent volume to the registry.
 
+NOTE: The registry is currently running with a small nfs persistent volume of 5Go. This volume was set by the following ansible config.
+----
+openshift_hosted_registry_storage_kind=nfs
+openshift_hosted_registry_storage_access_modes=['ReadWriteMany']
+openshift_hosted_registry_storage_host=oselab.example.com
+openshift_hosted_registry_storage_nfs_directory=/exports
+openshift_hosted_registry_storage_volume_name=registry
+openshift_hosted_registry_storage_volume_size=5Gi
+----
+
+=== Delete the existing Persistent Volume for Registry
+
+----
+[root@oselab ~]# ssh master1.example.com "oc delete pvc registry-claim ; oc delete pv registry-volume"
+----
+
 === Create NFS Export for Registry
 
 . As `root` on the `oselab` host, create a directory for your NFS export:
@@ -1119,7 +1126,7 @@ You learn in this lab how to create an NFS export for the registry and to attach
 +
 [source,json]
 ----
-[root@oselab ~]# ssh master1-$guid
+[root@oselab ~]# ssh master1.example.com
 [root@master1 ~]# cat << EOF > registry-volume.json
     {
       "apiVersion": "v1",

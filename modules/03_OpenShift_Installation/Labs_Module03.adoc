@@ -413,12 +413,12 @@ zone \"${domain}\" IN {
  systemctl start named
 ----
 
-. Configure `firewalld` to allow inbound DNS queries:
+. Configure `iptables` to allow inbound DNS queries:
 +
 ----
-[root@oselab bin]# firewall-cmd --zone=public --add-service=dns --permanent ; \
- firewall-cmd --reload
-
+[root@oselab bin]# iptables -I INPUT 1 -p tcp --dport 53 -s 0.0.0.0/0 -j ACCEPT ; \
+iptables -I INPUT 1 -p udp --dport 53 -s 0.0.0.0/0 -j ACCEPT ; \
+iptables-save > /etc/sysconfig/iptables
 ----
 
 === Verify DNS Configuration
@@ -748,14 +748,15 @@ Ensure the status is `enabled` and `active (running)`.
 +
 ----
 [root@oselab ~]# REGISTRY="registry.access.redhat.com";PTH="openshift3"
+[root@oselab ~]# OSE_VERSION=$(yum info atomic-openshift | grep Version | awk '{print $3}')
 [root@oselab ~]# for node in  node1.example.com \
                                    node2.example.com; \
 do
 ssh $node "
-docker pull $REGISTRY/$PTH/ose-deployer:v3.2.0.20 ; \
-docker pull $REGISTRY/$PTH/ose-sti-builder:v3.2.0.20 ; \
-docker pull $REGISTRY/$PTH/ose-pod:v3.2.0.20 ; \
-docker pull $REGISTRY/$PTH/ose-keepalived-ipfailover:v3.2.0.20 ; \
+docker pull $REGISTRY/$PTH/ose-deployer:v$OSE_VERSION ; \
+docker pull $REGISTRY/$PTH/ose-sti-builder:v$OSE_VERSION ; \
+docker pull $REGISTRY/$PTH/ose-pod:v$OSE_VERSION ; \
+docker pull $REGISTRY/$PTH/ose-keepalived-ipfailover:v$OSE_VERSION ; \
 docker pull $REGISTRY/$PTH/ruby-20-rhel7 ; \
 docker pull $REGISTRY/$PTH/mysql-55-rhel7 ; \
 docker pull openshift/hello-openshift:v1.2.1 ;
@@ -766,10 +767,10 @@ done
 TIP: You are downloading these images to save time later. Unless otherwise configured, if a node does not have a local image, it downloads it.
 +
 TIP: You could also use the ansible command: `REGISTRY="registry.access.redhat.com";PTH="openshift3"; ansible 'nodes:!masters:!infranode1.example.com' -m shell -a "
-docker pull $REGISTRY/$PTH/ose-deployer:v3.2.0.20 ;
-docker pull $REGISTRY/$PTH/ose-sti-builder:v3.2.0.20 ;
-docker pull $REGISTRY/$PTH/ose-pod:v3.2.0.20 ;
-docker pull $REGISTRY/$PTH/ose-keepalived-ipfailover:v3.2.0.20 ;
+docker pull $REGISTRY/$PTH/ose-deployer:v$OSE_VERSION ;
+docker pull $REGISTRY/$PTH/ose-sti-builder:v$OSE_VERSION ;
+docker pull $REGISTRY/$PTH/ose-pod:v$OSE_VERSION ;
+docker pull $REGISTRY/$PTH/ose-keepalived-ipfailover:v$OSE_VERSION ;
 docker pull $REGISTRY/$PTH/ruby-20-rhel7 ;
 docker pull $REGISTRY/$PTH/mysql-55-rhel7 ;
 docker pull openshift/hello-openshift:v1.2.1 ;"`

@@ -512,7 +512,7 @@ node2.example.com | success >> {
                                  ssh $node "yum -y install NetworkManager"
                                done
 ----
-TIP: You could also use the ansible command : `ansible nodes -a "yum -y install NetworkManager`.
+TIP: You could also use the ansible command : `ansible nodes -a "yum -y install NetworkManager"`.
 
 NOTE: although NetworkManager could to be removed in earlier versions of OpenShift, it is recommended since version 3.2 and will be required in version 3.3.
 

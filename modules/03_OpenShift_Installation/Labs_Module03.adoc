@@ -884,7 +884,7 @@ nfs
 [OSEv3:vars]
 ansible_ssh_user=root
 deployment_type=openshift-enterprise
-openshift_release=v3.2
+openshift_release=$OSE_VERSION
 
 openshift_master_cluster_method=native
 openshift_master_cluster_hostname=master1.example.com

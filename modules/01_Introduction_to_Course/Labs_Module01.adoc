@@ -28,7 +28,7 @@ If you forgot your username or password, go to https://www.opentlc.com/pwm to
 . Navigate to *Services* -> *Catalogs* -> *All Services* ->
  *OPENTLC Cloud Infrastructure Labs*.
 
-. On the left side of the screen, locate *OpenShift 3.1 Implementation Lab*, and
+. On the left side of the screen, locate *OpenShift 3.3 Implementation Lab*, and
  then click  *Order* on the right side of the screen.
 
 . Click *Submit* (in the lower right) to order your environment.

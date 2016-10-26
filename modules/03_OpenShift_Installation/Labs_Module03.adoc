@@ -447,14 +447,14 @@ Desktop$ nslookup test.cloudapps-$GUID.oslab.opentlc.com
 ----
 
 
-=== Install and Configure ansible 1.9.4 on oselab
+=== Install and Configure ansible on oselab
 
-install Ansible version 1.9.4, as the advanced installation method is based on Ansible playbooks and as such requires directly invoking Ansible.
+install Ansible as the advanced installation method is based on Ansible playbooks and as such requires directly invoking Ansible.
 
 . Install from yum:
 +
 ----
-[root@oselab ~]# yum -y install ansible-1.9.4
+[root@oselab ~]# yum -y install ansible
 ----
 
 . Create a simple Inventory file with groups used by ansible

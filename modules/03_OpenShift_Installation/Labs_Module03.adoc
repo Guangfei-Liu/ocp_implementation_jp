@@ -766,7 +766,7 @@ done
 +
 TIP: You are downloading these images to save time later. Unless otherwise configured, if a node does not have a local image, it downloads it.
 +
-TIP: You could also use the ansible command: `REGISTRY="registry.access.redhat.com";PTH="openshift3"; ansible 'nodes:!masters:!infranode1.example.com' -m shell -a "
+TIP: You could also use the ansible command: `REGISTRY="registry.access.redhat.com";PTH="openshift3"; OSE_VERSION=$(yum info atomic-openshift | grep Version | awk '{print $3}');  ansible 'nodes:!masters:!infranode1.example.com' -m shell -a "
 docker pull $REGISTRY/$PTH/ose-deployer:v$OSE_VERSION ;
 docker pull $REGISTRY/$PTH/ose-sti-builder:v$OSE_VERSION ;
 docker pull $REGISTRY/$PTH/ose-pod:v$OSE_VERSION ;
@@ -782,20 +782,21 @@ This process takes about 10 minutes to complete on *each node*. For the sake of 
 +
 ----
 [root@oselab ~]# REGISTRY="registry.access.redhat.com";PTH="openshift3"
+[root@oselab ~]# OSE_VERSION=$(yum info atomic-openshift | grep Version | awk '{print $3}')
 [root@oselab ~]# node=infranode1.example.com
 [root@oselab ~]# ssh $node "
-docker pull $REGISTRY/$PTH/ose-haproxy-router:v3.2.0.20  ; \
-docker pull $REGISTRY/$PTH/ose-deployer:v3.2.0.20 ; \
-docker pull $REGISTRY/$PTH/ose-pod:v3.2.0.20 ; \
-docker pull $REGISTRY/$PTH/ose-docker-registry:v3.2.0.20 ;
+docker pull $REGISTRY/$PTH/ose-haproxy-router:v$OSE_VERSION  ; \
+docker pull $REGISTRY/$PTH/ose-deployer:vOSE_VERSION ; \
+docker pull $REGISTRY/$PTH/ose-pod:v$OSE_VERSION ; \
+docker pull $REGISTRY/$PTH/ose-docker-registry:v$OSE_VERSION ;
 "
 ----
 +
-TIP: You could also use the ansible command: `REGISTRY="registry.access.redhat.com";PTH="openshift3"; ansible infranode1.example.com -m shell -a "
-docker pull $REGISTRY/$PTH/ose-haproxy-router:v3.2.0.20  ;
-docker pull $REGISTRY/$PTH/ose-deployer:v3.2.0.20 ;
-docker pull $REGISTRY/$PTH/ose-pod:v3.2.0.20 ;
-docker pull $REGISTRY/$PTH/ose-docker-registry:v3.2.0.20 ;"`
+TIP: You could also use the ansible command: `REGISTRY="registry.access.redhat.com"; OSE_VERSION=$(yum info atomic-openshift | grep Version | awk '{print $3}'); PTH="openshift3"; ansible infranode1.example.com -m shell -a "
+docker pull $REGISTRY/$PTH/ose-haproxy-router:v$OSE_VERSION  ;
+docker pull $REGISTRY/$PTH/ose-deployer:v$OSE_VERSION ;
+docker pull $REGISTRY/$PTH/ose-pod:v$OSE_VERSION ;
+docker pull $REGISTRY/$PTH/ose-docker-registry:v$OSE_VERSION ;"`
 
 +
 NOTE: You are not "pulling" any images on the Master host because it is not meant

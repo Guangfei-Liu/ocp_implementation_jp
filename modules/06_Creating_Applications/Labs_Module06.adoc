@@ -108,7 +108,7 @@ image::images/ose_lab6_image2.png[]
 
 OpenShift Enterprise 3 supports customization of both the build and run processes. Generally speaking, this involves modifying the S2I scripts from the builder image. While building your code, OpenShift Enterprise checks the scripts in your repository's `.sti/bin` folder to see if they override or supersede the builder image's scripts. If it finds scripts that do so, it executes those scripts.
 
-For details on the scripts and their execution and customization, go to `https://docs.openshift.com/enterprise/3.2/creating_images`.
+For details on the scripts and their execution and customization, go to `https://docs.openshift.com/container-platform/3.3/creating_images/index.html`.
 
 
 === Clone Repository and Launch Application from Local Copy

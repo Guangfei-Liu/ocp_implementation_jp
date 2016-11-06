@@ -223,26 +223,26 @@ Normally, you obtain those repositories through `subscription-manager`. For the 
 [root@oselab ~]# cat << EOF > /etc/yum.repos.d/open.repo
 [rhel-x86_64-server-7]
 name=Red Hat Enterprise Linux 7
-baseurl=http://www.opentlc.com/repos/ose/3.2/rhel-7-server-rpms
+baseurl=http://www.opentlc.com/repos/ose/3.3/rhel-7-server-rpms
 enabled=1
 gpgcheck=0
 
 [rhel-x86_64-server-extras-7]
 name=Red Hat Enterprise Linux 7 Extras
-baseurl=http://www.opentlc.com/repos/ose/3.2/rhel-7-server-extras-rpms
+baseurl=http://www.opentlc.com/repos/ose/3.3/rhel-7-server-extras-rpms
 enabled=1
 gpgcheck=0
 
 [rhel-x86_64-server-optional-7]
 name=Red Hat Enterprise Linux 7 Optional
-baseurl=http://www.opentlc.com/repos/ose/3.2/rhel-7-server-optional-rpms
+baseurl=http://www.opentlc.com/repos/ose/3.3/rhel-7-server-optional-rpms
 enabled=1
 gpgcheck=0
 
 # This repo is added for the OPENTLC environment not OSE
 [rhel-x86_64-server-rh-common-7]
 name=Red Hat Enterprise Linux 7 Common
-baseurl=http://www.opentlc.com/repos/ose/3.2/rhel-7-server-rh-common-rpms
+baseurl=http://www.opentlc.com/repos/ose/3.3/rhel-7-server-rh-common-rpms
 enabled=1
 gpgcheck=0
 
@@ -253,9 +253,9 @@ EOF
 +
 ----
 [root@oselab ~]# cat << EOF >> /etc/yum.repos.d/open.repo
-[rhel-7-server-ose-3.2-rpms]
-name=Red Hat Enterprise Linux 7 OSE 3.2
-baseurl=http://www.opentlc.com/repos/ose/3.2/rhel-7-server-ose-3.2-rpms
+[rhel-7-server-ose-3.3-rpms]
+name=Red Hat Enterprise Linux 7 OSE 3.3
+baseurl=http://www.opentlc.com/repos/ose/3.3/rhel-7-server-ose-3.3-rpms
 enabled=1
 gpgcheck=0
 
@@ -274,7 +274,7 @@ EOF
 Loaded plugins: product-id
 ...[output omitted]...
 repo id                                        repo name                                           status
-rhel-7-server-ose-3.2-rpms                     Red Hat Enterprise Linux 7 OSE 3                      323
+rhel-7-server-ose-3.3-rpms                     Red Hat Enterprise Linux 7 OSE 3                      323
 rhel-x86_64-server-7                           Red Hat Enterprise Linux 7                          4,391
 rhel-x86_64-server-extras-7                    Red Hat Enterprise Linux 7 Extras                      45
 rhel-x86_64-server-optional-7                  Red Hat Enterprise Linux 7 Optional                 4,220
@@ -447,14 +447,14 @@ Desktop$ nslookup test.cloudapps-$GUID.oslab.opentlc.com
 ----
 
 
-=== Install and Configure ansible 1.9.4 on oselab
+=== Install and Configure ansible on oselab
 
-install Ansible version 1.9.4, as the advanced installation method is based on Ansible playbooks and as such requires directly invoking Ansible.
+install Ansible as the advanced installation method is based on Ansible playbooks and as such requires directly invoking Ansible.
 
 . Install from yum:
 +
 ----
-[root@oselab ~]# yum -y install ansible-1.9.4
+[root@oselab ~]# yum -y install ansible
 ----
 
 . Create a simple Inventory file with groups used by ansible
@@ -512,9 +512,9 @@ node2.example.com | success >> {
                                  ssh $node "yum -y install NetworkManager"
                                done
 ----
-TIP: You could also use the ansible command : `ansible nodes -a "yum -y install NetworkManager`.
+TIP: You could also use the ansible command : `ansible nodes -a "yum -y install NetworkManager"`.
 
-NOTE: although NetworkManager could to be removed in earlier versions of OpenShift, it is recommended since version 3.2 and will be required in version 3.3.
+NOTE: although NetworkManager could to be removed in earlier versions of OpenShift, it is recommended since version 3.2 and required in version 3.3.
 
 . Install the following tools and utilities on `oselab` host
 +
@@ -766,7 +766,7 @@ done
 +
 TIP: You are downloading these images to save time later. Unless otherwise configured, if a node does not have a local image, it downloads it.
 +
-TIP: You could also use the ansible command: `REGISTRY="registry.access.redhat.com";PTH="openshift3"; ansible 'nodes:!masters:!infranode1.example.com' -m shell -a "
+TIP: You could also use the ansible command: `REGISTRY="registry.access.redhat.com";PTH="openshift3"; OSE_VERSION=$(yum info atomic-openshift | grep Version | awk '{print $3}');  ansible 'nodes:!masters:!infranode1.example.com' -m shell -a "
 docker pull $REGISTRY/$PTH/ose-deployer:v$OSE_VERSION ;
 docker pull $REGISTRY/$PTH/ose-sti-builder:v$OSE_VERSION ;
 docker pull $REGISTRY/$PTH/ose-pod:v$OSE_VERSION ;
@@ -782,20 +782,21 @@ This process takes about 10 minutes to complete on *each node*. For the sake of 
 +
 ----
 [root@oselab ~]# REGISTRY="registry.access.redhat.com";PTH="openshift3"
+[root@oselab ~]# OSE_VERSION=$(yum info atomic-openshift | grep Version | awk '{print $3}')
 [root@oselab ~]# node=infranode1.example.com
 [root@oselab ~]# ssh $node "
-docker pull $REGISTRY/$PTH/ose-haproxy-router:v3.2.0.20  ; \
-docker pull $REGISTRY/$PTH/ose-deployer:v3.2.0.20 ; \
-docker pull $REGISTRY/$PTH/ose-pod:v3.2.0.20 ; \
-docker pull $REGISTRY/$PTH/ose-docker-registry:v3.2.0.20 ;
+docker pull $REGISTRY/$PTH/ose-haproxy-router:v$OSE_VERSION  ; \
+docker pull $REGISTRY/$PTH/ose-deployer:vOSE_VERSION ; \
+docker pull $REGISTRY/$PTH/ose-pod:v$OSE_VERSION ; \
+docker pull $REGISTRY/$PTH/ose-docker-registry:v$OSE_VERSION ;
 "
 ----
 +
-TIP: You could also use the ansible command: `REGISTRY="registry.access.redhat.com";PTH="openshift3"; ansible infranode1.example.com -m shell -a "
-docker pull $REGISTRY/$PTH/ose-haproxy-router:v3.2.0.20  ;
-docker pull $REGISTRY/$PTH/ose-deployer:v3.2.0.20 ;
-docker pull $REGISTRY/$PTH/ose-pod:v3.2.0.20 ;
-docker pull $REGISTRY/$PTH/ose-docker-registry:v3.2.0.20 ;"`
+TIP: You could also use the ansible command: `REGISTRY="registry.access.redhat.com"; OSE_VERSION=$(yum info atomic-openshift | grep Version | awk '{print $3}'); PTH="openshift3"; ansible infranode1.example.com -m shell -a "
+docker pull $REGISTRY/$PTH/ose-haproxy-router:v$OSE_VERSION  ;
+docker pull $REGISTRY/$PTH/ose-deployer:v$OSE_VERSION ;
+docker pull $REGISTRY/$PTH/ose-pod:v$OSE_VERSION ;
+docker pull $REGISTRY/$PTH/ose-docker-registry:v$OSE_VERSION ;"`
 
 +
 NOTE: You are not "pulling" any images on the Master host because it is not meant
@@ -883,7 +884,7 @@ nfs
 [OSEv3:vars]
 ansible_ssh_user=root
 deployment_type=openshift-enterprise
-openshift_release=v3.2
+openshift_release=$OSE_VERSION
 
 openshift_master_cluster_method=native
 openshift_master_cluster_hostname=master1.example.com
@@ -1189,7 +1190,7 @@ This process may take a few minutes the first time around because the images are
  In project default on server https://master1-GUID.oslab.opentlc.com:8443
 
  svc/docker-registry - 172.30.41.32:5000
-   dc/docker-registry deploys docker.io/openshift3/ose-docker-registry:v3.2.0.20
+   dc/docker-registry deploys docker.io/openshift3/ose-docker-registry:v3.3.x.x
      #1 deployed 5 minutes ago - 1 pod
 
  svc/kubernetes - 172.30.0.1 ports 443, 53, 53

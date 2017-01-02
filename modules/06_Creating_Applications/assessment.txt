@@ -23,5 +23,5 @@ OSEIMPLEMENTATION|OSEIMPLEMENTATION607|1|Which Resource/Resources would be creat
 OSEIMPLEMENTATION|OSEIMPLEMENTATION607|1|Which Resource/Resources would be created when creating an application with oc new-app?|||A Pod and a BuildConfig definition if using a source/STI Build|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION607|1|Which Resource/Resources would be created when creating an application with oc new-app?|||Replication Controller and Service|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION607|1|Which Resource/Resources would be created when creating an application with oc new-app?|||All of the above|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION608|5|The oc new-app command can be used to create applications but NOT templates.|||TRUE|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION608|5|The oc new-app command can be used to create applications but NOT templates.|||FALSE|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION608|5|The oc new-app command can be used to create applications from source and from templates.|||TRUE|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION608|5|The oc new-app command can be used to create applications from source and from templates.|||FALSE|||0|0|||

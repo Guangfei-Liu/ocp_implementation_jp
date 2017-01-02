@@ -1141,7 +1141,7 @@ openshift_hosted_registry_storage_volume_size=5Gi
         "accessModes": [ "ReadWriteMany" ],
         "nfs": {
             "path": "/var/export/pvs/registry-storage",
-            "server": "oselabs.example.com"
+            "server": "oselab.example.com"
         }
       }
     }

@@ -1,0 +1,21 @@
+
+== Tag 3.3
+* Latest Commit: 42ac38b
+* Date:  Nov 7, 2016
++
+----
+----
+
+
+
+== Tag 3.3.1
+
+* Latest Commit: 750b670
+* Date: Tue 13 Dec 2016 09:38:15 AEDT
+* Changes 3.3 to 3.3.1
+----
+git diff --name-only  42ac38b  750b670
+modules/05_Resource_Management/Labs_Module05.adoc
+modules/06_Creating_Applications/assessment.csv
+modules/06_Creating_Applications/assessment.txt
+----

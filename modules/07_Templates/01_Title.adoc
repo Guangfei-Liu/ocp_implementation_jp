@@ -8,7 +8,7 @@ ifdef::revealjs_slideshow[]
 :noaudio:
 
 [#cover-h1]
-Red Hat OpenShift Enterprise Implementation
+Red Hat OpenShift Container Platform Implementation
 
 [#cover-h2]
 Templates

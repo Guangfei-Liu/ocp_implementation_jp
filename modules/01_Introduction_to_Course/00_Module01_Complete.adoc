@@ -8,7 +8,7 @@ ifdef::revealjs_slideshow[]
 == &nbsp;
 :noaudio:
 [#cover-h1]
-Red Hat OpenShift Enterprise Implementation
+Red Hat OpenShift Container Platform Implementation
 
 [#cover-h2]
 Introduction to Course and Learning Environment

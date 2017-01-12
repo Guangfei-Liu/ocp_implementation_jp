@@ -13,7 +13,7 @@ ifdef::revealjs_slideshow[]
 ifdef::revealjs_slideshow[]
 
 [#cover-h1]
-Red Hat OpenShift Enterprise Implementation
+Red Hat OpenShift Container Platform Implementation
 
 [#cover-h2]
 Creating New Applications

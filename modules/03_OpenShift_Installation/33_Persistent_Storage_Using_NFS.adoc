@@ -2,7 +2,7 @@
 
 .Automation
 
-* Can provision OpenShift Enterprise clusters with persistent storage using NFS:
+* Can provision OpenShift Container Platform clusters with persistent storage using NFS:
 ** Use disk partitions to enforce storage quotas
 ** Enforce security by restricting volumes to namespace that has claim to them
 ** Configure reclamation of discarded resources for each persistent volume
@@ -24,7 +24,7 @@ The preceding sections have discussed the ways you can provision OpenShift
  them
 * Configure reclamation of discarded resources for each persistent volume
 
-After you set up your OpenShift Enterprise environment and clusters to use
+After you set up your OpenShift Container Platform environment and clusters to use
  persistent storage, it is easy to create scripts to automate these tasks.
 
 To help you get started, see the example Ansible playbook at the web address

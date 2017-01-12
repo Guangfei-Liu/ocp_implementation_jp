@@ -39,7 +39,7 @@ While *Infranode* is a regular node like the others, you dedicate it to be used
   design choice, not a mandatory constraint.
 
 The two remaining *nodes* are hosts that you use to run containers (pods) in the
- OpenShift Enterprise environment. You label the two nodes to be in the same
+ OpenShift Container Platform environment. You label the two nodes to be in the same
   region but different zones. This simulates the use case of an environment in a
    single region and possibly two cloud availability zones.
 

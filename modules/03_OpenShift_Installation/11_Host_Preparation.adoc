@@ -24,7 +24,7 @@ ifdef::showscript[]
 
 === Transcript
 To allow users from outside your LAN to access the web console or make API calls
- to OpenShift Enterprise, you need to expose the master's `8443` port to those
+ to OpenShift Container Platform, you need to expose the master's `8443` port to those
   users' networks.
 
 The `Default Router` listens on its host's ports `80` and `443` for incoming

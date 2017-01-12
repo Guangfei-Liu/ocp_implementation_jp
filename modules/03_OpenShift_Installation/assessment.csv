@@ -1,8 +1,8 @@
 QUESTIONBANKCODE|QUESTIONCODE|QUESTIONTYPE|QUESTIONTEXT|QUESTIONTEXTFORMAT|QUESTIONFEEDBACK|OPTION|RIGHTOPTION|OPTIONFEEDBACK|ISCORRECT|OPTIONWEIGHT|ISCASESENSITIVE|RANDOMIZEOPTIONS|STATUS
-OSEIMPLEMENTATION|OSEIMPLEMENTATION301|1|What version of the operating system is required to install OpenShift Enterprise?|||Centos 7.1|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION301|1|What version of the operating system is required to install OpenShift Enterprise?|||Red Hat Enterprise Linux 6.6|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION301|1|What version of the operating system is required to install OpenShift Enterprise?|||Red Hat Enterprise Linux 7.0|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION301|1|What version of the operating system is required to install OpenShift Enterprise?|||Red Hat Enterprise Linux 7.1 and above|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION301|1|What version of the operating system is required to install OpenShift Container Platform?|||Centos 7.1|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION301|1|What version of the operating system is required to install OpenShift Container Platform?|||Red Hat Enterprise Linux 6.6|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION301|1|What version of the operating system is required to install OpenShift Container Platform?|||Red Hat Enterprise Linux 7.0|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION301|1|What version of the operating system is required to install OpenShift Container Platform?|||Red Hat Enterprise Linux 7.1 and above|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION302|1|What kind of DNS record is required to point to OpenShift from a corporate DNS server?|||A wildcard record: *.cloudapps.example.com|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION302|1|What kind of DNS record is required to point to OpenShift from a corporate DNS server?|||A CNAME record: cloudapps.example.com|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION302|1|What kind of DNS record is required to point to OpenShift from a corporate DNS server?|||An NS record: cloudapps.example.com|||0|0|||

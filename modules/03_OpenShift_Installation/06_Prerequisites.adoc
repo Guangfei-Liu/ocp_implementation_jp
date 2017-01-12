@@ -25,7 +25,7 @@
 ifdef::showscript[]
 === Transcript
 
-These are the minimal requirements for a viable OpenShift Enterprise
+These are the minimal requirements for a viable OpenShift Container Platform
  environment, for both masters and nodes.
 
 To lower costs, the servers in the learning environment are not configured with

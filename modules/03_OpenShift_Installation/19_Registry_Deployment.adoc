@@ -2,12 +2,12 @@
 
 .Registry Container
 
-* OpenShift Enterprise:
+* OpenShift Container Platform:
 ** Builds Docker images from source code
 ** Deploys them
 ** Manages lifecycle
-* To enable this, deploy Docker registry in OpenShift Enterprise environment
-* OpenShift Enterprise runs registry in pod on node, just like any other workload
+* To enable this, deploy Docker registry in OpenShift Container Platform environment
+* OpenShift Container Platform runs registry in pod on node, just like any other workload
 * Deploying registry creates _service_ and _deployment configuration_
 ** Both called `docker-registry`
 * After deployment, pod created with name similar to `docker-registry-1-cpty9`
@@ -18,9 +18,9 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise can build Docker images from your source code, deploy them,
+OpenShift Container Platform can build Docker images from your source code, deploy them,
  and manage their lifecycle. To enable this, you deploy an internal, integrated
-  Docker registry in your OpenShift Enterprise environment.
+  Docker registry in your OpenShift Container Platform environment.
 
 OpenShift runs the registry in a pod on a node, just like any other workload.
 

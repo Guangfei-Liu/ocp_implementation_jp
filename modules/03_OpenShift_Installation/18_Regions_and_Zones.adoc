@@ -2,11 +2,11 @@
 
 * After installation, need to label nodes
 ** Lets scheduler use _logic_ defined in `scheduler.json` when provisioning pods
-* OpenShift Enterprise 2.0 introduced _regions_ and _zones_
+* OpenShift Container Platform 2.0 introduced _regions_ and _zones_
 ** Let organizations provide topologies for application resiliency
 ** Apps spread throughout zones within region
 ** Can make different regions accessible to users
-* OpenShift Enterprise 3 _topology-agnostic_
+* OpenShift Container Platform 3 _topology-agnostic_
 ** Provides advanced controls for implementing any topologies
 ** Example: Use _regions_ and _zones_
 *** Other options: _Prod_ and _Dev_, _Secure_ and _Insecure_, _Rack_ and _Power_
@@ -23,17 +23,17 @@ ifdef::showscript[]
 
 === Transcript
 
-After you install OpenShift Enterprise, you need to label the nodes. Labeling
+After you install OpenShift Container Platform, you need to label the nodes. Labeling
  the nodes lets the scheduler use _logic_ defined in the `scheduler.json` file
   when it provisions pods in your environment.
 
-OpenShift Enterprise 2.0 introduced the specific concepts of _regions_ and
+OpenShift Container Platform 2.0 introduced the specific concepts of _regions_ and
  _zones_ to let organizations provide some topologies for application
   resiliency. Applications are spread throughout the zones within a region and,
-   depending on the way you configure OpenShift Enterprise, you can make
+   depending on the way you configure OpenShift Container Platform, you can make
     different regions accessible to users.
 
-OpenShift Enterprise 3 is _topology-agnostic_ and  provides advanced controls
+OpenShift Container Platform 3 is _topology-agnostic_ and  provides advanced controls
  for implementing whatever topologies you create.
 
 The example shown here uses the concept the _regions_ and _zones_.

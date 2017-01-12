@@ -23,7 +23,7 @@ ifdef::showscript[]
 
 
 
-To make the OpenShift Enterprise environment accessible externally, you create a
+To make the OpenShift Container Platform environment accessible externally, you create a
  wildcard DNS entry that points to the _node_ that is hosting the
   _Default Router Container_.
 
@@ -32,7 +32,7 @@ In this lab and examples, this is the `infranode1` server. If your environment
   external load balancer or round-robin setting to use them.
 
 The wildcard for a DNS zone must resolve ultimately to the IP address of the
- OpenShift Enterprise router.
+ OpenShift Container Platform router.
 
 For example, you can use the code shown here to create a wildcard DNS entry for
  `cloudapps` in your DNS Server, or something similar. The entry has a low TTL

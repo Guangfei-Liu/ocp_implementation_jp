@@ -20,7 +20,7 @@ ifdef::showscript[]
 
 === Transcript
 
-There are two ways to install OpenShift Enterprise 3.
+There are two ways to install OpenShift Container Platform 3.
 The Quick Install method uses an interactive CLI utility to install OpenShift
  across a set of hosts. The installer is made available by installing the
   utility package `atomic-openshift-utils`, available in the OpenShift

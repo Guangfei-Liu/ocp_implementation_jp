@@ -1,6 +1,6 @@
-== OpenShift Enterprise Population
+== OpenShift Container Platform Population
 
-* Can populate OpenShift Enterprise installation with Red Hat-provided
+* Can populate OpenShift Container Platform installation with Red Hat-provided
  _image streams_ and _templates_
 ** Make it easy to create new applications
 * *Template*: Set of resources you can customize and process to produce
@@ -13,7 +13,7 @@
 ifdef::showscript[]
 
 === Transcript
-You can populate your OpenShift Enterprise installation with a useful set of
+You can populate your OpenShift Container Platform installation with a useful set of
  Red Hat-provided _image streams_ and _templates_. These make it easy for
   developers to create new applications. The installer automatically adds image
    streams and common templates.
@@ -21,7 +21,7 @@ You can populate your OpenShift Enterprise installation with a useful set of
 A _template_ describes a set of resources intended to be used together that you
  can customize and process to produce a configuration. Each template defines a
   list of parameters that you can modify for consumption by a container. This is
-   somewhat similar to a OpenShift Enterprise 2.0 _quickstart_.
+   somewhat similar to a OpenShift Container Platform 2.0 _quickstart_.
 
 An _image stream_ comprises of one or more Docker images identified by tags. An
  image stream presents a single virtual view of related images.

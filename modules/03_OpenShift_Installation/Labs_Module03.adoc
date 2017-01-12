@@ -6,17 +6,17 @@
 
 === Overview
 
-* *Prepare to Deploy OpenShift Enterprise*
+* *Prepare to Deploy OpenShift Container Platform*
 +
-In this section, you prepare hosts for installing OpenShift Enterprise, configure Domain Name System (DNS) and Network File System (NFS) servers on the administration host, configure the settings, and install Docker.
+In this section, you prepare hosts for installing OpenShift Container Platform, configure Domain Name System (DNS) and Network File System (NFS) servers on the administration host, configure the settings, and install Docker.
 
-* *Install OpenShift Enterprise*
+* *Install OpenShift Container Platform*
 +
-In this section, you install OpenShift Enterprise with the Quick installer.
+In this section, you install OpenShift Container Platform with the Quick installer.
 
 * *Configure and Set Up OpenShift*
 +
-In this section, you configure OpenShift Enterprise: Label nodes, configure authentication, and deploy the registry and default router containers on the Infranode node host.
+In this section, you configure OpenShift Container Platform: Label nodes, configure authentication, and deploy the registry and default router containers on the Infranode node host.
 
 * *Set Up Persistent Storage*
 +
@@ -56,13 +56,13 @@ IMPORTANT: Read these notes. They help you successfully navigate the lab.
 
 :numbered:
 
-== Prepare to Deploy OpenShift Enterprise
+== Prepare to Deploy OpenShift Container Platform
 
-In this section, you deploy OpenShift Enterprise on a master and two nodes, as follows:
+In this section, you deploy OpenShift Container Platform on a master and two nodes, as follows:
 
 * Configure the Secure Shell (SSH) keys.
 * Configure the repositories.
-* Configure a DNS on the `oselab` server for your OpenShift Enterprise environment.
+* Configure a DNS on the `oselab` server for your OpenShift Container Platform environment.
 * Configure the network settings.
 * Install Docker on all the hosts.
 
@@ -151,7 +151,7 @@ Environment Deployment Is Completed : Wed Nov 25 20:03:55 EST 2015
 
 === Configure SSH Keys
 
-The OpenShift Enterprise installer configure hosts with SSH. In this section, you create and install an SSH key pair on the `oselab` host and add the public key to the `authorized_hosts` file on all the OpenShift hosts.
+The OpenShift Container Platform installer configure hosts with SSH. In this section, you create and install an SSH key pair on the `oselab` host and add the public key to the `authorized_hosts` file on all the OpenShift hosts.
 
 . Create an SSH key pair for the `root` user and overwrite the existing key:
 +
@@ -204,7 +204,7 @@ NOTE: This configuration saves you having to disable strict host-checking and to
 
 === Configure Repositories on All Hosts
 
-OpenShift Enterprise requires four software repositories:
+OpenShift Container Platform requires four software repositories:
 
 * `rhel-7-server-rpms`
 
@@ -249,7 +249,7 @@ gpgcheck=0
 EOF
 ----
 
-. Add the OpenShift Enterprise repository mirror to the `oselab` host.
+. Add the OpenShift Container Platform repository mirror to the `oselab` host.
 +
 ----
 [root@oselab ~]# cat << EOF >> /etc/yum.repos.d/open.repo
@@ -303,7 +303,7 @@ repolist: 8,998
 
 === Configure Wildcard DNS Entry on `oselab` for OpenShift
 
-OpenShift Enterprise requires a wildcard DNS A record, which must point to the publicly available IP address of a node or nodes that are hosting the OpenShift default router container.
+OpenShift Container Platform requires a wildcard DNS A record, which must point to the publicly available IP address of a node or nodes that are hosting the OpenShift default router container.
 
 NOTE: In the OpenShift environment, the OpenShift default router is deployed on the `infranode1` host.
 
@@ -549,7 +549,7 @@ TIP: You could also use the ansible command : `ansible all -a "yum -y update"`.
 
 === Install Docker
 
-OpenShift Enterprise stores and manages container images on Docker. Install Docker as follows:
+OpenShift Container Platform stores and manages container images on Docker. Install Docker as follows:
 
 . Install the `docker` package on the master and nodes:
 +
@@ -854,7 +854,7 @@ root        rhel_host2cc260760b15 -wi-ao---- 17.51g
 swap        rhel_host2cc260760b15 -wi-ao----  2.00g
 ----
 
-== Install OpenShift Enterprise
+== Install OpenShift Container Platform
 
 In this section, you download and install the installer and then verify your environment.
 
@@ -870,7 +870,7 @@ In this lab, you run the Ansible Playbook from the `oselab` host, which, in a re
 
 === Create the Inventory file
 
-The /etc/ansible/hosts file is Ansible’s inventory file for the playbook to use during the installation. The inventory file describes the configuration for your OpenShift Enterprise cluster.
+The /etc/ansible/hosts file is Ansible’s inventory file for the playbook to use during the installation. The inventory file describes the configuration for your OpenShift Container Platform cluster.
 
 . Write your Inventory file:
 +
@@ -991,12 +991,12 @@ NOTE: If you see an error message that connection to the master host cannot be e
 
 NOTE: You cannot log in yet because you have yet to set up authentication.
 
-== Configure and Set Up OpenShift Enterprise
+== Configure and Set Up OpenShift Container Platform
 
 In this section, you establish regions and zones, configure OpenShift
  Enterprise, set up authentication, add development users, and configure
   `htpasswd` authentication. Subsequently, you deploy the registry and router
-   and populate OpenShift Enterprise.
+   and populate OpenShift Container Platform.
 
 === Check Regions and Zones
 
@@ -1023,10 +1023,10 @@ node2.example.com        Ready                      6m       kubernetes.io/hostn
 
 NOTE: You can add/overwrite labels with: `oc label node infranode1.example.com region="infra" zone="infranodes"`
 
-You now have a running OpenShift Enterprise environment across three hosts with
+You now have a running OpenShift Container Platform environment across three hosts with
  one master and three nodes, divided into two regions: infra and primary.
 
-=== OpenShift Enterprise Configuration Tips
+=== OpenShift Container Platform Configuration Tips
 
 .Configuring the Default Namespace to Use the `infra` Region
 
@@ -1110,7 +1110,7 @@ NOTE: GUID should match to your value
 
 === Add Development Users
 
-Real-world developers are likely to use the OpenShift Enterprise tools (`oc` and the web console) on their own machines. In this course, you create accounts for two nonprivileged OpenShift Enterprise users, `andrew` and `marina`, on the master.
+Real-world developers are likely to use the OpenShift Container Platform tools (`oc` and the web console) on their own machines. In this course, you create accounts for two nonprivileged OpenShift Container Platform users, `andrew` and `marina`, on the master.
 
 On the master host, add two Linux accounts:
 
@@ -1123,7 +1123,7 @@ NOTE: Feel free to create those users on any machine in which the `oc` command i
 
 === Configure `htpasswd` Authentication
 
-OpenShift Enterprise 3 supports several authentication mechanisms. The simplest use case for testing is `htpasswd`-based authentication.
+OpenShift Container Platform 3 supports several authentication mechanisms. The simplest use case for testing is `htpasswd`-based authentication.
 
 As a preliminary requirement, you need the `htpasswd` binary in the `httpd-tools` package. Do the following:
 
@@ -1290,9 +1290,9 @@ trainingrouter-1-r00xl    1/1       Running   0          23s
 NOTE: Type *Ctrl+C* to exit the "watch" on `oc get pods`.
 
 
-=== Populate OpenShift Enterprise (Reference Only)
+=== Populate OpenShift Container Platform (Reference Only)
 
-OpenShift Enterprise ships with _image streams_ and _templates_, which reside in `/usr/share/openshift/examples/`.  The installer imports all the image streams and templates for you from that directory.
+OpenShift Container Platform ships with _image streams_ and _templates_, which reside in `/usr/share/openshift/examples/`.  The installer imports all the image streams and templates for you from that directory.
 
 * To browse the JSON files, see `/usr/share/openshift/examples`.
 

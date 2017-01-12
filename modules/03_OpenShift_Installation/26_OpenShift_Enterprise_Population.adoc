@@ -1,4 +1,4 @@
-== OpenShift Enterprise Population
+== OpenShift Container Platform Population
 
 .Database Service Templates
 

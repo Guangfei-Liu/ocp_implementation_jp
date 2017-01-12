@@ -1,4 +1,4 @@
-== OpenShift Enterprise Installation
+== OpenShift Container Platform Installation
 
 * Install OpenShift `utils` package that includes installer:
 +
@@ -12,7 +12,7 @@
 $ atomic-openshift-installer install
 ----
 
-* Follow onscreen instructions to install OpenShift Enterprise
+* Follow onscreen instructions to install OpenShift Container Platform
 ** Installer asks for hostnames or IPs of masters and nodes and configures them
  accordingly
 ** Configuration file with all information provided is saved in
@@ -23,7 +23,7 @@ ifdef::showscript[]
 
 === Transcript
 
-To install OpenShift Enterprise 3, install the OpenShift `utils` package that
+To install OpenShift Container Platform 3, install the OpenShift `utils` package that
  includes the installer, and run the installer CLI utility on a host that has
   password-less SSH access to your intended master and nodes.
 

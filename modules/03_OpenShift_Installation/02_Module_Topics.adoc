@@ -6,18 +6,18 @@
 * Prerequisites
 * Host Preparation
 * Docker Installation
-* OpenShift Enterprise Installation
+* OpenShift Container Platform Installation
 * Regions and Zones
 * Registry Deployment
 * Default HAProxy Router Deployment
-* OpenShift Enterprise Population
+* OpenShift Container Platform Population
 * Persistent Storage Using NFS
 
 ifdef::showscript[]
 
 
 === Transcript
-Welcome to module three of the OpenShift Enterprise Implementation course.
+Welcome to module three of the OpenShift Container Platform Implementation course.
 
 This module reviews the installation process and shows how to configure the
  scheduler, registry, and router containers, as well as how to set up persistent

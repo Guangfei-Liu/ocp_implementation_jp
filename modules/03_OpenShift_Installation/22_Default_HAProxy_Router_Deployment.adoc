@@ -2,14 +2,14 @@
 
 * `Default Router` (aka `Default HA-Proxy Router`, other names):
 ** Modified deployment of HAProxy
-** Entry point for traffic destined for services in OpenShift Enterprise
+** Entry point for traffic destined for services in OpenShift Container Platform
  installation
 * HAProxy-based router implementation provided as default template router
  plug-in
 ** Uses `openshift3/ose-haproxy-router` image to run HAProxy instance alongside
  and router plug-in
 ** Supports HTTP(S) traffic and TLS-enabled traffic via SNI only
-** Hosted inside OpenShift Enterprise
+** Hosted inside OpenShift Container Platform
 ** Essentially a proxy
 
 * Default router’s pod listens on host network interface on port 80 and 443
@@ -23,7 +23,7 @@ ifdef::showscript[]
 
 The `Default Router`, also known as the `Default HA-Proxy Router` and many other
  similar names, is a modified deployment of HAProxy. It serves as the entry
-  point for all traffic destined for services in your OpenShift Enterprise
+  point for all traffic destined for services in your OpenShift Container Platform
    installation.
 
 An HAProxy-based router implementation is provided as the default template
@@ -31,7 +31,7 @@ An HAProxy-based router implementation is provided as the default template
   HAProxy instance alongside the template router plug-in. 
   The router currently supports HTTP(S) traffic and TLS-enabled traffic via
    SNI only. Like the registry and any other workload, it is hosted inside
-    OpenShift Enterprise.
+    OpenShift Container Platform.
 
 While it is called a _router_, it is essentially a _proxy_.
 

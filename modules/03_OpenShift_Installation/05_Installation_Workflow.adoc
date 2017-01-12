@@ -4,7 +4,7 @@
 ** System requirements
 ** Set up DNS
 ** Prepare host
-* OpenShift Enterprise installation
+* OpenShift Container Platform installation
 ** Download and run installation utility
 * Post-install tasks
 ** Deploy integrated Docker registry
@@ -16,12 +16,12 @@
 ifdef::showscript[]
 === Transcript
 
-Use this workflow to install OpenShift Enterprise. You start by making sure that
+Use this workflow to install OpenShift Container Platform. You start by making sure that
  the system prerequisites have been met. These are the basic requirements for a
-  viable OpenShift Enterprise environment. They include setting up the DNS
-   requirements and preparing the hosts for OpenShift Enterprise deployment.
+  viable OpenShift Container Platform environment. They include setting up the DNS
+   requirements and preparing the hosts for OpenShift Container Platform deployment.
 
-Next, you use the CLI installation utility to install the OpenShift Enterprise
+Next, you use the CLI installation utility to install the OpenShift Container Platform
  software.
 
 Finally, you deploy some containerized infrastructure components such as the

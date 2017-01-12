@@ -2,13 +2,13 @@
 
 .Overview
 
-* Can provision OpenShift Enterprise cluster with persistent storage using NFS
+* Can provision OpenShift Container Platform cluster with persistent storage using NFS
 * `Persistent Volume` framework:
 ** Lets administrators provision cluster with persistent storage
 ** Gives users access to resources without knowledge of underlying
  infrastructure
 * Storage must exist in underlying infrastructure before mounting as volume in
- OpenShift Enterprise
+ OpenShift Container Platform
 
 NOTE: There are many other supported storage back ends; they will be covered
  later in the training. In our lab we use NFS for persistent storage.
@@ -16,7 +16,7 @@ NOTE: There are many other supported storage back ends; they will be covered
 ifdef::showscript[]
 
 === Transcript
-You can provision your OpenShift Enterprise cluster with persistent storage
+You can provision your OpenShift Container Platform cluster with persistent storage
  using NFS. There are many other supported storage back ends; they will be
   covered later in the training. In our lab we use NFS for persistent
    storage.
@@ -26,6 +26,6 @@ A `Persistent Volume` framework lets administrators provision a cluster with
   having any knowledge of the underlying infrastructure.
 
 Storage must exist in the underlying infrastructure before you can mount it as
- a volume in OpenShift Enterprise.
+ a volume in OpenShift Container Platform.
 
 endif::showscript[]

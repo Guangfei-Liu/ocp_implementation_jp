@@ -22,7 +22,7 @@ ifdef::showscript[]
 
 === Transcript
 For the installation to succeed, the installer needs to run commands on each
- member in the OpenShift Enterprise environment without requiring a password
+ member in the OpenShift Container Platform environment without requiring a password
   every time.
 
 Ansible, which is used to run the installation process, requires a user that has
@@ -30,7 +30,7 @@ Ansible, which is used to run the installation process, requires a user that has
   configure password-less `sudo` rights on each destination host.
 
 To achieve this, you generate a key and copy it to the root user's ID on each
- member of the OpenShift Enterprise cluster. Do not use a password when
+ member of the OpenShift Container Platform cluster. Do not use a password when
   generating the key.
 
 An easy way to distribute your SSH keys is by using a bash loop.

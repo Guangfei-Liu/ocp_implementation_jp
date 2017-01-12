@@ -120,7 +120,7 @@ The OpenShift Container Platform version 3 stack features the following:
 
 
 endif::showscript[]
-== How OpenShift Container Platform Works
+== How OpenShift Works
 
 * *Containers*: Run languages/framework, middleware, database, and other
  runtimes
@@ -357,7 +357,7 @@ OpenShift Container Platform then schedules three more instances and places them
 
 
 endif::showscript[]
-== How OpenShift Container Platform Works
+== How OpenShift Works
 
 .Service and Routing Layer
 * Takes care of internal and external requests from the applications running on
@@ -377,7 +377,7 @@ The service part provides a list of IPs for the pods it represents. The routing
  part directs traffic from the outside world to the correct pod's IP and port.
 
 endif::showscript[]
-== How OpenShift Container Platform Works
+== How OpenShift Works
 
 .Authentication Layer
 * Provides framework for collaboration and quota management
@@ -396,7 +396,7 @@ OpenShift Container Platform 3 supports a number of mechanisms for authenticatio
 The simplest use case for testing purposes is `htpasswd`-based authentication.
 
 endif::showscript[]
-== How OpenShift Container Platform Works
+== How OpenShift Works
 
 .Store Layer
 * Holds current state, desired state, and configuration information of
@@ -413,7 +413,7 @@ The store layer holds the current state, the desired state, and configuration
 information about the environment.
 
 endif::showscript[]
-== How OpenShift Container Platform Works
+== How OpenShift Works
 
 .Replication Layer
 * Ensures number of instances/pods defined in store layer actually exists
@@ -432,7 +432,7 @@ The replication controller instantiates (creates) or kills pods according to
 the desired state definition.
 
 endif::showscript[]
-== How OpenShift Container Platform Works
+== How OpenShift Works
 
 .Scheduler Layer
 * Determines where to create new pods
@@ -960,7 +960,7 @@ Go to the web address shown here for instructions on upgrading your OpenShift
   release.
 
 endif::showscript[]
-== OpenShift Container Platform 3.1 Release Notes
+== Version 3.1 Release Notes
 
 
 * Renamed services, packages, file names, and directories:
@@ -990,7 +990,7 @@ A number of services, packages, file names, and directories have been renamed in
  OpenShift Container Platform 3.1. This table shows the name changes.
 
 endif::showscript[]
-== OpenShift Container Platform 3.1 Release Notes
+== Version 3.1 Release Notes
 
 
 * Docker version update
@@ -1020,7 +1020,7 @@ You can also now configure an F5 load balancer for use with your OpenShift
  Container Platform environment.
 
 endif::showscript[]
-== OpenShift Container Platform 3.1 Release Notes
+== Version 3.1 Release Notes
 
 
 * More persistent storage options
@@ -1057,7 +1057,7 @@ Finally, the `job` object type is now available, meaning that you can now
 
 
 endif::showscript[]
-== OpenShift Container Platform 3.1 Release Notes
+== Version 3.1 Release Notes
 
 * Installation utility updates: Multiple enhancements made to Ansible-based
  installation
@@ -1078,7 +1078,7 @@ Multiple enhancements have been made to the Ansible-based installation utility.
 * Uninstall existing OpenShift clusters
 
 endif::showscript[]
-== OpenShift Container Platform 3.1 Release Notes
+== Version 3.1 Release Notes
 
 * New parameter for port destination
 ** Can now specify port to send routes to
@@ -1118,7 +1118,7 @@ And you can use `openshift ex validate master-config` and
   files, respectively.
 
 endif::showscript[]
-== OpenShift Container Platform 3.1 Release Notes
+== Version 3.1 Release Notes
 
 * New tag deletion command
 ** Can now delete tags from image stream using `oc tag`
@@ -1144,7 +1144,7 @@ You may also need to remove `v1beta3` from the `apiLevels` field.
 
 
 endif::showscript[]
-== OpenShift Container Platform 3.1 Release Notes
+== Version 3.1 Release Notes
 
 * Web console enhancements
 ** Extended resource information now available
@@ -1166,7 +1166,7 @@ OpenShift Container Platform 3.1 offers a number of web console enhancements:
  remote shell connection.
 
 endif::showscript[]
-== OpenShift Container Platform 3.1 Release Notes
+== Version 3.1 Release Notes
 
 * Aggregating logging with the EFK stack
 ** Elasticsearch, Fluentd, Kibana (AKA _EFK stack_) now
@@ -1186,7 +1186,7 @@ In addition, you can now use the Heapster interface and metric data model with
  OpenShift.
 
 endif::showscript[]
-== OpenShift Container Platform 3.1 Release Notes
+== Version 3.1 Release Notes
 
 * Jenkins
 ** Jenkins image now available for deployment on OpenShift
@@ -1201,7 +1201,7 @@ In addition, integration between Jenkins masters and Jenkins slaves running on
 
 
 endif::showscript[]
-== OpenShift Container Platform 3.1 Release Notes
+== Version 3.1 Release Notes
 
 * `oc build-logs <build_name>` deprecated
 ** Replaced by `oc logs build/<build_name>`
@@ -1219,7 +1219,7 @@ The `spec.rollingParams.updatePercent` field in deployment configurations has
  been replaced with `maxUnavailable` and `maxSurge`.
 
 endif::showscript[]
-== OpenShift Container Platform 3.1 Release Notes
+== Version 3.1 Release Notes
 
 * Images now editable
 ** Can edit images to set fields such as `labels` or `annotations`
@@ -1233,7 +1233,7 @@ You can now edit images to set fields such as `labels` or `annotations`.
 
 
 endif::showscript[]
-== OpenShift Container Platform 3.1 Release Notes
+== Version 3.1 Release Notes
 
 * Some features in Technology Preview
 * Not intended for production use

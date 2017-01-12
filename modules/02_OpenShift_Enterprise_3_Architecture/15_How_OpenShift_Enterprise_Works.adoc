@@ -1,4 +1,4 @@
-== How OpenShift Container Platform Works
+== How OpenShift Works
 
 .Replication Layer
 * Ensures number of instances/pods defined in store layer actually exists

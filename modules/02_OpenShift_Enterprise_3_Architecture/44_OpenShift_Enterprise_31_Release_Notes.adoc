@@ -1,4 +1,4 @@
-== OpenShift Container Platform 3.1 Release Notes
+== Version 3.1 Release Notes
 
 * `oc build-logs <build_name>` deprecated
 ** Replaced by `oc logs build/<build_name>`

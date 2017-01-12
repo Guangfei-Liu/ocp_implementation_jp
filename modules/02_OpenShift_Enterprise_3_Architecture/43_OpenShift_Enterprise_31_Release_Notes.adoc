@@ -1,4 +1,4 @@
-== OpenShift Container Platform 3.1 Release Notes
+== Version 3.1 Release Notes
 
 * Jenkins
 ** Jenkins image now available for deployment on OpenShift

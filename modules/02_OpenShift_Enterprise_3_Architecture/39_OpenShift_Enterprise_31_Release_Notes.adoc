@@ -1,4 +1,4 @@
-== OpenShift Container Platform 3.1 Release Notes
+== Version 3.1 Release Notes
 
 * New parameter for port destination
 ** Can now specify port to send routes to

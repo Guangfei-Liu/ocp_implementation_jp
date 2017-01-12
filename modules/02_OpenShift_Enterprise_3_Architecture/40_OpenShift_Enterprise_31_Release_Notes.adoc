@@ -1,4 +1,4 @@
-== OpenShift Container Platform 3.1 Release Notes
+== Version 3.1 Release Notes
 
 * New tag deletion command
 ** Can now delete tags from image stream using `oc tag`

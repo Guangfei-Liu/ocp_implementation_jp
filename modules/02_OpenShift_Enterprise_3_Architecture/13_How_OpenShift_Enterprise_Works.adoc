@@ -1,4 +1,4 @@
-== How OpenShift Container Platform Works
+== How OpenShift Works
 
 .Authentication Layer
 * Provides framework for collaboration and quota management

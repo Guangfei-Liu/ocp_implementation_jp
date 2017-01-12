@@ -1,4 +1,4 @@
-== How OpenShift Container Platform Works
+== How OpenShift Works
 
 .Service and Routing Layer
 * Takes care of internal and external requests from the applications running on

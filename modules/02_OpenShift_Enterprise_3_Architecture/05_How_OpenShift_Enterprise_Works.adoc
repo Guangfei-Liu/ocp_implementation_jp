@@ -1,4 +1,4 @@
-== How OpenShift Container Platform Works
+== How OpenShift Works
 
 * *Containers*: Run languages/framework, middleware, database, and other
  runtimes

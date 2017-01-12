@@ -1,4 +1,4 @@
-== OpenShift Enterprise 31 Release Notes
+== OpenShift Container Platform 3.1 Release Notes
 
 * New parameter for port destination
 ** Can now specify port to send routes to
@@ -21,7 +21,7 @@
 ifdef::showscript[]
 === Transcript
 
-OpenShift Enterprise 3.1 contains a new parameter for port destination.
+OpenShift Container Platform 3.1 contains a new parameter for port destination.
 You can now specify the port to send routes to. Any services that are
 pointing to multiple ports should have the `spec.port.targetPort` parameter on
  the pod set to the desired port.

@@ -1,21 +1,21 @@
 == Summary
 
 
-* Overview and design concepts in OpenShift Enterprise 3
+* Overview and design concepts in OpenShift Container Platform 3
 * Introduction to Docker
 * Introduction to Kubernetes infrastructure
-* Networking in OpenShift Enterprise 3
+* Networking in OpenShift Container Platform 3
 * Image registry
-* Builds and OpenShift Enterprise S2I images
-* OpenShift Enterprise 3.1 Release Notes
+* Builds and OpenShift Container Platform S2I images
+* OpenShift Container Platform 3.1 Release Notes
 
 
 ifdef::showscript[]
 
 === Transcript
 
-This module presented an overview of and design concepts in OpenShift Enterprise
- 3, including the OpenShift Enterprise stack, how OpenShift Enterprise works,
+This module presented an overview of and design concepts in OpenShift Container Platform 
+ 3, including the OpenShift Container Platform stack, how OpenShift Container Platform works,
   standards, important projects, workflows, and how the various components work
    together.
 
@@ -23,13 +23,13 @@ It introduced Docker, noted the difference between containers and VMs,
 and described Docker components and capabilities.
 
 It covered Kubernetes features and concepts, with an emphasis on pods, followed
- by an overview of networking in OpenShift Enterprise 3
+ by an overview of networking in OpenShift Container Platform 3
 
-The Image registry section described the integrated OpenShift Enterprise
+The Image registry section described the integrated OpenShift Container Platform 
  registry and third-party registries.
 
-The module concluded by briefly explaining builds and OpenShift Enterprise S2I
+The module concluded by briefly explaining builds and OpenShift Container Platform  S2I
  images, including what an S2I build is and reasons to use it, and then by
-  describing the new features in OpenShift Enterprise 3.1.
+  describing the new features in OpenShift Container Platform 3.1.
 
 endif::showscript[]

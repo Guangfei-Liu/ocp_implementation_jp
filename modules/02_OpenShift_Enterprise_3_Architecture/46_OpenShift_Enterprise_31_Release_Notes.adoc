@@ -1,4 +1,4 @@
-== OpenShift Enterprise 31 Release Notes
+== OpenShift Container Platform 3.1 Release Notes
 
 * Some features in Technology Preview
 * Not intended for production use
@@ -6,8 +6,8 @@
 ** Pod autoscaling using `HorizontalPodAutoscaler`
 *** OpenShift compares pod CPU usage as percentage of requested CPU
 *** Scales up to indicated threshold
-** Support for OpenShift Enterprise running on Atomic Host
-** Containerized installations, i.e., all OpenShift Enterprise components
+** Support for OpenShift Container Platform running on Atomic Host
+** Containerized installations, i.e., all OpenShift Container Platform components
  running in containers
 
 [NOTE]
@@ -26,8 +26,8 @@ Some features in this release are currently in Technology Preview. These
 * Pod autoscaling, using the `HorizontalPodAutoscaler` object. In pod
  autoscaling, OpenShift compares pod CPU usage as a percentage of requested CPU,
   and scales accordingly to up to an indicated threshold.
-* Support for OpenShift Enterprise running on Atomic Host.
-* Containerized installations, meaning all OpenShift Enterprise components
+* Support for OpenShift Container Platform running on Atomic Host.
+* Containerized installations, meaning all OpenShift Container Platform components
  running in containers.
 
 endif::showscript[]

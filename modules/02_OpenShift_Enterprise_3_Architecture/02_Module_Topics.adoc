@@ -1,22 +1,22 @@
 == Module Topics
 
-* Overview and design concepts in OpenShift Enterprise by Red Hat version 3
+* Overview and design concepts in OpenShift Container Platform 3
 * Introduction to Docker
 * Introduction to Kubernetes infrastructure
-* Networking in OpenShift Enterprise 3
+* Networking in OpenShift Container Platform 3
 * Image registry
-* Builds and OpenShift Enterprise S2I images
-* OpenShift Enterprise 3.1 Release Notes
+* Builds and OpenShift Container Platform S2I images
+* OpenShift Container Platform  3.1 Release Notes
 
 ifdef::showscript[]
 
 === Transcript
 
-Welcome to module two of the OpenShift Enterprise Implementation course.
+Welcome to module two of the OpenShift Container Platform Implementation course.
 
 This module covers the following topics:
 
-* Overview and design concepts in OpenShift Enterprise by Red Hat version 3,
+* Overview and design concepts in OpenShift Container Platform version 3,
  including the OpenShift stack, how OpenShift works, standards, important
   projects, and how the
 various components work together
@@ -26,14 +26,14 @@ VMs and Docker components and capabilities
 
 * An introduction to Kubernetes infrastructure, covering features and concepts.
 
-* An overview of networking in OpenShift Enterprise 3
+* An overview of networking in OpenShift Container Platform 3
 
 * A description of the image registry, including the integrated OpenShift
-Enterprise registry and third-party registries
+Container Platform registry and third-party registries
 
-* A discussion of builds and OpenShift Enterprise S2I images, including what an
+* A discussion of builds and OpenShift Container Platform S2I images, including what an
  S2I build is and reasons to use it
 
-* A description of the new features in OpenShift Enterprise 3.1
+* A description of the new features in OpenShift Container Platform 3.1
 
 endif::showscript[]

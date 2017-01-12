@@ -1,4 +1,4 @@
-== OpenShift Enterprise 31 Release Notes
+== OpenShift Container Platform 3.1 Release Notes
 
 
 * Docker version update
@@ -10,21 +10,21 @@
 ** Lets you manage groups easily
 
 * F5 availability
-** Can now configure F5 load balancer for use with OpenShift Enterprise
+** Can now configure F5 load balancer for use with OpenShift Container Platform 
  environment
 
 ifdef::showscript[]
 === Transcript
 
-OpenShift Enterprise 3.1 requires a Docker update to version 1.8.2. This version
+OpenShift Container Platform  3.1 requires a Docker update to version 1.8.2. This version
  contains the fix to allow the `_/etc/groups_` file to use supplementary groups.
 
-OpenShift Enterprise 3.1 also offers LDAP synchronization and F5 availability.
+OpenShift Container Platform  3.1 also offers LDAP synchronization and F5 availability.
 
 OpenShift now allows you to sync LDAP records with OpenShift, so that you can
  manage groups easily.
 
 You can also now configure an F5 load balancer for use with your OpenShift
- Enterprise environment.
+ Container Platform environment.
 
 endif::showscript[]

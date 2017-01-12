@@ -1,4 +1,4 @@
-== Important Projects in OpenShift Enterprise
+== Important Projects
 
 * *Kubernetes*: http://kubernetes.io/
 
@@ -14,7 +14,7 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise 3 consists of several key open source projects, most
+OpenShift Container Platform 3 consists of several key open source projects, most
  notably Kubernetes, Docker, and EtcD.
 
 Kubernetes orchestrates containers at massive scale and manages and orchestrates
@@ -28,9 +28,9 @@ containers.
 
 EtcD is a highly available key-value store for shared configuration and service
 discovery. EtcD is the persistent data store for information about the OpenShift
- Enterprise environment.
+ Container Platform environment.
 
-OpenShift Enterprise helps manage large developer organizations. It adds source
+OpenShift Container Platform helps manage large developer organizations. It adds source
  code management, builds, and deployments for developers; manages and promotes
   images at scale as they flow through the system; manages applications at
    scale; and tracks teams and users.

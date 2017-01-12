@@ -1,4 +1,4 @@
-== OpenShift Enterprise Model
+== OpenShift Container Platform Model
 
 * *Masters*: Responsible for managing system state
 ** Provide a REST endpoint for interacting with system
@@ -10,7 +10,7 @@
 
 +
 [NOTE]
-All members of OpenShift Enterprise environment/cluster are also members of
+All members of OpenShift Container Platform environment/cluster are also members of
 overlay network based on software-defined network (SDN).
 +
 image::images/OpenShiftV3ArchFull.png[]
@@ -20,13 +20,13 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise classifies hosts into two separate yet equally important
+OpenShift Container Platform classifies hosts into two separate yet equally important
 groups: masters and nodes.
 
 Masters manage the state of the system, ensuring that all containers that should
 be running are running and that other requests are serviced.
 
-OpenShift Enterprise provides a REST endpoint for interacting with the system.
+OpenShift Container Platform provides a REST endpoint for interacting with the system.
 All tools speak directly to the REST APIs: CLI, web console, IDE plug-ins, etc.
 Multiple masters can be used to provide high availability at the
 management layer.
@@ -37,7 +37,7 @@ defined by the master.
 Deployments may have several nodes. You can organize nodes into many different
 topologies to suit the availability requirements of the workloads.
 
-All members of the OpenShift Enterprise environment/cluster are also members of
+All members of the OpenShift Container Platform environment/cluster are also members of
  an overlay network based on a software-defined network, or SDN.
 
 

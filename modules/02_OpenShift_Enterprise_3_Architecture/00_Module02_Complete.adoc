@@ -23,23 +23,23 @@ endif::[]
 :numbered!:
 == Module Topics
 
-* Overview and design concepts in OpenShift Enterprise by Red Hat version 3
+* Overview and design concepts in OpenShift Container Platform version 3
 * Introduction to Docker
 * Introduction to Kubernetes infrastructure
-* Networking in OpenShift Enterprise 3
+* Networking in OpenShift Container Platform 3
 * Image registry
-* Builds and OpenShift Enterprise S2I images
-* OpenShift Enterprise 3.1 Release Notes
+* Builds and OpenShift Container Platform S2I images
+* OpenShift Container Platform 3.1 Release Notes
 
 ifdef::showscript[]
 
 === Transcript
 
-Welcome to module two of the OpenShift Enterprise Implementation course.
+Welcome to module two of the OpenShift Container Platform Implementation course.
 
 This module covers the following topics:
 
-* Overview and design concepts in OpenShift Enterprise by Red Hat version 3,
+* Overview and design concepts in OpenShift Container Platform version 3,
  including the OpenShift stack, how OpenShift works, standards, important
   projects, and how the
 various components work together
@@ -49,18 +49,18 @@ VMs and Docker components and capabilities
 
 * An introduction to Kubernetes infrastructure, covering features and concepts.
 
-* An overview of networking in OpenShift Enterprise 3
+* An overview of networking in OpenShift Container Platform 3
 
 * A description of the image registry, including the integrated OpenShift
-Enterprise registry and third-party registries
+Container Platform registry and third-party registries
 
-* A discussion of builds and OpenShift Enterprise S2I images, including what an
+* A discussion of builds and OpenShift Container Platform S2I images, including what an
  S2I build is and reasons to use it
 
-* A description of the new features in OpenShift Enterprise 3.1
+* A description of the new features in OpenShift Container Platform 3.1
 
 endif::showscript[]
-== What Is OpenShift Enterprise
+== What Is OpenShift Container Platform
 
 * Platform-as-a-Service (PaaS)
 * Uses industry standards
@@ -75,22 +75,22 @@ ifdef::showscript[]
 
 === Transcript
 
-This module begins with an overview of OpenShift Enterprise design concepts.
+This module begins with an overview of OpenShift Container Platform design concepts.
 
-OpenShift Enterprise is a Platform-as-a-Service, or PaaS, that is based on
+OpenShift Container Platform is a Platform-as-a-Service, or PaaS, that is based on
  industry
-standards. OpenShift Enterprise is a self-service platform, meaning that it
+standards. OpenShift Container Platform is a self-service platform, meaning that it
  provides development environments on demand. As a polyglot offering, it
   includes a range of languages, frameworks, runtimes, and databases. It also
    automates management of the entire application lifecycle: build, deploy, and
     retire.
 
-OpenShift Enterprise enables collaboration between developers on projects and
+OpenShift Container Platform enables collaboration between developers on projects and
  components.
 
 
 endif::showscript[]
-== OpenShift Enterprise Version 3
+== OpenShift Container Platform Version 3
 
 [.noredheader,cols="<,^"]
 |======
@@ -108,7 +108,7 @@ ifdef::showscript[]
 
 === Transcript
 
-The OpenShift Enterprise version 3 stack features the following:
+The OpenShift Container Platform version 3 stack features the following:
 
 * A standard containers API
 * A container-optimized OS
@@ -120,7 +120,7 @@ The OpenShift Enterprise version 3 stack features the following:
 
 
 endif::showscript[]
-== How OpenShift Enterprise Works
+== How OpenShift Container Platform Works
 
 * *Containers*: Run languages/framework, middleware, database, and other
  runtimes
@@ -139,7 +139,7 @@ ifdef::showscript[]
 === Transcript
 
 Here is a simplified explanation of some of the components of OpenShift
-Enterprise 3.
+Container Platform 3.
 
 Containers run languages and frameworks, middleware components, databases, and
 other runtimes.
@@ -222,7 +222,7 @@ and consume trusted container images and federate consumption libraries. This
  promotes consistency and reuse.
 
 endif::showscript[]
-== Important Projects in OpenShift Enterprise
+== Important Projects in OpenShift Container Platform
 
 * *Kubernetes*: http://kubernetes.io/
 
@@ -238,7 +238,7 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise 3 consists of several key open source projects, most
+OpenShift Container Platform 3 consists of several key open source projects, most
  notably Kubernetes, Docker, and EtcD.
 
 Kubernetes orchestrates containers at massive scale and manages and orchestrates
@@ -252,15 +252,15 @@ containers.
 
 EtcD is a highly available key-value store for shared configuration and service
 discovery. EtcD is the persistent data store for information about the OpenShift
- Enterprise environment.
+ Container Platform environment.
 
-OpenShift Enterprise helps manage large developer organizations. It adds source
+OpenShift Container Platform helps manage large developer organizations. It adds source
  code management, builds, and deployments for developers; manages and promotes
   images at scale as they flow through the system; manages applications at
    scale; and tracks teams and users.
 
 endif::showscript[]
-== OpenShift Enterprise Model
+== OpenShift Container Platform Model
 
 * *Masters*: Responsible for managing system state
 ** Provide a REST endpoint for interacting with system
@@ -272,7 +272,7 @@ endif::showscript[]
 
 +
 [NOTE]
-All members of OpenShift Enterprise environment/cluster are also members of
+All members of OpenShift Container Platform environment/cluster are also members of
 overlay network based on software-defined network (SDN).
 +
 image::images/OpenShiftV3ArchFull.png[]
@@ -282,13 +282,13 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise classifies hosts into two separate yet equally important
+OpenShift Container Platform classifies hosts into two separate yet equally important
 groups: masters and nodes.
 
 Masters manage the state of the system, ensuring that all containers that should
 be running are running and that other requests are serviced.
 
-OpenShift Enterprise provides a REST endpoint for interacting with the system.
+OpenShift Container Platform provides a REST endpoint for interacting with the system.
 All tools speak directly to the REST APIs: CLI, web console, IDE plug-ins, etc.
 Multiple masters can be used to provide high availability at the
 management layer.
@@ -299,12 +299,12 @@ defined by the master.
 Deployments may have several nodes. You can organize nodes into many different
 topologies to suit the availability requirements of the workloads.
 
-All members of the OpenShift Enterprise environment/cluster are also members of
+All members of the OpenShift Container Platform environment/cluster are also members of
  an overlay network based on a software-defined network, or SDN.
 
 
 endif::showscript[]
-== OpenShift Enterprise Workflow
+== OpenShift Container Platform Workflow
 
 .Scenario
 * Application needs to be scaled up to accommodate overall increase or upcoming
@@ -313,28 +313,28 @@ endif::showscript[]
 ** Manual API call/command line
 ** Initiated by external monitoring agent
 
-* OpenShift Enterprise workflow:
+* OpenShift Container Platform workflow:
 . API call made (CLI, REST API, automation process)
 . Data store gets new information (desired scale = 6 pods)
 . Replication controllers see mismatch between current scale (3 pods) and
 desired scale (6 pods)
-. OpenShift Enterprise schedules and deploys 3 instances (pods)
+. OpenShift Container Platform schedules and deploys 3 instances (pods)
 
 
 ifdef::showscript[]
 
 === Transcript
 
-Put simply, OpenShift Enterprise manages its workflow as follows:
+Put simply, OpenShift Container Platform manages its workflow as follows:
 
 . Users or automation make calls to the REST API (using the web console, command
    line, or any other method) to change the state of the system.
-. OpenShift Enterprise periodically checks to see what system state the call
+. OpenShift Container Platform periodically checks to see what system state the call
  wants.
-. OpenShift Enterprise then works to bring the other parts of the system into
+. OpenShift Container Platform then works to bring the other parts of the system into
 sync with the desired state.
 
-For example: Say an OpenShift Enterprise 3 user predicts a spike in traffic
+For example: Say an OpenShift Container Platform 3 user predicts a spike in traffic
  before a holiday or major sports event.
 The user wants to spin up more pods of a specific service/application to
  accommodate the additional traffic.
@@ -352,16 +352,16 @@ On the next sync loop, the replication controllers determine that the current
  scale of three running pods does not match the desired scale of six running
   pods.
 
-OpenShift Enterprise then schedules three more instances and places them for
+OpenShift Container Platform then schedules three more instances and places them for
  deployment.
 
 
 endif::showscript[]
-== How OpenShift Enterprise Works
+== How OpenShift Container Platform Works
 
 .Service and Routing Layer
 * Takes care of internal and external requests from the applications running on
-OpenShift Enterprise
+OpenShift Container Platform
 +
 image::images/01ServiceRouting.png[]
 
@@ -371,13 +371,13 @@ ifdef::showscript[]
 === Transcript
 
 The service and routing layer takes care of internal and external requests to
-and from the applications running on OpenShift Enterprise.
+and from the applications running on OpenShift Container Platform.
 
 The service part provides a list of IPs for the pods it represents. The routing
  part directs traffic from the outside world to the correct pod's IP and port.
 
 endif::showscript[]
-== How OpenShift Enterprise Works
+== How OpenShift Container Platform Works
 
 .Authentication Layer
 * Provides framework for collaboration and quota management
@@ -392,11 +392,11 @@ ifdef::showscript[]
 
 The authentication layer provides a framework for collaboration and quota
 management.
-OpenShift Enterprise 3 supports a number of mechanisms for authentication.
+OpenShift Container Platform 3 supports a number of mechanisms for authentication.
 The simplest use case for testing purposes is `htpasswd`-based authentication.
 
 endif::showscript[]
-== How OpenShift Enterprise Works
+== How OpenShift Container Platform Works
 
 .Store Layer
 * Holds current state, desired state, and configuration information of
@@ -413,7 +413,7 @@ The store layer holds the current state, the desired state, and configuration
 information about the environment.
 
 endif::showscript[]
-== How OpenShift Enterprise Works
+== How OpenShift Container Platform Works
 
 .Replication Layer
 * Ensures number of instances/pods defined in store layer actually exists
@@ -432,7 +432,7 @@ The replication controller instantiates (creates) or kills pods according to
 the desired state definition.
 
 endif::showscript[]
-== How OpenShift Enterprise Works
+== How OpenShift Container Platform Works
 
 .Scheduler Layer
 * Determines where to create new pods
@@ -523,7 +523,7 @@ ifdef::showscript[]
 === Transcript
 
 The Docker daemon runs on a host machine. You do not interact directly with the
-daemon when using OpenShift Enterprise.
+daemon when using OpenShift Container Platform.
 
 The Docker client is the primary user interface. It accepts commands
 from the user and communicates back and forth with a Docker daemon.
@@ -547,7 +547,7 @@ endif::showscript[]
 * Share and reuse images via Docker Hub or own registry
 +
 [NOTE]
-OpenShift Enterprise 3 uses an _integrated registry_ to store and distribute
+OpenShift Container Platform 3 uses an _integrated registry_ to store and distribute
 images created locally.
 
 ifdef::showscript[]
@@ -558,7 +558,7 @@ With Docker, you can build Docker images that hold your applications and create
 Docker containers from those Docker images to run your applications.
 You can share and reuse those Docker images via Docker Hub or your own registry.
 
-In OpenShift Enterprise 3, we create our own _integrated registry_ to store
+In OpenShift Container Platform 3, we create our own _integrated registry_ to store
  and distribute images created locally.
 
 endif::showscript[]
@@ -685,7 +685,7 @@ In terms of Docker constructs, a pod consists of a co-located group of Docker
 containers.
 
 endif::showscript[]
-== OpenShift Enterprise Networking Basics
+== OpenShift Container Platform Networking Basics
 
 * Container networking based on integrated Open vSwitch
 * Platform-wide routing tier
@@ -696,17 +696,17 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise provides many networking capabilities based on the
+OpenShift Container Platform provides many networking capabilities based on the
 integrated Open vSwitch technologies in Red Hat Enterprise Linux.
 It provides a platform-wide routing tier to route traffic to applications.
-You can also integrate OpenShift Enterprise with third-party SDN solutions, as
+You can also integrate OpenShift Container Platform with third-party SDN solutions, as
  well as your existing DNS, routing, and load-balancing methods.
 
 endif::showscript[]
-== OpenShift Enterprise Networking Basics
+== OpenShift Container Platform Networking Basics
 
-* OpenShift Enterprise 3 networking basic concepts:
-** Every host in OpenShift Enterprise 3 environment/cluster is member of SDN
+* OpenShift Container Platform 3 networking basic concepts:
+** Every host in OpenShift Container Platform 3 environment/cluster is member of SDN
  network
 ** Each `pod` has own IP routable from any SDN member
 *** Default: `10.x.x.x`
@@ -717,10 +717,10 @@ ifdef::showscript[]
 
 === Transcript
 
-To understand the networking workflow in OpenShift Enterprise 3, you must be
+To understand the networking workflow in OpenShift Container Platform 3, you must be
  familiar with its various components.
 
-All hosts in the OpenShift Enterprise 3 environment, or cluster, are members
+All hosts in the OpenShift Container Platform 3 environment, or cluster, are members
 of the same SDN overlay network.
 
 Each pod gets its own IP that is routable from any member of the SDN
@@ -732,14 +732,14 @@ and permanent IP for a group of pods.
 The default IPs for pods and services are shown here.
 
 endif::showscript[]
-== OpenShift Enterprise Networking Basics
+== OpenShift Container Platform Networking Basics
 
-* One or more OpenShift Enterprise nodes host the `Default Router`:
+* One or more OpenShift Container Platform nodes host the `Default Router`:
 ** `Default Router`: An HA-Proxy instance running inside a container to "route"
-(but actually _proxy_) between the outside world and pods in OpenShift Enterprise
+(but actually _proxy_) between the outside world and pods in OpenShift Container Platform
 environment
 ** The `Default Router`:
-*** Binds an `fqdn` (e.g., `myapp.mydomain.org`) to OpenShift Enterprise
+*** Binds an `fqdn` (e.g., `myapp.mydomain.org`) to OpenShift Container Platform
 environment address/addresses
 *** Routinely gets pod's IPs from the `service` representing them
 *** Routes/proxies to pods directly, not through the `service`
@@ -752,7 +752,7 @@ ifdef::showscript[]
 === Transcript
 
 A container running an instance of HA-Proxy is hosted on one or more of the
-nodes in the OpenShift Enterprise environment. We call this instance the _Default
+nodes in the OpenShift Container Platform environment. We call this instance the _Default
 Router_.
 
 The router's function is to resolve `fqdn` hostname requests and proxy the
@@ -800,7 +800,7 @@ endif::showscript[]
 * Image source can be any server implementing Docker registry API:
 ** Canonical Docker Hub
 ** Private registries run by third parties
-** OpenShift Enterprise integrated registry
+** OpenShift Container Platform integrated registry
 
 
 ifdef::showscript[]
@@ -814,9 +814,9 @@ It provides authentication and access control to images.
 You can also integrate the registry with third-party providers such as Docker
  Hub to leverage innovation from the community and ISVs.
 
-OpenShift Enterprise uses any server implementing the Docker registry API as a
+OpenShift Container Platform uses any server implementing the Docker registry API as a
 source of images, including canonical Docker Hub, private registries run by
-third parties, and the integrated OpenShift Enterprise registry.
+third parties, and the integrated OpenShift Container Platform registry.
 
 
 endif::showscript[]
@@ -826,27 +826,27 @@ endif::showscript[]
 * Provides place for builds to push images
 
 * When new image is pushed to integrated registry:
-** OpenShift Enterprise notified about image
+** OpenShift Container Platform notified about image
 ** Image information passed along:
 *** Namespace
 *** Name
 *** Image metadata
 
-* OpenShift Enterprise reacts to images by creating builds and deployments
+* OpenShift Container Platform reacts to images by creating builds and deployments
 
 ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise provides an integrated Docker registry. This
+OpenShift Container Platform provides an integrated Docker registry. This
 automatically provides users with a place to which their builds can push the
  resulting images.
 
 Whenever a new image is pushed to the integrated registry, the registry notifies
-OpenShift Enterprise about the new image and passes along image information,
+OpenShift Container Platform about the new image and passes along image information,
 such as the namespace, name, and image metadata.
 
-Various pieces of OpenShift Enterprise react to the new images by creating new
+Various pieces of OpenShift Container Platform react to the new images by creating new
 builds and deployments.
 
 endif::showscript[]
@@ -863,7 +863,7 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise can use third-party registries to obtain builder images and
+OpenShift Container Platform can use third-party registries to obtain builder images and
  complete application images.
 
 Supportability of these images and registries falls to their respective
@@ -890,7 +890,7 @@ In the S2I build process, a developer points to a code
 repository in any supported framework and selects a builder image that
 contains the operating system and framework to support the code.
 
-OpenShift Enterprise then creates an image based on the builder image containing
+OpenShift Container Platform then creates an image based on the builder image containing
 the selected code.
 
 endif::showscript[]
@@ -913,7 +913,7 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise 3 provides a developer-centric flow that focuses on
+OpenShift Container Platform 3 provides a developer-centric flow that focuses on
 turning the developer's source code into a running application as simply as
  possible.
 
@@ -935,9 +935,9 @@ endif::showscript[]
 
 
 
-== OpenShift Enterprise 3.2 Release Notes
+== OpenShift Container Platform 3.2 Release Notes
 
-* OpenShift Enterprise version 3.2 now available
+* OpenShift Container Platform version 3.2 now available
 * Be sure to follow instructions for upgrading OpenShift cluster properly
 ** Including release-specific steps
 
@@ -950,7 +950,7 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise version 3.2 is now available.
+OpenShift Container Platform version 3.2 is now available.
 
 Make sure that you properly follow the instructions on upgrading your OpenShift
  cluster, including steps specific to this release.
@@ -960,7 +960,7 @@ Go to the web address shown here for instructions on upgrading your OpenShift
   release.
 
 endif::showscript[]
-== OpenShift Enterprise 3.1 Release Notes
+== OpenShift Container Platform 3.1 Release Notes
 
 
 * Renamed services, packages, file names, and directories:
@@ -987,10 +987,10 @@ ifdef::showscript[]
 === Transcript
 
 A number of services, packages, file names, and directories have been renamed in
- OpenShift Enterprise 3.1. This table shows the name changes.
+ OpenShift Container Platform 3.1. This table shows the name changes.
 
 endif::showscript[]
-== OpenShift Enterprise 3.1 Release Notes
+== OpenShift Container Platform 3.1 Release Notes
 
 
 * Docker version update
@@ -1002,25 +1002,25 @@ endif::showscript[]
 ** Lets you manage groups easily
 
 * F5 availability
-** Can now configure F5 load balancer for use with OpenShift Enterprise
+** Can now configure F5 load balancer for use with OpenShift Container Platform
  environment
 
 ifdef::showscript[]
 === Transcript
 
-OpenShift Enterprise 3.1 requires a Docker update to version 1.8.2. This version
+OpenShift Container Platform 3.1 requires a Docker update to version 1.8.2. This version
  contains the fix to allow the `_/etc/groups_` file to use supplementary groups.
 
-OpenShift Enterprise 3.1 also offers LDAP synchronization and F5 availability.
+OpenShift Container Platform 3.1 also offers LDAP synchronization and F5 availability.
 
 OpenShift now allows you to sync LDAP records with OpenShift, so that you can
  manage groups easily.
 
 You can also now configure an F5 load balancer for use with your OpenShift
- Enterprise environment.
+ Container Platform environment.
 
 endif::showscript[]
-== OpenShift Enterprise 3.1 Release Notes
+== OpenShift Container Platform 3.1 Release Notes
 
 
 * More persistent storage options
@@ -1044,7 +1044,7 @@ endif::showscript[]
 ifdef::showscript[]
 === Transcript
 
-OpenShift Enterprise 3.1 offers several more persistent storage options,
+OpenShift Container Platform 3.1 offers several more persistent storage options,
  including Red Hat's GlusterFS and Ceph RBD, AWS, and Google Compute Engine.
   Also, NFS storage is now supplemented by iSCSI- and Fibre Channel-based
    volumes.
@@ -1057,7 +1057,7 @@ Finally, the `job` object type is now available, meaning that you can now
 
 
 endif::showscript[]
-== OpenShift Enterprise 3.1 Release Notes
+== OpenShift Container Platform 3.1 Release Notes
 
 * Installation utility updates: Multiple enhancements made to Ansible-based
  installation
@@ -1078,7 +1078,7 @@ Multiple enhancements have been made to the Ansible-based installation utility.
 * Uninstall existing OpenShift clusters
 
 endif::showscript[]
-== OpenShift Enterprise 3.1 Release Notes
+== OpenShift Container Platform 3.1 Release Notes
 
 * New parameter for port destination
 ** Can now specify port to send routes to
@@ -1101,7 +1101,7 @@ endif::showscript[]
 ifdef::showscript[]
 === Transcript
 
-OpenShift Enterprise 3.1 contains a new parameter for port destination.
+OpenShift Container Platform 3.1 contains a new parameter for port destination.
 You can now specify the port to send routes to. Any services that are
 pointing to multiple ports should have the `spec.port.targetPort` parameter on
  the pod set to the desired port.
@@ -1118,7 +1118,7 @@ And you can use `openshift ex validate master-config` and
   files, respectively.
 
 endif::showscript[]
-== OpenShift Enterprise 3.1 Release Notes
+== OpenShift Container Platform 3.1 Release Notes
 
 * New tag deletion command
 ** Can now delete tags from image stream using `oc tag`
@@ -1134,7 +1134,7 @@ endif::showscript[]
 ifdef::showscript[]
 === Transcript
 
-OpenShift Enterprise 3.1 includes a new tag deletion command.
+OpenShift Container Platform 3.1 includes a new tag deletion command.
 You can now delete tags from an image stream using `oc tag <tag_name> -d`.
 
 Using `v1beta3` as an endpoint in configuration files is no longer supported.
@@ -1144,7 +1144,7 @@ You may also need to remove `v1beta3` from the `apiLevels` field.
 
 
 endif::showscript[]
-== OpenShift Enterprise 3.1 Release Notes
+== OpenShift Container Platform 3.1 Release Notes
 
 * Web console enhancements
 ** Extended resource information now available
@@ -1156,7 +1156,7 @@ endif::showscript[]
 ifdef::showscript[]
 === Transcript
 
-OpenShift Enterprise 3.1 offers a number of web console enhancements:
+OpenShift Container Platform 3.1 offers a number of web console enhancements:
 * Extended resource information is now available on the web console.
 * The ability to trigger a deployment and rollback from the console has been
  added.
@@ -1166,7 +1166,7 @@ OpenShift Enterprise 3.1 offers a number of web console enhancements:
  remote shell connection.
 
 endif::showscript[]
-== OpenShift Enterprise 3.1 Release Notes
+== OpenShift Container Platform 3.1 Release Notes
 
 * Aggregating logging with the EFK stack
 ** Elasticsearch, Fluentd, Kibana (AKA _EFK stack_) now
@@ -1178,7 +1178,7 @@ endif::showscript[]
 ifdef::showscript[]
 === Transcript
 
-OpenShift Enterprise 3.1 lets you aggregate logging with the EFK stack.
+OpenShift Container Platform 3.1 lets you aggregate logging with the EFK stack.
 Elasticsearch, Fluentd, and Kibana--together known as the EFK stack--are now
  available for logging consumption.
 
@@ -1186,7 +1186,7 @@ In addition, you can now use the Heapster interface and metric data model with
  OpenShift.
 
 endif::showscript[]
-== OpenShift Enterprise 3.1 Release Notes
+== OpenShift Container Platform 3.1 Release Notes
 
 * Jenkins
 ** Jenkins image now available for deployment on OpenShift
@@ -1201,7 +1201,7 @@ In addition, integration between Jenkins masters and Jenkins slaves running on
 
 
 endif::showscript[]
-== OpenShift Enterprise 3.1 Release Notes
+== OpenShift Container Platform 3.1 Release Notes
 
 * `oc build-logs <build_name>` deprecated
 ** Replaced by `oc logs build/<build_name>`
@@ -1219,7 +1219,7 @@ The `spec.rollingParams.updatePercent` field in deployment configurations has
  been replaced with `maxUnavailable` and `maxSurge`.
 
 endif::showscript[]
-== OpenShift Enterprise 3.1 Release Notes
+== OpenShift Container Platform 3.1 Release Notes
 
 * Images now editable
 ** Can edit images to set fields such as `labels` or `annotations`
@@ -1233,7 +1233,7 @@ You can now edit images to set fields such as `labels` or `annotations`.
 
 
 endif::showscript[]
-== OpenShift Enterprise 3.1 Release Notes
+== OpenShift Container Platform 3.1 Release Notes
 
 * Some features in Technology Preview
 * Not intended for production use
@@ -1241,8 +1241,8 @@ endif::showscript[]
 ** Pod autoscaling using `HorizontalPodAutoscaler`
 *** OpenShift compares pod CPU usage as percentage of requested CPU
 *** Scales up to indicated threshold
-** Support for OpenShift Enterprise running on Atomic Host
-** Containerized installations, i.e., all OpenShift Enterprise components
+** Support for OpenShift Container Platform running on Atomic Host
+** Containerized installations, i.e., all OpenShift Container Platform components
  running in containers
 
 [NOTE]
@@ -1261,29 +1261,29 @@ Some features in this release are currently in Technology Preview. These
 * Pod autoscaling, using the `HorizontalPodAutoscaler` object. In pod
  autoscaling, OpenShift compares pod CPU usage as a percentage of requested CPU,
   and scales accordingly to up to an indicated threshold.
-* Support for OpenShift Enterprise running on Atomic Host.
-* Containerized installations, meaning all OpenShift Enterprise components
+* Support for OpenShift Container Platform running on Atomic Host.
+* Containerized installations, meaning all OpenShift Container Platform components
  running in containers.
 
 endif::showscript[]
 == Summary
 
 
-* Overview and design concepts in OpenShift Enterprise 3
+* Overview and design concepts in OpenShift Container Platform 3
 * Introduction to Docker
 * Introduction to Kubernetes infrastructure
-* Networking in OpenShift Enterprise 3
+* Networking in OpenShift Container Platform 3
 * Image registry
-* Builds and OpenShift Enterprise S2I images
-* OpenShift Enterprise 3.1 Release Notes
+* Builds and OpenShift Container Platform S2I images
+* OpenShift Container Platform 3.1 Release Notes
 
 
 ifdef::showscript[]
 
 === Transcript
 
-This module presented an overview of and design concepts in OpenShift Enterprise
- 3, including the OpenShift Enterprise stack, how OpenShift Enterprise works,
+This module presented an overview of and design concepts in OpenShift Container Platform
+ 3, including the OpenShift Container Platform stack, how OpenShift Container Platform works,
   standards, important projects, workflows, and how the various components work
    together.
 
@@ -1291,13 +1291,13 @@ It introduced Docker, noted the difference between containers and VMs,
 and described Docker components and capabilities.
 
 It covered Kubernetes features and concepts, with an emphasis on pods, followed
- by an overview of networking in OpenShift Enterprise 3
+ by an overview of networking in OpenShift Container Platform 3
 
-The Image registry section described the integrated OpenShift Enterprise
+The Image registry section described the integrated OpenShift Container Platform
  registry and third-party registries.
 
-The module concluded by briefly explaining builds and OpenShift Enterprise S2I
+The module concluded by briefly explaining builds and OpenShift Container Platform S2I
  images, including what an S2I build is and reasons to use it, and then by
-  describing the new features in OpenShift Enterprise 3.1.
+  describing the new features in OpenShift Container Platform 3.1.
 
 endif::showscript[]

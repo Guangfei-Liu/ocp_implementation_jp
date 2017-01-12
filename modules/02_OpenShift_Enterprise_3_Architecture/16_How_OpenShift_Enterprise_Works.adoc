@@ -1,4 +1,4 @@
-== How OpenShift Enterprise Works
+== How OpenShift Container Platform Works
 
 .Scheduler Layer
 * Determines where to create new pods

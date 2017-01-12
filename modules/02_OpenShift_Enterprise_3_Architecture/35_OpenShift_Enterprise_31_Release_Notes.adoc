@@ -1,4 +1,4 @@
-== OpenShift Enterprise 31 Release Notes
+== OpenShift Container Platform 3.1 Release Notes
 
 
 * Renamed services, packages, file names, and directories:
@@ -25,6 +25,6 @@ ifdef::showscript[]
 === Transcript
 
 A number of services, packages, file names, and directories have been renamed in
- OpenShift Enterprise 3.1. This table shows the name changes.
+ OpenShift Container Platform 3.1. This table shows the name changes.
 
 endif::showscript[]

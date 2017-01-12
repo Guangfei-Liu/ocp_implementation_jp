@@ -11,7 +11,7 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise can use third-party registries to obtain builder images and
+OpenShift Container Platform can use third-party registries to obtain builder images and
  complete application images.
 
 Supportability of these images and registries falls to their respective

@@ -1,11 +1,11 @@
-== OpenShift Enterprise Networking Basics
+== OpenShift Container Platform Networking Basics
 
-* One or more OpenShift Enterprise nodes host the `Default Router`:
+* One or more OpenShift Container Platform nodes host the `Default Router`:
 ** `Default Router`: An HA-Proxy instance running inside a container to "route"
-(but actually _proxy_) between the outside world and pods in OpenShift Enterprise
+(but actually _proxy_) between the outside world and pods in OpenShift Container Platform
 environment
 ** The `Default Router`:
-*** Binds an `fqdn` (e.g., `myapp.mydomain.org`) to OpenShift Enterprise
+*** Binds an `fqdn` (e.g., `myapp.mydomain.org`) to OpenShift Container Platform
 environment address/addresses
 *** Routinely gets pod's IPs from the `service` representing them
 *** Routes/proxies to pods directly, not through the `service`
@@ -18,7 +18,7 @@ ifdef::showscript[]
 === Transcript
 
 A container running an instance of HA-Proxy is hosted on one or more of the
-nodes in the OpenShift Enterprise environment. We call this instance the _Default
+nodes in the OpenShift Container Platform environment. We call this instance the _Default
 Router_.
 
 The router's function is to resolve `fqdn` hostname requests and proxy the

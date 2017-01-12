@@ -1,4 +1,4 @@
-== How OpenShift Enterprise Works
+== How OpenShift Container Platform Works
 
 .Store Layer
 * Holds current state, desired state, and configuration information of

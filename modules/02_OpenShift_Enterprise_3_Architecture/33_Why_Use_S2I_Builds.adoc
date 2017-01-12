@@ -17,7 +17,7 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise 3 provides a developer-centric flow that focuses on
+OpenShift Container Platform 3 provides a developer-centric flow that focuses on
 turning the developer's source code into a running application as simply as
  possible.
 

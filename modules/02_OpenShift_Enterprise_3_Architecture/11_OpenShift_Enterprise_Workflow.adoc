@@ -1,4 +1,4 @@
-== OpenShift Enterprise Workflow
+== OpenShift Container Platform Workflow
 
 .Scenario
 * Application needs to be scaled up to accommodate overall increase or upcoming
@@ -7,28 +7,28 @@
 ** Manual API call/command line
 ** Initiated by external monitoring agent
 
-* OpenShift Enterprise workflow:
+* OpenShift Container Platform workflow:
 . API call made (CLI, REST API, automation process)
 . Data store gets new information (desired scale = 6 pods)
 . Replication controllers see mismatch between current scale (3 pods) and
 desired scale (6 pods)
-. OpenShift Enterprise schedules and deploys 3 instances (pods)
+. OpenShift Container Platform schedules and deploys 3 instances (pods)
 
 
 ifdef::showscript[]
 
 === Transcript
 
-Put simply, OpenShift Enterprise manages its workflow as follows:
+Put simply, OpenShift Container Platform manages its workflow as follows:
 
 . Users or automation make calls to the REST API (using the web console, command
    line, or any other method) to change the state of the system.
-. OpenShift Enterprise periodically checks to see what system state the call
+. OpenShift Container Platform periodically checks to see what system state the call
  wants.
-. OpenShift Enterprise then works to bring the other parts of the system into
+. OpenShift Container Platform then works to bring the other parts of the system into
 sync with the desired state.
 
-For example: Say an OpenShift Enterprise 3 user predicts a spike in traffic
+For example: Say an OpenShift Container Platform 3 user predicts a spike in traffic
  before a holiday or major sports event.
 The user wants to spin up more pods of a specific service/application to
  accommodate the additional traffic.
@@ -46,7 +46,7 @@ On the next sync loop, the replication controllers determine that the current
  scale of three running pods does not match the desired scale of six running
   pods.
 
-OpenShift Enterprise then schedules three more instances and places them for
+OpenShift Container Platform then schedules three more instances and places them for
  deployment.
 
 

@@ -29,7 +29,7 @@ OSEIMPLEMENTATION|OSEIMPLEMENTATION208|5|For an S2I, source-to-image build, you 
 OSEIMPLEMENTATION|OSEIMPLEMENTATION208|5|For an S2I, source-to-image build, you need source code and a builder/base image.|||FALSE|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION209|1|OpenShift can pull images from any server implementing Docker registry API, including:|||Canonical Docker Hub|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION209|1|OpenShift can pull images from any server implementing Docker registry API, including:|||Private registries managed by third parties|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION209|1|OpenShift can pull images from any server implementing Docker registry API, including:|||Integrated OpenShift Enterprise registry|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION209|1|OpenShift can pull images from any server implementing Docker registry API, including:|||Integrated OpenShift Container Platform registry|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION209|1|OpenShift can pull images from any server implementing Docker registry API, including:|||All of the above|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION210|1|One of the benefits of S2I is that having a strong separation between the source code and the runtime environment in the container image helps to migrate code between:|||Runtime environments|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION210|1|One of the benefits of S2I is that having a strong separation between the source code and the runtime environment in the container image helps to migrate code between:|||Across major versions of a runtime|||0|0|||

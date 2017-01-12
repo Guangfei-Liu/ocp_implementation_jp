@@ -1,4 +1,4 @@
-== OpenShift Enterprise 31 Release Notes
+== OpenShift Container Platform 3.1 Release Notes
 
 * Images now editable
 ** Can edit images to set fields such as `labels` or `annotations`

@@ -1,4 +1,4 @@
-== OpenShift Enterprise 31 Release Notes
+== OpenShift Container Platform 3.1 Release Notes
 
 * Web console enhancements
 ** Extended resource information now available
@@ -10,7 +10,7 @@
 ifdef::showscript[]
 === Transcript
 
-OpenShift Enterprise 3.1 offers a number of web console enhancements:
+OpenShift Container Platform 3.1 offers a number of web console enhancements:
 * Extended resource information is now available on the web console.
 * The ability to trigger a deployment and rollback from the console has been
  added.

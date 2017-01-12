@@ -1,7 +1,7 @@
-== OpenShift Enterprise Networking Basics
+== OpenShift Container Platform Networking Basics
 
-* OpenShift Enterprise 3 networking basic concepts:
-** Every host in OpenShift Enterprise 3 environment/cluster is member of SDN
+* OpenShift Container Platform 3 networking basic concepts:
+** Every host in OpenShift Container Platform 3 environment/cluster is member of SDN
  network
 ** Each `pod` has own IP routable from any SDN member
 *** Default: `10.x.x.x`
@@ -12,10 +12,10 @@ ifdef::showscript[]
 
 === Transcript
 
-To understand the networking workflow in OpenShift Enterprise 3, you must be
+To understand the networking workflow in OpenShift Container Platform 3, you must be
  familiar with its various components.
 
-All hosts in the OpenShift Enterprise 3 environment, or cluster, are members
+All hosts in the OpenShift Container Platform 3 environment, or cluster, are members
 of the same SDN overlay network.
 
 Each pod gets its own IP that is routable from any member of the SDN

@@ -1,6 +1,6 @@
-== OpenShift Enterprise 31 Release Notes
+== OpenShift Container Platform 3.1 Release Notes
 
-* OpenShift Enterprise version 3.1 now available
+* OpenShift Container Platform  version 3.1 now available
 * Be sure to follow instructions for upgrading OpenShift cluster properly
 ** Including release-specific steps
 
@@ -13,7 +13,7 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise version 3.1 is now available.
+OpenShift Container Platform version 3.1 is now available.
 
 Make sure that you properly follow the instructions on upgrading your OpenShift
  cluster, including steps specific to this release.

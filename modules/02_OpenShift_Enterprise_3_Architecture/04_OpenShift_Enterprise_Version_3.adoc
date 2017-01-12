@@ -1,4 +1,4 @@
-== OpenShift Enterprise Version 3
+== OpenShift Container Platform Version 3
 
 [.noredheader,cols="<,^"]
 |======
@@ -16,7 +16,7 @@ ifdef::showscript[]
 
 === Transcript
 
-The OpenShift Enterprise version 3 stack features the following:
+The OpenShift Container Platform version 3 stack features the following:
 
 * A standard containers API
 * A container-optimized OS

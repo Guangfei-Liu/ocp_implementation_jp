@@ -5,7 +5,7 @@
 
 * Describes set of resources that can be customized and processed to produce
  configuration
-* Parameterized list OpenShift Enterprise uses to create list of resources,
+* Parameterized list OpenShift Container Platform uses to create list of resources,
  including services, pods, routes, and build configurations
 * Defines set of labels to apply to every resource created by template
 
@@ -19,7 +19,7 @@ ifdef::showscript[]
 A template describes a set of resources that can be customized and processed to
  produce a configuration.
 
-Each template is a parameterized list that OpenShift Enterprise uses to create a
+Each template is a parameterized list that OpenShift Container Platform uses to create a
  list of resources, including services, pods, routes, and build configurations.
 
 A template also defines a set of labels to apply to every resource it creates.

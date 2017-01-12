@@ -19,7 +19,7 @@ In this section, you create two separate template instances in two separate proj
 
 === Install Template
 
-The example in this section involves a build of an application and a service with two pods: a front-end web tier and a back-end database tier. This application uses auto-generated parameters and other sleek features of OpenShift Enterprise.  Note that this application contains predefined connectivity between the front-end and back-end components as part of its JSON, embedded in the source code.  You add resources in a later lab.
+The example in this section involves a build of an application and a service with two pods: a front-end web tier and a back-end database tier. This application uses auto-generated parameters and other sleek features of OpenShift Container Platform.  Note that this application contains predefined connectivity between the front-end and back-end components as part of its JSON, embedded in the source code.  You add resources in a later lab.
 
 This example is, in effect, a "quick start" -- a predefined application that comes in a template and that you can immediately use or customize.
 

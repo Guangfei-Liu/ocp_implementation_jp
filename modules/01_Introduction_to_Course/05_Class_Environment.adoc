@@ -2,8 +2,8 @@
 
 
 * Class labs and demonstrations require provisioning virtual machines (VMs):
-** *Master host*: One VM serves as OpenShift Enterprise environment master
-** *Node hosts*: Three VMs serve as OpenShift Enterprise environment node
+** *Master host*: One VM serves as OpenShift Container Platform environment master
+** *Node hosts*: Three VMs serve as OpenShift Container Platform environment node
 ** *`oselab` host*: One VM for admin purposes (DNS server, NFS server, SSH jump
    box, more)
 * Red Hat Enterprise Linux 7.2 preinstalled and configured for deployment
@@ -15,7 +15,7 @@ ifdef::showscript[]
 === Transcript
 
 This class uses a cloud-based environment. You will provision the following
-virtual machine hosts for your OpenShift Enterprise environment:
+virtual machine hosts for your OpenShift Container Platform environment:
 
 * A single master host
 * Three node hosts, one of which is dedicated for infrastructure components

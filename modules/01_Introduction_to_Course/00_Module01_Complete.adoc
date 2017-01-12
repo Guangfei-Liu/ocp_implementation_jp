@@ -11,7 +11,7 @@ ifdef::revealjs_slideshow[]
 Red Hat OpenShift Container Platform Implementation
 
 [#cover-h2]
-Introduction to Course and Learning Environment
+Introduction
 
 [#cover-logo]
 image::{revealjs_cover_image}[]
@@ -19,28 +19,28 @@ image::{revealjs_cover_image}[]
 endif::[]
 == Course Goals
 
-* Review OpenShift Enterprise by Red Hat version 3 architecture
-* Describe/review OpenShift Enterprise 3 components
-* Describe OpenShift Enterprise installation and configuration process
+* Review Red Hat OpenShift Container Platform version 3 architecture
+* Describe/review OpenShift Container Platform 3 components
+* Describe OpenShift Container Platform installation and configuration process
 ** Scheduling (placement)
 ** Persistent storage
 ** Authentication
 * Describe/review application lifecycle (deployment lifecycle)
-* Review management of OpenShift Enterprise 3 security restrictions/capabilities
+* Review management of OpenShift Container Platform 3 security restrictions/capabilities
 
 
 ifdef::showscript[]
 
 === Transcript
 
-Welcome to the OpenShift Enterprise by Red Hat Implementation course.
+Welcome to the Red Hat OpenShift Container Platform Implementation course.
 
-This course shows you how to set up and configure various aspects of the OpenShift Enterprise 3 environment, including the following:
+This course shows you how to set up and configure various aspects of the OpenShift Container Platform 3 environment, including the following:
 
 * The installation process
 * Scheduling, or placement of pods
 * Persistent storage
-* And authentication to the OpenShift Enterprise 3 environment.
+* And authentication to the OpenShift Container Platform 3 environment.
 
 This course also reviews how to manage applications and deployments and how to apply security restrictions and permissions.
 
@@ -49,14 +49,14 @@ endif::showscript[]
 
 == Course Overview
 
-* Module 01: Introduction to Course and Learning Environment
-* Module 02: OpenShift Enterprise 3 Architecture
-* Module 03: OpenShift Enterprise 3 Installation
+* Module 01: Introduction
+* Module 02: Architecture
+* Module 03: Installation
 * Module 04: Core Concepts
 * Module 05: Resource Management
-* Module 06: Creating Applications
+* Module 06: Application Creation
 * Module 07: Templates
-* Module 08: Deployment Life cycle
+* Module 08: Application Life Cycle
 
 ifdef::showscript[]
 
@@ -89,8 +89,8 @@ endif::showscript[]
 
 
 * Class labs and demonstrations require provisioning virtual machines (VMs):
-** *Master host*: One VM serves as OpenShift Enterprise environment master
-** *Node hosts*: Three VMs serve as OpenShift Enterprise environment node
+** *Master host*: One VM serves as OpenShift Container Platform environment master
+** *Node hosts*: Three VMs serve as OpenShift Container Platform environment node
 ** *`oselab` host*: One VM for admin purposes (DNS server, NFS server, SSH jump box, more)
 * Red Hat Enterprise Linux 7.2 preinstalled and configured for deployment
 * Connection details arrive via email after provisioning environment
@@ -101,7 +101,7 @@ ifdef::showscript[]
 === Transcript
 
 This class uses a cloud-based environment. You will provision the following
-virtual machine hosts for your OpenShift Enterprise environment:
+virtual machine hosts for your OpenShift Container Platform environment:
 
 * A single master host
 * Three node hosts, one of which is dedicated for infrastructure components

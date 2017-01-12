@@ -1,13 +1,13 @@
 == Course Overview
 
-* Module 01: Introduction to Course and Learning Environment
-* Module 02: OpenShift Enterprise 3 Architecture
-* Module 03: OpenShift Enterprise 3 Installation
+* Module 01: Introduction
+* Module 02: Architecture
+* Module 03: Installation
 * Module 04: Core Concepts
 * Module 05: Resource Management
-* Module 06: Creating Applications
+* Module 06: Application Creation
 * Module 07: Templates
-* Module 08: Deployment Life cycle
+* Module 08: Application Life Cycle
 
 ifdef::showscript[]
 

@@ -12,7 +12,7 @@ ifdef::revealjs_slideshow[]
 Red Hat OpenShift Container Platform Implementation
 
 [#cover-h2]
-OpenShift 3 Application Life Cycle
+Application Life Cycle
 [#cover-logo]
 image::{revealjs_cover_image}[]
 

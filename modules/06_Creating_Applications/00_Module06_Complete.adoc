@@ -16,7 +16,7 @@ ifdef::revealjs_slideshow[]
 Red Hat OpenShift Container Platform Implementation
 
 [#cover-h2]
-Creating New Applications
+Application Creation
 
 [#cover-logo]
 image::{revealjs_cover_image}[]

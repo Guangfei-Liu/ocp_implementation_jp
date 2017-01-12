@@ -16,7 +16,7 @@ ifdef::showscript[]
 
 === Transcript
 To use a template in the file system directly, without first storing it in
- OpenShift Enterprise, use the `-f|--file` flag and specify the file
+ OpenShift Container Platform, use the `-f|--file` flag and specify the file
   name as the argument.
 
 endif::showscript[]

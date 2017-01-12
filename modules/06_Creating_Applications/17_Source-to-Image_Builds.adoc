@@ -6,7 +6,7 @@
 * OpenShift components such as builds and deployments can watch an image stream
  to receive notifications when new images are added and react by performing a
   build or a deployment.
-** OpenShift Enterprise _rebuilds_ when a change like this occurs
+** OpenShift Container Platform _rebuilds_ when a change like this occurs
 +
 [subs="verbatim,macros"]
 ----
@@ -45,7 +45,7 @@ The `ImageStream` section describes the `ImageStream` resource to be created to
 
  OpenShift components such as builds and deployments can watch an image stream
   to receive notifications when new images are added and react by performing a
-   build or a deployment. OpenShift Enterprise _rebuilds_ when a
+   build or a deployment. OpenShift Container Platform _rebuilds_ when a
   change like this occurs.
 
 endif::showscript[]

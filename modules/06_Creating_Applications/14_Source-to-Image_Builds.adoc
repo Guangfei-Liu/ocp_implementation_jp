@@ -4,7 +4,7 @@
 
 * `oc new-app`:
 - Examines directory tree, remote repo, or other sources
-- Attempts to generate JSON configuration so OpenShift Enterprise can build image
+- Attempts to generate JSON configuration so OpenShift Container Platform can build image
 - Defines _service_ object for application
 
 * To create application definition, use `oc new-app` to generate definition file:
@@ -25,7 +25,7 @@ ifdef::showscript[]
 As shown in the code sample, you use the `oc new-app` command to generate a
  JSON file that defines your build. `oc new-app` is a tool that examines a
   directory tree, a remote repo, or other source and attempts to generate an
-   appropriate JSON configuration so that OpenShift Enterprise can build the
+   appropriate JSON configuration so that OpenShift Container Platform can build the
     resulting image to run.
 
 You can edit the JSON file before you create the build.

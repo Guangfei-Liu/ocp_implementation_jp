@@ -2,7 +2,7 @@
 
 .Command Output
 
-* `new-app` generates OpenShift Enterprise resources that _build_, _deploy_, and
+* `new-app` generates OpenShift Container Platform resources that _build_, _deploy_, and
  _run_ applications
 
 * Resources created in current project use names derived from input source
@@ -18,7 +18,7 @@
 ** Shows resources that will be created, but does not create them
 ** Review resources, or redirect output to file to edit
 
-** Then use `oc create` to create OpenShift Enterprise resources
+** Then use `oc create` to create OpenShift Container Platform resources
 
 * To output `new-app` artifacts to file, edit them, then create them using
  `oc create`:
@@ -32,7 +32,7 @@ $ oc create -f myapp.json
 ifdef::showscript[]
 
 === Transcript
-The `new-app` command generates OpenShift Enterprise resources that build,
+The `new-app` command generates OpenShift Container Platform resources that build,
  deploy, and run the application being created. Normally, these resources are
   created in the current project using names derived from the input source
    repositories or input images. However, `new-app` allows you to modify this
@@ -41,7 +41,7 @@ The `new-app` command generates OpenShift Enterprise resources that build,
 To see a dry run of what `new-app` will create, use the `-o|--output` flag with
  a value of either `yaml` or `json`. Then use the output to preview the
   resources that will be created, or redirect the output to a file that you can
-   edit and then use with `oc create` to create the OpenShift Enterprise
+   edit and then use with `oc create` to create the OpenShift Container Platform
     resources, as shown in the example.
 
 endif::showscript[]

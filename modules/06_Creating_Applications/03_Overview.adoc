@@ -1,6 +1,6 @@
 == Overview
 
-* Users can create new OpenShift Enterprise application using web console or
+* Users can create new OpenShift Container Platform application using web console or
  `oc new-app` command
 ** Users can specify application creation from _source code_, _image_, or
  _template_
@@ -17,7 +17,7 @@ ifdef::showscript[]
 
 === Transcript
 
-You can create a new OpenShift Enterprise application using the web console or
+You can create a new OpenShift Container Platform application using the web console or
  by running the `oc new-app` command from the CLI.
 
 In this context, an application is set of objects, such as `DeploymentConfig`,

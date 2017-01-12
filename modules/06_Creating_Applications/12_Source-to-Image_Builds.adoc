@@ -13,7 +13,7 @@ ifdef::showscript[]
 
 === Transcript
 
-S2I builds are a replacement for the build process of OpenShift Enterprise
+S2I builds are a replacement for the build process of OpenShift Container Platform
  Version 2. The developer now needs to provide only the repository where the
   project is located and a builder image, which defines the language and
    framework used for writing the application.

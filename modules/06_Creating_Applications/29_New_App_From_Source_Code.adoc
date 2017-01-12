@@ -2,7 +2,7 @@
 
 .Language Detection
 
-* After language is detected, `new-app` searches OpenShift Enterprise server
+* After language is detected, `new-app` searches OpenShift Container Platform server
  for:
 ** Image stream tags with `supports` annotation that matches language
 ** Image stream that matches name of detected language
@@ -13,7 +13,7 @@
 ifdef::showscript[]
 
 === Transcript
-After a language is detected, `new-app` searches the OpenShift Enterprise server
+After a language is detected, `new-app` searches the OpenShift Container Platform server
  for image stream tags that have a `supports` annotation matching the detected
   language, or an image stream that matches the name of the detected language.
 

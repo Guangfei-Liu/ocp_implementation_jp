@@ -21,6 +21,6 @@ There are three parameter types.
  specific details.
 
 * And output describes the resulting image name, tag, and registry to which
- OpenShift Enterprise should push the image.
+ OpenShift Container Platform should push the image.
 
 endif::showscript[]

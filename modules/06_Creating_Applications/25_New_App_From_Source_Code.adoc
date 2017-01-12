@@ -14,7 +14,7 @@
  `#[reference]` to end of URL
 
 NOTE: If you are using a local Git repository, the repository must have an
- _origin_ remote that points to a URL accessible by the OpenShift Enterprise cluster.
+ _origin_ remote that points to a URL accessible by the OpenShift Container Platform cluster.
 
 ifdef::showscript[]
 

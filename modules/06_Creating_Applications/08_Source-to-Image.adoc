@@ -15,7 +15,7 @@ ifdef::showscript[]
 
 The `BuildConfig` object is the definition of the entire build process. It
  consists of triggers that define policies used to automatically invoke builds,
-  and parameters that point OpenShift Enterprise to the source code and builder
+  and parameters that point OpenShift Container Platform to the source code and builder
    image.
 
 

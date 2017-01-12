@@ -2,7 +2,7 @@
 
 .Build Process
 
-* *Build*: Process of creating runnable OpenShift Enterprise _image_
+* *Build*: Process of creating runnable OpenShift Container Platform _image_
 * Three build strategies:
 ** *Docker*: Invoke Docker build, expect repository with Dockerfile and
  directories required for Docker build process

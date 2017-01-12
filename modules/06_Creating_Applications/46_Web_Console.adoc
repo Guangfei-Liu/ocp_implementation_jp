@@ -13,7 +13,7 @@ Modify settings in the new application screen to configure the resources to
  support your application.
 
  . Builder image name and description
- . Application name used for generated OpenShift Enterprise resources
+ . Application name used for generated OpenShift Container Platform resources
  . Routing configuration section for making the application publicly accessible
  . Deployment configuration section for customizing deployment triggers and
   image environment variables

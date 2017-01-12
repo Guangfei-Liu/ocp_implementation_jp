@@ -10,7 +10,7 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise offers an integrated Docker registry and automated image
+OpenShift Container Platform offers an integrated Docker registry and automated image
  builds, enabling both source code deployments that leverage S2I build
   automation and binary deployments that are integrated with your existing build
    and CI infrastructure.

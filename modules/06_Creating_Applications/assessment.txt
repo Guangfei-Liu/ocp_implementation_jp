@@ -3,8 +3,8 @@ OSEIMPLEMENTATION|OSEIMPLEMENTATION601|1|If you specify source code, new-app c
 OSEIMPLEMENTATION|OSEIMPLEMENTATION601|1|If you specify source code, new-app constructs:|||Deployment configuration that deploys image|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION601|1|If you specify source code, new-app constructs:|||Service to provide load-balanced access to deployment running image|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION601|1|If you specify source code, new-app constructs:|||All of the above|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION602|5|Users can create new OpenShift Enterprise application using web console or the oc new-app command.|||TRUE|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION602|5|Users can create new OpenShift Enterprise application using web console or the oc new-app command.|||FALSE|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION602|5|Users can create new OpenShift Container Platform application using web console or the oc new-app command.|||TRUE|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION602|5|Users can create new OpenShift Container Platform application using web console or the oc new-app command.|||FALSE|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION603|1|Which answer best describes a Docker Build?|||Invokes a Docker build, expects a repository with Dockerfile and directories required for the Docker build process|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION603|1|Which answer best describes a Docker Build?|||Builds reproducible Docker images from source code and a builder image|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION603|1|Which answer best describes a Docker Build?|||A build with a user-defined process, that is possibly integrated with existing CI/CD deployments, like Jenkins|||0|0|||

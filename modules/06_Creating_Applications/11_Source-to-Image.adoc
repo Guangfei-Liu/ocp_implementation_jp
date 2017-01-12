@@ -2,7 +2,7 @@
 
 .Build Strategies
 
-* OpenShift Enterprise build system provides extensible support for build
+* OpenShift Container Platform build system provides extensible support for build
  strategies based on selectable types specified in build API
 * Docker build
 ** Invokes `docker build`, expects repository with Dockerfile and required
@@ -19,7 +19,7 @@ ifdef::showscript[]
 
 === Transcript
 
-The OpenShift Enterprise build system provides extensible support for build
+The OpenShift Container Platform build system provides extensible support for build
  strategies based on selectable types specified in the build API.
 
 Docker builds invoke the plain `docker build` command, and therefore expect a

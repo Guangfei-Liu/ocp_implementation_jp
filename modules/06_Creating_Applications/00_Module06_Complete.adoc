@@ -40,7 +40,7 @@ ifdef::showscript[]
 
 === Transcript
 
-Welcome to module six of the OpenShift Enterprise Implementation course.
+Welcome to module six of the OpenShift Container Platform Implementation course.
 
 This module covers the following topics:
 
@@ -62,7 +62,7 @@ This module covers the following topics:
 endif::showscript[]
 == Overview
 
-* Users can create new OpenShift Enterprise application using web console or
+* Users can create new OpenShift Container Platform application using web console or
  `oc new-app` command
 ** Users can specify application creation from _source code_, _image_, or
  _template_
@@ -79,7 +79,7 @@ ifdef::showscript[]
 
 === Transcript
 
-You can create a new OpenShift Enterprise application using the web console or
+You can create a new OpenShift Container Platform application using the web console or
  by running the `oc new-app` command from the CLI.
 
 In this context, an application is set of objects, such as `DeploymentConfig`,
@@ -103,7 +103,7 @@ endif::showscript[]
  assembling new Docker image
 
 ** New image incorporates base image (_builder image_) and built source
-*** Ready to use within OpenShift Enterprise or other platforms (e.g., Atomic
+*** Ready to use within OpenShift Container Platform or other platforms (e.g., Atomic
    Host)
 
 
@@ -153,7 +153,7 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise offers an integrated Docker registry and automated image
+OpenShift Container Platform offers an integrated Docker registry and automated image
  builds, enabling both source code deployments that leverage S2I build
   automation and binary deployments that are integrated with your existing build
    and CI infrastructure.
@@ -164,7 +164,7 @@ endif::showscript[]
 
 .Build Process
 
-* *Build*: Process of creating runnable OpenShift Enterprise _image_
+* *Build*: Process of creating runnable OpenShift Container Platform _image_
 * Three build strategies:
 ** *Docker*: Invoke Docker build, expect repository with Dockerfile and
  directories required for Docker build process
@@ -208,7 +208,7 @@ ifdef::showscript[]
 
 The `BuildConfig` object is the definition of the entire build process. It
  consists of triggers that define policies used to automatically invoke builds,
-  and parameters that point OpenShift Enterprise to the source code and builder
+  and parameters that point OpenShift Container Platform to the source code and builder
    image.
 
 
@@ -264,14 +264,14 @@ There are three parameter types.
  specific details.
 
 * And output describes the resulting image name, tag, and registry to which
- OpenShift Enterprise should push the image.
+ OpenShift Container Platform should push the image.
 
 endif::showscript[]
 == Source-to-Image
 
 .Build Strategies
 
-* OpenShift Enterprise build system provides extensible support for build
+* OpenShift Container Platform build system provides extensible support for build
  strategies based on selectable types specified in build API
 * Docker build
 ** Invokes `docker build`, expects repository with Dockerfile and required
@@ -288,7 +288,7 @@ ifdef::showscript[]
 
 === Transcript
 
-The OpenShift Enterprise build system provides extensible support for build
+The OpenShift Container Platform build system provides extensible support for build
  strategies based on selectable types specified in the build API.
 
 Docker builds invoke the plain `docker build` command, and therefore expect a
@@ -320,7 +320,7 @@ ifdef::showscript[]
 
 === Transcript
 
-S2I builds are a replacement for the build process of OpenShift Enterprise
+S2I builds are a replacement for the build process of OpenShift Container Platform
  Version 2. The developer now needs to provide only the repository where the
   project is located and a builder image, which defines the language and
    framework used for writing the application.
@@ -362,7 +362,7 @@ endif::showscript[]
 
 * `oc new-app`:
 - Examines directory tree, remote repo, or other sources
-- Attempts to generate JSON configuration so OpenShift Enterprise can build image
+- Attempts to generate JSON configuration so OpenShift Container Platform can build image
 - Defines _service_ object for application
 
 * To create application definition, use `oc new-app` to generate definition file:
@@ -383,7 +383,7 @@ ifdef::showscript[]
 As shown in the code sample, you use the `oc new-app` command to generate a
  JSON file that defines your build. `oc new-app` is a tool that examines a
   directory tree, a remote repo, or other source and attempts to generate an
-   appropriate JSON configuration so that OpenShift Enterprise can build the
+   appropriate JSON configuration so that OpenShift Container Platform can build the
     resulting image to run.
 
 You can edit the JSON file before you create the build.
@@ -662,7 +662,7 @@ endif::showscript[]
 * OpenShift components such as builds and deployments can watch an image stream
  to receive notifications when new images are added and react by performing a
   build or a deployment.
-** OpenShift Enterprise _rebuilds_ when a change like this occurs
+** OpenShift Container Platform _rebuilds_ when a change like this occurs
 +
 [subs="verbatim,macros"]
 ----
@@ -701,7 +701,7 @@ The `ImageStream` section describes the `ImageStream` resource to be created to
 
  OpenShift components such as builds and deployments can watch an image stream
   to receive notifications when new images are added and react by performing a
-   build or a deployment. OpenShift Enterprise _rebuilds_ when a
+   build or a deployment. OpenShift Container Platform _rebuilds_ when a
   change like this occurs.
 
 endif::showscript[]
@@ -885,7 +885,7 @@ endif::showscript[]
 
 .Deploying an S2I Build Image
 
-* In basic S2I process, OpenShift Enterprise:
+* In basic S2I process, OpenShift Container Platform:
 - Sets up components to build _source code_ into Docker _image_
 - On command, builds Docker image
 - Deploys Docker image as pod with associated _service_
@@ -895,10 +895,10 @@ ifdef::showscript[]
 
 === Transcript
 
-Essentially, the S2I process is as follows: OpenShift Enterprise sets up various
+Essentially, the S2I process is as follows: OpenShift Container Platform sets up various
  components so that it can build source code into a Docker image. Then OpenShift
   Enterprise builds the Docker image with the source code.
-   And finally, OpenShift Enterprise deploys the Docker image as a pod with an
+   And finally, OpenShift Container Platform deploys the Docker image as a pod with an
     associated service.
 
 endif::showscript[]
@@ -967,11 +967,11 @@ endif::showscript[]
 
 .Overview
 
-* Create new OpenShift Enterprise application using web console or `oc new-app`
+* Create new OpenShift Container Platform application using web console or `oc new-app`
 
-* OpenShift Enterprise creates application by specifying _source code_, _image_, or _template_
+* OpenShift Container Platform creates application by specifying _source code_, _image_, or _template_
 * `new-app` looks for images on local Docker installation (if available), in
- Docker registry, or OpenShift Enterprise image stream
+ Docker registry, or OpenShift Container Platform image stream
 
 * If you specify source code, `new-app` constructs:
 ** _Build configuration_ that builds source into new _application image_
@@ -982,11 +982,11 @@ ifdef::showscript[]
 
 === Transcript
 
-You can create a new OpenShift Enterprise application using the web console or
- by running the `oc new-app` command from the CLI. OpenShift Enterprise creates
+You can create a new OpenShift Container Platform application using the web console or
+ by running the `oc new-app` command from the CLI. OpenShift Container Platform creates
   a new application by specifying source code, images, or templates. The
    `new-app` command looks for images on the local Docker installation
-    (if available), in a Docker registry, or an OpenShift Enterprise image
+    (if available), in a Docker registry, or an OpenShift Container Platform image
      stream.
 
 endif::showscript[]
@@ -1006,7 +1006,7 @@ endif::showscript[]
  `#[reference]` to end of URL
 
 NOTE: If you are using a local Git repository, the repository must have an
- _origin_ remote that points to a URL accessible by the OpenShift Enterprise cluster.
+ _origin_ remote that points to a URL accessible by the OpenShift Container Platform cluster.
 
 ifdef::showscript[]
 
@@ -1123,7 +1123,7 @@ endif::showscript[]
 
 .Language Detection
 
-* After language is detected, `new-app` searches OpenShift Enterprise server
+* After language is detected, `new-app` searches OpenShift Container Platform server
  for:
 ** Image stream tags with `supports` annotation that matches language
 ** Image stream that matches name of detected language
@@ -1134,7 +1134,7 @@ endif::showscript[]
 ifdef::showscript[]
 
 === Transcript
-After a language is detected, `new-app` searches the OpenShift Enterprise server
+After a language is detected, `new-app` searches the OpenShift Container Platform server
  for image stream tags that have a `supports` annotation matching the detected
   language, or an image stream that matches the name of the detected language.
 
@@ -1181,7 +1181,7 @@ endif::showscript[]
 * `new-app` generates artifacts to deploy existing image as application
 
 * Images can come from:
-**  OpenShift Enterprise server
+**  OpenShift Container Platform server
 ** Specific registry
 ** Docker Hub
 ** Local Docker server
@@ -1194,7 +1194,7 @@ endif::showscript[]
 
 
 NOTE: If you specify an image from your local Docker repository, you must ensure
- that the same image is available to the OpenShift Enterprise cluster nodes.
+ that the same image is available to the OpenShift Container Platform cluster nodes.
 
 ifdef::showscript[]
 
@@ -1209,7 +1209,7 @@ The `new-app` command attempts to determine the type of image specified in the
    stream by using the `-i|--image` argument.
 
 If you specify an image from your local Docker repository, you must ensure that
- the same image is available to the OpenShift Enterprise cluster nodes.
+ the same image is available to the OpenShift Container Platform cluster nodes.
 
 endif::showscript[]
 == New App From Image
@@ -1232,7 +1232,7 @@ $ oc new-app myregistry:5000/example/myimage
 
 
 NOTE: If the registry that the image comes from is not secured with SSL, cluster
- administrators must ensure that the Docker daemon on the OpenShift Enterprise
+ administrators must ensure that the Docker daemon on the OpenShift Container Platform
   nodes is run with the `--insecure-registry` flag pointing to that registry.
    You must also use the `--insecure-registry=true` flag to tell `new-app` that
     the image comes from an insecure registry.
@@ -1326,7 +1326,7 @@ ifdef::showscript[]
 
 === Transcript
 To use a template in the file system directly, without first storing it in
- OpenShift Enterprise, use the `-f|--file` flag and specify the file
+ OpenShift Container Platform, use the `-f|--file` flag and specify the file
   name as the argument.
 
 endif::showscript[]
@@ -1420,7 +1420,7 @@ endif::showscript[]
 
 .Command Output
 
-* `new-app` generates OpenShift Enterprise resources that _build_, _deploy_, and
+* `new-app` generates OpenShift Container Platform resources that _build_, _deploy_, and
  _run_ applications
 
 * Resources created in current project use names derived from input source
@@ -1436,7 +1436,7 @@ endif::showscript[]
 ** Shows resources that will be created, but does not create them
 ** Review resources, or redirect output to file to edit
 
-** Then use `oc create` to create OpenShift Enterprise resources
+** Then use `oc create` to create OpenShift Container Platform resources
 
 * To output `new-app` artifacts to file, edit them, then create them using
  `oc create`:
@@ -1450,7 +1450,7 @@ $ oc create -f myapp.json
 ifdef::showscript[]
 
 === Transcript
-The `new-app` command generates OpenShift Enterprise resources that build,
+The `new-app` command generates OpenShift Container Platform resources that build,
  deploy, and run the application being created. Normally, these resources are
   created in the current project using names derived from the input source
    repositories or input images. However, `new-app` allows you to modify this
@@ -1459,7 +1459,7 @@ The `new-app` command generates OpenShift Enterprise resources that build,
 To see a dry run of what `new-app` will create, use the `-o|--output` flag with
  a value of either `yaml` or `json`. Then use the output to preview the
   resources that will be created, or redirect the output to a file that you can
-   edit and then use with `oc create` to create the OpenShift Enterprise
+   edit and then use with `oc create` to create the OpenShift Container Platform
     resources, as shown in the example.
 
 endif::showscript[]
@@ -1687,7 +1687,7 @@ Modify settings in the new application screen to configure the resources to
  support your application.
 
  . Builder image name and description
- . Application name used for generated OpenShift Enterprise resources
+ . Application name used for generated OpenShift Container Platform resources
  . Routing configuration section for making the application publicly accessible
  . Deployment configuration section for customizing deployment triggers and
   image environment variables

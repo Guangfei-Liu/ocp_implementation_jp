@@ -8,7 +8,7 @@
  assembling new Docker image
 
 ** New image incorporates base image (_builder image_) and built source
-*** Ready to use within OpenShift Enterprise or other platforms (e.g., Atomic
+*** Ready to use within OpenShift Container Platform or other platforms (e.g., Atomic
    Host)
 
 

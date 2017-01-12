@@ -5,7 +5,7 @@
 * `new-app` generates artifacts to deploy existing image as application
 
 * Images can come from:
-**  OpenShift Enterprise server
+**  OpenShift Container Platform server
 ** Specific registry
 ** Docker Hub
 ** Local Docker server
@@ -18,7 +18,7 @@
 
 
 NOTE: If you specify an image from your local Docker repository, you must ensure
- that the same image is available to the OpenShift Enterprise cluster nodes.
+ that the same image is available to the OpenShift Container Platform cluster nodes.
 
 ifdef::showscript[]
 
@@ -33,6 +33,6 @@ The `new-app` command attempts to determine the type of image specified in the
    stream by using the `-i|--image` argument.
 
 If you specify an image from your local Docker repository, you must ensure that
- the same image is available to the OpenShift Enterprise cluster nodes.
+ the same image is available to the OpenShift Container Platform cluster nodes.
 
 endif::showscript[]

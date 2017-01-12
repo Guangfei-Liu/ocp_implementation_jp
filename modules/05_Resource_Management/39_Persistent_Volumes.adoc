@@ -1,7 +1,7 @@
 == Persistent Volumes
 
 .Overview
-* `PersistentVolume` object: Storage resource in OpenShift Enterprise cluster
+* `PersistentVolume` object: Storage resource in OpenShift Container Platform cluster
 * Administrator provides storage by creating `PersistentVolume` from sources
  such as:
 ** NFS
@@ -19,7 +19,7 @@ ifdef::showscript[]
 
 === Transcript
 
-A `PersistentVolume` object is a storage resource in an OpenShift Enterprise
+A `PersistentVolume` object is a storage resource in an OpenShift Container Platform
  cluster. An administrator provisions storage by creating `PersistentVolume`
   objects from sources such as the following:
 

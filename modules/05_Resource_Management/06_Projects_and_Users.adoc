@@ -3,12 +3,12 @@
 .Users and User Types: Service Accounts
 
 * *Service accounts*: Special system users associated with a project
-* When pod requires access to make an API call to OpenShift Enterprise master:
+* When pod requires access to make an API call to OpenShift Container Platform master:
 ** `ServiceAccount` created to represent a pod's credentials
 * Some service accounts created automatically when project created
 * Can create more to:
 ** Define access to project contents
-** Make API calls to OpenShift Enterprise master
+** Make API calls to OpenShift Container Platform master
 * Service accounts are represented with the `ServiceAccount` object.
 ** Examples: `system:serviceaccount:default:deployer`,
  `system:serviceaccount:foo:builder`
@@ -20,12 +20,12 @@ ifdef::showscript[]
 
 Service accounts are special system users associated with a project.
 
-When a pod requires access to make an API call to the OpenShift Enterprise
+When a pod requires access to make an API call to the OpenShift Container Platform
  master, a `ServiceAccount` is created to represent the pod's credentials.
 
 Some service accounts are created automatically when the project is first
  created. Users can create more service accounts to define access to the
-  project's contents or to make API calls to the OpenShift Enterprise master.
+  project's contents or to make API calls to the OpenShift Container Platform master.
 
 Service accounts are represented with the `ServiceAccount` object.
 

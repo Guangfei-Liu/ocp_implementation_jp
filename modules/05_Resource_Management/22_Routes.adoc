@@ -16,7 +16,7 @@ ifdef::showscript[]
 
 === Transcript
 
-An OpenShift Enterprise route is a way to expose a service by giving it an
+An OpenShift Container Platform route is a way to expose a service by giving it an
  externally reachable hostname such as `www.example.com`.
 
 A router can consume a defined route and the endpoints identified by its

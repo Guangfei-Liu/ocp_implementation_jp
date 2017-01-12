@@ -7,7 +7,7 @@
 * In between two is process that:
 ** Matches claim to volume and binds them together
 ** Lets you use claim as volume in pod
-** OpenShift Enterprise finds volume backing claim and mounts it into pod
+** OpenShift Container Platform finds volume backing claim and mounts it into pod
 
 
 ifdef::showscript[]
@@ -20,7 +20,7 @@ A `PersistentVolume` is a specific resource. A `PersistentVolumeClaim` is a
 When a request is made, a process matches it to an available volume and binds
  them together.
 
-This lets you use the claim as a volume in a pod. OpenShift Enterprise finds the
+This lets you use the claim as a volume in a pod. OpenShift Container Platform finds the
  volume backing the claim and mounts it into the pod.
 
 endif::showscript[]

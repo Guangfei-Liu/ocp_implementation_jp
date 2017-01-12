@@ -28,7 +28,7 @@ ifdef::showscript[]
 
 === Transcript
 
-To expose services externally, an OpenShift Enterprise route lets you associate
+To expose services externally, an OpenShift Container Platform route lets you associate
  a service with an externally reachable hostname.
 
 The example here shows a route with a specified host.

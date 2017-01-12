@@ -2,7 +2,7 @@
 
 .Routes Without Hostnames
 
-* If hostname _not_ provided in route specification, OpenShift Enterprise
+* If hostname _not_ provided in route specification, OpenShift Container Platform
  generates one
 * Form: `$routename[.$namespace].$suffix`
 * Example: Route definition without host:

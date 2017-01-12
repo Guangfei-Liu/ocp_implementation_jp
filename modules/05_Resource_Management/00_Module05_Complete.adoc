@@ -24,7 +24,7 @@ endif::[]
 == Module Topics
 
 * Resource Types
-* OpenShift Enterprise Resources
+* OpenShift Container Platform Resources
 * Projects and Users
 * Client Tool Authentication
 * Resource Quota
@@ -37,9 +37,9 @@ ifdef::showscript[]
 
 === Transcript
 
-Welcome to module five of the OpenShift Enterprise Implementation course.
+Welcome to module five of the OpenShift Container Platform Implementation course.
 
-This module discusses various OpenShift Enterprise resources and how to use them
+This module discusses various OpenShift Container Platform resources and how to use them
  to configure and manage your environment.
 
 
@@ -52,10 +52,10 @@ endif::showscript[]
 ** Scale
 ** Build
 * Can reinforce quotas against resources
-* OpenShift Enterprise 3 includes different resource types
+* OpenShift Container Platform 3 includes different resource types
 * Can refer to:
 ** *Hardware resources*: Memory, CPU, other _platform_ resources
-** *OpenShift Enterprise resources*: Pods, services, replication controllers
+** *OpenShift Container Platform resources*: Pods, services, replication controllers
 
 
 ifdef::showscript[]
@@ -63,45 +63,45 @@ ifdef::showscript[]
 === Transcript
 
 When you work with applications--creating, building, scaling, destroying, and
- so on--you manipulate OpenShift Enterprise resources in the
+ so on--you manipulate OpenShift Container Platform resources in the
   background.
 
 You can enforce quotas against resources.
 
-OpenShift Enterprise 3 includes different resource types. In this context,
+OpenShift Container Platform 3 includes different resource types. In this context,
  the term _resources_ can refer to hardware resources, such as memory, CPU,
-  and other _platform_ resources, or to OpenShift Enterprise resources, such as
+  and other _platform_ resources, or to OpenShift Container Platform resources, such as
    pods, services, and replication controllers.
 
 endif::showscript[]
-== OpenShift Enterprise Resources
+== OpenShift Container Platform Resources
 
-* Can define most OpenShift Enterprise resources with .JSON or .YAML file
-* Can construct API call to make request from OpenShift Enterprise API
+* Can define most OpenShift Container Platform resources with .JSON or .YAML file
+* Can construct API call to make request from OpenShift Container Platform API
 
 
 ifdef::showscript[]
 
 === Transcript
 
-You can define most OpenShift Enterprise resources with a .JSON or .YAML file.
+You can define most OpenShift Container Platform resources with a .JSON or .YAML file.
  In the same manner, you can construct an API call to make a request from the
-  OpenShift Enterprise API.
+  OpenShift Container Platform API.
 
 endif::showscript[]
 == Projects and Users
 
 .Users and User Types
 
-* Interaction with OpenShift Enterprise associated with _user_
-* OpenShift Enterprise user object represents _actor_
+* Interaction with OpenShift Container Platform associated with _user_
+* OpenShift Container Platform user object represents _actor_
 ** May grant system permissions by adding roles to actors or groups
 * User types:
 
 [.noredheader,cols="2,3"]
 |===================================================================
 a|.Regular Users
-* Way most interactive OpenShift Enterprise users are represented
+* Way most interactive OpenShift Container Platform users are represented
 * Created automatically in system upon first login, or via API
 * Represented with `User` object
 a|.System Users
@@ -122,14 +122,14 @@ ifdef::showscript[]
 
 === Transcript
 
-Interaction with OpenShift Enterprise is associated with a _user_.
+Interaction with OpenShift Container Platform is associated with a _user_.
 
-An OpenShift Enterprise user object represents an _actor_. You can grant
+An OpenShift Container Platform user object represents an _actor_. You can grant
  permissions to actors in the system by adding roles to them or to their groups.
 
 Among the user types that can exist are regular users and system users.
 
-Regular users are how most interactive OpenShift Enterprise users are
+Regular users are how most interactive OpenShift Container Platform users are
  represented. Regular users are created automatically in the system upon first
   login, or you can create them via the API. Regular users are represented with
    the `User` object.
@@ -151,12 +151,12 @@ endif::showscript[]
 .Users and User Types: Service Accounts
 
 * *Service accounts*: Special system users associated with a project
-* When pod requires access to make an API call to OpenShift Enterprise master:
+* When pod requires access to make an API call to OpenShift Container Platform master:
 ** `ServiceAccount` created to represent a pod's credentials
 * Some service accounts created automatically when project created
 * Can create more to:
 ** Define access to project contents
-** Make API calls to OpenShift Enterprise master
+** Make API calls to OpenShift Container Platform master
 * Service accounts are represented with the `ServiceAccount` object.
 ** Examples: `system:serviceaccount:default:deployer`,
  `system:serviceaccount:foo:builder`
@@ -168,12 +168,12 @@ ifdef::showscript[]
 
 Service accounts are special system users associated with a project.
 
-When a pod requires access to make an API call to the OpenShift Enterprise
+When a pod requires access to make an API call to the OpenShift Container Platform
  master, a `ServiceAccount` is created to represent the pod's credentials.
 
 Some service accounts are created automatically when the project is first
  created. Users can create more service accounts to define access to the
-  project's contents or to make API calls to the OpenShift Enterprise master.
+  project's contents or to make API calls to the OpenShift Container Platform master.
 
 Service accounts are represented with the `ServiceAccount` object.
 
@@ -183,7 +183,7 @@ endif::showscript[]
 .Namespaces
 
 * *Kubernetes namespace*: Provides mechanism to scope cluster resources
-** In OpenShift Enterprise, _project_ is Kubernetes namespace with additional
+** In OpenShift Container Platform, _project_ is Kubernetes namespace with additional
  annotations
 * Namespaces provide scope for:
 ** Named resources to avoid naming collisions
@@ -200,7 +200,7 @@ ifdef::showscript[]
 === Transcript
 
 A Kubernetes namespace provides a mechanism to scope resources in a cluster.
-In OpenShift Enterprise, a project is a Kubernetes namespace with additional
+In OpenShift Container Platform, a project is a Kubernetes namespace with additional
  annotations.
 
 Namespaces provide a unique scope for named resources to avoid basic naming
@@ -257,7 +257,7 @@ Each project scopes its own set of objects, policies, constraints, and service
 endif::showscript[]
 == Client Tool Authentication
 
-* Every user must authenticate to access OpenShift Enterprise
+* Every user must authenticate to access OpenShift Container Platform
 * Requests lacking valid authentication authenticated as anonymous system user
 * Policy determines what user is authorized to do
 
@@ -273,12 +273,12 @@ ifdef::showscript[]
 
 === Transcript
 
-Every user must authenticate in some way to access OpenShift Enterprise. API
+Every user must authenticate in some way to access OpenShift Container Platform. API
  requests that lack valid authentication are authenticated as requests by an
   anonymous system user. Once you authenticate, policy determines what you are
    authorized to do.
 
-You can access the web console on the OpenShift Enterprise master's public IP on
+You can access the web console on the OpenShift Container Platform master's public IP on
  port 8443. The system automatically redirects you to the login page.
 
 You provide your login credentials to obtain a token to make API calls. After
@@ -296,10 +296,10 @@ endif::showscript[]
 $ oc login -u andrew --server="https://YourOpenShiftMasterFQDN:8443"
 ----
 
-* Command's interactive flow helps establish session to OpenShift Enterprise
+* Command's interactive flow helps establish session to OpenShift Container Platform
  server with provided credentials
 
-* Example: Authenticate as OpenShift Enterprise cluster administrator (usually
+* Example: Authenticate as OpenShift Container Platform cluster administrator (usually
    `root` user):
 ** `system:admin` user is password-free user that requires token
 ** Requires the root user's ``~/.kube/config` file, on the master.
@@ -325,7 +325,7 @@ After you extract the software, you can authenticate from the command line using
 The command's interactive flow helps you establish a session to an OpenShift
  Enterprise server with the provided credentials.
 
-In the example shown here, you authenticate as an OpenShift Enterprise cluster
+In the example shown here, you authenticate as an OpenShift Container Platform cluster
  administrator, usually the
    `root` user. The `system:admin` user is a password-free user that requires a
     token.
@@ -350,17 +350,17 @@ $ oc login [--username=<username>]  [--password=<password>] [--server=<server>] 
 |===
 |Option |Description
 |`-s, --server`
-a|* Specifies host name of OpenShift Enterprise server
+a|* Specifies host name of OpenShift Container Platform server
 * If flag provides
 server, command does not ask for it
 interactively
 |`-u, --username` and `-p, --password`
-a|* Lets you specify credentials to log in to OpenShift Enterprise
+a|* Lets you specify credentials to log in to OpenShift Container Platform
 server
 * If flags provide username or password, command
 does not ask for it interactively
 |`--certificate-authority`
-a|* Correctly and securely authenticates with OpenShift Enterprise
+a|* Correctly and securely authenticates with OpenShift Container Platform
 server that uses HTTPS
 * Must provide path to certificate authority file
 |`--insecure-skip-tls-verify`
@@ -382,18 +382,18 @@ The code example here shows brief syntax for CLI authentication.
 
 Review the options for the `oc login` command shown in the table. Pay special
  attention to the `insecure-skip-tls-verify` flag. You will probably need to use
-  it when attempting to access the OpenShift Enterprise master before securing
+  it when attempting to access the OpenShift Container Platform master before securing
    the master with a TLS certificate.
 
 endif::showscript[]
 == Resource Quota
 
 .What Is `ResourceQuota`?
-* OpenShift Enterprise can limit:
+* OpenShift Container Platform can limit:
 ** Number of objects created in project
 ** Amount of compute/memory/storage resources requested across objects in
  namespace/project
-* Several teams can share single OpenShift Enterprise cluster
+* Several teams can share single OpenShift Container Platform cluster
 ** Each team in own project
 ** Prevents teams from starving each other of cluster resources
 * *`ResourceQuota` object*: Enumerates hard resource usage limits _per project_
@@ -406,7 +406,7 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise can limit both the number of objects created in a project
+OpenShift Container Platform can limit both the number of objects created in a project
  and the total amount of resources requested across objects in a namespace or
   project.
 
@@ -569,7 +569,7 @@ ifdef::showscript[]
 === Transcript
 
 When a person uses the command line or web console, that user's API token
- authenticates him or her to the OpenShift Enterprise API. However, when a
+ authenticates him or her to the OpenShift Container Platform API. However, when a
   regular user's credentials are not available, it is common for components to
    make API calls independently. For example:
 
@@ -780,7 +780,7 @@ ifdef::showscript[]
 
 === Transcript
 
-An OpenShift Enterprise route is a way to expose a service by giving it an
+An OpenShift Container Platform route is a way to expose a service by giving it an
  externally reachable hostname such as `www.example.com`.
 
 A router can consume a defined route and the endpoints identified by its
@@ -982,7 +982,7 @@ endif::showscript[]
 * *Secured routes*: Specify TLS termination of route
 ** Key and certificate(s) also option
 
-* TLS termination in OpenShift Enterprise relies on SNI (Server Name Indication)
+* TLS termination in OpenShift Container Platform relies on SNI (Server Name Indication)
 ** Serves custom certificates
 ** Non-SNI traffic received on port 443 handled with TLS termination and default
  certificate
@@ -996,7 +996,7 @@ ifdef::showscript[]
 Secured routes specify the TLS termination of the route. They also have the
  option to provide a key and certificate(s).
 
-TLS termination in OpenShift Enterprise relies on SNI  for serving custom
+TLS termination in OpenShift Container Platform relies on SNI  for serving custom
  certificates. Any non-SNI traffic received on port 443 is handled with TLS
   termination and a default certificate. These might not match the requested
    hostname, resulting in validation errors.
@@ -1095,7 +1095,7 @@ endif::showscript[]
 * Currently only method that supports requiring client certificates
 ** AKA _two-way authentication_
 
-NOTE: Remembe, TLS termination in OpenShift Enterprise relies on SNI (Server Name Indication)
+NOTE: Remembe, TLS termination in OpenShift Container Platform relies on SNI (Server Name Indication)
 
 ifdef::showscript[]
 
@@ -1243,7 +1243,7 @@ ifdef::showscript[]
 
 === Transcript
 
-To expose services externally, an OpenShift Enterprise route lets you associate
+To expose services externally, an OpenShift Container Platform route lets you associate
  a service with an externally reachable hostname.
 
 The example here shows a route with a specified host.
@@ -1255,7 +1255,7 @@ endif::showscript[]
 
 .Routes Without Hostnames
 
-* If hostname _not_ provided in route specification, OpenShift Enterprise
+* If hostname _not_ provided in route specification, OpenShift Container Platform
  generates one
 * Form: `$routename[.$namespace].$suffix`
 * Example: Route definition without host:
@@ -1289,13 +1289,13 @@ endif::showscript[]
 
 .Custom Default Routing Subdomain
 
-* Cluster administrator can use OpenShift Enterprise master configuration file
+* Cluster administrator can use OpenShift Container Platform master configuration file
 to customize environment's:
 ** Suffix
 ** Default routing subdomain
 
 * Example: Set configured suffix to `cloudapps.mydomain.com`:
-** OpenShift Enterprise master configuration snippet (`master-config.yaml`):
+** OpenShift Container Platform master configuration snippet (`master-config.yaml`):
 +
 [source,yaml]
 ----
@@ -1317,7 +1317,7 @@ ifdef::showscript[]
 === Transcript
 
 A cluster administrator can customize the suffix or the default routing
- subdomain for an environment using the OpenShift Enterprise master
+ subdomain for an environment using the OpenShift Container Platform master
   configuration.
 
 The example shows here how you can set the configured suffix to
@@ -1332,7 +1332,7 @@ endif::showscript[]
 == Persistent Volumes
 
 .Overview
-* `PersistentVolume` object: Storage resource in OpenShift Enterprise cluster
+* `PersistentVolume` object: Storage resource in OpenShift Container Platform cluster
 * Administrator provides storage by creating `PersistentVolume` from sources
  such as:
 ** NFS
@@ -1350,7 +1350,7 @@ ifdef::showscript[]
 
 === Transcript
 
-A `PersistentVolume` object is a storage resource in an OpenShift Enterprise
+A `PersistentVolume` object is a storage resource in an OpenShift Container Platform
  cluster. An administrator provisions storage by creating `PersistentVolume`
   objects from sources such as the following:
 
@@ -1472,7 +1472,7 @@ endif::showscript[]
 * In between two is process that:
 ** Matches claim to volume and binds them together
 ** Lets you use claim as volume in pod
-** OpenShift Enterprise finds volume backing claim and mounts it into pod
+** OpenShift Container Platform finds volume backing claim and mounts it into pod
 
 
 ifdef::showscript[]
@@ -1485,7 +1485,7 @@ A `PersistentVolume` is a specific resource. A `PersistentVolumeClaim` is a
 When a request is made, a process matches it to an available volume and binds
  them together.
 
-This lets you use the claim as a volume in a pod. OpenShift Enterprise finds the
+This lets you use the claim as a volume in a pod. OpenShift Container Platform finds the
  volume backing the claim and mounts it into the pod.
 
 endif::showscript[]
@@ -1518,7 +1518,7 @@ endif::showscript[]
 .Claims as Volumes in Pods
 
 * Pod uses a `PersistentVolumeClaim` as a volume
-* OpenShift Enterprise finds claim with given name in same namespace as pod
+* OpenShift Container Platform finds claim with given name in same namespace as pod
 ** Uses claim to find volume to mount
 
 * Example: Pod definition with claim:
@@ -1563,7 +1563,7 @@ ifdef::showscript[]
 
 A pod uses a `PersistentVolumeClaim` as a volume.
 
-OpenShift Enterprise finds the claim in the same namespace
+OpenShift Container Platform finds the claim in the same namespace
  as the pod, then uses the claim to find the corresponding volume to mount.
 
 The example here shows a pod definition with a claim.
@@ -1605,7 +1605,7 @@ endif::showscript[]
 == Persistent Volumes
 
 .Resource Reclamation
-* OpenShift Enterprise implements Kubernetes `Recyclable` plug-in interface
+* OpenShift Container Platform implements Kubernetes `Recyclable` plug-in interface
 ** Reclamation tasks based on policies set by `persistentVolumeReclaimPolicy`
  key in `PersistentVolume` object definition
 * Can _reclaim_ volume after it is released from claim
@@ -1620,7 +1620,7 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise implements the Kubernetes `Recyclable` plug-in interface.
+OpenShift Container Platform implements the Kubernetes `Recyclable` plug-in interface.
  Reclamation tasks are based on policies set by the
   `persistentVolumeReclaimPolicy` key in the `PersistentVolume` object
    definition. After a volume is released from its claim--that is, after the

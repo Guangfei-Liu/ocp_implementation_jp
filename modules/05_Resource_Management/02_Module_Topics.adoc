@@ -1,7 +1,7 @@
 == Module Topics
 
 * Resource Types
-* OpenShift Enterprise Resources
+* OpenShift Container Platform Resources
 * Projects and Users
 * Client Tool Authentication
 * Resource Quota
@@ -14,9 +14,9 @@ ifdef::showscript[]
 
 === Transcript
 
-Welcome to module five of the OpenShift Enterprise Implementation course.
+Welcome to module five of the OpenShift Container Platform Implementation course.
 
-This module discusses various OpenShift Enterprise resources and how to use them
+This module discusses various OpenShift Container Platform resources and how to use them
  to configure and manage your environment.
 
 

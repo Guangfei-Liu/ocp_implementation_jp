@@ -14,17 +14,17 @@ $ oc login [--username=<username>]  [--password=<password>] [--server=<server>] 
 |===
 |Option |Description
 |`-s, --server`
-a|* Specifies host name of OpenShift Enterprise server
+a|* Specifies host name of OpenShift Container Platform server
 * If flag provides
 server, command does not ask for it
 interactively
 |`-u, --username` and `-p, --password`
-a|* Lets you specify credentials to log in to OpenShift Enterprise
+a|* Lets you specify credentials to log in to OpenShift Container Platform
 server
 * If flags provide username or password, command
 does not ask for it interactively
 |`--certificate-authority`
-a|* Correctly and securely authenticates with OpenShift Enterprise
+a|* Correctly and securely authenticates with OpenShift Container Platform
 server that uses HTTPS
 * Must provide path to certificate authority file
 |`--insecure-skip-tls-verify`
@@ -46,7 +46,7 @@ The code example here shows brief syntax for CLI authentication.
 
 Review the options for the `oc login` command shown in the table. Pay special
  attention to the `insecure-skip-tls-verify` flag. You will probably need to use
-  it when attempting to access the OpenShift Enterprise master before securing
+  it when attempting to access the OpenShift Container Platform master before securing
    the master with a TLS certificate.
 
 endif::showscript[]

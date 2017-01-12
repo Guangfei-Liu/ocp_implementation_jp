@@ -1,7 +1,7 @@
 == Persistent Volumes
 
 .Resource Reclamation
-* OpenShift Enterprise implements Kubernetes `Recyclable` plug-in interface
+* OpenShift Container Platform implements Kubernetes `Recyclable` plug-in interface
 ** Reclamation tasks based on policies set by `persistentVolumeReclaimPolicy`
  key in `PersistentVolume` object definition
 * Can _reclaim_ volume after it is released from claim
@@ -16,7 +16,7 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise implements the Kubernetes `Recyclable` plug-in interface.
+OpenShift Container Platform implements the Kubernetes `Recyclable` plug-in interface.
  Reclamation tasks are based on policies set by the
   `persistentVolumeReclaimPolicy` key in the `PersistentVolume` object
    definition. After a volume is released from its claim--that is, after the

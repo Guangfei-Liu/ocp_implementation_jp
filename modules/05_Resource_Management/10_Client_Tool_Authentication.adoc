@@ -9,10 +9,10 @@
 $ oc login -u andrew --server="https://YourOpenShiftMasterFQDN:8443"
 ----
 
-* Command's interactive flow helps establish session to OpenShift Enterprise
+* Command's interactive flow helps establish session to OpenShift Container Platform
  server with provided credentials
 
-* Example: Authenticate as OpenShift Enterprise cluster administrator (usually
+* Example: Authenticate as OpenShift Container Platform cluster administrator (usually
    `root` user):
 ** `system:admin` user is password-free user that requires token
 ** Requires the root user's ``~/.kube/config` file, on the master.
@@ -38,7 +38,7 @@ After you extract the software, you can authenticate from the command line using
 The command's interactive flow helps you establish a session to an OpenShift
  Enterprise server with the provided credentials.
 
-In the example shown here, you authenticate as an OpenShift Enterprise cluster
+In the example shown here, you authenticate as an OpenShift Container Platform cluster
  administrator, usually the
    `root` user. The `system:admin` user is a password-free user that requires a
     token.

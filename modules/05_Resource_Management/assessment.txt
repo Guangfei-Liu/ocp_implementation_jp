@@ -21,7 +21,7 @@ OSEIMPLEMENTATION|OSEIMPLEMENTATION506|5|Quotas can only be set on an individual
 OSEIMPLEMENTATION|OSEIMPLEMENTATION506|5|Quotas can only be set on an individual Pod. Quotas cannot be set on an entire project.|||FALSE|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION507|1|A Service Account is used when:|||OpenShift internal components need to be managed by the same account|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION507|1|A Service Account is used when:|||An administrator wants to manage resources quotas for a group of users|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION507|1|A Service Account is used when:|||A pod requires access to make an API call to OpenShift Enterprise master:|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION507|1|A Service Account is used when:|||A pod requires access to make an API call to OpenShift Container Platform master:|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION507|1|A Service Account is used when:|||None of the above|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION508|5|A Project and Namespace are very similar and serve similar functions.|||TRUE|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION508|5|A Project and Namespace are very similar and serve similar functions.|||FALSE|||0|0|||

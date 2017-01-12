@@ -3,7 +3,7 @@
 .Claims as Volumes in Pods
 
 * Pod uses a `PersistentVolumeClaim` as a volume
-* OpenShift Enterprise finds claim with given name in same namespace as pod
+* OpenShift Container Platform finds claim with given name in same namespace as pod
 ** Uses claim to find volume to mount
 
 * Example: Pod definition with claim:
@@ -48,7 +48,7 @@ ifdef::showscript[]
 
 A pod uses a `PersistentVolumeClaim` as a volume.
 
-OpenShift Enterprise finds the claim in the same namespace
+OpenShift Container Platform finds the claim in the same namespace
  as the pod, then uses the claim to find the corresponding volume to mount.
 
 The example here shows a pod definition with a claim.

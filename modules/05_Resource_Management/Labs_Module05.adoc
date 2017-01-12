@@ -3,7 +3,7 @@
 
 == Resource Management Lab
 
-In this lab, you learn how to manage OpenShift Enterprise resources.
+In this lab, you learn how to manage OpenShift Container Platform resources.
 
 * *Manage Users, Projects, and Quotas*
 +
@@ -222,9 +222,9 @@ Container	cpu		10m	500m	100m	100m	-
 
 NOTE: You are running commands as the Linux users `andrew` and `root` in a lab environment. In a real-word scenario, users, would, of course, issue `oc` commands from their workstations and not from the OpenShift Master.
 
-. Authenticate to OpenShift Enterprise and choose your project:
+. Authenticate to OpenShift Container Platform and choose your project:
 
-.. Connect to the OpenShift Enterprise master according to the procedure you followed
+.. Connect to the OpenShift Container Platform master according to the procedure you followed
  previously.
 
 .. When prompted, type the username and password:

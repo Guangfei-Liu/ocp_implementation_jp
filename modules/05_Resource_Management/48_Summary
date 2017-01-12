@@ -1,7 +1,7 @@
 == Summary
 
 * Resource Types
-* OpenShift Enterprise Resources
+* OpenShift Container Platform Resources
 * Projects and Users
 * Client Tool Authentication
 * Resource Quota
@@ -13,7 +13,7 @@ ifdef::showscript[]
 
 === Transcript
 
-This module discussed various OpenShift Enterprise resources and how to use them
+This module discussed various OpenShift Container Platform resources and how to use them
  to configure and manage your environment.
 
 

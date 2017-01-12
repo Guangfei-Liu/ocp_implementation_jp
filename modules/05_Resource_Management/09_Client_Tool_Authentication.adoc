@@ -1,6 +1,6 @@
 == Client Tool Authentication
 
-* Every user must authenticate to access OpenShift Enterprise
+* Every user must authenticate to access OpenShift Container Platform
 * Requests lacking valid authentication authenticated as anonymous system user
 * Policy determines what user is authorized to do
 
@@ -16,12 +16,12 @@ ifdef::showscript[]
 
 === Transcript
 
-Every user must authenticate in some way to access OpenShift Enterprise. API
+Every user must authenticate in some way to access OpenShift Container Platform. API
  requests that lack valid authentication are authenticated as requests by an
   anonymous system user. Once you authenticate, policy determines what you are
    authorized to do.
 
-You can access the web console on the OpenShift Enterprise master's public IP on
+You can access the web console on the OpenShift Container Platform master's public IP on
  port 8443. The system automatically redirects you to the login page.
 
 You provide your login credentials to obtain a token to make API calls. After

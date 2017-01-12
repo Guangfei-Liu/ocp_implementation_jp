@@ -3,7 +3,7 @@
 .Namespaces
 
 * *Kubernetes namespace*: Provides mechanism to scope cluster resources
-** In OpenShift Enterprise, _project_ is Kubernetes namespace with additional
+** In OpenShift Container Platform, _project_ is Kubernetes namespace with additional
  annotations
 * Namespaces provide scope for:
 ** Named resources to avoid naming collisions
@@ -20,7 +20,7 @@ ifdef::showscript[]
 === Transcript
 
 A Kubernetes namespace provides a mechanism to scope resources in a cluster.
-In OpenShift Enterprise, a project is a Kubernetes namespace with additional
+In OpenShift Container Platform, a project is a Kubernetes namespace with additional
  annotations.
 
 Namespaces provide a unique scope for named resources to avoid basic naming

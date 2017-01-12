@@ -2,15 +2,15 @@
 
 .Users and User Types
 
-* Interaction with OpenShift Enterprise associated with _user_
-* OpenShift Enterprise user object represents _actor_
+* Interaction with OpenShift Container Platform associated with _user_
+* OpenShift Container Platform user object represents _actor_
 ** May grant system permissions by adding roles to actors or groups
 * User types:
 
 [.noredheader,cols="2,3"]
 |===================================================================
 a|.Regular Users
-* Way most interactive OpenShift Enterprise users are represented
+* Way most interactive OpenShift Container Platform users are represented
 * Created automatically in system upon first login, or via API
 * Represented with `User` object
 a|.System Users
@@ -31,14 +31,14 @@ ifdef::showscript[]
 
 === Transcript
 
-Interaction with OpenShift Enterprise is associated with a _user_.
+Interaction with OpenShift Container Platform is associated with a _user_.
 
-An OpenShift Enterprise user object represents an _actor_. You can grant
+An OpenShift Container Platform user object represents an _actor_. You can grant
  permissions to actors in the system by adding roles to them or to their groups.
 
 Among the user types that can exist are regular users and system users.
 
-Regular users are how most interactive OpenShift Enterprise users are
+Regular users are how most interactive OpenShift Container Platform users are
  represented. Regular users are created automatically in the system upon first
   login, or you can create them via the API. Regular users are represented with
    the `User` object.

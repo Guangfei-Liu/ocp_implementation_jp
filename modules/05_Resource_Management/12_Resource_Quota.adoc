@@ -1,11 +1,11 @@
 == Resource Quota
 
 .What Is `ResourceQuota`?
-* OpenShift Enterprise can limit:
+* OpenShift Container Platform can limit:
 ** Number of objects created in project
 ** Amount of compute/memory/storage resources requested across objects in
  namespace/project
-* Several teams can share single OpenShift Enterprise cluster
+* Several teams can share single OpenShift Container Platform cluster
 ** Each team in own project
 ** Prevents teams from starving each other of cluster resources
 * *`ResourceQuota` object*: Enumerates hard resource usage limits _per project_
@@ -18,7 +18,7 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise can limit both the number of objects created in a project
+OpenShift Container Platform can limit both the number of objects created in a project
  and the total amount of resources requested across objects in a namespace or
   project.
 

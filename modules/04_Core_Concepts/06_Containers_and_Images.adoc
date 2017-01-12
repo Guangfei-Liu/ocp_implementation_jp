@@ -11,7 +11,7 @@
 ** Unless you give container additional access when creating it
 * Can deploy image in multiple containers across multiple hosts and
  load-balance among them
-** Lets OpenShift Enterprise provide redundancy and horizontal scaling for
+** Lets OpenShift Container Platform provide redundancy and horizontal scaling for
  service packaged into image
 
 ifdef::showscript[]
@@ -28,7 +28,7 @@ Docker containers have access only to resources defined in the image, unless
  you give the container additional access when you create it.
 
 By deploying the same image in multiple containers across multiple hosts and
- load-balancing among them, OpenShift Enterprise can provide redundancy and
+ load-balancing among them, OpenShift Container Platform can provide redundancy and
   horizontal scaling for a service packaged into an image.
 
 endif::showscript[]

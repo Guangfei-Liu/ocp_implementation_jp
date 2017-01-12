@@ -29,7 +29,7 @@ ifdef::showscript[]
 === Transcript
 
 Labels are simple key/value pairs that you can use in almost every type of
- object in OpenShift Enterprise.
+ object in OpenShift Container Platform.
 
 Labels provide an easy way to manage resources as groups, rather than
  individually.

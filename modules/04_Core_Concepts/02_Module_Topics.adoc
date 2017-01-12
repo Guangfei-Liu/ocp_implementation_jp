@@ -12,9 +12,9 @@ ifdef::showscript[]
 
 === Transcript
 
-Welcome to module four of the OpenShift Enterprise Implementation course.
+Welcome to module four of the OpenShift Container Platform Implementation course.
 
-This module presents some of the core concepts in OpenShift Enterprise 3.
+This module presents some of the core concepts in OpenShift Container Platform 3.
 It discusses containers and images, pods and the services that represent them,
 and projects and the users who use them.
 

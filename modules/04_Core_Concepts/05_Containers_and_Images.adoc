@@ -7,7 +7,7 @@
 * More recently, Docker project developed management interface for Linux
 containers
 ** Learn more: https://www.docker.com/whatisdocker/
-* OpenShift Enterprise and Kubernetes let you orchestrate Docker containers
+* OpenShift Container Platform and Kubernetes let you orchestrate Docker containers
  across multi-host installations
 
 
@@ -21,12 +21,12 @@ In the past few years, Linux kernel advanced capabilities for container
 Recently, the Docker project has developed a convenient management interface for
  Linux containers on a host.
 
-OpenShift Enterprise and Kubernetes add the ability to orchestrate Docker
+OpenShift Container Platform and Kubernetes add the ability to orchestrate Docker
  containers across multi-host installations.
 
 Note that although you do not directly interact with Docker tools when using
- OpenShift Enterprise, you should know about Docker's capabilities and
-  terminology to understand its role in OpenShift Enterprise and how your
+ OpenShift Container Platform, you should know about Docker's capabilities and
+  terminology to understand its role in OpenShift Container Platform and how your
    applications function inside containers.
 
 endif::showscript[]

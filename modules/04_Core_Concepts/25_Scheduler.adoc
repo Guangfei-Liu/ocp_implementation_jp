@@ -2,7 +2,7 @@
 
 .Available Predicates
 
-* OpenShift Enterprise 3 provides predicates out of the box
+* OpenShift Container Platform 3 provides predicates out of the box
 * Can customize by by providing parameters
 * Can combine to provide additional node filtering
 
@@ -12,7 +12,7 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise 3 provides several predicates out of the box.
+OpenShift Container Platform 3 provides several predicates out of the box.
 
 You can customize some of these predicates by providing certain parameters.
  You also can combine multiple predicates to provide additional filtering of

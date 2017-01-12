@@ -2,10 +2,10 @@
 
 .Pod Changes and Management
 
-* OpenShift Enterprise treats pods as _static_ objects
+* OpenShift Container Platform treats pods as _static_ objects
 ** Cannot change pod definition while running
 
-* To implement changes, OpenShift Enterprise:
+* To implement changes, OpenShift Container Platform:
 ** Terminates existing pod
 ** Recreates it with modified configuration, base image(s), or both
 
@@ -18,11 +18,11 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise treats pods as _static_ objects. You cannot change a pod
+OpenShift Container Platform treats pods as _static_ objects. You cannot change a pod
  definition while it is running. When you want to change a pod, you _recreate_
   rather than _modify_ it.
 
-OpenShift Enterprise implements changes by terminating an existing pod and
+OpenShift Container Platform implements changes by terminating an existing pod and
  recreating it with a modified configuration, base image(s), or both.
 
 OpenShift also treats pods as expendable. Pods do not maintain state when

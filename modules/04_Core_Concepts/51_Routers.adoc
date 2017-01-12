@@ -4,7 +4,7 @@
 
 * HAProxy default router implementation: Reference implementation for template
  router plug-in
-* Uses `openshift3/OpenShift Enterprise-haproxy-router` image to run HAProxy
+* Uses `openshift3/OpenShift Container Platform-haproxy-router` image to run HAProxy
  instance alongside template router plug-in
 * Supports unsecured, edge terminated, re-encryption terminated,
   and passthrough terminated routes matching on HTTP vhost and request path
@@ -25,7 +25,7 @@ ifdef::showscript[]
 
 The HAProxy default router implementation is the reference implementation for a
  template router plug-in. It uses the
-  `openshift3/OpenShift Enterprise-haproxy-router` image to run an HAProxy
+  `openshift3/OpenShift Container Platform-haproxy-router` image to run an HAProxy
    instance alongside the template router plug-in.
 
 It supports unsecured, edge terminated, re-encryption terminated,

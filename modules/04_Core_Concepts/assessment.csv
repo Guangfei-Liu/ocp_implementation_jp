@@ -15,9 +15,9 @@ OSEIMPLEMENTATION|OSEIMPLEMENTATION404|1|Which answer best describes a Pod?|||On
 OSEIMPLEMENTATION|OSEIMPLEMENTATION404|1|Which answer best describes a Pod?|||Smallest compute unit you can define, deploy, and manage|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION404|1|Which answer best describes a Pod?|||Each pod is allocated its own internal IP address, and owns an entire port range|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION404|1|Which answer best describes a Pod?|||All of the above|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION405|5|OpenShift cannot change a pod definition while the pod is running. To implement changes, OpenShift Enterprise terminates the existing pod and recreates it with a modified configuration.|||TRUE|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION405|5|OpenShift cannot change a pod definition while the pod is running. To implement changes, OpenShift Enterprise terminates the existing pod and recreates it with a modified configuration.|||FALSE|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION406|1|Which answer best describes the Scheduler?|||Determines placement of new pods onto nodes within an OpenShift Enterprise cluster|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION405|5|OpenShift cannot change a pod definition while the pod is running. To implement changes, OpenShift Container Platform terminates the existing pod and recreates it with a modified configuration.|||TRUE|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION405|5|OpenShift cannot change a pod definition while the pod is running. To implement changes, OpenShift Container Platform terminates the existing pod and recreates it with a modified configuration.|||FALSE|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION406|1|Which answer best describes the Scheduler?|||Determines placement of new pods onto nodes within an OpenShift Container Platform cluster|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION406|1|Which answer best describes the Scheduler?|||Reads pod data and tries to find a node that is a good fit|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION406|1|Which answer best describes the Scheduler?|||Provides independent, standalone, pluggable solution|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION406|1|Which answer best describes the Scheduler?|||All of the above|||1|100|||

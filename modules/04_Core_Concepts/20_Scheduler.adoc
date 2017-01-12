@@ -3,7 +3,7 @@
 .Overview
 
 * The scheduler:
-** Determines placement of new pods onto nodes within OpenShift Enterprise
+** Determines placement of new pods onto nodes within OpenShift Container Platform
  cluster
 ** Reads pod data and tries to find node that is good fit
 ** Is independent, standalone, pluggable solution
@@ -14,7 +14,7 @@ ifdef::showscript[]
 === Transcript
 
 The scheduler is responsible for determining placement of new
- pods onto nodes within the OpenShift Enterprise cluster. It reads data from
+ pods onto nodes within the OpenShift Container Platform cluster. It reads data from
   the pod definition and tries to find a node that is a good fit based on
    configured policies.
 

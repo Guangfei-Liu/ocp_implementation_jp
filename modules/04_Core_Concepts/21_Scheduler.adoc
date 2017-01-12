@@ -24,7 +24,7 @@ ifdef::showscript[]
 
 === Transcript
 
-As is the case with almost everything in OpenShift Enterprise, the
+As is the case with almost everything in OpenShift Container Platform, the
  scheduler is built using a plug-in model, and the current implementation itself
   is a plug-in.
 

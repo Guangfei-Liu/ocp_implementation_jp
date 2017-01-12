@@ -2,7 +2,7 @@
 
 .Containers
 
-* Basic units of OpenShift Enterprise applications
+* Basic units of OpenShift Container Platform applications
 * Lightweight mechanisms for isolating running processes
 ** Limits processes to interacting with designated resources only
 * Can run many application instances in containers on single host
@@ -17,7 +17,7 @@ ifdef::showscript[]
 
 === Transcript
 
-Containers are the basic units of OpenShift Enterprise applications. Containers
+Containers are the basic units of OpenShift Container Platform applications. Containers
  are lightweight mechanisms for isolating running processes so that these
   processes interact only with their designated resources.
 

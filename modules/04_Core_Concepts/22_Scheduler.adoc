@@ -2,7 +2,7 @@
 
 .Generic Scheduler
 
-* OpenShift Enterprise provides generic scheduler
+* OpenShift Container Platform provides generic scheduler
 ** Default scheduling _engine_
 ** Selects node to host pod in three-step operation:
 
@@ -27,7 +27,7 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise provides a default generic scheduler. It is a scheduling
+OpenShift Container Platform provides a default generic scheduler. It is a scheduling
  _engine_ that selects a node to host the pod in a three-step operation:
 
 . The scheduler filters all of the available nodes based on specified

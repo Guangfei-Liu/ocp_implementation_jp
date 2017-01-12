@@ -32,9 +32,9 @@ ifdef::showscript[]
 
 === Transcript
 
-Welcome to module four of the OpenShift Enterprise Implementation course.
+Welcome to module four of the OpenShift Container Platform Implementation course.
 
-This module presents some of the core concepts in OpenShift Enterprise 3.
+This module presents some of the core concepts in OpenShift Container Platform 3.
 It discusses containers and images, pods and the services that represent them,
 and projects and the users who use them.
 
@@ -62,9 +62,9 @@ ifdef::showscript[]
 === Transcript
 
 This module provides high-level architectural information on core concepts and
- objects you will encounter when using OpenShift Enterprise.
+ objects you will encounter when using OpenShift Container Platform.
 
-Many of these objects come from the Kubernetes Project. OpenShift Enterprise
+Many of these objects come from the Kubernetes Project. OpenShift Container Platform
  expands Kubernetes to provide a more feature-rich development lifecycle
   platform.
 
@@ -95,7 +95,7 @@ endif::showscript[]
 
 .Containers
 
-* Basic units of OpenShift Enterprise applications
+* Basic units of OpenShift Container Platform applications
 * Lightweight mechanisms for isolating running processes
 ** Limits processes to interacting with designated resources only
 * Can run many application instances in containers on single host
@@ -110,7 +110,7 @@ ifdef::showscript[]
 
 === Transcript
 
-Containers are the basic units of OpenShift Enterprise applications. Containers
+Containers are the basic units of OpenShift Container Platform applications. Containers
  are lightweight mechanisms for isolating running processes so that these
   processes interact only with their designated resources.
 
@@ -131,7 +131,7 @@ endif::showscript[]
 * More recently, Docker project developed management interface for Linux
 containers
 ** Learn more: https://www.docker.com/whatisdocker/
-* OpenShift Enterprise and Kubernetes let you orchestrate Docker containers
+* OpenShift Container Platform and Kubernetes let you orchestrate Docker containers
  across multi-host installations
 
 
@@ -145,12 +145,12 @@ In the past few years, Linux kernel advanced capabilities for container
 Recently, the Docker project has developed a convenient management interface for
  Linux containers on a host.
 
-OpenShift Enterprise and Kubernetes add the ability to orchestrate Docker
+OpenShift Container Platform and Kubernetes add the ability to orchestrate Docker
  containers across multi-host installations.
 
 Note that although you do not directly interact with Docker tools when using
- OpenShift Enterprise, you should know about Docker's capabilities and
-  terminology to understand its role in OpenShift Enterprise and how your
+ OpenShift Container Platform, you should know about Docker's capabilities and
+  terminology to understand its role in OpenShift Container Platform and how your
    applications function inside containers.
 
 endif::showscript[]
@@ -167,7 +167,7 @@ endif::showscript[]
 ** Unless you give container additional access when creating it
 * Can deploy image in multiple containers across multiple hosts and
  load-balance among them
-** Lets OpenShift Enterprise provide redundancy and horizontal scaling for
+** Lets OpenShift Container Platform provide redundancy and horizontal scaling for
  service packaged into image
 
 ifdef::showscript[]
@@ -184,7 +184,7 @@ Docker containers have access only to resources defined in the image, unless
  you give the container additional access when you create it.
 
 By deploying the same image in multiple containers across multiple hosts and
- load-balancing among them, OpenShift Enterprise can provide redundancy and
+ load-balancing among them, OpenShift Container Platform can provide redundancy and
   horizontal scaling for a service packaged into an image.
 
 endif::showscript[]
@@ -209,7 +209,7 @@ ifdef::showscript[]
 
 === Transcript
 
-You can use Docker to build images directly, but OpenShift Enterprise also
+You can use Docker to build images directly, but OpenShift Container Platform also
  supplies builders that assist with creating an image by adding your code or
   configuration to existing images.
 
@@ -237,7 +237,7 @@ endif::showscript[]
 https://registry.hub.docker.com/
 ** Can also use private or third-party registries
 * Red Hat provides Docker registry at `registry.access.redhat.com` for subscribers
-* OpenShift Enterprise can supply internal registry for managing Docker images
+* OpenShift Container Platform can supply internal registry for managing Docker images
 
 ifdef::showscript[]
 
@@ -254,7 +254,7 @@ Docker provides its own registry, the Docker hub, but you can also use private
 Red Hat provides a Docker registry with certified images at
  `registry.access.redhat.com` for subscribers.
 
-In OpenShift Enterprise 3, you usually create your own registry, referred to
+In OpenShift Container Platform 3, you usually create your own registry, referred to
  as the `Integrated Registry`, and use it to push your S2I-created images.
 
 
@@ -263,11 +263,11 @@ endif::showscript[]
 
 .Pods Overview
 
-* OpenShift Enterprise leverages Kubernetes concept of _pod_
+* OpenShift Container Platform leverages Kubernetes concept of _pod_
 * *Pod*: One or more containers deployed together on host
 ** Smallest compute unit you can define, deploy, manage
 
-* Pods are the rough equivalent of OpenShift Enterprise 2 _gears_
+* Pods are the rough equivalent of OpenShift Container Platform 2 _gears_
 
 * Each pod allocated own internal IP address, owns entire port range
 * Containers within pods can share local storage and networking
@@ -276,11 +276,11 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise leverages the Kubernetes concept of a _pod_, which is one
+OpenShift Container Platform leverages the Kubernetes concept of a _pod_, which is one
  or more containers deployed together on one host. A pod is the smallest compute
   unit that you can define, deploy, and manage.
 
-Pods are the rough equivalent of  _gears_ in OpenShift Enterprise 2
+Pods are the rough equivalent of  _gears_ in OpenShift Container Platform 2
 
 Each pod is allocated its own internal IP address, thus owning its entire port
  range. Containers within pods can share their local storage and networking.
@@ -291,10 +291,10 @@ endif::showscript[]
 
 .Pod Changes and Management
 
-* OpenShift Enterprise treats pods as _static_ objects
+* OpenShift Container Platform treats pods as _static_ objects
 ** Cannot change pod definition while running
 
-* To implement changes, OpenShift Enterprise:
+* To implement changes, OpenShift Container Platform:
 ** Terminates existing pod
 ** Recreates it with modified configuration, base image(s), or both
 
@@ -307,11 +307,11 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise treats pods as _static_ objects. You cannot change a pod
+OpenShift Container Platform treats pods as _static_ objects. You cannot change a pod
  definition while it is running. When you want to change a pod, you _recreate_
   rather than _modify_ it.
 
-OpenShift Enterprise implements changes by terminating an existing pod and
+OpenShift Container Platform implements changes by terminating an existing pod and
  recreating it with a modified configuration, base image(s), or both.
 
 OpenShift also treats pods as expendable. Pods do not maintain state when
@@ -346,7 +346,7 @@ endif::showscript[]
 .Pods Definition File/Manifest
 
 * Example definition of pod:
-** Part of OpenShift Enterprise infrastructure: _Private Docker integrated registry_
+** Part of OpenShift Container Platform infrastructure: _Private Docker integrated registry_
 ** Demonstrates many pod features
 +
 [source,yaml]
@@ -372,7 +372,7 @@ ifdef::showscript[]
 === Transcript
 
 Here is an example definition of a pod that provides a long-running service.
- This is actually a part of the OpenShift Enterprise infrastructure, the
+ This is actually a part of the OpenShift Container Platform infrastructure, the
   _private Docker integrated registry_.
 
 This example demonstrates many features of pods. The next few slides examine the
@@ -463,14 +463,14 @@ Here you see a container definition:
 
 . Each container in the pod is instantiated from its own Docker image.
 . The container can bind to ports, which are available on the pod's IP.
-. OpenShift Enterprise defines a _security context_ for containers that
+. OpenShift Container Platform defines a _security context_ for containers that
  specifies whether they can run as privileged containers, run as a user of their
   choice, and more. The default context is highly restrictive, but
    administrators can modify this as needed.
 . The container specifies where external storage volumes should be mounted
  within the container. In this case, one volume stores the registry's data,
   another provides access to credentials that the registry needs to make requests
-   against the OpenShift Enterprise API.
+   against the OpenShift Container Platform API.
 
 endif::showscript[]
 == Pods and Services
@@ -501,7 +501,7 @@ ifdef::showscript[]
 
 In this example, you see how pods make requests and define storage volumes:
 
-. Pods commonly make requests against the OpenShift Enterprise API and need
+. Pods commonly make requests against the OpenShift Container Platform API and need
  authentication to do so. The `serviceAccount` field specifies the
   _service account_ user that the pod should use to authenticate when making
    requests. This enables fine-grained access control for custom infrastructure
@@ -672,7 +672,7 @@ ifdef::showscript[]
 === Transcript
 
 Labels are simple key/value pairs that you can use in almost every type of
- object in OpenShift Enterprise.
+ object in OpenShift Container Platform.
 
 Labels provide an easy way to manage resources as groups, rather than
  individually.
@@ -693,7 +693,7 @@ endif::showscript[]
 .Overview
 
 * The scheduler:
-** Determines placement of new pods onto nodes within OpenShift Enterprise
+** Determines placement of new pods onto nodes within OpenShift Container Platform
  cluster
 ** Reads pod data and tries to find node that is good fit
 ** Is independent, standalone, pluggable solution
@@ -704,7 +704,7 @@ ifdef::showscript[]
 === Transcript
 
 The scheduler is responsible for determining placement of new
- pods onto nodes within the OpenShift Enterprise cluster. It reads data from
+ pods onto nodes within the OpenShift Container Platform cluster. It reads data from
   the pod definition and tries to find a node that is a good fit based on
    configured policies.
 
@@ -741,7 +741,7 @@ ifdef::showscript[]
 
 === Transcript
 
-As is the case with almost everything in OpenShift Enterprise, the
+As is the case with almost everything in OpenShift Container Platform, the
  scheduler is built using a plug-in model, and the current implementation itself
   is a plug-in.
 
@@ -765,7 +765,7 @@ endif::showscript[]
 
 .Generic Scheduler
 
-* OpenShift Enterprise provides generic scheduler
+* OpenShift Container Platform provides generic scheduler
 ** Default scheduling _engine_
 ** Selects node to host pod in three-step operation:
 
@@ -790,7 +790,7 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise provides a default generic scheduler. It is a scheduling
+OpenShift Container Platform provides a default generic scheduler. It is a scheduling
  _engine_ that selects a node to host the pod in a three-step operation:
 
 . The scheduler filters all of the available nodes based on specified
@@ -875,7 +875,7 @@ endif::showscript[]
 
 .Available Predicates
 
-* OpenShift Enterprise 3 provides predicates out of the box
+* OpenShift Container Platform 3 provides predicates out of the box
 * Can customize by by providing parameters
 * Can combine to provide additional node filtering
 
@@ -885,7 +885,7 @@ ifdef::showscript[]
 
 === Transcript
 
-OpenShift Enterprise 3 provides several predicates out of the box.
+OpenShift Container Platform 3 provides several predicates out of the box.
 
 You can customize some of these predicates by providing certain parameters.
  You also can combine multiple predicates to provide additional filtering of
@@ -994,7 +994,7 @@ endif::showscript[]
 .Available Priority Functions
 
 * Can specify custom set of priority functions to configure scheduler
-** OpenShift Enterprise provides several priority functions out of the box
+** OpenShift Container Platform provides several priority functions out of the box
 * Can customize some priority functions by providing parameters
 * Can combine priority functions and give different weights to influence
  prioritization results
@@ -1006,7 +1006,7 @@ ifdef::showscript[]
 
 You can configure the scheduler by specifying a custom set of priority functions.
 
-OpenShift Enterprise provides several priority functions out of the box. You can
+OpenShift Container Platform provides several priority functions out of the box. You can
  customize some of them by providing certain parameters.
 
 You can also combine multiple priority functions and give them different weights
@@ -1094,10 +1094,10 @@ endif::showscript[]
 
 .Use Cases
 
-* Important use case for scheduling within OpenShift Enterprise: Support
+* Important use case for scheduling within OpenShift Container Platform: Support
  affinity and anti-affinity policies
 
-* OpenShift Enterprise can implement multiple infrastructure topological levels
+* OpenShift Container Platform can implement multiple infrastructure topological levels
 * Administrators can define multiple topological levels for infrastructure
  (nodes)
 ** To do this, specify labels on nodes
@@ -1115,8 +1115,8 @@ ifdef::showscript[]
 
 === Transcript
 
-One important use case for scheduling within OpenShift Enterprise is to support
- flexible affinity and anti-affinity policies. OpenShift Enterprise can
+One important use case for scheduling within OpenShift Container Platform is to support
+ flexible affinity and anti-affinity policies. OpenShift Container Platform can
   implement multiple infrastructure topological levels. By specifying labels on
    the nodes, administrators can define multiple topological levels for their
     infrastructure.
@@ -1339,7 +1339,7 @@ endif::showscript[]
 ** Most often used to transform source code into runnable image
 * `BuildConfig` object: Definition of entire build process
 
-* OpenShift Enterprise build system provides extensible support for
+* OpenShift Container Platform build system provides extensible support for
  _build strategies_
 ** Based on selectable types specified in build API
 * Three build strategies available:
@@ -1358,18 +1358,18 @@ A _build_ is the process of transforming input parameters into a resulting
   runnable image. A _BuildConfig_ object is the definition of the entire build
    process.
 
-The OpenShift Enterprise build system provides extensible support for
+The OpenShift Container Platform build system provides extensible support for
  _build strategies_ that are based on selectable types specified in the build
   API. Three build strategies are available:
 
 * *Docker build*: A build based on a _Dockerfile_.
-*  *S2I build*: OpenShift Enterprise's built-in builder. It builds an image
+*  *S2I build*: OpenShift Container Platform's built-in builder. It builds an image
  from a base image and source code provided as a Git repository.
 *  *Custom build*: Can be any process a user can define. One example is a
- Jenkins server that builds a Docker image outside of the OpenShift Enterprise
+ Jenkins server that builds a Docker image outside of the OpenShift Container Platform
   environment.
 
-OpenShift Enterprise supports Docker and S2I builds by default.
+OpenShift Container Platform supports Docker and S2I builds by default.
 
 endif::showscript[]
 == Builds and Image Streams
@@ -1576,12 +1576,12 @@ endif::showscript[]
 *** Other image streams
 *** Docker image repositories from external registries
 
-* OpenShift Enterprise stores complete metadata about each image
+* OpenShift Container Platform stores complete metadata about each image
 ** Examples: command, entrypoint, environment variables, etc.
 
-* OpenShift Enterprise images immutable
+* OpenShift Container Platform images immutable
 
-* OpenShift Enterprise components can:
+* OpenShift Container Platform components can:
 ** Watch for updates in an image stream
 ** Receive notifications when new images added
 ** React by performing build or deployment
@@ -1595,15 +1595,15 @@ An _image stream_ is similar to a Docker image repository in that it contains
   single virtual view of related images. The stream may contain images from any
    of the following:
 
-* Its own image repository in OpenShift Enterprise's integrated Docker Registry
+* Its own image repository in OpenShift Container Platform's integrated Docker Registry
 * Other image streams
 * Docker image repositories from external registries
 
-OpenShift Enterprise stores complete metadata about each image--for example,
+OpenShift Container Platform stores complete metadata about each image--for example,
  command, entrypoint, environment variables, and so on. Images in OpenShift
   Enterprise are immutable.
 
-OpenShift Enterprise components such as builds and deployments can watch an
+OpenShift Container Platform components such as builds and deployments can watch an
  image stream, receive notifications when new images are added, and react by
   performing a build or a deployment, among other functions.
 
@@ -1615,7 +1615,7 @@ endif::showscript[]
 * Each container in pod has Docker image
 ** Can refer to image in pod after creating it and pushing it to registry
 
-* When OpenShift Enterprise creates containers, uses `imagePullPolicy` to
+* When OpenShift Container Platform creates containers, uses `imagePullPolicy` to
  determine whether to pull image prior to starting container
 
 * Three values for `imagePullPolicy`:
@@ -1624,9 +1624,9 @@ endif::showscript[]
 ** `IfNotPresent`: Pull image only if it does not already exist on node
 ** `Never`: Never pull image
 
-* If not specified, OpenShift Enterprise sets container's `imagePullPolicy`
+* If not specified, OpenShift Container Platform sets container's `imagePullPolicy`
  parameter based on image's tag
-** If tag is `latest`, OpenShift Enterprise defaults `imagePullPolicy` to
+** If tag is `latest`, OpenShift Container Platform defaults `imagePullPolicy` to
  `Always`
 
 ifdef::showscript[]
@@ -1636,7 +1636,7 @@ ifdef::showscript[]
 Each container in a pod has a Docker image. After you create an image and push
  it to a registry, you can then refer to it in the pod.
 
-When OpenShift Enterprise creates containers, it uses the container's
+When OpenShift Container Platform creates containers, it uses the container's
  `imagePullPolicy` to determine whether to pull the image prior to starting the
   container.
 
@@ -1774,13 +1774,13 @@ endif::showscript[]
 .Routers: Overview
 
 * Administrators can deploy _routers_ (like HAProxy `Default Router`) in
- OpenShift Enterprise cluster
+ OpenShift Container Platform cluster
 * Let external clients use `route` resources created by developers
 
 * Routers provide external hostname mapping and load balancing to applications
  over protocols that pass distinguishing information directly to router
 
-* Currently, OpenShift Enterprise routers support these protocols:
+* Currently, OpenShift Container Platform routers support these protocols:
 ** HTTP
 ** HTTPS (with SNI)
 ** WebSockets
@@ -1790,15 +1790,15 @@ ifdef::showscript[]
 
 === Transcript
 
-An OpenShift Enterprise administrator can deploy _routers_ (like the HAProxy
-   `Default Router`) in an OpenShift Enterprise cluster. These enable external
+An OpenShift Container Platform administrator can deploy _routers_ (like the HAProxy
+   `Default Router`) in an OpenShift Container Platform cluster. These enable external
     clients to use `route` resources created by developers.
 
-OpenShift Enterprise routers provide external hostname mapping and
+OpenShift Container Platform routers provide external hostname mapping and
  load balancing to applications over protocols that pass distinguishing
   information directly to the router.
 
-Currently, OpenShift Enterprise routers support the following protocols:
+Currently, OpenShift Container Platform routers support the following protocols:
 
 * HTTP
 * HTTPS (with SNI)
@@ -1814,7 +1814,7 @@ endif::showscript[]
 
 * HAProxy default router implementation: Reference implementation for template
  router plug-in
-* Uses `openshift3/OpenShift Enterprise-haproxy-router` image to run HAProxy
+* Uses `openshift3/OpenShift Container Platform-haproxy-router` image to run HAProxy
  instance alongside template router plug-in
 * Supports unsecured, edge terminated, re-encryption terminated,
   and passthrough terminated routes matching on HTTP vhost and request path
@@ -1835,7 +1835,7 @@ ifdef::showscript[]
 
 The HAProxy default router implementation is the reference implementation for a
  template router plug-in. It uses the
-  `openshift3/OpenShift Enterprise-haproxy-router` image to run an HAProxy
+  `openshift3/OpenShift Container Platform-haproxy-router` image to run an HAProxy
    instance alongside the template router plug-in.
 
 It supports unsecured, edge terminated, re-encryption terminated,
@@ -1861,7 +1861,7 @@ endif::showscript[]
  `service` `MyappFrontend`
 ** _Not_ `router`
 * Creating `route` object for application lets external web client access
- application on OpenShift Enterprise using DNS name
+ application on OpenShift Container Platform using DNS name
 
 * Router uses service selector to find service and endpoints backing service
 ** Bypasses service-provided load balancing and replaces with router's load
@@ -1881,7 +1881,7 @@ A `route` object is an object that describes a `service` to expose and a host
   `myapp.mysubdomain.company.com` and the `service` `MyappFrontend`.
 
 To allow an external web client to access an application--the pod or pods--on
- OpenShift Enterprise using a DNS name, create a `route` object for your
+ OpenShift Container Platform using a DNS name, create a `route` object for your
   application.
 
 A router uses the service selector to find the service and the endpoints backing
@@ -1973,7 +1973,7 @@ ifdef::showscript[]
 
 === Transcript
 
-This module presented some of the core concepts in OpenShift Enterprise 3. It
+This module presented some of the core concepts in OpenShift Container Platform 3. It
  discussed containers and images, pods and the services that represent them.
 It also reviewed builds, image streams, deployments, routes, and templates.
 

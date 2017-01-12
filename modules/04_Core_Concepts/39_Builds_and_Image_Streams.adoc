@@ -6,7 +6,7 @@
 ** Most often used to transform source code into runnable image
 * `BuildConfig` object: Definition of entire build process
 
-* OpenShift Enterprise build system provides extensible support for
+* OpenShift Container Platform build system provides extensible support for
  _build strategies_
 ** Based on selectable types specified in build API
 * Three build strategies available:
@@ -25,17 +25,17 @@ A _build_ is the process of transforming input parameters into a resulting
   runnable image. A _BuildConfig_ object is the definition of the entire build
    process.
 
-The OpenShift Enterprise build system provides extensible support for
+The OpenShift Container Platform build system provides extensible support for
  _build strategies_ that are based on selectable types specified in the build
   API. Three build strategies are available:
 
 * *Docker build*: A build based on a _Dockerfile_.
-*  *S2I build*: OpenShift Enterprise's built-in builder. It builds an image
+*  *S2I build*: OpenShift Container Platform's built-in builder. It builds an image
  from a base image and source code provided as a Git repository.
 *  *Custom build*: Can be any process a user can define. One example is a
- Jenkins server that builds a Docker image outside of the OpenShift Enterprise
+ Jenkins server that builds a Docker image outside of the OpenShift Container Platform
   environment.
 
-OpenShift Enterprise supports Docker and S2I builds by default.
+OpenShift Container Platform supports Docker and S2I builds by default.
 
 endif::showscript[]

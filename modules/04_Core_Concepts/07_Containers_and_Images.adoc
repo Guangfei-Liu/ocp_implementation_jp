@@ -19,7 +19,7 @@ ifdef::showscript[]
 
 === Transcript
 
-You can use Docker to build images directly, but OpenShift Enterprise also
+You can use Docker to build images directly, but OpenShift Container Platform also
  supplies builders that assist with creating an image by adding your code or
   configuration to existing images.
 

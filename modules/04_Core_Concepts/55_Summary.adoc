@@ -13,7 +13,7 @@ ifdef::showscript[]
 
 === Transcript
 
-This module presented some of the core concepts in OpenShift Enterprise 3. It
+This module presented some of the core concepts in OpenShift Container Platform 3. It
  discussed containers and images, pods and the services that represent them.
 It also reviewed builds, image streams, deployments, routes, and templates.
 

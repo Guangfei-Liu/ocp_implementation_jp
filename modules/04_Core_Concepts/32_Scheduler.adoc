@@ -2,10 +2,10 @@
 
 .Use Cases
 
-* Important use case for scheduling within OpenShift Enterprise: Support
+* Important use case for scheduling within OpenShift Container Platform: Support
  affinity and anti-affinity policies
 
-* OpenShift Enterprise can implement multiple infrastructure topological levels
+* OpenShift Container Platform can implement multiple infrastructure topological levels
 * Administrators can define multiple topological levels for infrastructure
  (nodes)
 ** To do this, specify labels on nodes
@@ -23,8 +23,8 @@ ifdef::showscript[]
 
 === Transcript
 
-One important use case for scheduling within OpenShift Enterprise is to support
- flexible affinity and anti-affinity policies. OpenShift Enterprise can
+One important use case for scheduling within OpenShift Container Platform is to support
+ flexible affinity and anti-affinity policies. OpenShift Container Platform can
   implement multiple infrastructure topological levels. By specifying labels on
    the nodes, administrators can define multiple topological levels for their
     infrastructure.

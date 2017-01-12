@@ -3,7 +3,7 @@
 .Pods Definition File/Manifest
 
 * Example definition of pod:
-** Part of OpenShift Enterprise infrastructure: _Private Docker integrated registry_
+** Part of OpenShift Container Platform infrastructure: _Private Docker integrated registry_
 ** Demonstrates many pod features
 +
 [source,yaml]
@@ -29,7 +29,7 @@ ifdef::showscript[]
 === Transcript
 
 Here is an example definition of a pod that provides a long-running service.
- This is actually a part of the OpenShift Enterprise infrastructure, the
+ This is actually a part of the OpenShift Container Platform infrastructure, the
   _private Docker integrated registry_.
 
 This example demonstrates many features of pods. The next few slides examine the

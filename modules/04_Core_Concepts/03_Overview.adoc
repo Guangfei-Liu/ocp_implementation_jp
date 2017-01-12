@@ -19,9 +19,9 @@ ifdef::showscript[]
 === Transcript
 
 This module provides high-level architectural information on core concepts and
- objects you will encounter when using OpenShift Enterprise.
+ objects you will encounter when using OpenShift Container Platform.
 
-Many of these objects come from the Kubernetes Project. OpenShift Enterprise
+Many of these objects come from the Kubernetes Project. OpenShift Container Platform
  expands Kubernetes to provide a more feature-rich development lifecycle
   platform.
 

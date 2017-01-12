@@ -3,7 +3,7 @@
 .Available Priority Functions
 
 * Can specify custom set of priority functions to configure scheduler
-** OpenShift Enterprise provides several priority functions out of the box
+** OpenShift Container Platform provides several priority functions out of the box
 * Can customize some priority functions by providing parameters
 * Can combine priority functions and give different weights to influence
  prioritization results
@@ -15,7 +15,7 @@ ifdef::showscript[]
 
 You can configure the scheduler by specifying a custom set of priority functions.
 
-OpenShift Enterprise provides several priority functions out of the box. You can
+OpenShift Container Platform provides several priority functions out of the box. You can
  customize some of them by providing certain parameters.
 
 You can also combine multiple priority functions and give them different weights

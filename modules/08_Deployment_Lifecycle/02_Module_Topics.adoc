@@ -11,7 +11,7 @@
 ifdef::showscript[]
 
 === Transcript
-Welcome to module eight of the OpenShift Enterprise Implementation course.
+Welcome to module eight of the OpenShift Container Platform Implementation course.
 
 In this module you learn about the value of deployments to the developer and to
  operational workflows, and you learn the different strategies you can use to

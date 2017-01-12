@@ -2,7 +2,7 @@
 
 .Webhook Triggers
 
-* Trigger new build by sending request to OpenShift Enterprise API endpoint
+* Trigger new build by sending request to OpenShift Container Platform API endpoint
 
 * Define using GitHub webhooks or generic webhooks
 

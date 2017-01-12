@@ -2,7 +2,7 @@
 
 .Deployments and Deployment Configurations
 
-* With concept of _deployments_, OpenShift Enterprise adds expanded support for
+* With concept of _deployments_, OpenShift Container Platform adds expanded support for
  software development and deployment life cycle
 
 * Deployment creates new replication controller and lets it start up pods
@@ -21,7 +21,7 @@ Building on replication controllers, with this concept of deployments, OpenShift
 In the simplest sense, a deployment just creates a new replication controller
  and lets it start up pods.
 
-OpenShift Enterprise deployments also provide the ability to transition from an
+OpenShift Container Platform deployments also provide the ability to transition from an
  existing deployment of an image to a new one, and also to define hooks to be
   run before or after the replication controller is created.
 

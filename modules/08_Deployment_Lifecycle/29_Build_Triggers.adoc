@@ -24,7 +24,7 @@
 ** Defines image stream tied to Docker image repository at
  `<system-registry>/<namespace>/ruby-20-rhel7`
 ** `<system-registry>` is defined as service with name `docker-registry` running
- in OpenShift Enterprise
+ in OpenShift Container Platform
 
 ifdef::showscript[]
 === Transcript

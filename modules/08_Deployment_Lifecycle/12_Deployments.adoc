@@ -3,7 +3,7 @@
 .Deployment Configuration Triggers
 
 * Drive creation of new deployment in response to events
-** Events can be inside or outside OpenShift Enterprise
+** Events can be inside or outside OpenShift Container Platform
 
 * If no triggers defined, deployment must be started manually
 
@@ -28,7 +28,7 @@
 ifdef::showscript[]
 === Transcript
 A deployment configuration can contain triggers that drive the creation of new
- deployments in response to events, both inside and outside OpenShift Enterprise.
+ deployments in response to events, both inside and outside OpenShift Container Platform.
 
 If no triggers are defined in a deployment configuration, deployments must be
  started manually.

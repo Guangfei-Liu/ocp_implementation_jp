@@ -1,6 +1,6 @@
 == Strategies
 
-* OpenShift Enterprise provides two environment variables for strategy process:
+* OpenShift Container Platform provides two environment variables for strategy process:
 
 [cols="2"]
 |===
@@ -11,7 +11,7 @@
 
 ifdef::showscript[]
 === Transcript
-OpenShift Enterprise provides these two environment variables for use with the
+OpenShift Container Platform provides these two environment variables for use with the
  strategy process.
 
 

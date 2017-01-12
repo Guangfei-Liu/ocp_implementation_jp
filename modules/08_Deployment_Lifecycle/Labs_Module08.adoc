@@ -37,7 +37,7 @@ If you have not done so already: from the Git web interface, click *Fork* in the
 === Create Your Application
 
 [NOTE]
-Remember that `buildconfig` (the build-configuration file) instructs OpenShift Enterprise on how to perform a build.
+Remember that `buildconfig` (the build-configuration file) instructs OpenShift Container Platform on how to perform a build.
 
 . As `root`, create a project for user `marina`:
 +
@@ -286,10 +286,10 @@ I1222 01:54:51.372703       1 rolling.go:232] RollingUpdater: Scaling ruby-hello
 
 == Create and Use Web Hooks
 
-With webhooks, you can integrate external systems into your OpenShift Enterprise
- environment so that they can start OpenShift Enterprise builds. Generally
+With webhooks, you can integrate external systems into your OpenShift Container Platform
+ environment so that they can start OpenShift Container Platform builds. Generally
   speaking, you make code changes and update the code repository, after which a
-   process hits OpenShift Enterprise's webhook URL to start a build with the new
+   process hits OpenShift Container Platform's webhook URL to start a build with the new
     code.
 
 === Create a Webhook
@@ -334,7 +334,7 @@ https://master1-GUID.oslab.opentlc.com:8443/oapi/v1/namespaces/lifecycle/buildco
 
 . In the GitHub repository, which you forked earlier, go to *Settings -> Webhooks and Services*.
 
-. Paste the URL that you copied from the OpenShift Enterprise UI into the *Payload URL* field.
+. Paste the URL that you copied from the OpenShift Container Platform UI into the *Payload URL* field.
 
 . Fill in the `secret` field and disable SSL verification.
 

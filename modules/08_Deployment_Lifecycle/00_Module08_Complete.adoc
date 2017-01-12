@@ -30,7 +30,7 @@ endif::[]
 ifdef::showscript[]
 
 === Transcript
-Welcome to module eight of the OpenShift Enterprise Implementation course.
+Welcome to module eight of the OpenShift Container Platform Implementation course.
 
 In this module you learn about the value of deployments to the developer and to
  operational workflows, and you learn the different strategies you can use to
@@ -44,7 +44,7 @@ endif::showscript[]
 
 .Overview
 
-* OpenShift Enterprise deployment is replication controller based on
+* OpenShift Container Platform deployment is replication controller based on
  user-defined template called _deployment configuration_
 
 * Deployments are created manually or in response to trigger events
@@ -64,7 +64,7 @@ endif::showscript[]
 ifdef::showscript[]
 === Transcript
 
-A deployment in OpenShift Enterprise is a replication controller based on a
+A deployment in OpenShift Container Platform is a replication controller based on a
  user-defined template called a _deployment configuration_. Deployments are
   created manually or in response to triggered events.
 
@@ -85,7 +85,7 @@ endif::showscript[]
 
 .Deployments and Deployment Configurations
 
-* With concept of _deployments_, OpenShift Enterprise adds expanded support for
+* With concept of _deployments_, OpenShift Container Platform adds expanded support for
  software development and deployment life cycle
 
 * Deployment creates new replication controller and lets it start up pods
@@ -104,7 +104,7 @@ Building on replication controllers, with this concept of deployments, OpenShift
 In the simplest sense, a deployment just creates a new replication controller
  and lets it start up pods.
 
-OpenShift Enterprise deployments also provide the ability to transition from an
+OpenShift Container Platform deployments also provide the ability to transition from an
  existing deployment of an image to a new one, and also to define hooks to be
   run before or after the replication controller is created.
 
@@ -133,7 +133,7 @@ ifdef::showscript[]
 
 === Transcript
 
-The OpenShift Enterprise `DeploymentConfig` object defines the following details
+The OpenShift Container Platform `DeploymentConfig` object defines the following details
  of a deployment:
 
 * The elements of a `ReplicationController` definition
@@ -212,7 +212,7 @@ endif::showscript[]
 - Deployment _strategy_ used to execute deployment
 - Set of _triggers_ that cause deployments to be created automatically
 
-* Deployment configuration is `deploymentConfig` OpenShift Enterprise object
+* Deployment configuration is `deploymentConfig` OpenShift Container Platform object
 ** Can be managed with `oc` command like any other resource
 
 ifdef::showscript[]
@@ -226,7 +226,7 @@ A _deployment configuration_ consists of the following key parts:
 * A deployment strategy, which will be used to execute the deployment
 * A set of triggers, which cause deployments to be created automatically
 
-A deployment configuration is a `deploymentConfig` OpenShift Enterprise resource
+A deployment configuration is a `deploymentConfig` OpenShift Container Platform resource
  that can be managed with the `oc` command like any other resource.
 
 
@@ -443,7 +443,7 @@ endif::showscript[]
 .Deployment Configuration Triggers
 
 * Drive creation of new deployment in response to events
-** Events can be inside or outside OpenShift Enterprise
+** Events can be inside or outside OpenShift Container Platform
 
 * If no triggers defined, deployment must be started manually
 
@@ -468,7 +468,7 @@ endif::showscript[]
 ifdef::showscript[]
 === Transcript
 A deployment configuration can contain triggers that drive the creation of new
- deployments in response to events, both inside and outside OpenShift Enterprise.
+ deployments in response to events, both inside and outside OpenShift Container Platform.
 
 If no triggers are defined in a deployment configuration, deployments must be
  started manually.
@@ -540,7 +540,7 @@ endif::showscript[]
 * Applications have different requirements for availability and other
  considerations during deployments
 
-* OpenShift Enterprise provides strategies to support variety of deployment
+* OpenShift Container Platform provides strategies to support variety of deployment
  scenarios
 
 * `Rolling` strategy is default if deployment configuration does not specify
@@ -554,7 +554,7 @@ A deployment configuration declares a strategy that is responsible for executing
 Each application has different requirements for availability and other
  considerations during deployments.
 
-OpenShift Enterprise provides out-of-the-box strategies to support a variety of
+OpenShift Container Platform provides out-of-the-box strategies to support a variety of
  deployment scenarios.
 
 The `Rolling` strategy is the default strategy if a deployment configuration
@@ -743,7 +743,7 @@ Here is an example `Custom` strategy. Note the following:
 endif::showscript[]
 == Strategies
 
-* OpenShift Enterprise provides two environment variables for strategy process:
+* OpenShift Container Platform provides two environment variables for strategy process:
 
 [cols="2"]
 |===
@@ -754,7 +754,7 @@ endif::showscript[]
 
 ifdef::showscript[]
 === Transcript
-OpenShift Enterprise provides these two environment variables for use with the
+OpenShift Container Platform provides these two environment variables for use with the
  strategy process.
 
 
@@ -954,7 +954,7 @@ endif::showscript[]
 
 .Webhook Triggers
 
-* Trigger new build by sending request to OpenShift Enterprise API endpoint
+* Trigger new build by sending request to OpenShift Container Platform API endpoint
 
 * Define using GitHub webhooks or generic webhooks
 
@@ -1078,7 +1078,7 @@ endif::showscript[]
 ** Defines image stream tied to Docker image repository at
  `<system-registry>/<namespace>/ruby-20-rhel7`
 ** `<system-registry>` is defined as service with name `docker-registry` running
- in OpenShift Enterprise
+ in OpenShift Container Platform
 
 ifdef::showscript[]
 === Transcript

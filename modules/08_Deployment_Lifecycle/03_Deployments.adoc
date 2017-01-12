@@ -2,7 +2,7 @@
 
 .Overview
 
-* OpenShift Enterprise deployment is replication controller based on
+* OpenShift Container Platform deployment is replication controller based on
  user-defined template called _deployment configuration_
 
 * Deployments are created manually or in response to trigger events
@@ -22,7 +22,7 @@
 ifdef::showscript[]
 === Transcript
 
-A deployment in OpenShift Enterprise is a replication controller based on a
+A deployment in OpenShift Container Platform is a replication controller based on a
  user-defined template called a _deployment configuration_. Deployments are
   created manually or in response to triggered events.
 

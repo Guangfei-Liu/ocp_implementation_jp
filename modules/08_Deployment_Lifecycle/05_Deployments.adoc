@@ -22,7 +22,7 @@ ifdef::showscript[]
 
 === Transcript
 
-The OpenShift Enterprise `DeploymentConfig` object defines the following details
+The OpenShift Container Platform `DeploymentConfig` object defines the following details
  of a deployment:
 
 * The elements of a `ReplicationController` definition

@@ -8,7 +8,7 @@
 * Applications have different requirements for availability and other
  considerations during deployments
 
-* OpenShift Enterprise provides strategies to support variety of deployment
+* OpenShift Container Platform provides strategies to support variety of deployment
  scenarios
 
 * `Rolling` strategy is default if deployment configuration does not specify
@@ -22,7 +22,7 @@ A deployment configuration declares a strategy that is responsible for executing
 Each application has different requirements for availability and other
  considerations during deployments.
 
-OpenShift Enterprise provides out-of-the-box strategies to support a variety of
+OpenShift Container Platform provides out-of-the-box strategies to support a variety of
  deployment scenarios.
 
 The `Rolling` strategy is the default strategy if a deployment configuration

@@ -10,7 +10,7 @@
 * Regions and Zones
 * Registry Deployment
 * Default HAProxy Router Deployment
-* OpenShift Container Platform Population
+* Population
 * Persistent Storage Using NFS
 
 ifdef::showscript[]

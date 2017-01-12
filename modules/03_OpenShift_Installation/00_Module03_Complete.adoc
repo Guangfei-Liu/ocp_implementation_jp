@@ -31,7 +31,7 @@ endif::[]
 * Regions and Zones
 * Registry Deployment
 * Default HAProxy Router Deployment
-* OpenShift Container Platform Population
+* Population
 * Persistent Storage Using NFS
 
 ifdef::showscript[]
@@ -885,7 +885,7 @@ The default router’s pod listens on its host's network interface on ports 80 a
     service associated with the route.
 
 endif::showscript[]
-== OpenShift Container Platform Population
+== Population
 
 * Can populate OpenShift Container Platform installation with Red Hat-provided
  _image streams_ and _templates_
@@ -914,7 +914,7 @@ An _image stream_ comprises of one or more Docker images identified by tags. An
  image stream presents a single virtual view of related images.
 
 endif::showscript[]
-== OpenShift Container Platform Population
+== Population
 
 * Core set of image streams defines:
 ** Images you can use to build applications:
@@ -945,7 +945,7 @@ The core set of image streams defines images you can use to build Node.js,
 
 
 endif::showscript[]
-== OpenShift Container Platform Population
+== Population
 
 .Image Streams
 
@@ -988,7 +988,7 @@ Use the code shown here to create or delete the core set, xPaaS and JBoss image
 
 
 endif::showscript[]
-== OpenShift Container Platform Population
+== Population
 
 .Database Service Templates
 
@@ -1024,7 +1024,7 @@ After you create the templates, you can easily instantiate them. This gives the
  templates quick access to a database deployment.
 
 endif::showscript[]
-== OpenShift Container Platform Population
+== Population
 
 .QuickStart Templates
 
@@ -1289,7 +1289,7 @@ endif::showscript[]
 * Regions and Zones
 * Registry Deployment
 * Default HAProxy Router Deployment
-* OpenShift Container Platform Population
+* Population
 * Persistent Storage Using NFS
 
 ifdef::showscript[]

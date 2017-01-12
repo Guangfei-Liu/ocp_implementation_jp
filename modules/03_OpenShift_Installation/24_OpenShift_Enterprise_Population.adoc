@@ -1,4 +1,4 @@
-== OpenShift Container Platform Population
+== Population
 
 * Core set of image streams defines:
 ** Images you can use to build applications:

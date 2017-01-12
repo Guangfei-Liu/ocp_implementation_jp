@@ -1,4 +1,4 @@
-== OpenShift Container Platform Population
+== Population
 
 * Can populate OpenShift Container Platform installation with Red Hat-provided
  _image streams_ and _templates_

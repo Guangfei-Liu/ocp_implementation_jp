@@ -295,8 +295,8 @@ repolist: 8,998
                                     do \
                                       echo Copying open repos to $node ; \
                                       scp /etc/yum.repos.d/open.repo ${node}:/etc/yum.repos.d/open.repo ;
-                                      yum clean all
-                                      yum repolist
+                                      ssh ${node} yum clean all
+                                      ssh ${node} yum repolist
                                    done
 -----
 
@@ -318,7 +318,7 @@ NOTE: You can skip the DNS section in this lab by running the script available a
 . Verify that you have correctly configured the `$GUID` and `$guid` environment variables:
 +
 ----
-[root@oselab ~]# echo GUID is $GUID and guid is $GUID
+[root@oselab ~]# echo GUID is $GUID and guid is $guid
 ----
 
 * The output is similar to this:

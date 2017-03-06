@@ -307,8 +307,6 @@ OpenShift Container Platform requires a wildcard DNS A record, which must point 
 
 NOTE: In the OpenShift environment, the OpenShift default router is deployed on the `infranode1` host.
 
-NOTE: You can skip the DNS section in this lab by running the script available at : link:http://www.opentlc.com/download/ose_implementation/resources/3.1/oselab.dns.installer.sh[http://www.opentlc.com/download/ose_implementation/resources/3.1/oselab.dns.installer.sh]
-
 . Install the `bind` and `bind-utils` packages on the administration host:
 +
 ----

@@ -3,23 +3,25 @@
 
 == Resource Management Lab
 
-In this lab, you learn how to manage OpenShift Container Platform resources.
+=== Overview
 
-* *Manage Users, Projects, and Quotas*
-+
-In this section, you create projects and test the use of quotas and limits.
+In this lab you learn how to manage OpenShift Container Platform resources. The lab contains the following four sections.
 
-* *Create Services and Routes*
-+
-In this section, you manually create services and routes for pods and review the changes to a service when scaling an application.
+.Manage Users, Projects, and Quotas
 
-* *Explore Containers*
-+
-In this section, you run commands within active pods and explore the `docker-registry` and `Default Router` containers.
+In this section you create projects and test the use of quotas and limits.
 
-* *Create Persistent Volume for Registry*
-+
-In this section, you create a persistent volume for your registry, attach it to `deploymentConfiguration`, and redeploy the registry.
+.Create Services and Routes
+
+In this section you manually create services and routes for pods and review the changes to a service when an application is scaled.
+
+.Explore Containers
+
+In this section you run commands within active pods and explore the `docker-registry` and `Default Router` containers.
+
+.Create Persistent Volume for Registry
+
+In this section you create a persistent volume for your registry, attach it to `deploymentConfiguration`, and redeploy the registry.
 
 
 :numbered:
@@ -34,7 +36,7 @@ In this section, you create a persistent volume for your registry, attach it to 
 [root@oselab ~]# ssh master1.example.com
 ----
 
-. On the master host, run `oadm` to create and assign the administrative user `andrew` to a project:
+. Run `oadm` to create a project named `resourcemanagement` and assign the administrative user `andrew` to it:
 +
 ----
 [root@master1 ~]# oadm new-project resourcemanagement --display-name="Resources Management" \
@@ -42,34 +44,36 @@ In this section, you create a persistent volume for your registry, attach it to 
     --admin=andrew  --node-selector='region=primary'
 ----
 
-[NOTE]
-`andrew` can create his own project with the `oc new-project` command, an option you will experiment with later in this course. Note that defining the `--node-selector` is optional, especially since you already defined the default `node-selector` in a previous lab.
+
+* `andrew` can create his own project with the `oc new-project` command--an option you experiment with later in this course.
+* Defining `--node-selector` is optional. You already defined the default node selector in the previous lab.
+
 
 === View Resources in Web Console
 
-Now have a look at the web console, which has been completely redesigned for version 3.
+The web console has been completely redesigned for version 3.
 
 . Open your web browser and go to `https://master1-GUID.oslab.opentlc.com:8443`.
 +
 [NOTE]
 ====
-The web console could take up to 90 seconds to become available after a restart of the master.
+The web console can take up to 90 seconds to become available after a restart of the master.
 
-The first time you access the URL, you might need to accept the self-signed SSL certificate.
+The first time you access the URL, you may need to accept the self-signed SSL certificate.
 ====
 
-. When prompted, type the username and password, as follows:
-** *Username*: `andrew`
-** *Password*: `r3dh4t1!`
+. When prompted, type the following username and password:
+* *Username*: `andrew`
+* *Password*: `r3dh4t1!`
 
-. In the web console, click the *Resources Management* project.
-+
-[NOTE]
-The project is empty because it has no data. You enter data in this part of the lab.
+. Click the *Resources Management* project.
+
+* The project is empty because it has no data. 
+* You enter data in this lab.
 
 === Apply Quota to Project
 
-. Create a quota definition file:
+. On the master host, create a quota definition file:
 +
 ----
 
@@ -95,31 +99,30 @@ EOF
 
 ----
 
-. On the master host, do the following:
-.. Run `oc create` to apply the file you just created:
+. Run `oc create` to apply the file you just created:
 +
 ----
 [root@master1 ~]# oc create -f quota.json --namespace=resourcemanagement
 ----
 
-.. Verify that the quota exists:
+. Verify that the quota exists:
 +
 ----
 [root@master1 ~]# oc get -n resourcemanagement quota
 ----
+* Expect to see output that looks like this:
 +
 ----
 NAME         AGE
 test-quota   8s
 ----
 
-.. Verify the limits and examine the usage:
+. Verify the limits and examine the usage:
 +
 ----
-
 [root@master1 ~]# oc describe -n resourcemanagement quota test-quota
-
 ----
+* The output looks like this:
 +
 ----
 Name:			test-quota
@@ -133,7 +136,7 @@ replicationcontrollers	0	5
 resourcequotas		1	1
 services		0	5
 ----
-+
+
 
 . On the web console, click the *Resource Management* project.
 
@@ -141,9 +144,9 @@ services		0	5
 
 === Apply Limit Ranges to Project
 
-For quotas to be effective, you must create _limit ranges_. They allocate the maximum, minimum, and default memory and CPU at both the pod and container level. Absent defaults for containers, projects with quotas fail because the deployer and other infrastructure pods are unbounded and, therefore, forbidden.
+For quotas to be effective, you must create _limit ranges_. Limit ranges allocate the maximum, minimum, and default memory and CPU at both the pod level and the container level. Without defaults for containers, projects with quotas fail because the deployer and other infrastructure pods are unbounded and therefore forbidden.
 
-. Create the `limits.json` file:
+. On the master host, create the `limits.json` file:
 +
 ----
 [root@master1 ~]# cat << EOF > limits.json
@@ -186,26 +189,20 @@ For quotas to be effective, you must create _limit ranges_. They allocate the ma
     }
 }
 EOF
-
-
 ----
 
-. On the master host, run `oc create` against the `limits.json` file and the
- `resourcemanagement` project:
+. Run `oc create` against the `limits.json` file and the `resourcemanagement` project:
 +
 ----
-
 [root@master1 ~]# oc create -f limits.json --namespace=resourcemanagement
-
 ----
 
-. Review your limit ranges:
+. Review the limit ranges:
 +
 ----
-
 [root@master1 ~]# oc describe limitranges limits -n resourcemanagement
-
 ----
+* Expect to see output similar to this:
 +
 ----
 Name:		limits
@@ -220,23 +217,22 @@ Container	cpu		10m	500m	100m	100m	-
 
 === Test Quotas
 
-NOTE: You are running commands as the Linux users `andrew` and `root` in a lab environment. In a real-word scenario, users, would, of course, issue `oc` commands from their workstations and not from the OpenShift Master.
+This exercise shows you the manual, step-by-step method of creating each object. There are easier ways to create a deployment and its components. One of those ways is with the `oc new-app` command, which is covered later in this lab.
+
+NOTE: You are running commands as the Linux users `andrew` and `root` in a lab environment. In a real-world scenario, users would issue `oc` commands from their workstations and not from the OpenShift master.
 
 . Authenticate to OpenShift Container Platform and choose your project:
 
-.. Connect to the OpenShift Container Platform master according to the procedure you followed
- previously.
+.. Connect to the master using the procedure you followed previously.
 
-.. When prompted, type the username and password:
-** *Username*: `andrew`
-** *Password*: `r3dh4t1!`
+.. When prompted, enter `andrew` as the username and `r3dh4t1!` as the password:
 +
 ----
 [root@master1 ~]# su - andrew
 [andrew@master1 ~]$ oc login -u andrew --insecure-skip-tls-verify --server=https://master1.example.com:8443
 ----
 
-* The output is as follows:
+* Expect output similar to this:
 +
 ----
 Login successful.
@@ -244,8 +240,6 @@ Login successful.
 Using project "resourcemanagement".
 Welcome! See 'oc help' to get started.
 ----
-+
-NOTE: This lab shows you the manual, step-by-step method of creating each object. There are easier ways to create a deployment and its components. One of those ways is the `oc new-app` command, which is covered later in this lab.
 
 . Create the `hello-pod.json` pod definition file:
 +
@@ -297,25 +291,36 @@ EOF
 
 === Run Pod
 
-Here, you create a simple pod without a _route_ or _service_:
+In this exercise you create a simple pod without a route or service.
 
-. Create and verify the `hello-openshift` pod:
+. Create the `hello-openshift` pod:
 +
 ----
-
 [andrew@master1 ~]$ oc create -f hello-pod.json
+----
+* The output looks like this:
++
+----
 pods/hello-openshift
+----
 
+. Verify that the pod exists:
++
+----
 [andrew@master1 ~]$ oc get pods
+----
+* Expect the output to look like this:
++
+----
 NAME              READY     STATUS    RESTARTS   AGE
 hello-openshift   1/1       Running   0          8s
-
-
 ----
 
-. Run `oc describe` for details on your pod:
+. Run `oc describe` to get pod details:
 +
 ----
+[andrew@master1 ~]$ oc describe
+
 Name:           hello-openshift
 Namespace:      resourcemanagement
 Node:           node2.example.com/192.168.0.202
@@ -346,7 +351,7 @@ Containers:
     Environment Variables:
 Conditions:
   Type          Status
-  Ready         True 
+  Ready         True
 Volumes:
   default-token-bky7y:
     Type:       Secret (a volume populated by a Secret)
@@ -361,28 +366,26 @@ Events:
   5m            5m              1       {kubelet node2.example.com}     spec.containers{hello-openshift}        Normal          Started         Started container with docker id 87d7fc29e65b
 ----
 +
-. Test that your pod is responding with `Hello OpenShift`:
+. Test that your pod responds with the following command:
 +
 ----
-
 [andrew@master1 ~]$ ip=`oc describe pod hello-openshift|grep IP:|awk '{print $2}'`
 [andrew@master1 ~]$ curl http://${ip}:8080
-
 ----
 
-* This output denotes a correct response:
+* This output indicates a correct response:
 +
 ----
 Hello OpenShift!
 ----
 
-. Delete all the objects in your `hello-pod.json` definition file, which, at this point, is the pod only:
+. Delete all the objects in the `hello-pod.json` definition file, which, at this point, is only the pod:
 +
 ----
 [andrew@master1 ~]$ oc delete -f hello-pod.json
 ----
 +
-TIP: You can also delete a pod using the following command format: +oc delete pod hello-__podname__+.
+TIP: You can also delete a pod using the format +oc delete pod _podname_+.
 
 . Create a new definition file that launches four `hello-openshift` pods:
 +
@@ -573,16 +576,18 @@ EOF
 +
 ----
 [andrew@master1 ~]$ oc create -f hello-many-pods.json
+----
+* The output looks like this:
++
+----
 pod "hello-openshift-1" created
 pod "hello-openshift-2" created
 pod "hello-openshift-3" created
 Error from server: Pod "hello-openshift-4" is forbidden: limited to 3 pods
 ----
-+
-[NOTE]
-Because you defined a quota before, `oc create` created three pods only instead of four.
+* Because you defined the quota earlier with a pod value of `3`, the `oc create` command created only three pods instead of four.
 
-. Delete the object in the `hello-many-pods.json` definition file (the four pods):
+. Delete the objects in the `hello-many-pods.json` definition file (the three pods):
 +
 ----
 [andrew@master1 ~]$ oc delete  -f hello-many-pods.json
@@ -606,7 +611,7 @@ Because you defined a quota before, `oc create` created three pods only instead 
 Now using project "svcslab" on server "https://master1.example.com:8443".
 ----
 +
-TIP: To switch between projects, run `oc project _projectname_`.
+TIP: To switch between projects, run `oc project <projectname>`.
 
 . Create the `hello-service.json` file:
 +
@@ -642,29 +647,36 @@ EOF
 . Create the `hello-service` service:
 +
 ----
-
 [andrew@master1 ~]$ oc create -f hello-service.json
+----
+* The output looks like this:
++
+----
 service "hello-service" created
-
 ----
 +
 . Display the services that are running in the current project:
 +
 ----
-
 [andrew@master1 ~]$ oc get services
+----
+* Expect the output to look like this:
++
+----
 NAME            CLUSTER_IP       EXTERNAL_IP   PORT(S)    SELECTOR               AGE
 hello-service   172.30.xxx.yyy   <none>        8888/TCP   name=hello-openshift   20s
-
-
 ----
 +
-. Examine the details of your service. Note the following:
-** *Selector*: Describes which pods the service selects or lists.
-** *Endpoints*: Displays all the pods that are currently listed (none in your current project).
+. Examine the details of the service:
 +
 ----
+
 [andrew@master1 ~]$ oc describe service hello-service
+
+----
+* The output looks similar like this:
++
+----
 Name:			hello-service
 Namespace:		svcslab
 Labels:			name=hello-openshift
@@ -675,39 +687,33 @@ Port:			<unnamed>	8888/TCP
 Endpoints:		<none>
 Session Affinity:	None
 No events.
-
 ----
+* Note the following:
+** `Selector` describes which pods the service selects or lists.
+** `Endpoints` displays all of the pods that are currently listed (none in the current project).
 
 . Create pods according to the `hello-many-pods.json` definition file:
 +
 ----
 [andrew@master1 ~]$ oc create -f hello-many-pods.json
 ----
-
-. Wait a few seconds and check the service again.
-
-* The pods that share the label `name=hello-openshift` are all listed:
+* The output looks like this:
 +
 ----
-
-[andrew@master1 ~]$ oc describe service hello-service
-Name:			hello-service
-Namespace:		svcslab
-Labels:			name=hello-openshift
-Selector:		name=hello-openshift
-Type:			ClusterIP
-IP:			172.30.231.196
-Port:			<unnamed>	8888/TCP
-Endpoints:		<none>
-Session Affinity:	None
-No events.
-
-[andrew@master1 ~]$  oc create -f hello-many-pods.json
 pod "hello-openshift-1" created
 pod "hello-openshift-2" created
 pod "hello-openshift-3" created
 pod "hello-openshift-4" created
-[andrew@master1 ~]$  oc describe service hello-service
+----
+
+. Wait a few seconds, and check the service again to verify that the pods that have the label `hello-openshift` are listed:
++
+----
+[andrew@master1 ~]$ oc describe service hello-service
+----
+* Expect output similar to this:
++
+----
 Name:			hello-service
 Namespace:		svcslab
 Labels:			name=hello-openshift
@@ -718,17 +724,18 @@ Port:			<unnamed>	8888/TCP
 Endpoints:		10.1.1.2:8080,10.1.1.3:8080,10.1.2.5:8080 + 1 more...
 Session Affinity:	None
 No events.
-
 ----
 
 . Test that your service is working:
 +
 ----
-
 [andrew@master1 ~]$ ip=$(oc get service hello-service --template "{{ .spec.portalIP }}")
 [andrew@master1 ~]$ curl http://${ip}:8888
+----
+* Output like this indicates success:
++
+----
 Hello OpenShift!
-
 ----
 
 . Expose your service with the `oc expose` command to create routes for your application:
@@ -736,12 +743,15 @@ Hello OpenShift!
 ----
 [andrew@master1 ~]$ oc expose service/hello-service --hostname=hello2-openshift.cloudapps-${guid}.oslab.opentlc.com
 ----
-+
 
 . View the route:
 +
 ----
 [andrew@master1-6b80 ~]$ oc get routes
+----
+* Expect output similar to this:
++
+----
 NAME            HOST/PORT                                           PATH      SERVICE         LABELS
 hello-service   hello2-openshift.cloudapps-GUID.oslab.opentlc.com             hello-service
 ----
@@ -749,10 +759,12 @@ hello-service   hello2-openshift.cloudapps-GUID.oslab.opentlc.com             he
 . Test the route:
 +
 ----
-
 [andrew@master1 ~]$ curl http://hello2-openshift.cloudapps-${guid}.oslab.opentlc.com
+----
+* Output like this indicates success:
++
+----
 Hello OpenShift!
-
 ----
 
 == Explore Containers
@@ -761,12 +773,11 @@ Next, take a look at the route and registry containers.
 
 === Explore Route Container
 
-==== Create Applications As Examples
+==== Create Applications as Examples
 
 . As `andrew`, create a project called `explore-example`:
 +
 ----
-
 [andrew@master1 ~]$ oc new-project explore-example --display-name="Explore Example" \
     --description="This is the project we use to learn about connecting to pods"
 ----
@@ -774,8 +785,11 @@ Next, take a look at the route and registry containers.
 . Applying the same image as before, run `oc new-app` to deploy `hello-openshift`:
 +
 ----
-
 [andrew@master1 ~]$ oc new-app --docker-image=openshift/hello-openshift:v1.2.1 -l "todelete=yes"
+----
+* The output looks like this:
++
+----
 --> Found Docker image 7ce9d7b (10 weeks old) from Docker Hub for "openshift/hello-openshift:v1.2.1"
     * An image stream will be created as "hello-openshift:v1.2.1" that will track this image
     * This image will be deployed in deployment config "hello-openshift"
@@ -786,20 +800,31 @@ Next, take a look at the route and registry containers.
     Service "hello-openshift" created
 --> Success
     Run 'oc status' to view your app.
-
 ----
 
-. Verify that `oc new-app` has created a pod and the service.
+. Verify that `oc new-app` created the service and a pod:
+.. Verify the service:
 +
 ----
 [andrew@master1 ~]$ oc get service
+----
++
+----
 NAME              CLUSTER_IP      EXTERNAL_IP   PORT(S)             SELECTOR                                        AGE
 hello-openshift   172.30.60.163   <none>        8080/TCP,8888/TCP   deploymentconfig=hello-openshift,todelete=yes   2m
+----
+
+.. Verify the pod:
++
+----
 [andrew@master1 ~]$ oc get pods
+----
++
+----
 NAME                      READY     STATUS    RESTARTS   AGE
 hello-openshift-1-g3xow   1/1       Running   0          2m
-
 ----
+
 . Expose the service and create a route for the application:
 +
 ----
@@ -814,66 +839,92 @@ hello-openshift-1-g3xow   1/1       Running   0          2m
 
 ==== Connect to Default Router Container
 
-. As `root`, execute the `bash` shell inside the router with the `oc rsh`
- command along with the default router's pod name. You have two options.
-+
+As `root`, you can use the `oc rsh` command along with the default router's pod name to execute the `bash` shell inside the router. There are two ways to do this.
+
 .Option 1
+
+. Use two separate steps:
+.. Use `oc get pods` to find the default router's pod name:
++
 ----
 [root@master1 ~]# oc get pods
+
 NAME                      READY     REASON    RESTARTS   AGE
 docker-registry-2-snarn   1/1       Running   0          17h
 trainingrouter-1-jm5zk    1/1       Running   0          18h
+----
+.. Then use `oc rsh` with the specific pod's name to execute the `bash` shell:
++
+----
 [root@master1 ~]# oc rsh trainingrouter-1-jm5zk bash
-----
-+
-.Option 2
-----
-[root@master1 ~]#  oc rsh $(oc get pods --selector="router=trainingrouter" --template='{{range .items}}{{.metadata.name}}{{end}}') bash
-----
 
-* With either option, this prompt is displayed:
-+
-----
 [root@infranode1 conf]#
 ----
-+
-NOTE: You are now running `bash` inside the container. Also, the prompt specifies that you are on the `infranode` host. That is because the router container resolves the host name through the host's IP address.
 
-. Do the following:
-.. Run `id`.
-.. Run `pwd` and `ls` and note the directory you are in.
-.. Run `grep SERVERID` on the `haproxy.config` file.
-.. Run `cat haproxy.config` to verify that your configuration file is empty and then view the process status.
+.Option 2
+ 
+. Combine the `oc get pods` and `oc rsh` in a single command:
++
+----
+[root@master1 ~]#  oc rsh $(oc get pods --selector="router=trainingrouter" --template='{{range .items}}{{.metadata.name}}{{end}}') bash
+
+[root@infranode1 conf]#
+----
+
+
+* The same prompt is displayed with each option: `[root@infranode1 conf]#`.
+
+* You are now running `bash` inside the container. 
+
+* The prompt shows that you are on the `infranode1` host because the router container resolved the host name through the host's IP address.
+
+
+. Run `id`.
+. Run `pwd` and `ls`, and note the directory you are in.
+. Run `grep SERVERID` on the `haproxy.config` file.
+. Run `cat haproxy.config` to verify that your configuration file is empty, and then view the process status.
 +
 ----
 [root@infranode1 conf]# id
 uid=0(root) gid=0(root) groups=0(root)
-
+----
++
+----
 [root@infranode1 conf]# pwd
 /var/lib/haproxy/conf
-
+----
++
+----
 [root@infranode1 conf]# ls
 default_pub_keys.pem	 os_edge_http_be.map	    os_reencrypt.map
 error-page-503.html	 os_edge_http_expose.map    os_sni_passthrough.map
 haproxy-config.template  os_edge_http_redirect.map  os_tcp_be.map
 haproxy.config		 os_http_be.map
-
+----
++
+----
 [root@infranode1 conf]#  grep SERVERID haproxy.config
     cookie OPENSHIFT_explore-example_hello-openshift_SERVERID insert indirect nocache httponly
     cookie OPENSHIFT_svcslab_hello-service_SERVERID insert indirect nocache httponly
-
+----
++
+----
 [root@infranode1 conf]# ps -ef
 UID         PID   PPID  C STIME TTY          TIME CMD
 root          1      0  0 02:07 ?        00:00:14 /usr/bin/openshift-router
 root        243      0  0 22:08 ?        00:00:00 /bin/bash
 root        319      1  0 22:11 ?        00:00:00 /usr/sbin/haproxy -f /var/lib/
 root        342    243  0 22:16 ?        00:00:00 ps -ef
-
-
+----
++
+----
 [root@infranode1 conf]# cat haproxy.config
 ----
 
-.. Examine the output, which looks like this:
+. Note the following in the output below:
+
+* The route is the one you created in the previous lab.
+* The route points to the endpoints directly.
 +
 ----
 backend be_http_explore-example_hello-openshift
@@ -898,28 +949,27 @@ backend be_http_explore-example_hello-openshift
 ...
 ----
 
-* Note the following:
-
-** The route is the one you created in the previous lab.
-** The route points to the endpoints directly.
-
-. As `andrew`, scale `hello-openshift` to have five replicas of its pod:
+. As `andrew`, scale `hello-openshift` to have 5 replicas of its pod:
 +
 ----
 [andrew@master1 ~]$ oc get deploymentconfig # or oc get dc
 NAME              TRIGGERS                    LATEST
 hello-openshift   ConfigChange, ImageChange   1
-
+----
++
+----
 [andrew@master1 ~]$ oc scale dc hello-openshift --replicas=5
 deploymentconfig "hello-openshift" scaled
-
 ----
 
 . Go back to the router container and view the `haproxy.config` file again:
 +
 ----
 [root@infranode1 conf]# grep -A 25 backend.*explore-example_hello-openshift haproxy.config
-
+----
+* All of your pods within the `haproxy` configuration are listed:
++
+----
 backend be_http_explore-example_hello-openshift
 
   mode http
@@ -947,18 +997,22 @@ backend be_http_explore-example_hello-openshift
   server 10.1.2.11:8080 10.1.2.11:8080 check inter 5000ms cookie 10.1.2.11:8080
 ----
 
-* All of your pods within the `haproxy` configuration are listed.
 
-NOTE: Remember, the router routes proxy connections to the pods directly and not through the service. The router uses the service only to obtain a list of the pod endpoints (IP addresses).
+* The router routes proxy connections to the pods directly and not through the service. 
+* The router uses the service only to obtain a list of the pod endpoints (IP addresses).
 
 === Explore Registry Container
 
-Ensure that your build from earlier is complete.
+Verify that your build from earlier is complete.
 
 . As user `andrew`, run the following to see the build:
 +
 ----
 [andrew@master1 ~]$ oc logs builds/sinatra-example-1
+----
+* Look for output similar to the following:
++
+----
 ...
 ...
 ...
@@ -973,25 +1027,34 @@ I1120 02:19:58.237018       1 sti.go:233] Successfully pushed 172.30.41.32:5000/
 [NOTE]
 This step takes a while on the lab environment's hardware. If the build is not yet complete, feel free to take a quick break here.
 
-. As `root`, execute the `bash` shell inside the registry container by running `oc rsh` along with the `docker-registry` pod name:
+. As `root`, execute the `bash` shell inside the registry container by running `oc rsh` with the `docker-registry` pod's name:
 +
 ----
 [root@master1 ~]#  oc rsh $(oc get pods --selector="deploymentconfig=docker-registry" --template='{{range .items}}{{.metadata.name}}{{end}}') bash
 ----
 
-. Do the following:
-.. Run `id`.
-.. Run `pwd` and `ls` and note the directory you are in.
-.. Run `cat config.yml`  to verify that your configuration file is empty.
+
+. Run `id`.
+. Run `pwd` and `ls` and note the directory you are in.
+. Run `cat config.yml` to verify that your configuration file is empty.
 +
 ----
 bash-4.2$ id
 uid=1000000000 gid=0(root) groups=0(root)
+----
++
+----
 bash-4.2$ pwd
 /
+----
++
+----
 bash-4.2$ ls
 bin   config.yml  etc	lib    media  opt   registry  run   srv  tmp  var
 boot  dev	  home	lib64  mnt    proc  root      sbin  sys  usr
+----
++
+----
 bash-4.2$ cat config.yml
 version: 0.1
 log:
@@ -1018,8 +1081,14 @@ bash-4.2$
 bash-4.2$  cd /registry/docker/registry/v2/repositories
 bash-4.2$ ls
 explore-example
+----
++
+----
 bash-4.2$ ls explore-example/sinatra-example/_layers/
 sha256
+----
++
+----
 bash-4.2$ ls explore-example/sinatra-example/_layers/sha256/
 50c4d0284685934ca2920fd6e056318cac1187773e8a239dd02d8f248a59d382
 50de3644a809b46b344074ca0a691524eb06af3af6a07d25e90c25b50a00980f
@@ -1031,6 +1100,10 @@ e1e04a46f510bf9b3fb68e6cf3fc027100cec875a7ff02e6d0da5206fa7f6b8c
 +
 ----
 [andrew@master1 ~]$ oc get pods
+----
+* Expect output similar to this:
++
+----
 NAME                      READY     STATUS      RESTARTS   AGE
 hello-openshift-1-1ecah   1/1       Running     0          27m
 hello-openshift-1-b8o3d   1/1       Running     0          27m
@@ -1041,48 +1114,50 @@ sinatra-example-1-build   0/1       Completed   0          11m
 sinatra-example-1-yxyod   1/1       Running     0          8m
 ----
 
-. Connect to the container:
+. Connect to the pod:
 +
 ----
 [andrew@master1 ~]$ oc rsh sinatra-example-1-yxyod bash
 bash-4.2$
 ----
 
-. Explore the container:
+. Explore the pod:
 .. Run `id`.
 .. Run `pwd` and `ls` and note the directory you are in.
 .. Run `ps -ef` to see what processes are running.
 +
 ----
-
 bash-4.2$ id
 uid=1000050000 gid=0(root) groups=0(root)
-
+----
++
+----
 bash-4.2$ pwd
 /opt/app-root/src
-
+----
++
+----
 bash-4.2$ ls
 Gemfile       README.md  config.ru	  example-mustache	 public
 Gemfile.lock  app.rb	 example-model	  example-views		 tmp
 README	      bundle	 example-modular  example-views-modular
-
+----
++
+----
 bash-4.2$ ps -ef
 UID         PID   PPID  C STIME TTY          TIME CMD
 1000050+      1      0  0 22:41 ?        00:00:01 ruby /opt/app-root/src/bundle/
 1000050+     33      0  0 22:51 ?        00:00:00 /bin/bash
 1000050+     62     33  0 22:51 ?        00:00:00 ps -ef
-
 ----
-+
-[NOTE]
-Your pod names and output differ slightly.
+* Expect different pod names and output from the example shown here.
 
 
 == Create Persistent Volume for Registry
 
-You learn in this lab how to create an NFS export for the registry and to attach the persistent volume to the registry.
+In this exercise you create an NFS export for the registry and attach the persistent volume to the registry.
 
-NOTE: The registry is currently running with a small nfs persistent volume of 5Go. This volume was set by the following ansible config.
+The registry is currently running with a small NFS persistent volume of 5GB. This volume was set by the following Ansible configuration:
 ----
 openshift_hosted_registry_storage_kind=nfs
 openshift_hosted_registry_storage_access_modes=['ReadWriteMany']
@@ -1092,15 +1167,17 @@ openshift_hosted_registry_storage_volume_name=registry
 openshift_hosted_registry_storage_volume_size=5Gi
 ----
 
-=== Delete the existing Persistent Volume for Registry
+=== Delete Existing Persistent Volume
 
+* As `root` on the `oselab` host, delete the existing persistent volume for the registry:
++
 ----
 [root@oselab ~]# ssh master1.example.com "oc delete pvc registry-claim ; oc delete pv registry-volume"
 ----
 
 === Create NFS Export for Registry
 
-. As `root` on the `oselab` host, create a directory for your NFS export:
+. Create a new directory for your NFS export:
 +
 ----
 [root@oselab ~]# export volname=registry-storage
@@ -1122,7 +1199,7 @@ openshift_hosted_registry_storage_volume_size=5Gi
 ----
 
 
-. As `root` on the `master` host, create a persistent volume-definition file named `registry-volume.json`:
+. As `root` on the `master1` host, create a persistent volume definition file named `registry-volume.json`:
 +
 [source,json]
 ----
@@ -1150,13 +1227,17 @@ EOF
 
 ----
 
+* You create the persistent volume in the `default` project because that is the project in which the registry runs.
+
 . In the `default` project, create the `registry-storage` persistent volume from the definition file:
-+
-[NOTE]
-You are creating the persistent volume in the `default` project because that is the project in which the registry runs.
 +
 ----
 [root@master1 ~]# oc create -f registry-volume.json -n default
+----
++
+* This output indicates success:
++
+----
 persistentvolume "registry-storage" created
 ----
 
@@ -1164,6 +1245,9 @@ persistentvolume "registry-storage" created
 +
 ----
 [root@master1 ~]# oc get pv
+----
++
+----
 NAME               LABELS    CAPACITY   ACCESSMODES   STATUS      CLAIM     REASON    AGE
 pv21               <none>    5Gi        RWO           Available                       20h
 pv22               <none>    5Gi        RWO           Available                       20h
@@ -1171,7 +1255,7 @@ pv23               <none>    5Gi        RWO           Available                 
 registry-storage   <none>    15Gi       RWX           Available                       43s
 ----
 
-. Create a `registry-volume-claim.json` claim-definition file to claim your volume:
+. Create a `registry-volume-claim.json` claim definition file to claim your volume:
 +
 ----
 
@@ -1200,25 +1284,36 @@ EOF
 +
 ----
 [root@master1 ~]# oc create -f registry-volume-claim.json -n default
+----
++
+----
 persistentvolumeclaim "registry-claim" created
 ----
 
-. View the persistent volume you created, whose status is `Bound`:
+. View the persistent volume you created:
 +
 ----
 [root@master1 ~]# oc get pv
+----
+* Expect the output to look like this:
++
+----
 NAME               LABELS    CAPACITY   ACCESSMODES   STATUS      CLAIM                    REASON    AGE
 pv21               <none>    5Gi        RWO           Available                                      20h
 pv22               <none>    5Gi        RWO           Available                                      20h
 pv23               <none>    5Gi        RWO           Available                                      20h
 registry-storage   <none>    15Gi       RWX           Bound       default/registry-claim             2m
-
 ----
+* Note that the status is `Bound`.
 
-. View the persistent volume claim you created, whose status is also `Bound`:
+. View the persistent volume claim you created (whose status is also `Bound`):
 +
 ----
 [root@master1 ~]# oc get pvc
+----
+* The output looks similar to this:
++
+----
 NAME             LABELS    STATUS    VOLUME             CAPACITY   ACCESSMODES   AGE
 registry-claim   <none>    Bound     registry-storage   15Gi       RWX           43s
 
@@ -1226,39 +1321,49 @@ registry-claim   <none>    Bound     registry-storage   15Gi       RWX          
 
 === Attach Persistent Volume to Registry
 
-. Assuming that your registry is already running, obtain the names of `deploymentConfigurations`:
+. Assuming that your registry is already running, obtain the names of the deployment configurations (`dc`):
 +
 ----
 [root@master1 ~]# oc get dc
+----
+* Expect output like this:
++
+----
 NAME              TRIGGERS       LATEST
 docker-registry   ConfigChange   1
 trainingrouter    ConfigChange   1
 ----
-. Run `oc volume` to modify `DeploymentConfiguration`.
 
-. Add the `registry-storage` volume to the registry's `DeploymentConfiguration`, hence redeploying the registry:
+. Run `oc volume` to modify the deployment configurations.
+
+. Add the `registry-storage` volume to the registry's deployment configuration, which redeploys the registry:
 +
 ----
 [root@master1 ~]# oc volume dc/docker-registry --add --overwrite -t persistentVolumeClaim \
 --claim-name=registry-claim --name=registry-storage
 ----
 
-. Run `oc get pods`:
+. Run `oc get pods` and look for results like this:
 +
 ----
-[root@master1 ~]# oc get pods
 NAME                      READY     STATUS    RESTARTS   AGE
 docker-registry-2-d9niy   1/1       Running   0          31s
 trainingrouter-1-xcz9o    1/1       Running   0          21h
 ----
-+
-NOTE: Along with the deletion of the first `docker-registry` container, all the images it stored were also deleted. Now that your registry contains a persistent volume, images are saved even if you delete or replace the `docker-registry` pod.
 
-. As `andrew` on the `master` host, start an application based on the `https://github.com/openshift/sti-php` repository that would require an S2I build:
+* When the first `docker-registry` container was deleted, all of the images stored in it were also deleted. 
+* Now that your registry contains a persistent volume, images are saved even if you delete or replace the `docker-registry` pod.
+
+. As `andrew` on the `master1` host, start an application based on the `https://github.com/openshift/sti-php` repository that requires an S2I build:
 +
 ----
 [root@master1 ~]# su - andrew
 [andrew@master1 ~]$ oc new-app openshift/php~https://github.com/openshift/sti-php -l "todelete=yes"
+----
++
+* Expect output similar to this:
++
+----
 --> Found image 355eabc (2 weeks old) in image stream "php in project openshift" under tag :latest for "openshift/php"
     * A source build using source code from https://github.com/openshift/sti-php will be created
       * The resulting image will be pushed to image stream "sti-php:latest"
@@ -1274,11 +1379,15 @@ NOTE: Along with the deletion of the first `docker-registry` container, all the 
     Run 'oc status' to view your app.
 ----
 
-. Check the build logs to ensure that the build is complete and has been pushed into
+. Check the build logs to ensure that the build is complete and was pushed into
  the registry:
 +
 ----
 [andrew@master1 ~]$ oc logs -f builds/sti-php-1
+----
+* Expect log entries similar to these:
++
+----
 I1126 23:24:28.604316       1 sti.go:298] Successfully built 172.30.42.118:5000/default/sti-php:latest
 I1126 23:24:28.716843       1 cleanup.go:23] Removing temporary directory /tmp/s2i-build491090638
 I1126 23:24:28.717016       1 fs.go:99] Removing directory '/tmp/s2i-build491090638'
@@ -1286,13 +1395,17 @@ I1126 23:24:28.740315       1 sti.go:213] Using provided push secret for pushing
 I1126 23:24:28.740431       1 sti.go:217] Pushing 172.30.42.118:5000/default/sti-php:latest image ...
 I1126 23:25:51.808905       1 sti.go:233] Successfully pushed 172.30.42.118:5000/default/sti-php:latest
 ----
-TIP: The `-f` flag sets `oc logs` to "follow" the log, similar to `tail -f`.
++
+TIP: The `-f` flag sets `oc logs` to follow the log, similar to `tail -f`.
 
 . On the NFS server, `oselab`, verify that the registry is using the `registry-storage` volume:
 +
 ----
-
 [root@oselab ~]# find /var/export/pvs/registry-storage | grep sti-php
+----
+* Look for output like this:
++
+----
 ... Omitted output ...
 ... Omitted output ...
 /var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_uploads
@@ -1335,8 +1448,6 @@ TIP: The `-f` flag sets `oc logs` to "follow" the log, similar to `tail -f`.
 /var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/56
 /var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/56/561fd3acac303de8a9c4de202a2e3169bb47f5c03586358d13d374832e983df5
 /var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/56/561fd3acac303de8a9c4de202a2e3169bb47f5c03586358d13d374832e983df5/data
-
 ----
-
-NOTE: You can see that previously created images are not in the registry, they
+* Previously created images are not in the registry because they
  were created before the registry was restarted and given a persistent volume.

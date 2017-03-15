@@ -5,48 +5,54 @@
 
 
 
-== Introduction to Course and Learning Environment Labs
+== Introduction to Course and Learning Environment Lab
 
 :numbered:
 
 == Provision Your Lab Environment
 
-In this lab you use the OPENTLC CloudForms appliance (at https://labs.opentlc.com) to deploy your lab environment.
+In this lab you use the OPENTLC CloudForms appliance to deploy your lab environment.
 
 === Overview
-To complete the labs for this course, you must provision the lab environment
- with all the components required to perform the labs.
 
-. Go to https://labs.opentlc.com and use your credentials to log in to the
- OPENTLC labs provisioning system, which is built on top of Red Hat CloudForms
-  to provide a self-service portal.
+To complete the labs for this course, you must first provision the lab environment with the components required to perform the labs.
+
+++++++
+<p>&nbsp;&nbsp;1. Access the <a href="https://labs.opentlc.com/"_blank">OPENTLC lab provisioning system</a>, which is built on top of Red Hat CloudForms to provide a self-service portal.</p>
+++++++
+
+[start=2]
+. Use your credentials to log in.
 +
+ 
 [TIP]
-If you forgot your username or password, go to https://www.opentlc.com/pwm to
- reset your password or obtain a username reminder.
+====
+++++++
+<p>If you forgot your username or password, <a href="https://www.opentlc.com/pwm"_blank"> reset your credentials or obtain a username reminder</a>.</p> 
+++++++
+==== 
 
 . Navigate to *Services* -> *Catalogs* -> *All Services* ->
  *OPENTLC Cloud Infrastructure Labs*.
 
-. On the left side of the screen, locate *OpenShift 3.3 Implementation Lab*, and
- then click  *Order* on the right side of the screen.
+. On the left side of the screen, locate and select *OpenShift 3.3 Implementation Lab*, and
+ then click *Order* on the right side of the screen.
 
-. Click *Submit* (in the lower right) to order your environment.
-+
-In a few minutes you receive an email describing how to connect to the
+. Click *Submit* (at the lower right) to order your environment.
+** In a few minutes you receive an email describing how to connect to the
  environment.
 +
 [WARNING]
 Do not select *App Control* -> *Start* after ordering the lab. The lab is
  already starting. Selecting *Start* may corrupt the lab environment or cause
   other complications.
+
 . Wait about 20 minutes to allow your environment to build.
 . (Optional) Select *Status* to receive an email with the status of your
  environment.
 
 [NOTE]
-The lab environment is cloud based, so you can access it over the WAN from
- anywhere. Do not, however, expect performance to match a bare-metal environment.
+The lab environment is cloud-based, so you can access it over the wide area network (WAN) from anywhere. Do not, however, expect performance to match a bare-metal environment.
 
 
 === Set Up SSH Connection
@@ -64,14 +70,13 @@ If you have not already done so, you must provide a public SSH key.
 
 . Connect to your administration host via SSH using your OPENTLC username and
  private SSH key.
-
-** Replace _GUID_ in the example below with your personal GUID, which is
+** Replace _GUID_ in the example below with your personal global unique identifier (GUID), which is
  provided at the top of the lab provisioning email.
-** Example using UNIX/Linux
+** Example using UNIX/Linux:
 +
-[subs="verbatim,macros"]
+[source,text]
 ----
-ssh -i ~/.ssh/yourprivatekey.key opentlc-username.com@oselab-pass:quotes[*_GUID_*].oslab.opentlc.com
+ssh -i ~/.ssh/yourprivatekey.key opentlc-username.com@oselab-GUID.oslab.opentlc.com
 ----
 +
 [NOTE]
@@ -82,9 +87,9 @@ ssh -i ~/.ssh/yourprivatekey.key opentlc-username.com@oselab-pass:quotes[*_GUID_
 * For more information on using SSH and keys, see https://www.opentlc.com/ssh.html.
 ====
 
-. Become the `root` user on the administration host.
+. Become the `root` user on the administration host:
 +
-[subs="verbatim,macros"]
+[source,text]
 ----
 -bash-4.2$ sudo -i
 ----

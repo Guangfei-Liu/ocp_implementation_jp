@@ -3,15 +3,17 @@
 
 == Templates Lab
 
-This lab includes the following sections:
+=== Overview
 
-* *Create and Upload Template*
-+
-In this section, you create a template for a two-tier application (front end and database), upload it into the shared namespace (the `openshift` project), and ensure that users can deploy it from the web console.
+In this lab, you create and use templates. This lab has two sections.
 
-* *Use Templates and Template Parameters*
-+
-In this section, you create two separate template instances in two separate projects and establish a front-end-to-database-back-end connection by means of template parameters.
+.Create and Upload Template
+
+In this section you create a template for a two-tier application (front end and database), upload it into the shared namespace (the `openshift` project), and ensure that users can deploy it from the web console.
+
+.Use Templates and Template Parameters
+
+In this section you create two separate template instances in two separate projects and establish a front-end-to-database-back-end connection by means of template parameters.
 
 :numbered:
 
@@ -19,40 +21,48 @@ In this section, you create two separate template instances in two separate proj
 
 === Install Template
 
-The example in this section involves a build of an application and a service with two pods: a front-end web tier and a back-end database tier. This application uses auto-generated parameters and other sleek features of OpenShift Container Platform.  Note that this application contains predefined connectivity between the front-end and back-end components as part of its JSON, embedded in the source code.  You add resources in a later lab.
+The example in this section involves building an application and a service with two pods: a front-end web tier and a back-end database tier. This application uses auto-generated parameters and other useful features of OpenShift Container Platform.  Note that as part of its JSON configuration, embedded in the source code, this application contains predefined connectivity between the front-end and back-end components. You add resources in a later lab.
 
-This example is, in effect, a "quick start" -- a predefined application that comes in a template and that you can immediately use or customize.
+This example is, in effect, a quick start--a predefined application that comes in a template and that you can immediately use or customize.
 
-. As `root` on the master host, download the template's definition file:
+. As `root` on the master host, download the template definition file:
 +
 ----
 [root@master1 ~]# wget http://www.opentlc.com/download/ose_implementation/3.1/resources/Template_Example.json
 ----
 
-. Create the template object in the shared `openshift` project. This is also referred to as _uploading_ the template.
+. Create the template object in the shared `openshift` project:
 +
 ----
 [root@master1 ~]# oc create -f Template_Example.json -n openshift
+----
++
+----
 template "a-quickstart-keyvalue-application" created
 ----
-NOTE: The `Template_Example.json` file defines a template. By "creating" it, you added it to the `openshift` project. To make the template available only for limited projects, add it to them, not to the `openshift` project.
+
+[NOTE]
+=====
+* Creating a template in a project is also referred to as _uploading_ the template.
+* The `Template_Example.json` file defines a template. By creating it, you added it to the `openshift` project. To make the template available only for specific projects, add it to those projects, not to the `openshift` project.
+=====
 
 === Create Instance of Template
 
-. On your browser, connect to the OpenShift web console at `https://master1-GUID.oslab.opentlc.com:8443`:
-.. If prompted, accept the untrusted certificate.
-.. Log in as `andrew` with the password `r3dh4t1!`.
+. Use your browser to connect to the OpenShift web console at `https://master1-GUID.oslab.opentlc.com:8443`.
+. Log in as `andrew` with the password `r3dh4t1!`.
+. Accept the untrusted certificate if you have not done so already.
 
-. Click the blue *New Project* button in the top right corner.
+. Click *New Project* in the top right corner.
 
 . Specify the project name, display name, and description:
 * *Name*: `instant-app`
 * *Display Name*: `instant app example project`
-* *Description*: `A demonstration of an instant app or template`.
+* *Description*: `A demonstration of an instant app or template`
 +
 [TIP]
 ====
-Alternatively, perform this step from the command line:
+You can also perform this step from the command line:
 
 ----
 [root@master1 ~]$ oadm new-project instant-app --display-name="instant app example project" \
@@ -61,104 +71,111 @@ Alternatively, perform this step from the command line:
 ----
 ====
 
-. From the `instant-app` project's *Overview* screen, click *Add to project*.
-+
-[NOTE]
-This familiar screen now displays something new: an instant application, a special kind of template with the `instant-app` tag. The idea behind an instant application is that, when you create a template instance, you already have a fully functional application. In this example, your instant application is just a simple web page for key-value storage and retrieval.
+. On the `instant-app` project's *Overview* screen, click *Add to project*.
+
+* This familiar screen now displays something new: an _instant application_, which is a special kind of template with the `instant-app` tag. 
+* The idea behind an instant application is that, when you create a template instance, you already have a fully functional application. 
+* In this example, your instant application is just a simple web page for key-value storage and retrieval.
 
 . Click *a-quickstart-keyvalue-application*.
-+
-The template configuration screen is displayed. Here, you can specify certain options for instantiating the application components:
-+
+* The template configuration screen is displayed.
+
+. Specify options for instantiating the application components:
 .. Set the `ADMIN_PASSWORD` parameter to your favorite password.
 .. Add a label named `version` with the value `1`.
 
-. Click *Create* to instantiate the services, pods, replication controllers, etc.
-
+. Click *Create* to instantiate the services, pods, and replication controllers.
 * The build starts immediately.
-. Wait for the build to finish. You can browse the build logs to follow the progress.
+
+. Wait for the build to finish. You can browse the build logs to follow its progress.
 
 === Use Application
 
-After the build is complete, visit your application at `http://example-route-instant-app.cloudapps-GUID.oslab.opentlc.com/`.
-
+* After the build is complete, visit your application at `http://example-route-instant-app.cloudapps-GUID.oslab.opentlc.com/`.
++
 [NOTE]
 Be sure to use HTTP and _not_ HTTPS. HTTPS does not work for this example because the form submission was coded with HTTP links.
 
 == Use Templates and Template Parameters
 
-Quick starts are slick. But there are times when developers want to build the components manually. Here, you treat the quick-start example as two separate applications to be wired together.
+Quick starts are useful, but there are times when developers want to build components manually. In this exercise, you treat the quick-start example as two separate applications to be wired together.
 
 === Deploy Ephemeral Database Back End
 
+. Use your browser to connect to the OpenShift web console at `https://master1-GUID.oslab.opentlc.com:8443`.
+. Log in as `marina` with the password `r3dh4t1!`.
+. If prompted, accept the untrusted certificate.
 . Create a project for the database back end:
 
-.. Use your browser to connect to the OpenShift web console at `https://master1-GUID.oslab.opentlc.com:8443`.
-.. If prompted, accept the untrusted certificate.
-.. Log in as `marina` with the password `r3dh4t1!`.
-
-.. Click the blue *New Project* button in the top right corner.
+.. Click *New Project* button in the top right corner.
 
 .. Specify the project name, display name, and description:
 * *Name*: `templates`
 * *Display Name*: `Templates Testing Project`
 * *Description*: `Project for testing templates`
-[TIP]
-Alternatively, perform this step from the command line:
 +
+[TIP]
+=====
+You can also perform this step from the command line:
 ----
 [root@master1 ~]$ oadm new-project templates --display-name="Templates Testing Project" \
     --description='Project used to test templates' \
     --admin=marina
 ----
+=====
 
 . Deploy an ephemeral MySQL database:
-
 .. From the `templates` project's *Overview* screen, click *Add to project*.
-.. Scroll down to *Databases* or type `mysql` in the search field.
+.. Scroll down to *Databases*, or type `mysql` in the search field.
 .. Select the `mysql-ephemeral` database template.
 
 .. Set the template parameters:
-* *`DATABASE_SERVICE_NAME`*: `database`
-* *`MYSQL_USER`*: `mysqluser`
-* *`MYSQL_PASSWORD`*: `redhat`
-* *`MYSQL_DATABASE`*: `mydb`
+* *DATABASE_SERVICE_NAME*: `database`
+* *MYSQL_USER*: `mysqluser`
+* *MYSQL_PASSWORD*: `redhat`
+* *MYSQL_DATABASE*: `mydb`
 +
-CAUTION: Make sure you set these values correctly, otherwise the application
- would not connect to the database backend.
+CAUTION: Make sure you set these values correctly; otherwise the application
+ does not connect to the database back end.
 
-.. Click *Create* and then click *Continue to overview*.
+.. Click *Create*, and then click *Continue to overview*.
 +
 [TIP]
-Alternatively, create the template instance from the command line:
-+
+=====
+You can also create the template instance from the command line:
+
 ----
 [marina@master1 ~]$ oc new-app --template=mysql-ephemeral --param=MYSQL_USER=mysqluser,MYSQL_PASSWORD=redhat,MYSQL_DATABASE=mydb,DATABASE_SERVICE_NAME=database
 ----
+=====
 
-.. As `marina`, switch to the "templates" project and examine the objects that
- were created as part of the `mysql-ephemeral` template.
+.. As `marina`, switch to the `templates` project and examine the objects that
+ were created as part of the `mysql-ephemeral` template:
 +
 ----
 [marina@master1 ~]$ oc get projects
 NAME                DISPLAY NAME                STATUS
 custom-s2i-script   Custom S2I Build Script     Active
 templates           Templates Testing Project   Active
-
+----
++
+----
 [marina@master1 ~]$ oc project templates
 Now using project "templates" on server "https://master1-3191.oslab.opentlc.com:8443".
-
+----
++
+----
 [marina@master1 ~]$ oc get dc
 NAME       TRIGGERS                    LATEST
 database   ConfigChange, ImageChange   1
-
+----
++
+----
 [marina@master1 ~]$ oc get service
 NAME       CLUSTER_IP       EXTERNAL_IP   PORT(S)    SELECTOR        AGE
 database   172.30.102.220   <none>        3306/TCP   name=database   1m
 ----
-+
-[NOTE]
-A deployment configuration is available for your instance. The service name is the same as that of your `DATABASE_SERVICE_NAME` parameter.
+* A deployment configuration is available for your instance. The service name is the same as that of your `DATABASE_SERVICE_NAME` parameter.
 
 .. Verify that the values of the environment variables in the deployment configuration (`dc`) are correct:
 +
@@ -187,20 +204,22 @@ mysql              172.30.68.48    <none>        3306/TCP   name=mysql          
 ruby-hello-world   172.30.78.240   <none>        8080/TCP   app=ruby-hello-world,deploymentconfig=ruby-hello-world   8s
 ----
 
-. Create an external route to your front-end application.
-
-* If you do not specify a host name, the default subdomain route creates the route.
+. Create an external route to your front-end application:
 +
 ----
 [marina@master1 ~]$ oc expose service ruby-hello-world
 route "ruby-hello-world" exposed
-
+----
++
+----
 [marina@master1 ~]$ oc get route
 NAME               HOST/PORT                                                     PATH      SERVICE            LABELS
 ruby-hello-world   ruby-hello-world-templates.cloudapps-GUID.oslab.opentlc.com             ruby-hello-world   app=ruby-hello-world
 ----
 
-. Wait for the build to complete. Then test your environment:
+* If you do not specify a host name, the default subdomain route creates the route.
+
+. Wait for the build to complete, then test your environment:
 +
 ----
 [marina@master1 ~]$ oc logs -f builds/ruby-hello-world-1
@@ -212,7 +231,7 @@ I1127 09:15:14.173963       1 sti.go:217] Pushing 172.30.42.118:5000/templates/r
 I1127 09:23:36.705738       1 sti.go:233] Successfully pushed 172.30.42.118:5000/templates/ruby-hello-world:latest
 ----
 
-. Wait for the pods to start and verify that your application is running and connecting to the database:
+. Wait for the pods to start, then verify that your application is running and connecting to the database:
 +
 ----
 http://ruby-hello-world-templates.cloudapps-GUID.oslab.opentlc.com

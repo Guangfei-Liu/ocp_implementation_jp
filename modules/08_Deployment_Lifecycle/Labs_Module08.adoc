@@ -3,41 +3,40 @@
 
 == Deployment Life Cycle Lab
 
-This lab includes the following sections:
+=== Overview
 
-* *Roll Back, Activate, and Code Life Cycle*
-+
-In this section, you manage the various phases of the deployment's life cycle.
+In this lab you explore the different aspects of the application life cycle.
 
-* *Create and Use Web Hooks*
-+
-In this section, you create a Git webhook and start a new build and a new
- deployment automatically by pushing a code change in your Git repository.
+This lab includes two sections:
+
+.Roll Back, Activate, and Code Life Cycle
+
+In this section you manage the various phases of the deployment's life cycle.
+
+.Create and Use Web Hooks
+
+In this section you create a Git webhook and automatically start a new build and a new deployment by pushing a code change into your Git repository.
 
 :numbered:
 
 == Roll Back, Activate, and Code Life Cycle
 
-No one codes correctly all the time. On occasion, you may want to revert to a
- previous incarnation of your application to restart a programming task. Other
-  times, you may want to move to a newer version.
+No one codes correctly all the time. On occasion you may want to revert to a previous incarnation of your application to restart a programming task. Other times you may want to move to a newer version.
 
-In this section, you take user `marina`'s `hello-ruby` application, modify its
- front end, and then rebuild. Afterwards, you revert to the original version and
-  then go on to your rebuilt version.
+In this section, you modify the front end of the `hello-ruby` application and then rebuild. Afterward, you revert to the original version and then go on to your rebuilt version.
 
 The next sections require a GitHub account.
 
 === Fork Repository
 
-If you have not done so already: from the Git web interface, click *Fork* in the
+* If you have not done so already, go to the Git web interface and click *Fork* in the
  upper right corner of the GitHub web UI to fork the Git repository
   `https://github.com/openshift/ruby-hello-world` into your own account.
 
 === Create Your Application
 
 [NOTE]
-Remember that `buildconfig` (the build-configuration file) instructs OpenShift Container Platform on how to perform a build.
+Remember that `buildconfig` (the build-configuration file) instructs OpenShift Container Platform how to perform a build.
 
 . As `root`, create a project for user `marina`:
 +
@@ -59,9 +58,9 @@ Remember that `buildconfig` (the build-configuration file) instructs OpenShift C
 ----
 [marina@master1~]$ oc new-app https://github.com/openshift/ruby-hello-world --strategy=source
 ----
-+
-[NOTE]
-The `--strategy=source` option forces `oc new-app` to adopt the S2I strategy. A simpler alternative is the `new-app` command using your own repository, but you are intentionally picking the "wrong" repository as part of this learning exercise.
+
+* The `--strategy=source` option forces `oc new-app` to adopt the S2I strategy. 
+* A simpler alternative is the `new-app` command, using your own repository, but you are intentionally picking an incorrect repository as part of this learning exercise.
 
 . Run `oc env` to add the environment variables for a database to be used later:
 +
@@ -70,7 +69,7 @@ The `--strategy=source` option forces `oc new-app` to adopt the S2I strategy. A 
   MYSQL_PASSWORD=redhat MYSQL_DATABASE=mydb
 ----
 
-. Waiting for the build to finish. Meanwhile, expose your service to the world so that you can test it from your local browser:
+. While waiting for the build to finish, expose your service to the world so that you can test it from your local browser:
 +
 ----
 [marina@master1~]$ oc expose service ruby-hello-world \
@@ -78,12 +77,10 @@ The `--strategy=source` option forces `oc new-app` to adopt the S2I strategy. A 
   --hostname=ruby-hello-world.lifecycle.cloudapps-${guid}.oslab.opentlc.com
 ----
 
-. View the current `buildconfig` for your application:
+. View the current `buildconfig` file for your application:
 +
 ----
-
 [marina@master1~]$ oc get buildconfig ruby-hello-world -o yaml
-
 ----
 
 . Verify that the output is similar to the following:
@@ -137,28 +134,25 @@ status:
 ----
 
 . Observe that the current configuration points at the `openshift/ruby-hello-world` repository.
-
-* Because you forked this repository earlier, you can now repoint your configuration.
+* Because you forked this repository earlier, you can now _repoint_ your configuration.
 
 === Repoint Your Configuration
 
-. Run `oc edit` to repoint the configuration.
+. Run `oc edit` to repoint the configuration:
 +
 ----
-
 [marina@master1~]$  oc edit bc ruby-hello-world
-
 ----
 
-.. Change the `uri` reference to match the name of your GitHub repository, which is based in part on your GitHub username: `https://github.com/GitHubUsername/ruby-hello-world`.
+.. Change the `uri` reference to match the name of your GitHub repository, which is based in part on your GitHub username: `https://github.com/<GitHubUsername>/ruby-hello-world`.
 +
 [IMPORTANT]
-Replace `GitHubUsername` with your actual GitHub username. For example, if your GitHub username is `jeandeaux`, the name of your GitHub repository is `'https://github.com/jeandeaux/ruby-hello-world`.
+Replace `<GitHubUsername>` with your GitHub username. For example, if your GitHub username is `jeandeaux`, the name of your GitHub repository is `https://github.com/jeandeaux/ruby-hello-world`.
 
-.. Save and exit `vi` by typing *:wq*.
-+
-NOTE: There are other ways to achieve this outcome, this way is used to cover
- the `oc edit` and the `oc start-build` commands.
+.. Enter `:wq` to save and exit vi.
+
+* There are other ways to achieve this outcome. 
+* This way is used to cover the `oc edit` and the `oc start-build` commands. 
 
 
 . Run `oc get buildconfig ruby-hello-world -o yaml` again. Notice that `uri` has been updated.
@@ -168,22 +162,31 @@ NOTE: There are other ways to achieve this outcome, this way is used to cover
 ----
 [marina@master1~]$ oc get builds
 ----
-+
-If the build has not started yet, you can start it yourself and then follow `build-log`:
+
+. If the build has not started:
+.. Start it yourself:
 +
 ----
 [marina@master1~]$ oc get bc
 NAME               TYPE      SOURCE
 ruby-hello-world   Docker    https://github.com/YOURUSERNAME/ruby-hello-world
-
+----
++
+----
 [marina@master1~]$ oc start-build ruby-hello-world
 ruby-hello-world-2
+----
+.. Follow the build log:
++
+----
 
 [marina@master1~]$ oc get builds -w
 NAME                 TYPE      FROM	 STATUS     STARTED              DURATION
 ruby-hello-world-1   Source    Git	 Complete   16 minutes ago	 4m25s
 ruby-hello-world-2   Source    Git	 Complete   About a minute ago   1m46s
-
+----
++
+----
 [marina@master1~]$ oc logs -f bc/ruby-hello-world
 I0709 23:41:08.493756       1 docker.go:69] Starting Docker build from justanother1/ruby-hello-world-7 BuildConfig ...
 I0709 23:41:08.508448       1 tar.go:133] Adding to tar: /tmp/docker-build062004796/.gitignore as .gitignore
@@ -196,12 +199,15 @@ Cropped Output
 .......
 ----
 
-. Search for the available `mysql` applications (templates):
+. Search for the available MySQL applications (templates):
 +
 ----
 [marina@master1-82bc ~]$ oc new-app --search mysql
 Templates (oc new-app --template=<template>)
------
+----
+* Expect the output to look like this:
++
+----
 mysql-persistent
   Project: openshift
   MySQL database service, with persistent storage. Scaling to more than one replica is not supported
@@ -232,15 +238,21 @@ jws30-tomcat8-mysql-persistent-s2i
 eap64-mysql-persistent-s2i
   Project: openshift
   Application template for EAP 6 MySQL applications with persistent storage built using S2I.
-
+----
++
+----
 Image streams (oc new-app --image-stream=<image-stream> [--code=<source>])
------
+----
++
+----
 mysql
   Project: openshift
   Tags:    5.5, 5.6, latest
 
 Docker images (oc new-app --docker-image=<docker-image> [--code=<source>])
------
+----
++
+----
 mysql
   Registry: Docker Hub
   Tags:     latest
@@ -257,9 +269,6 @@ mysql
 +
 ----
 [marina@master1~]$ oc env dc/database --list
-----
-+
-----
 # deploymentconfigs database, container mysql
 MYSQL_USER=mysqluser
 MYSQL_PASSWORD=redhat
@@ -267,13 +276,13 @@ MYSQL_DATABASE=mydb
 ----
 
 . You must redeploy your front end so that it checks for the database again. You
- can either delete just the pod, or you can redeploy the application:
+ can delete just the pod, or you can redeploy the application:
 +
 ----
 [marina@master1 ~]$ oc deploy ruby-hello-world --latest
 ----
 
-. You can see the logs for your latest deployment if you use the `oc logs` command this way:
+. Use this `oc logs` command to see the logs for your latest deployment:
 +
 ----
 [marina@master1~]$  oc logs -f dc/ruby-hello-world
@@ -284,23 +293,18 @@ I1222 01:54:47.020399       1 rolling.go:232] RollingUpdater: Scaling ruby-hello
 I1222 01:54:51.372703       1 rolling.go:232] RollingUpdater: Scaling ruby-hello-world-3 down to 0
 ----
 
-== Create and Use Web Hooks
+== Create and Use Webhooks
 
-With webhooks, you can integrate external systems into your OpenShift Container Platform
- environment so that they can start OpenShift Container Platform builds. Generally
-  speaking, you make code changes and update the code repository, after which a
-   process hits OpenShift Container Platform's webhook URL to start a build with the new
-    code.
+With webhooks, you can integrate external systems into your OpenShift environment so that they can start OpenShift builds. Generally speaking, you make code changes and update the code repository, after which a process hits OpenShift's webhook URL to start a build with the new code.
 
-=== Create a Webhook
+=== Create Webhook
 
 Your GitHub account can configure a webhook whenever you push a commit to a specific branch.
 
 . Find the webhook URL:
-.. Go to the web console.
-.. Navigate to your project.
+.. In the web console, navigate to your project.
 .. Click *Browse* and then click *Builds*.
-.. Select the ruby-hello-world app and clic on *Configuration*.
+.. Select the `ruby-hello-world` app and click *Configuration*.
 
 * Two webhook URLs are displayed.
 
@@ -315,10 +319,7 @@ https://master1-GUID.oslab.opentlc.com:8443/oapi/v1/namespaces/lifecycle/buildco
 ----
 [marina@master1~]$ oc get bc ruby-hello-world -o yaml
 ----
-
 * The output looks similar to the following.
-
-* Note the `secret` value in your configuration in Git.
 +
 ----
 ... Cropped Output ...
@@ -331,27 +332,28 @@ https://master1-GUID.oslab.opentlc.com:8443/oapi/v1/namespaces/lifecycle/buildco
     type: Generic
 ... Cropped Output ...
 ----
+* Note the `secret` value in your configuration in Git.
 
-. In the GitHub repository, which you forked earlier, go to *Settings -> Webhooks and Services*.
+. In the GitHub repository, which you forked earlier, go to *Settings* -> *Webhooks and Services*.
 
-. Paste the URL that you copied from the OpenShift Container Platform UI into the *Payload URL* field.
+. Paste the URL that you copied from the web console into the *Payload URL* field.
 
-. Fill in the `secret` field and disable SSL verification.
+. Complete the `secret` field and disable SSL verification.
 
 . Click *Add Webhook*.
 
-=== Test Your Webhook
+=== Test Webhook
 
-To test your webhook, revise the code, commit, and then push the change into the Git repository. Do the following:
+To test your webhook, you are going to revise the code, commit, and push the change into the Git repository.
 
-[NOTE]
-Alternatively, you can test the webhook the usual way by cloning your repository locally, making the required changes, and pushing them to the repository.
+[TIP]
+You can also test the webhook the usual way by cloning your repository locally, making the required changes, and pushing them to the repository.
 
 . Go to your forked repository (`https://github.com/GitHubUsername/ruby-hello-world`) and find the `main.erb` file in the `views` folder.
 
 * You can edit files in the GitHub web UI.
 
-. Change this HTML code--
+. Locate this HTML code:
 +
 ----
     <div class="page-header" align=center>
@@ -359,7 +361,7 @@ Alternatively, you can test the webhook the usual way by cloning your repository
     </div>
 ----
 +
---to read as follows (including the deliberately misspelled `crustom`):
+. Change it to read as follows (including the deliberately misspelled `crustom`):
 +
 ----
     <div class="page-header" align=center>
@@ -372,36 +374,37 @@ Alternatively, you can test the webhook the usual way by cloning your repository
 . Check if a build has started.
 +
 [CAUTION]
-If another build is already running, this latest build may fail because both builds are pushing to the registry. Either run `oc delete build` to stop the earlier build or `oc start-build` to restart the failed build.
+If another build is already running, this latest build may fail because both builds are pushing to the registry. Either run `oc delete build` to stop the other build or `oc start-build` to restart the failed build.
 
 . Log in as `marina` and check the web UI to verify that the build is running.
 
-. Wait for the build to complete. It can take a minute for your service endpoint to update.
+. Wait for the build to complete. It can take a minute or two for the service endpoint to update.
 . Use your browser to go to the application at `http://ruby-hello-world.lifecycle.cloudapps-GUID.oslab.opentlc.com/`.
 
 * The output includes the deliberately misspelled `crustom`.
 * If you try to access the application before the update is complete, you may see a `503` error.
 
 
-=== Roll Back Your Application
+=== Roll Back Application
 
 Because you failed to properly test your application and your typo made it into production, you must revert to the previous version of your application.
 
+
 . Log in to the web console as `marina`.
 
-. Locate the *Deployments* section of the *Browse* menu.
+. Select *Browse* -> *Deployments*.
 
 * Two deployments are at your front end: `1` and `2`.
 +
 [TIP]
 ====
-Alternatively, view this information from the CLI:
+You can also view this information from the CLI:
 
 ----
 [marina@master1~]$ oc get replicationcontroller
 ----
 
-The semantics of this syntax state that `DeploymentConfig` ensures that `ReplicationController` is created to manage the deployment of the built `Image` from `ImageStream`.
+The semantics of this syntax state that `DeploymentConfig` ensures that `replicationcontroller` is created to manage the deployment of the built `Image` from `ImageStream`.  [[Question out to writer about this. Seems like a lot to infer based on what's here.]]
 ====
 
 . From the CLI, roll back the deployment:
@@ -410,14 +413,16 @@ The semantics of this syntax state that `DeploymentConfig` ensures that `Replica
 +
 ----
 [marina@master1~] oc get builds
-
 ----
+
 .. Choose a deployment and see what a rollback to `ruby-hello-world-X` would
- look like:
+ look like (where X is your desired deployment):
 +
 ----
-
-[marina@master1~]$ oc rollback ruby-hello-world-X --dry-run # X is your desired deployment
+[marina@master1~]$ oc rollback ruby-hello-world-X --dry-run
+----
++
+----
 Name:           ruby-hello-world
 Created:        39 minutes ago
 Labels:         <none>
@@ -431,20 +436,19 @@ Template:
                                 NAME                    IMAGE                                                     ENV
                                 ruby-hello-world        172.30.119.73:5000/lifecycle/ruby-hello-world@sha256:fcc9ce95e503429926dbe9e0cde304e0a0de19483e1cb79acada7334d7eb2504      MYSQL_DATABASE=mydb,MYSQL_PASSWORD=redhat,MYSQL_USER=root
 Latest Deployment:      <none>
-
 ----
-
-* From the above output, you can see that you can go ahead with the rollback.
+* From this output, you can see that you can go ahead with the rollback.
 
 .. Roll back the deployment:
 +
 ----
-
 [marina@master1~]$ oc rollback ruby-hello-world-X # X is your desired deployment
+----
++
+----
 #oc get9 rolled back to ruby-hello-world-X
 Warning: the following images triggers were disabled: ruby-hello-world
   You can re-enable them with: oc deploy ruby-hello-world --enable-triggers
-
 ----
 
 . Click the *Browse* tab of your project and note that you have a new pod in the *Pods* section.
@@ -455,10 +459,13 @@ Warning: the following images triggers were disabled: ruby-hello-world
 
 === Roll Your Application Forward
 
-To roll forward (activate) the typo-enabled application:
-
+* To roll forward (activate) the typo-enabled application:
++
 ----
 [marina@master1~]$ oc rollback ruby-hello-world-X # X is your desired deployment
+----
++
+----
 #11 rolled back to ruby-hello-world-X
 Warning: the following images triggers were disabled: ruby-hello-world
   You can re-enable them with: oc deploy ruby-hello-world --enable-triggers

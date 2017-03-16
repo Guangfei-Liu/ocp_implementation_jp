@@ -17,19 +17,14 @@ In this lab you use the OPENTLC CloudForms appliance to deploy your lab environm
 
 To complete the labs for this course, you must first provision the lab environment with the components required to perform the labs.
 
-++++++
-<p>&nbsp;&nbsp;1. Access the <a href="https://labs.opentlc.com/"_blank">OPENTLC lab provisioning system</a>, which is built on top of Red Hat CloudForms to provide a self-service portal.</p>
-++++++
+. Access the link:https://labs.opentlc.com/[OPENTLC lab provisioning system], which is built on top of Red Hat CloudForms to provide a self-service portal.
 
-[start=2]
 . Use your credentials to log in.
 +
  
 [TIP]
 ====
-++++++
-<p>If you forgot your username or password, <a href="https://www.opentlc.com/pwm"_blank"> reset your credentials or obtain a username reminder</a>.</p> 
-++++++
+If you forgot your username or password, link:https://www.opentlc.com/pwm[reset your credentials or obtain a username reminder].
 ==== 
 
 . Navigate to *Services* -> *Catalogs* -> *All Services* ->

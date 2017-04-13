@@ -17,7 +17,7 @@ In this lab you use the OPENTLC CloudForms appliance to deploy your lab environm
 
 To complete the labs for this course, you must first provision the lab environment with the components required to perform the labs.
 
-. Access the link:https://labs.opentlc.com/[OPENTLC lab provisioning system], which is built on top of Red Hat CloudForms to provide a self-service portal.
+. Access the link:https://labs.opentlc.com/[OPENTLC lab portal], which is built on top of Red Hat CloudForms to provide a self-service portal.
 
 . Use your credentials to log in.
 +

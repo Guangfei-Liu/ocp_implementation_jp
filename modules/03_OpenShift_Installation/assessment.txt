@@ -7,10 +7,10 @@ OSEIMPLEMENTATION|OSEIMPLEMENTATION302|1|What kind of DNS record is required to 
 OSEIMPLEMENTATION|OSEIMPLEMENTATION302|1|What kind of DNS record is required to point to OpenShift from a corporate DNS server?|||A CNAME record: cloudapps.example.com|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION302|1|What kind of DNS record is required to point to OpenShift from a corporate DNS server?|||An NS record: cloudapps.example.com|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION302|1|What kind of DNS record is required to point to OpenShift from a corporate DNS server?|||An A record: mymaster1.cloudapps.example.com|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION303|1|When setting up DNS, where should an admin direct traffic to applications that are hosted on OpenShift? |||The OpenShift Master Server|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION303|1|When setting up DNS, where should an admin direct traffic to applications that are hosted on OpenShift? |||Any Node in the environment|||0|0|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION303|1|When setting up DNS, where should an admin direct traffic to applications that are hosted on OpenShift? |||Wherever the default router (Haproxy) is located|||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION303|1|When setting up DNS, where should an admin direct traffic to applications that are hosted on OpenShift? |||All of the above|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION303|1|When setting up DNS, where should an admin direct traffic to applications that are hosted on OpenShift?|||The OpenShift Master Server|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION303|1|When setting up DNS, where should an admin direct traffic to applications that are hosted on OpenShift?|||Any Node in the environment|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION303|1|When setting up DNS, where should an admin direct traffic to applications that are hosted on OpenShift?|||Wherever the default router (Haproxy) is located|||1|100|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION303|1|When setting up DNS, where should an admin direct traffic to applications that are hosted on OpenShift?|||All of the above|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION304|5|To use the OpenShift Installer, an admin must configure password-less communication between the installing host and the target master and node hosts.|||TRUE|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION304|5|To use the OpenShift Installer, an admin must configure password-less communication between the installing host and the target master and node hosts.|||FALSE|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION305|1|What is the :8443 port on the master used for?|||Access to the API|||0|0|||

@@ -19,7 +19,7 @@ In this section, you create an application from a forked Git repository, inject 
 
 == Deploy Application on Web Console
 
-In this exercise you connect to and become familiar with the web console, create a project and an application, scale a deployment, and use the topology view.
+In this exercise you connect to and become familiar with the web console, create a project and an application and scale a deployment.
 
 === Connect To and Explore Web Console
 
@@ -85,7 +85,9 @@ In this exercise you connect to and become familiar with the web console, create
 
 === Scale Deployment and Topology View
 
-. Click *Overview* to go go back to your application's *Overview* screen.
+NOTE: Topology view has been migrated to the Cockpit console that is available on the master on port :9090 You can ignore the instrcutions about the topology view in this lab.
+
+. Click *Overview* to go back to your application's *Overview* screen.
 
 . Observe the circle that shows the current number of pods, which is 1.
 +

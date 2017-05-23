@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -x
+set -eo pipefail
+set -u
 guid=`hostname|cut -f2 -d-|cut -f1 -d.`
 yum -y install bind bind-utils
 systemctl enable named
@@ -53,6 +56,11 @@ options {
   recursion yes;
   /* Path to ISC DLV key */
   bindkeys-file \"/etc/named.iscdlv.key\";
+
+  forwarders {
+    192.168.0.1;
+  };
+  allow-recursion { 192.168.0.0/16; };
 };
 logging {
   channel default_debug {
@@ -73,20 +81,15 @@ systemctl start named
 
 dig @127.0.0.1 test.cloudapps-$guid.oslab.opentlc.com
 
-if [ $? = 0 ]
-then
-  echo "DNS Setup was successful!"
-else
-  echo "DNS Setup failed"
-fi
-
 echo Fully Finished the $0 script  | tee -a /root/.dns.installer.txt
 
-yum install ipatables-service -y
-systemctl stop firewalld
+systemctl stop firewalld || true
+systemctl disable firewalld || true
 
-systemctl disable firewalld
+yum install iptables-services -y
+systemctl start iptables
+systemctl enable iptables
 
 iptables -I INPUT -p tcp --dport 53 -j ACCEPT
 iptables -I INPUT -p udp --dport 53 -j ACCEPT
-iptables-save
+iptables-save > /etc/sysconfig/iptables

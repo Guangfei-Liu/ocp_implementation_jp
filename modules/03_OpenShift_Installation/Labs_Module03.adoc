@@ -32,7 +32,7 @@ The default `root` password is `r3dh4t1!`.
 
 IMPORTANT: Read these notes. They help you successfully navigate the lab.
 
-* You run many commands in this lab remotely from the `oselab` or `master1` host. The instructions and command-line prompts always specify the host from which to run the commands.
+* You run many commands in this lab remotely from the `bastion` or `master1` host. The instructions and command-line prompts always specify the host from which to run the commands.
 
 * Many steps require you to run a command on a host (usually `master1`) and then run the same command with a `for` loop on the rest of the nodes. When that occurs, examine the output of those commands to ensure that they completed correctly.
 
@@ -64,7 +64,7 @@ In this section you deploy OpenShift Container Platform on a master and two node
 
 * Configure the Secure Shell (SSH) keys.
 * Configure the repositories.
-* Configure the DNS on the `oselab` server for your OpenShift Container Platform environment.
+* Configure the DNS on the `bastion` server for your OpenShift Container Platform environment.
 * Configure the network settings.
 * Install Docker on all hosts.
 
@@ -81,7 +81,7 @@ Each lab is assigned a global unique identifier (GUID) with four characters, whi
 |===
 | Virtual Machine | Description
 
-| `oselab.example.com`| Administration host; acts as the DNS server and NFS server and host from which you install the environment.
+| `bastion.example.com`| Administration host; acts as the DNS server and NFS server and host from which you install the environment.
 
 | `master1.example.com`| Master host; contains `etcd` and the management console.
 
@@ -92,14 +92,14 @@ Each lab is assigned a global unique identifier (GUID) with four characters, whi
 | `node2.example.com`| Node host (region: primary, zone: west).
 |===
 
-* In the lab exercises in this section, use the `oselab` host as your DNS and NFS server. Run remote commands on the OpenShift environment on the provisioning and staging host.
+* In the lab exercises in this section, use the `bastion` host as your DNS and NFS server. Run remote commands on the OpenShift environment on the provisioning and staging host.
 
-* `oselab` is *not* an OpenShift cluster member or part of the OpenShift environment. That host mimics your client's infrastructure or your laptop or desktop that is connected to the client's local area network (LAN).
+* `bastion` is *not* an OpenShift cluster member or part of the OpenShift environment. That host mimics your client's infrastructure or your laptop or desktop that is connected to the client's local area network (LAN).
 
 
 .Important Details
 
-* Run most, *but not all*, of your commands from the `oselab` host.
+* Run most, *but not all*, of your commands from the `bastion` host.
 * When executing instructions on nodes or hosts:
 - As a rule, run the commands on a specific server and examine the output.
 - Execute the commands on the rest of the nodes or hosts with a `for` loop
@@ -110,7 +110,7 @@ Each lab is assigned a global unique identifier (GUID) with four characters, whi
 - Administration host example:
 +
 ----
-[root@oselab ~]# command
+[root@bastion ~]# command
 ----
 - Master host example:
 +
@@ -129,16 +129,16 @@ If you use tmux, type *Ctrl+B* to enter "scroll mode," page up or down to scroll
 
 === Connect to Environment
 
-. Connect to your administration host `oselab-GUID.oslab.opentlc.com`. Note that your private key location may vary.
+. Connect to your administration host `bastion-GUID.oslab.opentlc.com`. Note that your private key location may vary.
 +
 ----
-yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@oselab-GUID.oslab.opentlc.com
+yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@bastion-GUID.oslab.opentlc.com
 ----
 
 * Example of a successful connection:
 +
 ----
-[sborenst@desktop01 ~]$ ssh -i ~/.ssh/id_rsa shacharb-redhat.com@oselab.example.com
+[sborenst@desktop01 ~]$ ssh -i ~/.ssh/id_rsa shacharb-redhat.com@bastion.example.com
 #############################################################################
 #############################################################################
 #############################################################################
@@ -159,47 +159,47 @@ Environment Deployment Is Completed : Wed Nov 25 20:03:55 EST 2015
 
 === Configure SSH Keys
 
-The OpenShift Container Platform installer configures hosts with SSH. In this section you create and install an SSH key pair on the `oselab` host and add the public key to the `authorized_hosts` file on the OpenShift hosts.
+The OpenShift Container Platform installer configures hosts with SSH. In this section you create and install an SSH key pair on the `bastion` host and add the public key to the `authorized_hosts` file on the OpenShift hosts.
 
 . Create an SSH key pair for the `root` user and overwrite the existing key:
 +
 ----
-[root@oselab ~]# ssh-keygen -f /root/.ssh/id_rsa -N ''
+[root@bastion ~]# ssh-keygen -f /root/.ssh/id_rsa -N ''
 ----
 +
 NOTE: In a different environment, you can adopt a nonroot user with `sudo`
  capabilities. For example, in Amazon Web Services (AWS), you adopt the `ec2-user` user.
 
-. On the `oselab` host, add the public SSH key locally to `/root/.ssh/authorized_keys`:
+. On the `bastion` host, add the public SSH key locally to `/root/.ssh/authorized_keys`:
 +
 ----
-[root@oselab ~]# cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys
+[root@bastion ~]# cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys
 ----
 
 . Configure `/etc/ssh/ssh_config` to disable `StrictHostKeyChecking` on the
- `oselab` and master hosts:
+ `bastion` and master hosts:
 +
 ----
-[root@oselab ~]# echo StrictHostKeyChecking no >> /etc/ssh/ssh_config
-[root@oselab ~]# ssh master1.example.com "echo StrictHostKeyChecking no >> /etc/ssh/ssh_config"
+[root@bastion ~]# echo StrictHostKeyChecking no >> /etc/ssh/ssh_config
+[root@bastion ~]# ssh master1.example.com "echo StrictHostKeyChecking no >> /etc/ssh/ssh_config"
 ----
 * This configuration avoids your having to disable strict host-checking and to reply yes when running remote commands on unknown hosts. 
-* You will run many commands from both the `oselab` and `master1` hosts.
+* You will run many commands from both the `bastion` and `master1` hosts.
 
 
-. On the `oselab` host, test the new SSH key by connecting it to itself over
+. On the `bastion` host, test the new SSH key by connecting it to itself over
  the loopback interface without a keyboard prompt:
 +
 ----
-[root@oselab ~]# ssh 127.0.0.1
+[root@bastion ~]# ssh 127.0.0.1
 ...[output omitted]...
-[root@oselab ~]# exit
+[root@bastion ~]# exit
 ----
 
 . Copy the SSH key to the rest of the nodes in the environment. When prompted, specify the root password for each of the nodes.
 +
 ----
-[root@oselab ~]# for node in   master1.example.com \
+[root@bastion ~]# for node in   master1.example.com \
                                     infranode1.example.com \
                                     node1.example.com \
                                     node2.example.com; \
@@ -225,11 +225,11 @@ OpenShift Container Platform requires four software repositories:
 
 Normally, you obtain these repositories through `subscription-manager`. For the sake of expediency, a mirror is available for you. Configure it as follows:
 
-. On the `oselab` host, set up the `yum` repository configuration file
+. On the `bastion` host, set up the `yum` repository configuration file
  `/etc/yum.repos.d/open.repo` with the following repositories:
 +
 ----
-[root@oselab ~]# cat << EOF > /etc/yum.repos.d/open.repo
+[root@bastion ~]# cat << EOF > /etc/yum.repos.d/open.repo
 [rhel-x86_64-server-7]
 name=Red Hat Enterprise Linux 7
 baseurl=http://www.opentlc.com/repos/ose/3.3/rhel-7-server-rpms
@@ -258,10 +258,10 @@ gpgcheck=0
 EOF
 ----
 
-. Add the OpenShift Container Platform repository mirror to the `oselab` host:
+. Add the OpenShift Container Platform repository mirror to the `bastion` host:
 +
 ----
-[root@oselab ~]# cat << EOF >> /etc/yum.repos.d/open.repo
+[root@bastion ~]# cat << EOF >> /etc/yum.repos.d/open.repo
 [rhel-7-server-ose-3.3-rpms]
 name=Red Hat Enterprise Linux 7 OSE 3.3
 baseurl=http://www.opentlc.com/repos/ose/3.3/rhel-7-server-ose-3.3-rpms
@@ -271,10 +271,10 @@ gpgcheck=0
 EOF
 ----
 
-. List the repositories on the `oselab` host:
+. List the repositories on the `bastion` host:
 +
 -----
-[root@oselab ~]# yum clean all ; yum repolist
+[root@bastion ~]# yum clean all ; yum repolist
 -----
 
 * The output is as follows:
@@ -294,10 +294,10 @@ repolist: 8,998
 ----
 
 . Configure the master nodes by copying the `open.repo` file to all of the nodes
- directly from the `oselab` host:
+ directly from the `bastion` host:
 +
 -----
-[root@oselab ~]# for node in master1.example.com \
+[root@bastion ~]# for node in master1.example.com \
                                     infranode1.example.com \
                                     node1.example.com \
                                     node2.example.com; \
@@ -310,7 +310,7 @@ repolist: 8,998
 -----
 
 
-=== Configure Wildcard DNS Entry on `oselab`
+=== Configure Wildcard DNS Entry on `bastion`
 
 OpenShift Container Platform requires a wildcard DNS A record, which must point to the publicly available IP address of a node or nodes that are hosting the OpenShift default router container.
 
@@ -321,13 +321,13 @@ NOTE: In the OpenShift environment, the OpenShift default router is deployed on 
 . Install the `bind` and `bind-utils` packages on the administration host:
 +
 ----
-[root@oselab ~]# yum -y install bind bind-utils
+[root@bastion ~]# yum -y install bind bind-utils
 ----
 
 . Verify that you have correctly configured the `$GUID` and `$guid` environment variables:
 +
 ----
-[root@oselab ~]# echo GUID is $GUID and guid is $guid
+[root@bastion ~]# echo GUID is $GUID and guid is $guid
 ----
 
 * The output is similar to this:
@@ -339,12 +339,12 @@ GUID is c0fe and guid is c0fe
 * If the environment variables `$GUID` and `$guid` *are not set*, run the following commands:
 +
 ----
-[root@oselab ~]# export GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
-[root@oselab ~]# export guid=`hostname|cut -f2 -d-|cut -f1 -d.`
+[root@bastion ~]# export GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
+[root@bastion ~]# export guid=`hostname|cut -f2 -d-|cut -f1 -d.`
 
 ----
 
-. On the administration host, `oselab`, do the following:
+. On the administration host, `bastion`, do the following:
 
 .. Collect and define the environment's information. 
 .. Define the public IP address of `infranode1` as the target of the wildcard record.
@@ -352,17 +352,17 @@ GUID is c0fe and guid is c0fe
 * The following commands use the `host` command against the server `ipa.opentlc.com` to get the public IP address, and so should be run on the same line:
 +
 ----
-[root@oselab ~]# host infranode1-$GUID.oslab.opentlc.com ipa.opentlc.com |grep infranode | awk '{print $4}'
-[root@oselab ~]# HostIP=`host infranode1-$GUID.oslab.opentlc.com  ipa.opentlc.com |grep infranode | awk '{print $4}'`
-[root@oselab ~]# domain="cloudapps-$GUID.oslab.opentlc.com"
-[root@oselab ~]# echo $HostIP $domain
+[root@bastion ~]# host infranode1-$GUID.oslab.opentlc.com ipa.opentlc.com |grep infranode | awk '{print $4}'
+[root@bastion ~]# HostIP=`host infranode1-$GUID.oslab.opentlc.com  ipa.opentlc.com |grep infranode | awk '{print $4}'`
+[root@bastion ~]# domain="cloudapps-$GUID.oslab.opentlc.com"
+[root@bastion ~]# echo $HostIP $domain
 ----
 
 . Create the zone file with the wildcard DNS:
 +
 ----
-[root@oselab ~]# mkdir /var/named/zones
-[root@oselab ~]# echo "\$ORIGIN  .
+[root@bastion ~]# mkdir /var/named/zones
+[root@bastion ~]# echo "\$ORIGIN  .
 \$TTL 1  ;  1 seconds (for testing only)
 ${domain} IN SOA master.${domain}.  root.${domain}.  (
   2011112904  ;  serial
@@ -375,13 +375,13 @@ ${domain} IN SOA master.${domain}.  root.${domain}.  (
 \$ORIGIN ${domain}.
 test A ${HostIP}
 * A ${HostIP}"  >  /var/named/zones/${domain}.db
-[root@oselab ~]# cat /var/named/zones/${domain}.db
+[root@bastion ~]# cat /var/named/zones/${domain}.db
 ----
 
 . Configure `named.conf`:
 +
 ----
-[root@oselab ~]# echo "// named.conf
+[root@bastion ~]# echo "// named.conf
 options {
   listen-on port 53 { any; };
   directory \"/var/named\";
@@ -404,13 +404,13 @@ zone \"${domain}\" IN {
   file \"zones/${domain}.db\";
   allow-update { key ${domain} ; } ;
 };" > /etc/named.conf
-[root@oselab ~]# cat /etc/named.conf
+[root@bastion ~]# cat /etc/named.conf
 ----
 
 . Correct the file permissions and start the DNS server:
 +
 ----
-[root@oselab ~]#  chgrp named -R /var/named ; \
+[root@bastion ~]#  chgrp named -R /var/named ; \
  chown named -Rv /var/named/zones ; \
  restorecon -Rv /var/named ; \
  chown -v root:named /etc/named.conf ; \
@@ -420,14 +420,14 @@ zone \"${domain}\" IN {
 . Enable and start `named`:
 +
 ----
-[root@oselab ~]# systemctl enable named && \
+[root@bastion ~]# systemctl enable named && \
  systemctl start named
 ----
 
 . Configure `iptables` to allow inbound DNS queries:
 +
 ----
-[root@oselab bin]# iptables -I INPUT 1 -p tcp --dport 53 -s 0.0.0.0/0 -j ACCEPT ; \
+[root@bastion bin]# iptables -I INPUT 1 -p tcp --dport 53 -s 0.0.0.0/0 -j ACCEPT ; \
 iptables -I INPUT 1 -p udp --dport 53 -s 0.0.0.0/0 -j ACCEPT ; \
 iptables-save > /etc/sysconfig/iptables
 ----
@@ -439,13 +439,13 @@ A test DNS entry called `test.cloudapps-GUID.oslab.opentlc.com` is available.
 . Test the DNS server on the administration host:
 +
 ----
-[root@oselab ~]# host test.cloudapps-$GUID.oslab.opentlc.com 127.0.0.1
+[root@bastion ~]# host test.cloudapps-$GUID.oslab.opentlc.com 127.0.0.1
 ----
 
 . Test with an external name server:
 +
 ----
-[root@oselab ~]# host test.cloudapps-$GUID.oslab.opentlc.com 8.8.8.8
+[root@bastion ~]# host test.cloudapps-$GUID.oslab.opentlc.com 8.8.8.8
 ----
 
 * The first time you query `8.8.8.8`, you may notice some lag and see the error message `Connection timed out; trying next origin Host test.cloudapps-GUID.oslab.opentlc.com not found: 3(NXDOMAIN).` This is normal. Rerunning the test results in faster performance and no errors.
@@ -457,20 +457,20 @@ Desktop$ nslookup test.cloudapps-$GUID.oslab.opentlc.com
 ----
 
 
-=== Install and Configure Ansible on `oselab`
+=== Install and Configure Ansible on `bastion`
 
 The advanced installation method is based on Ansible playbooks, so you must be able to directly invoke Ansible.
 
 . Install Ansible from `yum`:
 +
 ----
-[root@oselab ~]# yum -y install ansible
+[root@bastion ~]# yum -y install ansible
 ----
 
 . Create a simple inventory file with groups used by Ansible:
 +
 ----
-[root@oselab ~]# cat << EOF > /etc/ansible/hosts
+[root@bastion ~]# cat << EOF > /etc/ansible/hosts
 [masters]
 master1.example.com
 
@@ -480,13 +480,13 @@ infranode1.example.com
 node1.example.com
 node2.example.com
 EOF
-[root@oselab ~]# cat /etc/ansible/hosts
+[root@bastion ~]# cat /etc/ansible/hosts
 ----
 
 . Test the Ansible configuration:
 +
 ----
-[root@oselab ~]# ansible nodes -m ping
+[root@bastion ~]# ansible nodes -m ping
 master1.example.com | success >> {
     "changed": false,
     "ping": "pong"
@@ -512,10 +512,10 @@ node2.example.com | success >> {
 
 Although NetworkManager could be removed in earlier versions of OpenShift, it has been recommended since version 3.2 and required in version 3.3.
 
-. On the `oselab` host, run the following `for` loop to ensure that `NetworkManager` is installed on the master and all nodes:
+. On the `bastion` host, run the following `for` loop to ensure that `NetworkManager` is installed on the master and all nodes:
 +
 ----
-[root@oselab ~]# for node in   master1.example.com \
+[root@bastion ~]# for node in   master1.example.com \
                                infranode1.example.com \
                                node1.example.com \
                                node2.example.com; \
@@ -527,17 +527,17 @@ Although NetworkManager could be removed in earlier versions of OpenShift, it ha
 TIP: You can also use this Ansible command: `ansible nodes -a "yum -y install NetworkManager"`.
 
 
-. Install the following tools and utilities on the `oselab` host:
+. Install the following tools and utilities on the `bastion` host:
 +
 ----
-[root@oselab ~]# yum -y install wget git net-tools bind-utils iptables-services bridge-utils
+[root@bastion ~]# yum -y install wget git net-tools bind-utils iptables-services bridge-utils
 ----
 
-. Install `bash-completion` on both the `oselab` and `master` hosts:
+. Install `bash-completion` on both the `bastion` and `master` hosts:
 +
 ----
-[root@oselab ~]# yum -y install bash-completion
-[root@oselab ~]# ssh master1.example.com yum -y install bash-completion
+[root@bastion ~]# yum -y install bash-completion
+[root@bastion ~]# ssh master1.example.com yum -y install bash-completion
 ----
 +
 
@@ -546,7 +546,7 @@ NOTE: `bash-completion` is not available for use until the `bash` shell is resta
 . Run `yum update` on the master and all nodes:
 +
 ----
-[root@oselab ~]# for node in master1.example.com \
+[root@bastion ~]# for node in master1.example.com \
                                     infranode1.example.com \
                                     node1.example.com \
                                     node2.example.com; \
@@ -566,7 +566,7 @@ OpenShift Container Platform stores and manages container images on Docker. Inst
 * Install the `docker` package on the master and all nodes:
 +
 ----
-[root@oselab ~]# for node in master1.example.com \
+[root@bastion ~]# for node in master1.example.com \
                              infranode1.example.com \
                              node1.example.com \
                              node2.example.com; \
@@ -587,7 +587,7 @@ NOTE: The default configuration of loopback devices for the Docker storage does 
 . Stop the Docker daemon and delete any files from `/var/lib/docker`:
 +
 ----
-[root@oselab ~]# for node in master1.example.com \
+[root@bastion ~]# for node in master1.example.com \
                              infranode1.example.com \
                              node1.example.com \
                              node2.example.com; \
@@ -602,7 +602,7 @@ TIP: You can also use this Ansible command: `ansible nodes -m shell -a "systemct
 . Specify the `/dev/vdb` hard drive as the Docker volume group for `docker-storage setup`:
 +
 ----
-[root@oselab ~]# ssh master1.example.com
+[root@bastion ~]# ssh master1.example.com
 [root@master1 ~]# cat <<EOF > /etc/sysconfig/docker-storage-setup
 DEVS=/dev/vdb
 VG=docker-vg
@@ -723,7 +723,7 @@ see the "Known Issues" section.
 
 [TIP]
 =====
-You can also use this Ansible command: `oselab`:
+You can also use this Ansible command: `bastion`:
 `ansible nodes -m copy -a 'dest=/etc/sysconfig/docker-storage-setup content="DEVS=/dev/vdb\nVG=docker-vg"' ;
 ansible nodes -m shell -a "docker-storage-setup; systemctl enable docker; systemctl start docker"`
 =====
@@ -734,7 +734,7 @@ ansible nodes -m shell -a "docker-storage-setup; systemctl enable docker; system
 . Verify that the Docker service has started on all nodes:
 +
 ----
-[root@oselab ~]# for node in   master1.example.com \
+[root@bastion ~]# for node in   master1.example.com \
                                     infranode1.example.com \
                                     node1.example.com \
                                     node2.example.com; \
@@ -762,12 +762,12 @@ Checking docker status on node2.example.com
 
 ----
 
-. On the `oselab` host, pull down the Docker images to `node1` and `node2` in the primary region:
+. On the `bastion` host, pull down the Docker images to `node1` and `node2` in the primary region:
 +
 ----
-[root@oselab ~]# REGISTRY="registry.access.redhat.com";PTH="openshift3"
-[root@oselab ~]# OSE_VERSION=$(yum info atomic-openshift | grep Version | awk '{print $3}')
-[root@oselab ~]# for node in  node1.example.com \
+[root@bastion ~]# REGISTRY="registry.access.redhat.com";PTH="openshift3"
+[root@bastion ~]# OSE_VERSION=$(yum info atomic-openshift | grep Version | awk '{print $3}')
+[root@bastion ~]# for node in  node1.example.com \
                                    node2.example.com; \
 do
 ssh $node "
@@ -798,13 +798,13 @@ docker pull openshift/hello-openshift:v1.2.1 ;"`
 
 
 
-. On `oselab`, pull only the basic images and the registry and router images to the `infranode1` host:
+. On `bastion`, pull only the basic images and the registry and router images to the `infranode1` host:
 +
 ----
-[root@oselab ~]# REGISTRY="registry.access.redhat.com";PTH="openshift3"
-[root@oselab ~]# OSE_VERSION=$(yum info atomic-openshift | grep Version | awk '{print $3}')
-[root@oselab ~]# node=infranode1.example.com
-[root@oselab ~]# ssh $node "
+[root@bastion ~]# REGISTRY="registry.access.redhat.com";PTH="openshift3"
+[root@bastion ~]# OSE_VERSION=$(yum info atomic-openshift | grep Version | awk '{print $3}')
+[root@bastion ~]# node=infranode1.example.com
+[root@bastion ~]# ssh $node "
 docker pull $REGISTRY/$PTH/ose-haproxy-router:v$OSE_VERSION  ; \
 docker pull $REGISTRY/$PTH/ose-deployer:vOSE_VERSION ; \
 docker pull $REGISTRY/$PTH/ose-pod:v$OSE_VERSION ; \
@@ -824,7 +824,7 @@ to run any containers.
 . Examine the information in the Docker pool on the `node1` and `node2` hosts:
 +
 ----
-[root@oselab ~]# ssh node1.example.com docker info
+[root@bastion ~]# ssh node1.example.com docker info
 ----
 
 * The `node1` output is as follows:
@@ -861,7 +861,7 @@ ID: RXVI:JKOO:3U4X:LHDE:QXPN:FSQC:TTBL:UCWP:MCEH:2KU6:GWSD:IRIN
 . On the `node1` and `node2` hosts, examine the `docker-pool` logical volume again:
 +
 ----
-[root@oselab ~]# ssh node1.example.com "lvs"
+[root@bastion ~]# ssh node1.example.com "lvs"
 ----
 
 * The `node1` output is similar to below. 
@@ -881,12 +881,12 @@ In this section you download and install the installer and then verify the envir
 
 === Download Ansible Playbook
 
-In this exercise you run the Ansible playbook from the `oselab` host, which, in a real-world scenario, could be a laptop or a staging or provisioning server. No packages are deployed directly from `oselab` to the OpenShift nodes or master.
+In this exercise you run the Ansible playbook from the `bastion` host, which, in a real-world scenario, could be a laptop or a staging or provisioning server. No packages are deployed directly from `bastion` to the OpenShift nodes or master.
 
-* On the `oselab` host, install the OpenShift utility package:
+* On the `bastion` host, install the OpenShift utility package:
 +
 ----
-[root@oselab ~]# yum -y install atomic-openshift-utils
+[root@bastion ~]# yum -y install atomic-openshift-utils
 ----
 
 === Create Inventory File
@@ -896,7 +896,7 @@ The `/etc/ansible/hosts` file is Ansible’s inventory file for the playbook to 
 * Write the inventory file:
 +
 ----
-[root@oselab ~]# cat << EOF > /etc/ansible/hosts
+[root@bastion ~]# cat << EOF > /etc/ansible/hosts
 [OSEv3:children]
 masters
 nodes
@@ -931,13 +931,13 @@ openshift_master_default_subdomain=cloudapps-${GUID}.oslab.opentlc.com
 
 openshift_hosted_registry_storage_kind=nfs
 openshift_hosted_registry_storage_access_modes=['ReadWriteMany']
-openshift_hosted_registry_storage_host=oselab.example.com
+openshift_hosted_registry_storage_host=bastion.example.com
 openshift_hosted_registry_storage_nfs_directory=/exports
 openshift_hosted_registry_storage_volume_name=registry
 openshift_hosted_registry_storage_volume_size=5Gi
 
 [nfs]
-oselab.example.com
+bastion.example.com
 
 [masters]
 master1.example.com openshift_hostname=master1.example.com openshift_public_hostname=master1.example.com
@@ -964,7 +964,7 @@ EOF
 . After configuring Ansible by defining an inventory file in `/etc/ansible/hosts`, run the installation using the following playbook:
 +
 ----
-[root@oselab ~]# ansible-playbook /usr/share/ansible/openshift-ansible/playbooks/byo/config.yml
+[root@bastion ~]# ansible-playbook /usr/share/ansible/openshift-ansible/playbooks/byo/config.yml
 ----
 
 . Watch the Ansible playbook run:
@@ -985,7 +985,7 @@ node2.example.com          : ok=105  changed=29   unreachable=0    failed=0
 . Connect to the `master1` host:
 +
 ----
-[root@oselab ~]# ssh master1.example.com
+[root@bastion ~]# ssh master1.example.com
 ----
 
 . Run `oc get nodes` to check the status of the hosts:
@@ -1333,14 +1333,14 @@ oc create|delete -f /usr/share/openshift/examples/quickstart-templates -n opensh
 
 Having a database for development is useful, but what if you want the data you store to persist after redeploying the database pod? Pods are ephemeral and, by default, so is their storage. For shared or persistent storage, you must be able to mandate that pods use external volumes.
 
-For the purpose of this course, you learn how to have `oselab` act as your NFS server to export NFS mounts as `PersistentVolume` targets.
+For the purpose of this course, you learn how to have `bastion` act as your NFS server to export NFS mounts as `PersistentVolume` targets.
 
 === Create Definition Files for Volumes
 
 . Connect to the `master1` host:
 +
 ----
-[root@oselab ~]# ssh master1.example.com
+[root@bastion ~]# ssh master1.example.com
 ----
 
 . Create 25 instances of `PersistentVolume` with a size of 5GB each (`pv1` to `pv25`):

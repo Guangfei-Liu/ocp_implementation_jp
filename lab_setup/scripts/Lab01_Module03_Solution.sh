@@ -6,7 +6,7 @@
 #####################################################################################
 #####################################################################################
 #####################################################################################
-export HOST=oselab
+export HOST=bastion
 export VERSION="3.1"
 hostname | grep $HOST
 if [ $? -ne 0 ]
@@ -22,7 +22,7 @@ echo Configure `/etc/ssh/ssh_conf` to disable `StrictHostKeyChecking` on the mas
 
 echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
 
-ssh root@oselab-$GUID.oslab.opentlc.com "bash /root/oselab.dns.installer.sh"
+ssh root@bastion-$GUID.oslab.opentlc.com "bash /root/bastion.dns.installer.sh"
 
 echo "=== Configure the Repositories on the Master Host"
 echo " On the master host set up the yum repository configuration file /etc/yum.repos.d/open.repo"
@@ -348,7 +348,7 @@ cat << EOF > registry-volume.json
         "accessModes": [ "ReadWriteMany" ],
         "nfs": {
             "path": "/var/export/registry-storage",
-            "server": "oselab.example.com"
+            "server": "bastion.example.com"
         }
       }
     }

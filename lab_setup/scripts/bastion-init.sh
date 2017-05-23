@@ -62,11 +62,11 @@ yum repolist
 ####3. Download and run the DNS bind install and configure the *.cloudapps-$GUID.oslab.opentlc.com wildcard
 
 echo "XXXX2.1 Download and run the DNS bind install and configure the .cloudapps-$GUID.oslab.opentlc.com wildcard"  | tee -a $LOGFILE
-echo "XXXXDownloading http://www.opentlc.com/download/o${course}/oselab.dns.installer.sh"  | tee -a $LOGFILE
-curl -s http://www.opentlc.com/download/${course}/oselab.dns.installer.sh > /root/oselab.dns.installer.sh
+echo "XXXXDownloading http://www.opentlc.com/download/o${course}/bastion.dns.installer.sh"  | tee -a $LOGFILE
+curl -s http://www.opentlc.com/download/${course}/bastion.dns.installer.sh > /root/bastion.dns.installer.sh
 
-#echo "XXXXrunning /root/oselab.dns.installer.sh"  | tee -a $LOGFILE
-#bash /root/oselab.dns.installer.sh  | tee -a $LOGFILE
+#echo "XXXXrunning /root/bastion.dns.installer.sh"  | tee -a $LOGFILE
+#bash /root/bastion.dns.installer.sh  | tee -a $LOGFILE
 
 #yum install ipatables-service -y
 #systemctl stop firewalld

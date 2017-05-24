@@ -528,7 +528,7 @@ Although NetworkManager could be removed in earlier versions of OpenShift, it ha
                                  ssh $node "yum -y install NetworkManager"
                                done
 ----
-TIP: You can also use this Ansible command: `ansible nodes -a "yum -y install NetworkManager"`.
+TIP: You can also use this Ansible command: `ansible nodes -a "yum -y install NetworkManager"` or `ansible nodes -m yum -a "name=NetworkManager"`
 
 
 . Install the following tools and utilities on the `bastion` host:
@@ -580,7 +580,7 @@ OpenShift Container Platform stores and manages container images on Docker. Inst
                              done
 ----
 
-TIP: You can also use this Ansible command: `ansible nodes -a "yum -y install docker"`.
+TIP: You can also use this Ansible command: `ansible nodes -m yum -a "name=docker"`.
 
 === Configure Docker Storage
 
@@ -907,7 +907,11 @@ nodes
 nfs
 
 [OSEv3:vars]
-ansible_ssh_user=root
+ansible_user=root
+
+# enable ntp on masters to ensure proper failover
+openshift_clock_enabled=true
+
 deployment_type=openshift-enterprise
 openshift_release=$OSE_VERSION
 
@@ -944,7 +948,7 @@ openshift_hosted_registry_storage_volume_size=5Gi
 bastion.example.com
 
 [masters]
-master1.example.com openshift_hostname=master1.example.com openshift_public_hostname=master1.example.com
+master1.example.com openshift_hostname=master1.example.com openshift_public_hostname=master1-${GUID}.oslab.opentlc.com
 
 [nodes]
 master1.example.com openshift_hostname=master1.example.com openshift_public_hostname=master1-${GUID}.oslab.opentlc.com openshift_node_labels="{'region': 'infra'}"

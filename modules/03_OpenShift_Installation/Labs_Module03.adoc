@@ -124,10 +124,14 @@ IMPORTANT: In each step, ensure that you are running the step on the required ho
 ====
 Red Hat highly recommends that you use a terminal multiplexing tool, such as *tmux* or *screen*, which keeps your place in the session if you are disconnected from your environment. You can install their packages after setting up the `rhel` repositories.
 
-If you use tmux, type *Ctrl+B* to enter "scroll mode," page up or down to scroll, and use the *Esc* key to exit scroll mode.
+If you use tmux, type *Ctrl+B* (to enter "scroll mode") + page up or down to scroll, and use the *Esc* key to exit scroll mode.
+
+You can detach from tmux : `Ctrl+B  D` or simply close you terminal. To attach again an existing tmux session, run the command `tmux attach` once you're connected to the bastion host.
 ====
 
 === Connect to Environment
+
+When you connect to `bastion-GUID.oslab.opentlc.com` for the first time, you will have to accept the server SSH fingerprint. Reply 'yes': it will be added to your `known_hosts` and not asked next time you connect.
 
 . Connect to your administration host `bastion-GUID.oslab.opentlc.com`. Note that your private key location may vary.
 +
@@ -138,23 +142,22 @@ yourdesktop$ ssh -i ~/.ssh/id_rsa your-opentlc-login@bastion-GUID.oslab.opentlc.
 * Example of a successful connection:
 +
 ----
-[sborenst@desktop01 ~]$ ssh -i ~/.ssh/id_rsa shacharb-redhat.com@bastion.example.com
-#############################################################################
-#############################################################################
-#############################################################################
-Environment Deployment Is Completed : Wed Nov 25 20:03:55 EST 2015
-#############################################################################
-#############################################################################
-#############################################################################
-
 -bash-4.2$
-
+[gucore@work ~]$ ssh gucore-redhat.com@bastion-9e91.oslab.opentlc.com
+The authenticity of host 'bastion-9e91.oslab.opentlc.com (31.220.66.121)' can't be established.
+ECDSA key fingerprint is SHA256:fR4vFVswyvpj/Jevfin3+X0Fkehbfx4HBjw46AeIS14.
+ECDSA key fingerprint is MD5:bb:25:92:ee:c9:ba:23:71:b7:c1:f7:2d:89:6d:b0:66.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'bastion-9e91.oslab.opentlc.com,31.220.66.121' (ECDSA) to the list of known hosts.
+Creating home directory for gucore-redhat.com.
+[gucore-redhat.com@bastion-9e91 ~]$ 
 ----
 
 . Run `sudo` to become the `root` user on the administration host:
 +
 ----
--bash-4.2$ su - root
+[gucore-redhat.com@bastion-9e91 ~]$  sudo -i
+[root@bastion-9e91 ~]#
 ----
 
 === Configure SSH Keys

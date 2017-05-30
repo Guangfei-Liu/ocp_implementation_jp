@@ -140,7 +140,7 @@ services		0	5
 
 . On the web console, click the *Resource Management* project.
 
-. Click the *Settings* tab for information on the quota.
+. Click the *Resources*/*Quota* tab for information on the quota.
 
 === Apply Limit Ranges to Project
 

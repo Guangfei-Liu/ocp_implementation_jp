@@ -747,7 +747,7 @@ No events.
 . Test that your service is working:
 +
 ----
-[andrew@master1 ~]$ ip=$(oc get service hello-service --template "{{ .spec.portalIP }}")
+[andrew@master1 ~]$ ip=$(oc get service hello-service --template "{{ .spec.clusterIP }}")
 [andrew@master1 ~]$ curl http://${ip}:8888
 ----
 * Output like this indicates success:

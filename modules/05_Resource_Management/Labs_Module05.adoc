@@ -680,8 +680,8 @@ service "hello-service" created
 * Expect the output to look like this:
 +
 ----
-NAME            CLUSTER_IP       EXTERNAL_IP   PORT(S)    SELECTOR               AGE
-hello-service   172.30.xxx.yyy   <none>        8888/TCP   name=hello-openshift   20s
+NAME            CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+hello-service   172.30.xxx.yyy   <none>        8888/TCP   11s
 ----
 +
 . Examine the details of the service:
@@ -707,6 +707,7 @@ No events.
 ----
 * Note the following:
 ** `Selector` describes which pods the service selects or lists.
+** `oc describe service` or `oc get services -o wide` will show the `SELECTOR` column
 ** `Endpoints` displays all of the pods that are currently listed (none in the current project).
 
 . Create pods according to the `hello-many-pods.json` definition file:

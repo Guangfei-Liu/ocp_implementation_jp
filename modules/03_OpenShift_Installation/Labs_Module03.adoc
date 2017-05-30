@@ -232,32 +232,37 @@ Normally, you obtain these repositories through `subscription-manager`. For the 
  `/etc/yum.repos.d/open.repo` with the following repositories:
 +
 ----
+[root@bastion ~]# export OWN_REPO_PATH=https://admin.shared.example.opentlc.com/repos/ocp/3.5
 [root@bastion ~]# cat << EOF > /etc/yum.repos.d/open.repo
-[rhel-x86_64-server-7]
+[rhel-7-server-rpms]
 name=Red Hat Enterprise Linux 7
-baseurl=http://www.opentlc.com/repos/ose/3.3/rhel-7-server-rpms
+baseurl=${OWN_REPO_PATH}/rhel-7-server-rpms
 enabled=1
 gpgcheck=0
 
-[rhel-x86_64-server-extras-7]
-name=Red Hat Enterprise Linux 7 Extras
-baseurl=http://www.opentlc.com/repos/ose/3.3/rhel-7-server-extras-rpms
-enabled=1
-gpgcheck=0
-
-[rhel-x86_64-server-optional-7]
-name=Red Hat Enterprise Linux 7 Optional
-baseurl=http://www.opentlc.com/repos/ose/3.3/rhel-7-server-optional-rpms
-enabled=1
-gpgcheck=0
-
-# This repo is added for the OPENTLC environment not OSE
-[rhel-x86_64-server-rh-common-7]
+[rhel-7-server-rh-common-rpms]
 name=Red Hat Enterprise Linux 7 Common
-baseurl=http://www.opentlc.com/repos/ose/3.3/rhel-7-server-rh-common-rpms
+baseurl=${OWN_REPO_PATH}/rhel-7-server-rh-common-rpms
 enabled=1
 gpgcheck=0
 
+[rhel-7-server-extras-rpms]
+name=Red Hat Enterprise Linux 7 Extras
+baseurl=${OWN_REPO_PATH}/rhel-7-server-extras-rpms
+enabled=1
+gpgcheck=0
+
+[rhel-7-server-optional-rpms]
+name=Red Hat Enterprise Linux 7 Optional
+baseurl=${OWN_REPO_PATH}/rhel-7-server-optional-rpms
+enabled=1
+gpgcheck=0
+
+[rhel-7-fast-datapath-rpms]
+name=Red Hat Enterprise Linux 7 Fast Datapath
+baseurl=${OWN_REPO_PATH}/rhel-7-fast-datapath-rpms
+enabled=1
+gpgcheck=0
 EOF
 ----
 
@@ -265,12 +270,11 @@ EOF
 +
 ----
 [root@bastion ~]# cat << EOF >> /etc/yum.repos.d/open.repo
-[rhel-7-server-ose-3.3-rpms]
-name=Red Hat Enterprise Linux 7 OSE 3.3
-baseurl=http://www.opentlc.com/repos/ose/3.3/rhel-7-server-ose-3.3-rpms
+[rhel-7-server-ose-3.5-rpms]
+name=Red Hat Enterprise Linux 7 OSE 3.5
+baseurl=${OWN_REPO_PATH}/rhel-7-server-ose-3.5-rpms
 enabled=1
 gpgcheck=0
-
 EOF
 ----
 

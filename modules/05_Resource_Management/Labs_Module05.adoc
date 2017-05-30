@@ -325,7 +325,7 @@ hello-openshift   1/1       Running   0          8s
 . Run `oc describe` to get pod details:
 +
 ----
-[andrew@master1 ~]$ oc describe
+[andrew@master1 ~]$ oc describe pod hello-openshift
 
 Name:           hello-openshift
 Namespace:      resourcemanagement

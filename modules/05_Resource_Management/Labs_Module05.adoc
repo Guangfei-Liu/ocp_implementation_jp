@@ -326,50 +326,52 @@ hello-openshift   1/1       Running   0          8s
 +
 ----
 [andrew@master1 ~]$ oc describe pod hello-openshift
-
-Name:           hello-openshift
-Namespace:      resourcemanagement
-Node:           node2.example.com/192.168.0.202
-Start Time:     Thu, 28 Jul 2016 09:50:48 -0400
-Labels:         name=hello-openshift
-Status:         Running
-IP:             10.1.1.2
-Controllers:    <none>
+Name:                   hello-openshift
+Namespace:              resourcemanagement
+Security Policy:        restricted
+Node:                   node2.example.com/192.168.0.202
+Start Time:             Tue, 30 May 2017 10:20:24 -0400
+Labels:                 name=hello-openshift
+Status:                 Running
+IP:                     10.128.0.3
+Controllers:            <none>
 Containers:
   hello-openshift:
-    Container ID:       docker://87d7fc29e65bbb617a6cebe58d9ede3f73c75ff93d355d4060e96f7c2f36e744
+    Container ID:       docker://2381b0e13a04eb7859d3d286b9515374b09fd98ec99b9531f568952cf690937b
     Image:              openshift/hello-openshift:v1.2.1
-    Image ID:           docker://d11345b38f32ef5e52ef84be32324eb5314662fd9c446e1dd8765309d7cc0058
+    Image ID:           docker-pullable://docker.io/openshift/hello-openshift@sha256:e44d78ac0b70255d8a84a7707c2001d115d4db9354591b4098a718c8ccb693f7
     Port:               8080/TCP
-    QoS Tier:
-      memory:   Guaranteed
-      cpu:      Guaranteed
     Limits:
-      memory:   100Mi
       cpu:      100m
+      memory:   100Mi
     Requests:
       cpu:              100m
       memory:           100Mi
     State:              Running
-      Started:          Thu, 28 Jul 2016 09:52:05 -0400
+      Started:          Tue, 30 May 2017 10:20:31 -0400
     Ready:              True
     Restart Count:      0
-    Environment Variables:
+    Volume Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-j3bbr (ro)
+    Environment Variables:      <none>
 Conditions:
   Type          Status
-  Ready         True
+  Initialized   True 
+  Ready         True 
+  PodScheduled  True 
 Volumes:
-  default-token-bky7y:
+  default-token-j3bbr:
     Type:       Secret (a volume populated by a Secret)
-    SecretName: default-token-bky7y
+    SecretName: default-token-j3bbr
+QoS Class:      Guaranteed
+Tolerations:    <none>
 Events:
-  FirstSeen     LastSeen        Count   From                            SubobjectPath                           Type            Reason          Message
+  FirstSeen     LastSeen        Count   From                            SubObjectPath                           Type            Reason          Message
   ---------     --------        -----   ----                            -------------                           --------        ------          -------
-  6m            6m              1       {default-scheduler }                                                    Normal          Scheduled       Successfully assigned hello-openshift to node2.example.com
-  5m            5m              1       {kubelet node2.example.com}     spec.containers{hello-openshift}        Normal          Pulling         pulling image "openshift/hello-openshift:v1.2.1"
-  5m            5m              1       {kubelet node2.example.com}     spec.containers{hello-openshift}        Normal          Pulled          Successfully pulled image "openshift/hello-openshift:v1.2.1"
-  5m            5m              1       {kubelet node2.example.com}     spec.containers{hello-openshift}        Normal          Created         Created container with docker id 87d7fc29e65b
-  5m            5m              1       {kubelet node2.example.com}     spec.containers{hello-openshift}        Normal          Started         Started container with docker id 87d7fc29e65b
+  9m            9m              1       {default-scheduler }                                                    Normal          Scheduled       Successfully assigned hello-openshift to node2.example.com
+  9m            9m              1       {kubelet node2.example.com}     spec.containers{hello-openshift}        Normal          Pulled          Container image "openshift/hello-openshift:v1.2.1" already present on machine
+  9m            9m              1       {kubelet node2.example.com}     spec.containers{hello-openshift}        Normal          Created         Created container with docker id 2381b0e13a04; Security:[seccomp=unconfined]
+  9m            9m              1       {kubelet node2.example.com}     spec.containers{hello-openshift}        Normal          Started         Started container with docker id 2381b0e13a04
 ----
 +
 . Test that your pod responds with the following command:

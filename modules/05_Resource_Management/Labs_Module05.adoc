@@ -33,7 +33,7 @@ In this section you create a persistent volume for your registry, attach it to `
 . Connect to the `master1` host:
 +
 ----
-[root@oselab ~]# ssh master1.example.com
+[root@bastion ~]# ssh master1.example.com
 ----
 
 . Run `oadm` to create a project named `resourcemanagement` and assign the administrative user `andrew` to it:
@@ -1161,7 +1161,7 @@ The registry is currently running with a small NFS persistent volume of 5GB. Thi
 ----
 openshift_hosted_registry_storage_kind=nfs
 openshift_hosted_registry_storage_access_modes=['ReadWriteMany']
-openshift_hosted_registry_storage_host=oselab.example.com
+openshift_hosted_registry_storage_host=bastion.example.com
 openshift_hosted_registry_storage_nfs_directory=/exports
 openshift_hosted_registry_storage_volume_name=registry
 openshift_hosted_registry_storage_volume_size=5Gi
@@ -1169,10 +1169,10 @@ openshift_hosted_registry_storage_volume_size=5Gi
 
 === Delete Existing Persistent Volume
 
-* As `root` on the `oselab` host, delete the existing persistent volume for the registry:
+* As `root` on the `bastion` host, delete the existing persistent volume for the registry:
 +
 ----
-[root@oselab ~]# ssh master1.example.com "oc delete pvc registry-claim ; oc delete pv registry-volume"
+[root@bastion ~]# ssh master1.example.com "oc delete pvc registry-claim ; oc delete pv registry-volume"
 ----
 
 === Create NFS Export for Registry
@@ -1180,22 +1180,22 @@ openshift_hosted_registry_storage_volume_size=5Gi
 . Create a new directory for your NFS export:
 +
 ----
-[root@oselab ~]# export volname=registry-storage
-[root@oselab ~]# mkdir -p /var/export/pvs/${volname}
-[root@oselab ~]# chown nfsnobody:nfsnobody /var/export/pvs/${volname}
-[root@oselab ~]# chmod 700 /var/export/pvs/${volname}
+[root@bastion ~]# export volname=registry-storage
+[root@bastion ~]# mkdir -p /var/export/pvs/${volname}
+[root@bastion ~]# chown nfsnobody:nfsnobody /var/export/pvs/${volname}
+[root@bastion ~]# chmod 700 /var/export/pvs/${volname}
 ----
 
 . Add this line to `/etc/exports`:
 +
 ----
-[root@oselab ~]# echo "/var/export/pvs/${volname} *(rw,sync,all_squash)" >> /etc/exports
+[root@bastion ~]# echo "/var/export/pvs/${volname} *(rw,sync,all_squash)" >> /etc/exports
 ----
 
 . Restart NFS services:
 +
 ----
-[root@oselab ~]# systemctl restart rpcbind nfs-server nfs-lock nfs-idmap
+[root@bastion ~]# systemctl restart rpcbind nfs-server nfs-lock nfs-idmap
 ----
 
 
@@ -1203,7 +1203,7 @@ openshift_hosted_registry_storage_volume_size=5Gi
 +
 [source,json]
 ----
-[root@oselab ~]# ssh master1.example.com
+[root@bastion ~]# ssh master1.example.com
 [root@master1 ~]# cat << EOF > registry-volume.json
     {
       "apiVersion": "v1",
@@ -1218,7 +1218,7 @@ openshift_hosted_registry_storage_volume_size=5Gi
         "accessModes": [ "ReadWriteMany" ],
         "nfs": {
             "path": "/var/export/pvs/registry-storage",
-            "server": "oselab.example.com"
+            "server": "bastion.example.com"
         }
       }
     }
@@ -1398,10 +1398,10 @@ I1126 23:25:51.808905       1 sti.go:233] Successfully pushed 172.30.42.118:5000
 +
 TIP: The `-f` flag sets `oc logs` to follow the log, similar to `tail -f`.
 
-. On the NFS server, `oselab`, verify that the registry is using the `registry-storage` volume:
+. On the NFS server, `bastion`, verify that the registry is using the `registry-storage` volume:
 +
 ----
-[root@oselab ~]# find /var/export/pvs/registry-storage | grep sti-php
+[root@bastion ~]# find /var/export/pvs/registry-storage | grep sti-php
 ----
 * Look for output like this:
 +

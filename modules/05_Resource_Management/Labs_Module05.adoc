@@ -600,6 +600,15 @@ Error from server (Forbidden): pods "hello-openshift-4" is forbidden: exceeded q
 ----
 [andrew@master1 ~]$ oc delete  -f hello-many-pods.json
 ----
+* The output looks like this:
++
+----
+pod "hello-openshift-1" deleted
+pod "hello-openshift-2" deleted
+pod "hello-openshift-3" deleted
+Error from server (NotFound): pods "hello-openshift-4" not found
+----
+* Because `hello-openshift-4` was not created, the last deletion returns an error and can be ignored.
 
 . (Optional) Create a project, set the quota with a pod value of `10`, and run `hello-many-pods.json`.
 

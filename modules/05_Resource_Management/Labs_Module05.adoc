@@ -301,7 +301,7 @@ In this exercise you create a simple pod without a route or service.
 * The output looks like this:
 +
 ----
-pods/hello-openshift
+pod "hello-openshift" created
 ----
 
 . Verify that the pod exists:
@@ -310,6 +310,12 @@ pods/hello-openshift
 [andrew@master1 ~]$ oc get pods
 ----
 * Expect the output to look like this:
++
+----
+NAME              READY     STATUS              RESTARTS   AGE
+hello-openshift   0/1       ContainerCreating   0          6s
+----
+* and then, when container creation is finished:
 +
 ----
 NAME              READY     STATUS    RESTARTS   AGE

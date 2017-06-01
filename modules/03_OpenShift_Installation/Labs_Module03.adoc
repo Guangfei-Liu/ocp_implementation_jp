@@ -715,11 +715,13 @@ DOCKER_STORAGE_OPTIONS=--storage-driver devicemapper --storage-opt dm.fs=xfs --s
 +
 ----
 [root@master1 ~]# systemctl enable docker
+[root@master1 ~]# systemctl start docker
 ----
 
 . Run the following `for` loop to configure Docker storage on the other nodes, enable Docker, and restart the node:
 +
 ----
+[root@master1 ~]# exit
 [root@bastion ~]# scp root@master1.example.com:/etc/sysconfig/docker-storage-setup ./
 
 [root@bastion ~]# for node in infranode1.example.com \

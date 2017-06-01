@@ -727,6 +727,7 @@ DOCKER_STORAGE_OPTIONS=--storage-driver devicemapper --storage-opt dm.fs=xfs --s
 +
 ----
 [root@master1 ~]# systemctl enable docker
+Created symlink from /etc/systemd/system/multi-user.target.wants/docker.service to /usr/lib/systemd/system/docker.service.
 [root@master1 ~]# systemctl start docker
 ----
 

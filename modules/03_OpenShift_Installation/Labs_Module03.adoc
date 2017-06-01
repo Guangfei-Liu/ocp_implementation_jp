@@ -169,6 +169,14 @@ The OpenShift Container Platform installer configures hosts with SSH. In this se
 ----
 [root@bastion ~]# ssh-keygen -f /root/.ssh/id_rsa -N ''
 ----
+* The ssh key of root might already exist. If so you will have the following message. You can either recreate the key or keep the current:
++
+----
+root@bastion ~# ssh-keygen -f /root/.ssh/id_rsa -N ''
+Generating public/private rsa key pair.
+/root/.ssh/id_rsa already exists.
+Overwrite (y/n)?
+----
 +
 NOTE: In a different environment, you can adopt a nonroot user with `sudo`
  capabilities. For example, in Amazon Web Services (AWS), you adopt the `ec2-user` user.

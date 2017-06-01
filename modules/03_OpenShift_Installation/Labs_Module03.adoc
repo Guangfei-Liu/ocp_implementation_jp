@@ -278,6 +278,7 @@ EOF
 +
 ----
 [root@bastion ~]# cat << EOF >> /etc/yum.repos.d/open.repo
+
 [rhel-7-server-ose-3.5-rpms]
 name=Red Hat Enterprise Linux 7 OSE 3.5
 baseurl=${OWN_REPO_PATH}/rhel-7-server-ose-3.5-rpms
@@ -297,15 +298,15 @@ EOF
 ----
 Loaded plugins: product-id
 ...[output omitted]...
-repo id                                        repo name                                           status
-rhel-7-server-ose-3.3-rpms                     Red Hat Enterprise Linux 7 OSE 3                      323
-rhel-x86_64-server-7                           Red Hat Enterprise Linux 7                          4,391
-rhel-x86_64-server-extras-7                    Red Hat Enterprise Linux 7 Extras                      45
-rhel-x86_64-server-optional-7                  Red Hat Enterprise Linux 7 Optional                 4,220
-rhel-x86_64-server-rh-common-7                 Red Hat Enterprise Linux 7 Common                      19
-repolist: 8,998
-
-...[output omitted]...
+repolist: 10,114
+repo id                        repo name                                  status
+rhel-7-fast-datapath-rpms      Red Hat Enterprise Linux 7 Fast Datapath      15
+rhel-7-server-extras-rpms      Red Hat Enterprise Linux 7 Extras             76
+rhel-7-server-optional-rpms    Red Hat Enterprise Linux 7 Optional        4,648
+rhel-7-server-ose-3.5-rpms     Red Hat Enterprise Linux 7 OSE 3.5           415
+rhel-7-server-rh-common-rpms   Red Hat Enterprise Linux 7 Common             82
+rhel-7-server-rpms             Red Hat Enterprise Linux 7                 4,878
+repolist: 10,114
 ----
 
 . Configure the master nodes by copying the `open.repo` file to all of the nodes

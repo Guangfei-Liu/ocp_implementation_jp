@@ -843,7 +843,7 @@ docker pull openshift/hello-openshift:v1.2.1 ;"`
 [root@bastion ~]# node=infranode1.example.com
 [root@bastion ~]# ssh $node "
 docker pull $REGISTRY/$PTH/ose-haproxy-router:v$OSE_VERSION  ; \
-docker pull $REGISTRY/$PTH/ose-deployer:vOSE_VERSION ; \
+docker pull $REGISTRY/$PTH/ose-deployer:v$OSE_VERSION ; \
 docker pull $REGISTRY/$PTH/ose-pod:v$OSE_VERSION ; \
 docker pull $REGISTRY/$PTH/ose-docker-registry:v$OSE_VERSION ;
 "

@@ -770,8 +770,8 @@ Hello OpenShift!
 * Expect output similar to this:
 +
 ----
-NAME            HOST/PORT                                           PATH      SERVICE         LABELS
-hello-service   hello2-openshift.cloudapps-GUID.oslab.opentlc.com             hello-service
+NAME            HOST/PORT                                           PATH      SERVICES        PORT      TERMINATION   WILDCARD
+hello-service   hello2-openshift.cloudapps-9e91.oslab.opentlc.com             hello-service   8888                    None
 ----
 
 . Test the route:

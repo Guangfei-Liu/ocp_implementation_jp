@@ -933,6 +933,7 @@ The `/etc/ansible/hosts` file is Ansible’s inventory file for the playbook to 
 * Write the inventory file:
 +
 ----
+[root@bastion ~]# export OSE_VERSION=3.5
 [root@bastion ~]# cat << EOF > /etc/ansible/hosts
 [OSEv3:children]
 masters
@@ -946,7 +947,7 @@ ansible_user=root
 openshift_clock_enabled=true
 
 deployment_type=openshift-enterprise
-openshift_release=$OSE_VERSION
+openshift_release=v$OSE_VERSION
 
 openshift_master_cluster_method=native
 openshift_master_cluster_hostname=master1.example.com

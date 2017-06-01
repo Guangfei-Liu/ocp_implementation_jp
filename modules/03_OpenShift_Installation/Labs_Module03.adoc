@@ -619,7 +619,19 @@ NOTE: The default configuration of loopback devices for the Docker storage does 
 +
 TIP: You can also use this Ansible command: `ansible nodes -m shell -a "systemctl stop docker ; rm -rf /var/lib/docker/*"`.
 
-. Specify the `/dev/vdb` hard drive as the Docker volume group for `docker-storage setup`:
+. identify the block device that will serve as the Docker Physical volume
++
+----
+[root@master1 ~]# lsblk
+NAME   MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+fd0      2:0    1    4K  0 disk 
+sr0     11:0    1 1024M  0 rom  
+vda    252:0    0   10G  0 disk 
+└─vda1 252:1    0   10G  0 part /
+vdb    252:16   0   25G  0 disk 
+vdc    252:32   0  366K  1 disk 
+----
+. Specify the `/dev/vdb` hard drive for the Docker volume group for `docker-storage setup`:
 +
 ----
 [root@bastion ~]# ssh master1.example.com

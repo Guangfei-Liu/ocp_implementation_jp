@@ -1399,6 +1399,7 @@ For the purpose of this course, you learn how to have `bastion` act as your NFS 
 ----
 
 [root@master1 ~]# export volsize="5Gi"
+[root@master1 ~]# mkdir /root/pvs
 [root@master1 ~]# for volume in pv{1..25} ; do
 cat << EOF > /root/pvs/${volume}
 {

@@ -1257,9 +1257,9 @@ TIP: You can use the `curl` command to test the ability of the registry to commu
 . To test the registry for connectivity, run these commands:
 +
 ----
- [root@master1 ~]# echo `oc get service docker-registry --template '{{.spec.portalIP}}:{{index .spec.ports 0 "port"}}/healthz'`
+ [root@master1 ~]# echo `oc get service docker-registry --template '{{.spec.clusterIP}}:{{index .spec.ports 0 "port"}}/healthz'`
  172.30.42.118:5000/healthz
- [root@master1 ~]# curl -v `oc get service docker-registry --template '{{.spec.portalIP}}:{{index .spec.ports 0 "port"}}/healthz'`
+ [root@master1 ~]# curl -v `oc get service docker-registry --template '{{.spec.clusterIP}}:{{index .spec.ports 0 "port"}}/healthz'`
 ----
 
 * The output looks like this:

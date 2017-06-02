@@ -886,8 +886,8 @@ trainingrouter-1-jm5zk    1/1       Running   0          18h
 +
 ----
 [root@master1 ~]# oc rsh trainingrouter-1-jm5zk bash
-
-[root@infranode1 conf]#
+/usr/bin/id: cannot find name for user ID 1000000000
+[I have no name!@infranode1 conf]$ 
 ----
 
 .Option 2
@@ -896,12 +896,12 @@ trainingrouter-1-jm5zk    1/1       Running   0          18h
 +
 ----
 [root@master1 ~]#  oc rsh $(oc get pods --selector="router=trainingrouter" --template='{{range .items}}{{.metadata.name}}{{end}}') bash
-
-[root@infranode1 conf]#
+/usr/bin/id: cannot find name for user ID 1000000000
+[I have no name!@infranode1 conf]$ 
 ----
 
 
-* The same prompt is displayed with each option: `[root@infranode1 conf]#`.
+* The same prompt is displayed with each option: `[I have no name!@infranode1 conf]$`.
 
 * You are now running `bash` inside the container. 
 
@@ -910,35 +910,29 @@ trainingrouter-1-jm5zk    1/1       Running   0          18h
 
 . Run `id`.
 . Run `pwd` and `ls`, and note the directory you are in.
-. Run `grep SERVERID` on the `haproxy.config` file.
 . Run `cat haproxy.config` to verify that your configuration file is empty, and then view the process status.
 +
 ----
-[root@infranode1 conf]# id
-uid=0(root) gid=0(root) groups=0(root)
+[I have no name!@infranode1 conf]$ id
+uid=1000000000 gid=0(root) groups=0(root),1000000000
 ----
 +
 ----
-[root@infranode1 conf]# pwd
+[I have no name!@infranode1 conf]$ pwd
 /var/lib/haproxy/conf
 ----
 +
 ----
-[root@infranode1 conf]# ls
-default_pub_keys.pem	 os_edge_http_be.map	    os_reencrypt.map
-error-page-503.html	 os_edge_http_expose.map    os_sni_passthrough.map
-haproxy-config.template  os_edge_http_redirect.map  os_tcp_be.map
-haproxy.config		 os_http_be.map
+[I have no name!@infranode1 conf]$ ls 
+cert_config.map          os_edge_http_be.map         os_sni_passthrough.map
+default_pub_keys.pem     os_http_be.map              os_tcp_be.map
+error-page-503.http      os_reencrypt.map            os_wildcard_domain.map
+haproxy.config           os_route_http_expose.map
+haproxy-config.template  os_route_http_redirect.map
 ----
 +
 ----
-[root@infranode1 conf]#  grep SERVERID haproxy.config
-    cookie OPENSHIFT_explore-example_hello-openshift_SERVERID insert indirect nocache httponly
-    cookie OPENSHIFT_svcslab_hello-service_SERVERID insert indirect nocache httponly
-----
-+
-----
-[root@infranode1 conf]# ps -ef
+[I have no name!@infranode1 conf]$ ps -ef
 UID         PID   PPID  C STIME TTY          TIME CMD
 root          1      0  0 02:07 ?        00:00:14 /usr/bin/openshift-router
 root        243      0  0 22:08 ?        00:00:00 /bin/bash
@@ -947,7 +941,7 @@ root        342    243  0 22:16 ?        00:00:00 ps -ef
 ----
 +
 ----
-[root@infranode1 conf]# cat haproxy.config
+[I have no name!@infranode1 conf]$ cat haproxy.config
 ----
 
 . Note the following in the output below:
@@ -994,13 +988,12 @@ deploymentconfig "hello-openshift" scaled
 . Go back to the router container and view the `haproxy.config` file again:
 +
 ----
-[root@infranode1 conf]# grep -A 25 backend.*explore-example_hello-openshift haproxy.config
+[I have no name!@infranode1 conf]$ sed '/^ *$/d' haproxy.config | grep -A 20 backend.*explore-example_hello-openshift
 ----
 * All of your pods within the `haproxy` configuration are listed:
 +
 ----
 backend be_http_explore-example_hello-openshift
-
   mode http
   option redispatch
   option forwardfor
@@ -1008,22 +1001,15 @@ backend be_http_explore-example_hello-openshift
   timeout check 5000ms
   http-request set-header X-Forwarded-Host %[req.hdr(host)]
   http-request set-header X-Forwarded-Port %[dst_port]
+  http-request set-header X-Forwarded-Proto http if !{ ssl_fc }
   http-request set-header X-Forwarded-Proto https if { ssl_fc }
-
-    cookie OPENSHIFT_explore-example_hello-openshift_SERVERID insert indirect nocache httponly
-    http-request set-header X-Forwarded-Proto http
-
-  http-request set-header Forwarded for=%[src],host=%[req.hdr(host)],proto=%[req.hdr(X-Forwarded-Proto)]
-
-  server 10.1.1.7:8080 10.1.1.7:8080 check inter 5000ms cookie 10.1.1.7:8080
-
-  server 10.1.1.8:8080 10.1.1.8:8080 check inter 5000ms cookie 10.1.1.8:8080
-
-  server 10.1.1.9:8080 10.1.1.9:8080 check inter 5000ms cookie 10.1.1.9:8080
-
-  server 10.1.2.10:8080 10.1.2.10:8080 check inter 5000ms cookie 10.1.2.10:8080
-
-  server 10.1.2.11:8080 10.1.2.11:8080 check inter 5000ms cookie 10.1.2.11:8080
+  cookie 7cf54b74789cba0ee0faded0db7f5e0f insert indirect nocache httponly
+  http-request set-header Forwarded for=%[src];host=%[req.hdr(host)];proto=%[req.hdr(X-Forwarded-Proto)]
+  server 25b5ea63c3e6a44f7ef8b3ecf0fbc106 10.129.0.12:8080 check inter 5000ms cookie 25b5ea63c3e6a44f7ef8b3ecf0fbc106 weight 100
+  server a96e38a5ff729ac00c03f54bb130bf7b 10.129.0.9:8080 check inter 5000ms cookie a96e38a5ff729ac00c03f54bb130bf7b weight 100
+  server 1a0c4763292ccf975ee887c01ae07ece 10.130.0.15:8080 check inter 5000ms cookie 1a0c4763292ccf975ee887c01ae07ece weight 100
+  server ae3943fea0f5bf7953d2309c09f760fa 10.130.0.16:8080 check inter 5000ms cookie ae3943fea0f5bf7953d2309c09f760fa weight 100
+  server a5f87fb137db69b26a7471f6896c7fa4 10.130.0.17:8080 check inter 5000ms cookie a5f87fb137db69b26a7471f6896c7fa4 weight 100
 ----
 
 

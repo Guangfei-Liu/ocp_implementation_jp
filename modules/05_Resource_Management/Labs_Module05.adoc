@@ -96,7 +96,6 @@ The first time you access the URL, you may need to accept the self-signed SSL ce
   }
 }
 EOF
-
 ----
 
 . Run `oc create` to apply the file you just created:
@@ -756,16 +755,28 @@ No events.
 Hello OpenShift!
 ----
 
-. Expose your service with the `oc expose` command to create routes for your application:
+. Create a new route to expose your application:
 +
 ----
-[andrew@master1 ~]$ oc expose service/hello-service --hostname=hello2-openshift.cloudapps-${guid}.oslab.opentlc.com
+[andrew@master1 ~]$ cat <<EOF > hello-route.yml
+---
+apiVersion: v1
+kind: Route
+metadata:
+  name: hello-service
+spec:
+  host: hello2-openshift.cloudapps-${guid}.oslab.opentlc.com
+  to:
+    kind: Service
+    name: hello-service
+EOF
+[andrew@master1 ~]$ oc create -f hello-route.yml
 ----
 
 . View the route:
 +
 ----
-[andrew@master1-6b80 ~]$ oc get routes
+[andrew@master1 ~]$ oc get routes
 ----
 * Expect output similar to this:
 +

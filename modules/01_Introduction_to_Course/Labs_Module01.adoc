@@ -27,11 +27,12 @@ To complete the labs for this course, you must first provision the lab environme
 If you forgot your username or password, link:https://www.opentlc.com/pwm[reset your credentials or obtain a username reminder].
 ==== 
 
-. Navigate to *Services* -> *Catalogs* -> *All Services* ->
- *OPENTLC Cloud Infrastructure Labs*.
+. Before ordering an environment, you should setup your SSH key and add it to OPENTLC (see section below).
 
-. On the left side of the screen, locate and select *OpenShift 3.3 Implementation Lab*, and
- then click *Order* on the right side of the screen.
+. Navigate to *Services* -> *Catalogs*
+
+. On the left side of the screen, locate and select  *All Services* -> *OPENTLC Openshift Labs* -> *OpenShift 3.5 - Implementation Lab (Rav)*, and
+ then click *Order* on the right side of the screen. Read and approve the Runtime Warning.
 
 . Click *Submit* (at the lower right) to order your environment.
 ** In a few minutes you receive an email describing how to connect to the
@@ -71,7 +72,7 @@ If you have not already done so, you must provide a public SSH key.
 +
 [source,text]
 ----
-ssh -i ~/.ssh/yourprivatekey.key opentlc-username.com@oselab-GUID.oslab.opentlc.com
+ssh -i ~/.ssh/yourprivatekey.key opentlc-username.com@bastion-GUID.oslab.opentlc.com
 ----
 +
 [NOTE]

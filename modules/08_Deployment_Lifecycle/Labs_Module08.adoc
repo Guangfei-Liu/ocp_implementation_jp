@@ -434,12 +434,9 @@ Latest Deployment:      <none>
 +
 ----
 [marina@master1~]$ oc rollback ruby-hello-world-X # X is your desired deployment
-----
-+
-----
-#oc get9 rolled back to ruby-hello-world-X
-Warning: the following images triggers were disabled: ruby-hello-world
-  You can re-enable them with: oc deploy ruby-hello-world --enable-triggers
+#7 rolled back to ruby-hello-world-X
+Warning: the following images triggers were disabled: ruby-hello-world:latest
+  You can re-enable them with: oc set triggers dc/ruby-hello-world --auto
 ----
 
 . Click the *Browse* tab of your project and note that you have a new pod in the *Pods* section.
@@ -454,10 +451,7 @@ Warning: the following images triggers were disabled: ruby-hello-world
 +
 ----
 [marina@master1~]$ oc rollback ruby-hello-world-X # X is your desired deployment
-----
-+
-----
-#11 rolled back to ruby-hello-world-X
-Warning: the following images triggers were disabled: ruby-hello-world
-  You can re-enable them with: oc deploy ruby-hello-world --enable-triggers
+#8 rolled back to ruby-hello-world-X
+Warning: the following images triggers were disabled: ruby-hello-world:latest
+  You can re-enable them with: oc set triggers dc/ruby-hello-world --auto
 ----

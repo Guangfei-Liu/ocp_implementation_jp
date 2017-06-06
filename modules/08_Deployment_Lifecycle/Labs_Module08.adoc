@@ -9,12 +9,11 @@ In this lab you explore the different aspects of the application life cycle.
 
 This lab includes two sections:
 
-.Roll Back, Activate, and Code Life Cycle
-
+. Roll Back, Activate, and Code Life Cycle
++
 In this section you manage the various phases of the deployment's life cycle.
-
-.Create and Use Web Hooks
-
+. Create and Use Web Hooks
++
 In this section you create a Git webhook and automatically start a new build and a new deployment by pushing a code change into your Git repository.
 
 :numbered:

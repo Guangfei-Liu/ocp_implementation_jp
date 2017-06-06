@@ -48,7 +48,7 @@ In this exercise you connect to and become familiar with the web console, create
 
 . In the *Select Image or Template* screen, type `ruby` in the search field to filter the available instant apps, templates, and builder images.
 
-. Select the `ruby:2.0` builder image on the right.
+. Select the `ruby:2.3` builder image.
 
 . Specify the name and Git repository URL:
 * *Name*: `my-ruby-hello-world`.
@@ -157,7 +157,7 @@ Resolving deltas: 100% (86/86), done.
 +
 ----
 [marina@master1 ~]$ cd ruby-hello-world/
-[marina@master1 ruby-hello-world]$ oc new-app . --docker-image=registry.access.redhat.com/openshift3/ruby-20-rhel7
+[marina@master1 ruby-hello-world]$ oc new-app . --docker-image=registry.access.redhat.com/rhscl/ruby-23-rhel7
 ----
 
 . View the current build status and build logs:
@@ -231,7 +231,7 @@ ruby-hello-world-1-build   0/1       Completed   0          9m
 
 . In the *Select Image or Template* screen, type `ruby` in the search field to filter the available instant apps, templates, and builder images.
 
-. Select the `ruby:2.0` builder image from the right side.
+. Select the `ruby:2.3` builder image.
 
 . Specify the name and Git repository URL:
 * *Name*: `my-custom-builder-test`

@@ -271,8 +271,9 @@ mysql
 ----
 [marina@master1~]$ oc env dc/database --list
 # deploymentconfigs database, container mysql
-MYSQL_USER=mysqluser
-MYSQL_PASSWORD=redhat
+# MYSQL_USER from secret database, key database-user
+# MYSQL_PASSWORD from secret database, key database-password
+# MYSQL_ROOT_PASSWORD from secret database, key database-root-password
 MYSQL_DATABASE=mydb
 ----
 

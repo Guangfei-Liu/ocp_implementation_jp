@@ -164,8 +164,8 @@ Resolving deltas: 100% (86/86), done.
 +
 ----
 [marina@master1]$ oc get builds
-NAME                 TYPE      FROM         STATUS    STARTED         DURATION
-ruby-hello-world-1   Docker    Git@master   Running   9 seconds ago   9s
+NAME                 TYPE      FROM          STATUS    STARTED          DURATION
+ruby-hello-world-1   Source    Git@022d87e   Running   14 seconds ago 
 ----
 
 . View the build log:

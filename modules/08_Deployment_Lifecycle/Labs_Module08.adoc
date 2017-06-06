@@ -315,37 +315,21 @@ Your GitHub account can configure a webhook whenever you push a commit to a spec
 
 * Two webhook URLs are displayed.
 
-. Copy the generic URL, which looks like this:
+. Copy the Github Webhook URL, which looks like this:
 +
 ----
-https://master1-GUID.oslab.opentlc.com:8443/oapi/v1/namespaces/lifecycle/buildconfigs/ruby-hello-world/webhooks/ALNUyArydLb22JqdXYIb/generic
+https://master1-GUID.oslab.opentlc.com:8443/oapi/v1/namespaces/lifecycle/buildconfigs/ruby-hello-world/webhooks/ALNUyArydLb22JqdXYIb/github
 ----
-
-. Obtain the `secret` password from `buildconfig`:
-+
-----
-[marina@master1~]$ oc get bc ruby-hello-world -o yaml
-----
-* The output looks similar to the following.
-+
-----
-... Cropped Output ...
-  triggers:
-  - github:
-      secret: xTah2lioO2Bz9JZT9dPf
-    type: GitHub
-  - generic:
-      secret: B5h3ARS88HD7S3LOcbRZ
-    type: Generic
-... Cropped Output ...
-----
-* Note the `secret` value in your configuration in Git.
 
 . In the GitHub repository, which you forked earlier, go to *Settings* -> *Webhooks and Services*.
 
 . Paste the URL that you copied from the web console into the *Payload URL* field.
 
-. Complete the `secret` field and disable SSL verification.
+. Change 'Content type' to 'application/json'
+
+. Leave the `secret` field empty
+
+. Disable SSL verification.
 
 . Click *Add Webhook*.
 

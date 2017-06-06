@@ -100,7 +100,7 @@ image::images/ose_lab6_image1.png[]
 . Click *Overview* to go back to the *Overview* screen.
 * The current and default view of the *Overview* screen is the *tile view*.
 
-. Switch to the *topology view* by clicking the icon on the upper right side that looks like the *<* character or a social-media Share button (which it is not).
+. Switch to the *topology view* by clicking the icon on the upper right side that looks like the *<* character or a social-media Share button (which it is not). (Reference)
 +
 image::images/ose_lab6_image2.png[]
 

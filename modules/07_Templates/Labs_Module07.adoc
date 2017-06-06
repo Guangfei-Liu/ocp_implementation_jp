@@ -148,7 +148,9 @@ CAUTION: Make sure you set these values correctly; otherwise the application
 You can also create the template instance from the command line:
 
 ----
-[marina@master1 ~]$ oc new-app --template=mysql-ephemeral --param=MYSQL_USER=mysqluser,MYSQL_PASSWORD=redhat,MYSQL_DATABASE=mydb,DATABASE_SERVICE_NAME=database
+[marina@master1 ~]$ oc new-app --template=mysql-ephemeral --name=database \
+--param MYSQL_USER=mysqluser --param MYSQL_PASSWORD=redhat \
+--param MYSQL_DATABASE=mydb --param DATABASE_SERVICE_NAME=database
 ----
 =====
 

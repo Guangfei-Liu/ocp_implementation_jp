@@ -281,7 +281,12 @@ MYSQL_DATABASE=mydb
  can delete just the pod, or you can redeploy the application:
 +
 ----
-[marina@master1 ~]$ oc deploy ruby-hello-world --latest
+[marina@master1 ~]$ oc deploy ruby-hello-world --latest   # (reference)
+Flag --latest has been deprecated, use 'oc rollout latest' instead
+Started deployment #2
+Use 'oc logs -f dc/ruby-hello-world' to track its progress.
+[marina@master1 ~]$ oc rollout latest ruby-hello-world
+deploymentconfig "ruby-hello-world" rolled out
 ----
 
 . Use this `oc logs` command to see the logs for your latest deployment:

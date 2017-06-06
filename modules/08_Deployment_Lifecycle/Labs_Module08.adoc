@@ -207,51 +207,32 @@ Templates (oc new-app --template=<template>)
 * Expect the output to look like this:
 +
 ----
+Templates (oc new-app --template=<template>)
+-----
 mysql-persistent
   Project: openshift
-  MySQL database service, with persistent storage. Scaling to more than one replica is not supported
+  MySQL database service, with persistent storage. For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/mysql-container/blob/master/5.7/README.md.
+
+NOTE: Scaling to more than one replica is not supported. You must have persistent volumes available in your cluster to use this template.
 mysql-ephemeral
   Project: openshift
-  MySQL database service, without persistent storage. WARNING: Any data stored will be lost upon pod destruction. Only use this template for testing
-eap64-mysql-s2i
-  Project: openshift
-  Application template for EAP 6 MySQL applications built using S2I.
-jws30-tomcat7-mysql-persistent-s2i
-  Project: openshift
-  Application template for JWS MySQL applications with persistent storage built using S2I.
-jws30-tomcat8-mysql-s2i
-  Project: openshift
-  Application template for JWS MySQL applications built using S2I.
-jws30-tomcat7-mysql-s2i
-  Project: openshift
-  Application template for JWS MySQL applications built using S2I.
-cakephp-mysql-example
-  Project: openshift
-  An example CakePHP application with a MySQL database
+  MySQL database service, without persistent storage. For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/mysql-container/blob/master/5.7/README.md.
+
+WARNING: Any data stored will be lost upon pod destruction. Only use this template for testing
 dancer-mysql-example
   Project: openshift
-  An example Dancer application with a MySQL database
-jws30-tomcat8-mysql-persistent-s2i
-  Project: openshift
-  Application template for JWS MySQL applications with persistent storage built using S2I.
-eap64-mysql-persistent-s2i
-  Project: openshift
-  Application template for EAP 6 MySQL applications with persistent storage built using S2I.
-----
-+
-----
+  An example Dancer application with a MySQL database. For more information about using this template, including OpenShift considerations, see https://github.com/openshift/dancer-ex/blob/master/README.md.
+
+WARNING: Any data stored will be lost upon pod destruction. Only use this template for testing.
+[...] Cropped Output
 Image streams (oc new-app --image-stream=<image-stream> [--code=<source>])
-----
-+
-----
+-----
 mysql
   Project: openshift
-  Tags:    5.5, 5.6, latest
+  Tags:    5.6, 5.7, latest
 
 Docker images (oc new-app --docker-image=<docker-image> [--code=<source>])
-----
-+
-----
+-----
 mysql
   Registry: Docker Hub
   Tags:     latest

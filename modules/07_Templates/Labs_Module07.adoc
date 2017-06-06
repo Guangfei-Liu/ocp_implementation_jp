@@ -169,14 +169,14 @@ Now using project "templates" on server "https://master1-3191.oslab.opentlc.com:
 +
 ----
 [marina@master1 ~]$ oc get dc
-NAME       TRIGGERS                    LATEST
-database   ConfigChange, ImageChange   1
+NAME       REVISION   DESIRED   CURRENT   TRIGGERED BY
+database   1          1         1         config,image(mysql:5.7)
 ----
 +
 ----
 [marina@master1 ~]$ oc get service
-NAME       CLUSTER_IP       EXTERNAL_IP   PORT(S)    SELECTOR        AGE
-database   172.30.102.220   <none>        3306/TCP   name=database   1m
+NAME       TRIGGERS                    LATEST
+database   ConfigChange, ImageChange   1
 ----
 * A deployment configuration is available for your instance. The service name is the same as that of your `DATABASE_SERVICE_NAME` parameter.
 
@@ -203,8 +203,9 @@ MYSQL_DATABASE=mydb
 +
 ----
 [marina@master1 ~]$ oc get service
-mysql              172.30.68.48    <none>        3306/TCP   name=mysql                                               4m
-ruby-hello-world   172.30.78.240   <none>        8080/TCP   app=ruby-hello-world,deploymentconfig=ruby-hello-world   8s
+NAME               CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+database           172.30.107.208   <none>        3306/TCP   16m
+ruby-hello-world   172.30.42.66     <none>        8080/TCP   7s
 ----
 
 . Create an external route to your front-end application:
@@ -216,8 +217,8 @@ route "ruby-hello-world" exposed
 +
 ----
 [marina@master1 ~]$ oc get route
-NAME               HOST/PORT                                                     PATH      SERVICE            LABELS
-ruby-hello-world   ruby-hello-world-templates.cloudapps-GUID.oslab.opentlc.com             ruby-hello-world   app=ruby-hello-world
+NAME               HOST/PORT                                                     PATH      SERVICES           PORT       TERMINATION   WILDCARD
+ruby-hello-world   ruby-hello-world-templates.cloudapps-72e3.oslab.opentlc.com             ruby-hello-world   8080-tcp                 None
 ----
 
 * If you do not specify a host name, the default subdomain route creates the route.

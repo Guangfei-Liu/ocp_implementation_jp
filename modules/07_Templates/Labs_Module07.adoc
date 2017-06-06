@@ -184,10 +184,46 @@ database   ConfigChange, ImageChange   1
 +
 ----
 [marina@master1 ~]$ oc env dc database --list
-# deploymentconfigs mysql, container mysql
-MYSQL_USER=mysqluser
-MYSQL_PASSWORD=redhat
+# deploymentconfigs database, container mysql
+# MYSQL_USER from secret database, key database-user
+# MYSQL_PASSWORD from secret database, key database-password
+# MYSQL_ROOT_PASSWORD from secret database, key database-root-password
 MYSQL_DATABASE=mydb
+----
+
+... The user and password are stored in the 'database' Secret:
++
+----
+[marina@master1 ~]$ oc get secret database
+NAME       TYPE      DATA      AGE
+database   Opaque    3         12m
+[marina@master1 ~]$ oc get secret database -o yaml
+apiVersion: v1
+data:
+  database-password: cmVkaGF0
+  database-root-password: cENjRU9JNndWanZWUE4zbw==
+  database-user: bXlzcWx1c2Vy
+kind: Secret
+metadata:
+  creationTimestamp: 2017-06-06T10:00:25Z
+  labels:
+    app: mysql-ephemeral
+    template: mysql-ephemeral-template
+  name: database
+  namespace: templates
+  resourceVersion: "39480"
+  selfLink: /api/v1/namespaces/templates/secrets/database
+  uid: f6259097-4a9e-11e7-9d60-2cc2600a5748
+type: Opaque
+----
+
+... Secret values are encoded in base64 format. You can pass the content to the `base64 -d` command to decode:
++
+----
+[marina@master1 ~]$ oc get secret database --template '{{ index .data "database-user"}}'|base64 -d; echo
+mysqluser
+[marina@master1 ~]$ oc get secret database --template '{{ index .data "database-password"}}'|base64 -d; echo
+redhat
 ----
 
 === Deploy Application's Ruby Front End

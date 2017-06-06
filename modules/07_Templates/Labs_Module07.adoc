@@ -129,7 +129,7 @@ You can also perform this step from the command line:
 
 . Deploy an ephemeral MySQL database:
 .. From the `templates` project's *Overview* screen, click *Add to project*.
-.. Scroll down to *Databases*, or type `mysql` in the search field.
+.. Scroll down to *Data Stores*, or type `mysql` in the search field.
 .. Select the `mysql-ephemeral` database template.
 
 .. Set the template parameters:

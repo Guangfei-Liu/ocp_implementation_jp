@@ -167,8 +167,8 @@ Replace `<GitHubUsername>` with your GitHub username. For example, if your GitHu
 +
 ----
 [marina@master1~]$ oc get bc
-NAME               TYPE      SOURCE
-ruby-hello-world   Docker    https://github.com/YOURUSERNAME/ruby-hello-world
+NAME               TYPE      FROM      LATEST
+ruby-hello-world   Source    Git       1
 ----
 +
 ----

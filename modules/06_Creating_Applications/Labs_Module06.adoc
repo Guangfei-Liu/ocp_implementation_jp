@@ -109,9 +109,11 @@ image::images/ose_lab6_image2.png[]
 
 == Customize Build Script
 
-OpenShift Container Platform 3 supports customization of both the build and run processes. Generally speaking, this involves modifying the S2I scripts from the builder image. While building your code, OpenShift Container Platform checks the scripts in your repository's `.sti/bin` folder to see if they override or supersede the builder image's scripts. If it finds scripts that do so, it executes those scripts.
+OpenShift Container Platform 3 supports customization of both the build and run processes. Generally speaking, this involves modifying the S2I scripts from the builder image. While building your code, OpenShift Container Platform checks the scripts in your repository's `.s2i/bin` folder to see if they override or supersede the builder image's scripts. If it finds scripts that do so, it executes those scripts.
 
-For details on the scripts and their execution and customization, go to `https://docs.openshift.com/container-platform/3.3/creating_images/index.html`.
+For details on the scripts and their execution and customization, go to `https://docs.openshift.com/container-platform/3.5/creating_images/index.html`.
+
+NOTE: `.s2i/bin` folder is not the only way to pass custom scripts during the build, see `https://docs.openshift.com/container-platform/3.5/creating_images/s2i.html#s2i-scripts`.
 
 
 === Clone Repository and Launch Application from Local Copy
@@ -200,7 +202,7 @@ ruby-hello-world-1-build   0/1       Completed   0          9m
 
 . Go to the GitHub repository for your application from the previous section.
 
-. In the GitHub web UI, navigate to the `.sti/bin` folder.
+. In the GitHub web UI, navigate to the `.s2i/bin` folder.
 
 . Click *Create new File* at the top right (to the right of `bin` in the breadcrumb).
 

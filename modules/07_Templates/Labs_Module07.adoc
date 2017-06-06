@@ -73,7 +73,10 @@ You can also perform this step from the command line:
 
 . On the `instant-app` project's *Overview* screen, click *Add to project*.
 
-* This familiar screen now displays something new: an _instant application_, which is a special kind of template with the `instant-app` tag. 
+* In the *Filter by name or application* input field, type `keyvalue`.
+
+* This familiar screen now displays something new: an _a-quickstart-keyvalue-application_, which is a special kind of template, that you previously added to the `openshift` project.
+
 * The idea behind an instant application is that, when you create a template instance, you already have a fully functional application. 
 * In this example, your instant application is just a simple web page for key-value storage and retrieval.
 

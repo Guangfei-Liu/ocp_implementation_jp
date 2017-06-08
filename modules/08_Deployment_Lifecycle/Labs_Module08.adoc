@@ -9,12 +9,11 @@ In this lab you explore the different aspects of the application life cycle.
 
 This lab includes two sections:
 
-.Roll Back, Activate, and Code Life Cycle
-
+. Roll Back, Activate, and Code Life Cycle
++
 In this section you manage the various phases of the deployment's life cycle.
-
-.Create and Use Web Hooks
-
+. Create and Use Web Hooks
++
 In this section you create a Git webhook and automatically start a new build and a new deployment by pushing a code change into your Git repository.
 
 :numbered:
@@ -168,8 +167,8 @@ Replace `<GitHubUsername>` with your GitHub username. For example, if your GitHu
 +
 ----
 [marina@master1~]$ oc get bc
-NAME               TYPE      SOURCE
-ruby-hello-world   Docker    https://github.com/YOURUSERNAME/ruby-hello-world
+NAME               TYPE      FROM      LATEST
+ruby-hello-world   Source    Git       1
 ----
 +
 ----
@@ -208,51 +207,32 @@ Templates (oc new-app --template=<template>)
 * Expect the output to look like this:
 +
 ----
+Templates (oc new-app --template=<template>)
+-----
 mysql-persistent
   Project: openshift
-  MySQL database service, with persistent storage. Scaling to more than one replica is not supported
+  MySQL database service, with persistent storage. For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/mysql-container/blob/master/5.7/README.md.
+
+NOTE: Scaling to more than one replica is not supported. You must have persistent volumes available in your cluster to use this template.
 mysql-ephemeral
   Project: openshift
-  MySQL database service, without persistent storage. WARNING: Any data stored will be lost upon pod destruction. Only use this template for testing
-eap64-mysql-s2i
-  Project: openshift
-  Application template for EAP 6 MySQL applications built using S2I.
-jws30-tomcat7-mysql-persistent-s2i
-  Project: openshift
-  Application template for JWS MySQL applications with persistent storage built using S2I.
-jws30-tomcat8-mysql-s2i
-  Project: openshift
-  Application template for JWS MySQL applications built using S2I.
-jws30-tomcat7-mysql-s2i
-  Project: openshift
-  Application template for JWS MySQL applications built using S2I.
-cakephp-mysql-example
-  Project: openshift
-  An example CakePHP application with a MySQL database
+  MySQL database service, without persistent storage. For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/mysql-container/blob/master/5.7/README.md.
+
+WARNING: Any data stored will be lost upon pod destruction. Only use this template for testing
 dancer-mysql-example
   Project: openshift
-  An example Dancer application with a MySQL database
-jws30-tomcat8-mysql-persistent-s2i
-  Project: openshift
-  Application template for JWS MySQL applications with persistent storage built using S2I.
-eap64-mysql-persistent-s2i
-  Project: openshift
-  Application template for EAP 6 MySQL applications with persistent storage built using S2I.
-----
-+
-----
+  An example Dancer application with a MySQL database. For more information about using this template, including OpenShift considerations, see https://github.com/openshift/dancer-ex/blob/master/README.md.
+
+WARNING: Any data stored will be lost upon pod destruction. Only use this template for testing.
+[...] Cropped Output
 Image streams (oc new-app --image-stream=<image-stream> [--code=<source>])
-----
-+
-----
+-----
 mysql
   Project: openshift
-  Tags:    5.5, 5.6, latest
+  Tags:    5.6, 5.7, latest
 
 Docker images (oc new-app --docker-image=<docker-image> [--code=<source>])
-----
-+
-----
+-----
 mysql
   Registry: Docker Hub
   Tags:     latest
@@ -261,17 +241,20 @@ mysql
 . Create the `database` application by running `oc new-app`:
 +
 ----
-[marina@master1~]$ oc new-app --template=mysql-ephemeral \
-                    --param=MYSQL_USER=mysqluser,MYSQL_PASSWORD=redhat,MYSQL_DATABASE=mydb,DATABASE_SERVICE_NAME=database
+[marina@master1~]$ oc new-app --template=mysql-ephemeral  --name=database \
+--param MYSQL_USER=mysqluser --param MYSQL_PASSWORD=redhat \
+--param MYSQL_DATABASE=mydb --param DATABASE_SERVICE_NAME=database
 ----
+
 
 . Verify that your values were processed correctly:
 +
 ----
 [marina@master1~]$ oc env dc/database --list
 # deploymentconfigs database, container mysql
-MYSQL_USER=mysqluser
-MYSQL_PASSWORD=redhat
+# MYSQL_USER from secret database, key database-user
+# MYSQL_PASSWORD from secret database, key database-password
+# MYSQL_ROOT_PASSWORD from secret database, key database-root-password
 MYSQL_DATABASE=mydb
 ----
 
@@ -279,7 +262,12 @@ MYSQL_DATABASE=mydb
  can delete just the pod, or you can redeploy the application:
 +
 ----
-[marina@master1 ~]$ oc deploy ruby-hello-world --latest
+[marina@master1 ~]$ oc deploy ruby-hello-world --latest   # (reference)
+Flag --latest has been deprecated, use 'oc rollout latest' instead
+Started deployment #2
+Use 'oc logs -f dc/ruby-hello-world' to track its progress.
+[marina@master1 ~]$ oc rollout latest ruby-hello-world
+deploymentconfig "ruby-hello-world" rolled out
 ----
 
 . Use this `oc logs` command to see the logs for your latest deployment:
@@ -308,37 +296,21 @@ Your GitHub account can configure a webhook whenever you push a commit to a spec
 
 * Two webhook URLs are displayed.
 
-. Copy the generic URL, which looks like this:
+. Copy the Github Webhook URL, which looks like this:
 +
 ----
-https://master1-GUID.oslab.opentlc.com:8443/oapi/v1/namespaces/lifecycle/buildconfigs/ruby-hello-world/webhooks/ALNUyArydLb22JqdXYIb/generic
+https://master1-GUID.oslab.opentlc.com:8443/oapi/v1/namespaces/lifecycle/buildconfigs/ruby-hello-world/webhooks/ALNUyArydLb22JqdXYIb/github
 ----
-
-. Obtain the `secret` password from `buildconfig`:
-+
-----
-[marina@master1~]$ oc get bc ruby-hello-world -o yaml
-----
-* The output looks similar to the following.
-+
-----
-... Cropped Output ...
-  triggers:
-  - github:
-      secret: xTah2lioO2Bz9JZT9dPf
-    type: GitHub
-  - generic:
-      secret: B5h3ARS88HD7S3LOcbRZ
-    type: Generic
-... Cropped Output ...
-----
-* Note the `secret` value in your configuration in Git.
 
 . In the GitHub repository, which you forked earlier, go to *Settings* -> *Webhooks and Services*.
 
 . Paste the URL that you copied from the web console into the *Payload URL* field.
 
-. Complete the `secret` field and disable SSL verification.
+. Change 'Content type' to 'application/json'
+
+. Leave the `secret` field empty
+
+. Disable SSL verification.
 
 . Click *Add Webhook*.
 
@@ -443,12 +415,9 @@ Latest Deployment:      <none>
 +
 ----
 [marina@master1~]$ oc rollback ruby-hello-world-X # X is your desired deployment
-----
-+
-----
-#oc get9 rolled back to ruby-hello-world-X
-Warning: the following images triggers were disabled: ruby-hello-world
-  You can re-enable them with: oc deploy ruby-hello-world --enable-triggers
+#7 rolled back to ruby-hello-world-X
+Warning: the following images triggers were disabled: ruby-hello-world:latest
+  You can re-enable them with: oc set triggers dc/ruby-hello-world --auto
 ----
 
 . Click the *Browse* tab of your project and note that you have a new pod in the *Pods* section.
@@ -463,10 +432,7 @@ Warning: the following images triggers were disabled: ruby-hello-world
 +
 ----
 [marina@master1~]$ oc rollback ruby-hello-world-X # X is your desired deployment
-----
-+
-----
-#11 rolled back to ruby-hello-world-X
-Warning: the following images triggers were disabled: ruby-hello-world
-  You can re-enable them with: oc deploy ruby-hello-world --enable-triggers
+#8 rolled back to ruby-hello-world-X
+Warning: the following images triggers were disabled: ruby-hello-world:latest
+  You can re-enable them with: oc set triggers dc/ruby-hello-world --auto
 ----

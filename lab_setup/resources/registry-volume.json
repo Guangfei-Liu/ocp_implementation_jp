@@ -11,7 +11,7 @@
     "accessModes": [ "ReadWriteMany" ],
     "nfs": {
         "path": "/var/export/pvs/registry-storage",
-        "server": "oselab-${GUID}.oslab.opentlc.com"
+        "server": "bastion-${GUID}.oslab.opentlc.com"
     }
   }
 }

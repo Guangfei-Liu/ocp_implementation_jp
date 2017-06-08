@@ -73,7 +73,10 @@ You can also perform this step from the command line:
 
 . On the `instant-app` project's *Overview* screen, click *Add to project*.
 
-* This familiar screen now displays something new: an _instant application_, which is a special kind of template with the `instant-app` tag. 
+* In the *Filter by name or application* input field, type `keyvalue`.
+
+* This familiar screen now displays something new: an _a-quickstart-keyvalue-application_, which is a special kind of template, that you previously added to the `openshift` project.
+
 * The idea behind an instant application is that, when you create a template instance, you already have a fully functional application. 
 * In this example, your instant application is just a simple web page for key-value storage and retrieval.
 
@@ -126,7 +129,7 @@ You can also perform this step from the command line:
 
 . Deploy an ephemeral MySQL database:
 .. From the `templates` project's *Overview* screen, click *Add to project*.
-.. Scroll down to *Databases*, or type `mysql` in the search field.
+.. Scroll down to *Data Stores*, or type `mysql` in the search field.
 .. Select the `mysql-ephemeral` database template.
 
 .. Set the template parameters:
@@ -145,7 +148,9 @@ CAUTION: Make sure you set these values correctly; otherwise the application
 You can also create the template instance from the command line:
 
 ----
-[marina@master1 ~]$ oc new-app --template=mysql-ephemeral --param=MYSQL_USER=mysqluser,MYSQL_PASSWORD=redhat,MYSQL_DATABASE=mydb,DATABASE_SERVICE_NAME=database
+[marina@master1 ~]$ oc new-app --template=mysql-ephemeral --name=database \
+--param MYSQL_USER=mysqluser --param MYSQL_PASSWORD=redhat \
+--param MYSQL_DATABASE=mydb --param DATABASE_SERVICE_NAME=database
 ----
 =====
 
@@ -166,14 +171,14 @@ Now using project "templates" on server "https://master1-3191.oslab.opentlc.com:
 +
 ----
 [marina@master1 ~]$ oc get dc
-NAME       TRIGGERS                    LATEST
-database   ConfigChange, ImageChange   1
+NAME       REVISION   DESIRED   CURRENT   TRIGGERED BY
+database   1          1         1         config,image(mysql:5.7)
 ----
 +
 ----
 [marina@master1 ~]$ oc get service
-NAME       CLUSTER_IP       EXTERNAL_IP   PORT(S)    SELECTOR        AGE
-database   172.30.102.220   <none>        3306/TCP   name=database   1m
+NAME       TRIGGERS                    LATEST
+database   ConfigChange, ImageChange   1
 ----
 * A deployment configuration is available for your instance. The service name is the same as that of your `DATABASE_SERVICE_NAME` parameter.
 
@@ -181,10 +186,46 @@ database   172.30.102.220   <none>        3306/TCP   name=database   1m
 +
 ----
 [marina@master1 ~]$ oc env dc database --list
-# deploymentconfigs mysql, container mysql
-MYSQL_USER=mysqluser
-MYSQL_PASSWORD=redhat
+# deploymentconfigs database, container mysql
+# MYSQL_USER from secret database, key database-user
+# MYSQL_PASSWORD from secret database, key database-password
+# MYSQL_ROOT_PASSWORD from secret database, key database-root-password
 MYSQL_DATABASE=mydb
+----
+
+... The user and password are stored in the 'database' Secret:
++
+----
+[marina@master1 ~]$ oc get secret database
+NAME       TYPE      DATA      AGE
+database   Opaque    3         12m
+[marina@master1 ~]$ oc get secret database -o yaml
+apiVersion: v1
+data:
+  database-password: cmVkaGF0
+  database-root-password: cENjRU9JNndWanZWUE4zbw==
+  database-user: bXlzcWx1c2Vy
+kind: Secret
+metadata:
+  creationTimestamp: 2017-06-06T10:00:25Z
+  labels:
+    app: mysql-ephemeral
+    template: mysql-ephemeral-template
+  name: database
+  namespace: templates
+  resourceVersion: "39480"
+  selfLink: /api/v1/namespaces/templates/secrets/database
+  uid: f6259097-4a9e-11e7-9d60-2cc2600a5748
+type: Opaque
+----
+
+... Secret values are encoded in base64 format. You can pass the content to the `base64 -d` command to decode:
++
+----
+[marina@master1 ~]$ oc get secret database --template '{{ index .data "database-user"}}'|base64 -d; echo
+mysqluser
+[marina@master1 ~]$ oc get secret database --template '{{ index .data "database-password"}}'|base64 -d; echo
+redhat
 ----
 
 === Deploy Application's Ruby Front End
@@ -200,8 +241,9 @@ MYSQL_DATABASE=mydb
 +
 ----
 [marina@master1 ~]$ oc get service
-mysql              172.30.68.48    <none>        3306/TCP   name=mysql                                               4m
-ruby-hello-world   172.30.78.240   <none>        8080/TCP   app=ruby-hello-world,deploymentconfig=ruby-hello-world   8s
+NAME               CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+database           172.30.107.208   <none>        3306/TCP   16m
+ruby-hello-world   172.30.42.66     <none>        8080/TCP   7s
 ----
 
 . Create an external route to your front-end application:
@@ -213,8 +255,8 @@ route "ruby-hello-world" exposed
 +
 ----
 [marina@master1 ~]$ oc get route
-NAME               HOST/PORT                                                     PATH      SERVICE            LABELS
-ruby-hello-world   ruby-hello-world-templates.cloudapps-GUID.oslab.opentlc.com             ruby-hello-world   app=ruby-hello-world
+NAME               HOST/PORT                                                     PATH      SERVICES           PORT       TERMINATION   WILDCARD
+ruby-hello-world   ruby-hello-world-templates.cloudapps-72e3.oslab.opentlc.com             ruby-hello-world   8080-tcp                 None
 ----
 
 * If you do not specify a host name, the default subdomain route creates the route.

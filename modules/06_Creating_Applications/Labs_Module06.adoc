@@ -48,7 +48,7 @@ In this exercise you connect to and become familiar with the web console, create
 
 . In the *Select Image or Template* screen, type `ruby` in the search field to filter the available instant apps, templates, and builder images.
 
-. Select the `ruby:2.0` builder image on the right.
+. Select the `ruby:2.3` builder image.
 
 . Specify the name and Git repository URL:
 * *Name*: `my-ruby-hello-world`.
@@ -100,7 +100,7 @@ image::images/ose_lab6_image1.png[]
 . Click *Overview* to go back to the *Overview* screen.
 * The current and default view of the *Overview* screen is the *tile view*.
 
-. Switch to the *topology view* by clicking the icon on the upper right side that looks like the *<* character or a social-media Share button (which it is not).
+. Switch to the *topology view* by clicking the icon on the upper right side that looks like the *<* character or a social-media Share button (which it is not). (Reference)
 +
 image::images/ose_lab6_image2.png[]
 
@@ -109,9 +109,11 @@ image::images/ose_lab6_image2.png[]
 
 == Customize Build Script
 
-OpenShift Container Platform 3 supports customization of both the build and run processes. Generally speaking, this involves modifying the S2I scripts from the builder image. While building your code, OpenShift Container Platform checks the scripts in your repository's `.sti/bin` folder to see if they override or supersede the builder image's scripts. If it finds scripts that do so, it executes those scripts.
+OpenShift Container Platform 3 supports customization of both the build and run processes. Generally speaking, this involves modifying the S2I scripts from the builder image. While building your code, OpenShift Container Platform checks the scripts in your repository's `.s2i/bin` folder to see if they override or supersede the builder image's scripts. If it finds scripts that do so, it executes those scripts.
 
-For details on the scripts and their execution and customization, go to `https://docs.openshift.com/container-platform/3.3/creating_images/index.html`.
+For details on the scripts and their execution and customization, go to `https://docs.openshift.com/container-platform/3.5/creating_images/index.html`.
+
+NOTE: `.s2i/bin` folder is not the only way to pass custom scripts during the build, see `https://docs.openshift.com/container-platform/3.5/creating_images/s2i.html#s2i-scripts`.
 
 
 === Clone Repository and Launch Application from Local Copy
@@ -157,15 +159,15 @@ Resolving deltas: 100% (86/86), done.
 +
 ----
 [marina@master1 ~]$ cd ruby-hello-world/
-[marina@master1 ruby-hello-world]$ oc new-app . --docker-image=registry.access.redhat.com/openshift3/ruby-20-rhel7
+[marina@master1 ruby-hello-world]$ oc new-app . --docker-image=registry.access.redhat.com/rhscl/ruby-23-rhel7
 ----
 
 . View the current build status and build logs:
 +
 ----
 [marina@master1]$ oc get builds
-NAME                 TYPE      FROM         STATUS    STARTED         DURATION
-ruby-hello-world-1   Docker    Git@master   Running   9 seconds ago   9s
+NAME                 TYPE      FROM          STATUS    STARTED          DURATION
+ruby-hello-world-1   Source    Git@022d87e   Running   14 seconds ago 
 ----
 
 . View the build log:
@@ -200,9 +202,9 @@ ruby-hello-world-1-build   0/1       Completed   0          9m
 
 . Go to the GitHub repository for your application from the previous section.
 
-. In the GitHub web UI, navigate to the `.sti/bin` folder.
+. In the GitHub web UI, navigate to the `.s2i/bin` folder.
 
-. Click *New File* at the top right (to the right of `bin` in the breadcrumb).
+. Click *Create new File* at the top right (to the right of `bin` in the breadcrumb).
 
 . Name your file `assemble`.
 
@@ -231,7 +233,7 @@ ruby-hello-world-1-build   0/1       Completed   0          9m
 
 . In the *Select Image or Template* screen, type `ruby` in the search field to filter the available instant apps, templates, and builder images.
 
-. Select the `ruby:2.0` builder image from the right side.
+. Select the `ruby:2.3` builder image.
 
 . Specify the name and Git repository URL:
 * *Name*: `my-custom-builder-test`

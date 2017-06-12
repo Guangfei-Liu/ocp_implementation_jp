@@ -705,10 +705,8 @@ In a production environment, exercise caution when running `docker-storage-setup
 * The output is as follows:
 +
 ----
-LV          VG                    Attr       LSize  Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
-docker-pool docker-vg             twi-a-t---  3.99g             0.00   0.29
-root        rhel_host2cc260760b15 -wi-ao---- 17.51g
-swap        rhel_host2cc260760b15 -wi-ao----  2.00g
+LV VG Attr LSize Pool Origin Data% Meta% Move Log Cpy%Sync Convert
+docker-pool docker-vg twi-a-t--- 9.94g 0.00 0.14
 ----
 
 . On the master host, examine the configuration of `docker storage`:
@@ -906,10 +904,8 @@ ID: RXVI:JKOO:3U4X:LHDE:QXPN:FSQC:TTBL:UCWP:MCEH:2KU6:GWSD:IRIN
 
 +
 ----
-LV          VG                    Attr       LSize  Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
-docker-pool docker-vg             twi-a-t---  9.98g             13.81  1.10
-root        rhel_host2cc260760b15 -wi-ao---- 17.51g
-swap        rhel_host2cc260760b15 -wi-ao----  2.00g
+LV VG Attr LSize Pool Origin Data% Meta% Move Log Cpy%Sync Convert
+docker-pool docker-vg twi-a-t--- 9.94g 0.00 0.14
 ----
 
 == Install OpenShift Container Platform

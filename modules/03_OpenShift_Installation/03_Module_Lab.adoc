@@ -447,7 +447,7 @@ zone \"${domain}\" IN {
 . Configure `iptables` to allow inbound DNS queries:
 +
 ----
-[root@bastion bin]# iptables -I INPUT 1 -p tcp --dport 53 -s 0.0.0.0/0 -j ACCEPT ; \
+[root@bastion ~]# iptables -I INPUT 1 -p tcp --dport 53 -s 0.0.0.0/0 -j ACCEPT ; \
 iptables -I INPUT 1 -p udp --dport 53 -s 0.0.0.0/0 -j ACCEPT ; \
 iptables-save > /etc/sysconfig/iptables
 ----
@@ -619,6 +619,11 @@ NOTE: The default configuration of loopback devices for the Docker storage does 
 +
 TIP: You can also use this Ansible command: `ansible nodes -m shell -a "systemctl stop docker ; rm -rf /var/lib/docker/*"`.
 
+. connect to master1
++
+----
+[root@bastion ~]# ssh master1.example.com
+----
 . identify the block device that will serve as the Docker Physical volume
 +
 ----
@@ -634,7 +639,6 @@ vdc    252:32   0  366K  1 disk
 . Specify the `/dev/vdb` hard drive for the Docker volume group for `docker-storage setup`:
 +
 ----
-[root@bastion ~]# ssh master1.example.com
 [root@master1 ~]# cat <<EOF > /etc/sysconfig/docker-storage-setup
 DEVS=/dev/vdb
 VG=docker-vg
@@ -681,16 +685,13 @@ Re-reading the partition table ...
 If you created or changed a DOS partition, /dev/foo7, say, then use dd(1)
 to zero the first 512 bytes:  dd if=/dev/zero of=/dev/foo7 bs=512 count=1
 (See fdisk(8).)
-  Physical volume "/dev/vdb1" successfully created
-  Volume group "docker-vg" successfully created
-  Rounding up size to full physical extent 12.00 MiB
-  Logical volume "docker-poolmeta" created.
-  Logical volume "docker-pool" created.
-  WARNING: Converting logical volume docker-vg/docker-pool and docker-vg/docker-poolmeta to pool's data and metadata volumes.
-  THIS WILL DESTROY CONTENT OF LOGICAL VOLUME (filesystem etc.)
-  Converted docker-vg/docker-pool to thin pool.
-  Logical volume "docker-pool" changed.
-
+INFO: Device node /dev/vdb1 exists.
+Physical volume "/dev/vdb1" successfully created.
+Volume group "docker-vg" successfully created
+Using default stripesize 64.00 KiB.
+Rounding up size to full physical extent 28.00 MiB
+Logical volume "docker-pool" created.
+Logical volume docker-vg/docker-pool changed.
 ----
 +
 [CAUTION]
@@ -705,10 +706,8 @@ In a production environment, exercise caution when running `docker-storage-setup
 * The output is as follows:
 +
 ----
-LV          VG                    Attr       LSize  Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
-docker-pool docker-vg             twi-a-t---  3.99g             0.00   0.29
-root        rhel_host2cc260760b15 -wi-ao---- 17.51g
-swap        rhel_host2cc260760b15 -wi-ao----  2.00g
+LV VG Attr LSize Pool Origin Data% Meta% Move Log Cpy%Sync Convert
+docker-pool docker-vg twi-a-t--- 9.94g 0.00 0.14
 ----
 
 . On the master host, examine the configuration of `docker storage`:
@@ -720,7 +719,7 @@ swap        rhel_host2cc260760b15 -wi-ao----  2.00g
 * The output is as follows:
 +
 ----
-DOCKER_STORAGE_OPTIONS=--storage-driver devicemapper --storage-opt dm.fs=xfs --storage-opt dm.thinpooldev=/dev/mapper/docker--vg-docker--pool
+DOCKER_STORAGE_OPTIONS="--storage-driver devicemapper --storage-opt dm.fs=xfs --storage-opt dm.thinpooldev=/dev/mapper/docker--vg-docker--pool --storage-opt dm.use_deferred_removal=true 
 ----
 
 . Enable the Docker service on the master host:
@@ -731,10 +730,16 @@ Created symlink from /etc/systemd/system/multi-user.target.wants/docker.service 
 [root@master1 ~]# systemctl start docker
 ----
 
-. Run the following `for` loop to configure Docker storage on the other nodes, enable Docker, and restart the node:
+. Go back to bastion:
 +
 ----
 [root@master1 ~]# exit
+[root@bastion ~]# 
+----
+
+. Run the following `for` loop to configure Docker storage on the other nodes, enable Docker, and restart the node:
++
+----
 [root@bastion ~]# scp root@master1.example.com:/etc/sysconfig/docker-storage-setup ./
 
 [root@bastion ~]# for node in infranode1.example.com \
@@ -906,10 +911,8 @@ ID: RXVI:JKOO:3U4X:LHDE:QXPN:FSQC:TTBL:UCWP:MCEH:2KU6:GWSD:IRIN
 
 +
 ----
-LV          VG                    Attr       LSize  Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
-docker-pool docker-vg             twi-a-t---  9.98g             13.81  1.10
-root        rhel_host2cc260760b15 -wi-ao---- 17.51g
-swap        rhel_host2cc260760b15 -wi-ao----  2.00g
+LV VG Attr LSize Pool Origin Data% Meta% Move Log Cpy%Sync Convert
+docker-pool docker-vg twi-a-t--- 9.94g 0.00 0.14
 ----
 
 == Install OpenShift Container Platform

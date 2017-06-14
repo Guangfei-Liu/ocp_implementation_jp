@@ -87,7 +87,8 @@ ssh -i ~/.ssh/yourprivatekey.key opentlc-username.com@bastion-GUID.oslab.opentlc
 +
 [source,text]
 ----
--bash-4.2$ sudo -i
+[user@bastion-XXXX ~]$ sudo -i
+[root@bastion-XXXX ~]#
 ----
 
 :numbered!:

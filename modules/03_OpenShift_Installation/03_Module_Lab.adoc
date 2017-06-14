@@ -719,7 +719,7 @@ docker-pool docker-vg twi-a-t--- 9.94g 0.00 0.14
 * The output is as follows:
 +
 ----
-DOCKER_STORAGE_OPTIONS=--storage-driver devicemapper --storage-opt dm.fs=xfs --storage-opt dm.thinpooldev=/dev/mapper/docker--vg-docker--pool
+DOCKER_STORAGE_OPTIONS="--storage-driver devicemapper --storage-opt dm.fs=xfs --storage-opt dm.thinpooldev=/dev/mapper/docker--vg-docker--pool --storage-opt dm.use_deferred_removal=true 
 ----
 
 . Enable the Docker service on the master host:

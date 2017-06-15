@@ -839,8 +839,8 @@ Next, take a look at the route and registry containers.
 ----
 +
 ----
-NAME              CLUSTER_IP      EXTERNAL_IP   PORT(S)             SELECTOR                                        AGE
-hello-openshift   172.30.60.163   <none>        8080/TCP,8888/TCP   deploymentconfig=hello-openshift,todelete=yes   2m
+NAME CLUSTER-IP EXTERNAL-IP PORT(S) AGE
+hello-openshift 172.30.211.235 8080/TCP,8888/TCP 6m
 ----
 
 .. Verify the pod:
@@ -1357,6 +1357,8 @@ trainingrouter    ConfigChange   1
 [root@master1 ~]# oc volume dc/docker-registry --add --overwrite -t persistentVolumeClaim \
 --claim-name=registry-claim --name=registry-storage
 ----
+
+* The 
 
 . Run `oc get pods` and look for results like this:
 +

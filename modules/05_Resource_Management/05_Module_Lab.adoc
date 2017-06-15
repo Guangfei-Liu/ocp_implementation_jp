@@ -910,7 +910,7 @@ trainingrouter-1-jm5zk    1/1       Running   0          18h
 
 . Run `id`.
 . Run `pwd` and `ls`, and note the directory you are in.
-. Run `cat haproxy.config` to verify that your configuration file is empty, and then view the process status.
+. Run `cat haproxy.config` to verify that your configuration file is not empty, and then view the process status.
 +
 ----
 [I have no name!@infranode1 conf]$ id
@@ -1357,8 +1357,6 @@ trainingrouter    ConfigChange   1
 [root@master1 ~]# oc volume dc/docker-registry --add --overwrite -t persistentVolumeClaim \
 --claim-name=registry-claim --name=registry-storage
 ----
-
-* The 
 
 . Run `oc get pods` and look for results like this:
 +

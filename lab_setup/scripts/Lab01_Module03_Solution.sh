@@ -1,396 +1,244 @@
-#Lab: Prepare to Deploy OpenShift
-#####################################################################################
-#####################################################################################
-#####################################################################################
-# THIS NEEDS TO RUN ON master HOST
-#####################################################################################
-#####################################################################################
-#####################################################################################
-export HOST=bastion
-export VERSION="3.5"
-hostname | grep $HOST
-if [ $? -ne 0 ]
-then
-echo "Not on $HOST, Quiting"
-exit;
-fi
+#!/bin/bash
+set -x          # show commands
+set -e          # stop at errors
+set -o pipefail # do not ignore error on pipe
+set -u          # error when an empty var is used
+
+# ensure root@bastion
+hostname | grep bastion
+[ "$(whoami)" == "root" ]
 
 export guid=`hostname|cut -f2 -d-|cut -f1 -d.`
-export GUID=`hostname|cut -f2 -d-|cut -f1 -d.`
-
-echo Configure `/etc/ssh/ssh_conf` to disable `StrictHostKeyChecking` on the master host:
+export GUID=$guid
 
 echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
 
-ssh root@bastion-$GUID.oslab.opentlc.com "bash /root/bastion.dns.installer.sh"
-
-echo "=== Configure the Repositories on the Master Host"
-echo " On the master host set up the yum repository configuration file /etc/yum.repos.d/open.repo"
+export OWN_REPO_PATH=https://admin.shared.example.opentlc.com/repos/ocp/3.5
 cat << EOF > /etc/yum.repos.d/open.repo
-[rhel-x86_64-server-7]
+[rhel-7-server-rpms]
 name=Red Hat Enterprise Linux 7
-baseurl=http://www.opentlc.com/repos/ose/${VERSION}/rhel-7-server-rpms
+baseurl=${OWN_REPO_PATH}/rhel-7-server-rpms
 enabled=1
 gpgcheck=0
 
-[rhel-x86_64-server-extras-7]
-name=Red Hat Enterprise Linux 7 Extras
-baseurl=http://www.opentlc.com/repos/ose/${VERSION}/rhel-7-server-extras-rpms
-enabled=1
-gpgcheck=0
-
-[rhel-x86_64-server-optional-7]
-name=Red Hat Enterprise Linux 7 Optional
-baseurl=http://www.opentlc.com/repos/ose/${VERSION}/rhel-7-server-optional-rpms
-enabled=1
-gpgcheck=0
-
-# This repo is added for the OPENTLC environment not OSE
-[rhel-x86_64-server-rh-common-7]
+[rhel-7-server-rh-common-rpms]
 name=Red Hat Enterprise Linux 7 Common
-baseurl=http://www.opentlc.com/repos/ose/${VERSION}/rhel-7-server-rh-common-rpms
+baseurl=${OWN_REPO_PATH}/rhel-7-server-rh-common-rpms
+enabled=1
+gpgcheck=0
+
+[rhel-7-server-extras-rpms]
+name=Red Hat Enterprise Linux 7 Extras
+baseurl=${OWN_REPO_PATH}/rhel-7-server-extras-rpms
+enabled=1
+gpgcheck=0
+
+[rhel-7-server-optional-rpms]
+name=Red Hat Enterprise Linux 7 Optional
+baseurl=${OWN_REPO_PATH}/rhel-7-server-optional-rpms
+enabled=1
+gpgcheck=0
+
+[rhel-7-fast-datapath-rpms]
+name=Red Hat Enterprise Linux 7 Fast Datapath
+baseurl=${OWN_REPO_PATH}/rhel-7-fast-datapath-rpms
+enabled=1
+gpgcheck=0
+
+[rhel-7-server-ose-3.5-rpms]
+name=Red Hat Enterprise Linux 7 OSE 3.5
+baseurl=${OWN_REPO_PATH}/rhel-7-server-ose-3.5-rpms
 enabled=1
 gpgcheck=0
 EOF
 
-
-#Add the OpenShift repository mirror to the master host:
-cat << EOF >> /etc/yum.repos.d/open.repo
-[rhel-7-server-ose-${VERSION}-rpms]
-name=Red Hat Enterprise Linux 7 OSE ${VERSION}
-baseurl=http://www.opentlc.com/repos/ose/${VERSION}/rhel-7-server-ose-${VERSION}-rpms
-enabled=1
-gpgcheck=0
-EOF
-
-echo "List the available repositories on the $HOST host:"
-
+yum clean all
 yum repolist
 
-#The Nodes require to be configures as well, for the sake of simplicity we will copy the repo file to all the nodes directly from the the master
+for node in master1.example.com \
+            infranode1.example.com \
+            node1.example.com \
+            node2.example.com; do
+    scp /etc/yum.repos.d/open.repo ${node}:/etc/yum.repos.d/open.repo
+    ssh ${node} yum clean all
+    ssh ${node} yum repolist
+done
+
+bash $(dirname $0)/bastion.dns.installer.sh
+
+host test.cloudapps-$GUID.oslab.opentlc.com 127.0.0.1
+
+yum -y install ansible
 
 for node in master1.example.com \
-                                    infranode1.example.com \
-                                    node1.example.com \
-                                    node2.example.com; \
-                                    do \
-                                      echo Copying open.repo to $node ; \
-                                      scp /etc/yum.repos.d/open.repo ${node}:/etc/yum.repos.d/open.repo ;
-                                      yum repolist
-                                   done
-echo "Remove NetworkManager:"
-for node in   master1.example.com \
-                                    infranode1.example.com \
-                                    node1.example.com \
-                                    node2.example.com; \
-                                    do \
-                                    echo removing NetworkManager on $node ; \
-                                      ssh $node "yum -y  remove NetworkManager*"
-                                   done
-echo "yum update all hosts"
-for node in   master1.example.com \
-                                    infranode1.example.com \
-                                    node1.example.com \
-                                    node2.example.com; \
-                                    do \
-                                    echo removing NetworkManager on $node ; \
-                                      ssh $node "yum update -y"
-                                   done
+            infranode1.example.com \
+            node1.example.com \
+            node2.example.com; do
+    ssh $node "yum -y install NetworkManager"
+done
 
-echo Installing packages on master
-ssh master1-$guid "yum -y install wget git net-tools bind-utils iptables-services bridge-utils python-virtualenv gcc  bash-completion"
+yum -y install wget git net-tools bind-utils iptables-services bridge-utils bash-completion
+ssh master1.example.com yum -y install bash-completion
 
+for node in master1.example.com \
+            infranode1.example.com \
+            node1.example.com \
+            node2.example.com; do
+    echo Running yum update on $node
+    ssh $node "yum -y update "
+done
 
-echo "=== Install Docker"
+for node in master1.example.com \
+            infranode1.example.com \
+            node1.example.com \
+            node2.example.com; do
+    echo Installing docker on $node
+    ssh $node "yum -y install docker"
+done
 
-echo "Install the docker package on the master host"
-echo "Do the same for the rest of the nodes"
-for node in   master1.example.com \
-                                    infranode1.example.com \
-                                    node1.example.com \
-                                    node2.example.com; \
-                                    do \
-                                    echo removing NetworkManager on $node ; \
-                                      ssh $node "yum -y install docker"
-                                   done
-
-echo "Configure the *Docker* registry on the *master*:"
-scp master1.example.com:/etc/sysconfig/docker /tmp
-sed -i "s/OPTIONS.*/OPTIONS='--selinux-enabled --insecure-registry 172.30.0.0\/16'/" /tmp/docker
-
-echo "Do the same for the rest of the nodes"
-
-for node in    master1.example.com \
-                                    infranode1.example.com \
-                                    node1.example.com \
-                                    node2.example.com; \
-                                    do \
-                                    echo Overwriting docker configuration file on $node ; \
-                                    scp  /tmp/docker $node:/etc/sysconfig/docker ;
-                                    done
-echo "=== Configure Docker Storage"
+for node in master1.example.com \
+            infranode1.example.com \
+            node1.example.com \
+            node2.example.com; do
+    echo Cleaning up Docker on $node
+    ssh $node "systemctl stop docker ; rm -rf /var/lib/docker/*"
+done
 
 cat <<EOF > /tmp/docker-storage-setup
 DEVS=/dev/vdb
 VG=docker-vg
 EOF
 
-echo "Do the same for the rest of the nodes"
+for node in master1.example.com \
+            infranode1.example.com \
+            node1.example.com \
+            node2.example.com; do
+        echo Configuring Docker Storage and rebooting $node
+        scp /tmp/docker-storage-setup ${node}:/etc/sysconfig/docker-storage-setup
+        ssh $node "docker-storage-setup
+                   systemctl enable docker
+                   systemctl start docker"
+done
 
-for node in  master1.example.com \
-                  infranode1.example.com \
-                  node1.example.com \
-                  node2.example.com; \
- do
-   echo Configuring Docker Storage and rebooting $node
-   scp /tmp/docker-storage-setup ${node}:/etc/sysconfig/docker-storage-setup
-   ssh $node "
-      rm -rf /var/lib/docker/*
-       docker-storage-setup ;
-       systemctl enable docker;
-       reboot"
- done
+rm /tmp/docker-storage-setup
 
-
-
-#reboot
-echo "Sleep 60 to wait for the nodes to come up"
-sleep 120
-echo "=== Populate local Docker registry"
-for node in   master1.example.com \
- infranode1.example.com \
- node1.example.com \
- node2.example.com; \
- do
-   echo Checking docker status on $node
-   ssh $node "
-         systemctl status docker | grep Active"
-         lvs
- done
-
-REGISTRY="registry.access.redhat.com";PTH="openshift3"
-for node in  node1.example.com \
-node2.example.com; \
-do
-ssh $node "
-docker pull $REGISTRY/$PTH/ose-deployer:v3.1.0.4 ; \
-docker pull $REGISTRY/$PTH/ose-sti-builder:v3.1.0.4 ; \
-docker pull $REGISTRY/$PTH/ose-sti-image-builder:v3.1.0.4 ; \
-docker pull $REGISTRY/$PTH/ose-docker-builder:v3.1.0.4 ; \
-docker pull $REGISTRY/$PTH/ose-pod:v3.1.0.4 ; \
-docker pull $REGISTRY/$PTH/ose-keepalived-ipfailover:v3.1.0.4 ; \
-docker pull $REGISTRY/$PTH/ruby-20-rhel7 ; \
-docker pull $REGISTRY/$PTH/mysql-55-rhel7 ; \
-docker pull openshift/hello-openshift:v1.0.6
-"
+for node in master1.example.com \
+            infranode1.example.com \
+            node1.example.com \
+            node2.example.com; do
+    echo Checking docker status on $node
+    ssh $node "systemctl status docker | grep Active"
 done
 
 REGISTRY="registry.access.redhat.com";PTH="openshift3"
-ssh infranode1.example.com "
-docker pull $REGISTRY/$PTH/ose-haproxy-router:v3.1.0.4  ; \
-docker pull $REGISTRY/$PTH/ose-deployer:v3.1.0.4 ; \
-docker pull $REGISTRY/$PTH/ose-pod:v3.1.0.4 ; \
-docker pull $REGISTRY/$PTH/ose-docker-registry:v3.1.0.4 ;"
+OSE_VERSION=$(yum info atomic-openshift | grep Version | awk '{print $3}')
+for node in node1.example.com \
+            node2.example.com; do
+        ssh $node "docker pull $REGISTRY/$PTH/ose-deployer:v$OSE_VERSION ; \
+docker pull $REGISTRY/$PTH/ose-sti-builder:v$OSE_VERSION ; \
+docker pull $REGISTRY/$PTH/ose-pod:v$OSE_VERSION ; \
+docker pull $REGISTRY/$PTH/ose-keepalived-ipfailover:v$OSE_VERSION ; \
+docker pull $REGISTRY/$PTH/ruby-20-rhel7 ; \
+docker pull $REGISTRY/$PTH/mysql-55-rhel7 ; \
+docker pull openshift/hello-openshift:v1.2.1"
+done
 
-echo "=== Download the Installer"
+node=infranode1.example.com
+ssh $node "docker pull $REGISTRY/$PTH/ose-haproxy-router:v$OSE_VERSION  ; \
+docker pull $REGISTRY/$PTH/ose-deployer:v$OSE_VERSION ; \
+docker pull $REGISTRY/$PTH/ose-pod:v$OSE_VERSION ; \
+docker pull $REGISTRY/$PTH/ose-docker-registry:v$OSE_VERSION"
 
-for node in   master1.example.com \
-                                    infranode1.example.com \
-                                    node1.example.com \
-                                    node2.example.com; \
-                                    do \
-                                    echo removing NetworkManager on $node ; \
-
-                                      ssh $node "
-                                      yum clean all;
-                                      yum update -y;
-                                      "
-                                   done
 
 yum -y install atomic-openshift-utils
+# use short version
+OSE_VERSION=3.5
+cat << EOF > /etc/ansible/hosts
+[OSEv3:children]
+masters
+nodes
+nfs
 
-mkdir -p /root/.config/openshift
-cat << EOF > /root/.config/openshift/installer.cfg.yml
- ansible_config: /usr/share/atomic-openshift-utils/ansible.cfg
- ansible_log_path: /tmp/ansible.log
- ansible_ssh_user: root
- hosts:
- - connect_to: master1.example.com
-   hostname: master1.example.com
-   ip: 192.168.0.101
-   master: true
-   node: true
-   public_hostname: master1.example.com
-   public_ip: 192.168.0.101
- - connect_to: infranode1.example.com
-   hostname: infranode1.example.com
-   ip: 192.168.0.251
-   node: true
-   public_hostname: infranode1.example.com
-   public_ip: 192.168.0.251
- - connect_to: node1.example.com
-   hostname: node1.example.com
-   ip: 192.168.0.201
-   node: true
-   public_hostname: node1.example.com
-   public_ip: 192.168.0.201
- - connect_to: node2.example.com
-   hostname: node2.example.com
-   ip: 192.168.0.202
-   node: true
-   public_hostname: node2.example.com
-   public_ip: 192.168.0.202
- variant: openshift-enterprise
- variant_version: '3.5'
- version: v1
+[OSEv3:vars]
+ansible_user=root
+
+# enable ntp on masters to ensure proper failover
+openshift_clock_enabled=true
+
+deployment_type=openshift-enterprise
+openshift_release=v$OSE_VERSION
+
+openshift_master_cluster_method=native
+openshift_master_cluster_hostname=master1.example.com
+openshift_master_cluster_public_hostname=master1-${GUID}.oslab.opentlc.com
+
+os_sdn_network_plugin_name='redhat/openshift-ovs-multitenant'
+
+openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/master/htpasswd'}]
+#openshift_master_htpasswd_users={'andrew': '$apr1$cHkRDw5u$eU/ENgeCdo/ADmHF7SZhP/', 'marina': '$apr1$cHkRDw5u$eU/ENgeCdo/ADmHF7SZhP/'
+
+# default project node selector
+osm_default_node_selector='region=primary'
+openshift_hosted_router_selector='region=infra'
+openshift_hosted_router_replicas=1
+#openshift_hosted_router_certificate={"certfile": "/path/to/router.crt", "keyfile": "/path/to/router.key", "cafile": "/path/to/router-ca.crt"}
+openshift_hosted_registry_selector='region=infra'
+openshift_hosted_registry_replicas=1
+
+openshift_master_default_subdomain=cloudapps-${GUID}.oslab.opentlc.com
+
+#openshift_use_dnsmasq=False
+#openshift_node_dnsmasq_additional_config_file=/home/bob/ose-dnsmasq.conf
+
+openshift_hosted_registry_storage_kind=nfs
+openshift_hosted_registry_storage_access_modes=['ReadWriteMany']
+openshift_hosted_registry_storage_host=bastion.example.com
+openshift_hosted_registry_storage_nfs_directory=/exports
+openshift_hosted_registry_storage_volume_name=registry
+openshift_hosted_registry_storage_volume_size=5Gi
+
+[nfs]
+bastion.example.com
+
+[masters]
+master1.example.com openshift_hostname=master1.example.com openshift_public_hostname=master1-${GUID}.oslab.opentlc.com
+
+[nodes]
+master1.example.com openshift_hostname=master1.example.com openshift_public_hostname=master1-${GUID}.oslab.opentlc.com openshift_node_labels="{'region': 'infra'}"
+infranode1.example.com openshift_hostname=infranode1.example.com openshift_public_hostname=infranode1-${GUID}.oslab.opentlc.com openshift_node_labels="{'region': 'infra', 'zone': 'infranodes'}"
+node1.example.com openshift_hostname=node1.example.com openshift_public_hostname=node1-${GUID}.oslab.opentlc.com openshift_node_labels="{'region': 'primary', 'zone': 'east'}"
+node2.example.com openshift_hostname=node2.example.com openshift_public_hostname=node2-${GUID}.oslab.opentlc.com openshift_node_labels="{'region': 'primary', 'zone': 'west'}"
 EOF
 
-sed -i s/GUID/${GUID}/g /root/.config/openshift/installer.cfg.yml
+ansible-playbook /usr/share/ansible/openshift-ansible/playbooks/byo/config.yml
 
+ssh master1.example.com oc get nodes
 
-atomic-openshift-installer -u install
-echo "== Lab: OpenShift Configuration and Setup"
+ssh master1.example.com "useradd -p '$(openssl passwd -1 'r3dh4t1\!')' andrew"
+ssh master1.example.com "useradd -p '$(openssl passwd -1 'r3dh4t1\!')' marina"
 
-echo "=== Set Regions and Zones"
+ssh master1.example.com "oc delete dc/router svc/router"
+CA=/etc/origin/master
+ssh master1.example.com "oadm ca create-server-cert --signer-cert=$CA/ca.crt \
+     --signer-key=${CA}/ca.key --signer-serial=${CA}/ca.serial.txt \
+     --hostnames='*.cloudapps-${guid}.oslab.opentlc.com' \
+     --cert=cloudapps.crt --key=cloudapps.key"
 
-oc label node infranode1.example.com region="infra" zone="infranodes"
-oc label node node1.example.com region="primary" zone="east"
-oc label node node2.example.com region="primary" zone="west"
+ssh master1.example.com "cat cloudapps.crt cloudapps.key ${CA}/ca.crt > /etc/origin/master/cloudapps.router.pem"
 
-oc get nodes
+ssh master1.example.com "oadm router trainingrouter --replicas=1 \
+                --default-cert=${CA}/cloudapps.router.pem \
+                --service-account=router --stats-password='r3dh@t1\!'"
 
-oadm manage-node master1.example.com  --schedulable=false
+# wait for trainingrouter
+ssh master1.example.com oc rollout status --request-timeout=0 dc/trainingrouter
 
-echo "SKIPPING create a default NodeSelector in master-config"
-#sed -i 's/defaultNodeSelector: ""/defaultNodeSelector: "region=primary"' /etc/openshift/master/master-config.yaml
-#systemctl restart openshift-master
+while ! ssh master1.example.com "oc get pods|grep trainingrouter"|awk '$2 == "1/1" && $3 == "Running" {print "OK"}'|grep OK; do
+    sleep 2
+done
 
-
-echo "Deploy the Registry"
-
-oadm registry  --credentials=/etc/openshift/master/openshift-registry.kubeconfig  --images='registry.access.redhat.com/openshift3/ose-docker-registry:v3.0.0.1' --selector='region=infra'
-
-echo "Deploy the Router"
-oadm router trainingrouter --stats-password='r3dh@t1!' --replicas=1 \
---config=/etc/openshift/master/admin.kubeconfig  \
---credentials='/etc/openshift/master/openshift-router.kubeconfig' \
---images='registry.access.redhat.com/openshift3/ose-haproxy-router:v3.0.0.1' \
---selector='region=infra'
-
-
-echo "SKIPPING, Already populatedPopulating OpenShift"
-
- #oc create -f /usr/share/openshift/examples/image-streams/image-streams-rhel7.json -n openshift
- #oc create -f /usr/share/openshift/examples/db-templates -n openshift
- #oc create -f /usr/share/openshift/examples/quickstart-templates -n openshift
-
-
-echo "== Lab: Configure Authentication"
-
-echo "Create a copy of your master's config file"
-cp /etc/openshift/master/master-config.yaml /etc/openshift/master/master-config.yaml.original
-
-sed -i 's/name: deny_all/name: htpasswd_auth/g' /etc/openshift/master/master-config.yaml
-sed -i 's/kind: DenyAllPasswordIdentityProvider$/kind: HTPasswdPasswordIdentityProvider/g' /etc/openshift/master/master-config.yaml
-sed -i '/HTPasswdPasswordIdentityProvide/a \
-      file: /etc/openshift/openshift-passwd \
-'  /etc/openshift/master/master-config.yaml
-
-echo "On the master host add two Linux accounts:"
-useradd andrew
-useradd marina
-
-echo "Configuring htpasswd Authentication"
-yum -y install httpd-tools
-echo "Create a password for our users, Joe and Alice on the master host:"
-
-touch /etc/openshift/openshift-passwd
-htpasswd -b /etc/openshift/openshift-passwd andrew r3dh4t1!
-htpasswd -b /etc/openshift/openshift-passwd marina r3dh4t1!
-
-echo "Restart openshift-master for changes to take effect"
-systemctl restart openshift-master
-systemctl status openshift-master
-
-#5.1. Export an NFS Volume for Persistent Storage
-echo "Export an NFS Volume for Persistent Storage"
-
-echo "As root on the master host ensure that nfs-utils is installed on the nodes:"
-for node in infranode1.example.com node1.example.com node2.example.com; do ssh $node "yum -y install nfs-utils" ; done
-
-ssh root@192.168.0.3 "
-mkdir -p /var/export/registry-storage
-chown -R nfsnobody:nfsnobody /var/export/registry-storage
-chmod -R 700 /var/export/registry-storage
-echo '/var/export/registry-storage *(rw,sync,all_squash)' >> /etc/exports
-systemctl enable rpcbind nfs-server
-systemctl restart rpcbind nfs-server nfs-lock nfs-idmap
-systemctl stop firewalld
-systemctl disable firewalld
-"
-
-echo "Allow NFS Access in SELinux Policy on all nodes"
-for node in infranode1.example.com node1.example.com node2.example.com; do setsebool -P virt_use_nfs=true ; done
-
-echo "Create a Persistent Volume for the Registry"
-
-cat << EOF > registry-volume.json
-    {
-      "apiVersion": "v1",
-      "kind": "PersistentVolume",
-      "metadata": {
-        "name": "registry-storage"
-      },
-      "spec": {
-        "capacity": {
-            "storage": "15Gi"
-            },
-        "accessModes": [ "ReadWriteMany" ],
-        "nfs": {
-            "path": "/var/export/registry-storage",
-            "server": "bastion.example.com"
-        }
-      }
-    }
-
-EOF
-
-echo "Create your registry-volume"
- oc create -f registry-volume.json
-oc get pv
-
-
-echo "Create a claim definition file to claim your volume"
-
- cat << EOF > registry-volume-claim.json
-    {
-      "apiVersion": "v1",
-      "kind": "PersistentVolumeClaim",
-      "metadata": {
-        "name": "registry-claim"
-      },
-      "spec": {
-        "accessModes": [ "ReadWriteMany" ],
-        "resources": {
-          "requests": {
-            "storage": "15Gi"
-          }
-        }
-      }
-    }
-
-EOF
-
- oc create -f registry-volume-claim.json
-oc get pv
-oc get pvc
-
-
-echo "Attach the Persistent Volume to the Registry"
-oc volume dc/docker-registry --add --overwrite -t persistentVolumeClaim \
---claim-name=registry-claim --name=registry-storage
-
-#oc get dc docker-registry -o json > docker-registry.json
-#sed -i  '/emptyDir/c\"persistentVolumeClaim": { "claimName": "registry-claim" }' docker-registry.json
-#sed -i  's/"privileged": false/"privileged": true/g' docker-registry.json
-#oc update -f docker-registry.json
+# wait for docker registry
+while ! ssh master1.example.com 'curl https://$(oc get service docker-registry --template "{{.spec.clusterIP}}:{{index .spec.ports 0 \"port\"}}/healthz")'; do
+    sleep 5
+done
+echo "LAB 01 MODULE 03 FINISHED"

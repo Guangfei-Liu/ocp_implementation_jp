@@ -14,6 +14,7 @@ export GUID=$guid
 echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
 
 export OWN_REPO_PATH=https://admin.shared.example.opentlc.com/repos/ocp/3.5
+mv /etc/yum.repos.d/redhat.{repo,disable}
 cat << EOF > /etc/yum.repos.d/open.repo
 [rhel-7-server-rpms]
 name=Red Hat Enterprise Linux 7
@@ -60,6 +61,7 @@ for node in master1.example.com \
             node1.example.com \
             node2.example.com; do
     scp /etc/yum.repos.d/open.repo ${node}:/etc/yum.repos.d/open.repo
+    ssh ${node} 'mv /etc/yum.repos.d/redhat.{repo,disable}'
     ssh ${node} yum clean all
     ssh ${node} yum repolist
 done
@@ -175,7 +177,6 @@ openshift_master_cluster_public_hostname=master1-${GUID}.oslab.opentlc.com
 os_sdn_network_plugin_name='redhat/openshift-ovs-multitenant'
 
 openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/master/htpasswd'}]
-#openshift_master_htpasswd_users={'andrew': '$apr1$cHkRDw5u$eU/ENgeCdo/ADmHF7SZhP/', 'marina': '$apr1$cHkRDw5u$eU/ENgeCdo/ADmHF7SZhP/'
 
 # default project node selector
 osm_default_node_selector='region=primary'

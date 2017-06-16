@@ -287,7 +287,13 @@ gpgcheck=0
 EOF
 ----
 
-. List the repositories on the `bastion` host:
+. Deactivate the previous Red Hat repositories, as they are not needed anymore:
++
+----
+[root@bastion ~]# mv /etc/yum.repos.d/redhat.{repo,disable}
+----
+
+. Clean up and list the repositories on the `bastion` host:
 +
 -----
 [root@bastion ~]# yum clean all ; yum repolist
@@ -309,20 +315,20 @@ rhel-7-server-rpms             Red Hat Enterprise Linux 7                 4,878
 repolist: 10,114
 ----
 
-. Configure the master nodes by copying the `open.repo` file to all of the nodes
+. Configure the master and nodes by disabling redhat.repo and copying the `open.repo` file to all of the nodes
  directly from the `bastion` host:
 +
 -----
 [root@bastion ~]# for node in master1.example.com \
-                                    infranode1.example.com \
-                                    node1.example.com \
-                                    node2.example.com; \
-                                    do \
-                                      echo Copying open repos to $node ; \
-                                      scp /etc/yum.repos.d/open.repo ${node}:/etc/yum.repos.d/open.repo ;
-                                      ssh ${node} yum clean all
-                                      ssh ${node} yum repolist
-                                   done
+                                      infranode1.example.com \
+                                      node1.example.com \
+                                      node2.example.com; do
+                                  echo Copying open repos to $node
+                                  scp /etc/yum.repos.d/open.repo ${node}:/etc/yum.repos.d/open.repo
+                                  ssh ${node} 'mv /etc/yum.repos.d/redhat.{repo,disable}'
+                                  ssh ${node} yum clean all
+                                  ssh ${node} yum repolist
+                      done
 -----
 
 

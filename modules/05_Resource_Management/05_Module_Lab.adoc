@@ -985,9 +985,12 @@ hello-openshift   ConfigChange, ImageChange   1
 deploymentconfig "hello-openshift" scaled
 ----
 
-. Go back to the router container and view the `haproxy.config` file again:
+. Switch back to root, go back to the router container and view the `haproxy.config` file again:
 +
 ----
+[andrew@master1 ~]$ exit
+[root@master1 ~]#  oc rsh $(oc get pods --selector="router=trainingrouter" --template='{{range .items}}{{.metadata.name}}{{end}}') bash
+/usr/bin/id: cannot find name for user ID 1000000000
 [I have no name!@infranode1 conf]$ sed '/^ *$/d' haproxy.config | grep -A 20 backend.*explore-example_hello-openshift
 ----
 * All of your pods within the `haproxy` configuration are listed:

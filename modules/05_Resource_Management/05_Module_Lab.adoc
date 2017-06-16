@@ -1332,9 +1332,8 @@ registry-storage   <none>    15Gi       RWX           Bound       default/regist
 * The output looks similar to this:
 +
 ----
-NAME             LABELS    STATUS    VOLUME             CAPACITY   ACCESSMODES   AGE
-registry-claim   <none>    Bound     registry-storage   15Gi       RWX           43s
-
+NAME STATUS VOLUME CAPACITY ACCESSMODES AGE
+registry-claim Bound registry-storage 15Gi RWX 44s
 ----
 
 === Attach Persistent Volume to Registry

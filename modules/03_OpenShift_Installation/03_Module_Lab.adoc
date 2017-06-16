@@ -547,13 +547,13 @@ Although NetworkManager could be removed in earlier versions of OpenShift, it ha
 TIP: You can also use this Ansible command: `ansible nodes -a "yum -y install NetworkManager"` or `ansible nodes -m yum -a "name=NetworkManager"`
 
 
-. Install the following tools and utilities on the `bastion` host:
+. (Reference Only) Install the following tools and utilities on the `bastion` host:
 +
 ----
 [root@bastion ~]# yum -y install wget git net-tools bind-utils iptables-services bridge-utils
 ----
 
-. Install `bash-completion` on both the `bastion` and `master` hosts:
+. (Reference Only) Install `bash-completion` on both the `bastion` and `master` hosts:
 +
 ----
 [root@bastion ~]# yum -y install bash-completion

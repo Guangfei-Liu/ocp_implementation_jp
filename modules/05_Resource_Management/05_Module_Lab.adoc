@@ -1351,9 +1351,7 @@ docker-registry   ConfigChange   1
 trainingrouter    ConfigChange   1
 ----
 
-. Run `oc volume` to modify the deployment configurations.
-
-. Add the `registry-storage` volume to the registry's deployment configuration, which redeploys the registry:
+. Run `oc volume` to modify the deployment configurations. Add the `registry-storage` volume to the registry's deployment configuration, which redeploys the registry:
 +
 ----
 [root@master1 ~]# oc volume dc/docker-registry --add --overwrite -t persistentVolumeClaim \

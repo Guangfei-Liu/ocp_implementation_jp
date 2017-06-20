@@ -14,7 +14,7 @@ export GUID=$guid
 echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
 
 export OWN_REPO_PATH=https://admin.shared.example.opentlc.com/repos/ocp/3.5
-mv /etc/yum.repos.d/redhat.{repo,disable}
+mv /etc/yum.repos.d/redhat.{repo,disabled}
 cat << EOF > /etc/yum.repos.d/open.repo
 [rhel-7-server-rpms]
 name=Red Hat Enterprise Linux 7
@@ -61,7 +61,7 @@ for node in master1.example.com \
             node1.example.com \
             node2.example.com; do
     scp /etc/yum.repos.d/open.repo ${node}:/etc/yum.repos.d/open.repo
-    ssh ${node} 'mv /etc/yum.repos.d/redhat.{repo,disable}'
+    ssh ${node} 'mv /etc/yum.repos.d/redhat.{repo,disabled}'
     ssh ${node} yum clean all
     ssh ${node} yum repolist
 done
@@ -217,6 +217,8 @@ ssh master1.example.com oc get nodes
 
 ssh master1.example.com "useradd -p '$(openssl passwd -1 'r3dh4t1\!')' andrew"
 ssh master1.example.com "useradd -p '$(openssl passwd -1 'r3dh4t1\!')' marina"
+ssh master1.example.com "htpasswd -cb /etc/origin/master/htpasswd andrew r3dh4t1\!"
+ssh master1.example.com "htpasswd -b /etc/origin/master/htpasswd marina r3dh4t1\!"
 
 ssh master1.example.com "oc delete dc/router svc/router"
 CA=/etc/origin/master

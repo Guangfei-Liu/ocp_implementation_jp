@@ -290,7 +290,7 @@ EOF
 . Deactivate the previous Red Hat repositories, as they are not needed anymore:
 +
 ----
-[root@bastion ~]# mv /etc/yum.repos.d/redhat.{repo,disable}
+[root@bastion ~]# mv /etc/yum.repos.d/redhat.{repo,disabled}
 ----
 
 . Clean up and list the repositories on the `bastion` host:
@@ -325,7 +325,7 @@ repolist: 10,114
                                       node2.example.com; do
                                   echo Copying open repos to $node
                                   scp /etc/yum.repos.d/open.repo ${node}:/etc/yum.repos.d/open.repo
-                                  ssh ${node} 'mv /etc/yum.repos.d/redhat.{repo,disable}'
+                                  ssh ${node} 'mv /etc/yum.repos.d/redhat.{repo,disabled}'
                                   ssh ${node} yum clean all
                                   ssh ${node} yum repolist
                       done

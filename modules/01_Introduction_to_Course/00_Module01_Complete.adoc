@@ -91,8 +91,8 @@ endif::showscript[]
 * Class labs and demonstrations require provisioning virtual machines (VMs):
 ** *Master host*: One VM serves as OpenShift Container Platform environment master
 ** *Node hosts*: Three VMs serve as OpenShift Container Platform environment node
-** *`oselab` host*: One VM for admin purposes (DNS server, NFS server, SSH jump box, more)
-* Red Hat Enterprise Linux 7.2 preinstalled and configured for deployment
+** *`bastion` host*: One VM for admin purposes (DNS server, NFS server, SSH jump box, more)
+* Red Hat Enterprise Linux 7.2 or 7.3 preinstalled and configured for deployment
 * Connection details arrive via email after provisioning environment
 
 
@@ -105,9 +105,9 @@ virtual machine hosts for your OpenShift Container Platform environment:
 
 * A single master host
 * Three node hosts, one of which is dedicated for infrastructure components
-* One admin host, `oselab`, to act as your DNS server, NFS server, and SSH jump box
+* One admin host, `bastion`, to act as your DNS server, NFS server, and SSH jump box
 
-Red Hat Enterprise Linux 7.2 is preinstalled and configured for deployment.
+Red Hat Enterprise Linux 7.3 is preinstalled and configured for deployment.
 
 After you provision the environment, you should receive connection details via
 email. This can take a few minutes. If you do not receive
@@ -127,7 +127,8 @@ endif::showscript[]
 ||Master1|InfraNode1
 |*Internal IP*|`192.168.0.101`|`192.168.0.251`
 |*External IP*|Provided|Provided
-|*DNS Name*|+master1.example.com+|+infranode1.example.com+
+|*Internal Hostname*|+master1.example.com+|+infranode1.example.com+
+|*External Hostname*|+master1-GUID.oslab.opentlc.com+|+infranode1-GUID.oslab.opentlc.com+
 |*Credentials*|`root`/`r3dh4t1!`|`root`/`r3dh4t1!`
 |=======================
 
@@ -165,8 +166,8 @@ endif::showscript[]
 |=======================
 ||Node1|Node2
 |*Internal IP*|`192.168.0.201`|`192.168.0.202`
-|*External IP*|Provided|Provided
-|*DNS Name*|+node1.example.com+|+node2.example.com+
+|*External IP*|Not Provided|Not Provided
+|*Internal Hostname*|+node1.example.com+|+node2.example.com+
 |*Credentials*|`root`/`r3dh4t1!`|`root`/`r3dh4t1!`
 |=======================
 
@@ -188,10 +189,11 @@ endif::showscript[]
 +
 [cols ="1,4",width="65%"]
 |=======================
-||`oselab`
+||`bastion`
 |*Internal IP*|`192.168.0.3`
 |*External IP*|Provided
-|*DNS Name*|+oselab.example.com+
+|*Internal Hostname*|+bastion.example.com+
+|*Esternal Hostname*|+bastion-GUID.oslab.opentlc.com+
 |*Credentials*|OPENTLC Credentials
 |=======================
 
@@ -199,7 +201,7 @@ ifdef::showscript[]
 
 === Transcript
 
-You can use your `oselab` administration VM as a jump box to connect to the
+You can use your `bastion` administration VM as a jump box to connect to the
 other internal lab hosts via SSH.
 
 When you connect to your environment, use only your OPENTLC credentials and SSH

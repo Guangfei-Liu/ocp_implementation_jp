@@ -786,7 +786,7 @@ the nodes that hosts the `Default Router`.
 You would usually create a wildcard Cname record in your DNS server and point
 it to the node or nodes that host the router container.
 
-The `Default Router` then selects the a pod from the list of pods listed by the
+The `Default Router` then selects a pod from the list of pods listed by the
  application service and acts as a proxy for the pod.
 
 endif::showscript[]
@@ -937,20 +937,20 @@ endif::showscript[]
 
 == OpenShift Container Platform 3.2 Release Notes
 
-* OpenShift Container Platform version 3.2 now available
+* OpenShift Container Platform version 3.5 now available
 * Be sure to follow instructions for upgrading OpenShift cluster properly
 ** Including release-specific steps
 
 [NOTE]
 For instructions on upgrading your OpenShift cluster, including any
  release-specific steps, see
-  https://docs.openshift.com/enterprise/3.2/install_config/upgrades.html.
+  https://docs.openshift.com/container-platform/3.5/install_config/upgrading/index.html.
 
 ifdef::showscript[]
 
 === Transcript
 
-OpenShift Container Platform version 3.2 is now available.
+OpenShift Container Platform version 3.5 is now available.
 
 Make sure that you properly follow the instructions on upgrading your OpenShift
  cluster, including steps specific to this release.

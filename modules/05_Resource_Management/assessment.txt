@@ -31,9 +31,9 @@ OSEIMPLEMENTATION|OSEIMPLEMENTATION510|1|When defining a route, an admin would N
 OSEIMPLEMENTATION|OSEIMPLEMENTATION510|1|When defining a route, an admin would NOT include which of the following:|||Service Selector |||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION510|1|When defining a route, an admin would NOT include which of the following:|||Termination and Security information|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION510|1|When defining a route, an admin would NOT include which of the following:|||Pod IP and port |||1|100|||
-OSEIMPLEMENTATION|OSEIMPLEMENTATION511|1|When creating a secure route, the Default Router can support:|||All of the above|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION511|1|When creating a secure route, the Default Router can support:|||Edge secured routes|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION511|1|When creating a secure route, the Default Router can support:|||Passthrough secured routes|||0|0|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION511|1|When creating a secure route, the Default Router can support:|||Re-encryption termination secured routes|||0|0|||
+OSEIMPLEMENTATION|OSEIMPLEMENTATION511|1|When creating a secure route, the Default Router can support:|||All of the above|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION512|5|You must associate PersistentVolume with a project.|||TRUE|||1|100|||
 OSEIMPLEMENTATION|OSEIMPLEMENTATION512|5|You must associate PersistentVolume with a project.|||FALSE|||0|0|||

@@ -1256,7 +1256,7 @@ endif::showscript[]
 
 * Can use scripts to automate these tasks
 * See sample Ansible playbook:
-https://github.com/openshift/openshift-ansible/tree/master/roles/kube_nfs_volumes
+https://github.com/openshift/openshift-ansible/tree/release-1.5/roles/kube_nfs_volumes
 
 
 ifdef::showscript[]

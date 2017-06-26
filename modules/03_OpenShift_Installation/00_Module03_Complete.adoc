@@ -76,10 +76,10 @@ ifdef::showscript[]
 
 === Transcript
 In this sample scenario, you set up four hosts to simulate an OpenShift
- Enterprise 3 environment.
+ Container Platform 3 environment.
 
 You use the *master* host to host some of the management components of OpenShift
- Enterprise, such as the web console, the _API service_, and the _etcd store_.
+ Container Platform, such as the web console, the _API service_, and the _etcd store_.
 
 While *Infranode* is a regular node like the others, you dedicate it to be used
  only for _Infrastructure containers_ by changing its labels. This is strictly a
@@ -443,7 +443,7 @@ ifdef::showscript[]
 
 You need to install the software packages shown here on your master and run a
  `yum` update on your hosts before using the installer and installing OpenShift
-  Enterprise 3.
+  Container Platform 3.
 
 
 
@@ -454,7 +454,7 @@ endif::showscript[]
 
 * Must install Docker version 1.9.1 or later from `rhel-7-server-ose-3.2-rpms`
  and have it running on master and node hosts before installing OpenShift
-  Enterprise:
+  Container Platform:
 
 ** Install Docker:
 +
@@ -667,7 +667,7 @@ endif::showscript[]
 
 * After installation, need to label nodes
 ** Lets scheduler use _logic_ defined in `scheduler.json` when provisioning pods
-* OpenShift Container Platform 2.0 introduced _regions_ and _zones_
+* OpenShift Enterprise 2.0 introduced _regions_ and _zones_
 ** Let organizations provide topologies for application resiliency
 ** Apps spread throughout zones within region
 ** Can make different regions accessible to users
@@ -692,7 +692,7 @@ After you install OpenShift Container Platform, you need to label the nodes. Lab
  the nodes lets the scheduler use _logic_ defined in the `scheduler.json` file
   when it provisions pods in your environment.
 
-OpenShift Container Platform 2.0 introduced the specific concepts of _regions_ and
+OpenShift Enterprise 2.0 introduced the specific concepts of _regions_ and
  _zones_ to let organizations provide some topologies for application
   resiliency. Applications are spread throughout the zones within a region and,
    depending on the way you configure OpenShift Container Platform, you can make
@@ -908,7 +908,7 @@ You can populate your OpenShift Container Platform installation with a useful se
 A _template_ describes a set of resources intended to be used together that you
  can customize and process to produce a configuration. Each template defines a
   list of parameters that you can modify for consumption by a container. This is
-   somewhat similar to a OpenShift Container Platform 2.0 _quickstart_.
+   somewhat similar to a OpenShift Enterprise 2.0 _quickstart_.
 
 An _image stream_ comprises of one or more Docker images identified by tags. An
  image stream presents a single virtual view of related images.
@@ -1198,8 +1198,8 @@ You need to configure your NFS server exports.
 By default, SELinux does not allow writing from a pod to a remote NFS server.
  The NFS volume mounts correctly, but is read-only.
 
-To configure SElinux to let the nodes use NFS in the way required for OpenShift
- Enterprise `Persistent Volumes`, use the `setsebool` command on each node, as
+To configure SELinux to let the nodes use NFS in the way required for OpenShift
+ Container Platform `Persistent Volumes`, the installer uses the `setsebool` command on each node, as
   shown in the first example here.
 
 
@@ -1263,7 +1263,7 @@ ifdef::showscript[]
 === Transcript
 
 The preceding sections have discussed the ways you can provision OpenShift
- Enterprise clusters with persistent storage using NFS:
+ Container Platform clusters with persistent storage using NFS:
 
 * Use disk partitions to enforce storage quotas
 * Enforce security by restricting volumes to the namespace that has a claim to

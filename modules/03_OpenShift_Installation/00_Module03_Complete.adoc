@@ -67,7 +67,7 @@ _Infrastructure_ containers such as `Registry` and HAProxy `Router` a|* *Region*
 * Cohosts all user workloads a|* *Region*: `Primary`
 * *Zone*: `West`
 * *Schedulable*: `true`
-|`oselab` |`192.168.0.3` |Simulates the corporate DNS server
+|`bastion` |`192.168.0.3` |Simulates the corporate DNS server
 and NFS backend
 |=======================================================================
 

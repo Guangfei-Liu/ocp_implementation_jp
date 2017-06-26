@@ -1170,7 +1170,7 @@ endif::showscript[]
 
 * Default: SELinux does not allow writing from pod to remote NFS server
 ** NFS volume mounts correctly but is read-only
-* To enable writing in SELinux on each node:
+* To enable writing in SELinux, installer performs on each node:
 +
 ----
 # setsebool -P virt_use_nfs 1
@@ -1180,14 +1180,14 @@ endif::showscript[]
 ** Set each export option in `/etc/exports` as follows:
 +
 ----
-/example_fs *(rw,all_squash)
+/example_fs *(rw,root_squash)
 ----
 
 ** Each export must be owned by `nfsnobody` and have following permissions:
 +
 ----
 # chown -R nfsnobody:nfsnobody /example_fs
-# chmod 777
+# chmod 770
 ----
 
 ifdef::showscript[]
@@ -1199,8 +1199,8 @@ You need to configure your NFS server exports.
 By default, SELinux does not allow writing from a pod to a remote NFS server.
  The NFS volume mounts correctly, but is read-only.
 
-To configure SElinux to let the nodes use NFS in the way required for OpenShift
- Enterprise `Persistent Volumes`, use the `setsebool` command on each node, as
+To configure SELinux to let the nodes use NFS in the way required for OpenShift
+ Container Platform `Persistent Volumes`, the installer uses the `setsebool` command on each node, as
   shown in the first example here.
 
 

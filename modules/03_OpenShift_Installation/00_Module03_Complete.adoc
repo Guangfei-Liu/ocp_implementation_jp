@@ -702,7 +702,7 @@ OpenShift Enterprise 2.0 introduced the specific concepts of _regions_ and
 OpenShift Container Platform 3 is _topology-agnostic_ and  provides advanced controls
  for implementing whatever topologies you create.
 
-The example shown here uses the concept the _regions_ and _zones_.
+The example shown here uses the concept of _regions_ and _zones_.
 
 Other options you can use include _Prod_ and _Dev_,
 _Secure_ and _Insecure_, or _Rack and Power_.

@@ -168,17 +168,18 @@ endif::showscript[]
 .System Requirements
 
 * Masters
-** Physical or virtual system
-** Base OS: Red Hat Enterprise Linux 7.1 with _Minimal_ installation option
+** Physical or virtual system, or an instance running on a public or private IaaS
+** Base OS: RHEL 7.3 with the "Minimal" installation option and the latest packages from the Extras channel, or RHEL Atomic Host 7.3.2 or later. RHEL 7.2 is also supported using Docker 1.12 and its dependencies.
 ** Two vCPUs
-** Minimum 8 GB RAM
-** Minimum 30 GB hard disk space
+** Minimum 16 GB RAM
+** Minimum 40 GB hard disk space
 
 * Nodes
 
-** Physical or virtual system, or instance running on public IaaS
-** Base OS: Red Hat Enterprise Linux 7.1 with _Minimal_ installation option
-** Docker 1.9.1 or later
+** Physical or virtual system, or an instance running on a public or private IaaS
+** Base OS: RHEL 7.3 or later with "Minimal" installation option, or RHEL Atomic Host 7.3.2 or later. RHEL 7.2 is also supported using Docker 1.12 and its dependencies
+** Docker 1.12 or later
+** NetworkManager 1.0 or later
 ** One vCPU
 ** Minimum 8 GB RAM
 ** Minimum 15 GB hard disk space
@@ -244,7 +245,7 @@ endif::showscript[]
 .Overview
 
 * To prepare your hosts for OpenShift Container Platform 3:
-** Install Red Hat Enterprise Linux 7.2
+** Install Red Hat Enterprise Linux 7.3
 ** Register hosts with `subscription-manager`
 ** Manage base packages:
 *** `git`
@@ -254,7 +255,7 @@ endif::showscript[]
 ** Manage services:
 *** Disable `firewalld`
 *** Enable `iptables-services`
-**  Install Docker 1.9.1 or later
+**  Install Docker 1.12 or later
 ** Make sure master does not require password for communication
 
 ifdef::showscript[]
@@ -266,14 +267,14 @@ To prepare the hosts to use with OpenShift Container Platform, consult the
 
 The basic steps for preparing hosts are as follows:
 
-* Perform a base installation of Red Hat Enterprise Linux 7.2 for master and
+* Perform a base installation of Red Hat Enterprise Linux 7.3 for master and
  node hosts.
 * Use `subscription-manager` to register all the hosts to Red Hat Enterprise
- Linux 7.1 and OpenShift Container Platform 3 repositories.
+ Linux 7.3 and OpenShift Container Platform 3 repositories.
 * Install some utility packages, including `git`, `net-tools`, `bind-utils`, and
  `iptables-services`.
 * Disable `firewalld` and enable `iptables-services`.
-* Install Docker 1.9.1 or later and configure the storage back end for images.
+* Install Docker 1.12 or later and configure the storage back end for images.
 * Make sure that the master hosts can issue remote commands on the nodes
  without requiring a password.
 
@@ -452,7 +453,7 @@ endif::showscript[]
 
 .Installing Docker
 
-* Must install Docker version 1.9.1 or later from `rhel-7-server-ose-3.2-rpms`
+* Must install Docker version 1.12 or later from `rhel-7-server-ose-3.5-rpms`
  and have it running on master and node hosts before installing OpenShift
   Container Platform:
 
@@ -481,7 +482,7 @@ ifdef::showscript[]
 
 === Transcript
 Each node, including the master, requires Docker to be installed and configured.
- You must use version 1.9.1 or later of the docker software.
+ You must use version 1.12 or later of the docker software.
 
 Use the commands shown here to install Docker and add the `--insecure-registry`
  option to the `OPTIONS` parameter.
@@ -1198,8 +1199,8 @@ You need to configure your NFS server exports.
 By default, SELinux does not allow writing from a pod to a remote NFS server.
  The NFS volume mounts correctly, but is read-only.
 
-To configure SELinux to let the nodes use NFS in the way required for OpenShift
- Container Platform `Persistent Volumes`, the installer uses the `setsebool` command on each node, as
+To configure SElinux to let the nodes use NFS in the way required for OpenShift
+ Enterprise `Persistent Volumes`, use the `setsebool` command on each node, as
   shown in the first example here.
 
 

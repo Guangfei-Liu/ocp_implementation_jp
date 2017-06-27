@@ -1171,11 +1171,11 @@ UID         PID   PPID  C STIME TTY          TIME CMD
 * Expect different pod names and output from the example shown here.
 
 
-== Create Persistent Volume for Registry
+== Recreate Persistent Volume for Registry
 
 In this exercise you create an NFS export for the registry and attach the persistent volume to the registry.
 
-The registry is currently running with a small NFS persistent volume of 5GB. This volume was set by the following Ansible configuration:
+The registry is currently running with a NFS persistent volume. This volume was set by the following Ansible configuration:
 ----
 openshift_hosted_registry_storage_kind=nfs
 openshift_hosted_registry_storage_access_modes=['ReadWriteMany']
@@ -1185,49 +1185,106 @@ openshift_hosted_registry_storage_volume_name=registry
 openshift_hosted_registry_storage_volume_size=5Gi
 ----
 
-=== Delete Existing Persistent Volume
+WARNING: Here, the NFS Persistent Volume (PV) is defined with a size of 5GiB in OpenShift. This is only used to map PV and PV Claims (PVC) and it is arbitrary here. It is not the actual size of the export. If you want to enforce disk quotas with NFS you need to use partitions with limited size and create in OpenShift one PV per partition. See https://docs.openshift.com/container-platform/3.5/install_config/persistent_storage/persistent_storage_nfs.html#nfs-enforcing-disk-quotas.
 
-* As `root` on the `bastion` host, delete the existing persistent volume for the registry:
-+
+Exports are automatically created by the ansible playbook in `/etc/exports.d/openshift-ansible.exports` :
 ----
-[root@bastion ~]# ssh master1.example.com "oc delete pvc registry-claim ; oc delete pv registry-volume"
+[root@bastion ~]# cat /etc/exports.d/openshift-ansible.exports 
+/exports/registry *(rw,root_squash)
+/exports/metrics *(rw,root_squash)
+/exports/logging-es *(rw,root_squash)
+/exports/logging-es-ops *(rw,root_squash)
 ----
+
 
 === Create NFS Export for Registry
+On the bastion there should already be a configured Volume Group and Logical Volume which we can use to create the NFS export: `nfs-lv` mounted to `/srv`.
 
-. Create a new directory for your NFS export:
+. List devices:
++
+----
+[root@bastion ~]# lsblk
+NAME                              MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+fd0                                 2:0    1    4K  0 disk 
+sr0                                11:0    1 1024M  0 rom  
+vda                               252:0    0   10G  0 disk 
+└─vda1                            252:1    0   10G  0 part /
+vdb                               252:16   0   20G  0 disk 
+└─vdb1                            252:17   0   20G  0 part 
+  ├─docker--vg-docker--pool_tmeta 253:1    0   24M  0 lvm  
+  │ └─docker--vg-docker--pool     253:3    0 11.5G  0 lvm  
+  └─docker--vg-docker--pool_tdata 253:2    0 11.5G  0 lvm  
+    └─docker--vg-docker--pool     253:3    0 11.5G  0 lvm  
+vdc                               252:32   0   25G  0 disk 
+└─nfs--vg-nfs--lv                 253:0    0   25G  0 lvm  /srv
+vdd                               252:48   0  370K  1 disk 
+----
+
+. [[NFSPermission]] Create a new directory for your new NFS export:
 +
 ----
 [root@bastion ~]# export volname=registry-storage
-[root@bastion ~]# mkdir -p /var/export/pvs/${volname}
-[root@bastion ~]# chown nfsnobody:nfsnobody /var/export/pvs/${volname}
-[root@bastion ~]# chmod 700 /var/export/pvs/${volname}
+[root@bastion ~]# mkdir -p /srv/export/pvs/${volname}
+[root@bastion ~]# chown nfsnobody:nfsnobody /srv/export/pvs/${volname}
+[root@bastion ~]# chmod 770 /srv/export/pvs/${volname}
 ----
 
 . Add this line to `/etc/exports`:
 +
 ----
-[root@bastion ~]# echo "/var/export/pvs/${volname} *(rw,sync,all_squash)" >> /etc/exports
+[root@bastion ~]# echo "/srv/export/pvs/${volname} *(rw,root_squash)" >> /etc/exports
 ----
 
-. Restart NFS services:
+. Do not forget to remove the previous export from NFS:
 +
 ----
-[root@bastion ~]# systemctl restart rpcbind nfs-server nfs-lock nfs-idmap
+[root@bastion ~]# sed -i /registry/d /etc/exports.d/openshift-ansible.exports
 ----
 
-
-. As `root` on the `master1` host, create a persistent volume definition file named `registry-volume.json`:
+. Make NFS aware of the changes, synchronize `/etc/exports` and `/etc/exports.d/*` with `/var/lib/nfs/etab`:
 +
-[source,json]
+----
+[root@bastion ~]# exportfs -r
+----
+
+=== Delete Existing Persistent Volume
+
+. It is good practice to keep the ansible inventory file in sync whith the current state of its OpenShift cluster. Update the ansible inventory file to reflect the change. Here we are doing a manual step, so just comment all lines about registry-storage:
++
+----
+[root@bastion ~]# sed -e '/openshift_hosted_registry_storage_/ s/^#*/#/' -i /etc/ansible/hosts
+----
+
+. As `root` on `master1`, ensure you are in the `default` project:
++
 ----
 [root@bastion ~]# ssh master1.example.com
+[root@master1 ~]# oc project default
+----
+
+
+. delete the existing persistent volume and persistent volume claim for the registry:
++
+----
+[root@master1 ~]# oc delete pvc registry-claim ; oc delete pv registry-volume
+----
+
+* This output indicates success:
++
+----
+persistentvolumeclaim "registry-claim" deleted
+persistentvolume "registry-volume" deleted
+----
+
+. Create a persistent volume definition file named `registry-volume.json`:
++
+----
 [root@master1 ~]# cat << EOF > registry-volume.json
     {
       "apiVersion": "v1",
       "kind": "PersistentVolume",
       "metadata": {
-        "name": "registry-storage"
+        "name": "registry-volume"
       },
       "spec": {
         "capacity": {
@@ -1235,54 +1292,45 @@ openshift_hosted_registry_storage_volume_size=5Gi
             },
         "accessModes": [ "ReadWriteMany" ],
         "nfs": {
-            "path": "/var/export/pvs/registry-storage",
+            "path": "/srv/export/pvs/registry-storage",
             "server": "bastion.example.com"
         }
       }
     }
-
 EOF
-
 ----
 
 * You create the persistent volume in the `default` project because that is the project in which the registry runs.
 
-. In the `default` project, create the `registry-storage` persistent volume from the definition file:
+. Create the `registry-volume` persistent volume from the definition file:
 +
 ----
-[root@master1 ~]# oc create -f registry-volume.json -n default
+[root@master1 ~]# oc create -f registry-volume.json
 ----
-+
+
 * This output indicates success:
 +
 ----
-persistentvolume "registry-storage" created
+persistentvolume "registry-volume" created
 ----
 
 . View the persistent volume you just created:
 +
 ----
 [root@master1 ~]# oc get pv
-----
-+
-----
-NAME               LABELS    CAPACITY   ACCESSMODES   STATUS      CLAIM     REASON    AGE
-pv21               <none>    5Gi        RWO           Available                       20h
-pv22               <none>    5Gi        RWO           Available                       20h
-pv23               <none>    5Gi        RWO           Available                       20h
-registry-storage   <none>    15Gi       RWX           Available                       43s
+NAME               CAPACITY   ACCESSMODES   RECLAIMPOLICY   STATUS      CLAIM     REASON    AGE
+registry-volume   15Gi       RWX           Retain          Available                       20s
 ----
 
 . Create a `registry-volume-claim.json` claim definition file to claim your volume:
 +
 ----
-
 [root@master1 ~]# cat << EOF > registry-volume-claim.json
     {
       "apiVersion": "v1",
       "kind": "PersistentVolumeClaim",
       "metadata": {
-        "name": "registry-claim"
+        "name": "registry-claim-new"
       },
       "spec": {
         "accessModes": [ "ReadWriteMany" ],
@@ -1293,19 +1341,19 @@ registry-storage   <none>    15Gi       RWX           Available                 
         }
       }
     }
-
 EOF
-
 ----
 
-. Create the `registry-claim` claim from the definition file:
+. Create the `registry-claim-new` claim from the definition file:
 +
 ----
-[root@master1 ~]# oc create -f registry-volume-claim.json -n default
+[root@master1 ~]# oc create -f registry-volume-claim.json
 ----
+
+* This output indicates success:
 +
 ----
-persistentvolumeclaim "registry-claim" created
+persistentvolumeclaim "registry-claim-new" created
 ----
 
 . View the persistent volume you created:
@@ -1316,13 +1364,10 @@ persistentvolumeclaim "registry-claim" created
 * Expect the output to look like this:
 +
 ----
-NAME               LABELS    CAPACITY   ACCESSMODES   STATUS      CLAIM                    REASON    AGE
-pv21               <none>    5Gi        RWO           Available                                      20h
-pv22               <none>    5Gi        RWO           Available                                      20h
-pv23               <none>    5Gi        RWO           Available                                      20h
-registry-storage   <none>    15Gi       RWX           Bound       default/registry-claim             2m
+NAME               CAPACITY   ACCESSMODES   RECLAIMPOLICY   STATUS    CLAIM                    REASON    AGE
+registry-volume   15Gi       RWX           Retain          Bound     default/registry-claim-new             1m
 ----
-* Note that the status is `Bound`.
+** Note that the status is `Bound`.
 
 . View the persistent volume claim you created (whose status is also `Bound`):
 +
@@ -1332,8 +1377,8 @@ registry-storage   <none>    15Gi       RWX           Bound       default/regist
 * The output looks similar to this:
 +
 ----
-NAME STATUS VOLUME CAPACITY ACCESSMODES AGE
-registry-claim Bound registry-storage 15Gi RWX 44s
+NAME                 STATUS    VOLUME             CAPACITY   ACCESSMODES   AGE
+registry-claim-new   Bound     registry-volume    15Gi       RWX           55s
 ----
 
 === Attach Persistent Volume to Registry
@@ -1346,27 +1391,95 @@ registry-claim Bound registry-storage 15Gi RWX 44s
 * Expect output like this:
 +
 ----
-NAME              TRIGGERS       LATEST
-docker-registry   ConfigChange   1
-trainingrouter    ConfigChange   1
+NAME               REVISION   DESIRED   CURRENT   TRIGGERED BY
+docker-registry    1          1         1         config
+registry-console   1          1         1         config
+trainingrouter     1          1         1         config
 ----
 
-. Run `oc volume` to modify the deployment configurations. Add the `registry-storage` volume to the registry's deployment configuration, which redeploys the registry:
+. Run `oc volume` to modify the deployment configurations. We will use the claim we just created. Add the `registry-claim` PVC to the registry's deployment configuration, which redeploys the registry:
 +
 ----
 [root@master1 ~]# oc volume dc/docker-registry --add --overwrite -t persistentVolumeClaim \
---claim-name=registry-claim --name=registry-storage
+--claim-name=registry-claim-new --name=registry-storage --mount-path=/registry
+----
+
+* This output indicates success:
++
+----
+deploymentconfig "docker-registry" updated
 ----
 
 . Run `oc get pods` and look for results like this:
 +
 ----
-NAME                      READY     STATUS    RESTARTS   AGE
-docker-registry-2-d9niy   1/1       Running   0          31s
-trainingrouter-1-xcz9o    1/1       Running   0          21h
+NAME                       READY     STATUS    RESTARTS   AGE
+docker-registry-2-4gd7x    1/1       Running   0          27s
+registry-console-1-vlnh3   1/1       Running   1          10h
+trainingrouter-1-fnn00     1/1       Running   1          10h
+----
++
+[TIP]
+====
+You can use `oc get pod -w` to watch pods. A new line is added on new event. You can also try `oc rollout status dc/docker-registry --request-timeout=0` that will watch the rollout of the last revision of deployment until it's done. Example:
+----
+[root@master1 ~]# oc rollout status dc/docker-registry --request-timeout=0
+Waiting for rollout to finish: 0 out of 1 new replicas have been updated...
+Waiting for rollout to finish: 0 out of 1 new replicas have been updated...
+Waiting for rollout to finish: 1 old replicas are pending termination...
+Waiting for rollout to finish: 1 old replicas are pending termination...
+Waiting for rollout to finish: 1 old replicas are pending termination...
+Waiting for rollout to finish: 1 old replicas are pending termination...
+Waiting for rollout to finish: 1 old replicas are pending termination...
+Waiting for latest deployment config spec to be observed by the controller loop...
+replication controller "docker-registry-3" successfully rolled out
+[root@master1 ~]# 
+----
+====
+
+. Check if new volume is correctly mounted inside registry pod:
++
+----
+[root@master1 ~]# oc rsh $(oc get pod|grep docker-registry|grep Running|awk '{print $1}') \
+                  df -h|grep '/registry'
 ----
 
-* When the first `docker-registry` container was deleted, all of the images stored in it were also deleted. 
+* Look for output like this:
++
+----
+bastion.example.com:/srv/export/pvs/registry-storage       25G  7.9G   16G  34% /registry
+----
+
+. Check that the volume is writable from the pod:
++
+----
+[root@master1 ~]# oc rsh $(oc get pod|grep docker-registry|grep Running|awk '{print $1}') \
+                  touch /registry/OK
+[root@master1 ~]# oc rsh $(oc get pod|grep docker-registry|grep Running|awk '{print $1}') \
+                  ls /registry/
+----
+* Successful output:
++
+----
+OK
+----
++
+[NOTE]
+====
+During the setup of the NFS export in <<NFSPermissions,previous step>>, we set the permissions for the NFS export on `bastion` to mode `770` and user:group `nfsnobody:nfsnobody` (65534:65534). Because registry has group `0`, and because of `root_squash` option in NFS the registry can write to this NFS share. In other situations, you might need to add `supplementalGroups` to the deployment config. See https://docs.openshift.com/container-platform/3.5/install_config/persistent_storage/persistent_storage_nfs.html#nfs-volume-security. Here we could patch the current `dc/docker-registry` to add into supplemental groups:
+----
+# OPTIONAL
+[root@master1 ~]# oc patch dc/docker-registry \
+--type=json -p='[{ "op": "add",
+"path": "/spec/template/spec/securityContext",
+"value": { "supplementalGroups": [65534] } }]'
+
+# OUTPUT
+"docker-registry" patched
+----
+====
+
+* When the first `docker-registry` container was deleted, all of the images stored in it (so in the previous PV) are not available anymore.
 * Now that your registry contains a persistent volume, images are saved even if you delete or replace the `docker-registry` pod.
 
 . As `andrew` on the `master1` host, start an application based on the `https://github.com/openshift/sti-php` repository that requires an S2I build:
@@ -1413,56 +1526,36 @@ I1126 23:25:51.808905       1 sti.go:233] Successfully pushed 172.30.42.118:5000
 +
 TIP: The `-f` flag sets `oc logs` to follow the log, similar to `tail -f`.
 
-. On the NFS server, `bastion`, verify that the registry is using the `registry-storage` volume:
+. Go back on the NFS server, `bastion`, verify that the registry is using the `registry-storage` NFS share:
 +
 ----
-[root@bastion ~]# find /var/export/pvs/registry-storage | grep sti-php
+[andrew@master1 ~]$ exit
+[root@master1 ~]# exit
+[root@bastion ~]# find /srv/export/pvs/registry-storage | grep sti-php
 ----
 * Look for output like this:
 +
 ----
-... Omitted output ...
-... Omitted output ...
-/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_uploads
-/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_layers
-/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_layers/sha256
-/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_layers/sha256/812413b2241fa8ff63cb2747bf62e516ff4dc953b1332014faa551655c0ed608
-/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_layers/sha256/812413b2241fa8ff63cb2747bf62e516ff4dc953b1332014faa551655c0ed608/link
-/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_layers/sha256/b18d4a50300b72f417496313920eff6d4bad00c0f1446686e3d5f157d255d0d2
-/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_layers/sha256/b18d4a50300b72f417496313920eff6d4bad00c0f1446686e3d5f157d255d0d2/link
-/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_layers/sha256/50c4d0284685934ca2920fd6e056318cac1187773e8a239dd02d8f248a59d382
-/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_layers/sha256/50c4d0284685934ca2920fd6e056318cac1187773e8a239dd02d8f248a59d382/link
-/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_layers/sha256/9320560b540438b82b1bb1a51d035490812ad9298b945c041da3d0a4b646abf6
-/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_layers/sha256/9320560b540438b82b1bb1a51d035490812ad9298b945c041da3d0a4b646abf6/link
-/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_manifests
-/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_manifests/revisions
-/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_manifests/revisions/sha256
-/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_manifests/revisions/sha256/5b8677660e3f1959a0eb44f1ac87200329c721ff4acd8c59f78a8d0afa5dd425
-/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_manifests/revisions/sha256/5b8677660e3f1959a0eb44f1ac87200329c721ff4acd8c59f78a8d0afa5dd425/signatures
-/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_manifests/revisions/sha256/5b8677660e3f1959a0eb44f1ac87200329c721ff4acd8c59f78a8d0afa5dd425/signatures/sha256
-/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_manifests/revisions/sha256/5b8677660e3f1959a0eb44f1ac87200329c721ff4acd8c59f78a8d0afa5dd425/signatures/sha256/561fd3acac303de8a9c4de202a2e3169bb47f5c03586358d13d374832e983df5
-/var/export/pvs/registry-storage/docker/registry/v2/repositories/explore-example/sti-php/_manifests/revisions/sha256/5b8677660e3f1959a0eb44f1ac87200329c721ff4acd8c59f78a8d0afa5dd425/signatures/sha256/561fd3acac303de8a9c4de202a2e3169bb47f5c03586358d13d374832e983df5/link
-... Omitted output ...
-/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/53
-/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/53/53aca6d1d55ccf8f9074725396099dc9592641a2ae233cb8b1b2de2c800410cb
-/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/53/53aca6d1d55ccf8f9074725396099dc9592641a2ae233cb8b1b2de2c800410cb/data
-/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/b1
-/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/b1/b18d4a50300b72f417496313920eff6d4bad00c0f1446686e3d5f157d255d0d2
-/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/b1/b18d4a50300b72f417496313920eff6d4bad00c0f1446686e3d5f157d255d0d2/data
-/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/50
-/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/50/50c4d0284685934ca2920fd6e056318cac1187773e8a239dd02d8f248a59d382
-/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/50/50c4d0284685934ca2920fd6e056318cac1187773e8a239dd02d8f248a59d382/data
-/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/93
-/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/93/9320560b540438b82b1bb1a51d035490812ad9298b945c041da3d0a4b646abf6
-/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/93/9320560b540438b82b1bb1a51d035490812ad9298b945c041da3d0a4b646abf6/data
-/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/93/931b7ebd6c92756356ae4174a02b845480c5c54884875533ffa4cbef3872199a
-/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/93/931b7ebd6c92756356ae4174a02b845480c5c54884875533ffa4cbef3872199a/data
-/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/81
-/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/81/812413b2241fa8ff63cb2747bf62e516ff4dc953b1332014faa551655c0ed608
-/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/81/812413b2241fa8ff63cb2747bf62e516ff4dc953b1332014faa551655c0ed608/data
-/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/56
-/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/56/561fd3acac303de8a9c4de202a2e3169bb47f5c03586358d13d374832e983df5
-/var/export/pvs/registry-storage/docker/registry/v2/blobs/sha256/56/561fd3acac303de8a9c4de202a2e3169bb47f5c03586358d13d374832e983df5/data
+/srv/export/pvs/registry-storage/docker/registry/v2/repositories/ossss/sti-php
+/srv/export/pvs/registry-storage/docker/registry/v2/repositories/ossss/sti-php/_layers
+/srv/export/pvs/registry-storage/docker/registry/v2/repositories/ossss/sti-php/_layers/sha256
+/srv/export/pvs/registry-storage/docker/registry/v2/repositories/ossss/sti-php/_layers/sha256/4652ee8dcd2bfc7fc7de7aa1cb94373a8c6a55507b1bc35bcefc6475f321c3c2
+/srv/export/pvs/registry-storage/docker/registry/v2/repositories/ossss/sti-php/_layers/sha256/4652ee8dcd2bfc7fc7de7aa1cb94373a8c6a55507b1bc35bcefc6475f321c3c2/link
+/srv/export/pvs/registry-storage/docker/registry/v2/repositories/ossss/sti-php/_layers/sha256/ef6f4053c8d4d892acbed1e4e03c8380a02b657d5ae67f55628c320978ec6d57
+/srv/export/pvs/registry-storage/docker/registry/v2/repositories/ossss/sti-php/_layers/sha256/ef6f4053c8d4d892acbed1e4e03c8380a02b657d5ae67f55628c320978ec6d57/link
+/srv/export/pvs/registry-storage/docker/registry/v2/repositories/ossss/sti-php/_layers/sha256/c07f4fd29626d000f5815a35835c449ad82a671655d153ee54ddb6a4e3f85122
+/srv/export/pvs/registry-storage/docker/registry/v2/repositories/ossss/sti-php/_layers/sha256/c07f4fd29626d000f5815a35835c449ad82a671655d153ee54ddb6a4e3f85122/link
+/srv/export/pvs/registry-storage/docker/registry/v2/repositories/ossss/sti-php/_layers/sha256/1e5540a6e8376a5ea87396460b2e0759616af93d193a9635c7ebfa131c0f26b6
+/srv/export/pvs/registry-storage/docker/registry/v2/repositories/ossss/sti-php/_layers/sha256/1e5540a6e8376a5ea87396460b2e0759616af93d193a9635c7ebfa131c0f26b6/link
+/srv/export/pvs/registry-storage/docker/registry/v2/repositories/ossss/sti-php/_layers/sha256/895500133e139e37057ca24f49e1f6c4c66255a78c0d947d5f1c4165db6d64ca
+/srv/export/pvs/registry-storage/docker/registry/v2/repositories/ossss/sti-php/_layers/sha256/895500133e139e37057ca24f49e1f6c4c66255a78c0d947d5f1c4165db6d64ca/link
+/srv/export/pvs/registry-storage/docker/registry/v2/repositories/ossss/sti-php/_layers/sha256/51baebb1fefa46091f94bde51129fdb997a4246e1109d59e31cd2103235a35cc
+/srv/export/pvs/registry-storage/docker/registry/v2/repositories/ossss/sti-php/_layers/sha256/51baebb1fefa46091f94bde51129fdb997a4246e1109d59e31cd2103235a35cc/link
+/srv/export/pvs/registry-storage/docker/registry/v2/repositories/ossss/sti-php/_manifests
+/srv/export/pvs/registry-storage/docker/registry/v2/repositories/ossss/sti-php/_manifests/revisions
+/srv/export/pvs/registry-storage/docker/registry/v2/repositories/ossss/sti-php/_manifests/revisions/sha256
+/srv/export/pvs/registry-storage/docker/registry/v2/repositories/ossss/sti-php/_manifests/revisions/sha256/615fc8a471b6c9ee91900a3db14add13787b86a1e90c13bec23477b62293242f
+/srv/export/pvs/registry-storage/docker/registry/v2/repositories/ossss/sti-php/_manifests/revisions/sha256/615fc8a471b6c9ee91900a3db14add13787b86a1e90c13bec23477b62293242f/link
+/srv/export/pvs/registry-storage/docker/registry/v2/repositories/ossss/sti-php/_uploads
 ----
-* Previously created images are not in the registry because they
- were created before the registry was restarted and given a persistent volume.
+* Previously created images are not in the registry because they were created before the registry was restarted and given a new persistent volume.
